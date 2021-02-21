@@ -26,7 +26,7 @@ export default {
         best_bid: 0,
 
         history_deal_list: null,
-        history_length_limit: 30,
+        history_length_limit: 50,
         orderBookInit: false,
         historyDealListInit: false,
 

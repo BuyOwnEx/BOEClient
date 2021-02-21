@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(['verify' => true]);
-
 
 Route::get('/', function () {
     return redirect('trading/'.env('DEFAULT_MARKET', 'USDT').'/'.env('DEFAULT_CURRENCY', 'BTC'));
 });
-
+Auth::routes(['verify' => true]);
 Route::get('trading/{market}/{currency}', 'TraderController@getTradingView')->name('trading_view');
 Route::get('balance', 'TraderController@getBalanceView')->name('balance_view');
 Route::get('overview', 'TraderController@getOverviewView')->name('overview_view');

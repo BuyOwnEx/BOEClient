@@ -32,8 +32,8 @@ export default {
             if(oldVal[0]!==null && oldVal[1]!==null)
             {
                 this.unsubscribePublic(oldVal[0], oldVal[1]);
-                this.subscribePublic();
-            }
+            this.subscribePublic();
+        }
         }
     },
     methods: {

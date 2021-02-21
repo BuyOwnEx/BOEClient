@@ -67,8 +67,8 @@
 </template>
 
 <script>
-    import askList from "./AskList";
-    import bidList from "./BidList";
+    import askList from "./orders/ask/AskList";
+    import bidList from "./orders/bid/BidList";
     import askBidLastPrice from "./AskBidLastPrice";
     export default {
         name: "OrderBook",
@@ -95,30 +95,30 @@
             pair: function() {
                 return [this.currency,this.market];
             },
-            ask_list() {
-                return this.$store.state.trading.ask_list;
-            },
-            bid_list() {
-                return this.$store.state.trading.bid_list;
-            },
-            ask_amount_depth() {
-                return this.$store.state.trading.ask_amount_depth;
-            },
-            bid_amount_depth() {
-                return this.$store.state.trading.bid_amount_depth;
-            },
-            ask_volume_depth() {
-                return this.$store.state.trading.ask_volume_depth;
-            },
-            bid_volume_depth() {
-                return this.$store.state.trading.bid_volume_depth;
-            },
-            best_ask() {
-                return this.$store.state.trading.best_ask;
-            },
-            best_bid() {
-                return this.$store.state.trading.best_bid;
-            },
+            // ask_list() {
+            //     return this.$store.state.trading.ask_list;
+            // },
+            // bid_list() {
+            //     return this.$store.state.trading.bid_list;
+            // },
+            // ask_amount_depth() {
+            //     return this.$store.state.trading.ask_amount_depth;
+            // },
+            // bid_amount_depth() {
+            //     return this.$store.state.trading.bid_amount_depth;
+            // },
+            // ask_volume_depth() {
+            //     return this.$store.state.trading.ask_volume_depth;
+            // },
+            // bid_volume_depth() {
+            //     return this.$store.state.trading.bid_volume_depth;
+            // },
+            // best_ask() {
+            //     return this.$store.state.trading.best_ask;
+            // },
+            // best_bid() {
+            //     return this.$store.state.trading.best_bid;
+            // },
         },
         /*watch: {
             pair(val, oldVal) {
