@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'server'              => env('SERVER'),
     'api-public-key'      => env('API_PUBLIC_KEY'),
     'api-secret-key'      => env('API_SECRET_KEY'),
 
