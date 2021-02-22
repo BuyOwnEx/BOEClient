@@ -53,11 +53,21 @@
 							class='tickers-list__content__header__item--favorite'
 							@click='switchFavoriteSorting'
 						>
-								<span class='tickers-list__content__header__item--favorite__wrapper'>
-									<v-icon v-if="selectedMarket !== 'favorites'" color='#b0b29c' small>
+								<span
+									class='tickers-list__content__header__item--favorite__wrapper'
+								>
+									<v-icon
+										v-if="selectedMarket !== 'favorites'"
+										color='#b0b29c'
+										small
+									>
 										mdi-star
 									</v-icon>
-									<v-icon v-if="selectedMarket === 'favorites'" color='#FFE040' small>
+									<v-icon
+										v-if="selectedMarket === 'favorites'"
+										color='#FFE040'
+										small
+									>
 										mdi-star
 									</v-icon>
 								</span>
@@ -111,9 +121,14 @@
 					</thead>
 
 					<tbody class='tickers-list__content__body'>
-					<tr v-for='item in tickersListFilteredAndSorted' :key='item.pairName'>
+					<tr
+						v-for='item in tickersListFilteredAndSorted'
+						:key='item.pairName'
+					>
 						<td class='tickers-list__content__body__item--favorite'>
-							<div class='tickers-list__content__body__item--favorite__wrapper'>
+							<div
+								class='tickers-list__content__body__item--favorite__wrapper'
+							>
 								<v-icon
 									v-if='isPairFavorite(item.pairName)'
 									color='#FFE040'
@@ -137,9 +152,13 @@
 							<a
 								href='#'
 								class='tickers-list__content__body__item--pair__link'
-								@click.prevent='selectMarketAndCurrency(item.market, item.currency)'
+								@click.prevent='
+										selectMarketAndCurrency(item.market, item.currency)
+									'
 							>
-								<strong class='tickers-list__content__body__item--pair__currency'>
+								<strong
+									class='tickers-list__content__body__item--pair__currency'
+								>
 									{{ item.currency }}
 								</strong>
 							</a>
@@ -164,7 +183,7 @@
 					</tbody>
 				</template>
 			</v-simple-table>
-			<div v-else-if='isLoadedAndTickersNotFound' class='text-center mt-2'>
+			<div v-else-if='isNotLoadedOrTickersNotFound' class='text-center mt-2'>
 				{{ $vuetify.lang.translator('trading.not_found') }}
 			</div>
 		</div>
@@ -213,7 +232,10 @@ export default {
 		},
 
 		tickersList() {
-			if (this.tickersFromStorage === null || this.marketsFromStorage === null) {
+			if (
+				this.tickersFromStorage === null ||
+				this.marketsFromStorage === null
+			) {
 				return [];
 			}
 
@@ -235,7 +257,9 @@ export default {
 				let currentMarket = this.marketsFromStorage[item.market.toUpperCase()];
 				if (currentMarket !== undefined) {
 					let currentPair = _.find(currentMarket, marketArray => {
-						return marketArray.currency.toLowerCase() === item.currency.toLowerCase();
+						return (
+							marketArray.currency.toLowerCase() === item.currency.toLowerCase()
+						);
 					});
 					if (currentPair !== undefined) {
 						amountScale = currentPair.amountScale;
@@ -243,7 +267,8 @@ export default {
 					}
 				}
 				return {
-					pairName: item.currency.toUpperCase() + '/' + item.market.toUpperCase(),
+					pairName:
+						item.currency.toUpperCase() + '/' + item.market.toUpperCase(),
 					market: item.market,
 					currency: item.currency,
 					margin: item.margin,
@@ -262,7 +287,10 @@ export default {
 			if (this.selectedMarket === null) {
 				return this.markets;
 			}
-			if (this.tickersSearchQuery !== '' && this.selectedMarket !== 'favorites') {
+			if (
+				this.tickersSearchQuery !== '' &&
+				this.selectedMarket !== 'favorites'
+			) {
 				return _.filter(this.tickersList, item => {
 					return (
 						item.pairName
@@ -306,7 +334,9 @@ export default {
 					);
 
 				case 'volumeAsc':
-					return _.sortBy(this.tickersListFiltered, item => parseFloat(item.volume));
+					return _.sortBy(this.tickersListFiltered, item =>
+						parseFloat(item.volume),
+					);
 				case 'volumeDesc':
 				default:
 					return _.sortBy(
@@ -335,9 +365,9 @@ export default {
 			else if (mid) return 185;
 			else return 365;
 		},
-		isLoadedAndTickersNotFound() {
-			if (this.isPageLoading) return false;
-			return this.tickersList && this.tickersListFilteredAndSorted.length > 0;
+		isNotLoadedOrTickersNotFound() {
+			if (this.isPageLoading) return true;
+			return !this.tickersList || this.tickersListFilteredAndSorted.length <= 0;
 		},
 	},
 
