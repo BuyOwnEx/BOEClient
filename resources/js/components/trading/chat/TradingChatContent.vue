@@ -36,8 +36,8 @@ export default {
 	overflow-y: auto;
 	position: absolute;
 	top: 38px;
-	left: 0;
-	right: 0;
+	left: 8px;
+	right: 8px;
 	bottom: 49px;
 	margin-right: 2px;
 }
