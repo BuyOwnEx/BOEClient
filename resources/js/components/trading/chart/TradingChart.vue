@@ -275,7 +275,7 @@ export default {
 						upColor: '#06d6a0',
 						upLineColor: '#06d6a0',
 						tooltip: {
-							pointFormatter: function() {
+							pointFormatter() {
 								return (
 									'<span style="color:' +
 									this.color +
@@ -333,11 +333,11 @@ export default {
 	},
 
 	computed: {
-		pair: function() {
+		pair() {
 			return [this.currency, this.market];
 		},
 		selectedPeriodObject() {
-			let period = this.candle_period;
+			const period = this.candle_period;
 			return _.find(this.options.rangeSelector.buttons, item => {
 				return item.text === period.toLowerCase();
 			});
@@ -383,16 +383,16 @@ export default {
 			}
 		},
 		initGraphDataHandler(data) {
-			let candle = this.$refs.candle;
-			let graphsToProcess = ['main'];
+			const candle = this.$refs.candle;
+			const graphsToProcess = ['main'];
 			candle.chart.series.forEach((item, i) => {
-				let id = _.get(item, 'options.id', undefined);
+				const id = _.get(item, 'options.id', undefined);
 				if (graphsToProcess.indexOf(id) !== -1) {
 					candle.chart.series[i].setData(data.xData, false, false, false);
 				}
 			});
 			candle.chart.series[1].setData(data.yData, false);
-			let overscroll = Math.round(this.candle_room) * 60 * 1000;
+			const overscroll = Math.round(this.candle_room) * 60 * 1000;
 			candle.chart.xAxis[0].update({
 				range: this.valuesToDisplay * this.candle_room * 60 * 1000,
 				overscroll,
@@ -400,8 +400,9 @@ export default {
 			candle.chart.redraw();
 		},
 		addPointHandler(data) {
-			let candle = this.$refs.candle;
-			let shift = candle.chart.series[0].options.data.length >= this.maxCandles;
+			const candle = this.$refs.candle;
+			const shift =
+				candle.chart.series[0].options.data.length >= this.maxCandles;
 			candle.chart.series[0].addPoint(
 				{
 					x: parseInt(data.point.x),
@@ -426,9 +427,9 @@ export default {
 			candle.chart.redraw();
 		},
 		updatePointHandler(data) {
-			let candle = this.$refs.candle;
-			let candlesData = candle.chart.series[0].options.data;
-			let volumeData = candle.chart.series[1].options.data;
+			const candle = this.$refs.candle;
+			const candlesData = candle.chart.series[0].options.data;
+			const volumeData = candle.chart.series[1].options.data;
 			candlesData[candlesData.length - 1] = {
 				x: parseInt(data.point.x),
 				open: BigNumber(data.point.open).toNumber(),
@@ -440,9 +441,9 @@ export default {
 				x: parseInt(data.point.x),
 				y: BigNumber(data.point.volume).toNumber(),
 			};
-			let graphsToProcess = ['main'];
+			const graphsToProcess = ['main'];
 			candle.chart.series.forEach((item, i) => {
-				let id = _.get(item, 'options.id', undefined);
+				const id = _.get(item, 'options.id', undefined);
 				if (graphsToProcess.indexOf(id) !== -1) {
 					candle.chart.series[i].setData(candlesData, false, false, false);
 				}
@@ -455,7 +456,7 @@ export default {
 	watch: {
 		chartInFullscreen(val, oldVal) {
 			this.$nextTick(() => {
-				let candle = this.$refs.candle;
+				const candle = this.$refs.candle;
 				if (val === true) {
 					candle.chart.setSize(undefined, null);
 				} else {
@@ -464,9 +465,9 @@ export default {
 			});
 		},
 		pair(val) {
-			let candle = this.$refs.candle;
+			const candle = this.$refs.candle;
 			candle.chart.series.forEach((item, i) => {
-				let id = _.get(item, 'options.id', undefined);
+				const id = _.get(item, 'options.id', undefined);
 				if (id === 'main') {
 					candle.chart.series[i].update({
 						name: this.$vuetify.lang.translator('trading.rate') + ', ' + val[1],
@@ -503,9 +504,9 @@ export default {
 			window.candle = this.$refs.candle;
 		});
 		if ('localStorage' in window) {
-			let candlePeriod = window.localStorage.getItem('tradingCandlePeriod');
+			const candlePeriod = window.localStorage.getItem('tradingCandlePeriod');
 			if (candlePeriod) {
-				let candlePeriodObject = _.find(
+				const candlePeriodObject = _.find(
 					this.options.rangeSelector.buttons,
 					item => {
 						return item.text.toLowerCase() === candlePeriod.toLowerCase();

@@ -25,14 +25,18 @@
 			<div class='bid-list__content__table__body__item--date'>
 				<!--					v-if="idx === selectedItemIndex"-->
 				<!--					style="position: absolute; top: 70px; left: 330px; right: -500px; width: 150px; height: 100px; background: green; padding: 16px 8px"-->
-				<div
-					style='position: absolute; top: 0; left: 0; right: 0; width: 150px; height: 100px; background: #06d6a0; padding: 16px 8px'
+				<!--				<div-->
+				<!--					style='position: absolute; top: 0; left: 0; right: 0; width: 150px; height: 100px; background: #06d6a0; padding: 16px 8px'-->
+				<!--				>-->
+				<!--					<div>index - {{ selectedItemIndex }}</div>-->
+				<!--					<div>avgPrice - {{ averagePrice }}</div>-->
+				<!--					<div>sumMarket - {{ sumMarket }}</div>-->
+				<!--					<div>sumCurrency - {{ sumCurrency }}</div>-->
+				<!--				</div>-->
+				<span
+					style='position:absolute; top: 0;bottom: 0;right: 0;left: 0; background: green; height: 25px; width: 20px'
 				>
-					<div>index - {{ selectedItemIndex }}</div>
-					<div>avgPrice - {{ averagePrice }}</div>
-					<div>sumMarket - {{ sumMarket }}</div>
-					<div>sumCurrency - {{ sumCurrency }}</div>
-				</div>
+					</span>
 
 				<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 			</div>
@@ -43,7 +47,6 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
