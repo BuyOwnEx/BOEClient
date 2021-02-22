@@ -224,7 +224,7 @@ export default {
 						},
 						title: {
 							text:
-								this.$vuetify.lang.translator('trading.rate') +
+								this.$t('trading.rate') +
 								', ' +
 								this.market,
 						},
@@ -245,7 +245,7 @@ export default {
 						},
 						title: {
 							text:
-								this.$vuetify.lang.translator('trading.volume') +
+								this.$t('trading.volume') +
 								', ' +
 								this.currency,
 						},
@@ -264,7 +264,7 @@ export default {
 						type: 'candlestick',
 						id: 'main',
 						name:
-							this.$vuetify.lang.translator('trading.rate') +
+							this.$t('trading.rate') +
 							', ' +
 							this.market,
 						data: [],
@@ -299,7 +299,7 @@ export default {
 						id: 'volume',
 						linkedTo: 'main',
 						name:
-							this.$vuetify.lang.translator('trading.volume') +
+							this.$t('trading.volume') +
 							', ' +
 							this.currency,
 						data: [],
@@ -469,24 +469,24 @@ export default {
 				let id = _.get(item, 'options.id', undefined);
 				if (id === 'main') {
 					candle.chart.series[i].update({
-						name: this.$vuetify.lang.translator('trading.rate') + ', ' + val[1],
+						name: this.$t('trading.rate') + ', ' + val[1],
 					});
 				}
 				if (id === 'volume') {
 					candle.chart.series[i].update({
 						name:
-							this.$vuetify.lang.translator('trading.volume') + ', ' + val[0],
+							this.$t('trading.volume') + ', ' + val[0],
 					});
 				}
 			});
 			candle.chart.yAxis[0].update({
 				title: {
-					text: this.$vuetify.lang.translator('trading.rate') + ', ' + val[1],
+					text: this.$t('trading.rate') + ', ' + val[1],
 				},
 			});
 			candle.chart.yAxis[1].update({
 				title: {
-					text: this.$vuetify.lang.translator('trading.volume') + ', ' + val[0],
+					text: this.$t('trading.volume') + ', ' + val[0],
 				},
 			});
 		},

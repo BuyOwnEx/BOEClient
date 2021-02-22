@@ -21,7 +21,7 @@
 						height='14'
 						left
 						inset
-						:label="$vuetify.lang.translator('trading.show_other_pairs')"
+						:label="$t('trading.show_other_pairs')"
 					></v-switch>
 					<v-menu transition='slide-y-transition' bottom>
 						<template v-slot:activator='{ on, attrs }'>
@@ -33,7 +33,7 @@
 								v-bind='attrs'
 								v-on='on'
 							>
-								{{ $vuetify.lang.translator('trading.close') }}
+								{{ $t('trading.close') }}
 								<v-icon right>mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
@@ -54,7 +54,7 @@
 				<v-menu close-on-click offset-y v-model='item.menu'>
 					<template v-slot:activator='{ on }'>
 						<v-btn tile outlined x-small color='#A6A6A6' v-on='on'>
-							{{ $vuetify.lang.translator('trading.actions') }}
+							{{ $t('trading.actions') }}
 							<v-icon right>mdi-chevron-down</v-icon>
 						</v-btn>
 					</template>
@@ -129,15 +129,15 @@
 			</template>
 			<template v-slot:item.status='{ item }'>
         <span class='text-muted' v-if="item.status === 'accepted'">{{
-										$vuetify.lang.translator('trading.position.status.accepted')
+										$t('trading.position.status.accepted')
 									}}</span>
 				<span class='text-warning' v-else-if="item.status === 'partiallyFilled'"
 				>{{
-						$vuetify.lang.translator('trading.position.status.partiallyFilled')
+						$t('trading.position.status.partiallyFilled')
 					}}
         </span>
 				<span class='text-success' v-else
-				>{{ $vuetify.lang.translator('trading.position.status.filled') }}
+				>{{ $t('trading.position.status.filled') }}
         </span>
 			</template>
 		</v-data-table>
@@ -166,7 +166,7 @@ export default {
 			showOtherPairs: false,
 			marginCallValue: 0.14,
 			tableCaption:
-				this.$vuetify.lang.translator(
+				this.$t(
 					'trading.headers.own_active_position_list',
 				) +
 				' ' +
@@ -176,58 +176,58 @@ export default {
 			itemsPerPage: 5,
 			headers: [
 				{
-					text: this.$vuetify.lang.translator('trading.date'),
+					text: this.$t('trading.date'),
 					align: 'start',
 					sortable: true,
 					value: 'date',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.market'),
+					text: this.$t('trading.market'),
 					value: 'market',
 				},
-				{ text: this.$vuetify.lang.translator('trading.type'), value: 'type' },
+				{ text: this.$t('trading.type'), value: 'type' },
 				{
-					text: this.$vuetify.lang.translator('trading.filled'),
+					text: this.$t('trading.filled'),
 					value: 'filled',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.realized'),
+					text: this.$t('trading.realized'),
 					value: 'realized',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.credited'),
+					text: this.$t('trading.credited'),
 					value: 'credited',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.creditFee'),
+					text: this.$t('trading.creditFee'),
 					value: 'creditFee',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.creditUsed'),
+					text: this.$t('trading.creditUsed'),
 					value: 'creditUsed',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.blockedFunds'),
+					text: this.$t('trading.blockedFunds'),
 					value: 'blockedFunds',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.marginPosition'),
+					text: this.$t('trading.marginPosition'),
 					value: 'marginPosition',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.marginLevel'),
+					text: this.$t('trading.marginLevel'),
 					value: 'marginLevel',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.validUntil'),
+					text: this.$t('trading.validUntil'),
 					value: 'validUntil',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.status'),
+					text: this.$t('trading.status'),
 					value: 'status',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.actions'),
+					text: this.$t('trading.actions'),
 					value: 'action',
 					sortable: false,
 				},
@@ -239,7 +239,7 @@ export default {
 			closeOnContentClick: true,
 			closeOptions: [
 				{
-					text: this.$vuetify.lang.translator('trading.position.close_all'),
+					text: this.$t('trading.position.close_all'),
 					link: '/trader/ext/position/close_all',
 					click: () => {
 						axios.post('/trader/ext/position/close_all', {
@@ -250,7 +250,7 @@ export default {
 					},
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.position.close_long'),
+					text: this.$t('trading.position.close_long'),
 					link: '/trader/ext/position/close_all_long',
 					click: () => {
 						axios.post('/trader/ext/position/close_all_long', {
@@ -261,7 +261,7 @@ export default {
 					},
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.position.close_short'),
+					text: this.$t('trading.position.close_short'),
 					link: '/trader/ext/position/close_all_short',
 					click: () => {
 						axios.post('/trader/ext/position/close_all_short', {

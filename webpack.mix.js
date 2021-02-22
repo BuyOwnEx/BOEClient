@@ -5,8 +5,6 @@ const { VuetifyLoaderPlugin } = require('vuetify-loader');
 
 const publicDir = path.resolve(__dirname, './public');
 
-mix.disableNotifications();
-
 /*
 |---------------------------------------------------------------------
 | Inject Vuetify variables in SASS

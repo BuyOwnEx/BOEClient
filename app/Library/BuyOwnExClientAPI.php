@@ -10,7 +10,7 @@ class BuyOwnExClientAPI
 {
     const VERSION = 'v1';
     const PREFIX = 'X-';
-    protected $base = 'http://188.127.235.78:18888/';
+    protected $base = 'http://127.0.0.1:18888/';
 
     protected $api_key;
     protected $api_secret;
@@ -27,18 +27,19 @@ class BuyOwnExClientAPI
             case 2:
                 $this->api_key = $param[0];
                 $this->api_secret = $param[1];
+                $this->base = config('app.server','http://127.0.0.1:18888').'/';
                 break;
             default:
                 throw new ExceptionBuyOwnExAPI(self::BadConstruction);
         }
     }
 
-    public function candlesticks(string $currency, string $market, string $range = "1m")
+    public function candlesticks(string $currency, string $market, string $range = NULL)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/graph',[
             'currency' => $currency,
             'market' => $market,
-            'range' => $range
+            'range' => $range === NULL ? "1m" : $range
         ]);
         return response()->json($response->json(),$response->status());
     }
@@ -167,8 +168,8 @@ class BuyOwnExClientAPI
         $sl_rate = null,
         $tp_rate = null,
         $ts_offset = null,
-        int $margin = 0,
-        int $offer = 0
+        int $margin = null,
+        int $offer = null
     )
     {
         $params = [
@@ -183,8 +184,8 @@ class BuyOwnExClientAPI
             'sl_rate' => $sl_rate,
             'tp_rate' => $tp_rate,
             'ts_offset' => $ts_offset,
-            'margin' => $margin,
-            'offer' => $offer
+            'margin' => $margin === null ? 0 : $margin,
+            'offer' => $offer === null ? 0 : $offer
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -203,52 +204,52 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/cancel_order',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function cancelAllOrders(int $user_id, string $currency, string $market, bool $all_pairs = false)
+    public function cancelAllOrders(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
-            'all_pairs' => $all_pairs
+            'all_pairs' => $all_pairs === null ? false : $all_pairs
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/cancel_all_orders',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function cancelAllSLOrders(int $user_id, string $currency, string $market, bool $all_pairs = false)
+    public function cancelAllSLOrders(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
-            'all_pairs' => $all_pairs
+            'all_pairs' => $all_pairs === null ? false : $all_pairs
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/cancel_all_sl_orders',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function cancelAllTPOrders(int $user_id, string $currency, string $market, bool $all_pairs = false)
+    public function cancelAllTPOrders(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
-            'all_pairs' => $all_pairs
+            'all_pairs' => $all_pairs === null ? false : $all_pairs
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/cancel_all_tp_orders',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function cancelAllTSOrders(int $user_id, string $currency, string $market, bool $all_pairs = false)
+    public function cancelAllTSOrders(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
-            'all_pairs' => $all_pairs
+            'all_pairs' => $all_pairs === null ? false : $all_pairs
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -280,39 +281,39 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/close_position',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function closeAllPositions(int $user_id, string $currency, string $market, bool $all_pairs = false)
+    public function closeAllPositions(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
-            'all_pairs' => $all_pairs
+            'all_pairs' => $all_pairs === null ? false : $all_pairs
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/close_all_positions',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function closeAllLongPositions(int $user_id, string $currency, string $market, bool $all_pairs = false)
+    public function closeAllLongPositions(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
-            'all_pairs' => $all_pairs
+            'all_pairs' => $all_pairs === null ? false : $all_pairs
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/close_all_long_positions',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function closeAllShortPositions(int $user_id, string $currency, string $market, bool $all_pairs = false)
+    public function closeAllShortPositions(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
-            'all_pairs' => $all_pairs
+            'all_pairs' => $all_pairs === null ? false : $all_pairs
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

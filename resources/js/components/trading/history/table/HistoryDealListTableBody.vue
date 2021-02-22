@@ -27,7 +27,7 @@
 
 	<tr v-if='historyData !== null && historyData.length === 0'>
 		<td colspan='3' class='text-center'>
-			{{ $vuetify.lang.translator('trading.no_deals') }}
+			{{ $t('trading.no_deals') }}
 		</td>
 	</tr>
 	</tbody>

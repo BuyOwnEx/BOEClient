@@ -6,7 +6,7 @@
         <span class='currency-name'>{{ selectedMarket }}</span>
       </span>
 			<span class='info-title'>
-        {{ $vuetify.lang.translator('trading.last_price') }}
+        {{ $t('trading.last_price') }}
       </span>
 		</div>
 
@@ -21,7 +21,7 @@
         <span>{{ dailyChangePercent }}%</span>
       </span>
 			<span class='info-title'>
-        {{ $vuetify.lang.translator('trading.daily_change') }}
+        {{ $t('trading.daily_change') }}
       </span>
 		</div>
 
@@ -31,7 +31,7 @@
         <span class='currency-name'>{{ selectedMarket }}</span>
       </span>
 			<span class='info-title'>
-        {{ $vuetify.lang.translator('trading.daily_volume') }}
+        {{ $t('trading.daily_volume') }}
       </span>
 		</div>
 	</div>

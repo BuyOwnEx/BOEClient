@@ -78,7 +78,7 @@
 											type='warning'
 											class='mt-4'
 		>
-			{{ $vuetify.lang.translator('auth.resend_activation_link_text') }}
+			{{ $t('auth.resend_activation_link_text') }}
 		</v-alert>
 	</div>
 </template>
