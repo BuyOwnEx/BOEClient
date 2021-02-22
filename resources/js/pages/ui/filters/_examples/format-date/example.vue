@@ -1,3 +1,3 @@
 <template>
-  <div class="text-h5">{{ new Date() | formatDate('lll') }}</div>
+	<div class='text-h5'>{{ new Date() | formatDate('lll') }}</div>
 </template>

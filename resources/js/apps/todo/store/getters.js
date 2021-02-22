@@ -4,10 +4,10 @@
 |---------------------------------------------------------------------
 */
 export default {
-  incompleteTasks({ tasks }) {
-    return tasks.filter((t) => !t.completed)
-  },
-  completeTasks({ tasks }) {
-    return tasks.filter((t) => t.completed)
-  }
-}
+	incompleteTasks({ tasks }) {
+		return tasks.filter((t) => !t.completed);
+	},
+	completeTasks({ tasks }) {
+		return tasks.filter((t) => t.completed);
+	},
+};

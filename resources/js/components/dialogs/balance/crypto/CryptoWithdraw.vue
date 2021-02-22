@@ -1,11 +1,11 @@
 <template>
-    
+
 </template>
 
 <script>
-    export default {
-        name: "CryptoWithdraw"
-    }
+export default {
+	name: 'CryptoWithdraw',
+};
 </script>
 
 <style scoped>

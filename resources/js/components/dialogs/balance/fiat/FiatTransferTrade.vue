@@ -1,11 +1,11 @@
 <template>
-    
+
 </template>
 
 <script>
-    export default {
-        name: "FiatTransferTrade"
-    }
+export default {
+	name: 'FiatTransferTrade',
+};
 </script>
 
 <style scoped>

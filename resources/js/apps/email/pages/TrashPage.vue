@@ -1,13 +1,13 @@
 <template>
-  <email-list />
+	<email-list />
 </template>
 
 <script>
-import EmailList from '../components/EmailList'
+import EmailList from '../components/EmailList';
 
 export default {
-  components: {
-    EmailList
-  }
-}
+	components: {
+		EmailList,
+	},
+};
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <tasks-page class="todo-card"></tasks-page>
+	<tasks-page class='todo-card'></tasks-page>
 </template>
 
 <script>
-import TasksPage from '../../apps/todo/pages/TasksPage'
+import TasksPage from '../../apps/todo/pages/TasksPage';
 
 /*
 |---------------------------------------------------------------------
@@ -15,16 +15,16 @@ import TasksPage from '../../apps/todo/pages/TasksPage'
 |
 */
 export default {
-  components: {
-    TasksPage
-  }
-}
+	components: {
+		TasksPage,
+	},
+};
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .todo-card {
-  height: 100%;
-  max-height: 360px;
-  overflow-y: scroll;
+	height: 100%;
+	max-height: 360px;
+	overflow-y: scroll;
 }
 </style>

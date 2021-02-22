@@ -4,17 +4,17 @@
 |---------------------------------------------------------------------
 */
 export default {
-  inbox: [],
-  starred: [],
+	inbox: [],
+	starred: [],
 
-  // labels
-  labels: [{
-    id: 'work',
-    title: 'Work',
-    color: 'primary'
-  }, {
-    id: 'invoice',
-    title: 'Invoice',
-    color: 'green'
-  }]
-}
+	// labels
+	labels: [{
+		id: 'work',
+		title: 'Work',
+		color: 'primary',
+	}, {
+		id: 'invoice',
+		title: 'Invoice',
+		color: 'green',
+	}],
+};

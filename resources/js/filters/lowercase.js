@@ -1,7 +1,7 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
 Vue.filter('lowercase', (value) => {
-  if (!value) return ''
+	if (!value) return '';
 
-  return value.toString().toLowerCase()
-})
+	return value.toString().toLowerCase();
+});

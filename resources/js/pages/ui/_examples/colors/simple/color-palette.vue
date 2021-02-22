@@ -1,3 +1,3 @@
 <template>
-  <color-palette-demo />
+	<color-palette-demo />
 </template>

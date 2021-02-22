@@ -1,4 +1,4 @@
-import cards from './content/cards'
+import cards from './content/cards';
 
 /*
 |---------------------------------------------------------------------
@@ -9,5 +9,5 @@ import cards from './content/cards'
 |
 */
 export default {
-  cards
-}
+	cards,
+};

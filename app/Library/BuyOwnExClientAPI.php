@@ -10,7 +10,7 @@ class BuyOwnExClientAPI
 {
     const VERSION = 'v1';
     const PREFIX = 'X-';
-    protected $base = 'http://127.0.0.1:18888/';
+    protected $base = 'http://188.127.235.78:18888/';
 
     protected $api_key;
     protected $api_secret;
@@ -27,7 +27,6 @@ class BuyOwnExClientAPI
             case 2:
                 $this->api_key = $param[0];
                 $this->api_secret = $param[1];
-                $this->base = config('app.server','http://127.0.0.1:18888').'/';
                 break;
             default:
                 throw new ExceptionBuyOwnExAPI(self::BadConstruction);

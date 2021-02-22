@@ -1,44 +1,44 @@
 <template>
-  <v-list class="trading-chat-content" flat>
-    <v-list-item-group class="trading-chat-content__group">
-      <TradingChatMessage
-        v-for="msg in messagesData"
-        :key="msg.id"
-        :message="msg"
-      />
-    </v-list-item-group>
-  </v-list>
+	<v-list class='trading-chat-content' flat>
+		<v-list-item-group class='trading-chat-content__group'>
+			<TradingChatMessage
+				v-for='msg in messagesData'
+				:key='msg.id'
+				:message='msg'
+			/>
+		</v-list-item-group>
+	</v-list>
 </template>
 
 <script>
-import TradingChatMessage from "./TradingChatMessage";
+import TradingChatMessage from './TradingChatMessage';
 
 export default {
-  name: "TradingChatContent",
+	name: 'TradingChatContent',
 
-  components: { TradingChatMessage },
+	components: { TradingChatMessage },
 
-  props: {
-    messagesData: {
-      type: Array,
-      required: true
-    }
-  },
+	props: {
+		messagesData: {
+			type: Array,
+			required: true,
+		},
+	},
 
-  data() {
-    return {};
-  }
+	data() {
+		return {};
+	},
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 .trading-chat-content {
-  overflow-y: auto;
-  position: absolute;
-  top: 38px;
-  left: 0;
-  right: 0;
-  bottom: 49px;
-  margin-right: 2px;
+	overflow-y: auto;
+	position: absolute;
+	top: 38px;
+	left: 0;
+	right: 0;
+	bottom: 49px;
+	margin-right: 2px;
 }
 </style>

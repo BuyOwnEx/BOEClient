@@ -1,55 +1,55 @@
 <template>
-  <v-menu offset-y left transition="slide-y-transition">
-    <template v-slot:activator="{ on }">
-      <v-btn icon class="elevation-2" v-on="on">
-        <v-badge
-          color="success"
-          dot
-          bordered
-          offset-x="10"
-          offset-y="10"
-        >
-          <v-avatar size="40">
-            <v-img src="/images/avatars/avatar1.svg"></v-img>
-          </v-avatar>
-        </v-badge>
-      </v-btn>
-    </template>
+	<v-menu offset-y left transition='slide-y-transition'>
+		<template v-slot:activator='{ on }'>
+			<v-btn icon class='elevation-2' v-on='on'>
+				<v-badge
+					color='success'
+					dot
+					bordered
+					offset-x='10'
+					offset-y='10'
+				>
+					<v-avatar size='40'>
+						<v-img src='/images/avatars/avatar1.svg'></v-img>
+					</v-avatar>
+				</v-badge>
+			</v-btn>
+		</template>
 
-    <!-- user menu list -->
-    <v-list dense nav>
-      <v-list-item
-        v-for="(item, index) in menu"
-        :key="index"
-        :href="item.link"
-        :disabled="item.disabled"
-        link
-      >
-        <v-list-item-icon>
-          <v-icon small :class="{ 'grey--text': item.disabled }">{{ item.icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>{{ item.key ? $t(item.key) : item.text }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+		<!-- user menu list -->
+		<v-list dense nav>
+			<v-list-item
+				v-for='(item, index) in menu'
+				:key='index'
+				:href='item.link'
+				:disabled='item.disabled'
+				link
+			>
+				<v-list-item-icon>
+					<v-icon small :class="{ 'grey--text': item.disabled }">{{ item.icon }}</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>{{ item.key ? $t(item.key) : item.text }}</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 
-      <v-divider class="my-1"></v-divider>
+			<v-divider class='my-1'></v-divider>
 
-      <v-list-item link @click="sendLogout">
-        <v-list-item-icon>
-          <v-icon small>mdi-logout-variant</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>{{ $t('menu.logout') }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+			<v-list-item link @click='sendLogout'>
+				<v-list-item-icon>
+					<v-icon small>mdi-logout-variant</v-icon>
+				</v-list-item-icon>
+				<v-list-item-content>
+					<v-list-item-title>{{ $t('menu.logout') }}</v-list-item-title>
+				</v-list-item-content>
+			</v-list-item>
 
-    </v-list>
-  </v-menu>
+		</v-list>
+	</v-menu>
 </template>
 
 <script>
-import config from '../../configs'
+import config from '../../configs';
 /*
 |---------------------------------------------------------------------
 | Toolbar User Component
@@ -59,18 +59,18 @@ import config from '../../configs'
 |
 */
 export default {
-  data() {
-    return {
-      menu: config.toolbar.user
-    }
-  },
-  methods: {
-    sendLogout (event) {
-      axios.post('/logout')
-              .then((response) => {
-                window.location.reload();
-              });
-    },
-  }
-}
+	data() {
+		return {
+			menu: config.toolbar.user,
+		};
+	},
+	methods: {
+		sendLogout(event) {
+			axios.post('/logout')
+				.then((response) => {
+					window.location.reload();
+				});
+		},
+	},
+};
 </script>

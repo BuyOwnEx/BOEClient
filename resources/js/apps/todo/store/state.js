@@ -1,4 +1,4 @@
-import tasks from './content/tasks'
+import tasks from './content/tasks';
 
 /*
 |---------------------------------------------------------------------
@@ -6,20 +6,20 @@ import tasks from './content/tasks'
 |---------------------------------------------------------------------
 */
 export default {
-  tasks,
+	tasks,
 
-  // labels
-  labels: [{
-    id: 'work',
-    title: 'Work',
-    color: 'primary'
-  }, {
-    id: 'fun',
-    title: 'Fun',
-    color: 'blue'
-  }, {
-    id: 'groceries',
-    title: 'Groceries',
-    color: 'orange'
-  }]
-}
+	// labels
+	labels: [{
+		id: 'work',
+		title: 'Work',
+		color: 'primary',
+	}, {
+		id: 'fun',
+		title: 'Fun',
+		color: 'blue',
+	}, {
+		id: 'groceries',
+		title: 'Groceries',
+		color: 'orange',
+	}],
+};

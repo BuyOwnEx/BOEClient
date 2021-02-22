@@ -1,20 +1,20 @@
 <template>
-  <inbox-page class="email-card"></inbox-page>
+	<inbox-page class='email-card'></inbox-page>
 </template>
 
 <script>
-import InboxPage from '../../apps/email/pages/InboxPage'
+import InboxPage from '../../apps/email/pages/InboxPage';
 
 export default {
-  components: {
-    InboxPage
-  }
-}
+	components: {
+		InboxPage,
+	},
+};
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .email-card {
-  max-height: 340px;
-  overflow-y: scroll;
+	max-height: 340px;
+	overflow-y: scroll;
 }
 </style>
