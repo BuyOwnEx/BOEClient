@@ -29,7 +29,7 @@
 					</v-row>
 				</v-container>
 			</v-card-text>
-			<div class='caption grey--text darken-4 pl-6 pr-6'><small>{{ $vuetify.lang.translator('auth.no_letter') }}</small>
+			<div class='caption grey--text darken-4 pl-6 pr-6'><small>{{ $t('auth.no_letter') }}</small>
 			</div>
 			<v-card-actions class='pt-4 pl-6 pr-6 pb-4'>
 				<v-btn block color='primary' tile @click='resend' :loading='loading' :disabled='!valid || loading'>
@@ -43,10 +43,10 @@
 											type='warning'
 											class='mt-4'
 		>
-			{{ $vuetify.lang.translator('auth.resend_activation_link_text') }}
+			{{ $t('auth.resend_activation_link_text') }}
 		</v-alert>
 		<div class='text-center mt-6' style='position: relative; z-index: 2'>
-			<div class='caption grey--text darken-4'> {{ $vuetify.lang.translator('auth.already_activated') }}</div>
+			<div class='caption grey--text darken-4'> {{ $t('auth.already_activated') }}</div>
 			<v-btn
 				block
 				small
@@ -55,7 +55,7 @@
 				href='/login'
 				color='primary darken-1'
 			>
-				{{ $vuetify.lang.translator('auth.login_btn_text') }}
+				{{ $t('auth.login_btn_text') }}
 			</v-btn>
 		</div>
 		<!--<snackbar position="relative"></snackbar>-->

@@ -3,7 +3,7 @@
 		<v-expansion-panels v-model='panel' multiple flat>
 			<v-expansion-panel>
 				<v-expansion-panel-header class='pb-1'>
-					{{ $vuetify.lang.translator('trading.headers.market_activity') }}
+					{{ $t('trading.headers.market_activity') }}
 				</v-expansion-panel-header>
 				<v-expansion-panel-content>
 					<div>
@@ -41,7 +41,7 @@
 							</tr>
 							<tr v-if='activityList.length === 0'>
 								<td colspan='5' class='text-center'>
-									{{ $vuetify.lang.translator('trading.no_activity') }}
+									{{ $t('trading.no_activity') }}
 								</td>
 							</tr>
 							</tbody>

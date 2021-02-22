@@ -62,7 +62,7 @@
 				</v-btn>
 			</v-card-actions>
 			<div class='caption grey--text darken-4 pb-4 pl-6 pr-6'><a href='/password/reset'>
-				{{ $vuetify.lang.translator('auth.forget_password') }} </a></div>
+				{{ $t('auth.forget_password') }} </a></div>
 		</v-card>
 		<v-alert v-if='verify_block'
 											dense
@@ -70,7 +70,7 @@
 											type='success'
 											class='mt-4'
 		>
-			{{ $vuetify.lang.translator('auth.verified_text') }}
+			{{ $t('auth.verified_text') }}
 		</v-alert>
 		<v-alert v-if='verify_error'
 											dense
@@ -81,7 +81,7 @@
 			{{ verify_error }}
 		</v-alert>
 		<div class='text-center mt-6' style='position: relative; z-index: 2'>
-			<div class='caption grey--text darken-4'> {{ $vuetify.lang.translator('auth.no_account') }}</div>
+			<div class='caption grey--text darken-4'> {{ $t('auth.no_account') }}</div>
 			<v-btn
 				block
 				small
@@ -90,7 +90,7 @@
 				href='/register'
 				color='primary darken-1'
 			>
-				{{ $vuetify.lang.translator('auth.register_btn_text') }}
+				{{ $t('auth.register_btn_text') }}
 			</v-btn>
 		</div>
 		<!--<snackbar position="relative"></snackbar>-->

@@ -20,7 +20,7 @@
 			<div v-if='isSearch' class='tickers-list__header__search'>
 				<v-text-field
 					v-model='tickersSearchQuery'
-					:label="$vuetify.lang.translator('trading.search')"
+					:label="$t('trading.search')"
 					color='#a6a6a6'
 					outlined
 					dense
@@ -78,7 +78,7 @@
 							@click="setSorting('pair')"
 						>
 								<span>
-									{{ $vuetify.lang.translator('trading.market') }}
+									{{ $t('trading.market') }}
 								</span>
 							<v-icon v-if="tickersSorting === 'pairAsc'" small>
 								mdi-arrow-up
@@ -88,14 +88,14 @@
 							</v-icon>
 						</th>
 						<th class='tickers-list__content__header__item--rate'>
-							{{ $vuetify.lang.translator('trading.rate') }}
+							{{ $t('trading.rate') }}
 						</th>
 						<th
 							class='tickers-list__content__header__item--volume'
 							@click="setSorting('volume')"
 						>
 								<span>
-									{{ $vuetify.lang.translator('trading.sort.volume') }}
+									{{ $t('trading.sort.volume') }}
 								</span>
 							<v-icon v-if="tickersSorting === 'volumeDesc'" small>
 								mdi-arrow-down
@@ -109,7 +109,7 @@
 							@click="setSorting('change')"
 						>
 								<span>
-									{{ $vuetify.lang.translator('trading.sort.change') }}
+									{{ $t('trading.sort.change') }}
 								</span>
 							<v-icon v-if="tickersSorting === 'changeDesc'" small>
 								mdi-arrow-down
@@ -188,7 +188,7 @@
 				v-else-if='tickersList && tickersListFilteredAndSorted.length === 0'
 				class='text-center mt-2'
 			>
-				{{ $vuetify.lang.translator('trading.not_found') }}
+				{{ $t('trading.not_found') }}
 			</div>
 		</div>
 	</v-card>

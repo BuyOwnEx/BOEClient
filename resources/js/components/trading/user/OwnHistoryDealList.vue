@@ -21,7 +21,7 @@
 						height='14'
 						left
 						inset
-						:label="$vuetify.lang.translator('trading.show_other_pairs')"
+						:label="$t('trading.show_other_pairs')"
 					></v-switch>
 				</v-toolbar>
 			</template>
@@ -38,8 +38,8 @@
 				>
 					{{
 						item.side
-							? $vuetify.lang.translator('trading.order.direction.buy')
-							: $vuetify.lang.translator('trading.order.direction.sell')
+							? $t('trading.order.direction.buy')
+							: $t('trading.order.direction.sell')
 					}}
 				</strong>
 			</template>
@@ -70,7 +70,7 @@ export default {
 		return {
 			showOtherPairs: false,
 			tableCaption:
-				this.$vuetify.lang.translator('trading.headers.own_history_deal_list') +
+				this.$t('trading.headers.own_history_deal_list') +
 				' ' +
 				this.currency +
 				'/' +
@@ -78,23 +78,23 @@ export default {
 			itemsPerPage: 5,
 			headers: [
 				{
-					text: this.$vuetify.lang.translator('trading.date'),
+					text: this.$t('trading.date'),
 					align: 'start',
 					sortable: true,
 					value: 'date',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.market'),
+					text: this.$t('trading.market'),
 					value: 'market',
 				},
-				{ text: this.$vuetify.lang.translator('trading.type'), value: 'side' },
+				{ text: this.$t('trading.type'), value: 'side' },
 				{
-					text: this.$vuetify.lang.translator('trading.amount'),
+					text: this.$t('trading.amount'),
 					value: 'size',
 				},
-				{ text: this.$vuetify.lang.translator('trading.rate'), value: 'price' },
+				{ text: this.$t('trading.rate'), value: 'price' },
 				{
-					text: this.$vuetify.lang.translator('trading.volume'),
+					text: this.$t('trading.volume'),
 					value: 'volume',
 					sortable: false,
 				},

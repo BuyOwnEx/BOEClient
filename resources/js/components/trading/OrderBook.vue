@@ -11,7 +11,7 @@
 					:class="{'selected': activeListsDisplayMode === 'ask'}"
 					@click="activeListsDisplayMode = 'ask'"
 				>
-					{{ $vuetify.lang.translator('trading.headers.ask') }}
+					{{ $t('trading.headers.ask') }}
 				</v-btn>
 				<v-btn
 					tile
@@ -22,7 +22,7 @@
 					:class="{'selected': activeListsDisplayMode === 'bid'}"
 					@click="activeListsDisplayMode = 'bid'"
 				>
-					{{ $vuetify.lang.translator('trading.headers.bid') }}
+					{{ $t('trading.headers.bid') }}
 				</v-btn>
 				<v-btn
 					tile
@@ -33,13 +33,13 @@
 					:class="{'selected': activeListsDisplayMode === 'askbid'}"
 					@click="activeListsDisplayMode = 'askbid'"
 				>
-					{{ $vuetify.lang.translator('trading.headers.ask_bid') }}
+					{{ $t('trading.headers.ask_bid') }}
 				</v-btn>
 			</div>
 			<div class='d-flex flex-grow-0 justify-space-between pr-2 pl-2 mb-2'>
-				<div class='align-center pa-1'>{{ $vuetify.lang.translator('trading.rate') }}</div>
-				<div class='align-center pa-1'>{{ $vuetify.lang.translator('trading.amount') }}</div>
-				<div class='align-center pa-1'>{{ $vuetify.lang.translator('trading.volume') }}</div>
+				<div class='align-center pa-1'>{{ $t('trading.rate') }}</div>
+				<div class='align-center pa-1'>{{ $t('trading.amount') }}</div>
+				<div class='align-center pa-1'>{{ $t('trading.volume') }}</div>
 			</div>
 			<div style='width: 100%'>
 				<ask-list
