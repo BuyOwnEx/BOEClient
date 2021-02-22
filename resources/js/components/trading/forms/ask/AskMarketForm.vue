@@ -9,7 +9,7 @@
     <v-text-field
       v-model="form.amount"
       ref="ask_market_amount"
-      :label="$vuetify.lang.translator('trading.order.direction.sell')"
+      :label="$t('trading.order.direction.sell')"
       type="text"
       outlined
       dense
@@ -60,7 +60,7 @@
       <v-text-field
         v-model="volume"
         ref="ask_market_volume"
-        :label="$vuetify.lang.translator('trading.volume')"
+        :label="$t('trading.volume')"
         type="text"
         outlined
         dense
@@ -73,7 +73,7 @@
       </v-text-field>
       <div class="amf__text-field-hint">
         {{
-          $vuetify.lang.translator("trading.order.pay_market_sell", [
+          $t("trading.order.pay_market_sell", [
             fee_visible
           ]) +
             " " +
@@ -86,7 +86,7 @@
       <v-select
         v-model="form.offer"
         :items="offers_select"
-        :label="$vuetify.lang.translator('trading.order.offer')"
+        :label="$t('trading.order.offer')"
         item-text="name"
         item-value="id"
         dense
@@ -99,7 +99,7 @@
       <v-text-field
         v-model="form.sl_rate"
         ref="ask_market_sl_rate"
-        :label="$vuetify.lang.translator('trading.order.sl_rate')"
+        :label="$t('trading.order.sl_rate')"
         :disabled="!additionalParamsEnabled"
         type="text"
         outlined
@@ -115,7 +115,7 @@
         v-model="form.tp_rate"
         style="margin-top: 6px"
         ref="ask_market_tp_rate"
-        :label="$vuetify.lang.translator('trading.order.tp_rate')"
+        :label="$t('trading.order.tp_rate')"
         :disabled="!additionalParamsEnabled"
         type="text"
         outlined
@@ -131,7 +131,7 @@
         v-model="form.ts_offset"
         style="margin-top: 6px"
         ref="ask_market_ts_offset"
-        :label="$vuetify.lang.translator('trading.order.ts_offset')"
+        :label="$t('trading.order.ts_offset')"
         :disabled="!additionalParamsEnabled"
         type="text"
         outlined
@@ -149,7 +149,7 @@
       <div v-if="marginTradingAvailable" class="d-flex justify-start">
         <v-switch
           v-model="useMargin"
-          :label="$vuetify.lang.translator('trading.order.use_margin')"
+          :label="$t('trading.order.use_margin')"
           hide-details
           left
           dense
@@ -160,7 +160,7 @@
         <v-switch
           v-model="additionalParamsEnabled"
           :label="
-            $vuetify.lang.translator('trading.order.use_additional_params')
+            $t('trading.order.use_additional_params')
           "
           hide-details
           left
@@ -172,10 +172,10 @@
 
     <div class="amf__footer mt-2">
       <v-btn type="submit" color="error" height="24" block>
-        {{ $vuetify.lang.translator("trading.order.direction.sell") }}
+        {{ $t("trading.order.direction.sell") }}
       </v-btn>
       <div class="amf__footer__available text-center">
-        {{ $vuetify.lang.translator("trading.order.available") }}
+        {{ $t("trading.order.available") }}
         <span class="available_balance" @click="setAmount(100)">
           {{ balance.toString() }}
         </span>
@@ -236,7 +236,7 @@ export default {
       return _.map(this.offers, function(value) {
         return {
           id: value.id,
-          name: self.$vuetify.lang.translator(
+          name: self.$t(
             "trading.order.offer_option",
             BigNumber(value.percent).toString(),
             BigNumber(value.days).toString(),

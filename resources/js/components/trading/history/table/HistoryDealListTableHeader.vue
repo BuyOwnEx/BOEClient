@@ -3,21 +3,21 @@
     <tr>
       <th>
         <div class="hdl__content__table__head__item--rate">
-          <span>{{ $vuetify.lang.translator("trading.rate") }}</span>
+          <span>{{ $t("trading.rate") }}</span>
           <span>({{ market }})</span>
         </div>
       </th>
 
       <th>
         <div class="hdl__content__table__head__item--amount">
-          <span>{{ $vuetify.lang.translator("trading.amount") }}</span>
+          <span>{{ $t("trading.amount") }}</span>
           <span>({{ currency }})</span>
         </div>
       </th>
 
       <th>
         <div class="hdl__content__table__head__item--date">
-          {{ $vuetify.lang.translator("trading.date") }}
+          {{ $t("trading.date") }}
         </div>
       </th>
     </tr>

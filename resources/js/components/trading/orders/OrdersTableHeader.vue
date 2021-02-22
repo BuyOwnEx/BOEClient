@@ -3,33 +3,33 @@
   <tr>
     <th>
       <div class="orders-table-header__item--price">
-        <span>{{ $vuetify.lang.translator("trading.rate") }}</span>
+        <span>{{ $t("trading.rate") }}</span>
         <span>({{ market }})</span>
       </div>
     </th>
 
     <th>
       <div class="orders-table-header__item--amount">
-        <span>{{ $vuetify.lang.translator("trading.amount") }}</span>
+        <span>{{ $t("trading.amount") }}</span>
         <span>({{ currency }})</span>
       </div>
     </th>
 
     <th>
       <div class="orders-table-header__item--total">
-        {{ $vuetify.lang.translator("trading.total") }}
+        {{ $t("trading.total") }}
       </div>
     </th>
 
     <th>
       <div class="orders-table-header__item--total">
-        {{ $vuetify.lang.translator("trading.total") }}
+        {{ $t("trading.total") }}
       </div>
     </th>
 
     <th>
       <div class="orders-table-header__item--total">
-        {{ $vuetify.lang.translator("trading.total") }}
+        {{ $t("trading.total") }}
       </div>
     </th>
   </tr>

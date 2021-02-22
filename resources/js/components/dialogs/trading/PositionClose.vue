@@ -11,7 +11,7 @@
                     <span class="headline">{{ formTitle }}</span>
                 </v-card-title>
                 <v-card-text>
-                    {{$vuetify.lang.translator('trading.dialogs.descriptions.close_position')}}
+                    {{$t('trading.dialogs.descriptions.close_position')}}
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -33,7 +33,7 @@
                 valid: true,
                 loading: false,
                 formTitle: 'Closing position',
-                menuTitle: this.$vuetify.lang.translator('trading.close_position'),
+                menuTitle: this.$t('trading.close_position'),
                 cancelTitle: 'Cancel',
                 actionTitle: 'Close',
                 form: {

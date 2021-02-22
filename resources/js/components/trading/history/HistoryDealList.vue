@@ -1,7 +1,7 @@
 <template>
   <v-card class="hdl pa-1">
     <v-card-title class="hdl__header text-uppercase pa-0">
-      {{ $vuetify.lang.translator("trading.headers.history_deal_list") }}
+      {{ $t("trading.headers.history_deal_list") }}
     </v-card-title>
 
     <v-card-text class="hdl__content pa-0">

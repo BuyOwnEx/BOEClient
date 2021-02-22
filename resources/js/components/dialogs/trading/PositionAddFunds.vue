@@ -14,7 +14,7 @@
                     <v-container>
                         <v-row>
                             <v-col cols="12" md="12">
-                                <label>{{$vuetify.lang.translator('trading.order.available')}}</label>
+                                <label>{{$t('trading.order.available')}}</label>
                                 <small v-if="side">
                                     <span class="available_balance" @click="setCurrencyAmount()">{{this.currency_balance.toString()}}</span> {{currency.toUpperCase()}}
                                 </small>
@@ -60,7 +60,7 @@
                 valid: true,
                 loading: false,
                 formTitle: 'Deposit funds for position',
-                menuTitle: this.$vuetify.lang.translator('trading.deposit_margin'),
+                menuTitle: this.$t('trading.deposit_margin'),
                 actionTitle: 'Apply',
                 cancelTitle: 'Close',
                 rules: {

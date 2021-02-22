@@ -9,7 +9,7 @@
         :text="!isSelectedLimitMode"
         @click="activeTradingFormsDisplayMode = 'limit'"
       >
-        <span>{{ $vuetify.lang.translator("trading.order.type.limit") }}</span>
+        <span>{{ $t("trading.order.type.limit") }}</span>
       </v-btn>
       <v-btn
         class="pt-2 pb-2"
@@ -19,7 +19,7 @@
         :text="!isSelectedMarketMode"
         @click="activeTradingFormsDisplayMode = 'market'"
       >
-        <span>{{ $vuetify.lang.translator("trading.order.type.market") }}</span>
+        <span>{{ $t("trading.order.type.market") }}</span>
       </v-btn>
     </div>
 

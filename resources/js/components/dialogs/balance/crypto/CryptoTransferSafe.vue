@@ -14,7 +14,7 @@
                     <v-container>
                         <v-row>
                             <v-col cols="12" md="12">
-                                <label>{{$vuetify.lang.translator('trading.order.available')}}</label>
+                                <label>{{$t('trading.order.available')}}</label>
                                 <span class="available_balance" @click="setAmount()">{{this.trade_balance.toString()}}</span> {{cryptoObj.currency.toUpperCase()}}
                                 <v-text-field
                                         v-model="form.amount"
@@ -55,7 +55,7 @@
                 valid: true,
                 loading: false,
                 formTitle: 'Transfer funds to safe wallet',
-                menuTitle: this.$vuetify.lang.translator('balance.transfer_to_safe'),
+                menuTitle: this.$t('balance.transfer_to_safe'),
                 actionTitle: 'Transfer',
                 cancelTitle: 'Close',
                 rules: {

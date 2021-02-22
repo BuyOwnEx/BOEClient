@@ -93,21 +93,21 @@
             </v-card-actions>
             <div class="text-left pl-6 pb-4 pr-6">
                 <small class="grey--text lighten-4">
-                    {{$vuetify.lang.translator('auth.register_text1')}}
+                    {{$t('auth.register_text1')}}
                     <a :href="links[0].link" >
                         <span>{{links[0].title}}</span>
                     </a>
-                    {{$vuetify.lang.translator('auth.and')}}
+                    {{$t('auth.and')}}
                     <a :href="links[1].link" >
                         <span>{{links[1].title}}</span>
                     </a>
-                    {{$vuetify.lang.translator('auth.register_text2')}}
+                    {{$t('auth.register_text2')}}
                 </small>
             </div>
         </v-card>
         <!--<snackbar position="relative"></snackbar>-->
         <div class="text-center mt-6" style="position: relative; z-index: 2">
-            <div class="caption grey--text darken-4"> {{$vuetify.lang.translator('auth.already_have_account')}} </div>
+            <div class="caption grey--text darken-4"> {{$t('auth.already_have_account')}} </div>
             <v-btn
                     block
                     small
@@ -116,7 +116,7 @@
                     href="/login"
                     color="primary darken-1"
             >
-                {{$vuetify.lang.translator('auth.login_btn_text')}}
+                {{$t('auth.login_btn_text')}}
             </v-btn>
         </div>
     </div>
@@ -131,11 +131,11 @@
             return {
                 links: [
                     {
-                        title: this.$vuetify.lang.translator('auth.register_terms_link'),
+                        title: this.$t('auth.register_terms_link'),
                         link: '/terms'
                     },
                     {
-                        title: this.$vuetify.lang.translator('auth.register_policy_link'),
+                        title: this.$t('auth.register_policy_link'),
                         link: '/policy'
                     }
                 ],

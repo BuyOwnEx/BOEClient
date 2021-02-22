@@ -3,7 +3,7 @@
     <v-col cols="12" md="6" class="tfmw__bid px-1">
       <v-card outlined>
         <v-card-title class="tfmw__title text-uppercase pb-1">
-          {{ $vuetify.lang.translator("trading.order.direction.buy") }}
+          {{ $t("trading.order.direction.buy") }}
           {{ currency }}
         </v-card-title>
         <v-card-text>
@@ -17,7 +17,7 @@
     <v-col cols="12" md="6" class="tfmw__ask px-1">
       <v-card outlined>
         <v-card-title class="tfmw__title text-uppercase pb-1">
-          {{ $vuetify.lang.translator("trading.order.direction.sell") }}
+          {{ $t("trading.order.direction.sell") }}
           {{ currency }}
         </v-card-title>
         <v-card-text>

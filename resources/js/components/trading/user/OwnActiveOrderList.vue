@@ -21,7 +21,7 @@
             height="14"
             left
             inset
-            :label="$vuetify.lang.translator('trading.show_other_pairs')"
+            :label="$t('trading.show_other_pairs')"
           ></v-switch>
           <v-menu transition="slide-y-transition" bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -33,7 +33,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                {{ $vuetify.lang.translator("trading.cancel") }}
+                {{ $t("trading.cancel") }}
                 <v-icon right>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
@@ -59,7 +59,7 @@
           dense
           @click="orderCancel(item)"
         >
-          {{ $vuetify.lang.translator("trading.cancel") }}
+          {{ $t("trading.cancel") }}
         </v-btn>
       </template>
       <template v-slot:item.date="{ item }">
@@ -72,7 +72,7 @@
       <template v-slot:item.side="{ item }">
         <span v-if="item.side === false">
           <strong class="text-success">{{
-            $vuetify.lang.translator("trading.order.direction.buy")
+            $t("trading.order.direction.buy")
           }}</strong>
           <span class="order_type order_type_sl" v-if="item.type === 'STOPLOSS'"
             >SL</span
@@ -90,7 +90,7 @@
         </span>
         <span v-else>
           <strong class="text-danger">{{
-            $vuetify.lang.translator("trading.order.direction.sell")
+            $t("trading.order.direction.sell")
           }}</strong>
           <span class="order_type order_type_sl" v-if="item.type === 'STOPLOSS'"
             >SL</span
@@ -119,10 +119,10 @@
       <template v-slot:item.percent="{ item }"> {{ percent(item) }}% </template>
       <template v-slot:item.status="{ item }">
         <span class="text-success" v-if="item.status === 'accepted'">{{
-          $vuetify.lang.translator("trading.order.status.accepted")
+          $t("trading.order.status.accepted")
         }}</span>
         <span class="text-warning" v-else>{{
-          $vuetify.lang.translator("trading.order.status.partiallyFilled")
+          $t("trading.order.status.partiallyFilled")
         }}</span>
       </template>
     </v-data-table>
@@ -142,7 +142,7 @@ export default {
     return {
       showOtherPairs: false,
       tableCaption:
-        this.$vuetify.lang.translator("trading.headers.own_active_order_list") +
+        this.$t("trading.headers.own_active_order_list") +
         " " +
         this.currency +
         "/" +
@@ -150,36 +150,36 @@ export default {
       itemsPerPage: 5,
       headers: [
         {
-          text: this.$vuetify.lang.translator("trading.date"),
+          text: this.$t("trading.date"),
           align: "start",
           sortable: true,
           value: "date"
         },
         {
-          text: this.$vuetify.lang.translator("trading.market"),
+          text: this.$t("trading.market"),
           value: "market"
         },
-        { text: this.$vuetify.lang.translator("trading.type"), value: "side" },
+        { text: this.$t("trading.type"), value: "side" },
         {
-          text: this.$vuetify.lang.translator("trading.amount"),
+          text: this.$t("trading.amount"),
           value: "size"
         },
-        { text: this.$vuetify.lang.translator("trading.rate"), value: "price" },
+        { text: this.$t("trading.rate"), value: "price" },
         {
-          text: this.$vuetify.lang.translator("trading.volume"),
+          text: this.$t("trading.volume"),
           value: "volume",
           sortable: false
         },
         {
-          text: this.$vuetify.lang.translator("trading.filled"),
+          text: this.$t("trading.filled"),
           value: "percent"
         },
         {
-          text: this.$vuetify.lang.translator("trading.status"),
+          text: this.$t("trading.status"),
           value: "status"
         },
         {
-          text: this.$vuetify.lang.translator("trading.actions"),
+          text: this.$t("trading.actions"),
           value: "action",
           sortable: false
         }
@@ -191,22 +191,22 @@ export default {
       closeOnContentClick: true,
       cancelOptions: [
         {
-          text: this.$vuetify.lang.translator("trading.order.cancel_all"),
+          text: this.$t("trading.order.cancel_all"),
           link: "/trader/ext/order/cancel_all",
           click: () => this.orderCancelAll()
         },
         {
-          text: this.$vuetify.lang.translator("trading.order.cancel_sl"),
+          text: this.$t("trading.order.cancel_sl"),
           link: "/trader/ext/order/cancel_all_sl",
           click: () => this.orderCancelAllSL()
         },
         {
-          text: this.$vuetify.lang.translator("trading.order.cancel_tp"),
+          text: this.$t("trading.order.cancel_tp"),
           link: "/trader/ext/order/cancel_all_tp",
           click: () => this.orderCancelAllTP()
         },
         {
-          text: this.$vuetify.lang.translator("trading.order.cancel_ts"),
+          text: this.$t("trading.order.cancel_ts"),
           link: "/trader/ext/order/cancel_all_ts",
           click: () => this.orderCancelAllTS()
         }
