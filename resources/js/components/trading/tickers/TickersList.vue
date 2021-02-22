@@ -38,7 +38,8 @@
 			</div>
 		</div>
 
-		<div class='tickers-list__content-wrapper'>
+		<CommonProgressCircular v-if='isLoading || !tickersList' />
+		<div v-else class='tickers-list__content-wrapper'>
 			<v-simple-table
 				v-if='tickersList && tickersListFilteredAndSorted.length > 0'
 				class='tickers-list__content'
@@ -183,7 +184,10 @@
 					</tbody>
 				</template>
 			</v-simple-table>
-			<div v-else-if='isNotLoadedOrTickersNotFound' class='text-center mt-2'>
+			<div
+				v-else-if='tickersList && tickersListFilteredAndSorted.length === 0'
+				class='text-center mt-2'
+			>
 				{{ $vuetify.lang.translator('trading.not_found') }}
 			</div>
 		</div>
@@ -195,8 +199,12 @@ import BigNumber from 'bignumber.js';
 
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import CommonProgressCircular from '../../common/CommonProgressCircular';
+
 export default {
 	name: 'TickersList',
+
+	components: { CommonProgressCircular },
 
 	props: {
 		market: {
@@ -213,7 +221,7 @@ export default {
 			tickersSearchQuery: '',
 			favoritePairs: [],
 			isSearch: false,
-			isPageLoading: true,
+			isLoading: true,
 		};
 	},
 
@@ -236,7 +244,7 @@ export default {
 				this.tickersFromStorage === null ||
 				this.marketsFromStorage === null
 			) {
-				return [];
+				return null;
 			}
 
 			return _.map(this.tickersFromStorage, item => {
@@ -365,10 +373,6 @@ export default {
 			else if (mid) return 185;
 			else return 365;
 		},
-		isNotLoadedOrTickersNotFound() {
-			if (this.isPageLoading) return true;
-			return !this.tickersList || this.tickersListFilteredAndSorted.length <= 0;
-		},
 	},
 
 	methods: {
@@ -477,7 +481,7 @@ export default {
 	},
 
 	mounted() {
-		this.isPageLoading = false;
+		this.isLoading = false;
 
 		this.selectedMarket = this.selectedTradingMarket
 			? this.selectedTradingMarket.toUpperCase()
