@@ -1,14 +1,14 @@
 <template>
-	<tbody v-if='bidData' class='bid-list__content__table__body'>
+	<tbody v-if='bidData' class='bid-list-table-body'>
 	<tr
 		v-for='(item, idx) in bidData'
-		:class='{ active: isAboveThanHoverElement(idx) }'
-		style='position: relative'
+		class='bid-list-table-body__row'
+		:class="{ 'orders-active-row': isAboveThanHoverElement(idx) }"
 		@mouseover='selectedItemHoverHandler(item)'
 		@mouseout='clearSelectedItemIndex'
 	>
 		<td>
-			<div class='bid-list__content__table__body__item--price'>
+			<div class='bid-list-table-body__item--price'>
 				<strong class='text-success'>
 					{{ formatPrice(item.price) }}
 				</strong>
@@ -16,29 +16,25 @@
 		</td>
 
 		<td>
-			<div class='bid-list__content__table__body__item--amount'>
+			<div class='bid-list-table-body__item--size'>
 				{{ formatSize(item.actualSize) }}
 			</div>
 		</td>
 
 		<td>
-			<div class='bid-list__content__table__body__item--date'>
-				<!--					v-if="idx === selectedItemIndex"-->
-				<!--					style="position: absolute; top: 70px; left: 330px; right: -500px; width: 150px; height: 100px; background: green; padding: 16px 8px"-->
-				<!--				<div-->
-				<!--					style='position: absolute; top: 0; left: 0; right: 0; width: 150px; height: 100px; background: #06d6a0; padding: 16px 8px'-->
-				<!--				>-->
-				<!--					<div>index - {{ selectedItemIndex }}</div>-->
-				<!--					<div>avgPrice - {{ averagePrice }}</div>-->
-				<!--					<div>sumMarket - {{ sumMarket }}</div>-->
-				<!--					<div>sumCurrency - {{ sumCurrency }}</div>-->
-				<!--				</div>-->
-				<span
-					style='position:absolute; top: 0;bottom: 0;right: 0;left: 0; background: green; height: 25px; width: 20px'
-				>
-					</span>
+			<div class='bid-list-table-body__tooltip-wrapper'>
+				<OrdersTooltip
+					:idx='idx'
+					:selected-idx='selectedItemIndex'
+					:average-price='averagePrice'
+					:sum-size='sumSize'
+					:sum-volume='sumVolume'
+					success-color
+				/>
 
-				<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+				<div class='bid-list-table-body__item--volume'>
+					<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+				</div>
 			</div>
 		</td>
 	</tr>
@@ -47,15 +43,21 @@
 
 <script>
 import BigNumber from 'bignumber.js';
+
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
+import OrdersTooltip from '../../OrdersTooltip';
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';
+import ordersTooltipMethods from '../../../../../mixins/trading/ordersTooltipMethods';
 
 export default {
 	name: 'BidListTableBody',
 
-	mixins: [formatPrice, formatSize],
+	mixins: [formatPrice, formatSize, ordersTooltipMethods],
+
+	components: { OrdersTooltip },
 
 	props: {
 		bidData: {
@@ -76,15 +78,6 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			selectedItemIndex: -1,
-			averagePrice: 0,
-			sumMarket: 0,
-			sumCurrency: 0,
-		};
-	},
-
 	methods: {
 		calculateVolume(price, actualSize) {
 			return BigNumber(price)
@@ -98,48 +91,19 @@ export default {
 				.dp(2)
 				.toString();
 		},
-
-		isAboveThanHoverElement(itemToCompareIndex) {
-			const mainItemIndex = this.selectedItemIndex;
-			return itemToCompareIndex <= mainItemIndex;
-		},
-
-		selectedItemHoverHandler(item) {
-			this.setSelectedItemIndex(item);
-			this.setDataForMenu();
-		},
-
-		setSelectedItemIndex(item) {
-			this.selectedItemIndex = this.bidData.findIndex(el => {
-				return el.price === item.price;
-			});
-		},
-		clearSelectedItemIndex() {
-			this.selectedItemIndex = -1;
-		},
-		setDataForMenu() {
-			let averagePrice = 0;
-			let sumMarket = 0;
-			let sumCurrency = 0;
-			const mainItemIndex = this.selectedItemIndex;
-			const itemsBeforeMainIndex = this.bidData.filter(
-				(item, index) => index <= mainItemIndex,
-			);
-
-			itemsBeforeMainIndex.forEach(item => {
-				averagePrice += item.price;
-				// sumMarket +=
-				// sumCurrency +=
-			});
-
-			this.averagePrice = averagePrice / itemsBeforeMainIndex.length;
-			// TODO доделать позже
-		},
 	},
 };
 </script>
 
 <style scoped lang='sass'>
-.active
-	background: var(--v-success-lighten1) !important
+.bid-list-table-body
+	&__row
+		position: relative
+		cursor: default !important
+
+		&:hover
+			background: rgba(215, 255, 216, 0.35) !important
+
+.orders-active-row
+	background: rgba(215, 255, 216, 0.35)
 </style>

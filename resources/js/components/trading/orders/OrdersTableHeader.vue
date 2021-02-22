@@ -17,19 +17,7 @@
 
 			<th>
 				<div class="orders-table-header__item--total">
-					{{ $t('trading.total') }}
-				</div>
-			</th>
-
-			<th>
-				<div class="orders-table-header__item--total">
-					{{ $t('trading.total') }}
-				</div>
-			</th>
-
-			<th>
-				<div class="orders-table-header__item--total">
-					{{ $t('trading.total') }}
+					{{ $t('trading.volume') }}
 				</div>
 			</th>
 		</tr>
