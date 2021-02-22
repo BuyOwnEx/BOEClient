@@ -4,16 +4,16 @@
 			SELL ORDERS
 		</v-card-title>
 
-		<v-card-text v-if='askList !== null' class='ask-list__content pa-1 pt-0'>
+		<v-card-text v-if='askList' class='ask-list__content pa-0'>
 			<AskListTableWrapper
 				:askData='askList'
+				:amount-depth='askAmountDepth'
+				:volume-depth='askVolumeDepth'
+				:best='bestAsk'
 				:currency='currency'
 				:market='market'
 			/>
 		</v-card-text>
-		<!--<ask-depth
-														:amount="ask_amount_depth"
-														:volume="ask_volume_depth"></ask-depth>-->
 	</v-card>
 </template>
 

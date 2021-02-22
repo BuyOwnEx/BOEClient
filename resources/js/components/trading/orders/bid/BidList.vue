@@ -14,24 +14,17 @@
 				:market='market'
 			/>
 		</v-card-text>
-		<!--<bid-depth
-														:amount="bid_amount_depth"
-														:volume="bid_volume_depth"></bid-depth>-->
 	</v-card>
 </template>
 
 <script>
 import BidListTableWrapper from './table/BidListTableWrapper';
-import OrdersTableHeader from '../OrdersTableHeader';
-import BidListTableBody from './table/BidListTableBody';
 
 export default {
 	name: 'BidList',
 
 	components: {
 		BidListTableWrapper,
-		OrdersTableHeader,
-		BidListTableBody,
 	},
 
 	props: {
