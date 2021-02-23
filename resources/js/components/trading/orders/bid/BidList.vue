@@ -1,6 +1,6 @@
 <template>
 	<v-card class='bid-list pa-1'>
-		<v-card-title class='bid-list__title pa-0'>
+		<v-card-title class='bid-list__title pa-0 px-1'>
 			BUY ORDERS
 		</v-card-title>
 

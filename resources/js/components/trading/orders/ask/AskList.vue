@@ -1,6 +1,6 @@
 <template>
 	<v-card class='ask-list pa-1'>
-		<v-card-title class='ask-list__title pa-0'>
+		<v-card-title class='ask-list__title pa-0 px-1'>
 			SELL ORDERS
 		</v-card-title>
 
