@@ -4,7 +4,8 @@
 			BUY ORDERS
 		</v-card-title>
 
-		<v-card-text v-if='bidList' class='bid-list__content pa-0'>
+		<CommonProgressCircular v-if='!bidList || isLoading' />
+		<v-card-text v-else class='bid-list__content pa-0'>
 			<BidListTableWrapper
 				:bidData='bidList'
 				:amount-depth='bidAmountDepth'
@@ -19,12 +20,14 @@
 
 <script>
 import BidListTableWrapper from './table/BidListTableWrapper';
+import CommonProgressCircular from '../../../common/CommonProgressCircular';
 
 export default {
 	name: 'BidList',
 
 	components: {
 		BidListTableWrapper,
+		CommonProgressCircular,
 	},
 
 	props: {
@@ -36,6 +39,12 @@ export default {
 			type: String,
 			required: true,
 		},
+	},
+
+	data() {
+		return {
+			isLoading: true,
+		};
 	},
 
 	computed: {
@@ -52,7 +61,9 @@ export default {
 			return this.$store.state.trading.best_bid;
 		},
 	},
+
+	mounted() {
+		this.isLoading = false;
+	},
 };
 </script>
-
-<style scoped lang='sass'></style>

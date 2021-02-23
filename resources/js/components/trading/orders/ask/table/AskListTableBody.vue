@@ -98,7 +98,7 @@ export default {
 <style scoped lang='sass'>
 .ask-list-table-body
 	&__row
-		position: relative
+		//position: relative
 		cursor: default !important
 
 		&:hover

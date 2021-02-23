@@ -4,7 +4,8 @@
 			SELL ORDERS
 		</v-card-title>
 
-		<v-card-text v-if='askList' class='ask-list__content pa-0'>
+		<CommonProgressCircular v-if='!askList || isLoading' />
+		<v-card-text v-else class='ask-list__content pa-0'>
 			<AskListTableWrapper
 				:askData='askList'
 				:amount-depth='askAmountDepth'
@@ -19,12 +20,14 @@
 
 <script>
 import AskListTableWrapper from './table/AskListTableWrapper';
+import CommonProgressCircular from '../../../common/CommonProgressCircular';
 
 export default {
 	name: 'AskList',
 
 	components: {
 		AskListTableWrapper,
+		CommonProgressCircular,
 	},
 
 	props: {
@@ -36,6 +39,12 @@ export default {
 			type: String,
 			required: true,
 		},
+	},
+
+	data() {
+		return {
+			isLoading: true,
+		};
 	},
 
 	computed: {
@@ -52,7 +61,9 @@ export default {
 			return this.$store.state.trading.best_ask;
 		},
 	},
+
+	mounted() {
+		this.isLoading = false;
+	},
 };
 </script>
-
-<style scoped lang='sass'></style>

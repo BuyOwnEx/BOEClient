@@ -22,7 +22,7 @@
 		</td>
 
 		<td>
-			<div class='bid-list-table-body__tooltip-wrapper'>
+			<div class='bid-list-table-body__tooltip-volume-wrapper'>
 				<OrdersTooltip
 					:idx='idx'
 					:selected-idx='selectedItemIndex'
@@ -98,7 +98,7 @@ export default {
 <style scoped lang='sass'>
 .bid-list-table-body
 	&__row
-		position: relative
+		//position: relative
 		cursor: default !important
 
 		&:hover
