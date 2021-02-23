@@ -1,73 +1,67 @@
 <template>
-	<v-card class='pa-1'>
-		<v-expansion-panels v-model='panel' multiple flat>
-			<v-expansion-panel>
-				<v-expansion-panel-header class='pb-1'>
-					{{ $t('trading.headers.market_activity') }}
-				</v-expansion-panel-header>
-				<v-expansion-panel-content>
-					<div>
-						<table class='table'>
-							<tbody>
-							<tr v-for='item in activityList'>
-								<td>
-										<span>{{ item.currency }}</span
-										><span class='market-name'>/{{ item.market }}</span>
-								</td>
-								<td
-									:class="{
-											'text-success': item.trend === 'positive',
-											'text-danger': item.trend === 'negative',
-										}"
-								>
-										<span style='font-weight: normal'
-										>{{ item.changePercent }}%</span
-										>
-								</td>
-								<td class='history-deal-date'>
-									<div
-										class='market-activity-indicator'
-										:class="{
-												positive: item.trend === 'positive',
-												negative: item.trend === 'negative',
-											}"
-									>
-										<div
-											v-for='star in item.stars'
-											class='market-activity-arrow'
-										></div>
-									</div>
-								</td>
-							</tr>
-							<tr v-if='activityList.length === 0'>
-								<td colspan='5' class='text-center'>
-									{{ $t('trading.no_activity') }}
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
-				</v-expansion-panel-content>
-			</v-expansion-panel>
-		</v-expansion-panels>
+	<v-card class='market-activity pa-1'>
+		<v-card-title class='market-activity__header pa-0'>
+			{{ $t('trading.headers.market_activity') }}
+		</v-card-title>
+
+		<v-card-text class='market-activity__content pa-0'>
+			<table class='table'>
+				<tbody>
+				<tr v-for='item in activityList'>
+					<td>
+							<span>{{ item.currency }}</span
+							><span class='market-name'>/{{ item.market }}</span>
+					</td>
+					<td
+						:class="{
+								'text-success': item.trend === 'positive',
+								'text-danger': item.trend === 'negative',
+							}"
+					>
+						<span style='font-weight: normal'>{{ item.changePercent }}%</span>
+					</td>
+					<td class='history-deal-date'>
+						<div
+							class='market-activity-indicator'
+							:class="{
+									positive: item.trend === 'positive',
+									negative: item.trend === 'negative',
+								}"
+						>
+							<div
+								v-for='star in item.stars'
+								class='market-activity-arrow'
+							></div>
+						</div>
+					</td>
+				</tr>
+				<tr v-if='activityList.length === 0'>
+					<td colspan='5' class='text-center'>
+						{{ $t('trading.no_activity') }}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</v-card-text>
 	</v-card>
 </template>
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
 export default {
 	name: 'MarketActivity',
+
 	data() {
-		return {
-			panel: [0],
-		};
+		return {};
 	},
+
 	computed: {
 		tickersFromStorage() {
 			return this.$store.state.tickers.tickersList;
 		},
+
 		tickersList() {
 			if (this.tickersFromStorage === null) {
 				return [];
@@ -95,6 +89,7 @@ export default {
 				};
 			});
 		},
+
 		activityList() {
 			let positive = _.chain(this.tickersList)
 				.filter(item => {
@@ -128,4 +123,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang='sass'>
+.market-activity
+	&__header
+		word-break: normal
+		font-weight: 700
+		margin-left: 4px
+		text-transform: uppercase
+</style>
