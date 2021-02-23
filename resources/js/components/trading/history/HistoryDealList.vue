@@ -1,6 +1,6 @@
 <template>
 	<v-card class='hdl pa-1'>
-		<v-card-title class='hdl__header text-uppercase pa-0'>
+		<v-card-title class='hdl__header pa-0'>
 			{{ $t('trading.headers.history_deal_list') }}
 		</v-card-title>
 
@@ -76,4 +76,5 @@ export default {
 		word-break: normal
 		font-weight: 700
 		margin-left: 4px
+		text-transform: uppercase
 </style>

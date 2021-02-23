@@ -3,14 +3,26 @@
 		v-if='idx === selectedIdx'
 		class='orders-tooltip'
 		:class="{
+			'orders-tooltip--bid': type === 'bid',
+			'orders-tooltip--ask': type === 'ask',
 			'd-none': idx !== selectedIdx,
-			'orders-success': successColor,
-			'orders-error': !successColor,
 		}"
+		:style="{ 'margin-top': calculateTooltipMargin }"
 	>
-		<div>Average Price - {{ averagePrice }}</div>
-		<div>Total Size - {{ sumSize }}</div>
-		<div>Total Volume - {{ sumVolume }}</div>
+		<div class='orders-tooltip__content'>
+			<div class='d-flex'>
+				<span>Average Price:</span>
+				<b class='ml-auto'>{{ averagePrice }}</b>
+			</div>
+			<div class='d-flex'>
+				<span>Total Size:</span>
+				<b class='ml-auto'>{{ sumSize }}</b>
+			</div>
+			<div class='d-flex'>
+				<span>Total Volume:</span>
+				<b class='ml-auto'>{{ sumVolume }}</b>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -39,9 +51,19 @@ export default {
 			type: [Number, String],
 			required: true,
 		},
-		successColor: {
-			type: Boolean,
-			default: false,
+		type: {
+			validator(value) {
+				return ['ask', 'bid'].indexOf(value) !== -1;
+			},
+		},
+	},
+
+	computed: {
+		calculateTooltipMargin() {
+			const rowHeight = 25;
+			const rowsSelected = this.selectedIdx;
+
+			return rowsSelected * rowHeight + 'px';
 		},
 	},
 };
@@ -49,21 +71,24 @@ export default {
 
 <style scoped lang='sass'>
 .orders-tooltip
-	display: flex
-	align-items: center
-	flex-flow: column
 	position: absolute
-	top: 0
-	left: 255px
-	right: 0
-	width: 150px
-	height: 100px
+	top: 73px
+	width: 160px
+	height: 85px
 	padding: 16px 8px
 	z-index: 3
 
-.orders-success
-	background: var(--v-success-base)
+	&--bid
+		background: var(--v-success-base)
+		left: calc(100% - 12px)
+		right: 0
 
-.orders-error
-	background: var(--v-error-base)
+	&--ask
+		background: var(--v-error-base)
+		right: calc(100% - 12px)
+
+
+@media screen and (max-width: 960px)
+	.orders-tooltip
+		display: none !important
 </style>

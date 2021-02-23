@@ -29,7 +29,7 @@
 					:average-price='averagePrice'
 					:sum-size='sumSize'
 					:sum-volume='sumVolume'
-					success-color
+					type='bid'
 				/>
 
 				<div class='bid-list-table-body__item--volume'>

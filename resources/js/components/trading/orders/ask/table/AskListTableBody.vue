@@ -29,7 +29,7 @@
 					:average-price='averagePrice'
 					:sum-size='sumSize'
 					:sum-volume='sumVolume'
-					success-color
+					type='ask'
 				/>
 
 				<div class='ask-list-table-body__item--volume'>
