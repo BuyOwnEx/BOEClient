@@ -482,7 +482,7 @@ export default {
 	.trading__desktop {
 		grid-template-areas:
 			'tickers chart chart chart chart history'
-			'chat ask ask bid bid history'
+			'chat bid bid ask ask history'
 			'chat forms forms forms forms history'
 			'activity forms forms forms forms history'
 			'own-order own-order own-order own-history own-history own-history';
@@ -493,7 +493,7 @@ export default {
 	.trading__desktop {
 		grid-template-areas:
 			'tickers chart chart chart chart history'
-			'activity ask ask bid bid chat'
+			'activity bid bid ask ask chat'
 			'forms forms forms forms forms chat'
 			'forms forms forms forms forms chat'
 			'own-order own-order own-order own-history own-history own-history';
@@ -506,7 +506,7 @@ export default {
 			grid-template-columns: repeat(12, 1fr);
 			grid-template-areas:
 				'chart chart chart chart chart chart chart chart chart chart chart chart'
-				'ask ask ask ask bid bid bid bid tickers tickers tickers tickers'
+				'bid bid bid bid ask ask ask ask tickers tickers tickers tickers'
 				'forms forms forms forms forms forms forms forms history history history history'
 				'forms forms forms forms forms forms forms forms history history history history'
 				'forms forms forms forms forms forms forms forms history history history history'
