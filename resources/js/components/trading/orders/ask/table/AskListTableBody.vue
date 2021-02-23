@@ -30,7 +30,7 @@
 
 		<td>
 			<div class='ask-list-table-body__item--price'>
-				<strong class='text-success'>
+				<strong class='text-danger'>
 					{{ formatPrice(item.price) }}
 				</strong>
 			</div>
