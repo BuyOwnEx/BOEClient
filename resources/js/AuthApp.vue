@@ -22,7 +22,6 @@ import authLayout from './layouts/AuthLayout';
 export default {
 	name: 'AuthApp',
 	components: {
-
 		authLayout,
 	},
 	data: () => ({

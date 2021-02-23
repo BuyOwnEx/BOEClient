@@ -287,7 +287,7 @@ export default {
 					this.selectedMarket.toUpperCase() +
 					'/' +
 					this.selectedCurrency.toUpperCase(),
-					'/trader/trading/' +
+					'/trading/' +
 					this.selectedMarket.toUpperCase() +
 					'/' +
 					this.selectedCurrency.toUpperCase(),

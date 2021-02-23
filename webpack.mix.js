@@ -54,6 +54,7 @@ if (mix.inProduction()) {
 */
 mix.js('resources/js/app.js', 'public/dist/js')
     .js('resources/js/trading.js', 'public/dist/js')
+  .js('resources/js/overview.js', 'public/dist/js')
     .js('resources/js/auth.js', 'public/dist/js')
     .js('resources/js/plugins/hero-canvas.js', 'public/dist/js').vue()
   .sass('resources/sass/app.scss', 'public/dist/css')

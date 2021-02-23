@@ -53,8 +53,10 @@ export default {
 					window.location.href = '/';
 				},
 			});
+			console.log('im here');
 			if (this.isAuth) {
 				this.subscribePublic();
+
 				this.$store.dispatch('user/getTraderTokenFromServer').then(resp => {
 					this.centrifuge.setToken(resp.token);
 					this.centrifuge.on('publish', this.privatePubHandler);
