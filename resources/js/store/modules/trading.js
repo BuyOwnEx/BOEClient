@@ -56,7 +56,10 @@ export default {
 			}
 
 			let ticker = _.find(tickersList, item => {
-				return item.market.toLowerCase() === selectedMarket.toLowerCase() && item.currency.toLowerCase() === selectedCurrency.toLowerCase();
+				return (
+					item.market.toLowerCase() === selectedMarket.toLowerCase() &&
+					item.currency.toLowerCase() === selectedCurrency.toLowerCase()
+				);
 			});
 			return ticker === undefined ? null : ticker;
 		},
@@ -130,7 +133,10 @@ export default {
 		setGraphData(state, payload) {
 			state.candlesData = payload.candlesData;
 			state.volumeData = payload.volumeData;
-			payload.vm.vm.$eventHub.$emit('initGraphData', { xData: payload.candlesData, yData: payload.volumeData });
+			payload.vm.vm.$eventHub.$emit('initGraphData', {
+				xData: payload.candlesData,
+				yData: payload.volumeData,
+			});
 		},
 	},
 	actions: {
@@ -142,26 +148,35 @@ export default {
 						market: this.state.trading.selectedMarket,
 					},
 				};
-				axios.get('/trader/ext/depth', queryParams).then((response) => {
-					commit('setAskList', response.data.asks_list);
-					commit('setBidList', response.data.bids_list);
-					commit('setAskAmountDepth', response.data.asks_amount);
-					commit('setBidAmountDepth', response.data.bids_amount);
-					commit('setAskVolumeDepth', response.data.asks_vol);
-					commit('setBidVolumeDepth', response.data.bids_vol);
-					if (response.data.asks_list.length !== 0) {
-						commit('setBestAsk', response.data.asks_list[0].price);
-					}
-					if (response.data.bids_list.length !== 0) {
-						commit('setBestBid', response.data.bids_list[0].price);
-					}
-					commit('setOrderBookInit', true);
-					console.log('Order book ' + this.state.trading.selectedCurrency + '_' + this.state.trading.selectedMarket + ' was getting from API');
-					resolve(response.data);
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
+				axios
+					.get('/trader/ext/depth', queryParams)
+					.then(response => {
+						commit('setAskList', response.data.asks_list);
+						commit('setBidList', response.data.bids_list);
+						commit('setAskAmountDepth', response.data.asks_amount);
+						commit('setBidAmountDepth', response.data.bids_amount);
+						commit('setAskVolumeDepth', response.data.asks_vol);
+						commit('setBidVolumeDepth', response.data.bids_vol);
+						if (response.data.asks_list.length !== 0) {
+							commit('setBestAsk', response.data.asks_list[0].price);
+						}
+						if (response.data.bids_list.length !== 0) {
+							commit('setBestBid', response.data.bids_list[0].price);
+						}
+						commit('setOrderBookInit', true);
+						console.log(
+							'Order book ' +
+							this.state.trading.selectedCurrency +
+							'_' +
+							this.state.trading.selectedMarket +
+							' was getting from API',
+						);
+						resolve(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
 			});
 		},
 		getHistoryDealListFromServer({ commit }) {
@@ -172,15 +187,24 @@ export default {
 						market: this.state.trading.selectedMarket,
 					},
 				};
-				axios.get('/trader/ext/history/deals', queryParams).then((response) => {
-					commit('setHistoryDealList', response.data.data);
-					commit('setHistoryDealListInit', true);
-					console.log('History deal list ' + this.state.trading.selectedCurrency + '_' + this.state.trading.selectedMarket + ' was getting from API');
-					resolve(response.data);
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
+				axios
+					.get('/trader/ext/history/deals', queryParams)
+					.then(response => {
+						commit('setHistoryDealList', response.data.data);
+						commit('setHistoryDealListInit', true);
+						console.log(
+							'History deal list ' +
+							this.state.trading.selectedCurrency +
+							'_' +
+							this.state.trading.selectedMarket +
+							' was getting from API',
+						);
+						resolve(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
 			});
 		},
 		getGraphFromServer({ commit }, vm) {
@@ -192,38 +216,57 @@ export default {
 						range: this.state.trading.selectedPeriod,
 					},
 				};
-				axios.get('/trader/ext/graph', queryParams).then((response) => {
-					let ohlc = [];
-					let volumes = [];
+				axios
+					.get('/trader/ext/graph', queryParams)
+					.then(response => {
+						let ohlc = [];
+						let volumes = [];
 
-					for (let i = 0; i < response.data.count; i++) {
-						ohlc.push({
-							x: parseInt(response.data.data[i].x),
-							open: BigNumber(response.data.data[i].open).toNumber(),
-							high: BigNumber(response.data.data[i].high).toNumber(),
-							low: BigNumber(response.data.data[i].low).toNumber(),
-							close: BigNumber(response.data.data[i].close).toNumber(),
+						for (let i = 0; i < response.data.count; i++) {
+							ohlc.push({
+								x: parseInt(response.data.data[i].x),
+								open: BigNumber(response.data.data[i].open).toNumber(),
+								high: BigNumber(response.data.data[i].high).toNumber(),
+								low: BigNumber(response.data.data[i].low).toNumber(),
+								close: BigNumber(response.data.data[i].close).toNumber(),
+							});
+							volumes.push({
+								x: parseInt(response.data.data[i].x),
+								y: BigNumber(response.data.data[i].volume).toNumber(),
+							});
+						}
+						ohlc = ohlc.sort((a, b) => {
+							return a.x - b.x;
 						});
-						volumes.push({
-							x: parseInt(response.data.data[i].x),
-							y: BigNumber(response.data.data[i].volume).toNumber(),
+						volumes = volumes.sort((a, b) => {
+							return a.x - b.x;
 						});
-					}
-					ohlc = ohlc.sort((a, b) => {
-						return a.x - b.x;
+						console.log(
+							'Last timestamp OHLC from API: ' + ohlc[ohlc.length - 1].x,
+						);
+						console.log(
+							'Last timestamp VOLUME from API: ' + volumes[volumes.length - 1].x,
+						);
+						commit('setGraphData', {
+							candlesData: ohlc,
+							volumeData: volumes,
+							vm: vm,
+						});
+						console.log(
+							'Graph data for ' +
+							this.state.trading.selectedCurrency +
+							'_' +
+							this.state.trading.selectedMarket +
+							' for period ' +
+							this.state.trading.selectedPeriod +
+							' was getting from API',
+						);
+						resolve({ candlesData: ohlc, volumeData: volumes });
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
 					});
-					volumes = volumes.sort((a, b) => {
-						return a.x - b.x;
-					});
-					console.log('Last timestamp OHLC from API: ' + ohlc[ohlc.length - 1].x);
-					console.log('Last timestamp VOLUME from API: ' + volumes[volumes.length - 1].x);
-					commit('setGraphData', { candlesData: ohlc, volumeData: volumes, vm: vm });
-					console.log('Graph data for ' + this.state.trading.selectedCurrency + '_' + this.state.trading.selectedMarket + ' for period ' + this.state.trading.selectedPeriod + ' was getting from API');
-					resolve({ candlesData: ohlc, volumeData: volumes });
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
 			});
 		},
 	},
