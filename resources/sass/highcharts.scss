@@ -85,8 +85,8 @@
 				height: 100%;
 				cursor: pointer;
 				position: absolute;
-				bottom: 0px;
-				right: 0px;
+				bottom: 0;
+				right: 0;
 			}
 		}
 	}
@@ -543,7 +543,7 @@ li.highcharts-active
 			overflow-x: hidden;
 			height: calc(100% - 140px);
 			border: none;
-			padding: 0px 20px 20px 20px;
+			padding: 0 20px 20px 20px;
 
 			+ .highcharts-popup-bottom-row {
 				width: calc(100% - 32px);
@@ -567,15 +567,15 @@ li.highcharts-active
 			overflow-x: hidden;
 
 			h3 {
-				margin-top: 0px;
-				padding-bottom: 0px;
+				margin-top: 0;
+				padding-bottom: 0;
 			}
 		}
 	}
 
 	&-bottom-row {
 		float: left;
-		padding: 0px 20px;
+		padding: 0 20px;
 		width: calc(100% - 40px);
 	}
 }
@@ -699,8 +699,8 @@ li.highcharts-active
 	width: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 //.highcharts-indicator-list li {
@@ -765,8 +765,8 @@ li.highcharts-active
 		cursor: pointer;
 		position: absolute;
 		padding: 10px;
-		top: 0%;
-		right: 0%;
+		top: 0;
+		right: 0;
 		color: #333333;
 	}
 }
@@ -854,8 +854,8 @@ li.highcharts-active
 
 .highcharts-popup .highcharts-popup-main-title {
 	border-bottom: 1px solid #e6e6e6;
-	margin: 0px 0px 20px 0px;
-	padding: 8px 0px 6px 20px;
+	margin: 0 0 20px 0;
+	padding: 8px 0 6px 20px;
 }
 
 .highcharts-indicator-title {
