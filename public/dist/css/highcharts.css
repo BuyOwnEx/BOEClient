@@ -7,34 +7,42 @@
     display: none;
   }
 }
+.chart {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  float: left;
+}
+
 .chart:-webkit-full-screen {
   width: 100%;
   height: 100%;
 }
-
 .chart:-ms-fullscreen {
   width: 100%;
   height: 100%;
 }
-
 .chart:fullscreen {
   width: 100%;
   height: 100%;
-}
-
-.chart {
-  width: 100%;
-  float: left;
-  height: 400px;
-  position: relative;
 }
 
 .highcharts-draw-mode {
   cursor: crosshair;
 }
 
-.highcharts-bindings-wrapper * {
-  box-sizing: content-box;
+.highcharts-stocktools-popup {
+  width: 100%;
+}
+
+.highcharts-menu-wrapper {
+  float: left;
+  height: calc(100% - 50px);
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 10px;
 }
 
 .highcharts-bindings-wrapper {
@@ -45,29 +53,28 @@
   z-index: 10;
 }
 
-.highcharts-stocktools-popup {
-  width: 100%;
-}
-
-.highcharts-menu-wrapper {
-  float: left;
-  width: 40px;
-  height: calc(100% - 50px);
-  overflow: hidden;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  padding: 10px;
-}
-
 .highcharts-bindings-wrapper .highcharts-submenu-wrapper {
   display: none;
   position: absolute;
   z-index: 10;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   background: #fff;
   width: 40px;
+}
+
+.highcharts-bindings-wrapper .highcharts-submenu-wrapper li > span.highcharts-menu-item-btn {
+  width: 40px;
+}
+
+.highcharts-bindings-wrapper .highcharts-submenu-wrapper li > span.highcharts-submenu-item-arrow {
+  float: left;
+  width: 10px;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }
 
 .highcharts-bindings-wrapper .highcharts-arrow-wrapper {
@@ -82,23 +89,16 @@
 .highcharts-bindings-wrapper .highcharts-arrow-wrapper > div {
   cursor: pointer;
 }
-
 .highcharts-bindings-wrapper .highcharts-arrow-down {
   background-image: url("/images/highcharts/arrow-right.svg");
   background-size: cover;
-  /* Safari */
   -webkit-transform: rotate(90deg);
-  /* Firefox */
   -moz-transform: rotate(90deg);
-  /* IE */
   -ms-transform: rotate(90deg);
-  /* Opera */
   -o-transform: rotate(90deg);
-  /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   transform: rotate(90deg);
 }
-
 .highcharts-bindings-wrapper .highcharts-arrow-up {
   background-image: url("/images/highcharts/arrow-right.svg");
   background-size: cover;
@@ -107,79 +107,55 @@
   width: 25px;
   cursor: pointer;
   -webkit-user-select: none;
-  /* Chrome/Safari */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* IE10+ */
-  /* Rules below not implemented in browsers yet */
   -o-user-select: none;
   user-select: none;
-  /* Safari */
   -webkit-transform: rotate(-90deg);
-  /* Firefox */
   -moz-transform: rotate(-90deg);
-  /* IE */
   -ms-transform: rotate(-90deg);
-  /* Opera */
   -o-transform: rotate(-90deg);
-  /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   transform: rotate(-90deg);
 }
-
 .highcharts-bindings-wrapper .highcharts-arrow-right {
   background: url("/images/highcharts/arrow-bottom.svg") no-repeat right bottom;
   background-size: contain;
 }
-
 .highcharts-bindings-wrapper .highcharts-arrow-left.highcharts-arrow-right {
-  /* Safari */
   -webkit-transform: rotate(0deg);
-  /* Firefox */
   -moz-transform: rotate(0deg);
-  /* IE */
   -ms-transform: rotate(0deg);
-  /* Opera */
   -o-transform: rotate(0deg);
-  /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   transform: rotate(0deg);
 }
-
 .highcharts-bindings-wrapper .highcharts-arrow-left {
   background-image: url("/images/highcharts/arrow-right.svg");
-  /* Safari */
   -webkit-transform: rotate(180deg);
-  /* Firefox */
   -moz-transform: rotate(180deg);
-  /* IE */
   -ms-transform: rotate(180deg);
-  /* Opera */
   -o-transform: rotate(180deg);
-  /* Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   transform: rotate(180deg);
 }
-
 .highcharts-bindings-wrapper ul {
   width: 40px;
   /* 30px spacing for arrows to scroll */
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   float: left;
   transition: margin 250ms;
 }
-
 .highcharts-bindings-wrapper > ul {
   width: 40px;
   position: relative;
+  background: green !important;
 }
-
 .highcharts-bindings-wrapper .highcharts-stocktools-toolbar li {
   list-style: none;
   margin-bottom: 3px;
-  padding: 0px;
+  padding: 0;
   clear: both;
   width: 100%;
   height: 40px;
@@ -187,11 +163,9 @@
   position: relative;
   background-color: #f7f7f7;
 }
-
 .highcharts-bindings-wrapper .highcharts-stocktools-toolbar li.highcharts-disabled-btn {
   cursor: default;
 }
-
 .highcharts-bindings-wrapper .highcharts-stocktools-toolbar li.highcharts-disabled-btn > .highcharts-menu-item-btn {
   opacity: 0.5;
 }
@@ -200,31 +174,13 @@
   background: #f7f7f7;
 }
 
-.highcharts-bindings-wrapper .highcharts-stocktools-toolbar li.highcharts-disabled-btn .highcharts-menu-item-btn:hover {
-  background-color: transparent;
-}
-
-.highcharts-bindings-wrapper li > span.highcharts-menu-item-btn {
+.highcharts-bindings-wrapper .highcharts-stocktools-toolbar li > span.highcharts-menu-item-btn {
   display: block;
   float: left;
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
   background-position: 50% 50%;
-}
-
-.highcharts-submenu-wrapper li > span.highcharts-menu-item-btn {
-  width: 40px;
-}
-
-.highcharts-bindings-wrapper li > span.highcharts-submenu-item-arrow {
-  float: left;
-  width: 10px;
-  height: 100%;
-  cursor: pointer;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
 }
 
 .highcharts-bindings-wrapper li.highcharts-separator {
@@ -234,7 +190,7 @@
   pointer-events: none;
 }
 
-.highcharts-bindings-wrapper li.highcharts-separator > span.highcharts-menu-item-btn {
+.highcharts-bindings-wrapper li > span.highcharts-menu-item-btn {
   width: 100%;
 }
 
@@ -261,33 +217,16 @@
   display: none;
 }
 
-.highcharts-bindings-wrapper li:hover, .highcharts-submenu-item-arrow:hover {
+.highcharts-bindings-wrapper li:hover,
+.highcharts-submenu-item-arrow:hover {
   background-color: #e6ebf5;
 }
 
-.highcharts-bindings-wrapper .highcharts-arrow-down, .highcharts-bindings-wrapper .highcharts-arrow-up {
+.highcharts-bindings-wrapper .highcharts-arrow-down,
+.highcharts-bindings-wrapper .highcharts-arrow-up {
   width: 50%;
   height: 20px;
   float: left;
-}
-
-.highcharts-popup.highcharts-annotation-toolbar {
-  right: 10%;
-  left: auto;
-  height: 40px;
-  padding-right: 40px;
-  width: auto;
-  min-width: 0;
-}
-
-.highcharts-popup.highcharts-annotation-toolbar button {
-  margin-top: 0px;
-}
-
-.highcharts-popup.highcharts-annotation-toolbar > span {
-  display: block;
-  float: left;
-  padding: 12px;
 }
 
 .highcharts-popup {
@@ -305,31 +244,67 @@
   max-width: 600px;
   position: absolute;
   z-index: 100;
-  box-shadow: 0px 0px 8px 0px rgba(61, 61, 61, 0.3);
+  box-shadow: 0 0 8px 0 rgba(61, 61, 61, 0.3);
 }
 
-.highcharts-popup div, .highcharts-popup span {
+.highcharts-popup.highcharts-annotation-toolbar {
+  right: 10%;
+  left: auto;
+  height: 40px;
+  padding-right: 40px;
+  width: auto;
+  min-width: 0;
+}
+
+.highcharts-popup.highcharts-annotation-toolbar button {
+  margin-top: 0;
+}
+
+.highcharts-popup.highcharts-annotation-toolbar > span {
+  display: block;
+  float: left;
+  padding: 12px;
+}
+
+.highcharts-popup div {
   box-sizing: content-box;
 }
 
-.highcharts-popup input, .highcharts-popup label, .highcharts-popup select {
+.highcharts-popup span {
+  box-sizing: content-box;
+}
+
+.highcharts-popup input {
+  clear: both;
+  float: left;
+  margin-bottom: 10px;
+  border: 1px solid #e6e6e6;
+  padding: 5px;
+  width: calc(100% - 12px);
+}
+
+.highcharts-popup label {
   clear: both;
   float: left;
   width: 100%;
   margin-bottom: 10px;
 }
 
-.highcharts-popup input {
-  border: 1px solid #e6e6e6;
-  padding: 5px;
-  width: calc(100% - 12px);
+.highcharts-popup select {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.highcharts-popup-lhs-col, .highcharts-popup-rhs-col {
+.highcharts-popup-lhs-col {
   padding: 20px;
   height: calc(100% - 84px);
   /* 44px - padding, 40px - tabs*/
   float: left;
+  clear: both;
+  width: calc(30% - 44px);
+  border-right: 1px solid #e6e6e6;
 }
 
 .highcharts-popup-lhs-col.highcharts-popup-lhs-full {
@@ -345,19 +320,11 @@
   width: calc(100% - 32px);
 }
 
-.highcharts-popup-lhs-col {
-  clear: both;
-  width: calc(30% - 44px);
-  border-right: 1px solid #e6e6e6;
-}
-
-.highcharts-popup-bottom-row {
-  float: left;
-  padding: 0px 20px;
-  width: calc(100% - 40px);
-}
-
 .highcharts-popup-rhs-col {
+  padding: 20px;
+  height: calc(100% - 84px);
+  /* 44px - padding, 40px - tabs*/
+  float: left;
   width: calc(70% - 40px);
 }
 
@@ -373,6 +340,12 @@
 .highcharts-popup-rhs-col-wrapper h3 {
   margin-top: 0px;
   padding-bottom: 0px;
+}
+
+.highcharts-popup-bottom-row {
+  float: left;
+  padding: 0px 20px;
+  width: calc(100% - 40px);
 }
 
 .highcharts-bindings-wrapper ul.highcharts-indicator-list,
@@ -396,7 +369,6 @@
   overflow: hidden;
   word-break: break-all;
 }
-
 .highcharts-indicator-list li:hover {
   background-color: #e6ebf5;
 }
@@ -409,11 +381,9 @@
   padding: 10px;
   height: 20px;
 }
-
 .highcharts-tab-item.highcharts-tab-item-active {
   background-color: #e6ebf5;
 }
-
 .highcharts-tab-item-content {
   display: none;
   float: left;
@@ -427,7 +397,7 @@
   display: block;
 }
 
-.highcharts-popup-close {
+.highcharts-tab-item-close {
   background: url("/images/highcharts/close.svg") no-repeat 50% 50%;
   width: 20px;
   height: 20px;

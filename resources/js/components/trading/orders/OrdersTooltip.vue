@@ -8,10 +8,9 @@
 			'orders-error': !successColor,
 		}"
 	>
-		<div>index - {{ selectedIdx }}</div>
-		<div>avgPrice - {{ averagePrice }}</div>
-		<div>sumSize - {{ sumSize }}</div>
-		<div>sumVolume - {{ sumVolume }}</div>
+		<div>Average Price - {{ averagePrice }}</div>
+		<div>Total Size - {{ sumSize }}</div>
+		<div>Total Volume - {{ sumVolume }}</div>
 	</div>
 </template>
 
@@ -50,9 +49,12 @@ export default {
 
 <style scoped lang='sass'>
 .orders-tooltip
+	display: flex
+	align-items: center
+	flex-flow: column
 	position: absolute
-	top: 24px
-	left: 0
+	top: 0
+	left: 255px
 	right: 0
 	width: 150px
 	height: 100px

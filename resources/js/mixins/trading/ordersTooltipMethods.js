@@ -16,7 +16,7 @@ export default {
 
 		selectedItemHoverHandler(item) {
 			this.setSelectedItemIndex(item);
-			this.setDataForMenu();
+			this.setDataForTooltip();
 		},
 
 		setSelectedItemIndex(item) {
@@ -27,7 +27,7 @@ export default {
 		clearSelectedItemIndex() {
 			this.selectedItemIndex = -1;
 		},
-		setDataForMenu() {
+		setDataForTooltip() {
 			let averagePrice = 0;
 			let sumSize = 0;
 			let sumVolume = 0;
