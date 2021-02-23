@@ -6,7 +6,7 @@
 		fixed-header
 	>
 		<template v-slot:default>
-			<OrdersTableHeader :currency='currency' :market='market' />
+			<AskListTableHeader :currency='currency' :market='market' />
 			<AskListTableBody
 				:ask-data='askData'
 				:amount-depth='amountDepth'
@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import OrdersTableHeader from '../../OrdersTableHeader';
 import AskListTableBody from './AskListTableBody';
+import AskListTableHeader from './AskListTableHeader';
 
 export default {
 	name: 'AskListTableWrapper',
 
-	components: { AskListTableBody, OrdersTableHeader },
+	components: { AskListTableHeader, AskListTableBody },
 
 	props: {
 		currency: {

@@ -1,13 +1,13 @@
 <template>
 	<div
-		v-if='idx === selectedIdx'
+		v-if='itemIndex === rowIndex'
 		class='orders-tooltip'
 		:class="{
 			'orders-tooltip--bid': type === 'bid',
 			'orders-tooltip--ask': type === 'ask',
-			'd-none': idx !== selectedIdx,
+			'd-none': itemIndex !== rowIndex,
 		}"
-		:style="{ 'margin-top': calculateTooltipMargin }"
+		:style="{ 'margin-top': calculateMargin }"
 	>
 		<div class='orders-tooltip__content'>
 			<div class='d-flex'>
@@ -31,11 +31,11 @@ export default {
 	name: 'OrdersTooltip',
 
 	props: {
-		idx: {
+		itemIndex: {
 			type: Number,
 			required: true,
 		},
-		selectedIdx: {
+		rowIndex: {
 			type: Number,
 			required: true,
 		},
@@ -59,9 +59,9 @@ export default {
 	},
 
 	computed: {
-		calculateTooltipMargin() {
+		calculateMargin() {
 			const rowHeight = 25;
-			const rowsSelected = this.selectedIdx;
+			const rowsSelected = this.rowIndex;
 
 			return rowsSelected * rowHeight + 'px';
 		},

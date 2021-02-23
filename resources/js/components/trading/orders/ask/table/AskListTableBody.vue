@@ -1,9 +1,9 @@
 <template>
 	<tbody v-if='askData' class='ask-list-table-body'>
 	<tr
-		v-for='(item, idx) in askData'
+		v-for='(item, itemIndex) in askData'
 		class='ask-list-table-body__row'
-		:class="{ 'orders-active-row': isAboveThanHoverElement(idx) }"
+		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex) }"
 		@mouseover='selectedItemHoverHandler(item)'
 		@mouseout='clearSelectedItemIndex'
 	>
@@ -24,11 +24,18 @@
 		<td>
 			<div class='ask-list-table-body__tooltip-wrapper'>
 				<OrdersTooltip
-					:idx='idx'
-					:selected-idx='selectedItemIndex'
+					:item-index='itemIndex'
+					:row-index='selectedItemIndex'
 					:average-price='averagePrice'
 					:sum-size='sumSize'
 					:sum-volume='sumVolume'
+					type='ask'
+				/>
+
+				<OrdersWall
+					:item-index='itemIndex'
+					:volume='calculateVolume(item.price, item.actualSize)'
+					:total-volume='1000'
 					type='ask'
 				/>
 
@@ -43,10 +50,10 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import OrdersTooltip from '../../OrdersTooltip';
+import OrdersWall from '../../OrdersWall';
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';
@@ -57,7 +64,7 @@ export default {
 
 	mixins: [formatPrice, formatSize, ordersTooltipMethods],
 
-	components: { OrdersTooltip },
+	components: { OrdersTooltip, OrdersWall },
 
 	props: {
 		askData: {
@@ -98,7 +105,6 @@ export default {
 <style scoped lang='sass'>
 .ask-list-table-body
 	&__row
-		//position: relative
 		cursor: default !important
 
 		&:hover

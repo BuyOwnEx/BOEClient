@@ -1,9 +1,9 @@
 <template>
 	<tbody v-if='bidData' class='bid-list-table-body'>
 	<tr
-		v-for='(item, idx) in bidData'
+		v-for='(item, itemIndex) in bidData'
 		class='bid-list-table-body__row'
-		:class="{ 'orders-active-row': isAboveThanHoverElement(idx) }"
+		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex) }"
 		@mouseover='selectedItemHoverHandler(item)'
 		@mouseout='clearSelectedItemIndex'
 	>
@@ -24,11 +24,18 @@
 		<td>
 			<div class='bid-list-table-body__tooltip-volume-wrapper'>
 				<OrdersTooltip
-					:idx='idx'
-					:selected-idx='selectedItemIndex'
+					:item-index='itemIndex'
+					:row-index='selectedItemIndex'
 					:average-price='averagePrice'
 					:sum-size='sumSize'
 					:sum-volume='sumVolume'
+					type='bid'
+				/>
+
+				<OrdersWall
+					:item-index='itemIndex'
+					:volume='calculateVolume(item.price, item.actualSize)'
+					:total-volume='1000'
 					type='bid'
 				/>
 
@@ -43,10 +50,10 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import OrdersTooltip from '../../OrdersTooltip';
+import OrdersWall from '../../OrdersWall';
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';
@@ -57,7 +64,7 @@ export default {
 
 	mixins: [formatPrice, formatSize, ordersTooltipMethods],
 
-	components: { OrdersTooltip },
+	components: { OrdersTooltip, OrdersWall },
 
 	props: {
 		bidData: {
@@ -98,7 +105,6 @@ export default {
 <style scoped lang='sass'>
 .bid-list-table-body
 	&__row
-		//position: relative
 		cursor: default !important
 
 		&:hover

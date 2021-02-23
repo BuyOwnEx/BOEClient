@@ -6,7 +6,7 @@
 		fixed-header
 	>
 		<template v-slot:default>
-			<OrdersTableHeader :currency='currency' :market='market' />
+			<BidListTableHeader :currency='currency' :market='market' />
 			<BidListTableBody
 				:bid-data='bidData'
 				:amount-depth='amountDepth'
@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import OrdersTableHeader from '../../OrdersTableHeader';
 import BidListTableBody from './BidListTableBody';
+import BidListTableHeader from './BidListTableHeader';
 
 export default {
 	name: 'BidListTableWrapper',
 
-	components: { BidListTableBody, OrdersTableHeader },
+	components: { BidListTableHeader, BidListTableBody },
 
 	props: {
 		currency: {
