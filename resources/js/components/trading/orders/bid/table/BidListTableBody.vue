@@ -1,11 +1,11 @@
 <template>
-	<tbody v-if='bidData' class='bid-list-table-body'>
+	<tbody v-if='ordersData' class='bid-list-table-body'>
 	<tr
-		v-for='(item, itemIndex) in bidData'
+		v-for='(item, itemIndex) in ordersData'
 		class='bid-list-table-body__row'
 		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex) }"
-		@mouseover='selectedItemHoverHandler(item)'
-		@mouseout='clearSelectedItemIndex'
+		@mouseover='selectItemHover(item)'
+		@mouseout='clearSelectedRowIndex'
 	>
 		<td>
 			<div class='bid-list-table-body__item--price'>
@@ -23,15 +23,6 @@
 
 		<td>
 			<div class='bid-list-table-body__tooltip-volume-wrapper'>
-				<OrdersTooltip
-					:item-index='itemIndex'
-					:row-index='selectedItemIndex'
-					:average-price='averagePrice'
-					:sum-size='sumSize'
-					:sum-volume='sumVolume'
-					type='bid'
-				/>
-
 				<OrdersWall
 					:item-index='itemIndex'
 					:volume='calculateVolume(item.price, item.actualSize)'
@@ -39,7 +30,7 @@
 					type='bid'
 				/>
 
-				<div class='bid-list-table-body__item--volume'>
+				<div class='bid-list-table-body__item--volume text-right'>
 					<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 				</div>
 			</div>
@@ -49,25 +40,26 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 import BigNumber from 'bignumber.js';
+
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import OrdersTooltip from '../../OrdersTooltip';
 import OrdersWall from '../../OrdersWall';
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';
-import ordersTooltipMethods from '../../../../../mixins/trading/ordersTooltipMethods';
 
 export default {
 	name: 'BidListTableBody',
 
-	mixins: [formatPrice, formatSize, ordersTooltipMethods],
+	mixins: [formatPrice, formatSize],
 
-	components: { OrdersTooltip, OrdersWall },
+	components: { OrdersWall },
 
 	props: {
-		bidData: {
+		ordersData: {
 			type: Array,
 			required: true,
 		},
@@ -85,7 +77,18 @@ export default {
 		},
 	},
 
+	computed: {
+		...mapGetters({
+			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
+		}),
+	},
+
 	methods: {
+		...mapActions({
+			selectedItemHoverHandler: 'tooltip/selectedItemHoverHandler',
+			clearSelectedRowIndex: 'tooltip/clearSelectedRowIndex',
+		}),
+
 		calculateVolume(price, actualSize) {
 			return BigNumber(price)
 				.times(BigNumber(actualSize))
@@ -97,6 +100,15 @@ export default {
 				.div(BigNumber(this.volumeDepth))
 				.dp(2)
 				.toString();
+		},
+
+		selectItemHover(item) {
+			const payload = {
+				item,
+				type: 'bid',
+				ordersData: this.ordersData,
+			};
+			this.selectedItemHoverHandler(payload);
 		},
 	},
 };

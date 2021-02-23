@@ -1,20 +1,22 @@
 <template>
-	<v-simple-table
-		class='ask-list__content__table'
-		:height='calculateTableHeight'
-		dense
-		fixed-header
-	>
-		<template v-slot:default>
-			<AskListTableHeader :currency='currency' :market='market' />
-			<AskListTableBody
-				:ask-data='askData'
-				:amount-depth='amountDepth'
-				:volume-depth='volumeDepth'
-				:best='best'
-			/>
-		</template>
-	</v-simple-table>
+	<div class='ask-list-table-absolute-wrapper'>
+		<v-simple-table
+			class='ask-list__content__table'
+			:height='calculateTableHeight'
+			dense
+			fixed-header
+		>
+			<template v-slot:default>
+				<AskListTableHeader :currency='currency' :market='market' />
+				<AskListTableBody
+					:orders-data='ordersData'
+					:amount-depth='amountDepth'
+					:volume-depth='volumeDepth'
+					:best='best'
+				/>
+			</template>
+		</v-simple-table>
+	</div>
 </template>
 
 <script>
@@ -35,7 +37,7 @@ export default {
 			type: String,
 			required: true,
 		},
-		askData: {
+		ordersData: {
 			type: Array,
 			required: true,
 		},
@@ -71,4 +73,11 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'></style>
+<style scoped lang='sass'>
+.ask-list-table-absolute-wrapper
+	position: absolute
+	top: 0
+	right: 0
+	left: 0
+	overflow: hidden
+</style>

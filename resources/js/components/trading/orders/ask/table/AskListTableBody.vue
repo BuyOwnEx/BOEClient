@@ -1,17 +1,24 @@
 <template>
-	<tbody v-if='askData' class='ask-list-table-body'>
+	<tbody v-if='ordersData' class='ask-list-table-body'>
 	<tr
-		v-for='(item, itemIndex) in askData'
+		v-for='(item, itemIndex) in ordersData'
 		class='ask-list-table-body__row'
 		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex) }"
-		@mouseover='selectedItemHoverHandler(item)'
-		@mouseout='clearSelectedItemIndex'
+		@mouseover='selectItemHover(item)'
+		@mouseout='clearSelectedRowIndex'
 	>
 		<td>
-			<div class='ask-list-table-body__item--price'>
-				<strong class='text-error'>
-					{{ formatPrice(item.price) }}
-				</strong>
+			<div class='ask-list-table-body__tooltip-volume-wrapper'>
+				<OrdersWall
+					:item-index='itemIndex'
+					:volume='calculateVolume(item.price, item.actualSize)'
+					:total-volume='1000'
+					type='ask'
+				/>
+
+				<div class='ask-list-table-body__item--volume text-right'>
+					<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+				</div>
 			</div>
 		</td>
 
@@ -22,26 +29,10 @@
 		</td>
 
 		<td>
-			<div class='ask-list-table-body__tooltip-wrapper'>
-				<OrdersTooltip
-					:item-index='itemIndex'
-					:row-index='selectedItemIndex'
-					:average-price='averagePrice'
-					:sum-size='sumSize'
-					:sum-volume='sumVolume'
-					type='ask'
-				/>
-
-				<OrdersWall
-					:item-index='itemIndex'
-					:volume='calculateVolume(item.price, item.actualSize)'
-					:total-volume='1000'
-					type='ask'
-				/>
-
-				<div class='ask-list-table-body__item--volume'>
-					<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
-				</div>
+			<div class='ask-list-table-body__item--price'>
+				<strong class='text-success'>
+					{{ formatPrice(item.price) }}
+				</strong>
 			</div>
 		</td>
 	</tr>
@@ -49,25 +40,26 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 import BigNumber from 'bignumber.js';
+
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import OrdersTooltip from '../../OrdersTooltip';
 import OrdersWall from '../../OrdersWall';
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';
-import ordersTooltipMethods from '../../../../../mixins/trading/ordersTooltipMethods';
 
 export default {
 	name: 'AskListTableBody',
 
-	mixins: [formatPrice, formatSize, ordersTooltipMethods],
+	mixins: [formatPrice, formatSize],
 
-	components: { OrdersTooltip, OrdersWall },
+	components: { OrdersWall },
 
 	props: {
-		askData: {
+		ordersData: {
 			type: Array,
 			required: true,
 		},
@@ -85,7 +77,18 @@ export default {
 		},
 	},
 
+	computed: {
+		...mapGetters({
+			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
+		}),
+	},
+
 	methods: {
+		...mapActions({
+			selectedItemHoverHandler: 'tooltip/selectedItemHoverHandler',
+			clearSelectedRowIndex: 'tooltip/clearSelectedRowIndex',
+		}),
+
 		calculateVolume(price, actualSize) {
 			return BigNumber(price)
 				.times(BigNumber(actualSize))
@@ -97,6 +100,15 @@ export default {
 				.div(BigNumber(this.volumeDepth))
 				.dp(2)
 				.toString();
+		},
+
+		selectItemHover(item) {
+			const payload = {
+				item,
+				type: 'ash',
+				ordersData: this.ordersData,
+			};
+			this.selectedItemHoverHandler(payload);
 		},
 	},
 };

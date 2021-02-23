@@ -16,7 +16,7 @@
 		</th>
 
 		<th>
-			<div class='bid-table-header__item--total'>
+			<div class='bid-table-header__item--total text-right'>
 				{{ $t('trading.volume') }}
 			</div>
 		</th>

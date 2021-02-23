@@ -1,7 +1,6 @@
 <template>
 	<thead class='ask-table-header'>
 	<tr>
-
 		<th>
 			<div class='ask-table-header__item--total'>
 				{{ $t('trading.volume') }}
@@ -16,7 +15,7 @@
 		</th>
 
 		<th>
-			<div class='ask-table-header__item--price'>
+			<div class='ask-table-header__item--price text-right'>
 				<span>{{ $t('trading.rate') }}</span>
 				<span>({{ market }})</span>
 			</div>

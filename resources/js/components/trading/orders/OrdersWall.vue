@@ -48,10 +48,10 @@ export default {
 		},
 		calculateLength() {
 			if (this.type === 'bid') {
-				return '50%';
+				return '90%';
 				// return this.volume / this.totalVolume + '%';
 			} else if (this.type === 'ask') {
-				return '50%';
+				return '90%';
 				// return this.volume / this.totalVolume + '%';
 			}
 		},
@@ -62,17 +62,17 @@ export default {
 <style scoped lang='sass'>
 .orders-wall-main
 	position: absolute
-	top: 73px
+	top: 32px
 	bottom: 0
 	height: 25px
 
 .orders-wall--bid
 	@extend .orders-wall-main
 	background: rgba(146, 245, 150, 0.2)
-	right: 12px
+	right: 4px
 
 .orders-wall--ask
 	@extend .orders-wall-main
 	background: rgba(245, 146, 146, 0.2)
-	left: 12px
+	left: 4px
 </style>

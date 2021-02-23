@@ -7,13 +7,15 @@
 		<CommonProgressCircular v-if='!askList || isLoading' />
 		<v-card-text v-else class='ask-list__content pa-0'>
 			<AskListTableWrapper
-				:askData='askList'
+				:orders-data='askList'
 				:amount-depth='askAmountDepth'
 				:volume-depth='askVolumeDepth'
 				:best='bestAsk'
 				:currency='currency'
 				:market='market'
 			/>
+
+			<OrdersTooltip type='ask' />
 		</v-card-text>
 	</v-card>
 </template>
@@ -21,6 +23,7 @@
 <script>
 import AskListTableWrapper from './table/AskListTableWrapper';
 import CommonProgressCircular from '../../../common/CommonProgressCircular';
+import OrdersTooltip from '../OrdersTooltip';
 
 export default {
 	name: 'AskList',
@@ -28,6 +31,7 @@ export default {
 	components: {
 		AskListTableWrapper,
 		CommonProgressCircular,
+		OrdersTooltip,
 	},
 
 	props: {
@@ -67,3 +71,9 @@ export default {
 	},
 };
 </script>
+
+<style scoped lang='sass'>
+.ask-list
+	&__content
+		position: relative
+</style>

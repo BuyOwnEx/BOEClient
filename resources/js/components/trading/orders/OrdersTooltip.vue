@@ -1,15 +1,36 @@
 <template>
 	<div
-		v-if='itemIndex === rowIndex'
+		v-if='selectedRowIndex !== -1'
 		class='orders-tooltip'
-		:class="{
-			'orders-tooltip--bid': type === 'bid',
-			'orders-tooltip--ask': type === 'ask',
-			'd-none': itemIndex !== rowIndex,
+		:class="{ 'd-none': selectedRowIndex === -1 }"
+		:style="{
+			'margin-top': calculateMargin,
+			right: calculateRight,
+			left: calculateLeft,
 		}"
-		:style="{ 'margin-top': calculateMargin }"
 	>
-		<div class='orders-tooltip__content'>
+		<div
+			v-if="activeTooltipType === 'bid' && type === 'bid'"
+			class='orders-tooltip--bid'
+		>
+			<div class='d-flex'>
+				<span>Average Price:</span>
+				<b class='ml-auto'>{{ averagePrice }}</b>
+			</div>
+			<div class='d-flex'>
+				<span>Total Size:</span>
+				<b class='ml-auto'>{{ sumSize }}</b>
+			</div>
+			<div class='d-flex'>
+				<span>Total Volume:</span>
+				<b class='ml-auto'>{{ sumVolume }}</b>
+			</div>
+		</div>
+
+		<div
+			v-if="activeTooltipType === 'ask' && type === 'ask'"
+			class='orders-tooltip--ask'
+		>
 			<div class='d-flex'>
 				<span>Average Price:</span>
 				<b class='ml-auto'>{{ averagePrice }}</b>
@@ -27,30 +48,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'OrdersTooltip',
 
 	props: {
-		itemIndex: {
-			type: Number,
-			required: true,
-		},
-		rowIndex: {
-			type: Number,
-			required: true,
-		},
-		averagePrice: {
-			type: [Number, String],
-			required: true,
-		},
-		sumSize: {
-			type: [Number, String],
-			required: true,
-		},
-		sumVolume: {
-			type: [Number, String],
-			required: true,
-		},
 		type: {
 			validator(value) {
 				return ['ask', 'bid'].indexOf(value) !== -1;
@@ -59,11 +62,24 @@ export default {
 	},
 
 	computed: {
+		...mapState('tooltip', [
+			'selectedRowIndex',
+			'averagePrice',
+			'sumSize',
+			'sumVolume',
+			'activeTooltipType',
+		]),
+
 		calculateMargin() {
 			const rowHeight = 25;
-			const rowsSelected = this.rowIndex;
-
+			const rowsSelected = this.selectedRowIndex;
 			return rowsSelected * rowHeight + 'px';
+		},
+		calculateLeft() {
+			if (this.type === 'bid') return 'calc(100% - 4px)';
+		},
+		calculateRight() {
+			if (this.type === 'ask') return 'calc(100% - 4px)';
 		},
 	},
 };
@@ -72,21 +88,17 @@ export default {
 <style scoped lang='sass'>
 .orders-tooltip
 	position: absolute
-	top: 73px
-	width: 160px
-	height: 85px
-	padding: 16px 8px
+	top: 35px
+	width: 200px
 	z-index: 3
 
 	&--bid
+		padding: 8px 16px
 		background: var(--v-success-base)
-		left: calc(100% - 12px)
-		right: 0
 
 	&--ask
+		padding: 8px 16px
 		background: var(--v-error-base)
-		right: calc(100% - 12px)
-
 
 @media screen and (max-width: 960px)
 	.orders-tooltip

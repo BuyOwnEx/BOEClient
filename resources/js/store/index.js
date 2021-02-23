@@ -12,12 +12,13 @@ import tickers from './modules/tickers';
 import trading from './modules/trading';
 import user from './modules/user';
 import snackbars from './modules/snackbars';
+import ordersTooltip from './modules/ordersTooltip';
 
 Vue.use(Vuex);
 
 /**
-	* Main Vuex Store
-	*/
+ * Main Vuex Store
+ */
 const store = new Vuex.Store({
 	modules: {
 		app: AppModule,
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
 		trading: trading,
 		user: user,
 		snackbars: snackbars,
+		tooltip: ordersTooltip,
 		'board-app': BoardModule,
 		'email-app': EmailModule,
 		'todo-app': TodoModule,

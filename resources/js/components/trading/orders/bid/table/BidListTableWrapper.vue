@@ -1,20 +1,22 @@
 <template>
-	<v-simple-table
-		class='bid-list__content__table'
-		:height='calculateTableHeight'
-		dense
-		fixed-header
-	>
-		<template v-slot:default>
-			<BidListTableHeader :currency='currency' :market='market' />
-			<BidListTableBody
-				:bid-data='bidData'
-				:amount-depth='amountDepth'
-				:volume-depth='volumeDepth'
-				:best='best'
-			/>
-		</template>
-	</v-simple-table>
+	<div class='bid-list-table-absolute-wrapper'>
+		<v-simple-table
+			class='bid-list__content__table'
+			:height='calculateTableHeight'
+			dense
+			fixed-header
+		>
+			<template v-slot:default>
+				<BidListTableHeader :currency='currency' :market='market' />
+				<BidListTableBody
+					:orders-data='ordersData'
+					:amount-depth='amountDepth'
+					:volume-depth='volumeDepth'
+					:best='best'
+				/>
+			</template>
+		</v-simple-table>
+	</div>
 </template>
 
 <script>
@@ -35,7 +37,7 @@ export default {
 			type: String,
 			required: true,
 		},
-		bidData: {
+		ordersData: {
 			type: Array,
 			required: true,
 		},
@@ -71,4 +73,11 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'></style>
+<style scoped lang='sass'>
+.bid-list-table-absolute-wrapper
+	position: absolute
+	top: 0
+	right: 0
+	left: 0
+	overflow: hidden
+</style>
