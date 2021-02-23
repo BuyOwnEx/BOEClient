@@ -43,6 +43,9 @@ export default {
 			...config.icons.map((href) => ({ rel: 'stylesheet', href })),
 		],
 	},
+	mounted: function() {
+		this.$store.commit('app/setAuthUser', { 'user': this.$user, 'vm': this });
+	},
 };
 </script>
 <style scoped>

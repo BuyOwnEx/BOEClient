@@ -40,7 +40,7 @@
 				return this.$store.state.trading.selectedCurrency;
 			},
 			isLogged() {
-				return this.$store.getters.isLogged;
+				return this.$store.getters["app/isLogged"];
 			},
 			isMobile() {
 				return this.$vuetify.breakpoint.smAndDown;

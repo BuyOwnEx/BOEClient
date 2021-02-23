@@ -87,7 +87,7 @@ export default {
 	},
 	computed: {
 		isAuth() {
-			return this.$store.getters.isLogged;
+			return this.$store.getters["app/isLogged"];
 		},
 		balances() {
 			return this.$store.state.user.balances;

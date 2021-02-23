@@ -23,10 +23,7 @@ export default {
 		},
 		selectedMarket() {
 			return this.$store.state.trading.selectedMarket;
-		},
-		isAuth() {
-			return this.$store.getters.isLogged;
-		},
+		}
 	},
 	watch: {
 		pair(val, oldVal) {
@@ -53,8 +50,7 @@ export default {
 					window.location.href = '/';
 				},
 			});
-			console.log('im here');
-			if (this.isAuth) {
+			if (this.$store.getters["app/isLogged"]) {
 				this.subscribePublic();
 
 				this.$store.dispatch('user/getTraderTokenFromServer').then(resp => {

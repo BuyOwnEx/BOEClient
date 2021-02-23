@@ -42,6 +42,9 @@
 			this.component = this.$component;
 			this.lang = this.$lang;
 		},
+		mounted: function() {
+			this.$store.commit('app/setAuthUser', { 'user': this.$user, 'vm': this });
+		},
 	};
 </script>
 
