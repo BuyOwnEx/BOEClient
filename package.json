@@ -16,6 +16,7 @@
         "apexcharts": "^3.19.2",
         "bignumber.js": "^9.0.1",
         "centrifuge": "^2.6.4",
+        "debounce": "^1.2.0",
         "echarts": "^4.8.0",
         "flag-icon-css": "^3.4.6",
         "highcharts": "^9.0.0",

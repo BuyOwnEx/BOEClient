@@ -9,9 +9,7 @@ export default {
 		};
 	},
 	computed: {
-		isAuth() {
-			return this.$store.getters.isLogged;
-		},
+
 	},
 	methods: {
 		initWSConnection() {
@@ -30,7 +28,7 @@ export default {
 					window.location.href = '/';
 				},
 			});
-			if (this.isAuth) {
+			if (this.$store.getters["app/isLogged"]) {
 				this.getInitTraderData();
 				this.$store.dispatch('user/getTraderTokenFromServer').then(resp => {
 					this.centrifuge.setToken(resp.token);
@@ -66,10 +64,11 @@ export default {
 		},
 	},
 	mounted() {
-
+		this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	created() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//console.log('centrifugo balance created...');
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);

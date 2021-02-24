@@ -59,6 +59,7 @@ export default {
 		state.isToolbarDetached = isDetached;
 	},
 	setAuthUser: (state, data) => {
+		console.log('Set user...');
 		console.log(data);
 		state.trader = data.user;
 		data.vm.$eventHub.$emit('set-user', { user: data.user });

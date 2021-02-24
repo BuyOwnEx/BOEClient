@@ -271,7 +271,7 @@ export default {
 			return market === null ? false : market.margin;
 		},
 		isLogged() {
-			return this.$store.getters.isLogged;
+			return this.$store.getters["app/isLogged"];
 		},
 
 		isMobile() {

@@ -29,9 +29,6 @@ export default {
 		period() {
 			return this.$store.state.trading.selectedPeriod;
 		},
-		isAuth() {
-			return this.$store.getters.isLogged;
-		},
 	},
 	watch: {
 		pair(val, oldVal) {
@@ -64,7 +61,7 @@ export default {
 					window.location.href = '/';
 				},
 			});
-			if (this.isAuth) {
+			if (this.$store.getters["app/isLogged"]) {
 				this.getInitTraderData();
 				this.subscribePublic();
 				this.$store.dispatch('user/getTraderTokenFromServer').then(resp => {
@@ -286,10 +283,10 @@ export default {
 		},
 	},
 	mounted() {
-
+		this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	created() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);
