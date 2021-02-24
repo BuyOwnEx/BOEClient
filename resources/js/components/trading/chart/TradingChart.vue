@@ -63,13 +63,15 @@ export default {
 				},
 				chart: {
 					style: {
-						fontFamily: 'Roboto',
+						fontFamily: '"Quicksand", sans-serif',
+						letterSpacing: '1.5px',
+						fontSize: '11px',
 					},
-					backgroundColor: '#ffffff',
+					// backgroundColor: this.$vuetify.theme.dark ? '#1e1e1e' : '#fff',
 					height: this.graphHeight,
 					spacing: [10, 10, 10, 10],
 					events: {
-						load: function() {
+						load() {
 							setTimeout(() => {
 								this.reflow();
 							}, 100);
@@ -218,15 +220,12 @@ export default {
 						labels: {
 							align: 'right',
 							x: -3,
-							formatter: function() {
+							formatter() {
 								return BigNumber(this.value).toString();
 							},
 						},
 						title: {
-							text:
-								this.$t('trading.rate') +
-								', ' +
-								this.market,
+							text: this.$t('trading.rate') + ', ' + this.market,
 						},
 						height: '75%',
 						lineWidth: 1,
@@ -244,10 +243,7 @@ export default {
 							x: -3,
 						},
 						title: {
-							text:
-								this.$t('trading.volume') +
-								', ' +
-								this.currency,
+							text: this.$t('trading.volume') + ', ' + this.currency,
 						},
 						top: '75%',
 						height: '25%',
@@ -263,10 +259,7 @@ export default {
 					{
 						type: 'candlestick',
 						id: 'main',
-						name:
-							this.$t('trading.rate') +
-							', ' +
-							this.market,
+						name: this.$t('trading.rate') + ', ' + this.market,
 						data: [],
 						yAxis: 0,
 						xAxis: 0,
@@ -298,10 +291,7 @@ export default {
 						type: 'column',
 						id: 'volume',
 						linkedTo: 'main',
-						name:
-							this.$t('trading.volume') +
-							', ' +
-							this.currency,
+						name: this.$t('trading.volume') + ', ' + this.currency,
 						data: [],
 						yAxis: 1,
 						xAxis: 0,
@@ -475,8 +465,7 @@ export default {
 				}
 				if (id === 'volume') {
 					candle.chart.series[i].update({
-						name:
-							this.$t('trading.volume') + ', ' + val[0],
+						name: this.$t('trading.volume') + ', ' + val[0],
 					});
 				}
 			});
@@ -510,7 +499,7 @@ export default {
 					this.options.rangeSelector.buttons,
 					item => {
 						return item.text.toLowerCase() === candlePeriod.toLowerCase();
-					},
+					}
 				);
 				if (!candlePeriodObject) {
 					this.candle_period = '1m';

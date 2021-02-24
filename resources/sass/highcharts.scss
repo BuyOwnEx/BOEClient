@@ -136,9 +136,9 @@
 	}
 
 	.highcharts-arrow-right {
-		background: url('/images/highcharts/arrow-bottom.svg') no-repeat right bottom;
-		background-size: contain;
-	}
+    background: url('/images/highcharts/arrow-bottom.svg') no-repeat right bottom;
+    background-size: contain;
+  }
 
 	.highcharts-arrow-left.highcharts-arrow-right {
 		-webkit-transform: rotate(0deg);
@@ -839,8 +839,8 @@ li.highcharts-active
 }
 
 .highcharts-popup button.highcharts-annotation-remove-button {
-	background: url('/images/highcharts/destroy.svg') no-repeat 50% 50% transparent;
-	text-indent: -9999px;
+  background: url('/images/highcharts/destroy.svg') no-repeat 50% 50% transparent;
+  text-indent: -9999px;
 }
 
 .highcharts-popup .highcharts-annotation-title {
@@ -864,9 +864,167 @@ li.highcharts-active
 }
 
 .highcharts-stocktools-toolbar {
-	padding-left: 0 !important;
+  padding-left: 0 !important;
 }
 
 .highcharts-bindings-wrapper {
-	z-index: 3 !important;
+  z-index: 3 !important;
+}
+
+//
+// Some changes and fixes in design <24.02.21>
+//
+
+// Fix export menu
+.highcharts-menu {
+  padding: 8px 16px !important;
+
+  &-item {
+    transition: background 150ms ease 0s, color 150ms ease 0s !important;
+
+    &:hover {
+      background: var(--v-primary-lighten2) !important;
+    }
+  }
+}
+
+// No padding in popup menu list
+.highcharts-popup {
+  .highcharts-indicator-list {
+    padding-left: 0 !important;
+  }
+}
+
+//
+// Only for DARK theme <24.02.21>
+//
+
+.theme--dark {
+  --dark-background-color: #05090c;
+  --dark-button-color: #0e171f;
+  --dark-button-color--hover: #192837;
+  --dark-text-and-icons-color: #dbdbdb;
+
+  --dark-background-color__menu: #0d171f;
+  --dark-background-color__menu--hover: #142430;
+
+  .highcharts-background {
+    fill: var(--dark-background-color) !important;
+  }
+
+  .highcharts-button {
+    &-box {
+      fill: var(--dark-button-color) !important;
+    }
+
+    &:hover {
+      .highcharts-button-box {
+        fill: var(--dark-button-color--hover) !important;
+      }
+    }
+
+    .highcharts-button-symbol {
+      stroke: var(--dark-text-and-icons-color) !important;
+      fill: var(--dark-text-and-icons-color) !important;
+    }
+  }
+
+  text {
+    fill: var(--dark-text-and-icons-color) !important;
+    color: var(--dark-text-and-icons-color) !important;
+  }
+
+  //.highcharts-indicators {
+  //	fill: #ffffff !important;
+  //}
+
+  // Left toolbar buttons no color
+  .highcharts-bindings-wrapper .highcharts-stocktools-toolbar li {
+    background-color: transparent !important;
+    //&:hover {
+    //	background-color: var(--dark-button-color--hover) !important;
+    //}
+  }
+
+  // Change toolbar buttons hover color
+  .highcharts-bindings-wrapper
+  li.highcharts-active
+  > span.highcharts-menu-item-btn,
+  .highcharts-bindings-wrapper li > span.highcharts-menu-item-btn:hover,
+  .highcharts-bindings-wrapper .highcharts-arrow-wrapper > div:hover,
+  .highcharts-bindings-wrapper li.highcharts-active,
+  .highcharts-toggle-toolbar:hover {
+    background-color: var(--dark-button-color--hover) !important;
+  }
+
+  // Right top export menu
+  .highcharts-menu {
+    box-shadow: rgb(0, 0, 0) 3px 3px 10px !important;
+    border: 1px solid rgb(16, 16, 16) !important;
+    background: var(--dark-background-color__menu) !important;
+
+    &-item {
+      background: var(--dark-background-color__menu) !important;
+      color: var(--dark-text-and-icons-color) !important;
+
+      &:hover {
+        background: var(--dark-background-color__menu--hover) !important;
+      }
+    }
+  }
+
+  // Left top small arrow icon
+  .highcharts-toggle-toolbar {
+    background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
+    background-color: #0e171f !important;
+  }
+
+  .highcharts-popup {
+    background: var(--dark-background-color__menu) !important;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3) !important;
+
+    ul.highcharts-indicator {
+      &-list {
+        li {
+          color: var(--dark-text-and-icons-color) !important;
+
+          &:hover {
+            background-color: var(--dark-background-color__menu) !important;
+          }
+        }
+      }
+
+      &-title {
+        color: var(--dark-text-and-icons-color) !important;
+      }
+    }
+
+    label {
+      color: var(--dark-text-and-icons-color) !important;
+    }
+
+    &-field {
+      color: var(--dark-text-and-icons-color) !important;
+    }
+
+    option {
+      color: #0d171f !important;
+    }
+
+    .highcharts-tab-item {
+      background-color: var(--dark-button-color) !important;
+
+      &:hover {
+        background-color: var(--dark-button-color--hover) !important;
+      }
+
+      &-active {
+        color: var(--dark-text-and-icons-color) !important;
+      }
+
+      &-disabled {
+        color: #585858 !important;
+      }
+    }
+  }
 }
