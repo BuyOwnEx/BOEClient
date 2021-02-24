@@ -3,20 +3,22 @@
 	<tr
 		v-for='(item, itemIndex) in ordersData'
 		class='ask-list-table-body__row'
-		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex) }"
+		:class="{
+				'orders-active-row': isAboveThanHoverElement(itemIndex, 'ask'),
+			}"
 		@mouseover='selectItemHover(item)'
 		@mouseout='clearSelectedRowIndex'
 	>
 		<td>
-			<div class='ask-list-table-body__tooltip-volume-wrapper'>
+			<div class='ask-list-table-body__tooltip-volume-wrapper text-left'>
 				<OrdersWall
 					:item-index='itemIndex'
 					:volume='calculateVolume(item.price, item.actualSize)'
-					:total-volume='1000'
+					:volume-depth='volumeDepth'
 					type='ask'
 				/>
 
-				<div class='ask-list-table-body__item--volume text-right'>
+				<div class='ask-list-table-body__item--volume'>
 					<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 				</div>
 			</div>
@@ -78,16 +80,14 @@ export default {
 	},
 
 	computed: {
-		...mapGetters({
-			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
-		}),
+		...mapGetters('tooltip', ['isAboveThanHoverElement']),
 	},
 
 	methods: {
-		...mapActions({
-			selectedItemHoverHandler: 'tooltip/selectedItemHoverHandler',
-			clearSelectedRowIndex: 'tooltip/clearSelectedRowIndex',
-		}),
+		...mapActions('tooltip', [
+			'selectedItemHoverHandler',
+			'clearSelectedRowIndex',
+		]),
 
 		calculateVolume(price, actualSize) {
 			return BigNumber(price)
@@ -105,7 +105,7 @@ export default {
 		selectItemHover(item) {
 			const payload = {
 				item,
-				type: 'ash',
+				type: 'ask',
 				ordersData: this.ordersData,
 			};
 			this.selectedItemHoverHandler(payload);

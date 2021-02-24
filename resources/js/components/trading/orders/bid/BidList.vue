@@ -15,9 +15,7 @@
 				:market='market'
 			/>
 
-			<OrdersTooltip
-				type='bid'
-			/>
+			<OrdersTooltip type='bid' />
 		</v-card-text>
 	</v-card>
 </template>
@@ -78,4 +76,21 @@ export default {
 .bid-list
 	&__content
 		position: relative
+
+@media screen and (min-width: 1382px) and (max-width: 1768px)
+	.bid-list
+		height: 251px
+
+@media screen and (min-width: 1264px) and (max-width: 1382px)
+	.bid-list
+		height: 171px
+
+@media screen and (min-width: 960px) and (max-width: 1264px)
+	.bid-list
+		height: 241px
+
+
+@media screen and (max-width: 960px)
+	.bid-list
+		height: 300px
 </style>

@@ -28,7 +28,7 @@ export default {
 			type: [Number, String],
 			required: true,
 		},
-		totalVolume: {
+		volumeDepth: {
 			type: [Number, String],
 			required: true,
 		},
@@ -43,17 +43,12 @@ export default {
 		calculateMargin() {
 			const rowHeight = 25;
 			const rowsSelected = this.itemIndex;
-
 			return rowsSelected * rowHeight + 'px';
 		},
 		calculateLength() {
-			if (this.type === 'bid') {
-				return '90%';
-				// return this.volume / this.totalVolume + '%';
-			} else if (this.type === 'ask') {
-				return '90%';
-				// return this.volume / this.totalVolume + '%';
-			}
+			const percent = (this.volume / this.volumeDepth) * 100 + '%';
+			const tablePadding = '4px';
+			return `calc(100% - ${percent} - ${tablePadding})`;
 		},
 	},
 };
@@ -62,7 +57,7 @@ export default {
 <style scoped lang='sass'>
 .orders-wall-main
 	position: absolute
-	top: 32px
+	top: 35.65px
 	bottom: 0
 	height: 25px
 

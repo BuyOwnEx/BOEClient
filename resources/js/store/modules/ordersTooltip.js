@@ -9,9 +9,15 @@ export default {
 	},
 
 	getters: {
-		isAboveThanHoverElement: state => itemToCompareIndex => {
-			const mainItemIndex = state.selectedRowIndex;
-			return itemToCompareIndex <= mainItemIndex;
+		isAboveThanHoverElement: state => {
+			return (itemToCompareIndex, type) => {
+				const isTypeNotActiveTypeInState = type !== state.activeTooltipType;
+				const isActiveTypeEmpty = type === '';
+				if (isTypeNotActiveTypeInState || isActiveTypeEmpty) return false;
+
+				const mainItemIndex = state.selectedRowIndex;
+				return itemToCompareIndex <= mainItemIndex;
+			};
 		},
 	},
 

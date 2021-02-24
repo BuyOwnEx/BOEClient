@@ -3,7 +3,7 @@
 	<tr
 		v-for='(item, itemIndex) in ordersData'
 		class='bid-list-table-body__row'
-		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex) }"
+		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex, 'bid') }"
 		@mouseover='selectItemHover(item)'
 		@mouseout='clearSelectedRowIndex'
 	>
@@ -26,7 +26,7 @@
 				<OrdersWall
 					:item-index='itemIndex'
 					:volume='calculateVolume(item.price, item.actualSize)'
-					:total-volume='1000'
+					:volume-depth='volumeDepth'
 					type='bid'
 				/>
 
