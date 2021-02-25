@@ -4,57 +4,70 @@
 			{{ $t('trading.headers.market_activity') }}
 		</v-card-title>
 
-		<v-card-text class='market-activity__content pa-0'>
-			<table class='table'>
-				<tbody>
-				<tr v-for='item in activityList'>
-					<td>
-							<span>{{ item.currency }}</span
-							><span class='market-name'>/{{ item.market }}</span>
-					</td>
-					<td
-						:class="{
-								'text-success': item.trend === 'positive',
-								'text-danger': item.trend === 'negative',
-							}"
-					>
-						<span style='font-weight: normal'>{{ item.changePercent }}%</span>
-					</td>
-					<td class='history-deal-date'>
-						<div
-							class='market-activity-indicator'
+		<CommonProgressCircular v-if='isLoading || !tickersList' />
+		<v-card-text v-else class='market-activity__content pa-0'>
+			<v-simple-table dense>
+				<template v-slot:default>
+					<tbody>
+					<tr v-for='item in activityList'>
+						<td>
+							<span>{{ item.currency }}</span>
+							<span class='market-name'> /{{ item.market }} </span>
+						</td>
+						<td
 							:class="{
-									positive: item.trend === 'positive',
-									negative: item.trend === 'negative',
+									'text-success': item.trend === 'positive',
+									'text-danger': item.trend === 'negative',
 								}"
 						>
+								<span style='font-weight: normal'>
+									{{ item.changePercent }}%
+								</span>
+						</td>
+						<td class='history-deal-date'>
 							<div
-								v-for='star in item.stars'
-								class='market-activity-arrow'
-							></div>
-						</div>
-					</td>
-				</tr>
-				<tr v-if='activityList.length === 0'>
-					<td colspan='5' class='text-center'>
-						{{ $t('trading.no_activity') }}
-					</td>
-				</tr>
-				</tbody>
-			</table>
+								class='market-activity-indicator'
+								:class="{
+										positive: item.trend === 'positive',
+										negative: item.trend === 'negative',
+									}"
+							>
+								<div
+									v-for='star in item.stars'
+									class='market-activity-arrow'
+								></div>
+							</div>
+						</td>
+					</tr>
+
+					<tr v-if='activityList.length === 0'>
+						<td colspan='5' class='text-center'>
+							{{ $t('trading.no_activity') }}
+						</td>
+					</tr>
+					</tbody>
+				</template>
+			</v-simple-table>
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
 import BigNumber from 'bignumber.js';
+
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
+import CommonProgressCircular from '../../common/CommonProgressCircular';
 
 export default {
 	name: 'MarketActivity',
 
+	components: { CommonProgressCircular },
+
 	data() {
-		return {};
+		return {
+			isLoading: true,
+		};
 	},
 
 	computed: {
@@ -64,7 +77,7 @@ export default {
 
 		tickersList() {
 			if (this.tickersFromStorage === null) {
-				return [];
+				return null;
 			}
 			return _.map(this.tickersFromStorage, item => {
 				let change = BigNumber(item.latest).minus(BigNumber(item.previous_day));
@@ -120,6 +133,10 @@ export default {
 			return _.union(positive, negative);
 		},
 	},
+
+	mounted() {
+		this.isLoading = false;
+	},
 };
 </script>
 
@@ -130,4 +147,7 @@ export default {
 		font-weight: 700
 		margin-left: 4px
 		text-transform: uppercase
+
+	table
+		padding: 0 !important
 </style>
