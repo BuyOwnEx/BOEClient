@@ -958,7 +958,7 @@ li.highcharts-active
 		background-color: #0e171f !important;
 	}
 
-	.highcharts-submenu-item-arrow .highcharts-arrow-right {
+	.highcharts-arrow-right {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-bottom.svg') !important;
 	}
 
@@ -979,11 +979,9 @@ li.highcharts-active
 			background-color: var(--dark-button-color__popup--hover);
 		}
 	}
-
 	.highcharts-annotation-remove-button {
 		background-image: url('../js/assets/images/highcharts/dark/destroy.svg') !important;
 	}
-
 	.highcharts-annotation-edit-button {
 		background-image: url('../js/assets/images/highcharts/dark/edit.svg') !important;
 	}
