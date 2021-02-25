@@ -102,5 +102,7 @@ export default {
 
 @media screen and (max-width: 960px)
 	.orders-tooltip
-		display: none !important
+		top: calc(35px + 25px)
+		left: 25% !important
+		right: 0 !important
 </style>
