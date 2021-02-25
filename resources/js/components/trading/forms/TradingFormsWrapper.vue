@@ -92,6 +92,18 @@ export default {
 	}
 }
 
+@media screen and (min-width: 1768px) {
+	.tf {
+		min-height: 454px;
+	}
+}
+
+@media screen and (min-width: 1382px) and (max-width: 1768px) {
+	.tf {
+		min-height: 449px;
+	}
+}
+
 @media screen and (max-width: 960px) {
 	.tf {
 		&__content {
