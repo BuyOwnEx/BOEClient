@@ -584,6 +584,8 @@ li.highcharts-active
 
 	--dark-text-and-icons-color: #dbdbdb;
 
+	--dark-label-stroke: #cbcbcb;
+
 	.highcharts-background {
 		fill: var(--dark-background-color) !important;
 	}
@@ -649,6 +651,7 @@ li.highcharts-active
 		}
 	}
 
+	// Popup
 	.highcharts-popup {
 		background: var(--dark-background-color__menu) !important;
 		box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3) !important;
@@ -719,10 +722,6 @@ li.highcharts-active
 			border-right: 1px solid var(--dark-border-color__popup) !important;
 		}
 
-		.highcharts-annotation-toolbar {
-			color: var(--dark-text-and-icons-color) !important;
-		}
-
 		&-main-title {
 			border-bottom: 1px solid var(--dark-border-color__popup) !important;
 		}
@@ -732,12 +731,16 @@ li.highcharts-active
 		}
 	}
 
-	// Close button
-	.highcharts-popup-close {
-		background-color: var(--dark-button-color__popup);
+	// Left menu submenu
+	.highcharts-submenu-item-arrow:hover {
+		background-color: var(--dark-button-color--hover-lighten1) !important;
+	}
 
-		&:hover {
-			background-color: var(--dark-button-color__popup--hover);
+	.highcharts-submenu-wrapper {
+		background-color: var(--dark-background-color__menu) !important;
+
+		&-btn {
+			background-color: var(--dark-button-color__popup) !important;
 		}
 	}
 
@@ -747,29 +750,22 @@ li.highcharts-active
 	--dark-line__axis: #929292;
 	--dark-line__axis--resizer: #838383;
 	--dark-line__tracker: #cbcbcb;
-
 	.highcharts-axis-resizer {
 		stroke: var(--dark-line__axis--resizer) !important;
 	}
-
 	.highcharts-axis-line {
 		stroke: var(--dark-line__axis) !important;
 	}
-
 	.highcharts-grid-line {
 		stroke: var(--dark-line__grid) !important;
 	}
-
 	.highcharts-minor-grid-line {
 		stroke: var(--dark-line__grid--minor) !important;
 	}
-
 	.highcharts-tracker-line {
 		stroke: var(--dark-line__tracker) !important;
 		stroke-width: 1px !important;
 	}
-
-	// Bottom nav lines
 	.highcharts-navigator {
 		&-outline {
 			stroke: var(--dark-line__grid) !important;
@@ -792,21 +788,21 @@ li.highcharts-active
 		}
 	}
 
-	// Chart hover labels
+	// Label
 	.highcharts-label-box {
 		fill: var(--dark-background-color__menu--hover) !important;
 	}
 
-	.highcharts-submenu-item-arrow:hover {
-		background-color: var(--dark-button-color--hover-lighten1) !important;
+	.highcharts-annotation-label-box {
+		stroke: var(--dark-label-stroke) !important;
 	}
 
-	.highcharts-submenu-wrapper {
-		background-color: var(--dark-background-color__menu) !important;
+	.highcharts-control-points path {
+		fill: #647c91 !important;
+	}
 
-		&-btn {
-			background-color: var(--dark-button-color__popup) !important;
-		}
+	.highcharts-annotation-toolbar {
+		color: var(--dark-text-and-icons-color) !important;
 	}
 
 	//
@@ -815,17 +811,6 @@ li.highcharts-active
 	//
 
 	// Left menu
-	// Left top small arrow icon
-	.highcharts-toggle-toolbar {
-		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
-		background-color: #0e171f !important;
-	}
-
-	// Bottom icon icon
-	.highcharts-submenu-item-arrow .highcharts-arrow-right {
-		background-image: url('../js/assets/images/highcharts/dark/arrow-bottom.svg') !important;
-	}
-
 	// From first to last icon
 	.highcharts-indicators .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/indicators.svg') !important;
@@ -834,11 +819,9 @@ li.highcharts-active
 	.highcharts-label-annotation .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/label.svg') !important;
 	}
-
 	.highcharts-circle-annotation .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/circle.svg') !important;
 	}
-
 	.highcharts-rectangle-annotation .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/rectangle.svg') !important;
 	}
@@ -846,31 +829,24 @@ li.highcharts-active
 	.highcharts-segment .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/segment.svg') !important;
 	}
-
 	.highcharts-arrow-segment .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-segment.svg') !important;
 	}
-
 	.highcharts-ray .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/ray.svg') !important;
 	}
-
 	.highcharts-arrow-ray .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-ray.svg') !important;
 	}
-
 	.highcharts-infinity-line .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/line.svg') !important;
 	}
-
 	.highcharts-arrow-infinity-line .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-line.svg') !important;
 	}
-
 	.highcharts-horizontal-line .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/horizontal-line.svg') !important;
 	}
-
 	.highcharts-vertical-line .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/vertical-line.svg') !important;
 	}
@@ -878,15 +854,12 @@ li.highcharts-active
 	.highcharts-elliott3 .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/elliott-3.svg') !important;
 	}
-
 	.highcharts-elliott5 .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/elliott-5.svg') !important;
 	}
-
 	.highcharts-crooked3 .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/crooked-3.svg') !important;
 	}
-
 	.highcharts-crooked5 .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/crooked-5.svg') !important;
 	}
@@ -894,11 +867,9 @@ li.highcharts-active
 	.highcharts-measure-xy .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/measure-xy.svg') !important;
 	}
-
 	.highcharts-measure-x .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/measure-x.svg') !important;
 	}
-
 	.highcharts-measure-y .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/measure-y.svg') !important;
 	}
@@ -906,11 +877,9 @@ li.highcharts-active
 	.highcharts-fibonacci .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/fibonacci.svg') !important;
 	}
-
 	.highcharts-pitchfork .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/pitchfork.svg') !important;
 	}
-
 	.highcharts-parallel-channel .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/parallel-channel.svg') !important;
 	}
@@ -922,11 +891,9 @@ li.highcharts-active
 	.highcharts-vertical-counter .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/vertical-counter.svg') !important;
 	}
-
 	.highcharts-vertical-label .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/vertical-label.svg') !important;
 	}
-
 	.highcharts-vertical-arrow .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/vertical-arrow.svg') !important;
 	}
@@ -934,15 +901,12 @@ li.highcharts-active
 	.highcharts-flag-circlepin .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/flag-elipse.svg') !important;
 	}
-
 	.highcharts-flag-diamondpin .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/flag-diamond.svg') !important;
 	}
-
 	.highcharts-flag-squarepin .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/flag-trapeze.svg') !important;
 	}
-
 	.highcharts-flag-simplepin .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/flag-basic.svg') !important;
 	}
@@ -950,11 +914,9 @@ li.highcharts-active
 	.highcharts-zoom-x .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/zoom-x.svg') !important;
 	}
-
 	.highcharts-zoom-y .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/zoom-y.svg') !important;
 	}
-
 	.highcharts-zoom-xy .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/zoom-xy.svg') !important;
 	}
@@ -966,11 +928,9 @@ li.highcharts-active
 	.highcharts-series-type-candlestick .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/series-candlestick.svg') !important;
 	}
-
 	.highcharts-series-type-line .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/series-line.svg') !important;
 	}
-
 	.highcharts-series-type-ohlc .highcharts-menu-item-btn {
 		background-image: url('../js/assets/images/highcharts/dark/series-ohlc.svg') !important;
 	}
@@ -983,11 +943,39 @@ li.highcharts-active
 		background-image: url('../js/assets/images/highcharts/dark/save-chart.svg') !important;
 	}
 
+	// Arrows
+	.highcharts-toggle-toolbar {
+		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
+		background-color: #0e171f !important;
+	}
+
+	.highcharts-submenu-item-arrow .highcharts-arrow-right {
+		background-image: url('../js/assets/images/highcharts/dark/arrow-bottom.svg') !important;
+	}
+
 	.highcharts-arrow-up {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
 	}
 
 	.highcharts-arrow-down {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
+	}
+
+	// Other Icons
+	.highcharts-popup-close {
+		background-image: url('../js/assets/images/highcharts/dark/close.svg') !important;
+		background-color: var(--dark-button-color__popup);
+
+		&:hover {
+			background-color: var(--dark-button-color__popup--hover);
+		}
+	}
+
+	.highcharts-annotation-remove-button {
+		background-image: url('../js/assets/images/highcharts/dark/destroy.svg') !important;
+	}
+
+	.highcharts-annotation-edit-button {
+		background-image: url('../js/assets/images/highcharts/dark/edit.svg') !important;
 	}
 }
