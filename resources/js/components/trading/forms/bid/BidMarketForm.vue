@@ -23,33 +23,41 @@
 
 		<div class='bmf__percents'>
 			<v-btn
+				:input-value="form.amount === '25'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(25)'
 			>
 				<span>25 %</span>
 			</v-btn>
 			<v-btn
+				:input-value="form.amount === '50'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(50)'
 			>
 				<span>50 %</span>
 			</v-btn>
 			<v-btn
+				:input-value="form.amount === '75'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(75)'
 			>
 				<span>75 %</span>
 			</v-btn>
 			<v-btn
+				:input-value="form.amount === '100'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(100)'
 			>
 				<span>100 %</span>

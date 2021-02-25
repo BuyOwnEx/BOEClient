@@ -22,33 +22,41 @@
 
 		<div class='alf__percents'>
 			<v-btn
+				:input-value="form.amount === '25'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(25)'
 			>
 				<span>25 %</span>
 			</v-btn>
 			<v-btn
+				:input-value="form.amount === '50'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(50)'
 			>
 				<span>50 %</span>
 			</v-btn>
 			<v-btn
+				:input-value="form.amount === '75'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(75)'
 			>
 				<span>75 %</span>
 			</v-btn>
 			<v-btn
+				:input-value="form.amount === '100'"
 				text
 				small
-				style='border: 1px solid rgb(229, 229, 229);'
+				outlined
+				tile
 				@click='setAmount(100)'
 			>
 				<span>100 %</span>
@@ -58,11 +66,7 @@
 		<v-text-field
 			v-model='form.rate'
 			ref='ask_limit_rate'
-			:label="
-        $t('trading.rate_per') +
-          ' ' +
-          currency.toUpperCase()
-      "
+			:label="$t('trading.rate_per') + ' ' + currency.toUpperCase()"
 			type='text'
 			outlined
 			dense
@@ -91,9 +95,7 @@
 			</v-text-field>
 			<div class='alf__text-field-hint'>
 				{{
-					$t('trading.order.pay_limit_sell', [
-						fee_visible,
-					]) +
+					$t('trading.order.pay_limit_sell', [fee_visible]) +
 					' ' +
 					market.toUpperCase()
 				}}
@@ -176,9 +178,7 @@
 			<div v-if='!useMargin' class='d-flex justify-start'>
 				<v-switch
 					v-model='additionalParamsEnabled'
-					:label="
-            $t('trading.order.use_additional_params')
-          "
+					:label="$t('trading.order.use_additional_params')"
 					hide-details
 					left
 					dense
@@ -194,8 +194,8 @@
 			<div class='alf__footer__available text-center'>
 				{{ $t('trading.order.available') }}
 				<span class='available_balance' @click='setAmount(100)'>
-          {{ balance.toString() }}
-        </span>
+					{{ balance.toString() }}
+				</span>
 				{{ currency.toUpperCase() }}
 			</div>
 		</div>
@@ -243,7 +243,7 @@ export default {
 
 	computed: {
 		isAuth() {
-			return this.$store.getters["app/isLogged"];
+			return this.$store.getters['app/isLogged'];
 		},
 		balances() {
 			return this.$store.state.user.balances;
@@ -623,5 +623,4 @@ export default {
 		}
 	}
 }
-
 </style>
