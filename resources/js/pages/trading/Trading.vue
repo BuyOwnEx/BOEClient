@@ -271,7 +271,7 @@ export default {
 			return market === null ? false : market.margin;
 		},
 		isLogged() {
-			return this.$store.getters["app/isLogged"];
+			return this.$store.getters['app/isLogged'];
 		},
 
 		isMobile() {
@@ -422,12 +422,12 @@ export default {
 			overflow: auto;
 
 			&__bid {
-				//flex-grow: 1;
+				flex-grow: 1;
 			}
 
 			&__ask {
-				//flex-grow: 1;
-				margin-top: 1rem;
+				flex-grow: 1;
+				margin-top: 0.5rem;
 			}
 		}
 
@@ -517,7 +517,6 @@ export default {
 			}
 
 			&__chat {
-				//height: 243px;
 				display: none !important;
 			}
 		}
