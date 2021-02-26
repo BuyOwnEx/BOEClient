@@ -1,38 +1,38 @@
 <template>
-	<v-card class='tf pa-1'>
-		<div class='tf__actions px-2'>
+	<v-card class="tf pa-1">
+		<div class="tf__actions px-2">
 			<v-btn
-				class='pt-2 pb-2'
+				class="pt-2 pb-2"
 				:class="{ selected: activeTradingFormsDisplayMode === 'limit' }"
 				small
 				tile
-				:text='!isSelectedLimitMode'
+				:text="!isSelectedLimitMode"
 				@click="activeTradingFormsDisplayMode = 'limit'"
 			>
 				<span>{{ $t('trading.order.type.limit') }}</span>
 			</v-btn>
 			<v-btn
-				class='pt-2 pb-2'
+				class="pt-2 pb-2"
 				:class="{ selected: activeTradingFormsDisplayMode === 'market' }"
 				small
 				tile
-				:text='!isSelectedMarketMode'
+				:text="!isSelectedMarketMode"
 				@click="activeTradingFormsDisplayMode = 'market'"
 			>
 				<span>{{ $t('trading.order.type.market') }}</span>
 			</v-btn>
 		</div>
 
-		<div class='tf__content'>
+		<div class="tf__content">
 			<TradingFormLimitWrapper
 				v-if="activeTradingFormsDisplayMode === 'limit'"
-				:currency='currency'
-				:market='market'
+				:currency="currency"
+				:market="market"
 			/>
 			<TradingFormMarketWrapper
 				v-if="activeTradingFormsDisplayMode === 'market'"
-				:currency='currency'
-				:market='market'
+				:currency="currency"
+				:market="market"
 			/>
 		</div>
 	</v-card>
@@ -73,22 +73,19 @@ export default {
 		},
 	},
 
-	mounted() {
-	},
+	mounted() {},
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .tf {
 	display: flex;
 	flex-grow: 1;
 	flex-flow: column;
+	min-height: 484px !important;
 
 	&__actions {
 		padding-bottom: 0.5rem;
-	}
-
-	&__content {
 	}
 }
 
