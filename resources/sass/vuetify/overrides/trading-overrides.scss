@@ -54,6 +54,38 @@
 			margin-top: 9px !important;
 		}
 	}
+	// Switch small size .trading-forms <26.02.21>
+	.trading-forms .v-input--switch {
+		margin-left: 4px;
+		margin-top: 0;
+
+		.v-input--selection-controls__input {
+			top: 5px;
+			width: 35px;
+		}
+		.v-input--selection-controls__ripple {
+			height: 12px;
+			width: 12px;
+			//left: -12px;
+			left: -9px;
+			top: -6px;
+			//transform: translate(3px, 0) !important;
+		}
+		.v-input--switch__track {
+			height: 14px;
+			//width: 26px;
+			width: 34px;
+		}
+		.v-input--switch__thumb {
+			height: 8px;
+			width: 8px;
+			top: calc(50% - 9px);
+			//bottom: 2;
+		}
+		label {
+			font-size: 13px;
+		}
+	}
 
 	// scroll for components <19.02.21>
 	* {
