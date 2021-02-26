@@ -1,7 +1,11 @@
 <template>
-	<v-card>
-		<TradingChartMarketInfo :currency='currency' :market='market' />
-		<TradingChart :currency='currency' :market='market' />
+	<v-card class="trading-chart-wrapper">
+		<TradingChartMarketInfo :currency="currency" :market="market" />
+		<TradingChart
+			class="trading-chart-wrapper__chart"
+			:currency="currency"
+			:market="market"
+		/>
 	</v-card>
 </template>
 
@@ -27,4 +31,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+
+@media screen and (max-width: 1764px)
+	.trading-chart-wrapper__chart
+		margin-top: 20px
+</style>
