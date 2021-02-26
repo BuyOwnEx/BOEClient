@@ -1,6 +1,6 @@
 <template>
-	<v-card class="tf pa-1">
-		<div class="tf__actions px-2">
+	<v-card class="trading-forms pa-1">
+		<div class="trading-forms__actions px-2">
 			<v-btn
 				class="pt-2 pb-2"
 				:class="{ selected: activeTradingFormsDisplayMode === 'limit' }"
@@ -23,7 +23,7 @@
 			</v-btn>
 		</div>
 
-		<div class="tf__content">
+		<div class="trading-forms__content">
 			<TradingFormLimitWrapper
 				v-if="activeTradingFormsDisplayMode === 'limit'"
 				:currency="currency"
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tf {
+.trading-forms {
 	display: flex;
 	flex-grow: 1;
 	flex-flow: column;
@@ -90,19 +90,19 @@ export default {
 }
 
 @media screen and (min-width: 1768px) {
-	.tf {
+	.trading-forms {
 		min-height: 454px;
 	}
 }
 
 @media screen and (min-width: 1382px) and (max-width: 1768px) {
-	.tf {
+	.trading-forms {
 		min-height: 449px;
 	}
 }
 
 @media screen and (max-width: 960px) {
-	.tf {
+	.trading-forms {
 		&__content {
 			&__sell {
 				padding-top: 2rem;
