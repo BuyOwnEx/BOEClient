@@ -1,7 +1,7 @@
 <template>
 	<div
-		v-if='selectedRowIndex !== -1'
-		class='orders-tooltip'
+		v-if="selectedRowIndex !== -1"
+		class="orders-tooltip"
 		:class="{ 'd-none': selectedRowIndex === -1 }"
 		:style="{
 			'margin-top': calculateMargin,
@@ -11,37 +11,37 @@
 	>
 		<div
 			v-if="activeTooltipType === 'bid' && type === 'bid'"
-			class='orders-tooltip--bid'
+			class="orders-tooltip--bid"
 		>
-			<div class='d-flex'>
+			<div class="d-flex">
 				<span>Average Price:</span>
-				<b class='ml-auto'>{{ averagePrice }}</b>
+				<b class="ml-auto">{{ averagePrice }}</b>
 			</div>
-			<div class='d-flex'>
+			<div class="d-flex">
 				<span>Total Size:</span>
-				<b class='ml-auto'>{{ sumSize }}</b>
+				<b class="ml-auto">{{ sumSize }}</b>
 			</div>
-			<div class='d-flex'>
+			<div class="d-flex">
 				<span>Total Volume:</span>
-				<b class='ml-auto'>{{ sumVolume }}</b>
+				<b class="ml-auto">{{ sumVolume }}</b>
 			</div>
 		</div>
 
 		<div
 			v-if="activeTooltipType === 'ask' && type === 'ask'"
-			class='orders-tooltip--ask'
+			class="orders-tooltip--ask"
 		>
-			<div class='d-flex'>
+			<div class="d-flex">
 				<span>Average Price:</span>
-				<b class='ml-auto'>{{ averagePrice }}</b>
+				<b class="ml-auto">{{ averagePrice }}</b>
 			</div>
-			<div class='d-flex'>
+			<div class="d-flex">
 				<span>Total Size:</span>
-				<b class='ml-auto'>{{ sumSize }}</b>
+				<b class="ml-auto">{{ sumSize }}</b>
 			</div>
-			<div class='d-flex'>
+			<div class="d-flex">
 				<span>Total Volume:</span>
-				<b class='ml-auto'>{{ sumVolume }}</b>
+				<b class="ml-auto">{{ sumVolume }}</b>
 			</div>
 		</div>
 	</div>
@@ -76,19 +76,19 @@ export default {
 			return rowsSelected * rowHeight + 'px';
 		},
 		calculateLeft() {
-			if (this.type === 'bid') return 'calc(100% - 4px)';
+			if (this.type === 'bid') return '100%';
 		},
 		calculateRight() {
-			if (this.type === 'ask') return 'calc(100% - 4px)';
+			if (this.type === 'ask') return '100%';
 		},
 	},
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .orders-tooltip
 	position: absolute
-	top: 35px
+	top: 32px
 	width: 220px
 	z-index: 3
 
@@ -102,7 +102,8 @@ export default {
 
 @media screen and (max-width: 960px)
 	.orders-tooltip
-		top: calc(35px + 25px)
+		// header + row height
+		top: calc(32px + 25px)
 		left: 25% !important
 		right: 0 !important
 </style>

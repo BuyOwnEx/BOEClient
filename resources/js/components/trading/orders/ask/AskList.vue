@@ -1,21 +1,21 @@
 <template>
-	<v-card class='ask-list pa-1'>
-		<v-card-title class='ask-list__title pa-0 px-1'>
+	<v-card class="ask-list pa-1">
+		<v-card-title class="ask-list__title pa-0">
 			SELL ORDERS
 		</v-card-title>
 
-		<CommonProgressCircular v-if='!askList || isLoading' />
-		<v-card-text v-else class='ask-list__content pa-0'>
+		<CommonProgressCircular v-if="!askList || isLoading" />
+		<v-card-text v-else class="ask-list__content pa-0">
 			<AskListTableWrapper
-				:orders-data='askList'
-				:amount-depth='askAmountDepth'
-				:volume-depth='askVolumeDepth'
-				:best='bestAsk'
-				:currency='currency'
-				:market='market'
+				:orders-data="askList"
+				:amount-depth="askAmountDepth"
+				:volume-depth="askVolumeDepth"
+				:best="bestAsk"
+				:currency="currency"
+				:market="market"
 			/>
 
-			<OrdersTooltip type='ask' />
+			<OrdersTooltip type="ask" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -72,7 +72,7 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .ask-list
 	&__content
 		position: relative

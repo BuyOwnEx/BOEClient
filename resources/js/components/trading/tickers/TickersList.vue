@@ -1,27 +1,27 @@
 <template>
-	<v-card class='tickers-list pa-1'>
-		<div class='tickers-list__header'>
-			<div v-if='!isSearch' class='tickers-list__header__markets'>
+	<v-card class="tickers-list pa-1">
+		<div class="tickers-list__header">
+			<div v-if="!isSearch" class="tickers-list__header__markets">
 				<v-btn
-					v-if='marketsFromStorage !== null'
-					v-for='market in markets'
-					class='mr-1'
-					:key='market'
-					:class='{ selected: market === selectedMarket }'
-					:input-value='selectedMarket === market'
+					v-if="marketsFromStorage !== null"
+					v-for="market in markets"
+					class="mr-1"
+					:key="market"
+					:class="{ selected: market === selectedMarket }"
+					:input-value="selectedMarket === market"
 					text
 					small
-					@click='selectedMarket = market'
+					@click="selectedMarket = market"
 				>
 					<span>{{ market }}</span>
 				</v-btn>
 			</div>
 
-			<div v-if='isSearch' class='tickers-list__header__search'>
+			<div v-if="isSearch" class="tickers-list__header__search">
 				<v-text-field
-					v-model='tickersSearchQuery'
+					v-model="tickersSearchQuery"
 					:label="$t('trading.search')"
-					color='#a6a6a6'
+					color="#a6a6a6"
 					outlined
 					dense
 					hide-details
@@ -29,164 +29,164 @@
 				</v-text-field>
 			</div>
 
-			<div class='tickers-list__header__actions'>
-				<span class='tickers-list__header__actions__search '>
-					<v-btn icon @click='switchSearchShowAndClearField'>
+			<div class="tickers-list__header__actions">
+				<span class="tickers-list__header__actions__search ">
+					<v-btn icon @click="switchSearchShowAndClearField">
 						<v-icon>mdi-magnify</v-icon>
 					</v-btn>
 				</span>
 			</div>
 		</div>
 
-		<CommonProgressCircular v-if='isLoading || !tickersList' />
-		<div v-else class='tickers-list__content-wrapper'>
+		<CommonProgressCircular v-if="isLoading || !tickersList" />
+		<div v-else class="tickers-list__content-wrapper">
 			<v-simple-table
-				v-if='tickersList && tickersListFilteredAndSorted.length > 0'
-				class='tickers-list__content'
-				:height='calculateTableHeight'
+				v-if="tickersList && tickersListFilteredAndSorted.length > 0"
+				class="tickers-list__content"
+				:height="calculateTableHeight"
 				dense
 				fixed-header
 			>
 				<template v-slot:default>
-					<thead class='tickers-list__content__header'>
-					<tr>
-						<th
-							class='tickers-list__content__header__item--favorite'
-							@click='switchFavoriteSorting'
-						>
+					<thead class="tickers-list__content__header">
+						<tr>
+							<th
+								class="tickers-list__content__header__item--favorite"
+								@click="switchFavoriteSorting"
+							>
 								<span
-									class='tickers-list__content__header__item--favorite__wrapper'
+									class="tickers-list__content__header__item--favorite__wrapper"
 								>
 									<v-icon
 										v-if="selectedMarket !== 'favorites'"
-										color='#b0b29c'
+										color="#b0b29c"
 										small
 									>
 										mdi-star
 									</v-icon>
 									<v-icon
 										v-if="selectedMarket === 'favorites'"
-										color='#FFE040'
+										color="#FFE040"
 										small
 									>
 										mdi-star
 									</v-icon>
 								</span>
-						</th>
-						<th
-							class='tickers-list__content__header__item--pair'
-							@click="setSorting('pair')"
-						>
+							</th>
+							<th
+								class="tickers-list__content__header__item--pair"
+								@click="setSorting('pair')"
+							>
 								<span>
 									{{ $t('trading.market') }}
 								</span>
-							<v-icon v-if="tickersSorting === 'pairAsc'" small>
-								mdi-arrow-up
-							</v-icon>
-							<v-icon v-if="tickersSorting === 'pairDesc'" small>
-								mdi-arrow-down
-							</v-icon>
-						</th>
-						<th class='tickers-list__content__header__item--rate'>
-							{{ $t('trading.rate') }}
-						</th>
-						<th
-							class='tickers-list__content__header__item--volume'
-							@click="setSorting('volume')"
-						>
+								<v-icon v-if="tickersSorting === 'pairAsc'" small>
+									mdi-arrow-up
+								</v-icon>
+								<v-icon v-if="tickersSorting === 'pairDesc'" small>
+									mdi-arrow-down
+								</v-icon>
+							</th>
+							<th class="tickers-list__content__header__item--rate">
+								{{ $t('trading.rate') }}
+							</th>
+							<th
+								class="tickers-list__content__header__item--volume"
+								@click="setSorting('volume')"
+							>
 								<span>
 									{{ $t('trading.sort.volume') }}
 								</span>
-							<v-icon v-if="tickersSorting === 'volumeDesc'" small>
-								mdi-arrow-down
-							</v-icon>
-							<v-icon v-if="tickersSorting === 'volumeAsc'" small>
-								mdi-arrow-up
-							</v-icon>
-						</th>
-						<th
-							class='tickers-list__content__header__item--change'
-							@click="setSorting('change')"
-						>
+								<v-icon v-if="tickersSorting === 'volumeDesc'" small>
+									mdi-arrow-down
+								</v-icon>
+								<v-icon v-if="tickersSorting === 'volumeAsc'" small>
+									mdi-arrow-up
+								</v-icon>
+							</th>
+							<th
+								class="tickers-list__content__header__item--change"
+								@click="setSorting('change')"
+							>
 								<span>
 									{{ $t('trading.sort.change') }}
 								</span>
-							<v-icon v-if="tickersSorting === 'changeDesc'" small>
-								mdi-arrow-down
-							</v-icon>
-							<v-icon v-if="tickersSorting === 'changeAsc'" small>
-								mdi-arrow-up
-							</v-icon>
-						</th>
-					</tr>
+								<v-icon v-if="tickersSorting === 'changeDesc'" small>
+									mdi-arrow-down
+								</v-icon>
+								<v-icon v-if="tickersSorting === 'changeAsc'" small>
+									mdi-arrow-up
+								</v-icon>
+							</th>
+						</tr>
 					</thead>
 
-					<tbody class='tickers-list__content__body'>
-					<tr
-						v-for='item in tickersListFilteredAndSorted'
-						:key='item.pairName'
-					>
-						<td class='tickers-list__content__body__item--favorite'>
-							<div
-								class='tickers-list__content__body__item--favorite__wrapper'
-							>
-								<v-icon
-									v-if='isPairFavorite(item.pairName)'
-									color='#FFE040'
-									small
-									@click='removeFromFavorites(item.pairName)'
-								>
-									mdi-star
-								</v-icon>
-								<v-icon
-									v-if='!isPairFavorite(item.pairName)'
-									color='#b0b29c'
-									small
-									@click='addToFavorites(item.pairName)'
-								>
-									mdi-star
-								</v-icon>
-							</div>
-						</td>
-
-						<td class='tickers-list__content__body__item--pair'>
-							<a
-								href='#'
-								class='tickers-list__content__body__item--pair__link'
-								@click.prevent='
-										selectMarketAndCurrency(item.market, item.currency)
-									'
-							>
-								<strong
-									class='tickers-list__content__body__item--pair__currency'
-								>
-									{{ item.currency }}
-								</strong>
-							</a>
-						</td>
-
-						<td class='tickers-list__content__body__item--cost'>
-							{{ BigNumber(item.latest).toString() }}
-						</td>
-
-						<td class='tickers-list__content__body__item--volume'>
-							{{ item.volumeReadable }}
-						</td>
-
-						<td
-							class='tickers-list__content__body__item--change'
-							:class='getPercentColorClass(item.changePercent)'
+					<tbody class="tickers-list__content__body">
+						<tr
+							v-for="item in tickersListFilteredAndSorted"
+							:key="item.pairName"
 						>
-							<span>{{ item.changePercent }}</span>
-							<span>%</span>
-						</td>
-					</tr>
+							<td class="tickers-list__content__body__item--favorite">
+								<div
+									class="tickers-list__content__body__item--favorite__wrapper"
+								>
+									<v-icon
+										v-if="isPairFavorite(item.pairName)"
+										color="#FFE040"
+										small
+										@click="removeFromFavorites(item.pairName)"
+									>
+										mdi-star
+									</v-icon>
+									<v-icon
+										v-if="!isPairFavorite(item.pairName)"
+										color="#b0b29c"
+										small
+										@click="addToFavorites(item.pairName)"
+									>
+										mdi-star
+									</v-icon>
+								</div>
+							</td>
+
+							<td class="tickers-list__content__body__item--pair">
+								<a
+									href="#"
+									class="tickers-list__content__body__item--pair__link"
+									@click.prevent="
+										selectMarketAndCurrency(item.market, item.currency)
+									"
+								>
+									<strong
+										class="tickers-list__content__body__item--pair__currency"
+									>
+										{{ item.currency }}
+									</strong>
+								</a>
+							</td>
+
+							<td class="tickers-list__content__body__item--cost">
+								{{ BigNumber(item.latest).toString() }}
+							</td>
+
+							<td class="tickers-list__content__body__item--volume">
+								{{ item.volumeReadable }}
+							</td>
+
+							<td
+								class="tickers-list__content__body__item--change"
+								:class="getPercentColorClass(item.changePercent)"
+							>
+								<span>{{ item.changePercent }}</span>
+								<span>%</span>
+							</td>
+						</tr>
 					</tbody>
 				</template>
 			</v-simple-table>
 			<div
-				v-else-if='tickersList && tickersListFilteredAndSorted.length === 0'
-				class='text-center mt-2'
+				v-else-if="tickersList && tickersListFilteredAndSorted.length === 0"
+				class="text-center mt-2"
 			>
 				{{ $t('trading.not_found') }}
 			</div>
@@ -333,23 +333,23 @@ export default {
 
 				case 'changeAsc':
 					return _.sortBy(this.tickersListFiltered, item =>
-						parseFloat(item.changePercent),
+						parseFloat(item.changePercent)
 					);
 				case 'changeDesc':
 					return _.sortBy(
 						this.tickersListFiltered,
-						item => parseFloat(item.changePercent) * -1,
+						item => parseFloat(item.changePercent) * -1
 					);
 
 				case 'volumeAsc':
 					return _.sortBy(this.tickersListFiltered, item =>
-						parseFloat(item.volume),
+						parseFloat(item.volume)
 					);
 				case 'volumeDesc':
 				default:
 					return _.sortBy(
 						this.tickersListFiltered,
-						item => parseFloat(item.volume) * -1,
+						item => parseFloat(item.volume) * -1
 					);
 			}
 		},
@@ -368,9 +368,11 @@ export default {
 			const deviceWidth = this.$vuetify.breakpoint.width;
 			const mobile = deviceWidth <= 960;
 			const mid = deviceWidth > 960 && deviceWidth <= 1264;
+			const mid3 = deviceWidth > 1382 && deviceWidth <= 1768;
 
 			if (mobile) return undefined;
 			else if (mid) return 185;
+			else if (mid3) return 362;
 			else return 365;
 		},
 	},
@@ -465,12 +467,12 @@ export default {
 	},
 
 	watch: {
-		favoritePairs(val, oldVal) {
+		favoritePairs(val) {
 			if (typeof Storage !== 'undefined') {
 				localStorage.setItem('tickersFavorites', JSON.stringify(val));
 			}
 		},
-		selectedTradingMarket(val, oldVal) {
+		selectedTradingMarket(val) {
 			if (this.selectedMarket !== 'favorites' && val) {
 				this.selectedmarket = val.toUpperCase();
 			}
@@ -506,7 +508,7 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .tickers-list
 	display: flex
 	flex-flow: column

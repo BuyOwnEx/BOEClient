@@ -1,13 +1,13 @@
 <template>
 	<v-simple-table
-		class='hdl__content__table'
-		:height='calculateTableHeight'
+		class="hdl__content__table"
+		:height="calculateTableHeight"
 		dense
 		fixed-header
 	>
 		<template v-slot:default>
-			<HistoryDealListTableHeader :currency='currency' :market='market' />
-			<HistoryDealListTableBody :history-data='historyData' />
+			<HistoryDealListTableHeader :currency="currency" :market="market" />
+			<HistoryDealListTableBody :history-data="historyData" />
 		</template>
 	</v-simple-table>
 </template>
@@ -45,13 +45,14 @@ export default {
 			const mid3 = deviceWidth > 1382 && deviceWidth <= 1768;
 
 			if (mobile) return undefined;
-			else if (mid) return 380;
-			else if (mid2) return 380;
+			else if (mid) return 384;
+			else if (mid2) return 384;
 			else if (mid3) return 1097;
-			else return 846;
+			else return 834;
 		},
 	},
 };
 </script>
 
-<style scoped lang='sass'></style>
+<style scoped lang="sass">
+</style>

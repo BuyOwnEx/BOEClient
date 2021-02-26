@@ -1,21 +1,21 @@
 <template>
-	<v-card class='bid-list pa-1'>
-		<v-card-title class='bid-list__title pa-0 px-1'>
+	<v-card class="bid-list pa-1">
+		<v-card-title class="bid-list__title pa-0">
 			BUY ORDERS
 		</v-card-title>
 
-		<CommonProgressCircular v-if='!bidList || isLoading' />
-		<v-card-text v-else class='bid-list__content pa-0'>
+		<CommonProgressCircular v-if="!bidList || isLoading" />
+		<v-card-text v-else class="bid-list__content pa-0">
 			<BidListTableWrapper
-				:orders-data='bidList'
-				:amount-depth='bidAmountDepth'
-				:volume-depth='bidVolumeDepth'
-				:best='bestBid'
-				:currency='currency'
-				:market='market'
+				:orders-data="bidList"
+				:amount-depth="bidAmountDepth"
+				:volume-depth="bidVolumeDepth"
+				:best="bestBid"
+				:currency="currency"
+				:market="market"
 			/>
 
-			<OrdersTooltip type='bid' />
+			<OrdersTooltip type="bid" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -72,7 +72,7 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .bid-list
 	&__content
 		position: relative
@@ -88,7 +88,6 @@ export default {
 @media screen and (min-width: 960px) and (max-width: 1264px)
 	.bid-list
 		height: 241px
-
 
 @media screen and (max-width: 960px)
 	.bid-list
