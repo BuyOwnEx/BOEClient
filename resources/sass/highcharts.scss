@@ -534,18 +534,53 @@ li.highcharts-active
 	}
 }
 
+// Fix export position
+.highcharts-exporting-group {
+	transform: translateX(-3px) !important;
+}
+.highcharts-contextmenu {
+	transform: translateX(-3px) !important;
+}
+
 // Fix popup menu
 .highcharts-popup {
-	// No padding in popup menu list
-	.highcharts-indicator-list {
-		padding-left: 0 !important;
+	ul.highcharts-indicator-list {
+		padding: 0 !important;
+	}
+	li.highcharts-indicator-list {
+		font-size: 11px !important;
+		padding: 4px 16px !important;
+		width: 115px !important;
 	}
 
-	// Button style
+	select {
+		font-size: 12px !important;
+		border: 1px solid #e6e6e6;
+		height: 22px !important;
+
+		&:focus {
+			outline: none !important;
+		}
+	}
+
 	button {
 		padding: 6px 32px;
 		font-size: 12px;
 		text-transform: uppercase;
+	}
+
+	input:focus {
+		outline: none !important;
+	}
+
+	.highcharts-popup-lhs-col {
+		padding: 8px !important;
+	}
+
+	&-main-title {
+		height: 41px !important;
+		display: flex !important;
+		align-items: center !important;
 	}
 }
 
@@ -564,13 +599,61 @@ li.highcharts-active
 	fill-opacity: 0.6 !important;
 }
 
-// Export position fix
-.highcharts-exporting-group {
-	transform: translateX(-3px) !important;
+// Arrows and left toolbar visible height
+.highcharts-arrow-wrapper {
+	bottom: 53px !important;
+}
+.highcharts-menu-wrapper {
+	height: calc(100% - 83px) !important;
 }
 
-.highcharts-contextmenu {
-	transform: translateX(-3px) !important;
+// (Market activity margin), height fix
+.highcharts-container {
+	height: 380px !important;
+}
+
+.highcharts-root {
+	height: 380px !important;
+}
+
+@media screen and (max-width: 1768px) {
+	.highcharts-menu-wrapper {
+		height: calc(100% - 92px) !important;
+	}
+	.highcharts-arrow-wrapper {
+		bottom: 62px !important;
+	}
+	.highcharts-stocktools-toolbar {
+		height: 700px !important;
+	}
+}
+
+.highcharts-popup {
+	box-sizing: border-box !important;
+
+	&-lhs-col {
+		min-height: 221px !important;
+	}
+
+	.highcharts-tab-item {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		width: 90px !important;
+		font-size: 13px !important;
+		text-transform: uppercase !important;
+	}
+
+	label {
+		font-size: 12px !important;
+		text-transform: uppercase !important;
+		margin-bottom: 4px !important;
+	}
+
+	input {
+		height: 16px !important;
+		font-size: 12px !important;
+	}
 }
 
 //
@@ -583,6 +666,8 @@ li.highcharts-active
 	--dark-button-color--hover-lighten1: #2b3b4f;
 
 	--dark-border-color__popup: #737373;
+	--dark-border-color__popup--input: #3a3a3a;
+
 	--dark-button-color__popup: #131f29;
 	--dark-button-color__popup--hover: #1e3141;
 
@@ -593,7 +678,7 @@ li.highcharts-active
 
 	--dark-text-and-icons-color: #dbdbdb;
 
-	--dark-label-stroke: #cbcbcb;
+	--dark-label-stroke: #838383;
 
 	.highcharts-background {
 		fill: var(--dark-background-color) !important;
@@ -665,6 +750,7 @@ li.highcharts-active
 		background: var(--dark-background-color__menu) !important;
 		box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3) !important;
 
+		// Left list in indicator popup
 		ul.highcharts-indicator {
 			&-list {
 				li {
@@ -677,10 +763,11 @@ li.highcharts-active
 					}
 				}
 			}
+		}
 
-			&-title {
-				color: var(--dark-text-and-icons-color) !important;
-			}
+		// Title in right popup column
+		.highcharts-indicator-title {
+			color: var(--dark-text-and-icons-color) !important;
 		}
 
 		label {
@@ -705,7 +792,12 @@ li.highcharts-active
 		}
 
 		input {
-			border: 1px solid #3a3a3a !important;
+			border: 1px solid var(--dark-border-color__popup--input) !important;
+		}
+
+		select {
+			font-size: 12px !important;
+			border: 1px solid var(--dark-border-color__popup--input) !important;
 		}
 
 		.highcharts-tab-item {
@@ -756,15 +848,18 @@ li.highcharts-active
 	// Lines
 	--dark-line__grid: #2d2d2d;
 	--dark-line__grid--minor: #0f0f0f;
-	--dark-line__axis: #929292;
+	--dark-line__axis: #4d4d4d;
 	--dark-line__axis--resizer: #838383;
 	--dark-line__tracker: #cbcbcb;
+
 	.highcharts-axis-resizer {
 		stroke: var(--dark-line__axis--resizer) !important;
 	}
+
 	.highcharts-axis-line {
 		stroke: var(--dark-line__axis) !important;
 	}
+
 	.highcharts-grid-line {
 		stroke: var(--dark-line__grid) !important;
 	}
@@ -801,22 +896,19 @@ li.highcharts-active
 	.highcharts-label-box {
 		fill: var(--dark-background-color__menu--hover) !important;
 	}
-
 	.highcharts-annotation-label-box {
 		stroke: var(--dark-label-stroke) !important;
 	}
-
 	.highcharts-control-points path {
 		fill: #647c91 !important;
 	}
-
 	.highcharts-annotation-toolbar {
 		color: var(--dark-text-and-icons-color) !important;
 	}
 
 	//
 	// Dark Icons
-	// Main color - #a6a6a6
+	// Main color - #888888
 	//
 
 	// Left menu
@@ -952,20 +1044,21 @@ li.highcharts-active
 		background-image: url('../js/assets/images/highcharts/dark/save-chart.svg') !important;
 	}
 
+	.highcharts-separator .highcharts-menu-item-btn {
+		background-image: url('../js/assets/images/highcharts/dark/separator.svg') !important;
+	}
+
 	// Arrows
 	.highcharts-toggle-toolbar {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
 		background-color: #0e171f !important;
 	}
-
 	.highcharts-arrow-right {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-bottom.svg') !important;
 	}
-
 	.highcharts-arrow-up {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
 	}
-
 	.highcharts-arrow-down {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
 	}
