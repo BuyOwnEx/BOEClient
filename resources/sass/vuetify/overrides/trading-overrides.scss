@@ -137,6 +137,7 @@
 .theme--dark {
 	.trading {
 		* {
+			scrollbar-color: auto !important;
 			&::-webkit-scrollbar-thumb {
 				background-color: var(--dark-scrollbar-color) !important;
 				border-radius: var(--scrollbar-border-radius) 3px;
