@@ -1,56 +1,56 @@
 <template>
-	<div class='trading'>
-		<div v-if='!isMobile' class='trading__desktop'>
-			<TickersList class='trading__desktop__tickers' :market='market' />
+	<div class="trading">
+		<div v-if="!isMobile" class="trading__desktop">
+			<TickersList class="trading__desktop__tickers" :market="market" />
 
 			<TradingChartWrapper
-				class='trading__desktop__chart'
-				:currency='selectedCurrency'
-				:market='selectedMarket'
+				class="trading__desktop__chart"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
 			/>
 
 			<HistoryDealList
-				class='trading__desktop__history'
-				:market='selectedMarket'
-				:currency='selectedCurrency'
+				class="trading__desktop__history"
+				:market="selectedMarket"
+				:currency="selectedCurrency"
 			/>
 
 			<TradingChat
-				class='trading__desktop__chat'
-				:messages-data='messagesData'
+				class="trading__desktop__chat"
+				:messages-data="messagesData"
 			/>
 
 			<AskList
-				class='trading__desktop__ask-list'
-				:currency='selectedCurrency'
-				:market='selectedMarket'
+				class="trading__desktop__ask-list"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
 			/>
 
 			<TradingFormsWrapper
-				class='trading__desktop__forms'
-				:currency='selectedCurrency'
-				:market='selectedMarket'
+				class="trading__desktop__forms"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
 			/>
 
 			<BidList
-				class='trading__desktop__bid-list'
-				:currency='selectedCurrency'
-				:market='selectedMarket'
+				class="trading__desktop__bid-list"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
 			/>
 
-			<MarketActivity class='trading__desktop__market-activity' />
+			<MarketActivity class="trading__desktop__market-activity" />
 
 			<!--      v-if="isLogged"-->
 			<OwnActiveOrderList
-				class='trading__desktop__own-order'
-				:currency='selectedCurrency'
-				:market='selectedMarket'
+				class="trading__desktop__own-order"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
 			/>
 			<!--      v-if="isLogged"-->
 			<OwnHistoryDealList
-				class='trading__desktop__own-history'
-				:currency='selectedCurrency'
-				:market='selectedMarket'
+				class="trading__desktop__own-history"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
 			/>
 
 			<!--                        <OwnActivePositionList-->
@@ -61,74 +61,69 @@
 			<!--                        />-->
 		</div>
 
-		<div v-if='isMobile' class='trading__mobile'>
-			<v-tabs-items v-model='selectedTab' class='trading__mobile__tab-pages'>
-				<v-tab-item :key='1'>
-					<TickersList class='trading__mobile__tickers' :market='market' />
-					<!--          <v-card class="mobile__tickers">-->
-					<!--            <v-card-title>-->
-					<!--              test-->
-					<!--            </v-card-title>-->
-					<!--          </v-card>-->
-				</v-tab-item>
-
-				<v-tab-item :key='2'>
+		<div v-if="isMobile" class="trading__mobile">
+			<v-tabs-items v-model="selectedTab" class="trading__mobile__tab-pages">
+				<v-tab-item :key="1">
 					<TradingChartWrapper
-						class='trading__mobile__chart'
-						:currency='selectedCurrency'
-						:market='selectedMarket'
+						class="trading__mobile__chart"
+						:currency="selectedCurrency"
+						:market="selectedMarket"
 					/>
 				</v-tab-item>
 
-				<v-tab-item :key='3'>
+				<v-tab-item :key="2">
+					<TickersList class="trading__mobile__tickers" :market="market" />
+				</v-tab-item>
+
+				<v-tab-item :key="3">
 					<HistoryDealList
-						class='trading__mobile__history'
-						:market='selectedMarket'
-						:currency='selectedCurrency'
+						class="trading__mobile__history"
+						:market="selectedMarket"
+						:currency="selectedCurrency"
 					/>
 				</v-tab-item>
 
-				<v-tab-item :key='4'>
+				<v-tab-item :key="4">
 					<TradingChat
-						class='trading__mobile__chat'
-						:messages-data='messagesData'
+						class="trading__mobile__chat"
+						:messages-data="messagesData"
 					/>
 				</v-tab-item>
 
-				<v-tab-item class='mobile__orders' :key='5'>
+				<v-tab-item class="mobile__orders" :key="5">
 					<BidList
-						class='trading__mobile__orders__bid'
-						:currency='selectedCurrency'
-						:market='selectedMarket'
+						class="trading__mobile__orders__bid"
+						:currency="selectedCurrency"
+						:market="selectedMarket"
 					/>
 					<AskList
-						class='trading__mobile__orders__ask'
-						:currency='selectedCurrency'
-						:market='selectedMarket'
+						class="trading__mobile__orders__ask"
+						:currency="selectedCurrency"
+						:market="selectedMarket"
 					/>
 				</v-tab-item>
 
-				<v-tab-item :key='6'>
+				<v-tab-item :key="6">
 					<TradingFormsWrapper
-						class='trading__mobile__forms'
-						:currency='selectedCurrency'
-						:market='selectedMarket'
+						class="trading__mobile__forms"
+						:currency="selectedCurrency"
+						:market="selectedMarket"
 					/>
 				</v-tab-item>
 
-				<v-tab-item :key='7' v-if='isLogged'>
+				<v-tab-item :key="7" v-if="isLogged">
 					<OwnActiveOrderList
-						class='trading__mobile__own-order'
-						:currency='selectedCurrency'
-						:market='selectedMarket'
+						class="trading__mobile__own-order"
+						:currency="selectedCurrency"
+						:market="selectedMarket"
 					/>
 				</v-tab-item>
 
-				<v-tab-item :key='8' v-if='isLogged'>
+				<v-tab-item :key="8" v-if="isLogged">
 					<OwnHistoryDealList
-						class='trading__mobile__own-history'
-						:currency='selectedCurrency'
-						:market='selectedMarket'
+						class="trading__mobile__own-history"
+						:currency="selectedCurrency"
+						:market="selectedMarket"
 					/>
 				</v-tab-item>
 
@@ -137,34 +132,34 @@
 			</v-tabs-items>
 
 			<v-tabs
-				v-if='isMobile'
-				v-model='selectedTab'
-				class='trading__mobile__tabs'
+				v-if="isMobile"
+				v-model="selectedTab"
+				class="trading__mobile__tabs"
 				fixed-tabs
 				show-arrows
 			>
-				<v-tab :key='1'>
-					Tickers
-				</v-tab>
-				<v-tab :key='2'>
+				<v-tab :key="1">
 					Chart
 				</v-tab>
-				<v-tab :key='3'>
+				<v-tab :key="2">
+					Tickers
+				</v-tab>
+				<v-tab :key="3">
 					History
 				</v-tab>
-				<v-tab :key='4'>
+				<v-tab :key="4">
 					Chat
 				</v-tab>
-				<v-tab :key='5'>
+				<v-tab :key="5">
 					Orders
 				</v-tab>
-				<v-tab :key='6'>
+				<v-tab :key="6">
 					Forms
 				</v-tab>
-				<v-tab :key='7' v-if='isLogged'>
+				<v-tab :key="7" v-if="isLogged">
 					Active orders
 				</v-tab>
-				<v-tab :key='8' v-if='isLogged'>
+				<v-tab :key="8" v-if="isLogged">
 					Own History
 				</v-tab>
 				<!--        <v-tab :key="9">-->
@@ -256,17 +251,17 @@ export default {
 			return _.get(
 				this.$store.state.tickers.markets,
 				this.selectedMarket.toUpperCase(),
-				null,
+				null
 			);
 		},
 		isMargin() {
 			let market = this.markets
 				? _.find(
-					this.markets,
-					item =>
-						item.currency.toUpperCase() ===
-						this.selectedCurrency.toUpperCase(),
-				)
+						this.markets,
+						item =>
+							item.currency.toUpperCase() ===
+							this.selectedCurrency.toUpperCase()
+				  )
 				: null;
 			return market === null ? false : market.margin;
 		},
@@ -285,12 +280,12 @@ export default {
 				window.history.pushState(
 					null,
 					this.selectedMarket.toUpperCase() +
-					'/' +
-					this.selectedCurrency.toUpperCase(),
+						'/' +
+						this.selectedCurrency.toUpperCase(),
 					'/trading/' +
-					this.selectedMarket.toUpperCase() +
-					'/' +
-					this.selectedCurrency.toUpperCase(),
+						this.selectedMarket.toUpperCase() +
+						'/' +
+						this.selectedCurrency.toUpperCase()
 				);
 			}
 		},
@@ -322,7 +317,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .trading {
 	display: flex;
 	flex-grow: 1;
