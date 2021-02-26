@@ -185,6 +185,8 @@ export default {
 
 @media screen and (min-width: 1265px) and (max-width: 1452px)
 	.market-info
+		line-height: 15px
+
 		.info-value
 			font-size: 12px
 		.info-title
@@ -209,13 +211,53 @@ export default {
 			font-size: 11px
 
 		&__last-price
-			padding-right: 8px
+			padding-right: 16px
 		&__daily
-			padding-right: 8px
+			padding-right: 16px
 		&__daily-high
-			padding-right: 8px
+			padding-right: 16px
 		&__daily-low
-			padding-right: 8px
+			padding-right: 16px
 		&__daily-volume
-			padding-right: 8px
+			padding-right: 16px
+
+@media screen and (max-width: 960px)
+	.market-info
+		line-height: 12px
+
+		.info-value
+			font-size: 13px
+		.info-title
+			font-size: 10px
+
+		&__last-price
+			padding-right: 4px
+		&__daily
+			padding-right: 4px
+		&__daily-high
+			padding-right: 4px
+		&__daily-low
+			padding-right: 4px
+		&__daily-volume
+			padding-right: 4px
+
+@media screen and (max-width: 700px)
+	.market-info
+		line-height: 12px
+
+		.info-value
+			font-size: 10px
+		.info-title
+			font-size: 9px
+
+		&__last-price
+			padding-right: 2px
+		&__daily
+			padding-right: 2px
+		&__daily-high
+			padding-right: 2px
+		&__daily-low
+			padding-right: 2px
+		&__daily-volume
+			padding-right: 2px
 </style>
