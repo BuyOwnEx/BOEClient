@@ -1,9 +1,9 @@
 <template>
 	<highcharts
 		:constructor-type="'stockChart'"
-		:options='options'
-		:highcharts='hcInstance'
-		ref='candle'
+		:options="options"
+		:highcharts="hcInstance"
+		ref="candle"
 	/>
 </template>
 
@@ -67,7 +67,6 @@ export default {
 						letterSpacing: '1.5px',
 						fontSize: '11px',
 					},
-					// backgroundColor: this.$vuetify.theme.dark ? '#1e1e1e' : '#fff',
 					height: this.graphHeight,
 					spacing: [10, 10, 10, 10],
 					events: {
@@ -346,18 +345,18 @@ export default {
 				document.addEventListener(
 					'webkitfullscreenchange',
 					this.exitHandler,
-					false,
+					false
 				);
 				document.addEventListener(
 					'mozfullscreenchange',
 					this.exitHandler,
-					false,
+					false
 				);
 				document.addEventListener('fullscreenchange', this.exitHandler, false);
 				document.addEventListener(
 					'MSFullscreenChange',
 					this.exitHandler,
-					false,
+					false
 				);
 			}
 		},
@@ -403,7 +402,7 @@ export default {
 				},
 				false,
 				shift,
-				true,
+				true
 			);
 			candle.chart.series[1].addPoint(
 				{
@@ -412,7 +411,7 @@ export default {
 				},
 				true,
 				shift,
-				true,
+				true
 			);
 			candle.chart.redraw();
 		},
@@ -526,10 +525,8 @@ export default {
 		this.monitoringFullMode();
 	},
 
-	activated() {
-	},
-	deactivated() {
-	},
+	activated() {},
+	deactivated() {},
 };
 </script>
 
