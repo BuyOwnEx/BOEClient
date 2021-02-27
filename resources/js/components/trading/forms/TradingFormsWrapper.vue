@@ -1,51 +1,45 @@
 <template>
 	<v-card class="trading-forms pa-1">
-		<div class="trading-forms__actions px-2">
-			<v-btn
-				class="pt-2 pb-2"
-				:class="{ selected: activeTradingFormsDisplayMode === 'limit' }"
-				small
-				tile
-				:text="!isSelectedLimitMode"
-				@click="activeTradingFormsDisplayMode = 'limit'"
-			>
-				<span>{{ $t('trading.order.type.limit') }}</span>
-			</v-btn>
-			<v-btn
-				class="pt-2 pb-2"
-				:class="{ selected: activeTradingFormsDisplayMode === 'market' }"
-				small
-				tile
-				:text="!isSelectedMarketMode"
-				@click="activeTradingFormsDisplayMode = 'market'"
-			>
-				<span>{{ $t('trading.order.type.market') }}</span>
-			</v-btn>
-		</div>
+		<v-row no-gutters>
+			<v-col class="trading-forms__buy" cols="12" md="6">
+				<v-card-title class="trading-forms__header pa-0">
+					<span>
+						{{ $t('trading.order.direction.buy') }}
+						{{ currency }}
+					</span>
+					<span class="trading-forms__header-info">Lowest Ask: 12345.67</span>
+				</v-card-title>
 
-		<div class="trading-forms__content">
-			<TradingFormLimitWrapper
-				v-if="activeTradingFormsDisplayMode === 'limit'"
-				:currency="currency"
-				:market="market"
-			/>
-			<TradingFormMarketWrapper
-				v-if="activeTradingFormsDisplayMode === 'market'"
-				:currency="currency"
-				:market="market"
-			/>
-		</div>
+				<v-card-text class="pa-0">
+					<TradingFormBuyWrapper :currency="currency" :market="market" />
+				</v-card-text>
+			</v-col>
+
+			<v-col class="trading-forms__sell" cols="12" md="6">
+				<v-card-title class="trading-forms__header pa-0">
+					<span>
+						{{ $t('trading.order.direction.buy') }}
+						{{ currency }}
+					</span>
+					<span class="trading-forms__header-info">Highest Bid: 12345.67</span>
+				</v-card-title>
+
+				<v-card-text class="pa-0">
+					<TradingFormSellWrapper :currency="currency" :market="market" />
+				</v-card-text>
+			</v-col>
+		</v-row>
 	</v-card>
 </template>
 
 <script>
-import TradingFormLimitWrapper from './form/TradingFormLimitWrapper';
-import TradingFormMarketWrapper from './form/TradingFormMarketWrapper';
+import TradingFormBuyWrapper from './form/TradingFormBuyWrapper';
+import TradingFormSellWrapper from './form/TradingFormSellWrapper';
 
 export default {
 	name: 'TradingForms',
 
-	components: { TradingFormMarketWrapper, TradingFormLimitWrapper },
+	components: { TradingFormBuyWrapper, TradingFormSellWrapper },
 
 	props: {
 		currency: {
@@ -77,37 +71,43 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.trading-forms {
-	display: flex;
-	flex-grow: 1;
-	flex-flow: column;
-	min-height: 484px !important;
+<style scoped lang="sass">
+.trading-forms
+	display: flex
+	flex-grow: 1
+	flex-flow: column
+	min-height: 484px !important
 
-	&__actions {
-		padding-bottom: 0.5rem;
-	}
-}
+	&__buy
+		padding-right: 8px
+	&__sell
+		padding-left: 8px
 
-@media screen and (min-width: 1768px) {
-	.trading-forms {
-		min-height: 454px;
-	}
-}
+	&__header
+		display: flex
+		justify-content: space-between
+		word-break: normal
+		font-weight: 700
+		text-transform: uppercase
+	&__header-info
+		font-weight: normal
+		font-size: 12px
+		text-transform: none
+		opacity: 0.6
 
-@media screen and (min-width: 1382px) and (max-width: 1768px) {
-	.trading-forms {
-		min-height: 449px;
-	}
-}
+	&__actions
+		padding-bottom: 0.5rem
 
-@media screen and (max-width: 960px) {
-	.trading-forms {
-		&__content {
-			&__sell {
-				padding-top: 2rem;
-			}
-		}
-	}
-}
+@media screen and (min-width: 1768px)
+	.trading-forms
+		min-height: 454px
+
+@media screen and (min-width: 1382px) and (max-width: 1768px)
+	.trading-forms
+		min-height: 449px
+
+@media screen and (max-width: 960px)
+	.trading-forms
+		&__sell
+			padding-top: 2rem
 </style>
