@@ -118,53 +118,82 @@
 			</div>
 
 			<div v-if="!useMargin" class="blf__params">
-				<v-text-field
-					v-model="form.sl_rate"
-					ref="bid_limit_sl_rate"
-					:label="$t('trading.order.sl_rate')"
-					:disabled="!additionalParamsEnabled"
-					type="text"
-					outlined
-					dense
-					hide-details
-					@keydown="validateNumber($event)"
-				>
-					<template v-slot:append>
-						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
+				<TradingFormsInfoTooltip>
+					<v-text-field
+						v-model="form.sl_rate"
+						ref="bid_limit_sl_rate"
+						:label="$t('trading.order.sl_rate')"
+						:disabled="!additionalParamsEnabled"
+						type="text"
+						outlined
+						dense
+						hide-details
+						@keydown="validateNumber($event)"
+					>
+						<template v-slot:append>
+							<span class="button-currency-text">
+								{{ market.toUpperCase() }}
+							</span>
+						</template>
+					</v-text-field>
+					<template #text>
+						Slot Text
 					</template>
-				</v-text-field>
-				<v-text-field
-					v-model="form.tp_rate"
-					style="margin-top: 6px"
-					ref="bid_limit_tp_rate"
-					:label="$t('trading.order.tp_rate')"
-					:disabled="!additionalParamsEnabled"
-					type="text"
-					outlined
-					dense
-					hide-details
-					@keydown="validateNumber($event)"
-				>
-					<template v-slot:append>
-						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
+				</TradingFormsInfoTooltip>
+
+				<TradingFormsInfoTooltip>
+					<v-text-field
+						v-model="form.tp_rate"
+						style="margin-top: 6px"
+						ref="bid_limit_tp_rate"
+						:label="$t('trading.order.tp_rate')"
+						:disabled="!additionalParamsEnabled"
+						type="text"
+						outlined
+						dense
+						hide-details
+						@keydown="validateNumber($event)"
+					>
+						<template v-slot:append>
+							<span class="button-currency-text">
+								{{ market.toUpperCase() }}
+							</span>
+						</template>
+					</v-text-field>
+					<template #text>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad,
+						aperiam beatae cupiditate incidunt, maxime molestiae nostrum nulla
+						quaerat quas qui repellat sed.
 					</template>
-				</v-text-field>
-				<v-text-field
-					v-model="form.ts_offset"
-					style="margin-top: 6px"
-					ref="bid_limit_ts_offset"
-					:label="$t('trading.order.ts_offset')"
-					:disabled="!additionalParamsEnabled"
-					type="text"
-					outlined
-					dense
-					hide-details
-					@keydown="validateNumber($event)"
-				>
-					<template v-slot:append>
-						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
+				</TradingFormsInfoTooltip>
+
+				<TradingFormsInfoTooltip>
+					<v-text-field
+						v-model="form.ts_offset"
+						style="margin-top: 6px"
+						ref="bid_limit_ts_offset"
+						v-bind="attrs"
+						v-on="on"
+						:label="$t('trading.order.ts_offset')"
+						:disabled="!additionalParamsEnabled"
+						type="text"
+						outlined
+						dense
+						hide-details
+						@keydown="validateNumber($event)"
+					>
+						<template v-slot:append>
+							<span class="button-currency-text">{{
+								market.toUpperCase()
+							}}</span>
+						</template>
+					</v-text-field>
+					<template #text>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad,
+						aperiam beatae cupiditate incidunt, maxime molestiae nostrum nulla
+						quaerat quas qui repellat sed.
 					</template>
-				</v-text-field>
+				</TradingFormsInfoTooltip>
 			</div>
 		</div>
 
@@ -198,8 +227,8 @@
 				<div class="blf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="available_balance" @click="setAmount(100)">
-					{{ balance.toString() }}
-				</span>
+						{{ balance.toString() }}
+					</span>
 					{{ market.toUpperCase() }}
 				</div>
 			</div>
@@ -209,11 +238,14 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
+import TradingFormsInfoTooltip from '../TradingFormsInfoTooltip';
 
 export default {
 	name: 'BidLimitForm',
+
+	components: { TradingFormsInfoTooltip },
 
 	props: {
 		currency: {
