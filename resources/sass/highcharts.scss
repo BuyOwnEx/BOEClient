@@ -546,6 +546,11 @@
 	}
 }
 
+// Fix export button color in light theme
+.highcharts-button-box {
+	fill: #ededed;
+}
+
 // Fix export position
 .highcharts-exporting-group {
 	transform: translateX(-3px) !important;
@@ -623,11 +628,9 @@
 .highcharts-container {
 	height: 380px !important;
 }
-
 .highcharts-root {
 	height: 380px !important;
 }
-
 @media screen and (max-width: 1768px) {
 	.highcharts-menu-wrapper {
 		height: calc(100% - 92px) !important;
@@ -640,13 +643,13 @@
 	}
 }
 
+// Some popup fixes
 .highcharts-popup {
 	box-sizing: border-box !important;
 
 	&-lhs-col {
 		min-height: 221px !important;
 	}
-
 	.highcharts-tab-item {
 		display: flex !important;
 		align-items: center !important;
@@ -655,13 +658,11 @@
 		font-size: 13px !important;
 		text-transform: uppercase !important;
 	}
-
 	label {
 		font-size: 12px !important;
 		text-transform: uppercase !important;
 		margin-bottom: 4px !important;
 	}
-
 	input {
 		height: 16px !important;
 		font-size: 12px !important;
