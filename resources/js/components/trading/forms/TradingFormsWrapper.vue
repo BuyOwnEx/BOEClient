@@ -18,7 +18,7 @@
 			<v-col class="trading-forms__sell" cols="12" md="6">
 				<v-card-title class="trading-forms__header pa-0">
 					<span>
-						{{ $t('trading.order.direction.buy') }}
+						{{ $t('trading.order.direction.sell') }}
 						{{ currency }}
 					</span>
 					<span class="trading-forms__header-info">Highest Bid: 12345.67</span>
