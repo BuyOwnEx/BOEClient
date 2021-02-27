@@ -572,8 +572,9 @@
 
 	select {
 		font-size: 12px !important;
-		border: 1px solid #e6e6e6;
-		height: 22px !important;
+		border: 1px solid #e6e6e6 !important;
+		height: 26px !important;
+		width: 99.5% !important;
 
 		&:focus {
 			outline: none !important;
