@@ -158,23 +158,43 @@ export default {
 	height: 33px
 
 	&__last-price
+		display: flex
+		align-items: center
+		justify-content: center
+		flex-wrap: wrap
 		padding-right: 12px
 	&__daily
+		display: flex
+		align-items: center
+		justify-content: center
+		flex-wrap: wrap
 		padding-right: 12px
 	&__daily-high
+		display: flex
+		align-items: center
+		justify-content: center
+		flex-wrap: wrap
 		padding-right: 12px
 	&__daily-low
+		display: flex
+		align-items: center
+		justify-content: center
+		flex-wrap: wrap
 		padding-right: 12px
 	&__daily-volume
+		display: flex
+		align-items: center
+		justify-content: center
+		flex-wrap: wrap
 		padding-right: 12px
 
 	.info-value
 		font-weight: bold
 		font-size: 1.1rem
+		padding-right: 4px
 	.info-title
 		font-weight: normal
 		font-size: 11px
-
 
 @media screen and (min-width: 1452px) and (max-width: 1764px)
 	.market-info
@@ -190,7 +210,7 @@ export default {
 		.info-value
 			font-size: 12px
 		.info-title
-			font-size: 10px
+			font-size: 9px
 
 		&__last-price
 			padding-right: 2px
@@ -223,27 +243,27 @@ export default {
 
 @media screen and (max-width: 960px)
 	.market-info
-		line-height: 12px
+		line-height: 15px
 
 		.info-value
-			font-size: 13px
+			font-size: 15px
 		.info-title
 			font-size: 10px
 
 		&__last-price
-			padding-right: 4px
+			padding-right: 8px
 		&__daily
-			padding-right: 4px
+			padding-right: 8px
 		&__daily-high
-			padding-right: 4px
+			padding-right: 8px
 		&__daily-low
-			padding-right: 4px
+			padding-right: 8px
 		&__daily-volume
-			padding-right: 4px
+			padding-right: 8px
 
 @media screen and (max-width: 700px)
 	.market-info
-		line-height: 12px
+		line-height: 15px
 
 		.info-value
 			font-size: 10px
