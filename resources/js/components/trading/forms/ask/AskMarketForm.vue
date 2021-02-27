@@ -560,6 +560,7 @@ export default {
 		font-size: 0.75rem;
 		padding: 0 12px;
 		margin-top: -6px;
+		opacity: 0.6;
 	}
 
 	&__footer {
