@@ -591,28 +591,29 @@
 
 // Arrows and left toolbar visible height
 .highcharts-arrow-wrapper {
-	bottom: 53px !important;
+	bottom: 48px !important;
 }
 .highcharts-menu-wrapper {
-	height: calc(100% - 83px) !important;
+	height: calc(100% - 78px) !important;
+}
+
+// Toolbar height fix
+.highcharts-stocktools-toolbar {
+	height: 700px !important;
+}
+
+// Fix after fullscreen exit bug
+.highcharts-container {
+	width: auto !important;
 }
 
 // (Market activity margin), height fix
-.highcharts-container {
-	height: 380px !important;
-}
-.highcharts-root {
-	height: 380px !important;
-}
 @media screen and (max-width: 1768px) {
 	.highcharts-menu-wrapper {
-		height: calc(100% - 92px) !important;
+		height: calc(100% - 98px) !important;
 	}
 	.highcharts-arrow-wrapper {
-		bottom: 62px !important;
-	}
-	.highcharts-stocktools-toolbar {
-		height: 700px !important;
+		bottom: 68px !important;
 	}
 }
 
