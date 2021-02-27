@@ -526,37 +526,9 @@
 // Some changes and fixes <24.02.21>
 //
 
-// Fix export menu
-.highcharts-menu {
-	padding: 8px 16px !important;
-	box-shadow: rgb(212, 212, 212) 0 0 10px !important;
-	border: 1px solid rgb(215, 215, 215) !important;
-
-	hr {
-		border: none;
-		border-top: 1px solid #dfdfdf;
-	}
-
-	&-item {
-		transition: background 150ms ease 0s, color 150ms ease 0s !important;
-
-		&:hover {
-			background: var(--v-primary-lighten2) !important;
-		}
-	}
-}
-
-// Fix export button color in light theme
-.highcharts-button-box {
-	fill: #ededed;
-}
-
-// Fix export position
+// Remove export menu
 .highcharts-exporting-group {
-	transform: translateX(-3px) !important;
-}
-.highcharts-contextmenu {
-	transform: translateX(-3px) !important;
+	display: none !important;
 }
 
 // Fix popup menu
