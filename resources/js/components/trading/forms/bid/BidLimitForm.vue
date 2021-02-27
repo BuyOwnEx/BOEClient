@@ -117,7 +117,7 @@
 				/>
 			</div>
 
-			<div v-if="!useMargin && isAdditionalParams" class="blf__params">
+			<div v-if="!useMargin" class="blf__params">
 				<v-text-field
 					v-model="form.sl_rate"
 					ref="bid_limit_sl_rate"

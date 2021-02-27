@@ -102,7 +102,7 @@
 				</v-select>
 			</div>
 
-			<div v-if="!useMargin && isAdditionalParams" class="amf__params">
+			<div v-if="!useMargin" class="amf__params">
 				<v-text-field
 					v-model="form.sl_rate"
 					ref="ask_market_sl_rate"

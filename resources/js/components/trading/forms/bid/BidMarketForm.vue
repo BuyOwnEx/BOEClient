@@ -77,14 +77,16 @@
 					@keydown="validateNumber($event)"
 				>
 					<template v-slot:append>
-						<span class="button-currency-text">{{ currency.toUpperCase() }}</span>
+						<span class="button-currency-text">{{
+							currency.toUpperCase()
+						}}</span>
 					</template>
 				</v-text-field>
 				<div class="bmf__text-field-hint">
 					{{
 						$t('trading.order.pay_market_buy', [fee_visible]) +
-						' ' +
-						currency.toUpperCase()
+							' ' +
+							currency.toUpperCase()
 					}}
 				</div>
 			</div>
@@ -102,7 +104,7 @@
 				</v-select>
 			</div>
 
-			<div v-if="!useMargin && isAdditionalParams" class="bmf__params">
+			<div v-if="!useMargin" class="bmf__params">
 				<v-text-field
 					v-model="form.sl_rate"
 					ref="bid_market_sl_rate"
@@ -183,8 +185,8 @@
 				<div class="bmf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="available_balance" @click="setAmount(100)">
-					{{ balance.toString() }}
-				</span>
+						{{ balance.toString() }}
+					</span>
 					{{ market.toUpperCase() }}
 				</div>
 			</div>

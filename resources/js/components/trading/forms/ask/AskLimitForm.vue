@@ -1,34 +1,34 @@
 <template>
-	<form class='alf' @submit.prevent='sendAskLimit'>
-		<input name='type' type='hidden' value='LIMIT' />
-		<input name='currency' type='hidden' :value='currency' />
-		<input name='market' type='hidden' :value='market' />
-		<input name='side' type='hidden' value='1' />
+	<form class="alf" @submit.prevent="sendAskLimit">
+		<input name="type" type="hidden" value="LIMIT" />
+		<input name="currency" type="hidden" :value="currency" />
+		<input name="market" type="hidden" :value="market" />
+		<input name="side" type="hidden" value="1" />
 
 		<div>
 			<v-text-field
-				v-model='form.amount'
-				ref='ask_limit_amount'
+				v-model="form.amount"
+				ref="ask_limit_amount"
 				:label="$t('trading.order.direction.sell')"
-				type='text'
+				type="text"
 				outlined
 				dense
 				hide-details
-				@keydown='validateNumber($event)'
+				@keydown="validateNumber($event)"
 			>
 				<template v-slot:append>
-					<span class='button-currency-text'>{{ currency.toUpperCase() }}</span>
+					<span class="button-currency-text">{{ currency.toUpperCase() }}</span>
 				</template>
 			</v-text-field>
 
-			<div class='alf__percents'>
+			<div class="alf__percents">
 				<v-btn
 					:input-value="form.amount === '25'"
 					text
 					small
 					outlined
 					tile
-					@click='setAmount(25)'
+					@click="setAmount(25)"
 				>
 					<span>25 %</span>
 				</v-btn>
@@ -38,7 +38,7 @@
 					small
 					outlined
 					tile
-					@click='setAmount(50)'
+					@click="setAmount(50)"
 				>
 					<span>50 %</span>
 				</v-btn>
@@ -48,7 +48,7 @@
 					small
 					outlined
 					tile
-					@click='setAmount(75)'
+					@click="setAmount(75)"
 				>
 					<span>75 %</span>
 				</v-btn>
@@ -58,119 +58,119 @@
 					small
 					outlined
 					tile
-					@click='setAmount(100)'
+					@click="setAmount(100)"
 				>
 					<span>100 %</span>
 				</v-btn>
 			</div>
 
 			<v-text-field
-				v-model='form.rate'
-				ref='ask_limit_rate'
+				v-model="form.rate"
+				ref="ask_limit_rate"
 				:label="$t('trading.rate_per') + ' ' + currency.toUpperCase()"
-				type='text'
+				type="text"
 				outlined
 				dense
 				hide-details
-				@keydown='validateNumber($event)'
+				@keydown="validateNumber($event)"
 			>
 				<template v-slot:append>
-					<span class='button-currency-text'>{{ market.toUpperCase() }}</span>
+					<span class="button-currency-text">{{ market.toUpperCase() }}</span>
 				</template>
 			</v-text-field>
 
-			<div class='alf__volume'>
+			<div class="alf__volume">
 				<v-text-field
-					v-model='volume'
-					ref='ask_limit_volume'
+					v-model="volume"
+					ref="ask_limit_volume"
 					:label="$t('trading.volume')"
-					type='text'
+					type="text"
 					outlined
 					dense
 					hide-details
-					@keydown='validateNumber($event)'
+					@keydown="validateNumber($event)"
 				>
 					<template v-slot:append>
-						<span class='button-currency-text'>{{ market.toUpperCase() }}</span>
+						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
 					</template>
 				</v-text-field>
-				<div class='alf__text-field-hint'>
+				<div class="alf__text-field-hint">
 					{{
 						$t('trading.order.pay_limit_sell', [fee_visible]) +
-						' ' +
-						market.toUpperCase()
+							' ' +
+							market.toUpperCase()
 					}}
 				</div>
 			</div>
 
-			<div class='alf__margin' v-if='useMargin'>
+			<div class="alf__margin" v-if="useMargin">
 				<v-select
-					v-model='form.offer'
-					:items='offers_select'
+					v-model="form.offer"
+					:items="offers_select"
 					:label="$t('trading.order.offer')"
-					item-text='name'
-					item-value='id'
+					item-text="name"
+					item-value="id"
 					dense
 					hide-details
 				/>
 			</div>
 
-			<div v-if='!useMargin && isAdditionalParams' class='alf__params'>
+			<div v-if="!useMargin" class="alf__params">
 				<v-text-field
-					v-model='form.sl_rate'
-					ref='ask_limit_sl_rate'
+					v-model="form.sl_rate"
+					ref="ask_limit_sl_rate"
 					:label="$t('trading.order.sl_rate')"
-					:disabled='!additionalParamsEnabled'
-					type='text'
+					:disabled="!additionalParamsEnabled"
+					type="text"
 					outlined
 					dense
 					hide-details
-					@keydown='validateNumber($event)'
+					@keydown="validateNumber($event)"
 				>
 					<template v-slot:append>
-						<span class='button-currency-text'>{{ market.toUpperCase() }}</span>
+						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
 					</template>
 				</v-text-field>
 				<v-text-field
-					v-model='form.tp_rate'
-					style='margin-top: 6px'
-					ref='ask_limit_tp_rate'
+					v-model="form.tp_rate"
+					style="margin-top: 6px"
+					ref="ask_limit_tp_rate"
 					:label="$t('trading.order.tp_rate')"
-					:disabled='!additionalParamsEnabled'
-					type='text'
+					:disabled="!additionalParamsEnabled"
+					type="text"
 					outlined
 					dense
 					hide-details
-					@keydown='validateNumber($event)'
+					@keydown="validateNumber($event)"
 				>
 					<template v-slot:append>
-						<span class='button-currency-text'>{{ market.toUpperCase() }}</span>
+						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
 					</template>
 				</v-text-field>
 				<v-text-field
-					v-model='form.ts_offset'
-					style='margin-top: 6px'
-					ref='ask_limit_ts_offset'
+					v-model="form.ts_offset"
+					style="margin-top: 6px"
+					ref="ask_limit_ts_offset"
 					:label="$t('trading.order.ts_offset')"
-					:disabled='!additionalParamsEnabled'
-					type='text'
+					:disabled="!additionalParamsEnabled"
+					type="text"
 					outlined
 					dense
 					hide-details
-					@keydown='validateNumber($event)'
+					@keydown="validateNumber($event)"
 				>
 					<template v-slot:append>
-						<span class='button-currency-text'>{{ market.toUpperCase() }}</span>
+						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
 					</template>
 				</v-text-field>
 			</div>
 		</div>
 
 		<div>
-			<div class='alm__switch'>
-				<div v-if='marginTradingAvailable' class='d-flex justify-start'>
+			<div class="alm__switch">
+				<div v-if="marginTradingAvailable" class="d-flex justify-start">
 					<v-switch
-						v-model='useMargin'
+						v-model="useMargin"
 						:label="$t('trading.order.use_margin')"
 						hide-details
 						left
@@ -178,9 +178,9 @@
 						inset
 					/>
 				</div>
-				<div v-if='!useMargin' class='d-flex justify-start'>
+				<div v-if="!useMargin" class="d-flex justify-start">
 					<v-switch
-						v-model='additionalParamsEnabled'
+						v-model="additionalParamsEnabled"
 						:label="$t('trading.order.use_additional_params')"
 						hide-details
 						left
@@ -189,15 +189,15 @@
 					/>
 				</div>
 			</div>
-			<div class='alf__footer mt-2'>
-				<v-btn type='submit' color='error' height='24' block>
+			<div class="alf__footer mt-2">
+				<v-btn type="submit" color="error" height="24" block>
 					{{ $t('trading.order.direction.sell') }}
 				</v-btn>
-				<div class='alf__footer__available text-center'>
+				<div class="alf__footer__available text-center">
 					{{ $t('trading.order.available') }}
-					<span class='available_balance' @click='setAmount(100)'>
-					{{ balance.toString() }}
-				</span>
+					<span class="available_balance" @click="setAmount(100)">
+						{{ balance.toString() }}
+					</span>
 					{{ currency.toUpperCase() }}
 				</div>
 			</div>
@@ -261,7 +261,7 @@ export default {
 						BigNumber(value.percent).toString(),
 						BigNumber(value.days).toString(),
 						BigNumber(value.amount).toString(),
-						self.currency.toUpperCase(),
+						self.currency.toUpperCase()
 					),
 				};
 			});
@@ -273,7 +273,7 @@ export default {
 			return _.get(
 				this.$store.state.tickers.markets,
 				this.market.toUpperCase(),
-				null,
+				null
 			);
 		},
 		selectedMarket() {
@@ -282,7 +282,7 @@ export default {
 			}
 			let market = _.find(
 				this.markets,
-				item => item.currency.toUpperCase() === this.currency.toUpperCase(),
+				item => item.currency.toUpperCase() === this.currency.toUpperCase()
 			);
 			return market === undefined ? null : market;
 		},
@@ -465,7 +465,7 @@ export default {
 			if (this.isNumeric(newVolume) || newVolume === '') {
 				let rl = new RegExp(
 					'\\d+\\.\\d{' + (this.amountScale + this.rateScale + 4) + ',}',
-					'i',
+					'i'
 				);
 				if (rl.test(newVolume)) {
 					this.volume = oldVolume;
@@ -588,7 +588,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .alf {
 	display: flex;
 	flex-flow: column;
