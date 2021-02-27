@@ -552,13 +552,14 @@ export default {
 		display: grid;
 		grid-gap: 2px;
 		grid-template-columns: repeat(4, 1fr);
-		margin: 0 0 12px;
+		margin: -6px 0 16px;
 	}
 
 	&__text-field-hint {
 		line-height: 1;
 		font-size: 0.75rem;
 		padding: 0 12px;
+		margin-top: -6px;
 	}
 
 	&__footer {
@@ -571,11 +572,7 @@ export default {
 @media screen and (max-width: 960px) {
 	.amf {
 		&__percents {
-			margin: 6px 0 12px;
-		}
-
-		&__text-field-hint {
-			margin-top: 4px;
+			margin: -6px 0 16px;
 		}
 	}
 }
