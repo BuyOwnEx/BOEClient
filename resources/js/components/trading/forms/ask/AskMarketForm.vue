@@ -569,12 +569,4 @@ export default {
 		}
 	}
 }
-
-@media screen and (max-width: 960px) {
-	.amf {
-		&__percents {
-			margin: -6px 0 16px;
-		}
-	}
-}
 </style>

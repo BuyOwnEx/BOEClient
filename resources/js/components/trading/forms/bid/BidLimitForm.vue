@@ -611,12 +611,4 @@ export default {
 		}
 	}
 }
-
-@media screen and (max-width: 960px) {
-	.blf {
-		&__percents {
-			margin: -6px 0 16px;
-		}
-	}
-}
 </style>

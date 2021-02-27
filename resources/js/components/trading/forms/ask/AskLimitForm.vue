@@ -613,12 +613,4 @@ export default {
 		}
 	}
 }
-
-@media screen and (max-width: 960px) {
-	.alf {
-		&__percents {
-			margin: -6px 0 16px;
-		}
-	}
-}
 </style>
