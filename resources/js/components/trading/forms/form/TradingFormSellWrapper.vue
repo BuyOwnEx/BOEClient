@@ -46,6 +46,15 @@ export default {
 </script>
 
 <style scoped lang="sass">
+.trading-form-sell
+	display: flex
+	flex-flow: column
+	flex-grow: 1
+	&__content
+		display: flex
+		flex-flow: column
+		flex-grow: 1
+
 .trading-form-sell .v-input--radio-group
 	margin: 0
 	padding-top: 4px

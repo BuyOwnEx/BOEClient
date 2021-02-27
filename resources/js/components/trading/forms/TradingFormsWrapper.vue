@@ -10,7 +10,7 @@
 					<span class="trading-forms__header-info">Lowest Ask: 12345.67</span>
 				</v-card-title>
 
-				<v-card-text class="pa-0">
+				<v-card-text class="trading-forms__content pa-0">
 					<TradingFormBuyWrapper :currency="currency" :market="market" />
 				</v-card-text>
 			</v-col>
@@ -24,7 +24,7 @@
 					<span class="trading-forms__header-info">Highest Bid: 12345.67</span>
 				</v-card-title>
 
-				<v-card-text class="pa-0">
+				<v-card-text class="trading-forms__content pa-0">
 					<TradingFormSellWrapper :currency="currency" :market="market" />
 				</v-card-text>
 			</v-col>
@@ -79,8 +79,14 @@ export default {
 	min-height: 484px !important
 
 	&__buy
+		display: flex
+		flex-flow: column
+		flex-grow: 1
 		padding-right: 8px
 	&__sell
+		display: flex
+		flex-flow: column
+		flex-grow: 1
 		padding-left: 8px
 
 	&__header
@@ -95,8 +101,10 @@ export default {
 		text-transform: none
 		opacity: 0.6
 
-	&__actions
-		padding-bottom: 0.5rem
+	&__content
+		display: flex
+		flex-flow: column
+		flex-grow: 1
 
 @media screen and (min-width: 1768px)
 	.trading-forms
