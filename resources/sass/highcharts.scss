@@ -669,6 +669,11 @@
 	}
 }
 
+// Center text position in time buttons
+.highcharts-button text {
+	transform: translate(0, 2px) !important;
+}
+
 //
 // Only for DARK theme <24.02.21>
 //
