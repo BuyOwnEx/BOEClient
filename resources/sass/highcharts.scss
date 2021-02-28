@@ -8,13 +8,13 @@
 }
 @media (max-width: 960px) {
 	.trading-chart-wrapper {
-		max-height: 436px !important;
+		max-height: 460px !important;
 	}
 	.highcharts-menu-wrapper {
-		max-height: 335px !important;
+		max-height: 325px !important;
 	}
 	.highcharts-arrow-wrapper {
-		bottom: 65px !important;
+		bottom: 75px !important;
 	}
 }
 .chart:-webkit-full-screen {
@@ -646,6 +646,16 @@
 // Center text position in time buttons
 .highcharts-button text {
 	transform: translate(1px, 2px) !important;
+}
+
+// Fix current price label position
+.highcharts-crosshair-label {
+	.highcharts-label-box {
+		transform: translateX(-16px) !important;
+	}
+	text {
+		transform: translateX(-16px) !important;
+	}
 }
 
 //
