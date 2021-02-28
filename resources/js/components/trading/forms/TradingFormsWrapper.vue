@@ -52,12 +52,6 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			activeTradingFormsDisplayMode: 'limit',
-		};
-	},
-
 	computed: {
 		isSelectedLimitMode() {
 			return this.activeTradingFormsDisplayMode === 'limit';
