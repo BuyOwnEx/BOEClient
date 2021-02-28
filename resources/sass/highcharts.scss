@@ -679,6 +679,7 @@
 	--dark-background-color__menu--hover: #142430;
 
 	--dark-text-and-icons-color: #dbdbdb;
+	--dark-text__darken-1: #a9a9a9;
 
 	--dark-label-stroke: #838383;
 
@@ -706,6 +707,12 @@
 	text {
 		fill: var(--dark-text-and-icons-color) !important;
 		color: var(--dark-text-and-icons-color) !important;
+	}
+
+	// Right axis titles color
+	.highcharts-axis-title {
+		fill: var(--dark-text__darken-1) !important;
+		letter-spacing: 0.0071428571em;
 	}
 
 	// Left toolbar buttons no color
@@ -838,7 +845,6 @@
 	.highcharts-submenu-item-arrow:hover {
 		background-color: var(--dark-button-color--hover-lighten1) !important;
 	}
-
 	.highcharts-submenu-wrapper {
 		background-color: var(--dark-background-color__menu) !important;
 
@@ -853,15 +859,12 @@
 	--dark-line__axis: #4d4d4d;
 	--dark-line__axis--resizer: #838383;
 	--dark-line__tracker: #cbcbcb;
-
 	.highcharts-axis-resizer {
 		stroke: var(--dark-line__axis--resizer) !important;
 	}
-
 	.highcharts-axis-line {
 		stroke: var(--dark-line__axis) !important;
 	}
-
 	.highcharts-grid-line {
 		stroke: var(--dark-line__grid) !important;
 	}
@@ -892,6 +895,9 @@
 		&-handle {
 			fill: #21243e !important;
 		}
+	}
+	.highcharts-tick {
+		stroke: var(--dark-line__axis) !important;
 	}
 
 	// Label
