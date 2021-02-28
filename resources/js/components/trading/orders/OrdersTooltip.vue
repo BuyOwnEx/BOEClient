@@ -1,8 +1,8 @@
 <template>
+	<!--	v-if="selectedRowIndex !== -1"-->
+	<!--	:class="{ 'd-none': selectedRowIndex === -1 }"-->
 	<div
-		v-if="selectedRowIndex !== -1"
 		class="orders-tooltip"
-		:class="{ 'd-none': selectedRowIndex === -1 }"
 		:style="{
 			'margin-top': calculateMargin,
 			right: calculateRight,
@@ -94,11 +94,18 @@ export default {
 
 	&--bid
 		padding: 8px 16px
-		background: var(--v-success-base)
+		background: #aef7d1
 
 	&--ask
 		padding: 8px 16px
-		background: var(--v-error-base)
+		background: #ffacbd
+
+.theme--dark
+	.orders-tooltip
+		&--bid
+			background: #4a724b !important
+		&--ask
+			background: #724a4a !important
 
 @media screen and (max-width: 960px)
 	.orders-tooltip
