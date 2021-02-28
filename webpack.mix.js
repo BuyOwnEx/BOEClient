@@ -74,7 +74,7 @@ mix.js('resources/js/app.js', 'public/dist/js')
 			path: path.resolve(__dirname, './public/build'),
 		},
 	});
-
+mix.version();
 mix.then(() => {
 	process.nextTick(publishAssets);
 });
