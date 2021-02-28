@@ -65,7 +65,7 @@ export default {
 					style: {
 						fontFamily: '"Quicksand", sans-serif',
 						backgroundColor: '#fff',
-						letterSpacing: '1.5px',
+						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},
 					height: this.graphHeight,

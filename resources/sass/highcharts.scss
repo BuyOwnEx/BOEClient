@@ -679,7 +679,6 @@
 	--dark-background-color__menu--hover: #142430;
 
 	--dark-text-and-icons-color: #dbdbdb;
-	--dark-text__darken-1: #a9a9a9;
 
 	--dark-label-stroke: #838383;
 
@@ -707,12 +706,6 @@
 	text {
 		fill: var(--dark-text-and-icons-color) !important;
 		color: var(--dark-text-and-icons-color) !important;
-	}
-
-	// Right axis titles color
-	.highcharts-axis-title {
-		fill: var(--dark-text__darken-1) !important;
-		letter-spacing: 0.0071428571em;
 	}
 
 	// Left toolbar buttons no color
