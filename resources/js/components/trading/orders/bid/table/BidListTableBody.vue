@@ -1,41 +1,44 @@
 <template>
-	<tbody v-if='ordersData' class='bid-list-table-body'>
-	<tr
-		v-for='(item, itemIndex) in ordersData'
-		class='bid-list-table-body__row'
-		:class="{ 'orders-active-row': isAboveThanHoverElement(itemIndex, 'bid') }"
-		@mouseover='selectItemHover(item)'
-		@mouseout='clearSelectedRowIndex'
-	>
-		<td>
-			<div class='bid-list-table-body__item--price'>
-				<strong class='text-success'>
-					{{ formatPrice(item.price) }}
-				</strong>
-			</div>
-		</td>
-
-		<td>
-			<div class='bid-list-table-body__item--size'>
-				{{ formatSize(item.actualSize) }}
-			</div>
-		</td>
-
-		<td>
-			<div class='bid-list-table-body__tooltip-volume-wrapper'>
-				<OrdersWall
-					:item-index='itemIndex'
-					:volume='calculateVolume(item.price, item.actualSize)'
-					:volume-depth='volumeDepth'
-					type='bid'
-				/>
-
-				<div class='bid-list-table-body__item--volume text-right'>
-					<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+	<tbody v-if="ordersData" class="bid-list-table-body">
+		<tr
+			v-for="(item, itemIndex) in ordersData"
+			class="bid-list-table-body__row"
+			:class="{
+				'orders-active-row': isAboveThanHoverElement(itemIndex, 'bid'),
+			}"
+			@mouseover="selectItemHover(item)"
+			@mouseout="clearSelectedRowIndex"
+			@click="emitPrice(item.price)"
+		>
+			<td>
+				<div class="bid-list-table-body__item--price">
+					<strong class="text-success">
+						{{ formatPrice(item.price) }}
+					</strong>
 				</div>
-			</div>
-		</td>
-	</tr>
+			</td>
+
+			<td>
+				<div class="bid-list-table-body__item--size">
+					{{ formatSize(item.actualSize) }}
+				</div>
+			</td>
+
+			<td>
+				<div class="bid-list-table-body__tooltip-volume-wrapper">
+					<OrdersWall
+						:item-index="itemIndex"
+						:volume="calculateVolume(item.price, item.actualSize)"
+						:volume-depth="volumeDepth"
+						type="bid"
+					/>
+
+					<div class="bid-list-table-body__item--volume text-right">
+						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+					</div>
+				</div>
+			</td>
+		</tr>
 	</tbody>
 </template>
 
@@ -89,6 +92,10 @@ export default {
 			clearSelectedRowIndex: 'tooltip/clearSelectedRowIndex',
 		}),
 
+		emitPrice(itemPrice) {
+			this.$eventHub.$emit('set-sell-price', { price: itemPrice });
+		},
+
 		calculateVolume(price, actualSize) {
 			return BigNumber(price)
 				.times(BigNumber(actualSize))
@@ -114,7 +121,7 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .bid-list-table-body
 	&__row
 		cursor: default !important

@@ -8,6 +8,7 @@
 			}"
 		@mouseover='selectItemHover(item)'
 		@mouseout='clearSelectedRowIndex'
+		@click="emitPrice(item.price)"
 	>
 		<td>
 			<div class='ask-list-table-body__tooltip-volume-wrapper text-left'>
@@ -88,6 +89,10 @@ export default {
 			'selectedItemHoverHandler',
 			'clearSelectedRowIndex',
 		]),
+
+		emitPrice(itemPrice) {
+			this.$eventHub.$emit("set-buy-price", { price: itemPrice});
+		},
 
 		calculateVolume(price, actualSize) {
 			return BigNumber(price)
