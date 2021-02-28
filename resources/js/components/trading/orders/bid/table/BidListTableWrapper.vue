@@ -67,7 +67,7 @@ export default {
 
 @media screen and (min-width: 1264px) and (max-width: 1382px)
 	.bid-list-table-absolute-wrapper
-		bottom: -107px
+		bottom: -182px
 
 @media screen and (min-width: 960px) and (max-width: 1264px)
 	.bid-list-table-absolute-wrapper
