@@ -52,14 +52,14 @@ if (mix.inProduction()) {
 | Build and copy Vue application assets to 'public/dist' folder
 |---------------------------------------------------------------------
 */
-mix.js('resources/js/app.js', 'public/dist/js')
-	.js('resources/js/trading.js', 'public/dist/js')
-	.js('resources/js/overview.js', 'public/dist/js')
-	.js('resources/js/main.js', 'public/dist/js')
-	.js('resources/js/auth.js', 'public/dist/js')
+mix.js('resources/js/app.js', 'public/dist/js').version()
+	.js('resources/js/trading.js', 'public/dist/js').version()
+	.js('resources/js/overview.js', 'public/dist/js').version()
+	.js('resources/js/main.js', 'public/dist/js').version()
+	.js('resources/js/auth.js', 'public/dist/js').version()
 	.js('resources/js/plugins/hero-canvas.js', 'public/dist/js').vue()
-	.sass('resources/sass/app.scss', 'public/dist/css')
-	.sass('resources/sass/highcharts.scss', 'public/dist/css')
+	.sass('resources/sass/app.scss', 'public/dist/css').version()
+	.sass('resources/sass/highcharts.scss', 'public/dist/css').version()
 	.webpackConfig({
 		resolve: {
 			extensions: ['.js', '.vue', '.json'],
@@ -74,7 +74,7 @@ mix.js('resources/js/app.js', 'public/dist/js')
 			path: path.resolve(__dirname, './public/build'),
 		},
 	});
-mix.version();
+//mix.version();
 mix.then(() => {
 	process.nextTick(publishAssets);
 });
