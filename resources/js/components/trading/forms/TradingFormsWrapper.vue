@@ -7,7 +7,9 @@
 						{{ $t('trading.order.direction.buy') }}
 						{{ currency }}
 					</span>
-					<span class="trading-forms__header-info">Lowest Ask: 12345.67</span>
+					<span class="trading-forms__header-info">
+						Lowest Ask: {{ best_ask }}
+					</span>
 				</v-card-title>
 
 				<v-card-text class="trading-forms__content pa-0">
@@ -21,7 +23,9 @@
 						{{ $t('trading.order.direction.sell') }}
 						{{ currency }}
 					</span>
-					<span class="trading-forms__header-info">Highest Bid: 12345.67</span>
+					<span class="trading-forms__header-info">
+						Highest Bid: {{ best_bid }}
+					</span>
 				</v-card-title>
 
 				<v-card-text class="trading-forms__content pa-0">
@@ -33,6 +37,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import TradingFormBuyWrapper from './form/TradingFormBuyWrapper';
 import TradingFormSellWrapper from './form/TradingFormSellWrapper';
 
@@ -53,6 +59,7 @@ export default {
 	},
 
 	computed: {
+		...mapState('trading', ['best_ask', 'best_bid']),
 		isSelectedLimitMode() {
 			return this.activeTradingFormsDisplayMode === 'limit';
 		},
