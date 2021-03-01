@@ -1,9 +1,9 @@
 <template>
 	<div class="trading-form-sell">
 		<div class="trading-form-sell__actions">
-			<v-radio-group v-model="type" hide-details mandatory row>
-				<v-radio label="Limit" value="limit"></v-radio>
-				<v-radio label="Market" value="market"></v-radio>
+			<v-radio-group v-model="type" hide-details mandatory dense row>
+				<v-radio label="Limit" value="limit" :ripple="false" />
+				<v-radio label="Market" value="market" :ripple="false" />
 			</v-radio-group>
 		</div>
 
