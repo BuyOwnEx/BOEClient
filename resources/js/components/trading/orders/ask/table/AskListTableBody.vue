@@ -27,14 +27,14 @@
 
 			<td>
 				<div class="ask-list-table-body__item--size">
-					{{ formatSize(item.actualSize, amountScale) }}
+					{{ formatSize(item.actualSize, getAmountScale) }}
 				</div>
 			</td>
 
 			<td>
 				<div class="ask-list-table-body__item--price">
 					<strong class="text-danger">
-						{{ formatPrice(item.price, priceScale) }}
+						{{ formatPrice(item.price, getPriceScale) }}
 					</strong>
 				</div>
 			</td>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -51,11 +51,13 @@ import OrdersWall from '../../OrdersWall';
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';
+import getPriceScale from '../../../../../mixins/trading/getPriceScale';
+import getAmountScale from '../../../../../mixins/trading/getAmountScale';
 
 export default {
 	name: 'AskListTableBody',
 
-	mixins: [formatPrice, formatSize],
+	mixins: [formatPrice, formatSize, getPriceScale, getAmountScale],
 
 	components: { OrdersWall },
 
@@ -87,26 +89,7 @@ export default {
 	},
 
 	computed: {
-		...mapState('tickers', ['markets']),
 		...mapGetters('tooltip', ['isAboveThanHoverElement']),
-
-		priceScale() {
-			const marketItem = this.markets[this.market.toUpperCase()];
-			const currencyItem = marketItem.find(
-				item => (item.currency = this.currency.toUpperCase())
-			);
-
-			return currencyItem.rateScale;
-		},
-
-		amountScale() {
-			const marketItem = this.markets[this.market.toUpperCase()];
-			const currencyItem = marketItem.find(
-				item => (item.currency = this.currency.toUpperCase())
-			);
-
-			return currencyItem.amountScale;
-		},
 	},
 
 	methods: {

@@ -9,13 +9,13 @@
 							'text-success': item.side === false,
 						}"
 					>
-						{{ formatPrice(item.price, priceScale) }}
+						{{ formatPrice(item.price, getPriceScale) }}
 					</strong>
 				</div>
 			</td>
 			<td>
 				<div class="hdl__content__table__body__item--size">
-					{{ formatSize(item.size, amountScale) }}
+					{{ formatSize(item.size, getAmountScale) }}
 				</div>
 			</td>
 			<td>
@@ -34,16 +34,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import formatPrice from '../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../mixins/trading/formatSize';
 import formatDate from '../../../../mixins/trading/formatDate';
+import getPriceScale from '../../../../mixins/trading/getPriceScale';
+import getAmountScale from '../../../../mixins/trading/getAmountScale';
 
 export default {
 	name: 'HistoryDealListTableBody',
 
-	mixins: [formatPrice, formatSize, formatDate],
+	mixins: [formatPrice, formatSize, formatDate, getPriceScale, getAmountScale],
 
 	props: {
 		historyData: {
@@ -57,28 +57,6 @@ export default {
 		market: {
 			type: String,
 			required: true,
-		},
-	},
-
-	computed: {
-		...mapState('tickers', ['markets']),
-
-		priceScale() {
-			const marketItem = this.markets[this.market.toUpperCase()];
-			const currencyItem = marketItem.find(
-				item => (item.currency = this.currency.toUpperCase())
-			);
-
-			return currencyItem.rateScale;
-		},
-
-		amountScale() {
-			const marketItem = this.markets[this.market.toUpperCase()];
-			const currencyItem = marketItem.find(
-				item => (item.currency = this.currency.toUpperCase())
-			);
-
-			return currencyItem.amountScale;
 		},
 	},
 };
