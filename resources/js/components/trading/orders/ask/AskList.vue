@@ -15,7 +15,7 @@
 				:market="market"
 			/>
 
-			<OrdersTooltip type="ask" />
+			<OrdersTooltip type="ask" :key="askList" />
 		</v-card-text>
 	</v-card>
 </template>

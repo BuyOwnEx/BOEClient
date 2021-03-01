@@ -15,7 +15,7 @@
 				:market="market"
 			/>
 
-			<OrdersTooltip type="bid" />
+			<OrdersTooltip type="bid" :key='bidList'/>
 		</v-card-text>
 	</v-card>
 </template>
