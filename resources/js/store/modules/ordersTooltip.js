@@ -1,10 +1,13 @@
+import BigNumber from 'bignumber.js';
+BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
 export default {
 	namespaced: true,
 	state: {
 		selectedRowIndex: -1,
-		averagePrice: '',
-		sumSize: '',
-		sumVolume: '',
+		averagePrice: 0,
+		sumSize: 0,
+		sumVolume: 0,
 		activeTooltipType: '',
 	},
 
@@ -33,7 +36,7 @@ export default {
 		},
 
 		SET_DATA_FOR_TOOLTIP(state, ordersData) {
-			let averagePrice = 0;
+			let sumPrice = 0;
 			let sumSize = 0;
 			let sumVolume = 0;
 			let itemsBeforeMainIndex;
@@ -44,16 +47,18 @@ export default {
 			);
 
 			itemsBeforeMainIndex.forEach(item => {
-				averagePrice += item.price;
-				sumSize += item.actualSize;
-				sumVolume += item.price * item.actualSize;
+				sumPrice = BigNumber.sum(sumPrice, item.price);
+				sumSize = BigNumber.sum(sumSize, item.actualSize);
+
+				const volume = BigNumber(item.price).multipliedBy(item.actualSize);
+				sumVolume = BigNumber.sum(sumVolume, volume);
 			});
 
-			state.averagePrice = (averagePrice / itemsBeforeMainIndex.length).toFixed(
-				2
+			state.averagePrice = BigNumber(sumPrice).dividedBy(
+				itemsBeforeMainIndex.length
 			);
-			state.sumSize = sumSize.toFixed(8);
-			state.sumVolume = sumVolume.toFixed(8);
+			state.sumSize = sumSize;
+			state.sumVolume = sumVolume;
 		},
 		CLEAR_SELECTED_ROW_INDEX(state) {
 			state.selectedRowIndex = -1;
