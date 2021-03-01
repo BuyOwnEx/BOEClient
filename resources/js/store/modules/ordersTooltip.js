@@ -40,7 +40,7 @@ export default {
 			const mainItemIndex = state.selectedRowIndex;
 
 			itemsBeforeMainIndex = ordersData.filter(
-				(item, index) => index <= mainItemIndex,
+				(item, index) => index <= mainItemIndex
 			);
 
 			itemsBeforeMainIndex.forEach(item => {
@@ -50,10 +50,10 @@ export default {
 			});
 
 			state.averagePrice = (averagePrice / itemsBeforeMainIndex.length).toFixed(
-				2,
+				2
 			);
-			state.sumSize = sumSize.toFixed(4);
-			state.sumVolume = sumVolume.toFixed(4);
+			state.sumSize = sumSize.toFixed(8);
+			state.sumVolume = sumVolume.toFixed(8);
 		},
 		CLEAR_SELECTED_ROW_INDEX(state) {
 			state.selectedRowIndex = -1;
