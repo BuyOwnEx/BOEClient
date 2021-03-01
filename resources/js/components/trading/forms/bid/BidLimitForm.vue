@@ -172,8 +172,6 @@
 						v-model="form.ts_offset"
 						style="margin-top: 6px"
 						ref="bid_limit_ts_offset"
-						v-bind="attrs"
-						v-on="on"
 						:label="$t('trading.order.ts_offset')"
 						:disabled="!additionalParamsEnabled"
 						type="text"
