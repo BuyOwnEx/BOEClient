@@ -77,7 +77,6 @@ export default {
 	display: flex
 	flex-grow: 1
 	flex-flow: column
-	min-height: 484px !important
 
 	&__buy
 		display: flex
@@ -107,13 +106,9 @@ export default {
 		flex-flow: column
 		flex-grow: 1
 
-@media screen and (min-width: 1768px)
+@media screen and (min-width: 960px)
 	.trading-forms
-		min-height: 454px
-
-@media screen and (min-width: 1382px) and (max-width: 1768px)
-	.trading-forms
-		min-height: 449px
+		min-height: 502px
 
 @media screen and (max-width: 960px)
 	.trading-forms
