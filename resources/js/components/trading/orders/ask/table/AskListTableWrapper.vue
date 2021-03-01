@@ -58,20 +58,20 @@ export default {
 	top: 0
 	right: 0
 	left: 0
-	bottom: -408px
+	bottom: -482px
 	overflow: hidden
 
 @media screen and (min-width: 1382px) and (max-width: 1768px)
 	.ask-list-table-absolute-wrapper
-		bottom: -207px
+		bottom: -332px
 
 @media screen and (min-width: 1264px) and (max-width: 1382px)
 	.ask-list-table-absolute-wrapper
-		bottom: -182px
+		bottom: -332px
 
 @media screen and (min-width: 960px) and (max-width: 1264px)
 	.ask-list-table-absolute-wrapper
-		bottom: -182px
+		bottom: -332px
 
 @media screen and (max-width: 960px)
 	.ask-list-table-absolute-wrapper

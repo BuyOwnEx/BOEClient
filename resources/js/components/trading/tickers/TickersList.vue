@@ -371,7 +371,7 @@ export default {
 			const mid3 = deviceWidth > 1382 && deviceWidth <= 1768;
 
 			if (mobile) return undefined;
-			else if (mid) return 185;
+			else if (mid) return 322;
 			else if (mid3) return 362;
 			else return 365;
 		},
