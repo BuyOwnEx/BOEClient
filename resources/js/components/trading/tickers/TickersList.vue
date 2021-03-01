@@ -196,7 +196,6 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import CommonProgressCircular from '../../common/CommonProgressCircular';
