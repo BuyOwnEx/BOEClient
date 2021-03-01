@@ -1,52 +1,50 @@
 <template>
-	<tbody v-if='ordersData' class='ask-list-table-body'>
-	<tr
-		v-for='(item, itemIndex) in ordersData'
-		class='ask-list-table-body__row'
-		:class="{
+	<tbody v-if="ordersData" class="ask-list-table-body">
+		<tr
+			v-for="(item, itemIndex) in ordersData"
+			class="ask-list-table-body__row"
+			:class="{
 				'orders-active-row': isAboveThanHoverElement(itemIndex, 'ask'),
 			}"
-		@mouseover='selectItemHover(item)'
-		@mouseout='clearSelectedRowIndex'
-		@click="emitPrice(item.price)"
-	>
-		<td>
-			<div class='ask-list-table-body__tooltip-volume-wrapper text-left'>
-				<OrdersWall
-					:item-index='itemIndex'
-					:volume='calculateVolume(item.price, item.actualSize)'
-					:volume-depth='volumeDepth'
-					type='ask'
-				/>
+			@mouseover="selectItemHover(item)"
+			@mouseout="clearSelectedRowIndex"
+			@click="emitPrice(item.price)"
+		>
+			<td>
+				<div class="ask-list-table-body__tooltip-volume-wrapper text-left">
+					<OrdersWall
+						:item-index="itemIndex"
+						:volume="calculateVolume(item.price, item.actualSize)"
+						:volume-depth="volumeDepth"
+						type="ask"
+					/>
 
-				<div class='ask-list-table-body__item--volume'>
-					<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+					<div class="ask-list-table-body__item--volume">
+						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+					</div>
 				</div>
-			</div>
-		</td>
+			</td>
 
-		<td>
-			<div class='ask-list-table-body__item--size'>
-				{{ formatSize(item.actualSize) }}
-			</div>
-		</td>
+			<td>
+				<div class="ask-list-table-body__item--size">
+					{{ formatSize(item.actualSize, amountScale) }}
+				</div>
+			</td>
 
-		<td>
-			<div class='ask-list-table-body__item--price'>
-				<strong class='text-danger'>
-					{{ formatPrice(item.price) }}
-				</strong>
-			</div>
-		</td>
-	</tr>
+			<td>
+				<div class="ask-list-table-body__item--price">
+					<strong class="text-danger">
+						{{ formatPrice(item.price, priceScale) }}
+					</strong>
+				</div>
+			</td>
+		</tr>
 	</tbody>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-
+import { mapState, mapGetters, mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import OrdersWall from '../../OrdersWall';
@@ -78,10 +76,37 @@ export default {
 			type: Number,
 			required: true,
 		},
+		currency: {
+			type: String,
+			required: true,
+		},
+		market: {
+			type: String,
+			required: true,
+		},
 	},
 
 	computed: {
+		...mapState('tickers', ['markets']),
 		...mapGetters('tooltip', ['isAboveThanHoverElement']),
+
+		priceScale() {
+			const marketItem = this.markets[this.market.toUpperCase()];
+			const currencyItem = marketItem.find(
+				item => (item.currency = this.currency.toUpperCase())
+			);
+
+			return currencyItem.rateScale;
+		},
+
+		amountScale() {
+			const marketItem = this.markets[this.market.toUpperCase()];
+			const currencyItem = marketItem.find(
+				item => (item.currency = this.currency.toUpperCase())
+			);
+
+			return currencyItem.amountScale;
+		},
 	},
 
 	methods: {
@@ -91,7 +116,7 @@ export default {
 		]),
 
 		emitPrice(itemPrice) {
-			this.$eventHub.$emit("set-buy-price", { price: itemPrice});
+			this.$eventHub.$emit('set-buy-price', { price: itemPrice });
 		},
 
 		calculateVolume(price, actualSize) {
@@ -119,7 +144,7 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .ask-list-table-body
 	&__row
 		cursor: default !important

@@ -8,6 +8,8 @@
 					:amount-depth="amountDepth"
 					:volume-depth="volumeDepth"
 					:best="best"
+					:currency="currency"
+					:market="market"
 				/>
 			</template>
 		</v-simple-table>

@@ -13,14 +13,14 @@
 			<td>
 				<div class="bid-list-table-body__item--price">
 					<strong class="text-success">
-						{{ formatPrice(item.price) }}
+						{{ formatPrice(item.price, priceScale) }}
 					</strong>
 				</div>
 			</td>
 
 			<td>
 				<div class="bid-list-table-body__item--size">
-					{{ formatSize(item.actualSize) }}
+					{{ formatSize(item.actualSize, amountScale) }}
 				</div>
 			</td>
 
@@ -43,10 +43,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-
+import { mapState, mapGetters, mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import OrdersWall from '../../OrdersWall';
@@ -78,12 +76,39 @@ export default {
 			type: Number,
 			required: true,
 		},
+		currency: {
+			type: String,
+			required: true,
+		},
+		market: {
+			type: String,
+			required: true,
+		},
 	},
 
 	computed: {
+		...mapState('tickers', ['markets']),
 		...mapGetters({
 			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
 		}),
+
+		priceScale() {
+			const marketItem = this.markets[this.market.toUpperCase()];
+			const currencyItem = marketItem.find(
+				item => (item.currency = this.currency.toUpperCase())
+			);
+
+			return currencyItem.rateScale;
+		},
+
+		amountScale() {
+			const marketItem = this.markets[this.market.toUpperCase()];
+			const currencyItem = marketItem.find(
+				item => (item.currency = this.currency.toUpperCase())
+			);
+
+			return currencyItem.amountScale;
+		},
 	},
 
 	methods: {

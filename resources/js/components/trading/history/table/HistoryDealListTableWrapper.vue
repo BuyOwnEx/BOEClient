@@ -7,7 +7,11 @@
 	>
 		<template v-slot:default>
 			<HistoryDealListTableHeader :currency="currency" :market="market" />
-			<HistoryDealListTableBody :history-data="historyData" />
+			<HistoryDealListTableBody
+				:history-data="historyData"
+				:currency="currency"
+				:market="market"
+			/>
 		</template>
 	</v-simple-table>
 </template>
@@ -54,5 +58,4 @@ export default {
 };
 </script>
 
-<style scoped lang="sass">
-</style>
+<style scoped lang="sass"></style>
