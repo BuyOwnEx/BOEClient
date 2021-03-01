@@ -5,7 +5,7 @@ export default {
 	methods: {
 		formatSize(size, scale) {
 			return BigNumber(size)
-				.toFixed(scale)
+				.toFixed(scale, 1)
 				.toString();
 		},
 

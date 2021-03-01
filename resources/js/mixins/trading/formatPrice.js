@@ -5,7 +5,7 @@ export default {
 	methods: {
 		formatPrice(price, scale) {
 			return BigNumber(price)
-				.toFixed(scale)
+				.toFixed(scale, 1)
 				.toString();
 		},
 	},
