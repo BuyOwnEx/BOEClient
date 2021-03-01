@@ -89,7 +89,7 @@ export default {
 .orders-tooltip
 	position: absolute
 	top: 32px
-	width: 220px
+	width: 250px
 	z-index: 3
 
 	&--bid
