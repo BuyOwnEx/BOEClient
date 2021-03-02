@@ -92,24 +92,6 @@ export default {
 		...mapGetters({
 			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
 		}),
-
-		priceScale() {
-			const marketItem = this.markets[this.market.toUpperCase()];
-			const currencyItem = marketItem.find(
-				item => (item.currency === this.currency.toUpperCase())
-			);
-
-			return currencyItem.rateScale;
-		},
-
-		amountScale() {
-			const marketItem = this.markets[this.market.toUpperCase()];
-			const currencyItem = marketItem.find(
-				item => (item.currency === this.currency.toUpperCase())
-			);
-
-			return currencyItem.amountScale;
-		},
 	},
 
 	methods: {
