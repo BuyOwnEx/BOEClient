@@ -55,11 +55,13 @@
 		}
 	}
 
-	// Switch small size .trading-forms <26.02.21>
+	// Switch small size <26.02.21>
 	.trading-forms .v-input--switch {
 		margin-left: 4px;
 		margin-top: 0;
-
+	}
+	.trading-forms .v-input--switch,
+	.own-active-order-list .v-input--switch {
 		.v-input--selection-controls__input {
 			top: 5px;
 			width: 25px;
@@ -153,13 +155,11 @@
 }
 
 // Small switch
-.v-application--is-ltr
-	.trading-forms
+.trading-forms,
+.own-active-order-list {
+	.v-input--switch--inset.v-input--is-dirty .v-input--switch__thumb,
 	.v-input--switch--inset.v-input--is-dirty
-	.v-input--selection-controls__ripple,
-.v-application--is-ltr
-	.trading-forms
-	.v-input--switch--inset.v-input--is-dirty
-	.v-input--switch__thumb {
-	transform: translate(12px, 0) !important;
+		.v-input--selection-controls__ripple {
+		transform: translate(12px, 0) !important;
+	}
 }
