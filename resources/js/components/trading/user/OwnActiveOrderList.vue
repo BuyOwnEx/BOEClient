@@ -1,144 +1,195 @@
 <template>
-	<v-card>
-		<v-data-table
-			dense
-			:calculate-widths='true'
-			:headers='headers'
-			:items='ownOrderList'
-			:items-per-page='itemsPerPage'
-			:footer-props='footer_props'
-			class='elevation-0 pl-4 pr-4'
-			id='own-active-order-list'
-		>
-			<template v-slot:top>
-				<v-toolbar flat dense class='mt-2'>
-					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
-					<v-spacer></v-spacer>
-					<v-switch
-						v-model='showOtherPairs'
-						class='mr-3'
-						hide-details
-						height='14'
-						left
-						inset
-						:label="$t('trading.show_other_pairs')"
-					></v-switch>
-					<v-menu transition='slide-y-transition' bottom>
-						<template v-slot:activator='{ on, attrs }'>
-							<v-btn
-								tile
-								outlined
-								small
-								color='#A6A6A6'
-								v-bind='attrs'
-								v-on='on'
-							>
-								{{ $t('trading.cancel') }}
-								<v-icon right>mdi-chevron-down</v-icon>
-							</v-btn>
-						</template>
-						<v-list>
-							<v-list-item
-								dense
-								v-for='(item, i) in cancelOptions'
-								:key='i'
-								@click='item.click'
-							>
-								<v-list-item-title>{{ item.text }}</v-list-item-title>
-							</v-list-item>
-						</v-list>
-					</v-menu>
-				</v-toolbar>
-			</template>
-			<template v-slot:item.action='{ item }'>
-				<v-btn
-					tile
-					outlined
-					x-small
-					color='#A6A6A6'
-					dense
-					@click='orderCancel(item)'
+	<v-card class="own-active-order-list pa-1">
+		<v-card-title class="own-active-order-list__header pa-0">
+			<span>
+				{{ $t('trading.headers.own_active_order_list') }}
+			</span>
+
+			<v-spacer />
+
+			<v-switch
+				v-model="showOtherPairs"
+				class="mr-3"
+				:label="$t('trading.show_other_pairs')"
+				hide-details
+				dense
+				left
+				inset
+			/>
+			<v-menu transition="slide-y-transition" bottom>
+				<template v-slot:activator="{ on, attrs }">
+					<v-btn tile outlined small color="#A6A6A6" v-bind="attrs" v-on="on">
+						{{ $t('trading.cancel') }}
+						<v-icon right>mdi-chevron-down</v-icon>
+					</v-btn>
+				</template>
+				<v-list>
+					<v-list-item
+						dense
+						v-for="(item, i) in cancelOptions"
+						:key="i"
+						@click="item.click"
+					>
+						<v-list-item-title>{{ item.text }}</v-list-item-title>
+					</v-list-item>
+				</v-list>
+			</v-menu>
+		</v-card-title>
+
+		<v-card-text class="own-active-order-list__content pa-0">
+			<v-data-table
+				class="elevation-0 pl-4 pr-4"
+				:calculate-widths="true"
+				:headers="headers"
+				:items="ownOrderList"
+				:items-per-page="itemsPerPage"
+				:footer-props="footerProps"
+				dense
+			>
+				<!--			<template v-slot:top>-->
+				<!--				<v-toolbar flat dense class="mt-2">-->
+				<!--					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>-->
+				<!--					<v-spacer></v-spacer>-->
+				<!--					<v-switch-->
+				<!--						v-model="showOtherPairs"-->
+				<!--						class="mr-3"-->
+				<!--						hide-details-->
+				<!--						height="14"-->
+				<!--						left-->
+				<!--						inset-->
+				<!--						:label="$t('trading.show_other_pairs')"-->
+				<!--					></v-switch>-->
+				<!--					<v-menu transition="slide-y-transition" bottom>-->
+				<!--						<template v-slot:activator="{ on, attrs }">-->
+				<!--							<v-btn-->
+				<!--								tile-->
+				<!--								outlined-->
+				<!--								small-->
+				<!--								color="#A6A6A6"-->
+				<!--								v-bind="attrs"-->
+				<!--								v-on="on"-->
+				<!--							>-->
+				<!--								{{ $t('trading.cancel') }}-->
+				<!--								<v-icon right>mdi-chevron-down</v-icon>-->
+				<!--							</v-btn>-->
+				<!--						</template>-->
+				<!--						<v-list>-->
+				<!--							<v-list-item-->
+				<!--								dense-->
+				<!--								v-for="(item, i) in cancelOptions"-->
+				<!--								:key="i"-->
+				<!--								@click="item.click"-->
+				<!--							>-->
+				<!--								<v-list-item-title>{{ item.text }}</v-list-item-title>-->
+				<!--							</v-list-item>-->
+				<!--						</v-list>-->
+				<!--					</v-menu>-->
+				<!--				</v-toolbar>-->
+				<!--			</template>-->
+				<template v-slot:item.action="{ item }">
+					<v-btn
+						tile
+						outlined
+						x-small
+						color="#A6A6A6"
+						dense
+						@click="orderCancel(item)"
+					>
+						{{ $t('trading.cancel') }}
+					</v-btn>
+				</template>
+				<template v-slot:item.date="{ item }">
+					{{ getDateFromTick(item) }}
+				</template>
+				<template v-slot:item.market="{ item }">
+					<strong>{{ item.currency }}</strong
+					><span class="market-name">/{{ item.market }}</span>
+				</template>
+				<template v-slot:item.side="{ item }">
+					<span v-if="item.side === false">
+						<strong class="text-success">{{
+							$t('trading.order.direction.buy')
+						}}</strong>
+						<span
+							class="order_type order_type_sl"
+							v-if="item.type === 'STOPLOSS'"
+							>SL</span
+						>
+						<span
+							class="order_type order_type_tp"
+							v-if="item.type === 'TAKEPROFIT'"
+							>TP</span
+						>
+						<span
+							class="order_type order_type_ts"
+							v-if="item.type === 'TRAILINGSTOP'"
+							>TS</span
+						>
+					</span>
+					<span v-else>
+						<strong class="text-danger">{{
+							$t('trading.order.direction.sell')
+						}}</strong>
+						<span
+							class="order_type order_type_sl"
+							v-if="item.type === 'STOPLOSS'"
+							>SL</span
+						>
+						<span
+							class="order_type order_type_tp"
+							v-if="item.type === 'TAKEPROFIT'"
+							>TP</span
+						>
+						<span
+							class="order_type order_type_ts"
+							v-if="item.type === 'TRAILINGSTOP'"
+							>TS</span
+						>
+					</span>
+				</template>
+				<template v-slot:item.size="{ item }">
+					{{ size(item) }} {{ item.currency.toUpperCase() }}
+				</template>
+				<template v-slot:item.price="{ item }">
+					{{ price(item) }} {{ item.market.toUpperCase() }}
+				</template>
+				<template v-slot:item.volume="{ item }">
+					{{ volume(item) }} {{ item.market.toUpperCase() }}
+				</template>
+				<template v-slot:item.percent="{ item }">
+					{{ percent(item) }}%</template
 				>
-					{{ $t('trading.cancel') }}
-				</v-btn>
-			</template>
-			<template v-slot:item.date='{ item }'>
-				{{ getDateFromTick(item) }}
-			</template>
-			<template v-slot:item.market='{ item }'>
-				<strong>{{ item.currency }}</strong
-				><span class='market-name'>/{{ item.market }}</span>
-			</template>
-			<template v-slot:item.side='{ item }'>
-        <span v-if='item.side === false'>
-          <strong class='text-success'>{{
-												$t('trading.order.direction.buy')
-											}}</strong>
-          <span class='order_type order_type_sl' v-if="item.type === 'STOPLOSS'"
-										>SL</span
-										>
-          <span
-											class='order_type order_type_tp'
-											v-if="item.type === 'TAKEPROFIT'"
-										>TP</span
-										>
-          <span
-											class='order_type order_type_ts'
-											v-if="item.type === 'TRAILINGSTOP'"
-										>TS</span
-										>
-        </span>
-				<span v-else>
-          <strong class='text-danger'>{{
-												$t('trading.order.direction.sell')
-											}}</strong>
-          <span class='order_type order_type_sl' v-if="item.type === 'STOPLOSS'"
-										>SL</span
-										>
-          <span
-											class='order_type order_type_tp'
-											v-if="item.type === 'TAKEPROFIT'"
-										>TP</span
-										>
-          <span
-											class='order_type order_type_ts'
-											v-if="item.type === 'TRAILINGSTOP'"
-										>TS</span
-										>
-        </span>
-			</template>
-			<template v-slot:item.size='{ item }'>
-				{{ size(item) }} {{ item.currency.toUpperCase() }}
-			</template>
-			<template v-slot:item.price='{ item }'>
-				{{ price(item) }} {{ item.market.toUpperCase() }}
-			</template>
-			<template v-slot:item.volume='{ item }'>
-				{{ volume(item) }} {{ item.market.toUpperCase() }}
-			</template>
-			<template v-slot:item.percent='{ item }'> {{ percent(item) }}%</template>
-			<template v-slot:item.status='{ item }'>
-        <span class='text-success' v-if="item.status === 'accepted'">{{
-										$t('trading.order.status.accepted')
-									}}</span>
-				<span class='text-warning' v-else>{{
+				<template v-slot:item.status="{ item }">
+					<span class="text-success" v-if="item.status === 'accepted'">{{
+						$t('trading.order.status.accepted')
+					}}</span>
+					<span class="text-warning" v-else>{{
 						$t('trading.order.status.partiallyFilled')
 					}}</span>
-			</template>
-		</v-data-table>
+				</template>
+			</v-data-table>
+		</v-card-text>
 	</v-card>
 </template>
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
 export default {
 	name: 'OwnActiveOrderList',
+
 	props: {
-		currency: String,
-		market: String,
+		currency: {
+			type: String,
+			required: true,
+		},
+		market: {
+			type: String,
+			required: true,
+		},
 	},
+
 	data() {
 		return {
 			showOtherPairs: false,
@@ -185,7 +236,7 @@ export default {
 					sortable: false,
 				},
 			],
-			footer_props: {
+			footerProps: {
 				'items-per-page-options': [5, 10, 15, 30, 50],
 				'items-per-page-all-text': '50',
 			},
@@ -214,19 +265,32 @@ export default {
 			],
 		};
 	},
-	watch: {},
+
 	computed: {
 		ownOrderList() {
 			return this.showOtherPairs
 				? this.$store.state.user.orders
 				: _.filter(this.$store.state.user.orders, {
-					currency: this.currency.toUpperCase(),
-					market: this.market.toUpperCase(),
-				});
+						currency: this.currency.toUpperCase(),
+						market: this.market.toUpperCase(),
+				  });
+			// return [
+			// 	{
+			// 		date: '19:23:05',
+			// 		market: 'usdt',
+			// 		side: true,
+			// 		size: 0.015,
+			// 		price: 12000,
+			// 		volume: 5000,
+			// 		percent: '50%',
+			// 		status: 'accepted',
+			// 	},
+			// ];
 		},
 	},
+
 	methods: {
-		volume: function(item) {
+		volume(item) {
 			return BigNumber(item.price)
 				.times(BigNumber(item.actualSize))
 				.toString();
@@ -243,10 +307,10 @@ export default {
 			}
 			return '';
 		},
-		size: function(item) {
+		size(item) {
 			return BigNumber(item.actualSize).toString();
 		},
-		price: function(item) {
+		price(item) {
 			return BigNumber(item.price).toString();
 		},
 		getDateFromTick(item) {
@@ -292,4 +356,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.own-active-order-list
+	&__header
+		word-break: normal
+		font-weight: 700
+		text-transform: uppercase
+</style>

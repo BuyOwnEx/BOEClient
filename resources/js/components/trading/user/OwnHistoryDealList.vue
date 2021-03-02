@@ -2,37 +2,37 @@
 	<v-card>
 		<v-data-table
 			dense
-			:calculate-widths='true'
-			:headers='headers'
-			:items='ownDealList'
-			:items-per-page='itemsPerPage'
-			:footer-props='footer_props'
-			class='elevation-0 pl-4 pr-4'
-			id='own-history-deal-list'
+			:calculate-widths="true"
+			:headers="headers"
+			:items="ownDealList"
+			:items-per-page="itemsPerPage"
+			:footer-props="footer_props"
+			class="elevation-0 pl-4 pr-4"
+			id="own-history-deal-list"
 		>
 			<template v-slot:top>
-				<v-toolbar flat dense class='mt-2'>
+				<v-toolbar flat dense class="mt-2">
 					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
 					<v-spacer></v-spacer>
 					<v-switch
-						v-model='showOtherPairs'
-						class='mr-3'
+						v-model="showOtherPairs"
+						class="mr-3"
 						hide-details
-						height='14'
+						height="14"
 						left
 						inset
 						:label="$t('trading.show_other_pairs')"
 					></v-switch>
 				</v-toolbar>
 			</template>
-			<template v-slot:item.date='{ item }'>
+			<template v-slot:item.date="{ item }">
 				{{ getDate(item) }}
 			</template>
-			<template v-slot:item.market='{ item }'>
+			<template v-slot:item.market="{ item }">
 				<strong>{{ item.currency.toUpperCase() }}</strong
-				><span class='market-name'>/{{ item.market.toUpperCase() }}</span>
+				><span class="market-name">/{{ item.market.toUpperCase() }}</span>
 			</template>
-			<template v-slot:item.side='{ item }'>
+			<template v-slot:item.side="{ item }">
 				<strong
 					:class="{ 'text-success': item.side, 'text-danger': !item.side }"
 				>
@@ -43,13 +43,13 @@
 					}}
 				</strong>
 			</template>
-			<template v-slot:item.size='{ item }'>
+			<template v-slot:item.size="{ item }">
 				{{ size(item) }} {{ item.currency.toUpperCase() }}
 			</template>
-			<template v-slot:item.price='{ item }'>
+			<template v-slot:item.price="{ item }">
 				{{ price(item) }} {{ item.market.toUpperCase() }}
 			</template>
-			<template v-slot:item.volume='{ item }'>
+			<template v-slot:item.volume="{ item }">
 				{{ volume(item) }} {{ item.market.toUpperCase() }}
 			</template>
 		</v-data-table>
@@ -58,14 +58,22 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
 export default {
 	name: 'OwnHistoryDealList',
+
 	props: {
-		currency: String,
-		market: String,
+		currency: {
+			type: String,
+			required: true,
+		},
+		market: {
+			type: String,
+			required: true,
+		},
 	},
+
 	data() {
 		return {
 			showOtherPairs: false,
@@ -105,26 +113,28 @@ export default {
 			},
 		};
 	},
+
 	computed: {
 		ownDealList() {
 			return this.showOtherPairs
 				? this.$store.state.user.deals
 				: _.filter(this.$store.state.user.deals, {
-					currency: this.currency.toUpperCase(),
-					market: this.market.toUpperCase(),
-				});
+						currency: this.currency.toUpperCase(),
+						market: this.market.toUpperCase(),
+				  });
 		},
 	},
+
 	methods: {
-		volume: function(item) {
+		volume(item) {
 			return BigNumber(item.price)
 				.times(BigNumber(item.size))
 				.toString();
 		},
-		size: function(item) {
+		size(item) {
 			return BigNumber(item.size).toString();
 		},
-		price: function(item) {
+		price(item) {
 			return BigNumber(item.price).toString();
 		},
 		getDate(item) {
