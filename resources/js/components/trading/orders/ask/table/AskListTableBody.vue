@@ -120,6 +120,8 @@ export default {
 				item,
 				type: 'ask',
 				ordersData: this.ordersData,
+				priceScale: this.getPriceScale,
+				amountScale: this.getAmountScale
 			};
 			this.selectedItemHoverHandler(payload);
 		},

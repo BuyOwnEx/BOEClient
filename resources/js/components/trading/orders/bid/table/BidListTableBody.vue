@@ -122,6 +122,8 @@ export default {
 				item,
 				type: 'bid',
 				ordersData: this.ordersData,
+				priceScale: this.getPriceScale,
+				amountScale: this.getAmountScale
 			};
 			this.selectedItemHoverHandler(payload);
 		},

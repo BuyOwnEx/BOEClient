@@ -35,7 +35,7 @@ export default {
 			state.activeTooltipType = type;
 		},
 
-		SET_DATA_FOR_TOOLTIP(state, ordersData) {
+		SET_DATA_FOR_TOOLTIP(state, { ordersData, priceScale, amountScale }) {
 			let sumPrice = 0;
 			let sumSize = 0;
 			let sumVolume = 0;
@@ -47,17 +47,17 @@ export default {
 			);
 
 			itemsBeforeMainIndex.forEach(item => {
-				sumPrice = BigNumber.sum(sumPrice, item.price);
-				sumSize = BigNumber.sum(sumSize, item.actualSize);
+				sumPrice = BigNumber.sum(sumPrice, item.price).toNumber();
+				sumSize = BigNumber.sum(sumSize, item.actualSize).toNumber();
 
 				const volume = BigNumber(item.price).multipliedBy(item.actualSize);
-				sumVolume = BigNumber.sum(sumVolume, volume);
+				sumVolume = BigNumber.sum(sumVolume, volume).toNumber();
 			});
 
-			state.averagePrice = BigNumber(sumPrice).dividedBy(
-				itemsBeforeMainIndex.length
-			);
-			state.sumSize = sumSize;
+			state.averagePrice = BigNumber(sumPrice)
+				.dividedBy(itemsBeforeMainIndex.length)
+				.toFixed(priceScale, 1);
+			state.sumSize = BigNumber(sumSize).toFixed(amountScale, 1);
 			state.sumVolume = sumVolume;
 		},
 		CLEAR_SELECTED_ROW_INDEX(state) {
@@ -66,15 +66,10 @@ export default {
 	},
 
 	actions: {
-		selectedItemHoverHandler({ commit }, { item, type, ordersData }) {
-			const payload = {
-				ordersData,
-				item,
-			};
-
+		selectedItemHoverHandler({ commit }, payload) {
 			commit('SET_SELECTED_ROW_INDEX', payload);
-			commit('SET_ACTIVE_TOOLTIP_TYPE', type);
-			commit('SET_DATA_FOR_TOOLTIP', ordersData);
+			commit('SET_ACTIVE_TOOLTIP_TYPE', payload.type);
+			commit('SET_DATA_FOR_TOOLTIP', payload);
 		},
 		clearSelectedRowIndex({ commit }) {
 			commit('CLEAR_SELECTED_ROW_INDEX');
