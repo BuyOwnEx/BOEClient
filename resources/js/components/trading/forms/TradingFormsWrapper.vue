@@ -7,7 +7,7 @@
 						{{ $t('trading.order.direction.buy') }}
 						{{ currency }}
 					</span>
-					<span class="trading-forms__header-info">
+					<span class="trading-forms__header-info" :key="best_ask">
 						Lowest Ask: {{ best_ask }}
 					</span>
 				</v-card-title>
@@ -23,7 +23,7 @@
 						{{ $t('trading.order.direction.sell') }}
 						{{ currency }}
 					</span>
-					<span class="trading-forms__header-info">
+					<span class="trading-forms__header-info" :key="best_bid">
 						Highest Bid: {{ best_bid }}
 					</span>
 				</v-card-title>
