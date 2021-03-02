@@ -53,11 +53,12 @@ import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';
 import getPriceScale from '../../../../../mixins/trading/getPriceScale';
 import getAmountScale from '../../../../../mixins/trading/getAmountScale';
+import calculateVolume from '../../../../../mixins/trading/calculateVolume';
 
 export default {
 	name: 'BidListTableBody',
 
-	mixins: [formatPrice, formatSize, getPriceScale, getAmountScale],
+	mixins: [formatPrice, formatSize, getPriceScale, getAmountScale, calculateVolume],
 
 	components: { OrdersWall },
 
@@ -104,11 +105,6 @@ export default {
 			this.$eventHub.$emit('set-sell-price', { price: itemPrice });
 		},
 
-		calculateVolume(price, actualSize) {
-			return BigNumber(price)
-				.times(BigNumber(actualSize))
-				.toString();
-		},
 		calculatePercent(actualSize) {
 			return BigNumber(actualSize)
 				.times(100)
