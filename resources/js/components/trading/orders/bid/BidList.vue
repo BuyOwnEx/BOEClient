@@ -4,8 +4,7 @@
 			BUY ORDERS
 		</v-card-title>
 
-		<CommonProgressCircular v-if="!bidList || isLoading" />
-		<v-card-text v-else class="bid-list__content pa-0">
+		<v-card-text class="bid-list__content pa-0">
 			<BidListTableWrapper
 				:orders-data="bidList"
 				:amount-depth="bidAmountDepth"
@@ -15,14 +14,17 @@
 				:market="market"
 			/>
 
-			<OrdersTooltip type="bid" :key="bidList[0].price" />
+			<OrdersTooltip
+				v-if="bidList && bidList.length"
+				type="bid"
+				:key="bidList[0].price"
+			/>
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
 import BidListTableWrapper from './table/BidListTableWrapper';
-import CommonProgressCircular from '../../../common/CommonProgressCircular';
 import OrdersTooltip from '../OrdersTooltip';
 
 export default {
@@ -30,7 +32,6 @@ export default {
 
 	components: {
 		BidListTableWrapper,
-		CommonProgressCircular,
 		OrdersTooltip,
 	},
 

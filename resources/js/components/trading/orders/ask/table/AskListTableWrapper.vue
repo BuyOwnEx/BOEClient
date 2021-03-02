@@ -3,7 +3,9 @@
 		<v-simple-table class="ask-list__content__table" dense fixed-header>
 			<template v-slot:default>
 				<AskListTableHeader :currency="currency" :market="market" />
+
 				<AskListTableBody
+					v-if="ordersData && ordersData.length"
 					:orders-data="ordersData"
 					:amount-depth="amountDepth"
 					:volume-depth="volumeDepth"
@@ -11,6 +13,15 @@
 					:currency="currency"
 					:market="market"
 				/>
+
+				<tbody v-else-if="ordersData && !ordersData.length"></tbody>
+				<tbody v-else>
+					<tr>
+						<td colspan="3">
+							<CommonProgressCircular />
+						</td>
+					</tr>
+				</tbody>
 			</template>
 		</v-simple-table>
 	</div>
@@ -19,11 +30,12 @@
 <script>
 import AskListTableBody from './AskListTableBody';
 import AskListTableHeader from './AskListTableHeader';
+import CommonProgressCircular from '../../../../common/CommonProgressCircular';
 
 export default {
 	name: 'AskListTableWrapper',
 
-	components: { AskListTableHeader, AskListTableBody },
+	components: { AskListTableHeader, AskListTableBody, CommonProgressCircular },
 
 	props: {
 		currency: {
@@ -35,7 +47,6 @@ export default {
 			required: true,
 		},
 		ordersData: {
-			type: Array,
 			required: true,
 		},
 		amountDepth: {

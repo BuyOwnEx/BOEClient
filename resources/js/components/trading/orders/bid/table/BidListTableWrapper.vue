@@ -3,7 +3,9 @@
 		<v-simple-table class="bid-list__content__table" dense fixed-header>
 			<template v-slot:default>
 				<BidListTableHeader :currency="currency" :market="market" />
+
 				<BidListTableBody
+					v-if="ordersData && ordersData.length"
 					:orders-data="ordersData"
 					:amount-depth="amountDepth"
 					:volume-depth="volumeDepth"
@@ -11,6 +13,15 @@
 					:currency="currency"
 					:market="market"
 				/>
+
+				<tbody v-else-if="ordersData && !ordersData.length"></tbody>
+				<tbody v-else>
+					<tr>
+						<td colspan="3">
+							<CommonProgressCircular />
+						</td>
+					</tr>
+				</tbody>
 			</template>
 		</v-simple-table>
 	</div>
@@ -19,11 +30,12 @@
 <script>
 import BidListTableBody from './BidListTableBody';
 import BidListTableHeader from './BidListTableHeader';
+import CommonProgressCircular from '../../../../common/CommonProgressCircular';
 
 export default {
 	name: 'BidListTableWrapper',
 
-	components: { BidListTableHeader, BidListTableBody },
+	components: { BidListTableHeader, BidListTableBody, CommonProgressCircular },
 
 	props: {
 		currency: {
@@ -35,7 +47,6 @@ export default {
 			required: true,
 		},
 		ordersData: {
-			type: Array,
 			required: true,
 		},
 		amountDepth: {

@@ -4,8 +4,7 @@
 			SELL ORDERS
 		</v-card-title>
 
-		<CommonProgressCircular v-if="!askList || isLoading" />
-		<v-card-text v-else class="ask-list__content pa-0">
+		<v-card-text class="ask-list__content pa-0">
 			<AskListTableWrapper
 				:orders-data="askList"
 				:amount-depth="askAmountDepth"
@@ -15,14 +14,17 @@
 				:market="market"
 			/>
 
-			<OrdersTooltip type="ask" :key="askList[0].price" />
+			<OrdersTooltip
+				v-if="askList && askList.length"
+				type="ask"
+				:key="askList[0].price"
+			/>
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
 import AskListTableWrapper from './table/AskListTableWrapper';
-import CommonProgressCircular from '../../../common/CommonProgressCircular';
 import OrdersTooltip from '../OrdersTooltip';
 
 export default {
@@ -30,7 +32,6 @@ export default {
 
 	components: {
 		AskListTableWrapper,
-		CommonProgressCircular,
 		OrdersTooltip,
 	},
 

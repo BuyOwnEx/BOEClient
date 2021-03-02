@@ -1,17 +1,14 @@
 <template>
-	<v-card class='hdl pa-1'>
-		<v-card-title class='hdl__header pa-0'>
+	<v-card class="hdl pa-1">
+		<v-card-title class="hdl__header pa-0">
 			{{ $t('trading.headers.history_deal_list') }}
 		</v-card-title>
 
-		<v-card-text class='hdl__content pa-0'>
-			<CommonProgressCircular v-if='isLoading || !historyDealList' />
-
+		<v-card-text class="hdl__content pa-0">
 			<HistoryDealListTableWrapper
-				v-else
-				:currency='currency'
-				:historyData='historyDealList'
-				:market='market'
+				:currency="currency"
+				:historyData="historyDealList"
+				:market="market"
 			/>
 		</v-card-text>
 	</v-card>
@@ -19,7 +16,6 @@
 
 <script>
 import HistoryDealListTableWrapper from './table/HistoryDealListTableWrapper';
-import CommonProgressCircular from '../../common/CommonProgressCircular';
 
 export default {
 	name: 'HistoryDealList',
@@ -35,7 +31,7 @@ export default {
 		},
 	},
 
-	components: { HistoryDealListTableWrapper, CommonProgressCircular },
+	components: { HistoryDealListTableWrapper },
 
 	data() {
 		return {
@@ -65,7 +61,7 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .hdl
 	display: flex
 	flex-flow: column

@@ -7,11 +7,22 @@
 	>
 		<template v-slot:default>
 			<HistoryDealListTableHeader :currency="currency" :market="market" />
+
 			<HistoryDealListTableBody
+				v-if="historyData && historyData.length"
 				:history-data="historyData"
 				:currency="currency"
 				:market="market"
 			/>
+
+			<tbody v-else-if="historyData && !historyData.length"></tbody>
+			<tbody v-else>
+				<tr>
+					<td colspan="3">
+						<CommonProgressCircular />
+					</td>
+				</tr>
+			</tbody>
 		</template>
 	</v-simple-table>
 </template>
@@ -19,11 +30,16 @@
 <script>
 import HistoryDealListTableBody from './HistoryDealListTableBody';
 import HistoryDealListTableHeader from './HistoryDealListTableHeader';
+import CommonProgressCircular from '../../../common/CommonProgressCircular';
 
 export default {
 	name: 'HistoryDealListTableWrapper',
 
-	components: { HistoryDealListTableBody, HistoryDealListTableHeader },
+	components: {
+		HistoryDealListTableBody,
+		HistoryDealListTableHeader,
+		CommonProgressCircular,
+	},
 
 	props: {
 		currency: {
@@ -35,7 +51,6 @@ export default {
 			required: true,
 		},
 		historyData: {
-			type: Array,
 			required: true,
 		},
 	},

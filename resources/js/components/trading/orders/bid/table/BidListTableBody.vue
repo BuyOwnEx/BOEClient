@@ -123,7 +123,7 @@ export default {
 				type: 'bid',
 				ordersData: this.ordersData,
 				priceScale: this.getPriceScale,
-				amountScale: this.getAmountScale
+				amountScale: this.getAmountScale,
 			};
 			this.selectedItemHoverHandler(payload);
 		},
