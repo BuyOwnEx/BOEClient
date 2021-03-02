@@ -50,12 +50,12 @@ export default {
 				sumPrice = BigNumber.sum(sumPrice, item.price).toNumber();
 				sumSize = BigNumber.sum(sumSize, item.actualSize).toNumber();
 
-				const volume = BigNumber(item.price).multipliedBy(item.actualSize);
+				const volume = BigNumber(item.price).times(item.actualSize);
 				sumVolume = BigNumber.sum(sumVolume, volume).toNumber();
 			});
 
 			state.averagePrice = BigNumber(sumPrice)
-				.dividedBy(itemsBeforeMainIndex.length)
+				.div(itemsBeforeMainIndex.length)
 				.toFixed(priceScale, 1);
 			state.sumSize = BigNumber(sumSize).toFixed(amountScale, 1);
 			state.sumVolume = sumVolume;
