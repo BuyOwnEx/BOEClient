@@ -18,11 +18,6 @@
 		font-size: 0.75rem !important;
 	}
 
-	// Remove table padding <19.02.21>
-	table {
-		padding: 0;
-	}
-
 	// Less padding in trading tables <19.02.21>
 	td {
 		padding: 4px 4px 4px 4px !important;
@@ -115,6 +110,7 @@
 		}
 	}
 
+	// Remove table padding
 	.ask-list .v-data-table__wrapper {
 		table {
 			padding: 0 !important;
@@ -130,6 +126,31 @@
 		td {
 			height: 25px !important;
 		}
+	}
+	.own-active-order-list .v-data-table__wrapper table {
+		padding: 0 !important;
+	}
+	.own-active-position-list .v-data-table__wrapper table {
+		padding: 0 !important;
+	}
+	.own-history-deal-list .v-data-table__wrapper table {
+		padding: 0 !important;
+	}
+
+	// Small switch transform
+	.trading-forms,
+	.own-active-order-list {
+		.v-input--switch--inset.v-input--is-dirty .v-input--switch__thumb,
+		.v-input--switch--inset.v-input--is-dirty
+			.v-input--selection-controls__ripple {
+			transform: translate(12px, 0) !important;
+		}
+	}
+
+	// Remove switch padding Own...
+	.own-active-order-list .v-input--switch {
+		margin-top: 0;
+		padding-top: 0;
 	}
 }
 
@@ -151,15 +172,5 @@
 		.trading-forms .v-input fieldset {
 			color: #23272a !important;
 		}
-	}
-}
-
-// Small switch
-.trading-forms,
-.own-active-order-list {
-	.v-input--switch--inset.v-input--is-dirty .v-input--switch__thumb,
-	.v-input--switch--inset.v-input--is-dirty
-		.v-input--selection-controls__ripple {
-		transform: translate(12px, 0) !important;
 	}
 }
