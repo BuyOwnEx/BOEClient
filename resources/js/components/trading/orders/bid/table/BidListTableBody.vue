@@ -28,13 +28,13 @@
 				<div class="bid-list-table-body__tooltip-volume-wrapper">
 					<OrdersWall
 						:item-index="itemIndex"
-						:volume="calculateVolume(item.price, item.actualSize)"
+						:volume="calculateVolume(item)"
 						:volume-depth="volumeDepth"
 						type="bid"
 					/>
 
 					<div class="bid-list-table-body__item--volume text-right">
-						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+						<span>{{ calculateVolume(item) }}</span>
 					</div>
 				</div>
 			</td>

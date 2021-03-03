@@ -14,13 +14,13 @@
 				<div class="ask-list-table-body__tooltip-volume-wrapper text-left">
 					<OrdersWall
 						:item-index="itemIndex"
-						:volume="calculateVolume(item.price, item.actualSize)"
+						:volume="calculateVolume(item)"
 						:volume-depth="volumeDepth"
 						type="ask"
 					/>
 
 					<div class="ask-list-table-body__item--volume">
-						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+						<span>{{ calculateVolume(item) }}</span>
 					</div>
 				</div>
 			</td>
