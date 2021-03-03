@@ -214,3 +214,29 @@ html {
 .theme--dark.v-data-table {
 	background-color: #1e1e1e !important;
 }
+
+// Change menu style <03.03.21>
+.v-menu__content {
+	.v-list {
+		background: #f9f9f9 !important;
+	}
+	.v-list-item {
+		text-align: center !important;
+		min-height: 30px !important;
+		&__title {
+			font-weight: normal !important;
+			font-size: 12px !important;
+			letter-spacing: 0.0071428571em !important;
+		}
+	}
+	.v-select-list {
+		.v-list-item {
+			height: 15px !important;
+		}
+	}
+}
+.theme--dark .v-menu__content {
+	.v-list {
+		background: #0d161d !important;
+	}
+}
