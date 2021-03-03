@@ -40,14 +40,14 @@
 
 			<MarketActivity class="trading__desktop__market-activity" />
 
-			<!--      v-if="isLogged"-->
 			<OwnActiveOrderList
+				v-if="isLogged"
 				class="trading__desktop__own-order"
 				:currency="selectedCurrency"
 				:market="selectedMarket"
 			/>
-			<!--      v-if="isLogged"-->
 			<OwnHistoryDealList
+				v-if="isLogged"
 				class="trading__desktop__own-history"
 				:currency="selectedCurrency"
 				:market="selectedMarket"
