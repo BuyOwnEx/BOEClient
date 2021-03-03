@@ -222,9 +222,9 @@ export default {
 		headers: {
 			history_deal_list: 'Deals history',
 			market_activity: 'Market activity',
-			own_active_order_list: 'Your active orders for trading pair',
-			own_active_position_list: 'Your opened positions for trading pair',
-			own_history_deal_list: 'Yours deals history for trading pair',
+			own_active_order_list: 'Active orders',
+			own_active_position_list: 'Your opened positions',
+			own_history_deal_list: 'Yours deals',
 			ask: 'Ask',
 			bid: 'Bid',
 			ask_bid: 'Ask and Bid',

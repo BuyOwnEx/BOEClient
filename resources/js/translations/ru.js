@@ -222,9 +222,9 @@ export default {
 		headers: {
 			history_deal_list: 'История торгов',
 			market_activity: 'Активность на рынке',
-			own_active_order_list: 'Ваши активные ордера по торговой паре',
-			own_active_position_list: 'Ваши открытые позиции по торговой паре',
-			own_history_deal_list: 'История Ваших сделок по торговой паре',
+			own_active_order_list: 'Активные ордера',
+			own_active_position_list: 'Ваши открытые позиции',
+			own_history_deal_list: 'Ваши сделки',
 			ask: 'Продажа',
 			bid: 'Покупка',
 			ask_bid: 'Продажа и покупка',
