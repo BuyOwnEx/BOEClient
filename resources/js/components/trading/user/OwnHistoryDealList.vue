@@ -33,9 +33,9 @@
 				</template>
 
 				<template v-slot:item.pair="{ item }">
-					<span>{{ item.currency.toUpperCase() }}</span>
-					<span>/</span>
-					<span>{{ item.market.toUpperCase() }}</span>
+					<span>
+						{{ item.currency.toUpperCase() }}/{{ item.market.toUpperCase() }}
+					</span>
 				</template>
 
 				<template v-slot:item.side="{ item }">
