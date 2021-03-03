@@ -1,58 +1,77 @@
 <template>
-	<v-card>
-		<v-data-table
-			dense
-			:calculate-widths="true"
-			:headers="headers"
-			:items="ownDealList"
-			:items-per-page="itemsPerPage"
-			:footer-props="footer_props"
-			class="elevation-0 pl-4 pr-4"
-			id="own-history-deal-list"
-		>
-			<template v-slot:top>
-				<v-toolbar flat dense class="mt-2">
-					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
-					<v-spacer></v-spacer>
-					<v-switch
-						v-model="showOtherPairs"
-						class="mr-3"
-						hide-details
-						height="14"
-						left
-						inset
-						:label="$t('trading.show_other_pairs')"
-					></v-switch>
-				</v-toolbar>
-			</template>
-			<template v-slot:item.date="{ item }">
-				{{ getDate(item) }}
-			</template>
-			<template v-slot:item.market="{ item }">
-				<strong>{{ item.currency.toUpperCase() }}</strong
-				><span class="market-name">/{{ item.market.toUpperCase() }}</span>
-			</template>
-			<template v-slot:item.side="{ item }">
-				<strong
-					:class="{ 'text-success': item.side, 'text-danger': !item.side }"
-				>
+	<v-card class="own-history-deal-list pa-1">
+		<v-card-title class="own-history-deal-list__header pa-0">
+			<span>
+				{{ $t('trading.headers.own_history_deal_list') }}
+			</span>
+
+			<v-spacer />
+
+			<v-switch
+				v-model="showOtherPairs"
+				:label="$t('trading.show_other_pairs')"
+				hide-details
+				dense
+				left
+				inset
+			/>
+		</v-card-title>
+
+		<v-card-text class="own-history-deal-list__content pa-0 pt-1">
+			<v-data-table
+				:calculate-widths="true"
+				:headers="headers"
+				:items="ownDealList"
+				:items-per-page="itemsPerPage"
+				:footer-props="footerProps"
+				dense
+			>
+				<template v-slot:item.date="{ item }">
+					<span class="own-history-deal-list__date">
+						{{ formatDate(item.createdAt) }}
+					</span>
+				</template>
+
+				<template v-slot:item.pair="{ item }">
+					<span>{{ item.currency.toUpperCase() }}</span>
+					<span>/</span>
+					<span>{{ item.market.toUpperCase() }}</span>
+				</template>
+
+				<template v-slot:item.side="{ item }">
+					<strong
+						:class="{ 'text-success': item.side, 'text-danger': !item.side }"
+					>
+						{{
+							item.side
+								? $t('trading.order.direction.buy')
+								: $t('trading.order.direction.sell')
+						}}
+					</strong>
+				</template>
+
+				<template v-slot:item.size="{ item }">
 					{{
-						item.side
-							? $t('trading.order.direction.buy')
-							: $t('trading.order.direction.sell')
+						formatSize(
+							item.actualSize,
+							findScale(market, currency, 'amountScale')
+						)
 					}}
-				</strong>
-			</template>
-			<template v-slot:item.size="{ item }">
-				{{ size(item) }} {{ item.currency.toUpperCase() }}
-			</template>
-			<template v-slot:item.price="{ item }">
-				{{ price(item) }} {{ item.market.toUpperCase() }}
-			</template>
-			<template v-slot:item.volume="{ item }">
-				{{ volume(item) }} {{ item.market.toUpperCase() }}
-			</template>
-		</v-data-table>
+					{{ item.currency.toUpperCase() }}
+				</template>
+
+				<template v-slot:item.price="{ item }">
+					{{
+						formatPrice(item.price, findScale(market, currency, 'rateScale'))
+					}}
+					{{ item.market.toUpperCase() }}
+				</template>
+
+				<template v-slot:item.volume="{ item }">
+					{{ calculateVolume(item) }} {{ item.market.toUpperCase() }}
+				</template>
+			</v-data-table>
+		</v-card-text>
 	</v-card>
 </template>
 
@@ -60,8 +79,16 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import formatDate from '../../../mixins/trading/formatDate';
+import formatSize from '../../../mixins/trading/formatSize';
+import formatPrice from '../../../mixins/trading/formatPrice';
+import calculateVolume from '../../../mixins/trading/calculateVolume';
+import findScale from '../../../mixins/trading/findScale';
+
 export default {
 	name: 'OwnHistoryDealList',
+
+	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],
 
 	props: {
 		currency: {
@@ -77,13 +104,7 @@ export default {
 	data() {
 		return {
 			showOtherPairs: false,
-			tableCaption:
-				this.$t('trading.headers.own_history_deal_list') +
-				' ' +
-				this.currency +
-				'/' +
-				this.market,
-			itemsPerPage: 5,
+			itemsPerPage: 10,
 			headers: [
 				{
 					text: this.$t('trading.date'),
@@ -93,7 +114,7 @@ export default {
 				},
 				{
 					text: this.$t('trading.market'),
-					value: 'market',
+					value: 'pair',
 				},
 				{ text: this.$t('trading.type'), value: 'side' },
 				{
@@ -107,7 +128,7 @@ export default {
 					sortable: false,
 				},
 			],
-			footer_props: {
+			footerProps: {
 				'items-per-page-options': [5, 10, 15, 30, 50],
 				'items-per-page-all-text': '50',
 			},
@@ -124,24 +145,15 @@ export default {
 				  });
 		},
 	},
-
-	methods: {
-		volume(item) {
-			return BigNumber(item.price)
-				.times(BigNumber(item.size))
-				.toString();
-		},
-		size(item) {
-			return BigNumber(item.size).toString();
-		},
-		price(item) {
-			return BigNumber(item.price).toString();
-		},
-		getDate(item) {
-			return item.createdAt;
-		},
-	},
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.own-history-deal-list
+	&__header
+		word-break: normal
+		font-weight: 700
+		text-transform: uppercase
+	&__date
+		color: #a8a8a8
+</style>

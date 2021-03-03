@@ -27,10 +27,15 @@
 	}
 
 	// Less table cells height <20.02.21>
-	.v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > td,
-	.v-data-table--dense > .v-data-table__wrapper > table > thead > tr > td,
-	.v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > td {
+	.v-data-table--dense .v-data-table__wrapper td {
 		height: 24px;
+	}
+	.own-active-order-list,
+	.own-active-position-list,
+	.own-history-deal-list {
+		.v-data-table--dense td {
+			height: 28px !important;
+		}
 	}
 
 	// Text Field small size .trading-forms <18.02.21>
@@ -47,37 +52,6 @@
 		}
 		.v-input__append-inner {
 			margin-top: 9px !important;
-		}
-	}
-
-	// Switch small size <26.02.21>
-	.trading-forms .v-input--switch {
-		margin-left: 4px;
-		margin-top: 0;
-	}
-	.trading-forms .v-input--switch,
-	.own-active-order-list .v-input--switch {
-		.v-input--selection-controls__input {
-			top: 5px;
-			width: 25px;
-		}
-		.v-input--selection-controls__ripple {
-			height: 12px;
-			width: 12px;
-			left: -9px;
-			top: -6px;
-		}
-		.v-input--switch__track {
-			height: 14px;
-			width: 26px;
-		}
-		.v-input--switch__thumb {
-			height: 8px;
-			width: 8px;
-			top: calc(50% - 9px);
-		}
-		label {
-			font-size: 13px;
 		}
 	}
 
@@ -127,19 +101,51 @@
 			height: 25px !important;
 		}
 	}
-	.own-active-order-list .v-data-table__wrapper table {
-		padding: 0 !important;
-	}
-	.own-active-position-list .v-data-table__wrapper table {
-		padding: 0 !important;
-	}
-	.own-history-deal-list .v-data-table__wrapper table {
-		padding: 0 !important;
-	}
 
+	// Switch small size <26.02.21>
+	.trading-forms .v-input--switch {
+		margin-left: 4px;
+		margin-top: 0;
+	}
+	.trading-forms .v-input--switch,
+	.own-active-order-list .v-input--switch,
+	.own-history-deal-list .v-input--switch,
+	.own-active-position-list .v-input--switch {
+		.v-input--selection-controls__input {
+			top: 5px;
+			width: 25px;
+		}
+		.v-input--selection-controls__ripple {
+			height: 12px;
+			width: 12px;
+			left: -9px;
+			top: -6px;
+		}
+		.v-input--switch__track {
+			height: 14px;
+			width: 26px;
+		}
+		.v-input--switch__thumb {
+			height: 8px;
+			width: 8px;
+			top: calc(50% - 9px);
+		}
+		label {
+			font-size: 13px;
+		}
+	}
+	.own-active-order-list .v-input--switch,
+	.own-history-deal-list .v-input--switch,
+	.own-active-position-list .v-input--switch {
+		label {
+			font-size: 10px !important;
+		}
+	}
 	// Small switch transform
 	.trading-forms,
-	.own-active-order-list {
+	.own-active-order-list,
+	.own-history-deal-list,
+	.own-active-position-list {
 		.v-input--switch--inset.v-input--is-dirty .v-input--switch__thumb,
 		.v-input--switch--inset.v-input--is-dirty
 			.v-input--selection-controls__ripple {
@@ -147,10 +153,20 @@
 		}
 	}
 
-	// Remove switch padding Own...
-	.own-active-order-list .v-input--switch {
-		margin-top: 0;
-		padding-top: 0;
+	// Own...
+	.own-active-order-list,
+	.own-history-deal-list,
+	.own-active-position-list {
+		.v-data-table__wrapper table {
+			padding: 0 !important;
+		}
+		.v-input--switch {
+			margin-top: 0;
+			padding-top: 0;
+		}
+		.v-data-footer__select .v-select {
+			margin-left: 8px !important;
+		}
 	}
 }
 

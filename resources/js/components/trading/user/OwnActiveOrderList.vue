@@ -18,16 +18,15 @@
 			/>
 			<v-menu transition="slide-y-transition" bottom>
 				<template v-slot:activator="{ on, attrs }">
-					<v-btn tile outlined small color="#A6A6A6" v-bind="attrs" v-on="on">
+					<v-btn color="#A6A6A6" v-bind="attrs" v-on="on" text tile small>
 						{{ $t('trading.cancel') }}
 						<v-icon right>mdi-chevron-down</v-icon>
 					</v-btn>
 				</template>
-				<v-list>
+				<v-list dense>
 					<v-list-item
-						dense
-						v-for="(item, i) in cancelOptions"
-						:key="i"
+						v-for="item in cancelOptions"
+						:key="item.text"
 						@click="item.click"
 					>
 						<v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -36,9 +35,8 @@
 			</v-menu>
 		</v-card-title>
 
-		<v-card-text class="own-active-order-list__content pa-0">
+		<v-card-text class="own-active-order-list__content pa-0 pt-1">
 			<v-data-table
-				class="elevation-0 pl-4 pr-4"
 				:calculate-widths="true"
 				:headers="headers"
 				:items="ownOrderList"
@@ -46,126 +44,97 @@
 				:footer-props="footerProps"
 				dense
 			>
-				<!--			<template v-slot:top>-->
-				<!--				<v-toolbar flat dense class="mt-2">-->
-				<!--					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>-->
-				<!--					<v-spacer></v-spacer>-->
-				<!--					<v-switch-->
-				<!--						v-model="showOtherPairs"-->
-				<!--						class="mr-3"-->
-				<!--						hide-details-->
-				<!--						height="14"-->
-				<!--						left-->
-				<!--						inset-->
-				<!--						:label="$t('trading.show_other_pairs')"-->
-				<!--					></v-switch>-->
-				<!--					<v-menu transition="slide-y-transition" bottom>-->
-				<!--						<template v-slot:activator="{ on, attrs }">-->
-				<!--							<v-btn-->
-				<!--								tile-->
-				<!--								outlined-->
-				<!--								small-->
-				<!--								color="#A6A6A6"-->
-				<!--								v-bind="attrs"-->
-				<!--								v-on="on"-->
-				<!--							>-->
-				<!--								{{ $t('trading.cancel') }}-->
-				<!--								<v-icon right>mdi-chevron-down</v-icon>-->
-				<!--							</v-btn>-->
-				<!--						</template>-->
-				<!--						<v-list>-->
-				<!--							<v-list-item-->
-				<!--								dense-->
-				<!--								v-for="(item, i) in cancelOptions"-->
-				<!--								:key="i"-->
-				<!--								@click="item.click"-->
-				<!--							>-->
-				<!--								<v-list-item-title>{{ item.text }}</v-list-item-title>-->
-				<!--							</v-list-item>-->
-				<!--						</v-list>-->
-				<!--					</v-menu>-->
-				<!--				</v-toolbar>-->
-				<!--			</template>-->
+				<template v-slot:item.date="{ item }">
+					<span class="own-active-order-list__date">
+						{{ formatDate(item.createdAt) }}
+					</span>
+				</template>
+
+				<template v-slot:item.pair="{ item }">
+					<span>{{ item.currency.toUpperCase() }}</span>
+					<span>/</span>
+					<span>{{ item.market.toUpperCase() }}</span>
+				</template>
+
+				<template v-slot:item.side="{ item }">
+					<span v-if="item.side === false">
+						<strong class="text-success">
+							{{ $t('trading.order.direction.buy') }}
+						</strong>
+					</span>
+					<span v-else>
+						<strong class="text-danger">
+							{{ $t('trading.order.direction.sell') }}
+						</strong>
+					</span>
+
+					<span
+						v-if="item.type === 'STOPLOSS'"
+						class="own-active-order-list__type own-active-order-list__type--sl"
+					>
+						SL
+					</span>
+
+					<span
+						v-if="item.type === 'TAKEPROFIT'"
+						class="own-active-order-list own-active-order-list__type--tp"
+					>
+						TP
+					</span>
+
+					<span
+						v-if="item.type === 'TRAILINGSTOP'"
+						class="own-active-order-list own-active-order-list__type--ts"
+					>
+						TS
+					</span>
+				</template>
+
+				<template v-slot:item.size="{ item }">
+					{{
+						formatSize(
+							item.actualSize,
+							findScale(market, currency, 'amountScale')
+						)
+					}}
+					{{ item.currency.toUpperCase() }}
+				</template>
+
+				<template v-slot:item.price="{ item }">
+					{{
+						formatPrice(item.price, findScale(market, currency, 'rateScale'))
+					}}
+					{{ item.market.toUpperCase() }}
+				</template>
+
+				<template v-slot:item.volume="{ item }">
+					{{ calculateVolume(item) }} {{ item.market.toUpperCase() }}
+				</template>
+
+				<template v-slot:item.percent="{ item }">
+					{{ percent(item) }}%
+				</template>
+
+				<template v-slot:item.status="{ item }">
+					<span class="text-success" v-if="item.status === 'accepted'">
+						{{ $t('trading.order.status.accepted') }}
+					</span>
+					<span class="text-warning" v-else>
+						{{ $t('trading.order.status.partiallyFilled') }}
+					</span>
+				</template>
+
 				<template v-slot:item.action="{ item }">
 					<v-btn
-						tile
-						outlined
-						x-small
 						color="#A6A6A6"
+						tile
+						text
+						x-small
 						dense
 						@click="orderCancel(item)"
 					>
 						{{ $t('trading.cancel') }}
 					</v-btn>
-				</template>
-				<template v-slot:item.date="{ item }">
-					{{ getDateFromTick(item) }}
-				</template>
-				<template v-slot:item.market="{ item }">
-					<strong>{{ item.currency }}</strong
-					><span class="market-name">/{{ item.market }}</span>
-				</template>
-				<template v-slot:item.side="{ item }">
-					<span v-if="item.side === false">
-						<strong class="text-success">{{
-							$t('trading.order.direction.buy')
-						}}</strong>
-						<span
-							class="order_type order_type_sl"
-							v-if="item.type === 'STOPLOSS'"
-							>SL</span
-						>
-						<span
-							class="order_type order_type_tp"
-							v-if="item.type === 'TAKEPROFIT'"
-							>TP</span
-						>
-						<span
-							class="order_type order_type_ts"
-							v-if="item.type === 'TRAILINGSTOP'"
-							>TS</span
-						>
-					</span>
-					<span v-else>
-						<strong class="text-danger">{{
-							$t('trading.order.direction.sell')
-						}}</strong>
-						<span
-							class="order_type order_type_sl"
-							v-if="item.type === 'STOPLOSS'"
-							>SL</span
-						>
-						<span
-							class="order_type order_type_tp"
-							v-if="item.type === 'TAKEPROFIT'"
-							>TP</span
-						>
-						<span
-							class="order_type order_type_ts"
-							v-if="item.type === 'TRAILINGSTOP'"
-							>TS</span
-						>
-					</span>
-				</template>
-				<template v-slot:item.size="{ item }">
-					{{ size(item) }} {{ item.currency.toUpperCase() }}
-				</template>
-				<template v-slot:item.price="{ item }">
-					{{ price(item) }} {{ item.market.toUpperCase() }}
-				</template>
-				<template v-slot:item.volume="{ item }">
-					{{ volume(item) }} {{ item.market.toUpperCase() }}
-				</template>
-				<template v-slot:item.percent="{ item }">
-					{{ percent(item) }}%</template
-				>
-				<template v-slot:item.status="{ item }">
-					<span class="text-success" v-if="item.status === 'accepted'">{{
-						$t('trading.order.status.accepted')
-					}}</span>
-					<span class="text-warning" v-else>{{
-						$t('trading.order.status.partiallyFilled')
-					}}</span>
 				</template>
 			</v-data-table>
 		</v-card-text>
@@ -176,8 +145,16 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import formatDate from '../../../mixins/trading/formatDate';
+import calculateVolume from '../../../mixins/trading/calculateVolume';
+import findScale from '../../../mixins/trading/findScale';
+import formatSize from '../../../mixins/trading/formatSize';
+import formatPrice from '../../../mixins/trading/formatPrice';
+
 export default {
 	name: 'OwnActiveOrderList',
+
+	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],
 
 	props: {
 		currency: {
@@ -193,13 +170,7 @@ export default {
 	data() {
 		return {
 			showOtherPairs: false,
-			tableCaption:
-				this.$t('trading.headers.own_active_order_list') +
-				' ' +
-				this.currency +
-				'/' +
-				this.market,
-			itemsPerPage: 5,
+			itemsPerPage: 10,
 			headers: [
 				{
 					text: this.$t('trading.date'),
@@ -209,7 +180,7 @@ export default {
 				},
 				{
 					text: this.$t('trading.market'),
-					value: 'market',
+					value: 'pair',
 				},
 				{ text: this.$t('trading.type'), value: 'side' },
 				{
@@ -276,12 +247,12 @@ export default {
 				  });
 			// return [
 			// 	{
-			// 		date: '19:23:05',
+			// 		createdAt: 637502157826297100,
 			// 		market: 'usdt',
+			// 		currency: 'btc',
 			// 		side: true,
-			// 		size: 0.015,
+			// 		actualSize: 0.015,
 			// 		price: 12000,
-			// 		volume: 5000,
 			// 		percent: '50%',
 			// 		status: 'accepted',
 			// 	},
@@ -290,11 +261,6 @@ export default {
 	},
 
 	methods: {
-		volume(item) {
-			return BigNumber(item.price)
-				.times(BigNumber(item.actualSize))
-				.toString();
-		},
 		percent(item) {
 			if (item.status === 'partiallyFilled') {
 				if (item.size === 0) {
@@ -306,15 +272,6 @@ export default {
 				return 0;
 			}
 			return '';
-		},
-		size(item) {
-			return BigNumber(item.actualSize).toString();
-		},
-		price(item) {
-			return BigNumber(item.price).toString();
-		},
-		getDateFromTick(item) {
-			return item.createdAt;
 		},
 		closeMenu(item) {
 			item.menu = false;
@@ -362,4 +319,6 @@ export default {
 		word-break: normal
 		font-weight: 700
 		text-transform: uppercase
+	&__date
+		color: #a8a8a8
 </style>
