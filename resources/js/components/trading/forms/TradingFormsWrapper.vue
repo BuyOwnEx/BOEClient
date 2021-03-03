@@ -108,7 +108,7 @@ export default {
 
 @media screen and (min-width: 960px)
 	.trading-forms
-		min-height: 502px
+		min-height: 528px
 
 @media screen and (max-width: 960px)
 	.trading-forms
