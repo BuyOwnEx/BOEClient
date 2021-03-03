@@ -40,25 +40,12 @@
 
 			<MarketActivity class="trading__desktop__market-activity" />
 
-			<OwnActiveOrderList
+			<OwnListsTabsWrapper
 				v-if="isLogged"
-				class="trading__desktop__own-order"
+				class="trading__desktop__own-lists-tabs-wrapper"
 				:currency="selectedCurrency"
 				:market="selectedMarket"
 			/>
-			<OwnHistoryDealList
-				v-if="isLogged"
-				class="trading__desktop__own-history"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
-			/>
-
-			<!--                        <OwnActivePositionList-->
-			<!--                          v-if="isLogged"-->
-			<!--                          class="trading__desktop__own-position"-->
-			<!--                          :currency="selectedCurrency"-->
-			<!--                          :market="selectedMarket"-->
-			<!--                        />-->
 		</div>
 
 		<div v-if="isMobile" class="trading__mobile">
@@ -112,23 +99,12 @@
 				</v-tab-item>
 
 				<v-tab-item :key="7" v-if="isLogged">
-					<OwnActiveOrderList
-						class="trading__mobile__own-order"
+					<OwnListsTabsWrapper
+						class="trading__mobile__own-lists-tabs-wrapper"
 						:currency="selectedCurrency"
 						:market="selectedMarket"
 					/>
 				</v-tab-item>
-
-				<v-tab-item :key="8" v-if="isLogged">
-					<OwnHistoryDealList
-						class="trading__mobile__own-history"
-						:currency="selectedCurrency"
-						:market="selectedMarket"
-					/>
-				</v-tab-item>
-
-				<!--        <v-tab-item :key="9">-->
-				<!--        </v-tab-item>-->
 			</v-tabs-items>
 
 			<v-tabs
@@ -157,14 +133,8 @@
 					Forms
 				</v-tab>
 				<v-tab :key="7" v-if="isLogged">
-					Active orders
+					Own Lists
 				</v-tab>
-				<v-tab :key="8" v-if="isLogged">
-					Own History
-				</v-tab>
-				<!--        <v-tab :key="9">-->
-				<!--          Own Position-->
-				<!--        </v-tab>-->
 			</v-tabs>
 		</div>
 	</div>
@@ -183,9 +153,7 @@ import AskList from '../../components/trading/orders/ask/AskList';
 import BidList from '../../components/trading/orders/bid/BidList';
 import TradingFormsWrapper from '../../components/trading/forms/TradingFormsWrapper';
 
-import OwnActiveOrderList from '../../components/trading/user/OwnActiveOrderList';
-import OwnActivePositionList from '../../components/trading/user/OwnActivePositionList';
-import OwnHistoryDealList from '../../components/trading/user/OwnHistoryDealList';
+import OwnListsTabsWrapper from '../../components/trading/user/OwnListsTabsWrapper';
 
 export default {
 	name: 'Trading',
@@ -201,9 +169,7 @@ export default {
 		AskList,
 		BidList,
 		TradingFormsWrapper,
-		OwnActiveOrderList,
-		OwnActivePositionList,
-		OwnHistoryDealList,
+		OwnListsTabsWrapper,
 	},
 
 	props: {
@@ -218,8 +184,6 @@ export default {
 	},
 
 	data: () => ({
-		//user: null,
-		//
 		selectedTab: 0,
 		messagesData: [
 			{
@@ -292,9 +256,6 @@ export default {
 	},
 
 	created() {
-		//this.trading_currency = this.$trading_currency;
-		//this.trading_market = this.$trading_market;
-		//this.user = this.$user;
 		if (
 			this.$store.state.trading.selectedMarket === null ||
 			this.$store.state.trading.selectedCurrency === null
@@ -332,7 +293,7 @@ export default {
 			'chat bid forms forms ask history'
 			'chat bid forms forms ask history'
 			'activity bid forms forms ask history'
-			'own-order own-order own-order own-history own-history own-history';
+			'own own own own own own';
 
 		&__tickers {
 			grid-area: tickers;
@@ -369,16 +330,8 @@ export default {
 			grid-area: bid;
 		}
 
-		&__own-order {
-			grid-area: own-order;
-		}
-
-		&__own-position {
-			grid-area: own-pos;
-		}
-
-		&__own-history {
-			grid-area: own-history;
+		&__own-lists-tabs-wrapper {
+			grid-area: own;
 		}
 	}
 
@@ -432,13 +385,7 @@ export default {
 			flex-grow: 1;
 		}
 
-		&__own-order {
-			height: calc(100vh - 148px);
-			overflow: auto;
-			flex-grow: 1;
-		}
-
-		&__own-history {
+		&__own-lists-tabs-wrapper {
 			height: calc(100vh - 148px);
 			overflow: auto;
 			flex-grow: 1;
@@ -480,7 +427,7 @@ export default {
 			'chat bid bid ask ask history'
 			'chat forms forms forms forms history'
 			'activity forms forms forms forms history'
-			'own-order own-order own-order own-history own-history own-history';
+			'own own own own own own';
 	}
 }
 
@@ -491,7 +438,7 @@ export default {
 			'activity bid bid ask ask chat'
 			'forms forms forms forms forms chat'
 			'forms forms forms forms forms chat'
-			'own-order own-order own-order own-history own-history own-history';
+			'own own own own own own';
 	}
 }
 
@@ -505,7 +452,7 @@ export default {
 				'forms forms forms forms forms forms forms forms history history history history'
 				'forms forms forms forms forms forms forms forms history history history history'
 				'forms forms forms forms forms forms forms forms history history history history'
-				'own-order own-order own-order own-order own-order own-order own-history own-history own-history own-history own-history own-history';
+				'own own own own own own own own own own own own';
 
 			&__market-activity {
 				display: none;
