@@ -28,13 +28,13 @@
 				<div class="bid-list-table-body__tooltip-volume-wrapper">
 					<OrdersWall
 						:item-index="itemIndex"
-						:volume="calculateVolume(item)"
+						:volume="calculateVolume(item.price, item.actualSize)"
 						:volume-depth="volumeDepth"
 						type="bid"
 					/>
 
 					<div class="bid-list-table-body__item--volume text-right">
-						<span>{{ calculateVolume(item) }}</span>
+						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>
 			</td>
@@ -58,7 +58,13 @@ import calculateVolume from '../../../../../mixins/trading/calculateVolume';
 export default {
 	name: 'BidListTableBody',
 
-	mixins: [formatPrice, formatSize, getPriceScale, getAmountScale, calculateVolume],
+	mixins: [
+		formatPrice,
+		formatSize,
+		getPriceScale,
+		getAmountScale,
+		calculateVolume,
+	],
 
 	components: { OrdersWall },
 

@@ -52,10 +52,7 @@
 
 				<template v-slot:item.size="{ item }">
 					{{
-						formatSize(
-							item.actualSize,
-							findScale(market, currency, 'amountScale')
-						)
+						formatSize(item.size, findScale(market, currency, 'amountScale'))
 					}}
 					{{ item.currency.toUpperCase() }}
 				</template>
@@ -68,7 +65,8 @@
 				</template>
 
 				<template v-slot:item.volume="{ item }">
-					{{ calculateVolume(item) }} {{ item.market.toUpperCase() }}
+					{{ calculateVolume(item.price, item.size) }}
+					{{ item.market.toUpperCase() }}
 				</template>
 			</v-data-table>
 		</v-card-text>

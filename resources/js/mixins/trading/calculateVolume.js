@@ -3,9 +3,9 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 export default {
 	methods: {
-		calculateVolume(item) {
-			return BigNumber(item.price)
-				.times(BigNumber(item.actualSize))
+		calculateVolume(price, size) {
+			return BigNumber(price)
+				.times(BigNumber(size))
 				.toString();
 		},
 	},

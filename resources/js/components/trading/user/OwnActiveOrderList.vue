@@ -93,7 +93,7 @@
 				<template v-slot:item.size="{ item }">
 					{{
 						formatSize(
-							item.actualSize,
+							item.size,
 							findScale(market, currency, 'amountScale')
 						)
 					}}
@@ -108,7 +108,7 @@
 				</template>
 
 				<template v-slot:item.volume="{ item }">
-					{{ calculateVolume(item) }} {{ item.market.toUpperCase() }}
+					{{ calculateVolume(item.price, item.size) }} {{ item.market.toUpperCase() }}
 				</template>
 
 				<template v-slot:item.percent="{ item }">
@@ -239,24 +239,24 @@ export default {
 
 	computed: {
 		ownOrderList() {
-			return this.showOtherPairs
-				? this.$store.state.user.orders
-				: _.filter(this.$store.state.user.orders, {
-						currency: this.currency.toUpperCase(),
-						market: this.market.toUpperCase(),
-				  });
-			// return [
-			// 	{
-			// 		createdAt: 637502157826297100,
-			// 		market: 'usdt',
-			// 		currency: 'btc',
-			// 		side: true,
-			// 		actualSize: 0.015,
-			// 		price: 12000,
-			// 		percent: '50%',
-			// 		status: 'accepted',
-			// 	},
-			// ];
+			// return this.showOtherPairs
+			// 	? this.$store.state.user.orders
+			// 	: _.filter(this.$store.state.user.orders, {
+			// 			currency: this.currency.toUpperCase(),
+			// 			market: this.market.toUpperCase(),
+			// 	  });
+			return [
+				{
+					createdAt: 637502157826297100,
+					market: 'usdt',
+					currency: 'btc',
+					side: true,
+					size: 0.015,
+					price: 12000,
+					percent: '50%',
+					status: 'accepted',
+				},
+			];
 		},
 	},
 
