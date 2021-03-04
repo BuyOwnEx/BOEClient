@@ -137,7 +137,7 @@
 						</template>
 					</v-text-field>
 					<template #text>
-						Slot Text
+						{{ $t('trading.forms.stop_loss_info') }}
 					</template>
 				</TradingFormsInfoTooltip>
 
@@ -161,9 +161,7 @@
 						</template>
 					</v-text-field>
 					<template #text>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad,
-						aperiam beatae cupiditate incidunt, maxime molestiae nostrum nulla
-						quaerat quas qui repellat sed.
+						{{ $t('trading.forms.take_profit_info') }}
 					</template>
 				</TradingFormsInfoTooltip>
 
@@ -187,9 +185,7 @@
 						</template>
 					</v-text-field>
 					<template #text>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad,
-						aperiam beatae cupiditate incidunt, maxime molestiae nostrum nulla
-						quaerat quas qui repellat sed.
+						{{ $t('trading.forms.trailing_stop_info') }}
 					</template>
 				</TradingFormsInfoTooltip>
 			</div>

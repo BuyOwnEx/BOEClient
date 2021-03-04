@@ -312,6 +312,11 @@ export default {
 			total_size: 'Total Size',
 			total_volume: 'Total Volume',
 		},
+		forms: {
+			stop_loss_info: 'Stop Loss Info',
+			take_profit_info: 'Take Profit Info',
+			trailing_stop_info: 'Trailing Stop Info',
+		},
 	},
 	// Vuetify components translations
 	$vuetify: {

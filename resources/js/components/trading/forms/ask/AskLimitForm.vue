@@ -116,53 +116,76 @@
 			</div>
 
 			<div v-if="!useMargin" class="alf__params">
-				<v-text-field
-					v-model="form.sl_rate"
-					ref="ask_limit_sl_rate"
-					:label="$t('trading.order.sl_rate')"
-					:disabled="!additionalParamsEnabled"
-					type="text"
-					outlined
-					dense
-					hide-details
-					@keydown="validateNumber($event)"
-				>
-					<template v-slot:append>
-						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
+				<TradingFormsInfoTooltip>
+					<v-text-field
+						v-model="form.sl_rate"
+						ref="bid_limit_sl_rate"
+						:label="$t('trading.order.sl_rate')"
+						:disabled="!additionalParamsEnabled"
+						type="text"
+						outlined
+						dense
+						hide-details
+						@keydown="validateNumber($event)"
+					>
+						<template v-slot:append>
+							<span class="button-currency-text">
+								{{ market.toUpperCase() }}
+							</span>
+						</template>
+					</v-text-field>
+					<template #text>
+						{{ $t('trading.forms.stop_loss_info') }}
 					</template>
-				</v-text-field>
-				<v-text-field
-					v-model="form.tp_rate"
-					style="margin-top: 6px"
-					ref="ask_limit_tp_rate"
-					:label="$t('trading.order.tp_rate')"
-					:disabled="!additionalParamsEnabled"
-					type="text"
-					outlined
-					dense
-					hide-details
-					@keydown="validateNumber($event)"
-				>
-					<template v-slot:append>
-						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
+				</TradingFormsInfoTooltip>
+
+				<TradingFormsInfoTooltip>
+					<v-text-field
+						v-model="form.tp_rate"
+						style="margin-top: 6px"
+						ref="bid_limit_tp_rate"
+						:label="$t('trading.order.tp_rate')"
+						:disabled="!additionalParamsEnabled"
+						type="text"
+						outlined
+						dense
+						hide-details
+						@keydown="validateNumber($event)"
+					>
+						<template v-slot:append>
+							<span class="button-currency-text">
+								{{ market.toUpperCase() }}
+							</span>
+						</template>
+					</v-text-field>
+					<template #text>
+						{{ $t('trading.forms.take_profit_info') }}
 					</template>
-				</v-text-field>
-				<v-text-field
-					v-model="form.ts_offset"
-					style="margin-top: 6px"
-					ref="ask_limit_ts_offset"
-					:label="$t('trading.order.ts_offset')"
-					:disabled="!additionalParamsEnabled"
-					type="text"
-					outlined
-					dense
-					hide-details
-					@keydown="validateNumber($event)"
-				>
-					<template v-slot:append>
-						<span class="button-currency-text">{{ market.toUpperCase() }}</span>
+				</TradingFormsInfoTooltip>
+
+				<TradingFormsInfoTooltip>
+					<v-text-field
+						v-model="form.ts_offset"
+						style="margin-top: 6px"
+						ref="bid_limit_ts_offset"
+						:label="$t('trading.order.ts_offset')"
+						:disabled="!additionalParamsEnabled"
+						type="text"
+						outlined
+						dense
+						hide-details
+						@keydown="validateNumber($event)"
+					>
+						<template v-slot:append>
+							<span class="button-currency-text">{{
+								market.toUpperCase()
+							}}</span>
+						</template>
+					</v-text-field>
+					<template #text>
+						{{ $t('trading.forms.trailing_stop_info') }}
 					</template>
-				</v-text-field>
+				</TradingFormsInfoTooltip>
 			</div>
 		</div>
 
@@ -207,10 +230,14 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
+import TradingFormsInfoTooltip from '../TradingFormsInfoTooltip';
+
 export default {
 	name: 'AskLimitForm',
+
+	components: { TradingFormsInfoTooltip },
 
 	props: {
 		currency: {

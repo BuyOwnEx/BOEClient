@@ -312,6 +312,11 @@ export default {
 			total_size: 'Всего Кол-во',
 			total_volume: 'Всего Объёма',
 		},
+		forms: {
+			stop_loss_info: 'Информация Stop Loss',
+			take_profit_info: 'Информация Take Profit',
+			trailing_stop_info: 'Информация Trailing Stop',
+		}
 	},
 	$vuetify: {
 		badge: 'Значок',
