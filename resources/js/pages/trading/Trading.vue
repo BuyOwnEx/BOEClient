@@ -455,7 +455,7 @@ export default {
 				'own own own own own own own own own own own own';
 
 			&__market-activity {
-				display: none;
+				display: none !important;
 			}
 
 			&__chat {
