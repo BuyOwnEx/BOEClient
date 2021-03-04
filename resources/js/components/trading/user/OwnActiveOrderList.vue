@@ -16,7 +16,11 @@
 				left
 				inset
 			/>
-			<v-menu transition="slide-y-transition" bottom>
+			<v-menu
+				transition="slide-y-transition"
+				content-class="small-text-menu"
+				bottom
+			>
 				<template v-slot:activator="{ on, attrs }">
 					<v-btn color="#A6A6A6" v-bind="attrs" v-on="on" text tile small>
 						{{ $t('trading.cancel') }}
@@ -244,6 +248,16 @@ export default {
 						market: this.market.toUpperCase(),
 				  });
 			// return [
+			// 	{
+			// 		createdAt: 637502157826297100,
+			// 		market: 'usdt',
+			// 		currency: 'btc',
+			// 		side: true,
+			// 		size: 0.015,
+			// 		price: 12000,
+			// 		percent: '50%',
+			// 		status: 'accepted',
+			// 	},
 			// 	{
 			// 		createdAt: 637502157826297100,
 			// 		market: 'usdt',
