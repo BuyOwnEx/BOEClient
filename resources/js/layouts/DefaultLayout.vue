@@ -131,7 +131,11 @@
 				</v-layout>
 			</v-container>
 
-			<v-footer class="footer overline" height="29" app inset>
+			<v-footer
+				class="footer overline"
+				:app="$vuetify.breakpoint.mdAndUp"
+				inset
+			>
 				<span>
 					<a class="text-decoration-none pr-1" href="/statusPage">
 						Состояние системы
@@ -238,5 +242,11 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	font-size: 8px !important;
+	height: 29px;
+}
+@media screen and (max-width: 1263px) {
+	.footer {
+		height: 58px;
+	}
 }
 </style>

@@ -97,5 +97,5 @@ export default {
 
 @media screen and (max-width: 960px)
 	.ask-list
-		height: 378px
+		min-height: 403px
 </style>

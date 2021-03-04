@@ -77,7 +77,7 @@
 					/>
 				</v-tab-item>
 
-				<v-tab-item class="mobile__orders" :key="5">
+				<v-tab-item class="trading__mobile__orders" :key="5">
 					<BidList
 						class="trading__mobile__orders__bid"
 						:currency="selectedCurrency"
@@ -339,54 +339,53 @@ export default {
 		display: flex;
 		flex-grow: 1;
 		flex-flow: column;
-		margin-bottom: 3.5rem;
 
 		&__tickers {
 			flex-grow: 1;
-			height: calc(100vh - 148px);
+			max-height: calc(100vh - 115px);
+			min-height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__chart {
-			flex-grow: 1;
-			height: calc(100vh - 148px);
+			max-height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__history {
 			flex-grow: 1;
-			height: calc(100vh - 148px);
+			max-height: calc(100vh - 115px);
+			min-height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__chat {
 			flex-grow: 1;
-			height: calc(100vh - 148px);
+			max-height: calc(100vh - 115px);
+			min-height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__orders {
-			height: calc(100vh - 148px);
+			max-height: calc(100vh - 115px);
 			overflow: auto;
 
 			&__bid {
-				flex-grow: 1;
 			}
-
 			&__ask {
-				flex-grow: 1;
 				margin-top: 0.5rem;
 			}
 		}
 
 		&__forms {
-			height: calc(100vh - 148px);
+			max-height: calc(100vh - 115px);
 			overflow: auto;
 			flex-grow: 1;
 		}
 
 		&__own-lists-tabs-wrapper {
-			height: calc(100vh - 148px);
+			max-height: calc(100vh - 115px);
+			min-height: calc(100vh - 115px);
 			overflow: auto;
 			flex-grow: 1;
 		}
@@ -395,7 +394,7 @@ export default {
 			position: fixed;
 			left: 0;
 			right: 0;
-			bottom: 29px;
+			bottom: 0;
 			z-index: 1000;
 			box-shadow: 0 -25px 20px 0 rgb(85 85 85 / 4%);
 		}
@@ -467,7 +466,8 @@ export default {
 
 @media screen and (max-width: 960px) {
 	body {
-		max-height: 100vh;
+		min-height: calc(100vh + 130px);
+		background: #f9f9f9;
 	}
 }
 </style>

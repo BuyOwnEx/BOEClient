@@ -32,6 +32,8 @@ export default {
 </script>
 
 <style scoped lang="sass">
+.trading-chart-wrapper
+	overflow: hidden
 
 @media screen and (max-width: 1764px)
 	.trading-chart-wrapper__chart
