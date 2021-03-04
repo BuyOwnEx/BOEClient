@@ -1,27 +1,27 @@
 <template>
-	<div class='d-flex flex-grow-1'>
+	<div class="d-flex flex-grow-1">
 		<!-- Navigation -->
 		<v-navigation-drawer
-			v-if='isLogged'
-			v-model='drawer'
+			v-if="isLogged"
+			v-model="drawer"
 			app
 			floating
 			expand-on-hover
-			class='elevation-1'
-			:right='$vuetify.rtl'
+			class="elevation-1"
+			:right="$vuetify.rtl"
 			:light="menuTheme === 'light'"
 			:dark="menuTheme === 'dark'"
 		>
 			<!-- Navigation menu info -->
 			<template v-slot:prepend>
-				<v-list-item style='padding: 0 4px;'>
-					<v-list-item-avatar height='48' min-width='48' width='48'>
-						<v-img src='/images/logo.png'></v-img>
+				<v-list-item style="padding: 0 4px;">
+					<v-list-item-avatar height="48" min-width="48" width="48">
+						<v-img src="/images/logo.png"></v-img>
 					</v-list-item-avatar>
 					<v-list-item-content>
 						<v-list-item-title>{{ product.name }}</v-list-item-title>
 						<v-list-item-subtitle
-						><small>{{ product.version }}</small></v-list-item-subtitle
+							><small>{{ product.version }}</small></v-list-item-subtitle
 						>
 					</v-list-item-content>
 				</v-list-item>
@@ -29,17 +29,17 @@
 			</template>
 
 			<!-- Navigation menu -->
-			<main-menu :menu='navigation.menu' />
+			<main-menu :menu="navigation.menu" />
 
 			<!-- Navigation menu footer -->
 			<template v-slot:append>
 				<!-- Footer navigation links -->
-				<div class='pa-1 text-center'>
+				<div class="pa-1 text-center">
 					<v-btn
-						v-for='(item, index) in navigation.footer'
-						:key='index'
-						:href='item.href'
-						:target='item.target'
+						v-for="(item, index) in navigation.footer"
+						:key="index"
+						:href="item.href"
+						:target="item.target"
 						small
 						text
 					>
@@ -53,41 +53,41 @@
 		<v-app-bar
 			app
 			:color="isToolbarDetached ? 'surface' : undefined"
-			:flat='isToolbarDetached'
+			:flat="isToolbarDetached"
 			:light="toolbarTheme === 'light'"
 			:dark="toolbarTheme === 'dark'"
 		>
 			<v-card
-				class='flex-grow-1 d-flex'
-				maxHeight='56'
+				class="flex-grow-1 d-flex"
+				maxHeight="56"
 				:class="[isToolbarDetached ? 'pa-1 mt-3 mx-1' : 'pa-0 ma-0']"
-				:flat='!isToolbarDetached'
+				:flat="!isToolbarDetached"
 			>
-				<div class='d-flex flex-grow-1 align-center'>
-					<div class='d-flex flex-grow-1 align-center'>
+				<div class="d-flex flex-grow-1 align-center">
+					<div class="d-flex flex-grow-1 align-center">
 						<v-app-bar-nav-icon
-							v-if='isLogged'
-							@click.stop='drawer = !drawer'
+							v-if="isLogged"
+							@click.stop="drawer = !drawer"
 						></v-app-bar-nav-icon>
-						<v-list-item v-if='!isLogged' style='padding: 0 4px;'>
-							<v-list-item-avatar height='48' min-width='48' width='48'>
-								<v-img src='/images/logo.png'></v-img>
+						<v-list-item v-if="!isLogged" style="padding: 0 4px;">
+							<v-list-item-avatar height="48" min-width="48" width="48">
+								<v-img src="/images/logo.png"></v-img>
 							</v-list-item-avatar>
 							<v-list-item-content>
 								<v-list-item-title>{{ product.name }}</v-list-item-title>
 								<v-list-item-subtitle
-								><small>{{ product.version }}</small></v-list-item-subtitle
+									><small>{{ product.version }}</small></v-list-item-subtitle
 								>
 							</v-list-item-content>
 						</v-list-item>
-						<v-spacer class='d-none d-lg-block'></v-spacer>
+						<v-spacer class="d-none d-lg-block"></v-spacer>
 
-						<v-spacer class='d-block'></v-spacer>
+						<v-spacer class="d-block"></v-spacer>
 
 						<v-switch
-							class='d-block'
+							class="d-block"
 							:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
-							v-model='theme'
+							v-model="theme"
 							dense
 							flat
 							hide-details
@@ -96,7 +96,7 @@
 
 						<toolbar-language />
 
-						<div class='hidden-xs-only mx-1'>
+						<div class="hidden-xs-only mx-1">
 							<toolbar-currency />
 						</div>
 
@@ -104,20 +104,20 @@
 							<toolbar-apps />
 						</div>
 
-						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if='isLogged'>
+						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged">
 							<toolbar-notifications />
 						</div>
 
-						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if='!isLogged'>
+						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged">
 							<v-btn depressed :href="'/login'">Login</v-btn>
 						</div>
 
-						<div v-if='isLogged'>
+						<div v-if="isLogged">
 							<toolbar-user />
 						</div>
 
 						<div v-else>
-							<v-btn tile color='primary' dark>Register</v-btn>
+							<v-btn tile color="primary" dark>Register</v-btn>
 						</div>
 					</div>
 				</div>
@@ -125,24 +125,47 @@
 		</v-app-bar>
 
 		<v-main>
-			<v-container class='fill-height' :fluid='!isContentBoxed'>
+			<v-container class="fill-height" :fluid="!isContentBoxed">
 				<v-layout>
 					<slot></slot>
 				</v-layout>
 			</v-container>
 
-			<v-footer app inset height='29'>
-				<v-spacer></v-spacer>
-				<div class='overline'>
-					Built with
-					<v-icon small color='pink'>mdi-heart</v-icon>
-					<a
-						class='text-decoration-none'
-						href='https://indielayer.com'
-						target='_blank'
-					>@indielayer</a
-					>
-				</div>
+			<v-footer class="footer overline" height="29" app inset>
+				<span>
+					<a class="text-decoration-none pr-1" href="/statusPage">
+						Состояние системы
+					</a>
+
+					<a class="text-decoration-none pr-1" href="/fees">
+						Комиссии и лимиты
+					</a>
+
+					<a class="text-decoration-none pr-1" href="/contacts">
+						Контакты
+					</a>
+
+					<a class="text-decoration-none pr-1" href="/overview">
+						Обзор рынка
+					</a>
+
+					<a class="text-decoration-none pr-1" href="/api">
+						API
+					</a>
+
+					<a class="text-decoration-none pr-1" href="/terms">
+						Правила системы
+					</a>
+
+					<a class="text-decoration-none pr-1" href="/policy">
+						Политика конфиденциальности
+					</a>
+				</span>
+
+				<span>
+					Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All
+					rights reserved
+				</span>
 			</v-footer>
 		</v-main>
 	</div>
@@ -208,8 +231,12 @@ export default {
 .buy-button {
 	box-shadow: 1px 1px 18px #ee44aa;
 }
-
 .container {
 	padding: 5px;
+}
+.footer {
+	display: flex;
+	justify-content: space-between;
+	font-size: 8px !important;
 }
 </style>
