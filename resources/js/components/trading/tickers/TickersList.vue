@@ -391,6 +391,7 @@ export default {
 		},
 		setSorting(type) {
 			let sort = this.tickersSorting;
+
 			switch (type) {
 				case 'pair':
 					if (sort === 'pairAsc') {
@@ -400,6 +401,7 @@ export default {
 					} else {
 						this.tickersSorting = 'pairAsc';
 					}
+					this.setSortingToLocalStorage(this.tickersSorting);
 					break;
 
 				case 'change':
@@ -410,6 +412,7 @@ export default {
 					} else {
 						this.tickersSorting = 'changeAsc';
 					}
+					this.setSortingToLocalStorage(this.tickersSorting);
 					break;
 
 				case 'volume':
@@ -421,6 +424,7 @@ export default {
 					} else {
 						this.tickersSorting = 'volumeAsc';
 					}
+					this.setSortingToLocalStorage(this.tickersSorting);
 			}
 		},
 		setPrevSelectedMarket(prevMarket) {
@@ -463,6 +467,10 @@ export default {
 			this.isSearch = !this.isSearch;
 			this.tickersSearchQuery = '';
 		},
+
+		setSortingToLocalStorage(sorting) {
+			localStorage.setItem('tickersSorting', sorting);
+		},
 	},
 
 	watch: {
@@ -493,17 +501,11 @@ export default {
 			if (savedFavoriteTickers !== null) {
 				this.favoritePairs = JSON.parse(savedFavoriteTickers);
 			}
+
+			const sortType = localStorage.getItem('tickersSorting');
+			if (sortType) this.tickersSorting = sortType;
 		}
 	},
-	/*beforeMount() {
-            if (this.marketsFromStorage === null) {
-                this.$store.dispatch('tickers/getMarketDataFromServer').then(() => {
-                    if (this.tickersFromStorage === null) {
-                        this.$store.dispatch('tickers/getTickersListFromServer')
-                    }
-                });
-            }
-        }*/
 };
 </script>
 
@@ -577,25 +579,29 @@ export default {
 			&__item
 				&--favorite
 					cursor: pointer
-
 					&__wrapper
 						display: flex
 						justify-content: center
 						align-items: center
-
 						i
 							padding-bottom: 2px
 
 				&--pair
 					cursor: pointer
+					&:hover
+						color: rgba(0, 0, 0, 0.87) !important
 
 				&--volume
 					cursor: pointer
+					&:hover
+						color: rgba(0, 0, 0, 0.87) !important
 
 				&--change
 					cursor: pointer
 					text-align: right !important
 					margin-right: 8px !important
+					&:hover
+						color: rgba(0, 0, 0, 0.87) !important
 
 		&__body
 			&__item
