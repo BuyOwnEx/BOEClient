@@ -313,6 +313,8 @@ export default {
 			total_volume: 'Total Volume',
 		},
 		forms: {
+			best_bid: 'Best Bid',
+			best_ask: 'Best Ask',
 			stop_loss_info: 'Stop Loss Info',
 			take_profit_info: 'Take Profit Info',
 			trailing_stop_info: 'Trailing Stop Info',

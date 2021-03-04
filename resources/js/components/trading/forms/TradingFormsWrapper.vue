@@ -8,7 +8,7 @@
 						{{ currency }}
 					</span>
 					<span class="trading-forms__header-info" :key="best_ask">
-						Lowest Ask: {{ best_ask }}
+						{{ $t('trading.forms.best_ask') }}: {{ best_ask }}
 					</span>
 				</v-card-title>
 
@@ -24,7 +24,7 @@
 						{{ currency }}
 					</span>
 					<span class="trading-forms__header-info" :key="best_bid">
-						Highest Bid: {{ best_bid }}
+						{{ $t('trading.forms.best_bid') }}: {{ best_bid }}
 					</span>
 				</v-card-title>
 
@@ -60,12 +60,6 @@ export default {
 
 	computed: {
 		...mapState('trading', ['best_ask', 'best_bid']),
-		isSelectedLimitMode() {
-			return this.activeTradingFormsDisplayMode === 'limit';
-		},
-		isSelectedMarketMode() {
-			return this.activeTradingFormsDisplayMode === 'market';
-		},
 	},
 
 	mounted() {},

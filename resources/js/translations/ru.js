@@ -313,6 +313,8 @@ export default {
 			total_volume: 'Всего Объёма',
 		},
 		forms: {
+			best_bid: 'Best Bid',
+			best_ask: 'Best Ask',
 			stop_loss_info: 'Информация Stop Loss',
 			take_profit_info: 'Информация Take Profit',
 			trailing_stop_info: 'Информация Trailing Stop',
