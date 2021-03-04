@@ -38,7 +38,7 @@
 		}
 	}
 
-	// Text Field small size .trading-forms <18.02.21>
+	// Text Field small size <18.02.21>
 	.trading-forms .v-input,
 	.tickers-list .v-input {
 		.v-input__control {
@@ -157,6 +157,11 @@
 		}
 	}
 
+	// No top padding in forms radio
+	.trading-forms .v-input--radio-group {
+		padding-top: 0;
+	}
+
 	// Own... components style
 	.own-active-order-list,
 	.own-history-deal-list,
@@ -183,6 +188,13 @@
 		}
 		.v-tabs-bar__content {
 			height: 35px;
+		}
+	}
+
+	// Market Activity Component
+	.market-activity {
+		table {
+			padding: 0 !important;
 		}
 	}
 }

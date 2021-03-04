@@ -1,50 +1,52 @@
 <template>
-	<v-card class='market-activity pa-1'>
-		<v-card-title class='market-activity__header pa-0'>
+	<v-card class="market-activity pa-1">
+		<v-card-title class="market-activity__header pa-0">
 			{{ $t('trading.headers.market_activity') }}
 		</v-card-title>
 
-		<CommonProgressCircular v-if='isLoading || !tickersList' />
-		<v-card-text v-else class='market-activity__content pa-0'>
+		<CommonProgressCircular v-if="isLoading || !tickersList" />
+		<v-card-text v-else class="market-activity__content pa-0">
 			<v-simple-table dense>
 				<template v-slot:default>
 					<tbody>
-					<tr v-for='item in activityList'>
-						<td>
-							<span>{{ item.currency }}</span>
-							<span class='market-name'> /{{ item.market }} </span>
-						</td>
-						<td
-							:class="{
+						<tr v-for="item in activityList">
+							<td class="market-activity__item--pair">
+								<span>{{ item.currency }}/{{ item.market }} </span>
+							</td>
+
+							<td
+								class="market-activity__item--percent"
+								:class="{
 									'text-success': item.trend === 'positive',
 									'text-danger': item.trend === 'negative',
 								}"
-						>
-								<span style='font-weight: normal'>
+							>
+								<span style="font-weight: normal">
 									{{ item.changePercent }}%
 								</span>
-						</td>
-						<td class='history-deal-date'>
-							<div
-								class='market-activity-indicator'
-								:class="{
+							</td>
+
+							<td class="history-deal-date">
+								<div
+									class="market-activity-indicator"
+									:class="{
 										positive: item.trend === 'positive',
 										negative: item.trend === 'negative',
 									}"
-							>
-								<div
-									v-for='star in item.stars'
-									class='market-activity-arrow'
-								></div>
-							</div>
-						</td>
-					</tr>
+								>
+									<div
+										v-for="star in item.stars"
+										class="market-activity-arrow"
+									></div>
+								</div>
+							</td>
+						</tr>
 
-					<tr v-if='activityList.length === 0'>
-						<td colspan='5' class='text-center'>
-							{{ $t('trading.no_activity') }}
-						</td>
-					</tr>
+						<tr v-if="activityList.length === 0">
+							<td colspan="5" class="text-center">
+								{{ $t('trading.no_activity') }}
+							</td>
+						</tr>
 					</tbody>
 				</template>
 			</v-simple-table>
@@ -140,14 +142,19 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .market-activity
+	display: flex
+	flex-grow: 1
+	flex-flow: column
+
 	&__header
 		word-break: normal
 		font-weight: 700
 		margin-left: 4px
 		text-transform: uppercase
-
-	table
-		padding: 0 !important
+	&__content
+		display: flex
+		flex-grow: 1
+		flex-flow: column
 </style>
