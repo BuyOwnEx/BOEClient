@@ -129,6 +129,12 @@ export default {
 				this.sub_order_book.on('publish', this.orderBookPubHandler);
 				this.sub_order_book.on('error', this.channelErrorHandler);
 				this.sub_order_book.on('unsubscribe', this.channelUnsubscribeHandler);
+
+				this.sub_depth = this.centrifuge.subscribe('public:update_depth_' + this.selectedCurrency.toLowerCase() + '_' + this.selectedMarket.toLowerCase());
+				this.sub_depth.on('subscribe', this.channelSubscribeHandler);
+				this.sub_depth.on('publish', this.updateDepthPubHandler);
+				this.sub_depth.on('error', this.channelErrorHandler);
+				this.sub_depth.on('unsubscribe', this.channelUnsubscribeHandler);
 			});
 			this.$store.dispatch('trading/getHistoryDealListFromServer').then(resp => {
 				this.sub_history_deals = this.centrifuge.subscribe('public:history_deals_' + this.selectedCurrency.toLowerCase() + '_' + this.selectedMarket.toLowerCase());
@@ -230,6 +236,8 @@ export default {
 					ticker.bid = data.data.ticker.bid_price;
 					ticker.ask = data.data.ticker.ask_price;
 					this.$store.commit('tickers/updateSingleTicker', ticker);
+					this.$store.commit('trading/setBestAsk', data.data.ticker.ask_price);
+					this.$store.commit('trading/setBestBid', data.data.ticker.bid_price);
 					break;
 				case 'day_change_ticker':
 					ticker.previous_day = data.data.ticker.price;
@@ -264,6 +272,12 @@ export default {
 				this.$store.commit('trading/setBidList', data.data.levels);
 			}
 		},
+		updateDepthPubHandler(data) {
+			this.$store.commit('trading/setAskAmountDepth', data.data.depth.ask_amount);
+			this.$store.commit('trading/setBidAmountDepth', data.data.depth.bid_amount);
+			this.$store.commit('trading/setAskVolumeDepth', data.data.depth.ask_vol);
+			this.$store.commit('trading/setBidVolumeDepth', data.data.depth.bid_vol);
+		},
 		graphPubHandler(data) {
 			if (data.data.action === 'addPoint') {
 				this.$eventHub.$emit('addedPoint', { point: data.data.point });
@@ -292,9 +306,9 @@ export default {
 		this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 	activated() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	deactivated() {
-		this.$eventHub.$off('set-user', this.initWSConnection);
+		//this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 };
