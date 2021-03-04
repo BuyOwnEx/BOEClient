@@ -197,6 +197,11 @@
 			padding: 0 !important;
 		}
 	}
+
+	// No chart border-radius
+	.trading-chart-wrapper {
+		border-radius: 0 !important;
+	}
 }
 
 // Dark style
