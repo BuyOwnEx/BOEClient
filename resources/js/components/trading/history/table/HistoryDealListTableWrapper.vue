@@ -66,8 +66,8 @@ export default {
 			if (mobile) return undefined;
 			else if (mid) return 384;
 			else if (mid2) return 384;
-			else if (mid3) return 1097;
-			else return 834;
+			else if (mid3) return 1306;
+			else return 907;
 		},
 	},
 };
