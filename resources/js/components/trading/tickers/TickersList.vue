@@ -21,10 +21,9 @@
 				<v-text-field
 					v-model="tickersSearchQuery"
 					:label="$t('trading.search')"
-					color="#a6a6a6"
+					hide-details
 					outlined
 					dense
-					hide-details
 				>
 				</v-text-field>
 			</div>
@@ -528,40 +527,7 @@ export default {
 		&__search
 			width: 100%
 			padding-right: 8px
-			padding-top: 6px !important
-
-			::v-deep.v-input .v-text-field--outlined
-				max-height: 30px
-
-			::v-deep.v-input .v-input--dense
-				max-height: 30px
-
-			::v-deep.v-input .v-input__control
-				max-height: 30px
-
-			::v-deep.v-input .v-input__slot
-				max-height: 30px
-
-			::v-deep.v-input fieldset
-				max-height: 30px
-
-			::v-deep.v-input .v-text-field__slot
-				max-height: 30px
-
-			::v-deep.v-input .v-text-field__slot .v-label
-				top: 3px
-
-			::v-deep.v-text-field--outlined.v-input--dense .v-label--active
-				transform: translateY(-12px) scale(0.75)
-
-			::v-deep.v-input--selection-controls
-				margin-top: 8px
-
-			::v-deep.v-input__append-inner
-				margin-top: 6px
-
-			::v-deep input
-				padding-bottom: 12px
+			padding-top: 9px !important
 
 		&__actions
 			display: flex

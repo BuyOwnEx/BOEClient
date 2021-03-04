@@ -39,19 +39,23 @@
 	}
 
 	// Text Field small size .trading-forms <18.02.21>
-	.trading-forms .v-input {
+	.trading-forms .v-input,
+	.tickers-list .v-input {
 		.v-input__control {
 			border-radius: 0 !important;
 		}
 		fieldset {
 			height: 36px !important;
-			color: #ececec !important;
+			color: rgba(0, 0, 0, 0.05) !important;
 		}
 		.v-text-field__slot {
 			top: -4px !important;
 		}
 		.v-input__append-inner {
 			margin-top: 9px !important;
+		}
+		.v-label--active {
+			transform: translateY(-14px) scale(0.75) !important;
 		}
 	}
 
@@ -183,6 +187,7 @@
 	}
 }
 
+// Dark style
 .theme--dark {
 	.trading {
 		* {
@@ -198,8 +203,11 @@
 				background-color: var(--dark-scrollbar-color-active) !important;
 			}
 		}
-		.trading-forms .v-input fieldset {
-			color: #23272a !important;
+		.trading-forms,
+		.tickers-list {
+			.v-input fieldset {
+				color: rgba(255, 255, 255, 0.12) !important;
+			}
 		}
 	}
 }
