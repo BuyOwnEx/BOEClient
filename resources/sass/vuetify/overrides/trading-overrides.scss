@@ -176,7 +176,11 @@
 		.v-data-footer__select .v-select {
 			margin-left: 8px !important;
 		}
+		tr:not(:last-child) > td:last-child {
+			border-bottom: thin solid rgba(0, 0, 0, 0.05) !important;
+		}
 	}
+
 	// Own Lists tabs height
 	.own-lists-tabs-wrapper {
 		.v-tabs {
