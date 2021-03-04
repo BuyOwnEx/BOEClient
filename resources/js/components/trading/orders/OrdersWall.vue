@@ -28,10 +28,6 @@ export default {
 			type: [Number, String],
 			required: true,
 		},
-		volumeDepth: {
-			type: [Number, String],
-			required: true,
-		},
 		type: {
 			validator(value) {
 				return ['ask', 'bid'].indexOf(value) !== -1;
@@ -46,9 +42,20 @@ export default {
 			return rowsSelected * rowHeight + 'px';
 		},
 		calculateLength() {
-			const percent = (this.volume / this.volumeDepth) * 100 + '%';
+			let volumeDepth = 0;
+			if (this.type === 'bid') volumeDepth = this.bidVolumeDepth;
+			else if (this.type === 'ask') volumeDepth = this.askVolumeDepth;
+
+			const percent = (this.volume / volumeDepth) * 100 + '%';
 			const tablePadding = '4px';
 			return `calc(100% - ${percent} - ${tablePadding})`;
+		},
+
+		bidVolumeDepth() {
+			return this.$store.state.trading.bid_volume_depth;
+		},
+		askVolumeDepth() {
+			return this.$store.state.trading.ask_volume_depth;
 		},
 	},
 };

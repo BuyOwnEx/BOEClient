@@ -15,7 +15,6 @@
 					<OrdersWall
 						:item-index="itemIndex"
 						:volume="calculateVolume(item.price, item.actualSize)"
-						:volume-depth="volumeDepth"
 						type="ask"
 					/>
 
