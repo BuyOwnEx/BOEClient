@@ -1059,7 +1059,7 @@
 	// Arrows
 	.highcharts-toggle-toolbar {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-right.svg') !important;
-		background-color: #0e171f !important;
+		background-color: var(--dark-background-color) !important;
 	}
 	.highcharts-arrow-right {
 		background-image: url('../js/assets/images/highcharts/dark/arrow-bottom.svg') !important;
