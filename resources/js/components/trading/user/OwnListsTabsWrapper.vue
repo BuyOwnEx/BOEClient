@@ -2,11 +2,11 @@
 	<v-card class="own-lists-tabs-wrapper">
 		<v-tabs v-model="selectedTab">
 			<v-tab :key="1">
-				Активные ордера
+				{{ $t('trading.headers.own_active_order_list') }}
 			</v-tab>
 
 			<v-tab :key="2">
-				Ваши сделки
+				{{ $t('trading.headers.own_history_deal_list') }}
 			</v-tab>
 		</v-tabs>
 
