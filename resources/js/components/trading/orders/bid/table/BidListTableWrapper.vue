@@ -88,5 +88,5 @@ export default {
 
 @media screen and (max-width: 960px)
 	.bid-list-table-absolute-wrapper
-		bottom: -232px
+		bottom: -332px
 </style>

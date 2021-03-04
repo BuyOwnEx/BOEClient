@@ -97,5 +97,5 @@ export default {
 
 @media screen and (max-width: 960px)
 	.bid-list
-		height: 282px
+		height: 378px
 </style>
