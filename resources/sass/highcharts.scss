@@ -526,6 +526,11 @@
 // Some changes and fixes <24.02.21>
 //
 
+// Change back color
+.highcharts-background {
+	fill: #f9f9f9 !important;
+}
+
 // Remove export menu
 .highcharts-exporting-group {
 	display: none !important;
@@ -661,25 +666,24 @@
 //
 // Only for DARK theme <24.02.21>
 //
-
 .theme--dark {
-	--dark-button-color: #0e171f;
-	--dark-button-color--hover: #192837;
-	--dark-button-color--hover-lighten1: #2b3b4f;
+	--dark-button-color: #292929;
+	--dark-button-color--hover: #393939;
+	--dark-button-color--hover-lighten1: #505050;
 
-	--dark-border-color__popup: #737373;
+	--dark-border-color__popup: #444;
 	--dark-border-color__popup--input: #3a3a3a;
 
-	--dark-button-color__popup: #131f29;
-	--dark-button-color__popup--hover: #1e3141;
+	--dark-button-color__popup: #292929;
+	--dark-button-color__popup--hover: #3a3a3a;
 
-	--dark-background-color: #05090c;
-	--dark-background-color-lighten1: #0d1921;
-	--dark-background-color__menu: #0d171f;
-	--dark-background-color__menu--hover: #142430;
+	--dark-background-color: #1e1e1e;
+	--dark-background-color-lighten1: #333333;
+	--dark-background-color__menu: #212325;
+	--dark-background-color__menu--hover: #363a3e;
 
-	--dark-text-and-icons-color: #dbdbdb;
-	--dark-text__darken-1: #a9a9a9;
+	--dark-text-and-icons-color: #e5eaed;
+	--dark-text__darken-1: #c9cccc;
 
 	--dark-label-stroke: #838383;
 
@@ -717,9 +721,6 @@
 	// Left toolbar buttons no color
 	.highcharts-bindings-wrapper .highcharts-stocktools-toolbar li {
 		background-color: transparent !important;
-		//&:hover {
-		//	background-color: var(--dark-button-color--hover) !important;
-		//}
 	}
 
 	// Change toolbar buttons hover color
@@ -823,7 +824,7 @@
 
 		.highcharts-tab {
 			&-disabled {
-				color: var(--dark-border-color__popup) !important;
+				color: #5c5c5c !important;
 			}
 		}
 
@@ -854,7 +855,7 @@
 
 	// Lines
 	--dark-line__grid: #2d2d2d;
-	--dark-line__grid--minor: #0f0f0f;
+	--dark-line__grid--minor: #222;
 	--dark-line__axis: #4d4d4d;
 	--dark-line__axis--resizer: #838383;
 	--dark-line__tracker: #cbcbcb;

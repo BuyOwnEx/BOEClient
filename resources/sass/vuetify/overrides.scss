@@ -198,28 +198,8 @@ html {
 	background: none;
 }
 
-// Another card color for testing <21.02.21>
-.theme--light.v-card {
-	background-color: #f9f9f9 !important;
-}
-
-.theme--light.v-data-table {
-	background-color: #f9f9f9 !important;
-}
-
-//.theme--dark.v-card {
-//	background-color: #1e1e1e !important;
-//}
-
-.theme--dark.v-data-table {
-	background-color: #1e1e1e !important;
-}
-
 // Change menu style <03.03.21>
 .v-menu__content {
-	.v-list {
-		background: #f9f9f9 !important;
-	}
 	.v-list-item {
 		text-align: center !important;
 		min-height: 30px !important;
@@ -233,10 +213,5 @@ html {
 		.v-list-item {
 			height: 15px !important;
 		}
-	}
-}
-.theme--dark .v-menu__content {
-	.v-list {
-		background: #0d161d !important;
 	}
 }
