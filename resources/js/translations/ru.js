@@ -169,7 +169,7 @@ export default {
 		policy: 'Политика',
 		login: 'Войти',
 		register: 'Регистрация',
-		search: 'Поиск (нажмите \'ctrl + /\', чтобы сфокусироваться)',
+		search: "Поиск (нажмите 'ctrl + /', чтобы сфокусироваться)",
 		dashboard: 'Приборная доска',
 		logout: 'Выйти',
 		profile: 'Профиль',
@@ -228,6 +228,9 @@ export default {
 			ask: 'Продажа',
 			bid: 'Покупка',
 			ask_bid: 'Продажа и покупка',
+			ask_orders: 'Продажа ордеров',
+			bid_orders: 'Покупка ордеров',
+			chat: 'Чат',
 		},
 		order: {
 			direction: {
@@ -304,6 +307,11 @@ export default {
 		show_other_pairs: 'Показать все пары',
 		not_found: 'Ничего не найдено',
 		total: 'Всего',
+		orders_tooltip: {
+			avg_price: 'Средняя Цена',
+			total_size: 'Всего Кол-во',
+			total_volume: 'Всего Объёма',
+		},
 	},
 	$vuetify: {
 		badge: 'Значок',

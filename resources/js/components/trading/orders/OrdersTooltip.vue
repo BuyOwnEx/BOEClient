@@ -14,15 +14,15 @@
 			class="orders-tooltip--bid"
 		>
 			<div class="d-flex">
-				<span>Average Price:</span>
+				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
 				<b class="ml-auto">{{ averagePrice }}</b>
 			</div>
 			<div class="d-flex">
-				<span>Total Size:</span>
+				<span>{{ $t('trading.orders_tooltip.total_size') }}:</span>
 				<b class="ml-auto">{{ sumSize }}</b>
 			</div>
 			<div class="d-flex">
-				<span>Total Volume:</span>
+				<span>{{ $t('trading.orders_tooltip.total_volume') }}:</span>
 				<b class="ml-auto">{{ sumVolume }}</b>
 			</div>
 		</div>
@@ -32,15 +32,15 @@
 			class="orders-tooltip--ask"
 		>
 			<div class="d-flex">
-				<span>Average Price:</span>
+				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
 				<b class="ml-auto">{{ averagePrice }}</b>
 			</div>
 			<div class="d-flex">
-				<span>Total Size:</span>
+				<span>{{ $t('trading.orders_tooltip.total_size') }}:</span>
 				<b class="ml-auto">{{ sumSize }}</b>
 			</div>
 			<div class="d-flex">
-				<span>Total Volume:</span>
+				<span>{{ $t('trading.orders_tooltip.total_volume') }}:</span>
 				<b class="ml-auto">{{ sumVolume }}</b>
 			</div>
 		</div>

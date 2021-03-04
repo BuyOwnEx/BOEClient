@@ -96,7 +96,7 @@ export default {
 		button: 'Sign In',
 		orsign: 'Or sign in with',
 		forgot: 'Forgot password?',
-		noaccount: 'Don\'t have an account?',
+		noaccount: "Don't have an account?",
 		create: 'Create one here',
 		error: 'The email / password combination is invalid',
 	},
@@ -228,6 +228,9 @@ export default {
 			ask: 'Ask',
 			bid: 'Bid',
 			ask_bid: 'Ask and Bid',
+			ask_orders: 'Ask Orders',
+			bid_orders: 'Bid Orders',
+			chat: 'Chat',
 		},
 		order: {
 			direction: {
@@ -304,6 +307,11 @@ export default {
 		show_other_pairs: 'Show all pairs',
 		not_found: 'Not found',
 		total: 'Total',
+		orders_tooltip: {
+			avg_price: 'Average Price',
+			total_size: 'Total Size',
+			total_volume: 'Total Volume',
+		},
 	},
 	// Vuetify components translations
 	$vuetify: {
