@@ -1083,4 +1083,12 @@
 	.highcharts-annotation-edit-button {
 		background-image: url('../js/assets/images/highcharts/dark/edit.svg') !important;
 	}
+
+	// Fix some strange white bug in corners
+	.highcharts-container {
+		background-color: unset !important;
+	}
+	.highcharts-root {
+		background-color: unset !important;
+	}
 }
