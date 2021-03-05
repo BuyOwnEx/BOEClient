@@ -1,6 +1,6 @@
 export default {
 	// global theme for the app
-	globalTheme: 'light', // light | dark
+	globalTheme: 'dark', // light | dark
 
 	// side menu theme, use global theme or custom
 	menuTheme: 'global', // global | light | dark
