@@ -84,15 +84,16 @@
 
 						<v-spacer class="d-block"></v-spacer>
 
-						<v-switch
-							class="d-block"
+						<v-btn
 							:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
-							v-model="theme"
-							dense
-							flat
-							hide-details
-							:label="`${theme === true ? 'dark' : 'light'}`"
-						></v-switch>
+							icon
+							@click="changeTheme"
+						>
+							<v-icon v-if="$vuetify.theme.dark">
+								mdi-moon-waning-crescent
+							</v-icon>
+							<v-icon v-else>mdi-white-balance-sunny</v-icon>
+						</v-btn>
 
 						<toolbar-language />
 
@@ -200,7 +201,7 @@ export default {
 	data() {
 		return {
 			drawer: null,
-			theme: 0,
+			isDarkTheme: true,
 		};
 	},
 	computed: {
@@ -217,16 +218,30 @@ export default {
 			return this.isLogged ? config.navigation : config.guest_navigation;
 		},
 	},
-	watch: {
-		theme(val) {
-			this.setGlobalTheme(val === false ? 'light' : 'dark');
-		},
-	},
+
 	methods: {
 		...mapMutations('app', ['setGlobalTheme']),
-		setTheme() {
-			this.$vuetify.theme.dark = this.theme === 'dark';
+		changeTheme() {
+			this.toggleTheme();
+			this.saveThemeToStorage();
 		},
+		getAndSetThemeFromStorage() {
+			const isDark = JSON.parse(localStorage.getItem('isDarkTheme'));
+			if (isDark === null) this.saveThemeToStorage();
+			else this.$vuetify.theme.dark = isDark;
+		},
+
+		toggleTheme() {
+			this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+		},
+		saveThemeToStorage() {
+			const isDark = this.$vuetify.theme.dark.toString();
+			localStorage.setItem('isDarkTheme', isDark);
+		},
+	},
+
+	mounted() {
+		this.getAndSetThemeFromStorage();
 	},
 };
 </script>
