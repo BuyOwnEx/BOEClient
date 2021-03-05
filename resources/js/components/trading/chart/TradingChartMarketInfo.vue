@@ -196,14 +196,14 @@ export default {
 		font-weight: normal
 		font-size: 11px
 
-@media screen and (min-width: 1452px) and (max-width: 1764px)
+@media screen and (min-width: 1452px) and (max-width: 1850px)
 	.market-info
 		.info-value
 			font-size: 14px
 		.info-title
 			font-size: 10px
 
-@media screen and (min-width: 1265px) and (max-width: 1452px)
+@media screen and (min-width: 1382px) and (max-width: 1452px)
 	.market-info
 		line-height: 15px
 
@@ -223,7 +223,7 @@ export default {
 		&__daily-volume
 			padding-right: 2px
 
-@media screen and (min-width: 960px) and (max-width: 1264px)
+@media screen and (min-width: 960px) and (max-width: 1382px)
 	.market-info
 		.info-value
 			font-size: 15px
