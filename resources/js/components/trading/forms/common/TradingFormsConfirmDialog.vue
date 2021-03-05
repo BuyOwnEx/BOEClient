@@ -107,8 +107,12 @@
 </template>
 
 <script>
+import confirmDialog from '../../../../mixins/trading/confirmDialog';
+
 export default {
 	name: 'TradingFormsConfirmDialog',
+
+	mixins: [confirmDialog],
 
 	props: {
 		orderType: {
@@ -157,12 +161,6 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			dialog: false,
-		};
-	},
-
 	computed: {
 		isLimit() {
 			return this.orderType === 'limit';
@@ -186,16 +184,6 @@ export default {
 			const isAll = this.stopLoss && this.takeProfit && this.trailingStop;
 
 			return isFirstAndSecond || isFirstAndThird || isSecondAndThird || isAll;
-		},
-	},
-
-	methods: {
-		closeDialog() {
-			this.dialog = false;
-		},
-		confirm() {
-			this.$emit('confirm');
-			this.closeDialog();
 		},
 	},
 };
