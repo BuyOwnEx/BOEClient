@@ -31,7 +31,7 @@
 			</td>
 
 			<td>
-				<div class="ask-list-table-body__item--price">
+				<div class="ask-list-table-body__item--price text-right">
 					<strong class="text-danger">
 						{{ formatPrice(item.price, getPriceScale) }}
 					</strong>
