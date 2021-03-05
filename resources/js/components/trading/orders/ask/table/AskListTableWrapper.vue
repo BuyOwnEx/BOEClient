@@ -77,15 +77,9 @@ export default {
 @media screen and (min-width: 1382px) and (max-width: 1768px)
 	.ask-list-table-absolute-wrapper
 		bottom: -332px
-
-@media screen and (min-width: 1264px) and (max-width: 1382px)
+@media screen and (min-width: 960px) and (max-width: 1382px)
 	.ask-list-table-absolute-wrapper
 		bottom: -332px
-
-@media screen and (min-width: 960px) and (max-width: 1264px)
-	.ask-list-table-absolute-wrapper
-		bottom: -332px
-
 @media screen and (max-width: 960px)
 	.ask-list-table-absolute-wrapper
 		bottom: -357px

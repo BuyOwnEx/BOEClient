@@ -430,18 +430,7 @@ export default {
 	}
 }
 
-@media screen and (min-width: 1264px) and (max-width: 1382px) {
-	.trading__desktop {
-		grid-template-areas:
-			'tickers chart chart chart chart history'
-			'activity bid bid ask ask chat'
-			'forms forms forms forms forms chat'
-			'forms forms forms forms forms chat'
-			'own own own own own own';
-	}
-}
-
-@media screen and (max-width: 1264px) {
+@media screen and (max-width: 1382px) {
 	.trading {
 		&__desktop {
 			grid-template-columns: repeat(12, 1fr);

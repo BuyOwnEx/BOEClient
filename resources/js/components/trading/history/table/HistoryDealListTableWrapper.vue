@@ -59,14 +59,12 @@ export default {
 		calculateTableHeight() {
 			const deviceWidth = this.$vuetify.breakpoint.width;
 			const mobile = deviceWidth <= 960;
-			const mid = deviceWidth > 960 && deviceWidth <= 1264;
-			const mid2 = deviceWidth > 1264 && deviceWidth <= 1382;
-			const mid3 = deviceWidth > 1382 && deviceWidth <= 1768;
+			const mid = deviceWidth > 960 && deviceWidth <= 1382;
+			const mid2 = deviceWidth > 1382 && deviceWidth <= 1768;
 
 			if (mobile) return undefined;
-			else if (mid) return 384;
-			else if (mid2) return 384;
-			else if (mid3) return 1306;
+			else if (mid) return 482;
+			else if (mid2) return 1306;
 			else return 907;
 		},
 	},
