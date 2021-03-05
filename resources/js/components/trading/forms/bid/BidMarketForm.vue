@@ -206,7 +206,6 @@
 					order-type="market"
 					action-type="buy"
 					:amount="form.amount"
-					price="12345"
 					:currency="currency"
 					:market="market"
 					:is-additional-params="additionalParamsEnabled"
@@ -263,7 +262,7 @@ export default {
 				market: this.market.toUpperCase(),
 				side: 0,
 				base: 0,
-				amount: '',
+				amount: 0,
 				sl_rate: null,
 				tp_rate: null,
 				ts_offset: null,

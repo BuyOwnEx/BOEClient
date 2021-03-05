@@ -87,7 +87,11 @@
 							* Сработает только один из условных ордеров
 						</div>
 					</div>
-					<span v-else class="trading-forms-confirm-dialog__important">
+
+					<span
+						v-else-if="!isAdditionalParams && isLimit"
+						class="trading-forms-confirm-dialog__important"
+					>
 						{{ price }} {{ market.toUpperCase() }}
 					</span>
 				</slot>
@@ -134,7 +138,7 @@ export default {
 		},
 		price: {
 			type: [Number, String],
-			required: true,
+			required: false,
 		},
 
 		currency: {
@@ -152,12 +156,15 @@ export default {
 		},
 		stopLoss: {
 			type: [Number, String],
+			required: false,
 		},
 		takeProfit: {
 			type: [Number, String],
+			required: false,
 		},
 		trailingStop: {
 			type: [Number, String],
+			required: false,
 		},
 	},
 

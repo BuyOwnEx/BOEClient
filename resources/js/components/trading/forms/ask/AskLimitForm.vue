@@ -217,7 +217,7 @@
 					order-type="limit"
 					action-type="sell"
 					:amount="form.amount"
-					price="12345"
+					:price="form.rate"
 					:currency="currency"
 					:market="market"
 					:is-additional-params="additionalParamsEnabled"
@@ -273,8 +273,8 @@ export default {
 				currency: this.currency.toUpperCase(),
 				market: this.market.toUpperCase(),
 				side: 1,
-				amount: '',
-				rate: '',
+				amount: 0,
+				rate: 0,
 				sl_rate: null,
 				tp_rate: null,
 				ts_offset: null,
