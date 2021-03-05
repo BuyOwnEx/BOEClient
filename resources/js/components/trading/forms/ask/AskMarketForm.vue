@@ -234,8 +234,8 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import TradingFormsInfoTooltip from '../TradingFormsInfoTooltip';
-import TradingFormsConfirmDialog from '../TradingFormsConfirmDialog';
+import TradingFormsInfoTooltip from '../common/TradingFormsInfoTooltip';
+import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
 export default {
 	name: 'AskMarketForm',

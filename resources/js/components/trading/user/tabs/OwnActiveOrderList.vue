@@ -147,11 +147,11 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import formatDate from '../../../mixins/trading/formatDate';
-import calculateVolume from '../../../mixins/trading/calculateVolume';
-import findScale from '../../../mixins/trading/findScale';
-import formatSize from '../../../mixins/trading/formatSize';
-import formatPrice from '../../../mixins/trading/formatPrice';
+import formatDate from '../../../../mixins/trading/formatDate';
+import calculateVolume from '../../../../mixins/trading/calculateVolume';
+import findScale from '../../../../mixins/trading/findScale';
+import formatSize from '../../../../mixins/trading/formatSize';
+import formatPrice from '../../../../mixins/trading/formatPrice';
 
 export default {
 	name: 'OwnActiveOrderList',
@@ -241,34 +241,34 @@ export default {
 
 	computed: {
 		ownOrderList() {
-			return this.showOtherPairs
-				? this.$store.state.user.orders
-				: _.filter(this.$store.state.user.orders, {
-						currency: this.currency.toUpperCase(),
-						market: this.market.toUpperCase(),
-				  });
-			// return [
-			// 	{
-			// 		createdAt: 637502157826297100,
-			// 		market: 'usdt',
-			// 		currency: 'btc',
-			// 		side: true,
-			// 		size: 0.015,
-			// 		price: 12000,
-			// 		percent: '50%',
-			// 		status: 'accepted',
-			// 	},
-			// 	{
-			// 		createdAt: 637502157826297100,
-			// 		market: 'usdt',
-			// 		currency: 'btc',
-			// 		side: true,
-			// 		size: 0.015,
-			// 		price: 12000,
-			// 		percent: '50%',
-			// 		status: 'accepted',
-			// 	},
-			// ];
+			// return this.showOtherPairs
+			// 	? this.$store.state.user.orders
+			// 	: _.filter(this.$store.state.user.orders, {
+			// 			currency: this.currency.toUpperCase(),
+			// 			market: this.market.toUpperCase(),
+			// 	  });
+			return [
+				{
+					createdAt: 637502157826297100,
+					market: 'usdt',
+					currency: 'btc',
+					side: true,
+					size: 0.015,
+					price: 12000,
+					percent: '50%',
+					status: 'accepted',
+				},
+				{
+					createdAt: 637502157826297100,
+					market: 'usdt',
+					currency: 'btc',
+					side: true,
+					size: 0.015,
+					price: 12000,
+					percent: '50%',
+					status: 'accepted',
+				},
+			];
 		},
 	},
 

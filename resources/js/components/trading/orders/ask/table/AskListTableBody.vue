@@ -46,7 +46,7 @@ import { mapGetters, mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import OrdersWall from '../../OrdersWall';
+import OrdersWall from '../../common/OrdersWall';
 
 import formatPrice from '../../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../../mixins/trading/formatSize';

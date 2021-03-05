@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import OwnActiveOrderList from './OwnActiveOrderList';
-import OwnHistoryDealList from './OwnHistoryDealList';
+import OwnActiveOrderList from './tabs/OwnActiveOrderList';
+import OwnHistoryDealList from './tabs/OwnHistoryDealList';
 
 export default {
 	name: 'OwnListsTabsWrapper',

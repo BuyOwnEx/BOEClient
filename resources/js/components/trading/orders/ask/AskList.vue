@@ -25,7 +25,7 @@
 
 <script>
 import AskListTableWrapper from './table/AskListTableWrapper';
-import OrdersTooltip from '../OrdersTooltip';
+import OrdersTooltip from '../common/OrdersTooltip';
 
 export default {
 	name: 'AskList',

@@ -25,7 +25,7 @@
 
 <script>
 import BidListTableWrapper from './table/BidListTableWrapper';
-import OrdersTooltip from '../OrdersTooltip';
+import OrdersTooltip from '../common/OrdersTooltip';
 
 export default {
 	name: 'BidList',
