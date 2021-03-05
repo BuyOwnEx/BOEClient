@@ -176,8 +176,14 @@
 		.v-data-footer__select .v-select {
 			margin-left: 8px !important;
 		}
-		tr:not(:last-child) > td:last-child {
-			border-bottom: thin solid rgba(0, 0, 0, 0.05) !important;
+	}
+	@media screen and (max-width: 600px) {
+		.own-active-order-list,
+		.own-history-deal-list,
+		.own-active-position-list {
+			tr:not(:last-child) > td:last-child {
+				border-bottom: thin solid rgba(0, 0, 0, 0.05) !important;
+			}
 		}
 	}
 
@@ -203,9 +209,9 @@
 	}
 
 	// No chart border-radius
-	.trading-chart-wrapper {
-		border-radius: 0 !important;
-	}
+	//.trading-chart-wrapper {
+	//	border-radius: 0 !important;
+	//}
 }
 
 // Dark style
