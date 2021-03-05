@@ -17,6 +17,7 @@
 				inset
 			/>
 			<v-menu
+				v-model="isCancelMenu"
 				transition="slide-y-transition"
 				content-class="small-text-menu"
 				bottom
@@ -27,14 +28,22 @@
 						<v-icon right>mdi-chevron-down</v-icon>
 					</v-btn>
 				</template>
+
 				<v-list dense>
-					<v-list-item
+					<OwnListConfirmDialog
 						v-for="item in cancelOptions"
 						:key="item.text"
-						@click="item.click"
+						@confirm="handleCancelConfirm(item)"
 					>
-						<v-list-item-title>{{ item.text }}</v-list-item-title>
-					</v-list-item>
+						<template #default>
+							<v-list-item @click="closeCancelMenu">
+								<v-list-item-title>{{ item.text }}</v-list-item-title>
+							</v-list-item>
+						</template>
+						<template #text>
+							Вы уверены, что хотите отменить все {{ item.type }} ордера?
+						</template>
+					</OwnListConfirmDialog>
 				</v-list>
 			</v-menu>
 		</v-card-title>
@@ -127,16 +136,11 @@
 				</template>
 
 				<template v-slot:item.action="{ item }">
-					<v-btn
-						color="#A6A6A6"
-						tile
-						text
-						x-small
-						dense
-						@click="orderCancel(item)"
-					>
-						{{ $t('trading.cancel') }}
-					</v-btn>
+					<OwnListConfirmDialog @confirm="orderCancel(item)">
+						<v-btn color="#A6A6A6" tile text x-small dense>
+							{{ $t('trading.cancel') }}
+						</v-btn>
+					</OwnListConfirmDialog>
 				</template>
 			</v-data-table>
 		</v-card-text>
@@ -147,6 +151,9 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import OwnListConfirmDialog from '../common/OwnListConfirmDialog';
+import confirmDialog from '../../../../mixins/trading/confirmDialog';
+
 import formatDate from '../../../../mixins/trading/formatDate';
 import calculateVolume from '../../../../mixins/trading/calculateVolume';
 import findScale from '../../../../mixins/trading/findScale';
@@ -156,7 +163,16 @@ import formatPrice from '../../../../mixins/trading/formatPrice';
 export default {
 	name: 'OwnActiveOrderList',
 
-	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],
+	components: { OwnListConfirmDialog },
+
+	mixins: [
+		formatDate,
+		formatSize,
+		formatPrice,
+		calculateVolume,
+		findScale,
+		confirmDialog,
+	],
 
 	props: {
 		currency: {
@@ -217,25 +233,30 @@ export default {
 			cancelOptions: [
 				{
 					text: this.$t('trading.order.cancel_all'),
+					type: '',
 					link: '/trader/ext/order/cancel_all',
 					click: () => this.orderCancelAll(),
 				},
 				{
 					text: this.$t('trading.order.cancel_sl'),
+					type: 'SL',
 					link: '/trader/ext/order/cancel_all_sl',
 					click: () => this.orderCancelAllSL(),
 				},
 				{
 					text: this.$t('trading.order.cancel_tp'),
+					type: 'TP',
 					link: '/trader/ext/order/cancel_all_tp',
 					click: () => this.orderCancelAllTP(),
 				},
 				{
 					text: this.$t('trading.order.cancel_ts'),
+					type: 'TS',
 					link: '/trader/ext/order/cancel_all_ts',
 					click: () => this.orderCancelAllTS(),
 				},
 			],
+			isCancelMenu: false,
 		};
 	},
 
@@ -320,6 +341,14 @@ export default {
 				currency: this.currency.toUpperCase(),
 				all_pairs: this.showOtherPairs,
 			});
+		},
+
+		handleCancelConfirm(item) {
+			this.closeCancelMenu();
+			item.click();
+		},
+		closeCancelMenu() {
+			this.isCancelMenu = false;
 		},
 	},
 };
