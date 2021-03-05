@@ -256,12 +256,21 @@ export default {
 .footer {
 	display: flex;
 	justify-content: space-between;
-	font-size: 8px !important;
+	font-size: 8px;
 	height: 29px;
+	letter-spacing: 1px !important;
 }
 @media screen and (max-width: 1263px) {
 	.footer {
-		height: 58px;
+		height: 40px;
+	}
+}
+@media screen and (max-width: 960px) {
+	.footer {
+		font-size: 10px;
+		height: 171px;
+		padding-bottom: 150px;
+		margin-top: -84px;
 	}
 }
 </style>

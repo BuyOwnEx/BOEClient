@@ -349,6 +349,7 @@ export default {
 
 		&__chart {
 			max-height: calc(100vh - 115px);
+			height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
@@ -450,13 +451,6 @@ export default {
 				display: none !important;
 			}
 		}
-	}
-}
-
-@media screen and (max-width: 960px) {
-	body {
-		min-height: calc(100vh + 130px);
-		background: #f9f9f9;
 	}
 }
 </style>
