@@ -1,6 +1,10 @@
+:root {
+  --light-background-color: #f9f9f9;
+  --dark-background-color: #1e1e1e;
+}
 .text-success {
-  color: var(--v-success-base);
+	color: var(--v-success-base);
 }
 .text-danger {
-  color: var(--v-error-base);
+	color: var(--v-error-base);
 }

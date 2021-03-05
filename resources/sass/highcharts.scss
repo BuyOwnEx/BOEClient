@@ -7,14 +7,12 @@
 	}
 }
 @media (max-width: 960px) {
-	.trading-chart-wrapper {
-		max-height: 460px !important;
-	}
 	.highcharts-menu-wrapper {
 		max-height: 325px !important;
 	}
 	.highcharts-arrow-wrapper {
-		bottom: 75px !important;
+		bottom: 0 !important;
+		top: 335px !important;
 	}
 }
 .chart:-webkit-full-screen {
@@ -677,7 +675,6 @@
 	--dark-button-color__popup: #292929;
 	--dark-button-color__popup--hover: #3a3a3a;
 
-	--dark-background-color: #1e1e1e;
 	--dark-background-color-lighten1: #333333;
 	--dark-background-color__menu: #212325;
 	--dark-background-color__menu--hover: #363a3e;
