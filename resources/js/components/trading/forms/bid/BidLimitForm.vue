@@ -215,9 +215,24 @@
 				</div>
 			</div>
 			<div class="blf__footer mt-2">
-				<v-btn type="submit" color="success" height="24" block>
-					{{ $t('trading.order.direction.buy') }}
-				</v-btn>
+				<TradingFormsConfirmDialog
+					order-type="limit"
+					action-type="buy"
+					:amount="form.amount"
+					price="12345"
+					:currency="currency"
+					:market="market"
+					:is-additional-params="additionalParamsEnabled"
+					:stop-loss="form.sl_rate"
+					:take-profit="form.tp_rate"
+					:trailing-stop="form.ts_offset"
+					@confirm="sendBidLimit"
+				>
+					<v-btn color="success" height="24" block>
+						{{ $t('trading.order.direction.buy') }}
+					</v-btn>
+				</TradingFormsConfirmDialog>
+
 				<div class="blf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="available_balance" @click="setAmount(100)">
@@ -235,11 +250,12 @@ import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import TradingFormsInfoTooltip from '../TradingFormsInfoTooltip';
+import TradingFormsConfirmDialog from '../TradingFormsConfirmDialog';
 
 export default {
 	name: 'BidLimitForm',
 
-	components: { TradingFormsInfoTooltip },
+	components: { TradingFormsInfoTooltip, TradingFormsConfirmDialog },
 
 	props: {
 		currency: {

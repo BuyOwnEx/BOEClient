@@ -200,9 +200,24 @@
 				</div>
 			</div>
 			<div class="amf__footer mt-2">
-				<v-btn type="submit" color="error" height="24" block>
-					{{ $t('trading.order.direction.sell') }}
-				</v-btn>
+				<TradingFormsConfirmDialog
+					order-type="market"
+					action-type="sell"
+					:amount="form.amount"
+					price="12345"
+					:currency="currency"
+					:market="market"
+					:is-additional-params="additionalParamsEnabled"
+					:stop-loss="form.sl_rate"
+					:take-profit="form.tp_rate"
+					:trailing-stop="form.ts_offset"
+					@confirm="sendAskMarket"
+				>
+					<v-btn color="error" height="24" block>
+						{{ $t('trading.order.direction.sell') }}
+					</v-btn>
+				</TradingFormsConfirmDialog>
+
 				<div class="amf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="available_balance" @click="setAmount(100)">
@@ -220,11 +235,12 @@ import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import TradingFormsInfoTooltip from '../TradingFormsInfoTooltip';
+import TradingFormsConfirmDialog from '../TradingFormsConfirmDialog';
 
 export default {
 	name: 'AskMarketForm',
 
-	components: { TradingFormsInfoTooltip },
+	components: { TradingFormsInfoTooltip, TradingFormsConfirmDialog },
 
 	props: {
 		currency: {
