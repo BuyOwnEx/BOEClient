@@ -34,6 +34,10 @@ export default {
 <style scoped lang="sass">
 .trading-chart-wrapper
 	overflow: hidden
+	display: flex
+	flex-grow: 1
+	flex-flow: column
+
 
 @media screen and (max-width: 1764px)
 	.trading-chart-wrapper__chart
