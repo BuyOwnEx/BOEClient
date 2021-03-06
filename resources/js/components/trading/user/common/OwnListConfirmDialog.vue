@@ -23,6 +23,7 @@
 						color="grey"
 						text
 						tile
+						plain
 						@click="closeDialog"
 					>
 						Отмена
@@ -33,6 +34,7 @@
 						color="success"
 						text
 						tile
+						plain
 						@click="confirm"
 					>
 						Подтвердить
