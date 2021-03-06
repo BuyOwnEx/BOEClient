@@ -7,11 +7,17 @@
 		</template>
 
 		<v-card>
-			<v-card-title class="trading-forms-confirm-dialog__header">
+			<v-card-title
+				class="trading-forms-confirm-dialog__header"
+				:class="{
+					'trading-forms-confirm-dialog__header--buy': isBuy,
+					'trading-forms-confirm-dialog__header--sell': isSell,
+				}"
+			>
 				<slot name="header">Подтверждение сделки</slot>
 			</v-card-title>
 
-			<v-card-text>
+			<v-card-text class="trading-forms-confirm-dialog__content">
 				<slot name="text">
 					<span>Вы собираетесь</span>
 
@@ -200,6 +206,12 @@ export default {
 .trading-forms-confirm-dialog
 	&__header
 		font-weight: 600 !important
+		&--buy
+			background: #8aff9c5c
+		&--sell
+			background: #ff8b8b5c
+	&__content
+		padding-top: 8px !important
 
 	&__add-params-list
 		padding-top: 8px
