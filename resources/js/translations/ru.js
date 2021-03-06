@@ -228,8 +228,8 @@ export default {
 			ask: 'Продажа',
 			bid: 'Покупка',
 			ask_bid: 'Продажа и покупка',
-			ask_orders: 'Продажа ордеров',
-			bid_orders: 'Покупка ордеров',
+			ask_orders: 'Ордера на продажу',
+			bid_orders: 'Ордера на покупку',
 			chat: 'Чат',
 		},
 		order: {
