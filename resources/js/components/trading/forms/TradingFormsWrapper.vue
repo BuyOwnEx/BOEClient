@@ -89,6 +89,7 @@ export default {
 		word-break: normal
 		font-weight: 700
 		text-transform: uppercase
+		margin-left: 4px
 	&__header-info
 		font-weight: normal
 		font-size: 12px
