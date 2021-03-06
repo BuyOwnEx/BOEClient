@@ -108,6 +108,7 @@
 					<v-spacer />
 					<v-btn
 						class="text-uppercase"
+						style='letter-spacing: 1px'
 						color="grey"
 						text
 						tile
@@ -119,6 +120,7 @@
 					<v-spacer />
 					<v-btn
 						class="text-uppercase"
+						style='letter-spacing: 1px'
 						color="success"
 						text
 						tile

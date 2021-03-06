@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog"  content-class="confirm-dialog">
+	<v-dialog v-model="dialog" content-class="confirm-dialog">
 		<template v-slot:activator="{ on, attrs }">
 			<div v-bind="attrs" v-on="on">
 				<slot></slot>
@@ -20,6 +20,7 @@
 					<v-spacer />
 					<v-btn
 						class="text-uppercase"
+						style="letter-spacing: 1px"
 						color="grey"
 						text
 						tile
@@ -31,6 +32,7 @@
 					<v-spacer />
 					<v-btn
 						class="text-uppercase"
+						style="letter-spacing: 1px"
 						color="success"
 						text
 						tile
