@@ -206,6 +206,7 @@ export default {
 .trading-forms-confirm-dialog
 	&__header
 		font-weight: 600 !important
+		padding: 8px 24px 8px !important
 		&--buy
 			background: #8aff9c5c
 		&--sell

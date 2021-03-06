@@ -42,4 +42,5 @@ export default {
 .own-list-confirm-dialog
 	&__header
 		font-weight: 600 !important
+		padding: 8px 24px 8px !important
 </style>
