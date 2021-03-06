@@ -18,9 +18,25 @@
 			<v-card-actions>
 				<slot name="actions">
 					<v-spacer />
-					<v-btn text tile @click="closeDialog">Отмена</v-btn>
+					<v-btn
+						class="text-uppercase"
+						color="grey"
+						text
+						tile
+						@click="closeDialog"
+					>
+						Отмена
+					</v-btn>
 					<v-spacer />
-					<v-btn color="primary" text tile @click="confirm">Подтвердить</v-btn>
+					<v-btn
+						class="text-uppercase"
+						color="success"
+						text
+						tile
+						@click="confirm"
+					>
+						Подтвердить
+					</v-btn>
 					<v-spacer />
 				</slot>
 			</v-card-actions>
