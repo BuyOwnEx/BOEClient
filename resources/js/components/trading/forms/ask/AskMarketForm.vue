@@ -267,7 +267,7 @@ export default {
 				offer: 0,
 			},
 			additionalParamsEnabled: false,
-			volume: '',
+			volume: 0,
 			useMargin: false,
 			offers: [],
 		};
