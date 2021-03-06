@@ -1,14 +1,15 @@
 export default {
 	computed: {
 		getAmountScale() {
-			const marketItem = this.$store.state.tickers.markets[
-				this.market.toUpperCase()
-			];
-			const currencyItem = marketItem.find(
-				item => item.currency === this.currency.toUpperCase()
-			);
+			const marketsData = this.$store.state.tickers.markets;
+			if (marketsData) {
+				const marketItem = marketsData[this.market.toUpperCase()];
+				const currencyItem = marketItem.find(
+					item => item.currency === this.currency.toUpperCase()
+				);
 
-			return currencyItem.amountScale;
+				return currencyItem.amountScale;
+			}
 		},
 	},
 };
