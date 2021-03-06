@@ -4,14 +4,18 @@
 			v-if="type === 'bid'"
 			class="orders-wall--bid"
 			:style="{ 'margin-top': calculateMargin, left: calculateLength }"
-		>
-		</span>
+		/>
+
 		<span
-			v-if="type === 'ask'"
+			v-if="type === 'ask' && !mobile"
 			class="orders-wall--ask"
 			:style="{ 'margin-top': calculateMargin, right: calculateLength }"
-		>
-		</span>
+		/>
+		<span
+			v-if="type === 'ask' && mobile"
+			class="orders-wall--ask"
+			:style="{ 'margin-top': calculateMargin, left: calculateLength }"
+		/>
 	</span>
 </template>
 
@@ -32,6 +36,10 @@ export default {
 			validator(value) {
 				return ['ask', 'bid'].indexOf(value) !== -1;
 			},
+		},
+		mobile: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
@@ -72,9 +80,11 @@ export default {
 	@extend .orders-wall-main
 	background: rgba(146, 245, 150, 0.2)
 	right: 0
+	left: 0
 
 .orders-wall--ask
 	@extend .orders-wall-main
 	background: rgba(245, 146, 146, 0.2)
 	left: 0
+	right: 0
 </style>

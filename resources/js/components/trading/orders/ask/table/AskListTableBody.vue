@@ -10,31 +10,54 @@
 			@mouseout="clearSelectedRowIndex"
 			@click="emitPrice(item.price)"
 		>
-			<td>
+			<td v-if="!isMobile">
 				<div class="ask-list-table-body__tooltip-volume-wrapper text-left">
 					<OrdersWall
 						:item-index="itemIndex"
 						:volume="calculateVolume(item.price, item.actualSize)"
 						type="ask"
 					/>
-
 					<div class="ask-list-table-body__item--volume">
 						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>
 			</td>
-
-			<td>
+			<td v-if="!isMobile">
 				<div class="ask-list-table-body__item--size">
 					{{ formatSize(item.actualSize, getAmountScale) }}
 				</div>
 			</td>
-
-			<td>
+			<td v-if="!isMobile">
 				<div class="ask-list-table-body__item--price text-right">
 					<strong class="text-danger">
 						{{ formatPrice(item.price, getPriceScale) }}
 					</strong>
+				</div>
+			</td>
+
+			<td v-if="isMobile">
+				<div class="ask-list-table-body__item--price">
+					<strong class="text-danger">
+						{{ formatPrice(item.price, getPriceScale) }}
+					</strong>
+				</div>
+			</td>
+			<td v-if="isMobile">
+				<div class="ask-list-table-body__item--size">
+					{{ formatSize(item.actualSize, getAmountScale) }}
+				</div>
+			</td>
+			<td v-if="isMobile">
+				<div class="ask-list-table-body__tooltip-volume-wrapper text-right">
+					<OrdersWall
+						:item-index="itemIndex"
+						:volume="calculateVolume(item.price, item.actualSize)"
+						type="ask"
+						mobile
+					/>
+					<div class="ask-list-table-body__item--volume">
+						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+					</div>
 				</div>
 			</td>
 		</tr>
@@ -96,6 +119,9 @@ export default {
 
 	computed: {
 		...mapGetters('tooltip', ['isAboveThanHoverElement']),
+		isMobile() {
+			return this.$vuetify.breakpoint.smAndDown;
+		},
 	},
 
 	methods: {
