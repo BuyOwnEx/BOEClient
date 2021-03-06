@@ -55,7 +55,6 @@ export default {
 			chartInFullscreen: false,
 			candle_period: '1m',
 			valuesToDisplay: 97,
-			graphHeight: 450,
 			maxCandles: 501,
 			options: {
 				time: {
@@ -68,7 +67,7 @@ export default {
 						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},
-					height: this.graphHeight,
+					height: this.$vuetify.breakpoint.smAndDown ? 600 : 400,
 					spacing: [10, 10, 10, 10],
 					events: {
 						load() {

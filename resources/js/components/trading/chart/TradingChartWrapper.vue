@@ -38,8 +38,10 @@ export default {
 	flex-grow: 1
 	flex-flow: column
 
-
 @media screen and (max-width: 1764px)
 	.trading-chart-wrapper__chart
 		margin-top: 20px
+@media screen and (max-width: 960px)
+	.trading-chart-wrapper__chart
+		overflow: auto !important
 </style>

@@ -604,6 +604,21 @@
 .highcharts-stocktools-toolbar {
 	height: 700px !important;
 }
+@media screen and (max-width: 960px) {
+	.highcharts-stocktools-toolbar {
+		height: 850px !important;
+	}
+	@media (min-height: 700px) {
+		.highcharts-stocktools-toolbar {
+			height: 1100px !important;
+		}
+	}
+	@media (min-height: 900px) {
+		.highcharts-stocktools-toolbar {
+			height: 1200px !important;
+		}
+	}
+}
 
 // Fix after fullscreen exit bug
 .highcharts-container {
