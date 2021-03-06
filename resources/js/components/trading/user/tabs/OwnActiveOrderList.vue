@@ -137,8 +137,19 @@
 
 				<template v-slot:item.action="{ item }">
 					<OwnListConfirmDialog @confirm="orderCancel(item)">
-						<v-btn color="#A6A6A6" tile text x-small dense>
-							{{ $t('trading.cancel') }}
+						<v-btn
+							color="rgba(148, 148, 148, 0.14)"
+							elevation="0"
+							tile
+							x-small
+							dense
+						>
+							<v-icon class="own-active-order-list__cancel-icon" x-small>
+								mdi-close
+							</v-icon>
+							<span class="own-active-order-list__cancel-text">
+								{{ $t('trading.cancel') }}
+							</span>
 						</v-btn>
 					</OwnListConfirmDialog>
 				</template>
@@ -267,7 +278,7 @@ export default {
 				: _.filter(this.$store.state.user.orders, {
 						currency: this.currency.toUpperCase(),
 						market: this.market.toUpperCase(),
-				  })
+				  });
 		},
 	},
 
@@ -340,4 +351,10 @@ export default {
 		text-transform: uppercase
 	&__date
 		color: #a8a8a8
+	&__cancel
+		&-icon
+			opacity: 0.6
+			margin-right: 2px
+		&-text
+			opacity: 0.8
 </style>
