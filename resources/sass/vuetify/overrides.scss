@@ -226,3 +226,9 @@ html {
 .theme--dark .v-overlay__scrim {
 	background-color: rgb(70, 70, 70) !important;
 }
+.v-dialog {
+	border-radius: 0 !important;
+	.v-card {
+		border-radius: 0 !important;
+	}
+}
