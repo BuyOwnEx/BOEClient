@@ -71,6 +71,6 @@ export default {
 	&__header
 		word-break: normal
 		font-weight: 700
-		margin-left: 4px
+		margin-left: 8px
 		text-transform: uppercase
 </style>
