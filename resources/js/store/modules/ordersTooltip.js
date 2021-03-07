@@ -71,8 +71,13 @@ export default {
 			commit('SET_ACTIVE_TOOLTIP_TYPE', payload.type);
 			commit('SET_DATA_FOR_TOOLTIP', payload);
 		},
+
 		clearSelectedRowIndex({ commit }) {
 			commit('CLEAR_SELECTED_ROW_INDEX');
+		},
+
+		updateData({ commit }, payload) {
+			commit('SET_DATA_FOR_TOOLTIP', payload);
 		},
 	},
 };

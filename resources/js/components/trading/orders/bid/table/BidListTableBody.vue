@@ -94,6 +94,12 @@ export default {
 		},
 	},
 
+	watch: {
+		ordersData() {
+			this.updateTooltipData();
+		},
+	},
+
 	computed: {
 		...mapGetters({
 			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
@@ -104,6 +110,7 @@ export default {
 		...mapActions({
 			selectedItemHoverHandler: 'tooltip/selectedItemHoverHandler',
 			clearSelectedRowIndex: 'tooltip/clearSelectedRowIndex',
+			updateData: 'tooltip/updateData',
 		}),
 
 		emitPrice(itemPrice) {
@@ -127,6 +134,15 @@ export default {
 				amountScale: this.getAmountScale,
 			};
 			this.selectedItemHoverHandler(payload);
+		},
+
+		updateTooltipData() {
+			const payload = {
+				ordersData: this.ordersData,
+				priceScale: this.getPriceScale,
+				amountScale: this.getAmountScale,
+			};
+			this.updateData(payload);
 		},
 	},
 };

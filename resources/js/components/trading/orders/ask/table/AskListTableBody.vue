@@ -117,18 +117,27 @@ export default {
 		},
 	},
 
+	watch: {
+		ordersData() {
+			this.updateTooltipData();
+		},
+	},
+
 	computed: {
-		...mapGetters('tooltip', ['isAboveThanHoverElement']),
+		...mapGetters({
+			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
+		}),
 		isMobile() {
 			return this.$vuetify.breakpoint.smAndDown;
 		},
 	},
 
 	methods: {
-		...mapActions('tooltip', [
-			'selectedItemHoverHandler',
-			'clearSelectedRowIndex',
-		]),
+		...mapActions({
+			selectedItemHoverHandler: 'tooltip/selectedItemHoverHandler',
+			clearSelectedRowIndex: 'tooltip/clearSelectedRowIndex',
+			updateData: 'tooltip/updateData',
+		}),
 
 		emitPrice(itemPrice) {
 			this.$eventHub.$emit('set-buy-price', { price: itemPrice });
@@ -151,6 +160,15 @@ export default {
 				amountScale: this.getAmountScale,
 			};
 			this.selectedItemHoverHandler(payload);
+		},
+
+		updateTooltipData() {
+			const payload = {
+				ordersData: this.ordersData,
+				priceScale: this.getPriceScale,
+				amountScale: this.getAmountScale,
+			};
+			this.updateData(payload);
 		},
 	},
 };
