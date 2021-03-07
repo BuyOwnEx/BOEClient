@@ -63,7 +63,6 @@ export default {
 				chart: {
 					style: {
 						fontFamily: '"Quicksand", sans-serif',
-						backgroundColor: '#fff',
 						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},
