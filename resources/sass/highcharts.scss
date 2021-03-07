@@ -676,6 +676,11 @@
 	}
 }
 
+// Fix chart title
+.highcharts-title {
+	font-weight: 600 !important;
+}
+
 //
 // Only for DARK theme <24.02.21>
 //
