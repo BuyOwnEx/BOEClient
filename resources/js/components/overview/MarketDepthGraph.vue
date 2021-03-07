@@ -1,6 +1,6 @@
 <template>
-	<v-card>
-		<v-col class='pa-2' cols="12">
+	<v-card class="market-depth-graph">
+		<v-col class="pa-2" cols="12">
 			<v-select
 				v-model="sp"
 				:items="pairs"
@@ -29,7 +29,11 @@
 				</template>
 			</v-select>
 		</v-col>
-		<highcharts :options="options" ref="depth_chart" />
+		<highcharts
+			class="market-depth-graph__graph"
+			:options="options"
+			ref="depth_chart"
+		/>
 	</v-card>
 </template>
 
@@ -232,4 +236,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+@media screen and (min-width: 960px)
+	.market-depth-graph__graph
+		max-width: calc(100vw - 80px) !important
+</style>
