@@ -44,7 +44,6 @@ export default {
 
 	data() {
 		return {
-			graphHeight: 450,
 			sp: 1,
 			options: {
 				chart: {
@@ -53,7 +52,7 @@ export default {
 						fontFamily: 'Roboto',
 					},
 					backgroundColor: '#ffffff',
-					height: this.graphHeight,
+					height: 450,
 					spacing: [10, 10, 10, 10],
 				},
 				credits: {
@@ -185,7 +184,7 @@ export default {
 	},
 
 	methods: {
-		changePair: function(data) {
+		changePair(data) {
 			console.log(data);
 			let market = this.pairs
 				? _.find(this.pairs, item => item.id === data)
@@ -198,7 +197,7 @@ export default {
 				});
 			}
 		},
-		updateDepthHandler: function(data) {
+		updateDepthHandler(data) {
 			let depth_chart = this.$refs.depth_chart;
 			if (data.asks_list) {
 				let askData = data.asks_list;
@@ -225,6 +224,7 @@ export default {
 			depth_chart.chart.redraw();
 		},
 	},
+
 	mounted() {
 		//this.getGraph(this.currency, this.market);
 		this.$eventHub.$on('updateDepth', this.updateDepthHandler);
