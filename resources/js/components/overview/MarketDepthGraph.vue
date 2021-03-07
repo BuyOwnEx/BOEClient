@@ -1,9 +1,8 @@
 <template>
 	<v-card>
-		<v-col cols="12" md="12">
+		<v-col cols="12">
 			<v-select
 				v-model="sp"
-				@change="changePair"
 				:items="pairs"
 				item-text="name"
 				item-value="id"
@@ -11,6 +10,7 @@
 				hint="Select pair from available options"
 				persistent-hint
 				hide-details="auto"
+				@change="changePair"
 			>
 				<template slot="item" slot-scope="data">
 					<template v-if="typeof data.item !== 'object'">
@@ -49,9 +49,10 @@ export default {
 				chart: {
 					type: 'area',
 					style: {
-						fontFamily: 'Roboto',
+						fontFamily: '"Quicksand", sans-serif',
+						letterSpacing: '0.0071428571em',
+						fontSize: '11px',
 					},
-					backgroundColor: '#ffffff',
 					height: 450,
 					spacing: [10, 10, 10, 10],
 				},
