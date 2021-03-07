@@ -14,12 +14,16 @@
 			>
 				<template slot="item" slot-scope="data">
 					<template v-if="typeof data.item !== 'object'">
-						<v-list-item-content v-text="data.item" />
+						<v-list-item-content>
+							{{ data.item }}
+						</v-list-item-content>
 					</template>
 
 					<template v-else>
 						<v-list-item-content>
-							<v-list-item-title v-html="data.item.name" />
+							<v-list-item-title>
+								{{ data.item.name }}
+							</v-list-item-title>
 						</v-list-item-content>
 					</template>
 				</template>
