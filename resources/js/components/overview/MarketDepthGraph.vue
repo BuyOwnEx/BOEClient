@@ -9,7 +9,7 @@
 				label="Select pair"
 				hint="Select pair from available options"
 				persistent-hint
-				hide-details="auto"
+				hide-details
 				@change="changePair"
 			>
 				<template slot="item" slot-scope="data">
@@ -207,7 +207,6 @@ export default {
 					askDataGraph[i] = [askData[i]['price'], askDepthTotal];
 				}
 				depth_chart.chart.series[1].setData(askDataGraph, false);
-				//this.options.series[1].data = askDataGraph;
 			}
 			if (data.bids_list) {
 				let bidData = data.bids_list;
@@ -218,14 +217,12 @@ export default {
 					bidDataGraph[j] = [bidData[j]['price'], bidDepthTotal];
 				}
 				depth_chart.chart.series[0].setData(bidDataGraph, false);
-				//this.options.series[0].data = bidDataGraph;
 			}
 			depth_chart.chart.redraw();
 		},
 	},
 
 	mounted() {
-		//this.getGraph(this.currency, this.market);
 		this.$eventHub.$on('updateDepth', this.updateDepthHandler);
 	},
 };
