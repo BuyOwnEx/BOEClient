@@ -1,5 +1,5 @@
 <template>
-	<v-card>
+	<v-card class="market-overview">
 		<v-data-table
 			class="elevation-1 pa-4"
 			caption="Market overview"
@@ -11,7 +11,7 @@
 			dense
 		>
 			<template v-slot:item.pair="{ item }">
-				<span>
+				<span class="market-overview__item--pair">
 					<a :href="item.pairLink" target="_blank">
 						{{ item.pairName }}
 					</a>
@@ -41,15 +41,15 @@
 
 			<template v-slot:item.change24="{ item }">
 				<span v-if="item.changePercent < 0">
-					<span class="fa fa-caret-down text-danger"></span>
+					<v-icon color="error" x-small>mdi-arrow-down</v-icon>
 					<span class="text-danger"> {{ item.changePercent }}%</span>
 				</span>
 				<span v-else-if="item.changePercent > 0">
-					<span class="fa fa-caret-up text-success"></span>
+					<v-icon color="success" x-small>mdi-arrow-up</v-icon>
 					<span class="text-success"> +{{ item.changePercent }}%</span>
 				</span>
 				<span v-else>
-					<span class="fa fa-minus"></span>
+					<v-icon class="text-secondary" x-small>mdi-minus</v-icon>
 					<span> 0%</span>
 				</span>
 			</template>
@@ -175,4 +175,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.market-overview
+	span
+		display: flex
+		align-items: center
+	&__item
+		&--pair a
+			text-decoration: none
+			font-weight: bold
+			color: unset
+</style>
