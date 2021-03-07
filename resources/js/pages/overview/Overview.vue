@@ -1,7 +1,7 @@
 <template>
-	<v-container fluid>
+	<v-container class="overview" fluid>
 		<v-row align="start" justify="center">
-			<v-col cols="12" class="text-center">
+			<v-col cols="12" class="overview__col text-center">
 				<market-depth-graph
 					:currency="selectedCurrency"
 					:market="selectedMarket"
@@ -9,8 +9,8 @@
 			</v-col>
 		</v-row>
 		<v-row align="start" justify="center">
-			<v-col cols="12" class="text-center">
-				<market-overview/>
+			<v-col cols="12" class="overview__col text-center">
+				<market-overview />
 			</v-col>
 		</v-row>
 	</v-container>
@@ -64,4 +64,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.overview
+	padding: 0 24px !important
+	&__col
+		padding: 4px !important
+</style>
