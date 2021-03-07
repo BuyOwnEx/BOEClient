@@ -52,6 +52,7 @@ export default {
 	data() {
 		return {
 			hcInstance: Highcharts,
+			graphHeight: 400,
 			chartInFullscreen: false,
 			candle_period: '1m',
 			valuesToDisplay: 97,

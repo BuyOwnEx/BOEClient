@@ -44,6 +44,7 @@ export default {
 
 	data() {
 		return {
+			graphHeight: 450,
 			sp: 1,
 			options: {
 				chart: {
