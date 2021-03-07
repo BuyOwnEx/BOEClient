@@ -68,5 +68,6 @@ export default {
 .overview
 	padding: 0 24px !important
 	&__col
-		padding: 4px !important
+		padding: 0 !important
+		padding-bottom: 5px !important
 </style>
