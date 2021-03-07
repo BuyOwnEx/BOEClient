@@ -71,18 +71,12 @@ export default {
 				},
 				title: {
 					text: 'Market depth',
-					style: {
-						color: '#000000',
-					},
 				},
 				xAxis: [
 					{
 						type: 'logarithmic',
 						title: {
 							text: this.$t('trading.rate'),
-							style: {
-								color: '#000000',
-							},
 						},
 						width: '50%',
 						labels: {
@@ -95,9 +89,6 @@ export default {
 						type: 'logarithmic',
 						title: {
 							text: this.$t('trading.rate'),
-							style: {
-								color: '#000000',
-							},
 						},
 						labels: {
 							style: {
@@ -113,9 +104,6 @@ export default {
 					gridLineWidth: 0,
 					title: {
 						text: this.$t('trading.volume'),
-						style: {
-							color: '#000000',
-						},
 					},
 				},
 				legend: {
