@@ -1,6 +1,6 @@
 <template>
 	<v-card>
-		<v-col cols="12">
+		<v-col class='pa-2' cols="12">
 			<v-select
 				v-model="sp"
 				:items="pairs"
