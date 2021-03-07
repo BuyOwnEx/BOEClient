@@ -69,7 +69,7 @@ export default {
 					{
 						type: 'logarithmic',
 						title: {
-							text: this.$vuetify.lang.translator('trading.rate'),
+							text: this.$t('trading.rate'),
 							style: {
 								color: '#000000',
 							},
@@ -84,7 +84,7 @@ export default {
 					{
 						type: 'logarithmic',
 						title: {
-							text: this.$vuetify.lang.translator('trading.rate'),
+							text: this.$t('trading.rate'),
 							style: {
 								color: '#000000',
 							},
@@ -102,7 +102,7 @@ export default {
 				yAxis: {
 					gridLineWidth: 0,
 					title: {
-						text: this.$vuetify.lang.translator('trading.volume'),
+						text: this.$t('trading.volume'),
 						style: {
 							color: '#000000',
 						},
@@ -132,9 +132,9 @@ export default {
 					headerFormat: '<table>',
 					pointFormat:
 						'<tr><td>' +
-						this.$vuetify.lang.translator('trading.rate') +
+						this.$t('trading.rate') +
 						':</td><td style="text-align: right;">{point.x}</td></tr><tr><td>' +
-						this.$vuetify.lang.translator('trading.volume') +
+						this.$t('trading.volume') +
 						':</td><td style="text-align: right;">{point.y}</td></tr>',
 					footerFormat: '</table>',
 					valueDecimals: 2,

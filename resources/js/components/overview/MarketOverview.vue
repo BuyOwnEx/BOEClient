@@ -88,33 +88,33 @@ export default {
 	data() {
 		return {
 			headers: [
-				{ text: this.$vuetify.lang.translator('trading.pair'), value: 'pair' },
+				{ text: this.$t('trading.pair'), value: 'pair' },
 				{
-					text: this.$vuetify.lang.translator('trading.best_bid'),
+					text: this.$t('trading.best_bid'),
 					value: 'best_bid',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.best_ask'),
+					text: this.$t('trading.best_ask'),
 					value: 'best_ask',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.latest_price'),
+					text: this.$t('trading.latest_price'),
 					value: 'latest_price',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.change24'),
+					text: this.$t('trading.change24'),
 					value: 'change24',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.min24'),
+					text: this.$t('trading.min24'),
 					value: 'min24',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.max24'),
+					text: this.$t('trading.max24'),
 					value: 'max24',
 				},
 				{
-					text: this.$vuetify.lang.translator('trading.volume24'),
+					text: this.$t('trading.volume24'),
 					value: 'volume24',
 				},
 			],
