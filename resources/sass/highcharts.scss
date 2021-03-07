@@ -1111,4 +1111,9 @@
 	.highcharts-root {
 		background-color: unset !important;
 	}
+
+	// Fix tooltip in overview chart
+	.highcharts-label-box.highcharts-tooltip-box {
+		fill: #94979a !important;
+	}
 }
