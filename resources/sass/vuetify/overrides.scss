@@ -223,6 +223,7 @@ html {
 	}
 }
 
+// Dialog <06.03.21>
 .theme--dark .v-overlay__scrim {
 	background-color: rgb(70, 70, 70) !important;
 }
@@ -231,4 +232,10 @@ html {
 	.v-card {
 		border-radius: 0 !important;
 	}
+}
+
+// Change table title style <07.03.21>
+.v-data-table caption {
+	text-transform: uppercase !important;
+	font-weight: 600 !important;
 }
