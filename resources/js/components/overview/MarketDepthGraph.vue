@@ -40,7 +40,16 @@ highchartsTheme(Highcharts);
 export default {
 	name: 'MarketDepthGraph',
 
-	props: ['currency', 'market'],
+	props: {
+		currency: {
+			type: String,
+			required: true,
+		},
+		market: {
+			type: String,
+			required: true,
+		},
+	},
 
 	data() {
 		return {
