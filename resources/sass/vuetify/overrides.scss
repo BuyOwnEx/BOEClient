@@ -240,3 +240,10 @@ html {
 	font-weight: 600 !important;
 	font-size: 16px;
 }
+
+// Data table divider fix
+tr:not(:last-child).v-data-table__mobile-table-row {
+	> td:last-child {
+		border-bottom: thin solid rgba(137, 137, 137, 0.61) !important;
+	}
+}
