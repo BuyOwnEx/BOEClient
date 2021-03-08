@@ -17,7 +17,6 @@
 			<OrdersTooltip
 				v-if="bidList && bidList.length"
 				type="bid"
-				:key="bidList[0].price"
 			/>
 		</v-card-text>
 	</v-card>

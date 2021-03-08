@@ -17,7 +17,6 @@
 			<OrdersTooltip
 				v-if="askList && askList.length"
 				type="ask"
-				:key="askList[0].price"
 			/>
 		</v-card-text>
 	</v-card>
