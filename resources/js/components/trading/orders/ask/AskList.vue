@@ -15,7 +15,7 @@
 			/>
 
 			<OrdersTooltip
-				v-if="askList && askList.length"
+				v-if="askList && askList.length && activeTooltipType === 'ask'"
 				type="ask"
 			/>
 		</v-card-text>
@@ -63,6 +63,9 @@ export default {
 		},
 		bestAsk() {
 			return this.$store.state.trading.best_ask;
+		},
+		activeTooltipType() {
+			return this.$store.state.tooltip.activeTooltipType;
 		},
 	},
 

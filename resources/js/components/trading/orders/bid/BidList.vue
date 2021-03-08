@@ -15,7 +15,7 @@
 			/>
 
 			<OrdersTooltip
-				v-if="bidList && bidList.length"
+				v-if="bidList && bidList.length && activeTooltipType === 'bid'"
 				type="bid"
 			/>
 		</v-card-text>
@@ -63,6 +63,9 @@ export default {
 		},
 		bestBid() {
 			return this.$store.state.trading.best_bid;
+		},
+		activeTooltipType() {
+			return this.$store.state.tooltip.activeTooltipType;
 		},
 	},
 

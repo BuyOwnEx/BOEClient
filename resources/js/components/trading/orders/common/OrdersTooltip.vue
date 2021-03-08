@@ -2,7 +2,6 @@
 	<div
 		v-if="selectedRowIndex !== -1"
 		class="orders-tooltip"
-		:class="{ 'd-none': selectedRowIndex === -1 }"
 		:style="{
 			'margin-top': calculateMargin,
 			right: calculateRight,
