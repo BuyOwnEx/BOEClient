@@ -119,7 +119,8 @@ export default {
 
 	watch: {
 		ordersData() {
-			this.updateTooltipData();
+			if (this.$store.state.tooltip.activeTooltipType === 'ask')
+				this.updateTooltipData();
 		},
 	},
 

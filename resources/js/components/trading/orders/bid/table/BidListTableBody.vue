@@ -96,7 +96,8 @@ export default {
 
 	watch: {
 		ordersData() {
-			this.updateTooltipData();
+			if (this.$store.state.tooltip.activeTooltipType === 'bid')
+				this.updateTooltipData();
 		},
 	},
 
