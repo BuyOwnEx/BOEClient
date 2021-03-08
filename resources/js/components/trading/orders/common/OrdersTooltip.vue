@@ -88,15 +88,18 @@ export default {
 <style scoped lang="sass">
 .orders-tooltip
 	position: absolute
-	top: 29px
+	top: 27px
 	width: 250px
+	height: 80px
 	z-index: 3
 
 	&--bid
+		height: 80px
 		padding: 8px 16px
 		background: #defbec
 
 	&--ask
+		height: 80px
 		padding: 8px 16px
 		background: rgb(255, 223, 223)
 
@@ -109,7 +112,7 @@ export default {
 
 @media screen and (max-width: 960px)
 	.orders-tooltip
-		top: 29px
+		top: 27px
 		left: 0 !important
 		right: 0 !important
 		margin-left: auto
