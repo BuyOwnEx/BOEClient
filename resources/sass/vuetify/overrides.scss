@@ -247,3 +247,8 @@ tr:not(:last-child).v-data-table__mobile-table-row {
 		border-bottom: thin solid rgba(137, 137, 137, 0.61) !important;
 	}
 }
+
+// Google Chrome remove td border-radius
+td {
+	border-radius: 0 !important;
+}
