@@ -73,7 +73,7 @@ export default {
 		calculateMargin() {
 			const rowHeight = 25;
 			const lastRowSelectedIndex = this.selectedRowIndex;
-			return lastRowSelectedIndex * rowHeight + 'px';
+			return (lastRowSelectedIndex - 2) * rowHeight + 'px';
 		},
 		calculateLeft() {
 			if (this.type === 'bid') return '100%';
@@ -88,7 +88,7 @@ export default {
 <style scoped lang="sass">
 .orders-tooltip
 	position: absolute
-	top: 32px
+	top: 29px
 	width: 250px
 	z-index: 3
 
@@ -109,8 +109,9 @@ export default {
 
 @media screen and (max-width: 960px)
 	.orders-tooltip
-		// header + row height
-		top: calc(32px + 25px)
-		left: 25% !important
+		top: 29px
+		left: 0 !important
 		right: 0 !important
+		margin-left: auto
+		margin-right: auto
 </style>
