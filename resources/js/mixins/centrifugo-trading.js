@@ -8,6 +8,7 @@ export default {
 			sub_history_deals: null,
 			sub_graph: null,
 			sub_tickers: null,
+			sub_currencies: null,
 			sub_markets: null,
 			centrifuge: null,
 			connected: false,
@@ -150,6 +151,14 @@ export default {
 				this.sub_graph.on('error', this.channelErrorHandler);
 				this.sub_graph.on('unsubscribe', this.channelUnsubscribeHandler);
 			});
+			this.$store.dispatch('trading/getAllCurrencyListFromServer').then(resp => {
+				this.sub_currencies = this.centrifuge.subscribe('public:currencies');
+				this.sub_currencies.on('subscribe', this.channelSubscribeHandler);
+				this.sub_currencies.on('publish', this.currenciesPubHandler);
+				this.sub_currencies.on('error', this.channelErrorHandler);
+				this.sub_currencies.on('unsubscribe', this.channelUnsubscribeHandler);
+			});
+
 		},
 
 		subscribeGraphPeriod() {
@@ -259,6 +268,9 @@ export default {
 			}
 		},
 		marketsPubHandler(data) {
+			console.log(data);
+		},
+		currenciesPubHandler(data) {
 			console.log(data);
 		},
 		tickersPubHandler(data) {
