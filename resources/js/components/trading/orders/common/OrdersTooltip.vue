@@ -72,8 +72,8 @@ export default {
 
 		calculateMargin() {
 			const rowHeight = 25;
-			const rowsSelected = this.selectedRowIndex;
-			return rowsSelected * rowHeight + 'px';
+			const lastRowSelectedIndex = this.selectedRowIndex;
+			return lastRowSelectedIndex * rowHeight + 'px';
 		},
 		calculateLeft() {
 			if (this.type === 'bid') return '100%';
