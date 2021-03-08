@@ -1,78 +1,92 @@
 <template>
-	<div class='layout-content ma-auto'>
+	<div class="layout-content ma-auto">
 		<v-card>
-			<v-card-title class='justify-center'>
-				<span class='overline mb-2' style='font-size: 1.25rem !important'>{{ formTitle }}</span>
+			<v-card-title class="justify-center">
+				<span class="overline mb-2" style="font-size: 1.25rem !important">
+					{{
+					formTitle
+				}}
+				</span>
 			</v-card-title>
+
 			<v-card-subtitle>
 				<span>{{ formSubTitle }}</span>
 			</v-card-subtitle>
+
 			<v-card-text>
-				<v-container class='pt-0 pb-0'>
+				<v-container class="pt-0 pb-0">
 					<v-row>
-						<v-col cols='12' md='12' class='pt-0 pb-0'>
+						<v-col cols="12" md="12" class="pt-0 pb-0">
 							<v-text-field
-								v-model='user.email'
-								append-icon='mdi-email-outline'
-								:rules='[rules.required, rules.email]'
-								:error-messages='errors.email'
-								@input='errors.email = []'
+								v-model="user.email"
+								append-icon="mdi-email-outline"
+								:rules="[rules.required, rules.email]"
+								:error-messages="errors.email"
+								@input="errors.email = []"
 								hide-details
 								disabled
 								required
 							>
 								<template #label>
-									Email <span class='red--text'><strong>*</strong></span>
+									Email <span class="red--text"><strong>*</strong></span>
 								</template>
 							</v-text-field>
 						</v-col>
 					</v-row>
 				</v-container>
 			</v-card-text>
-			<div class='caption grey--text darken-4 pl-6 pr-6'><small>{{ $t('auth.no_letter') }}</small>
+
+			<div class="caption grey--text darken-4 pl-6 pr-6">
+				<small>{{ $t('auth.no_letter') }}</small>
 			</div>
-			<v-card-actions class='pt-4 pl-6 pr-6 pb-4'>
-				<v-btn block color='primary' tile @click='resend' :loading='loading' :disabled='!valid || loading'>
+
+			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
+				<v-btn
+					block
+					color="primary"
+					tile
+					@click="resend"
+					:loading="loading"
+					:disabled="!valid || loading"
+				>
 					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
 		</v-card>
-		<v-alert v-if='resend_alert'
-											dense
-											text
-											type='warning'
-											class='mt-4'
-		>
+
+		<v-alert v-if="resend_alert" dense text type="warning" class="mt-4">
 			{{ $t('auth.resend_activation_link_text') }}
 		</v-alert>
-		<div class='text-center mt-6' style='position: relative; z-index: 2'>
-			<div class='caption grey--text darken-4'> {{ $t('auth.already_activated') }}</div>
-			<v-btn
-				block
-				small
-				text
-				tile
-				href='/login'
-				color='primary darken-1'
-			>
+
+		<div class="text-center mt-6" style="position: relative; z-index: 2">
+			<div class="caption grey--text darken-4">
+				{{ $t('auth.already_activated') }}
+			</div>
+
+			<v-btn block small text tile href="/login" color="primary darken-1">
 				{{ $t('auth.login_btn_text') }}
 			</v-btn>
 		</div>
+
 		<!--<snackbar position="relative"></snackbar>-->
 	</div>
 </template>
 
 <script>
 //import Snackbar from "../../Snackbar";
+
 export default {
 	name: 'Verify',
+
 	//components: {Snackbar},
+
 	data() {
 		return {
 			valid: true,
 			loading: false,
 			formTitle: 'Activation',
-			formSubTitle: 'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
+			formSubTitle:
+				'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
 			applyButton: 'Resend',
 			rules: {
 				required: v => !!v || 'The field is required',
@@ -87,14 +101,15 @@ export default {
 			resend_alert: false,
 		};
 	},
+
 	methods: {
 		resend() {
 			let self = this;
 			this.loading = true;
-			axios.post('/email/resend', this.user)
+			axios
+				.post('/email/resend', this.user)
 				.then(response => {
-					if (response.data.resend)
-						this.resend_alert = true;
+					if (response.data.resend) this.resend_alert = true;
 					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
 				})
 				.catch(error => {
@@ -117,10 +132,7 @@ export default {
 				});
 		},
 	},
-
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
