@@ -194,15 +194,52 @@ export default {
 					break;
 				case 'order_was_created':
 					this.$store.commit('user/addOrder', data.data.order);
+					this.$store.commit('notifications/addTradingNotification', {
+						id: data.data.order.id + data.data.order.status,
+						status: data.data.order.status,
+						side: data.data.order.side,
+						size: data.data.order.size,
+						actualSize: data.data.order.actualSize,
+						currency: data.data.order.currency,
+						price: data.data.order.price,
+						market: data.data.order.market,
+						object: 'order',
+						lang: this.$i18n
+					});
 					break;
 				case 'conditional_order_was_updated':
 					this.$store.commit('user/updateConditionOrder', data.data.order);
 					break;
 				case 'match_order_was_updated':
 					this.$store.commit('user/updateMatchOrder', data.data.order);
+					/*let id = tmp.id + tmp.status + 'order';
+					this.$store.commit('notifications/dropNotificationIfExists', id);
+					this.$store.commit('notifications/addTradingNotification', {
+						id: tmp.id + tmp.status,
+						status: tmp.status,
+						side: tmp.side,
+						size: tmp.size,
+						actualSize: tmp.actualSize,
+						currency: tmp.currency,
+						price: tmp.price,
+						market: tmp.market,
+						object: 'order'
+					});*/
 					break;
 				case 'order_was_deleted':
 					this.$store.commit('user/deleteOrder', data.data.order);
+					this.$store.commit('notifications/addTradingNotification', {
+						id: data.data.order.id + data.data.order.status,
+						status: data.data.order.status,
+						side: data.data.order.side,
+						size: data.data.order.size,
+						actualSize: data.data.order.actualSize,
+						currency: data.data.order.currency,
+						price: data.data.order.price,
+						market: data.data.order.market,
+						object: 'order',
+						lang: this.$i18n
+					});
 					break;
 				case 'own_deal_was_completed':
 					this.$store.commit('user/addDeal', data.data.deal);

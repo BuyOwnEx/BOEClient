@@ -13,6 +13,7 @@ import trading from './modules/trading';
 import user from './modules/user';
 import snackbars from './modules/snackbars';
 import ordersTooltip from './modules/ordersTooltip';
+import notifications from './modules/notifications';
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ const store = new Vuex.Store({
 		trading: trading,
 		user: user,
 		snackbars: snackbars,
+		notifications: notifications,
 		tooltip: ordersTooltip,
 		'board-app': BoardModule,
 		'email-app': EmailModule,

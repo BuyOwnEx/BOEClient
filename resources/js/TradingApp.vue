@@ -11,7 +11,7 @@
 			{{ toast.message }}
 			<v-btn v-if='toast.timeout === 0' color='white' text @click='toast.show = false'>{{ $t('common.close') }}</v-btn>
 		</v-snackbar>
-
+		<notifications />
 		<!-- Demo customization menu -->
 		<!--<customization-menu />-->
 	</v-app>
@@ -23,6 +23,7 @@ import CustomizationMenu from './components/demo/CustomizationMenu';
 import config from './configs';
 import defaultLayout from './layouts/DefaultLayout';
 import Trading from './pages/trading/Trading';
+import Notifications from './components/notification/Notification'
 
 export default {
 	name: 'TradingApp',
@@ -30,6 +31,7 @@ export default {
 		Trading,
 		CustomizationMenu,
 		defaultLayout,
+		Notifications
 	},
 	data: () => ({
 		currentLayout: 'defaultLayout',
