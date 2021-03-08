@@ -1,10 +1,10 @@
 <template>
 	<v-form>
 		<v-container fluid>
-			<v-row class="filter-top">
-				<span class="pa-2 ml-2">Filters</span>
-
-				<v-spacer />
+			<v-row class="filter-top px-1" align="center" no-gutters>
+				<span class="text-overline" style="font-size: 1rem !important">
+					Filters
+				</span>
 
 				<v-btn icon @click="show = !show">
 					<v-icon v-if="show">mdi-chevron-down</v-icon>
@@ -12,8 +12,8 @@
 				</v-btn>
 			</v-row>
 
-			<v-row class="filter-main" v-if="show">
-				<v-col cols="12" md="6" class="pt-6">
+			<v-row class="filter-main" v-if="show" no-gutters>
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_start_date"
 						v-model="menu_start_date"
@@ -25,7 +25,7 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-text-field
-								class="mt-2"
+								class="mt-1"
 								v-model="filters.start_date"
 								label="Date from"
 								hint="Choose date from"
@@ -50,7 +50,7 @@
 					</v-menu>
 				</v-col>
 
-				<v-col cols="12" md="6" class="pt-6">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_start_time"
 						v-model="menu_start_time"
@@ -62,7 +62,7 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-text-field
-								class="mt-2"
+								class="mt-1"
 								v-model="filters.start_time"
 								label="Time from"
 								hint="Choose time from"
@@ -88,10 +88,8 @@
 						/>
 					</v-menu>
 				</v-col>
-			</v-row>
 
-			<v-row class="filter-main" v-if="show">
-				<v-col cols="12" md="6" class="pt-6">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_end_date"
 						v-model="menu_end_date"
@@ -103,7 +101,7 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-text-field
-								class="mt-2"
+								class="mt-1"
 								v-model="filters.end_date"
 								label="Date till"
 								hint="Choose date till"
@@ -128,7 +126,7 @@
 					</v-menu>
 				</v-col>
 
-				<v-col cols="12" md="6" class="pt-6">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_end_time"
 						v-model="menu_end_time"
@@ -140,7 +138,7 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-text-field
-								class="mt-2"
+								class="mt-1"
 								v-model="filters.end_time"
 								label="Time till"
 								hint="Choose time till"
@@ -168,9 +166,10 @@
 				</v-col>
 			</v-row>
 
-			<v-row class="filter-main" v-if="show">
-				<v-col cols="12" md="12">
+			<v-row class="filter-main mt-1" v-if="show" no-gutters>
+				<v-col class="px-1" cols="12" sm="6" md="4">
 					<v-text-field
+						class="mt-1"
 						v-model="filters.id"
 						@change="setEnabled"
 						label="Transaction ID"
@@ -181,8 +180,9 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="4">
 					<v-text-field
+						class="mt-1"
 						v-model="filters.txid"
 						@change="setEnabled"
 						label="Transaction Hash"
@@ -193,8 +193,9 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="4">
 					<v-text-field
+						class="mt-1"
 						v-model="filters.address"
 						@change="setEnabled"
 						label="Address"
@@ -205,8 +206,9 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="4">
 					<v-select
+						class="mt-1"
 						v-model="filters.currency"
 						@change="setEnabled"
 						:items="all_currencies"
@@ -220,8 +222,9 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="4">
 					<v-select
+						class="mt-1"
 						v-model="filters.type"
 						@change="setEnabled"
 						:items="all_types"
@@ -235,8 +238,9 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="4">
 					<v-select
+						class="mt-1"
 						v-model="filters.status"
 						@change="setEnabled"
 						:items="all_statuses"
@@ -251,9 +255,9 @@
 				</v-col>
 			</v-row>
 
-			<v-row class="filter-bottom" v-if="show">
+			<v-row class="filter-bottom px-1" v-if="show" no-gutters>
 				<v-btn
-					class="ma-2"
+					class="ma-2 ml-0"
 					tile
 					color="primary"
 					:disabled="disabled"
