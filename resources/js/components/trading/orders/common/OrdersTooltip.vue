@@ -111,7 +111,7 @@ export default {
 
 @media screen and (max-width: 960px)
 	.orders-tooltip
-		top: 27px
+		top: calc(27px - 25px)
 		left: 0 !important
 		right: 0 !important
 		margin-left: auto
