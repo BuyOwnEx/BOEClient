@@ -209,14 +209,14 @@ export default {
 		font-weight: normal
 		font-size: 11px
 
-@media screen and (min-width: 1452px) and (max-width: 1850px)
+@media screen and (min-width: 1500px) and (max-width: 1900px)
 	.market-info
 		.info-value
 			font-size: 14px
 		.info-title
 			font-size: 10px
 
-@media screen and (min-width: 1382px) and (max-width: 1452px)
+@media screen and (min-width: 1382px) and (max-width: 1500px)
 	.market-info
 		line-height: 15px
 
