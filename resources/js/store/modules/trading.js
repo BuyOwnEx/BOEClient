@@ -30,12 +30,14 @@ export default {
 		history_length_limit: 50,
 		orderBookInit: false,
 		historyDealListInit: false,
+		allCurrencyListInit: false,
 
 		selectedPeriod: null,
 		selectedRoom: null,
 		valuesToDisplay: 97,
 		candlesData: [],
 		volumeData: [],
+		all_currencies: []
 	},
 	getters: {
 		selectedPair: state => {
@@ -138,6 +140,12 @@ export default {
 				yData: payload.volumeData,
 			});
 		},
+		setAllCurrenciesList(state, list) {
+			state.all_currencies = list;
+		},
+		setAllCurrenciesListInit(state, val) {
+			state.allCurrencyListInit = val;
+		},
 	},
 	actions: {
 		getOrderBookFromServer({ commit }) {
@@ -199,6 +207,21 @@ export default {
 							this.state.trading.selectedMarket +
 							' was getting from API',
 						);
+						resolve(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+		getAllCurrencyListFromServer({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/all_currencies')
+					.then(response => {
+						commit('setAllCurrenciesList', response.data.data);
+						commit('setAllCurrenciesListInit', true);
 						resolve(response.data);
 					})
 					.catch(error => {

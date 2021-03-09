@@ -13,10 +13,7 @@ export default {
 		marginCall: {
 			status: false,
 			positions: [],
-		},
-		maxOrders: 30,
-		maxDeals: 30,
-		maxPositions: 30,
+		}
 	},
 	getters: {
 		selectedCurrency({ rootState }) {
@@ -48,10 +45,7 @@ export default {
 			}
 		},
 		addOrder(state, order) {
-			if (state.orders.length >= this.maxOrders)
 				state.orders.unshift(order);
-			else
-				state.orders.push(order);
 		},
 		updateOrder(state, data) {
 			let index = _.findIndex(state.orders, (item) => {
@@ -95,16 +89,10 @@ export default {
 			}
 		},
 		addDeal(state, deal) {
-			if (state.deals.length >= this.maxDeals)
 				state.deals.unshift(deal);
-			else
-				state.deals.push(deal);
 		},
 		addPosition(state, position) {
-			if (state.positions.length >= this.maxPositions)
 				state.positions.unshift(position);
-			else
-				state.positions.push(position);
 		},
 		updatePosition(state, data) {
 			let index = _.findIndex(state.positions, (item) => {
