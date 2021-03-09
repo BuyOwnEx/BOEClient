@@ -59,35 +59,6 @@
 		}
 	}
 
-	// scroll for components <19.02.21>
-	* {
-		scrollbar-color: var(--scrollbar-color) var(--scrollbar-track-color);
-		scrollbar-width: thin;
-		&::-webkit-scrollbar {
-			height: var(--scrollbar-size);
-			width: var(--scrollbar-size);
-		}
-		&::-webkit-scrollbar-track {
-			background-color: var(--scrollbar-track-color);
-		}
-		&::-webkit-scrollbar-thumb {
-			background-color: var(--scrollbar-color);
-			border-radius: var(--scrollbar-border-radius) 3px;
-		}
-		&::-webkit-scrollbar-thumb:hover {
-			background-color: var(--scrollbar-color-hover);
-		}
-		&::-webkit-scrollbar-thumb:active {
-			background-color: var(--scrollbar-color-active);
-		}
-		&::-webkit-scrollbar-thumb:vertical {
-			min-height: var(--scrollbar-minlength);
-		}
-		&::-webkit-scrollbar-thumb:horizontal {
-			min-width: var(--scrollbar-minlength);
-		}
-	}
-
 	// Remove table padding
 	.ask-list .v-data-table__wrapper {
 		table {
@@ -203,19 +174,6 @@
 // Dark style
 .theme--dark {
 	.trading {
-		* {
-			scrollbar-color: auto !important;
-			&::-webkit-scrollbar-thumb {
-				background-color: var(--dark-scrollbar-color) !important;
-				border-radius: var(--scrollbar-border-radius) 3px;
-			}
-			&::-webkit-scrollbar-thumb:hover {
-				background-color: var(--dark-scrollbar-color-hover) !important;
-			}
-			&::-webkit-scrollbar-thumb:active {
-				background-color: var(--dark-scrollbar-color-active) !important;
-			}
-		}
 		.trading-forms,
 		.tickers-list {
 			.v-input fieldset {
