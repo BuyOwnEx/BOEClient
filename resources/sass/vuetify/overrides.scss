@@ -267,3 +267,8 @@ td {
 		margin: 0 12px !important;
 	}
 }
+
+// Изменение яркого белого цвета бордера у инпутов
+.theme--dark .v-input__slot::before {
+	border-color: rgba(255, 255, 255, 0.2) !important;
+}
