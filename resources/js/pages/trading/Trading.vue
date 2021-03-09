@@ -1,7 +1,11 @@
 <template>
 	<div class="trading">
 		<div v-if="!isMobile" class="trading__desktop">
-			<TickersList class="trading__desktop__tickers" :market="market" />
+			<TickersList
+				class="trading__desktop__tickers"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
+			/>
 
 			<TradingChartWrapper
 				class="trading__desktop__chart"
@@ -59,7 +63,11 @@
 				</v-tab-item>
 
 				<v-tab-item :key="2">
-					<TickersList class="trading__mobile__tickers" :market="market" />
+					<TickersList
+						class="trading__mobile__tickers"
+						:currency="selectedCurrency"
+						:market="selectedMarket"
+					/>
 				</v-tab-item>
 
 				<v-tab-item :key="3">

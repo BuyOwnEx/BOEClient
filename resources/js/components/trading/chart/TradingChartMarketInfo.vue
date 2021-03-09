@@ -43,7 +43,7 @@
 
 		<div class="market-info__daily-volume">
 			<span class="info-value">
-				<span>{{ dailyVolume }}</span>
+				<span>{{ formatWithCurrencyScale(dailyVolume, currency) }} </span>
 				<span class="currency">{{ selectedMarket }}</span>
 			</span>
 			<span class="info-title">
@@ -55,14 +55,26 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
+import formatWithCurrencyScale from '../../../mixins/common/formatWithCurrencyScale';
+
 export default {
 	name: 'MarketInfo',
-	props: ['market', 'currency'],
-	data() {
-		return {};
+
+	mixins: [formatWithCurrencyScale],
+
+	props: {
+		market: {
+			type: String,
+			required: true,
+		},
+		currency: {
+			type: String,
+			required: true,
+		},
 	},
+
 	computed: {
 		selectedMarket() {
 			return this.$store.state.trading.selectedMarket === null
@@ -143,6 +155,7 @@ export default {
 				: 0;
 		},
 	},
+
 	methods: {
 		BigNumber(item) {
 			return BigNumber(item);

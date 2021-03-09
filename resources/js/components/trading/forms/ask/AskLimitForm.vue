@@ -234,7 +234,7 @@
 				<div class="alf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="available_balance" @click="setAmount(100)">
-						{{ balance.toString() }}
+						{{ formatWithCurrencyScale(balance, currency) }}
 					</span>
 					{{ currency.toUpperCase() }}
 				</div>
@@ -250,10 +250,14 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import TradingFormsInfoTooltip from '../common/TradingFormsInfoTooltip';
 import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
+import formatWithCurrencyScale from '../../../../mixins/common/formatWithCurrencyScale';
+
 export default {
 	name: 'AskLimitForm',
 
 	components: { TradingFormsInfoTooltip, TradingFormsConfirmDialog },
+
+	mixins: [formatWithCurrencyScale],
 
 	props: {
 		currency: {
