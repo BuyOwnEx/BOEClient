@@ -49,7 +49,7 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-top: 1px solid #c6c6c6;
+	border-top: 1px solid #9090908f;
 	margin-top: auto;
 	padding-top: 4px;
 
