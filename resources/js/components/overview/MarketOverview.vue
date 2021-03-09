@@ -70,7 +70,7 @@
 
 			<template v-slot:item.volume24="{ item }">
 				<span>
-					{{ formatWithCurrencyScale(item.volume, item.currency) }}
+					{{ formatWithCurrencyScale(item.volume, item.market) }}
 					{{ item.market.toUpperCase() }}
 				</span>
 			</template>
@@ -161,9 +161,6 @@ export default {
 					currency: item.currency,
 					margin: item.margin,
 					volume: item.volume,
-					volumeReadable: BigNumber(item.volume)
-						.dp(item.scale)
-						.toString(),
 					latest: item.latest,
 					change: change.toFixed(item.scale),
 					changePercent: changePercent.toFixed(2),

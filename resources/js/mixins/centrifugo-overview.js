@@ -7,6 +7,7 @@ export default {
 			sub_order_book: null,
 			sub_tickers: null,
 			sub_markets: null,
+			sub_currencies: null,
 			centrifuge: null,
 			connected: false,
 		};
@@ -104,6 +105,13 @@ export default {
 				this.sub_order_book.on('error', this.channelErrorHandler);
 				this.sub_order_book.on('unsubscribe', this.channelUnsubscribeHandler);
 			});
+			this.$store.dispatch('trading/getAllCurrencyListFromServer').then(resp => {
+				this.sub_currencies = this.centrifuge.subscribe('public:currencies');
+				this.sub_currencies.on('subscribe', this.channelSubscribeHandler);
+				this.sub_currencies.on('publish', this.currenciesPubHandler);
+				this.sub_currencies.on('error', this.channelErrorHandler);
+				this.sub_currencies.on('unsubscribe', this.channelUnsubscribeHandler);
+			});
 		},
 		unsubscribePublic(currency, market) {
 			currency = currency.toLowerCase();
@@ -119,6 +127,9 @@ export default {
 			}
 		},
 		marketsPubHandler(data) {
+			console.log(data);
+		},
+		currenciesPubHandler(data) {
 			console.log(data);
 		},
 		tickersPubHandler(data) {

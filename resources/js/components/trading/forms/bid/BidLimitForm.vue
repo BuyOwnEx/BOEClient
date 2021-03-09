@@ -236,7 +236,7 @@
 				<div class="blf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="available_balance" @click="setAmount(100)">
-						{{ formatWithCurrencyScale(balance, currency) }}
+						{{ formatWithCurrencyScale(balance, market) }}
 					</span>
 					{{ market.toUpperCase() }}
 				</div>

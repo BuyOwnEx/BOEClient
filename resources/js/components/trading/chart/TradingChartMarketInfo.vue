@@ -43,7 +43,7 @@
 
 		<div class="market-info__daily-volume">
 			<span class="info-value">
-				<span>{{ formatWithCurrencyScale(dailyVolume, currency) }} </span>
+				<span>{{ formatWithCurrencyScale(dailyVolume, market) }} </span>
 				<span class="currency">{{ selectedMarket }}</span>
 			</span>
 			<span class="info-title">
@@ -149,9 +149,7 @@ export default {
 		},
 		dailyVolume() {
 			return this.ticker
-				? BigNumber(this.ticker.volume)
-						.dp(this.ticker.scale)
-						.toString()
+				? this.ticker.volume
 				: 0;
 		},
 	},

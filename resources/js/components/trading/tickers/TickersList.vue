@@ -169,7 +169,7 @@
 							</td>
 
 							<td class="tickers-list__content__body__item--volume">
-								{{ formatWithCurrencyScale(item.volumeReadable, currency) }}
+								{{ formatWithCurrencyScale(item.volume, market) }}
 							</td>
 
 							<td
@@ -287,10 +287,6 @@ export default {
 					currency: item.currency,
 					margin: item.margin,
 					volume: item.volume,
-					volumeReadable: BigNumber(item.volume)
-						.dp(amountScale + rateScale)
-						.toFixed(2)
-						.toString(),
 					latest: item.latest.toFixed(2),
 					change: change.toFixed(item.scale),
 					changePercent: changePercent.toFixed(2),
