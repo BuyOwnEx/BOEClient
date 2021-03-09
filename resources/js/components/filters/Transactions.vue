@@ -1,16 +1,7 @@
 <template>
 	<v-form>
-		<v-container fluid>
-			<v-row class="filter-top px-1" align="center" no-gutters>
-				<span class="text-overline" style="font-size: 1rem !important">
-					Filters
-				</span>
-
-				<v-btn icon @click="show = !show">
-					<v-icon v-if="show">mdi-chevron-down</v-icon>
-					<v-icon v-else>mdi-chevron-up</v-icon>
-				</v-btn>
-			</v-row>
+		<v-container class="pa-0" fluid>
+			<FiltersTitle @toggle-filters="show = !show" />
 
 			<v-row class="filter-main" v-if="show" no-gutters>
 				<v-col class="px-1" cols="12" sm="6" md="3">
@@ -34,7 +25,7 @@
 								readonly
 								v-bind="attrs"
 								v-on="on"
-							></v-text-field>
+							/>
 						</template>
 						<v-date-picker
 							v-model="filters.start_date"
@@ -255,28 +246,24 @@
 				</v-col>
 			</v-row>
 
-			<v-row class="filter-bottom px-1" v-if="show" no-gutters>
-				<v-btn
-					class="ma-2 ml-0"
-					tile
-					color="primary"
-					:disabled="disabled"
-					@click="setFilter"
-				>
-					Apply
-				</v-btn>
-
-				<v-btn class="ma-2" tile outlined color="grey" @click="resetFilter">
-					Reset
-				</v-btn>
-			</v-row>
+			<FiltersFooter
+				v-if="show"
+				:disabled="disabled"
+				@reset="resetFilter"
+				@set="setFilter"
+			/>
 		</v-container>
 	</v-form>
 </template>
 
 <script>
+import FiltersTitle from './parts/FiltersTitle';
+import FiltersFooter from './parts/FiltersFooter';
+
 export default {
 	name: 'Transactions',
+
+	components: { FiltersFooter, FiltersTitle },
 
 	props: ['all_currencies', 'all_types', 'all_statuses'],
 

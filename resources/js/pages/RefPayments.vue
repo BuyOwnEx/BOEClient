@@ -1,73 +1,66 @@
 <template>
-	<v-container fluid>
-		<v-row align="start" justify="center">
-			<v-col cols="12" class="text-center">
-				<v-card>
-					<v-data-table
-						:calculate-widths="true"
-						:headers="headers"
-						:items="items"
-						:options.sync="options"
-						:items-per-page.sync="itemsPerPage"
-						:sort-by.sync="sortBy"
-						:sort-desc.sync="sortDesc"
-						:server-items-length="totalItems"
-						:footer-props="footer_props"
-						:loading="loading"
-						class="pl-4 pr-4"
-					>
-						<template v-slot:top>
-							<filters
-								v-on:apply-table-filter="onFilterApply"
-								v-on:reset-table-filter="onFilterReset"
-								v-on:table-filter="onUseFilter"
-								:all_currencies="currencies"
-							/>
+	<v-card class="ref-payments flex-grow-1">
+		<v-data-table
+			class="pa-2"
+			:calculate-widths="true"
+			:headers="headers"
+			:items="items"
+			:options.sync="options"
+			:items-per-page.sync="itemsPerPage"
+			:sort-by.sync="sortBy"
+			:sort-desc.sync="sortDesc"
+			:server-items-length="totalItems"
+			:footer-props="footer_props"
+			:loading="loading"
+			caption="Referral payments"
+		>
+			<template v-slot:top>
+				<filters
+					v-on:apply-table-filter="onFilterApply"
+					v-on:reset-table-filter="onFilterReset"
+					v-on:table-filter="onUseFilter"
+					:all_currencies="currencies"
+				/>
 
-							<v-divider/>
+				<v-divider />
 
-							<v-toolbar flat dense height="42">
-								<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
-								<v-spacer/>
-							</v-toolbar>
-						</template>
+				<v-toolbar flat dense height="42">
+					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
+					<v-spacer />
+				</v-toolbar>
+			</template>
 
-						<template v-slot:item.currency="{ item }">
-							<v-avatar :color="item.color" size="32" v-if="!item.logo">
-								<v-img
-									v-if="item.logo"
-									class="elevation-6"
-									:src="getImage(item.logo)"
-								/>
-								<span v-else class="white--text subtitle-2">
-									{{
-									item.currency.charAt(0)
-								}}
-								</span>
-							</v-avatar>
-							<v-img
-								v-else
-								class="elevation-0 d-inline-flex"
-								style="vertical-align: middle"
-								:src="getImage(item.logo)"
-								max-height="32"
-								max-width="32"
-							/>
-							<span class="ml-1">{{ item.currency }}</span>
-						</template>
+			<template v-slot:item.currency="{ item }">
+				<v-avatar :color="item.color" size="32" v-if="!item.logo">
+					<v-img
+						v-if="item.logo"
+						class="elevation-6"
+						:src="getImage(item.logo)"
+					/>
+					<span v-else class="white--text subtitle-2">
+						{{ item.currency.charAt(0) }}
+					</span>
+				</v-avatar>
+				<v-img
+					v-else
+					class="elevation-0 d-inline-flex"
+					style="vertical-align: middle"
+					:src="getImage(item.logo)"
+					max-height="32"
+					max-width="32"
+				/>
+				<span class="ml-1">{{ item.currency }}</span>
+			</template>
 
-						<template v-slot:item.created_at="{ item }">
-							<span>{{ getDate(item.created_at) }}</span>
-						</template>
+			<template v-slot:item.created_at="{ item }">
+				<span>{{ getDate(item.created_at) }}</span>
+			</template>
 
-						<template v-slot:item.amount="{ item }">
-							<span>{{ BigNumber(item.amount) }}</span>
-						</template>
-					</v-data-table>
-				</v-card>
-			</v-col>
-		</v-row>
-	</v-container>
+			<template v-slot:item.amount="{ item }">
+				<span>{{ BigNumber(item.amount) }}</span>
+			</template>
+		</v-data-table>
+	</v-card>
 </template>
 
 <script>
@@ -87,7 +80,6 @@ export default {
 
 	data() {
 		return {
-			tableCaption: 'Referral payments',
 			totalItems: 0,
 			items: [],
 			loading: true,

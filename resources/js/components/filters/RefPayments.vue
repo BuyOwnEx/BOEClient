@@ -1,16 +1,10 @@
 <template>
 	<v-form>
-		<v-container fluid>
-			<v-row class="filter-top">
-				<span class="pa-2 ml-2">Filters</span>
-				<v-spacer />
-				<v-btn icon @click="show = !show">
-					<v-icon v-if="show">mdi-chevron-down</v-icon>
-					<v-icon v-else>mdi-chevron-up</v-icon>
-				</v-btn>
-			</v-row>
-			<v-row class="filter-main" v-if="show">
-				<v-col cols="12" md="12" class="pt-6">
+		<v-container class="pa-0" fluid>
+			<FiltersTitle @toggle-filters="show = !show" />
+
+			<v-row class="filter-main" v-if="show" no-gutters>
+				<v-col class="px-1" cols="12" sm="4" md="4">
 					<v-menu
 						ref="menu"
 						v-model="menu"
@@ -22,7 +16,6 @@
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-text-field
-								class="mt-2"
 								v-model="computedDateFormatted"
 								label="Choose date range"
 								hint="Choose date range of referral payments"
@@ -41,7 +34,7 @@
 					</v-menu>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="4" md="4">
 					<v-autocomplete
 						v-model="filters.follower"
 						@change="setEnabled"
@@ -58,7 +51,7 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="4" md="4">
 					<v-select
 						v-model="filters.currency"
 						@change="setEnabled"
@@ -73,21 +66,13 @@
 					/>
 				</v-col>
 			</v-row>
-			<v-row class="filter-bottom" v-if="show">
-				<v-btn
-					class="ma-2"
-					tile
-					color="primary"
-					:disabled="disabled"
-					@click="setFilter"
-				>
-					Apply
-				</v-btn>
 
-				<v-btn class="ma-2" tile outlined color="grey" @click="resetFilter">
-					Reset
-				</v-btn>
-			</v-row>
+			<FiltersFooter
+				v-if="show"
+				:disabled="disabled"
+				@reset="resetFilter"
+				@set="setFilter"
+			/>
 		</v-container>
 	</v-form>
 </template>
@@ -95,8 +80,13 @@
 <script>
 import debounce from 'debounce';
 
+import FiltersTitle from './parts/FiltersTitle';
+import FiltersFooter from './parts/FiltersFooter';
+
 export default {
 	name: 'RefPayments',
+
+	components: { FiltersFooter, FiltersTitle },
 
 	props: ['all_currencies'],
 
@@ -222,4 +212,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.filter-top__title
+	font-size: 1rem
+</style>

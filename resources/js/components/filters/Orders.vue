@@ -1,17 +1,10 @@
 <template>
 	<v-form>
-		<v-container fluid>
-			<v-row class="filter-top">
-				<span class="pa-2 ml-2">Filters</span>
-				<v-spacer />
-				<v-btn icon @click="show = !show">
-					<v-icon v-if="show">mdi-chevron-down</v-icon>
-					<v-icon v-else>mdi-chevron-up</v-icon>
-				</v-btn>
-			</v-row>
+		<v-container class="pa-0" fluid>
+			<FiltersTitle @toggle-filters="show = !show" />
 
-			<v-row class="filter-main" v-if="show">
-				<v-col cols="12" md="6" class="pt-6">
+			<v-row class="filter-main" v-if="show" no-gutters>
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_start_date"
 						v-model="menu_start_date"
@@ -48,7 +41,7 @@
 					</v-menu>
 				</v-col>
 
-				<v-col cols="12" md="6" class="pt-6">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_start_time"
 						v-model="menu_start_time"
@@ -86,10 +79,8 @@
 						/>
 					</v-menu>
 				</v-col>
-			</v-row>
 
-			<v-row class="filter-main" v-if="show">
-				<v-col cols="12" md="6" class="pt-6">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_end_date"
 						v-model="menu_end_date"
@@ -126,7 +117,7 @@
 					</v-menu>
 				</v-col>
 
-				<v-col cols="12" md="6" class="pt-6">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
 						ref="menu_end_time"
 						v-model="menu_end_time"
@@ -166,8 +157,8 @@
 				</v-col>
 			</v-row>
 
-			<v-row class="filter-main" v-if="show">
-				<v-col cols="12" md="12">
+			<v-row class="filter-main mt-1" v-if="show" no-gutters>
+				<v-col class="px-1" cols="12">
 					<v-text-field
 						v-model="filters.id"
 						@change="setEnabled"
@@ -179,7 +170,7 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-select
 						v-model="filters.pair"
 						@change="setEnabled"
@@ -205,7 +196,7 @@
 					</v-select>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-select
 						v-model="filters.side"
 						@change="setEnabled"
@@ -220,7 +211,7 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-select
 						v-model="filters.type"
 						@change="setEnabled"
@@ -235,7 +226,7 @@
 					/>
 				</v-col>
 
-				<v-col cols="12" md="12">
+				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-select
 						v-model="filters.status"
 						@change="setEnabled"
@@ -251,30 +242,27 @@
 				</v-col>
 			</v-row>
 
-			<v-row class="filter-bottom" v-if="show">
-				<v-btn
-					class="ma-2"
-					tile
-					color="primary"
-					:disabled="disabled"
-					@click="setFilter"
-				>
-					Apply
-				</v-btn>
-
-				<v-btn class="ma-2" tile outlined color="grey" @click="resetFilter">
-					Reset
-				</v-btn>
-			</v-row>
-
+			<FiltersFooter
+				v-if="show"
+				:disabled="disabled"
+				@reset="resetFilter"
+				@set="setFilter"
+			/>
 		</v-container>
 	</v-form>
 </template>
 
 <script>
+import FiltersTitle from './parts/FiltersTitle';
+import FiltersFooter from './parts/FiltersFooter';
+
 export default {
 	name: 'Orders',
+
+	components: { FiltersFooter, FiltersTitle },
+
 	props: ['all_sides', 'all_types', 'all_statuses'],
+
 	data() {
 		return {
 			show: true,
@@ -301,6 +289,7 @@ export default {
 			statuses: this.all_statuses,
 		};
 	},
+
 	mounted() {
 		if (localStorage.orderFilters) {
 			let saved_filters = JSON.parse(localStorage.orderFilters);
@@ -316,6 +305,7 @@ export default {
 			this.$emit('table-filter', this.filterData);
 		}
 	},
+
 	computed: {
 		filterData() {
 			return {
@@ -347,6 +337,7 @@ export default {
 			return result;
 		},
 	},
+
 	methods: {
 		setEnabled() {
 			this.disabled = false;
@@ -373,10 +364,14 @@ export default {
 			localStorage.removeItem('orderFilters');
 		},
 	},
+
 	created() {
 		this.$store.dispatch('tickers/getMarketDataFromServer');
 	},
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.filter-top__title
+	font-size: 1rem
+</style>

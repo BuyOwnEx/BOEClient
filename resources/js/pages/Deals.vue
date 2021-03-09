@@ -1,81 +1,74 @@
 <template>
-	<v-container fluid>
-		<v-row align="start" justify="center">
-			<v-col cols="12" class="text-center">
-				<v-card>
-					<v-data-table
-						:calculate-widths="true"
-						:headers="headers"
-						:items="items"
-						:options.sync="options"
-						:items-per-page.sync="itemsPerPage"
-						:sort-by.sync="sortBy"
-						:sort-desc.sync="sortDesc"
-						:server-items-length="totalItems"
-						:footer-props="footer_props"
-						:loading="loading"
-						class="pr-4 pl-4"
-					>
-						<template v-slot:top>
-							<filters
-								v-on:apply-table-filter="onFilterApply"
-								v-on:reset-table-filter="onFilterReset"
-								v-on:table-filter="onUseFilter"
-								:all_sides="sides"
-							/>
+	<v-card class="deals flex-grow-1">
+		<v-data-table
+			class="pa-2"
+			:calculate-widths="true"
+			:headers="headers"
+			:items="items"
+			:options.sync="options"
+			:items-per-page.sync="itemsPerPage"
+			:sort-by.sync="sortBy"
+			:sort-desc.sync="sortDesc"
+			:server-items-length="totalItems"
+			:footer-props="footer_props"
+			:loading="loading"
+			caption="Deals"
+		>
+			<template v-slot:top>
+				<filters
+					v-on:apply-table-filter="onFilterApply"
+					v-on:reset-table-filter="onFilterReset"
+					v-on:table-filter="onUseFilter"
+					:all_sides="sides"
+				/>
 
-							<v-divider />
+				<v-divider />
 
-							<v-toolbar flat dense height="42">
-								<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
-								<v-spacer />
-							</v-toolbar>
-						</template>
+				<v-toolbar flat dense height="42">
+					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
+					<v-spacer />
+				</v-toolbar>
+			</template>
 
-						<template v-slot:item.pair="{ item }">
-							<v-avatar :color="item.color" size="32">
-								<span class="white--text subtitle-2">
-									{{ item.currency.charAt(0) + item.market.charAt(0) }}
-								</span>
-							</v-avatar>
-							<span class="ml-1">{{ item.currency }}/{{ item.market }}</span>
-						</template>
+			<template v-slot:item.pair="{ item }">
+				<v-avatar :color="item.color" size="32">
+					<span class="white--text subtitle-2">
+						{{ item.currency.charAt(0) + item.market.charAt(0) }}
+					</span>
+				</v-avatar>
+				<span class="ml-1">{{ item.currency }}/{{ item.market }}</span>
+			</template>
 
-						<template v-slot:item.side="{ item }">
-							<span>{{ getSideName(item.side) }}</span>
-						</template>
+			<template v-slot:item.side="{ item }">
+				<span>{{ getSideName(item.side) }}</span>
+			</template>
 
-						<template v-slot:item.created_at="{ item }">
-							<span>{{ getDateFromTick(item.created_at) }}</span>
-						</template>
+			<template v-slot:item.created_at="{ item }">
+				<span>{{ getDateFromTick(item.created_at) }}</span>
+			</template>
 
-						<template v-slot:item.size="{ item }">
-							<span>{{ BigNumber(item.size) + ' ' + item.currency }}</span>
-						</template>
+			<template v-slot:item.size="{ item }">
+				<span>{{ BigNumber(item.size) + ' ' + item.currency }}</span>
+			</template>
 
-						<template v-slot:item.price="{ item }">
-							<span>{{ BigNumber(item.price) + ' ' + item.market }}</span>
-						</template>
+			<template v-slot:item.price="{ item }">
+				<span>{{ BigNumber(item.price) + ' ' + item.market }}</span>
+			</template>
 
-						<template v-slot:item.volume="{ item }">
-							<span>
-								{{ getVolume(item.size, item.price) + ' ' + item.market }}
-							</span>
-						</template>
+			<template v-slot:item.volume="{ item }">
+				<span>
+					{{ getVolume(item.size, item.price) + ' ' + item.market }}
+				</span>
+			</template>
 
-						<template v-slot:item.fee="{ item }">
-							<span v-if="item.side">
-								{{ BigNumber(item.fee) + ' ' + item.market }}
-							</span>
-							<span v-else>{{
-								BigNumber(item.fee) + ' ' + item.currency
-							}}</span>
-						</template>
-					</v-data-table>
-				</v-card>
-			</v-col>
-		</v-row>
-	</v-container>
+			<template v-slot:item.fee="{ item }">
+				<span v-if="item.side">
+					{{ BigNumber(item.fee) + ' ' + item.market }}
+				</span>
+				<span v-else>{{ BigNumber(item.fee) + ' ' + item.currency }}</span>
+			</template>
+		</v-data-table>
+	</v-card>
 </template>
 
 <script>
@@ -95,7 +88,6 @@ export default {
 
 	data() {
 		return {
-			tableCaption: 'Deals',
 			totalItems: 0,
 			items: [],
 			loading: true,
