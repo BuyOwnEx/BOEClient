@@ -1,7 +1,7 @@
 <template>
 	<v-form>
 		<v-container class="pa-0" fluid>
-			<FiltersTitle @toggle-filters="show = !show" />
+			<FiltersTitle :show='show'  @toggle-filters="show = !show" />
 
 			<v-row class="filter-main" v-if="show" no-gutters>
 				<v-col class="px-1" cols="12" sm="6" md="3">

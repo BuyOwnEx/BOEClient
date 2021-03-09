@@ -15,6 +15,13 @@
 export default {
 	name: 'FiltersTitle',
 
+	props: {
+		show: {
+			type: Boolean,
+			required: true,
+		}
+	},
+
 	methods: {
 		toggleFilters() {
 			this.$emit('toggle-filters');
