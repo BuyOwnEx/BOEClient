@@ -252,3 +252,18 @@ tr:not(:last-child).v-data-table__mobile-table-row {
 td {
 	border-radius: 0 !important;
 }
+
+// Table padding for similar pages
+.transfers,
+.transactions,
+.fiat-transactions,
+.ref-payments,
+.orders,
+.deals {
+	.v-data-table__wrapper {
+		padding: 0 8px !important;
+	}
+	.v-data-footer {
+		margin: 0 12px !important;
+	}
+}
