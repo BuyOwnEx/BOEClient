@@ -24,12 +24,6 @@
 				</div>
 			</td>
 		</tr>
-
-		<tr v-if="historyData !== null && historyData.length === 0">
-			<td colspan="3" class="text-center">
-				{{ $t('trading.no_deals') }}
-			</td>
-		</tr>
 	</tbody>
 </template>
 

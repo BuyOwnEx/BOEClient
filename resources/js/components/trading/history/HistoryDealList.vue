@@ -66,11 +66,11 @@ export default {
 	display: flex
 	flex-flow: column
 	flex-grow: 1
-	position: relative
-
 	&__header
 		word-break: normal
 		font-weight: 700
 		margin-left: 8px
 		text-transform: uppercase
+	&__content
+		position: relative
 </style>
