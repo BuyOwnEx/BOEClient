@@ -1,5 +1,5 @@
 <template>
-	<div class="layout-content ma-auto">
+	<div class="layout-content auth ma-auto">
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
@@ -96,10 +96,14 @@
 			</v-card-text>
 
 			<div class="text-left pl-6 pr-6">
-				<small
-					><span class="red--text"><strong>*</strong></span> indicates required
-					field</small
-				>
+				<small>
+					<span class="red--text">
+						<strong>*</strong>
+					</span>
+					<span class="grey--text text--lighten-1">
+						indicates required field
+					</span>
+				</small>
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6">

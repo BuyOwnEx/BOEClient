@@ -1,11 +1,9 @@
 <template>
-	<div class="layout-content ma-auto">
+	<div class="layout-content auth ma-auto">
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
-					{{
-					formTitle
-				}}
+					{{ formTitle }}
 				</span>
 			</v-card-title>
 
