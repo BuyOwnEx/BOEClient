@@ -15,7 +15,7 @@
 
 				<div class="title my-2 white--text">be the future. be the crypto</div>
 
-				<v-btn href="/" class="my-4">Take me back</v-btn>
+				<v-btn href="/" class="my-4" plain>Take me back</v-btn>
 			</div>
 
 			<div class="pa-2 mb-1">
