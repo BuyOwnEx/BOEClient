@@ -77,55 +77,10 @@
 		}
 	}
 
-	// Switch small size <26.02.21>
+	// Switch Margin
 	.trading-forms .v-input--switch {
-		margin-left: 4px;
-		margin-top: 0;
-	}
-	.trading-forms .v-input--switch,
-	.own-active-order-list .v-input--switch,
-	.own-history-deal-list .v-input--switch,
-	.own-active-position-list .v-input--switch {
-		.v-input--selection-controls__input {
-			top: 5px;
-			width: 25px;
-		}
-		.v-input--selection-controls__ripple {
-			height: 12px;
-			width: 12px;
-			left: -9px;
-			top: -6px;
-		}
-		.v-input--switch__track {
-			height: 14px;
-			width: 26px;
-		}
-		.v-input--switch__thumb {
-			height: 8px;
-			width: 8px;
-			top: calc(50% - 9px);
-		}
-		label {
-			font-size: 13px;
-		}
-	}
-	.own-active-order-list .v-input--switch,
-	.own-history-deal-list .v-input--switch,
-	.own-active-position-list .v-input--switch {
-		label {
-			font-size: 10px !important;
-		}
-	}
-	// Small switch transform
-	.trading-forms,
-	.own-active-order-list,
-	.own-history-deal-list,
-	.own-active-position-list {
-		.v-input--switch--inset.v-input--is-dirty .v-input--switch__thumb,
-		.v-input--switch--inset.v-input--is-dirty
-			.v-input--selection-controls__ripple {
-			transform: translate(12px, 0) !important;
-		}
+		margin-left: 4px !important;
+		margin-top: 0 !important;
 	}
 
 	// No top padding in forms radio

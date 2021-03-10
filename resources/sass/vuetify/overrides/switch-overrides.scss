@@ -1,0 +1,52 @@
+// Switch small size <26.02.21>
+.v-application {
+	.trading,
+	.balance {
+		.v-input--switch {
+			.v-input--selection-controls__input {
+				top: 5px !important;
+				width: 25px !important;
+			}
+			.v-input--selection-controls__ripple {
+				height: 12px !important;
+				width: 12px !important;
+				left: -9px !important;
+				top: -6px !important;
+			}
+			.v-input--switch__track {
+				height: 14px !important;
+				width: 26px !important;
+			}
+			.v-input--switch__thumb {
+				height: 8px !important;
+				width: 8px !important;
+				top: calc(50% - 9px) !important;
+			}
+			label {
+				font-size: 13px !important;
+			}
+		}
+	}
+}
+// Small switch transform
+.v-application {
+	.trading,
+	.balance {
+		.v-input--switch--inset.v-input--is-dirty .v-input--switch__thumb,
+		.v-input--switch--inset.v-input--is-dirty
+			.v-input--selection-controls__ripple {
+			transform: translate(12px, 0) !important;
+		}
+	}
+}
+
+.trading {
+	// Label size only for own lists
+	.own-active-order-list .v-input--switch,
+	.own-history-deal-list .v-input--switch,
+	.own-active-position-list .v-input--switch {
+		label {
+			font-size: 10px !important;
+		}
+	}
+}
