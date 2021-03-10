@@ -82,7 +82,9 @@
 			</v-card-actions>
 
 			<div class="caption grey--text darken-4 pb-4 pl-6 pr-6">
-				<a href="/password/reset"> {{ $t('auth.forget_password') }} </a>
+				<v-btn color="primary" href="/password/reset" small plain>
+					{{ $t('auth.forgot') }}
+				</v-btn>
 			</div>
 		</v-card>
 
@@ -97,7 +99,7 @@
 		<div class="text-center mt-6" style="position: relative; z-index: 2">
 			<div class="caption grey--text darken-4">{{ $t('auth.no_account') }}</div>
 			<v-btn block small text tile href="/register" color="primary darken-1">
-				{{ $t('auth.register_btn_text') }}
+				{{ $t('auth.register') }}
 			</v-btn>
 		</div>
 		<!--<snackbar position="relative"></snackbar>-->

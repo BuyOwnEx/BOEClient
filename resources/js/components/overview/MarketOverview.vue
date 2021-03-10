@@ -94,31 +94,31 @@ export default {
 			headers: [
 				{ text: this.$t('trading.pair'), value: 'pair' },
 				{
-					text: this.$t('trading.best_bid'),
+					text: this.$t('trading.forms.best_bid'),
 					value: 'best_bid',
 				},
 				{
-					text: this.$t('trading.best_ask'),
+					text: this.$t('trading.forms.best_ask'),
 					value: 'best_ask',
 				},
 				{
-					text: this.$t('trading.latest_price'),
+					text: this.$t('trading.last_price'),
 					value: 'latest_price',
 				},
 				{
-					text: this.$t('trading.change24'),
+					text: this.$t('trading.daily_change'),
 					value: 'change24',
 				},
 				{
-					text: this.$t('trading.min24'),
+					text: this.$t('trading.daily_low'),
 					value: 'min24',
 				},
 				{
-					text: this.$t('trading.max24'),
+					text: this.$t('trading.daily_high'),
 					value: 'max24',
 				},
 				{
-					text: this.$t('trading.volume24'),
+					text: this.$t('trading.daily_volume'),
 					value: 'volume24',
 				},
 			],

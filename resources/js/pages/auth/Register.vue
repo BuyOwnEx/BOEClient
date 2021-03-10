@@ -141,7 +141,7 @@
 				{{ $t('auth.already_have_account') }}
 			</div>
 			<v-btn block small text tile href="/login" color="primary darken-1">
-				{{ $t('auth.login_btn_text') }}
+				{{ $t('auth.login') }}
 			</v-btn>
 		</div>
 	</div>

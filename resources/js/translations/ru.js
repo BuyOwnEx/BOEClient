@@ -188,12 +188,6 @@ export default {
 		ecommerceProductDetails: 'информация о продукте',
 		ecommerceOrders: 'Заказы',
 		ecommerceCart: 'Корзина',
-		auth: 'Страницы аутентификации',
-		authLogin: 'Вход / Вход',
-		authRegister: 'Зарегистрироваться / Зарегистрироваться',
-		authVerify: 'Подтвердить Email',
-		authForgot: 'Забыли пароль',
-		authReset: 'Сброс пароля',
 		errorPages: 'Страницы ошибок',
 		errorNotFound: 'Не найдено / 404',
 		errorUnexpected: 'Неожиданно / 500',
@@ -318,8 +312,21 @@ export default {
 			stop_loss_info: 'Информация Stop Loss',
 			take_profit_info: 'Информация Take Profit',
 			trailing_stop_info: 'Информация Trailing Stop',
-		}
+		},
+		pair: 'Пара',
 	},
+
+	auth: {
+		auth: 'Страницы аутентификации',
+		login: 'Вход',
+		register: 'Зарегистрироваться',
+		verify: 'Подтвердить Email',
+		forgot: 'Забыли пароль',
+		reset: 'Сброс пароля',
+		no_account: 'Нет аккаунта?',
+		already_have_account: 'Уже есть аккаунт?'
+	},
+
 	$vuetify: {
 		badge: 'Значок',
 		close: 'Закрыть',

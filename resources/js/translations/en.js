@@ -188,12 +188,6 @@ export default {
 		ecommerceProductDetails: 'Product Details',
 		ecommerceOrders: 'Orders',
 		ecommerceCart: 'Cart',
-		auth: 'Auth Pages',
-		authLogin: 'Signin / Login',
-		authRegister: 'Signup / Register',
-		authVerify: 'Verify Email',
-		authForgot: 'Forgot Password',
-		authReset: 'Reset Password',
 		errorPages: 'Error Pages',
 		errorNotFound: 'Not Found / 404',
 		errorUnexpected: 'Unexpected / 500',
@@ -319,6 +313,17 @@ export default {
 			take_profit_info: 'Take Profit Info',
 			trailing_stop_info: 'Trailing Stop Info',
 		},
+		pair: 'Pair',
+	},
+	auth: {
+		auth: 'Auth Pages',
+		login: 'Login',
+		register: 'Register',
+		verify: 'Verify Email',
+		forgot: 'Forgot Password',
+		reset: 'Reset Password',
+		no_account: 'No account?',
+		already_have_account: 'Already have account?'
 	},
 	// Vuetify components translations
 	$vuetify: {
