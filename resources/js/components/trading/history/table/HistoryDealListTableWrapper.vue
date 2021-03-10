@@ -77,5 +77,5 @@ export default {
 		bottom: -482px
 @media screen and (max-width: 960px)
 	.history-deal-list-absolute-wrapper
-		bottom: -500px
+		bottom: -1031px
 </style>
