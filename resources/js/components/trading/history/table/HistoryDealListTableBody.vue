@@ -1,8 +1,8 @@
 <template>
-	<tbody v-if="historyData" class="hdl__content__table__body">
+	<tbody v-if="historyData" class="hdl-table-body">
 		<tr v-for="item in historyData" :key="item.id">
 			<td>
-				<div class="hdl__content__table__body__item--price">
+				<div class="hdl-table-body__item--price">
 					<strong
 						:class="{
 							'text-danger': item.side === true,
@@ -14,12 +14,12 @@
 				</div>
 			</td>
 			<td>
-				<div class="hdl__content__table__body__item--size">
+				<div class="hdl-table-body__item--size">
 					{{ formatSize(item.size, getAmountScale) }}
 				</div>
 			</td>
 			<td>
-				<div class="hdl__content__table__body__item--date">
+				<div class="hdl-table-body__item--date">
 					{{ formatDate(item.createdAt) }}
 				</div>
 			</td>
@@ -57,18 +57,15 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.hdl
-	&__content
-		&__table
-			&__body
-				&__item
-					&--rate
-						text-align: left
+.hdl-table-body
+	&__item
+		&--rate
+			text-align: left
 
-					&--size
-						text-align: left
+		&--size
+			text-align: left
 
-					&--date
-						text-align: right
-						color: #a8a8a8
+		&--date
+			text-align: right
+			color: #a8a8a8
 </style>
