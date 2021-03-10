@@ -594,4 +594,16 @@ export default {
 	::v-deep .v-data-table__wrapper
 		padding-right: 8px
 		margin-top: 8px
+
+.theme--dark
+	.tickers-list
+		&__content
+			&__header
+				&__item
+					&--pair:hover
+						color: #edf0f2 !important
+					&--volume:hover
+						color: #edf0f2 !important
+					&--change:hover
+						color: #edf0f2 !important
 </style>
