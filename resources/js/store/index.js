@@ -8,10 +8,11 @@ import AppModule from './app';
 import BoardModule from '../apps/board/store';
 import EmailModule from '../apps/email/store';
 import TodoModule from '../apps/todo/store';
+
 import tickers from './modules/tickers';
 import trading from './modules/trading';
 import user from './modules/user';
-import snackbars from './modules/snackbars';
+import snackbar from './modules/snackbar';
 import ordersTooltip from './modules/ordersTooltip';
 import notifications from './modules/notifications';
 
@@ -26,7 +27,7 @@ const store = new Vuex.Store({
 		tickers: tickers,
 		trading: trading,
 		user: user,
-		snackbars: snackbars,
+		snackbar: snackbar,
 		notifications: notifications,
 		tooltip: ordersTooltip,
 		'board-app': BoardModule,
