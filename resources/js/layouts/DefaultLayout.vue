@@ -131,48 +131,46 @@
 					<slot></slot>
 				</v-layout>
 			</v-container>
-
-			<v-footer
-				class="footer overline"
-				:app="$vuetify.breakpoint.mdAndUp"
-				inset
-			>
-				<span>
-					<a class="text-decoration-none pr-1" href="/statusPage">
-						Состояние системы
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/fees">
-						Комиссии и лимиты
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/contacts">
-						Контакты
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/overview">
-						Обзор рынка
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/api">
-						API
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/terms">
-						Правила системы
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/policy">
-						Политика конфиденциальности
-					</a>
-				</span>
-
-				<span>
-					Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All
-					rights reserved
-				</span>
-			</v-footer>
 		</v-main>
+
+		<v-footer class="footer overline" :app="$vuetify.breakpoint.mdAndUp" inset>
+			<span>
+				<a class="text-decoration-none pr-1" href="/statusPage">
+					Состояние системы
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/fees">
+					Комиссии и лимиты
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/contacts">
+					Контакты
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/overview">
+					Обзор рынка
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/api">
+					API
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/terms">
+					Правила системы
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/policy">
+					Политика конфиденциальности
+				</a>
+			</span>
+
+			<span>
+				Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All
+				rights reserved
+			</span>
+		</v-footer>
+
+		<CommonSnackbar />
 	</div>
 </template>
 
@@ -188,6 +186,7 @@ import ToolbarApps from '../components/toolbar/ToolbarApps';
 import ToolbarLanguage from '../components/toolbar/ToolbarLanguage';
 import ToolbarCurrency from '../components/toolbar/ToolbarCurrency';
 import ToolbarNotifications from '../components/toolbar/ToolbarNotifications';
+import CommonSnackbar from '../components/common/CommonSnackbar';
 
 export default {
 	components: {
@@ -197,6 +196,7 @@ export default {
 		ToolbarLanguage,
 		ToolbarCurrency,
 		ToolbarNotifications,
+		CommonSnackbar,
 	},
 	data() {
 		return {
@@ -242,6 +242,10 @@ export default {
 
 	mounted() {
 		this.getAndSetThemeFromStorage();
+
+		this.$store.dispatch('snackbar/showMessage', {
+			text: 'Test Text Snackbar',
+		});
 	},
 };
 </script>
