@@ -9,6 +9,7 @@
 				:currency="currency"
 				:historyData="historyDealList"
 				:market="market"
+				:key="historyDealList[0].price"
 			/>
 		</v-card-text>
 	</v-card>
@@ -63,9 +64,6 @@ export default {
 
 <style scoped lang="sass">
 .hdl
-	display: flex
-	flex-flow: column
-	flex-grow: 1
 	&__header
 		word-break: normal
 		font-weight: 700
