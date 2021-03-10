@@ -26,14 +26,6 @@ const state = {
 
 	// authorization state
 	trader: null,
-
-	// App.vue main toast
-	toast: {
-		show: false,
-		color: 'black',
-		message: '',
-		timeout: 3000,
-	},
 };
 
 export default {

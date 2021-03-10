@@ -14,5 +14,5 @@ Vue.prototype.$clipboard = function(text, toastText = 'Copied to clipboard!') {
 	document.execCommand('copy');
 	document.body.removeChild(el);
 
-	if (this.$store && this.$store.dispatch) this.$store.dispatch('app/showToast', toastText);
+	if (this.$store && this.$store.dispatch) this.$store.dispatch('snackbar/showMessage', toastText);
 };

@@ -1,27 +1,10 @@
 <template>
 	<v-app>
-		<!-- Layout component -->
-		<component :is='currentLayout' v-if='isRouterLoaded'>
-			<transition name='fade' mode='out-in'>
+		<component :is="currentLayout" v-if="isRouterLoaded">
+			<transition name="fade" mode="out-in">
 				<router-view />
 			</transition>
 		</component>
-
-		<v-snackbar
-			v-model='toast.show'
-			:timeout='toast.timeout'
-			:color='toast.color'
-			bottom
-		>
-			{{ toast.message }}
-			<v-btn
-				v-if='toast.timeout === 0'
-				color='white'
-				text
-				@click='toast.show = false'
-			>{{ $t('common.close') }}
-			</v-btn>
-		</v-snackbar>
 
 		<!-- Demo customization menu -->
 		<customization-menu />
@@ -29,8 +12,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 // Demo Menu
 import CustomizationMenu from './components/demo/CustomizationMenu';
 
@@ -61,7 +42,6 @@ export default {
 		errorLayout,
 	},
 	computed: {
-		...mapState('app', ['toast']),
 		isRouterLoaded: function() {
 			return this.$route.name !== null;
 		},

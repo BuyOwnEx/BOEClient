@@ -1,22 +1,14 @@
 <template>
     <v-app>
-        <!-- Layout component -->
         <component :is='currentLayout'>
             <transition name='fade' mode='out-in'>
                 <component v-bind:is='component'></component>
             </transition>
         </component>
-
-        <v-snackbar v-model='toast.show' :timeout='toast.timeout' :color='toast.color' bottom>
-            {{ toast.message }}
-            <v-btn v-if='toast.timeout === 0' color='white' text @click='toast.show = false'>{{ $t('common.close') }}
-            </v-btn>
-        </v-snackbar>
     </v-app>
 </template>
 
 <script>
-	import { mapState } from 'vuex';
 	import config from './configs';
 	import defaultLayout from './layouts/DefaultLayout';
 
@@ -29,20 +21,17 @@
 			currentLayout: 'defaultLayout',
 			component: null,
 		}),
-		computed: {
-			...mapState('app', ['toast']),
-		},
 		head: {
 			link: [
 				// adds config/icons into the html head tag
 				...config.icons.map((href) => ({ rel: 'stylesheet', href })),
 			],
 		},
-		created: function() {
+		created() {
 			this.component = this.$component;
 			this.lang = this.$lang;
 		},
-		mounted: function() {
+		mounted() {
 			this.$store.commit('app/setAuthUser', { 'user': this.$user, 'vm': this });
 		},
 	};
