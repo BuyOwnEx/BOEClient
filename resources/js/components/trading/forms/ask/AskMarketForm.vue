@@ -220,7 +220,7 @@
 				<div class="amf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="available_balance" @click="setAmount(100)">
-						{{ formatWithCurrencyScale(balance, market) }}
+						{{ formatWithCurrencyScale(balance, currency) }}
 					</span>
 					{{ currency.toUpperCase() }}
 				</div>
