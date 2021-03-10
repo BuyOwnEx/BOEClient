@@ -84,16 +84,7 @@
 
 						<v-spacer class="d-block"></v-spacer>
 
-						<v-btn
-							:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
-							icon
-							@click="changeTheme"
-						>
-							<v-icon v-if="$vuetify.theme.dark">
-								mdi-moon-waning-crescent
-							</v-icon>
-							<v-icon v-else>mdi-white-balance-sunny</v-icon>
-						</v-btn>
+						<ToolbarThemeChanger />
 
 						<toolbar-language />
 
@@ -179,7 +170,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 // navigation menu configurations
 import config from '../configs';
@@ -191,6 +182,7 @@ import ToolbarLanguage from '../components/toolbar/ToolbarLanguage';
 import ToolbarCurrency from '../components/toolbar/ToolbarCurrency';
 import ToolbarNotifications from '../components/toolbar/ToolbarNotifications';
 import CommonSnackbar from '../components/common/CommonSnackbar';
+import ToolbarThemeChanger from '../components/toolbar/ToolbarThemeChanger';
 
 export default {
 	components: {
@@ -201,6 +193,7 @@ export default {
 		ToolbarCurrency,
 		ToolbarNotifications,
 		CommonSnackbar,
+		ToolbarThemeChanger,
 	},
 	data() {
 		return {
@@ -223,30 +216,7 @@ export default {
 		},
 	},
 
-	methods: {
-		...mapMutations('app', ['setGlobalTheme']),
-		changeTheme() {
-			this.toggleTheme();
-			this.saveThemeToStorage();
-		},
-		getAndSetThemeFromStorage() {
-			const isDark = JSON.parse(localStorage.getItem('isDarkTheme'));
-			if (isDark === null) this.saveThemeToStorage();
-			else this.$vuetify.theme.dark = isDark;
-		},
-
-		toggleTheme() {
-			this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-		},
-		saveThemeToStorage() {
-			const isDark = this.$vuetify.theme.dark.toString();
-			localStorage.setItem('isDarkTheme', isDark);
-		},
-	},
-
 	mounted() {
-		this.getAndSetThemeFromStorage();
-
 		this.$store.dispatch('snackbar/showMessage', {
 			text: 'Test Text Snackbar',
 		});
