@@ -4,7 +4,7 @@
 	>
 		<v-sheet
 			class="layout-side mx-auto d-none d-md-flex flex-md-column justify-space-between"
-			style="background: linear-gradient(5deg, #142f6d 0%, #091c48 40%);"
+			style="background: linear-gradient(5deg, #142f6d 0%, rgba(255, 255, 255, 0) 60%);"
 		>
 			<canvas class="waves" id="waves"></canvas>
 
