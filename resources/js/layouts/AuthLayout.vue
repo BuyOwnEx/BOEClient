@@ -9,7 +9,7 @@
 
 		<v-sheet
 			class="layout-side mx-auto d-none d-md-flex flex-md-column justify-space-between"
-			style="background: linear-gradient(5deg, #142f6d 0%, rgba(255, 255, 255, 0) 60%);"
+			style="background: linear-gradient(5deg, rgba(26, 55, 122, 0.75) 0%, rgba(255, 255, 255, 0) 60%);"
 		>
 			<canvas class="waves" id="waves"></canvas>
 
