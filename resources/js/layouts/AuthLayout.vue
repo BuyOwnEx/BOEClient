@@ -18,7 +18,7 @@
 					{{ product.name }}
 				</div>
 
-				<div class="title my-2 white--text">be the future. be the crypto</div>
+				<div class="title my-2">be the future. be the crypto</div>
 
 				<v-btn href="/" class="my-4" plain>Take me back</v-btn>
 			</div>
