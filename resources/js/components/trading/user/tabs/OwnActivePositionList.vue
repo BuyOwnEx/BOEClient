@@ -1,14 +1,12 @@
 <template>
 	<v-card>
 		<v-data-table
-			dense
 			:calculate-widths="true"
 			:headers="headers"
 			:items="ownPositionList"
 			:items-per-page="itemsPerPage"
 			:footer-props="footer_props"
-			class="elevation-0 pl-4 pr-4"
-			id="own-active-position-list"
+			dense
 		>
 			<template v-slot:top>
 				<v-toolbar flat dense class="mt-2">
@@ -50,6 +48,7 @@
 					</v-menu>
 				</v-toolbar>
 			</template>
+
 			<template v-slot:item.action="{ item }">
 				<v-menu close-on-click offset-y v-model="item.menu">
 					<template v-slot:activator="{ on }">
@@ -73,50 +72,60 @@
 					</v-list>
 				</v-menu>
 			</template>
+
 			<template v-slot:item.date="{ item }">
 				{{ item.createdAt }}
 			</template>
+
 			<template v-slot:item.market="{ item }">
 				<strong>{{ item.currency }}</strong
 				><span class="market-name">/{{ item.market }}</span>
 			</template>
+
 			<template v-slot:item.type="{ item }">
 				<strong v-if="item.type === 'LONG POSITION'" class="text-success">{{
 					item.type
 				}}</strong>
 				<strong v-else class="text-danger">{{ item.type }}</strong>
 			</template>
+
 			<template v-slot:item.filled="{ item }">
 				{{ BigNumber(item.actualSize).toString() }}/{{
 					BigNumber(item.size).toString()
 				}}
 				{{ item.currency.toUpperCase() }} ({{ percent(item) }} %)
 			</template>
+
 			<template v-slot:item.realized="{ item }">
 				{{ BigNumber(item.realized).toString() }}
 				<span v-if="item.side">{{ item.market.toUpperCase() }}</span
 				><span v-else>{{ item.currency.toUpperCase() }}</span>
 			</template>
+
 			<template v-slot:item.credited="{ item }">
 				{{ BigNumber(item.credited).toString() }}
 				<span v-if="item.side">{{ item.currency.toUpperCase() }}</span
 				><span v-else>{{ item.market.toUpperCase() }}</span>
 			</template>
+
 			<template v-slot:item.creditFee="{ item }">
 				{{ BigNumber(item.creditFee).toString() }}
 				<span v-if="item.side">{{ item.currency.toUpperCase() }}</span
 				><span v-else>{{ item.market.toUpperCase() }}</span>
 			</template>
+
 			<template v-slot:item.creditUsed="{ item }">
 				{{ BigNumber(item.creditUsed).toString() }}
 				<span v-if="item.side">{{ item.currency.toUpperCase() }}</span
 				><span v-else>{{ item.market.toUpperCase() }}</span>
 			</template>
+
 			<template v-slot:item.blockedFunds="{ item }">
 				{{ BigNumber(item.blockedFunds).toString() }}
 				<span v-if="item.side">{{ item.currency.toUpperCase() }}</span
 				><span v-else>{{ item.market.toUpperCase() }}</span>
 			</template>
+
 			<template v-slot:item.marginPosition="{ item }">
 				<strong :class="marginPositionClass(item)"
 					>{{ BigNumber(item.marginPosition).toString() }}
@@ -124,9 +133,11 @@
 					><span v-else>{{ item.market.toUpperCase() }}</span></strong
 				>
 			</template>
+
 			<template v-slot:item.marginLevel="{ item }">
 				<strong :class="marginLevelClass(item)">{{ marginLevel(item) }}</strong>
 			</template>
+
 			<template v-slot:item.status="{ item }">
 				<span class="text-muted" v-if="item.status === 'accepted'">{{
 					$t('trading.position.status.accepted')
@@ -292,20 +303,20 @@ export default {
 	},
 
 	methods: {
-		BigNumber: function(item) {
+		BigNumber(item) {
 			return BigNumber(item);
 		},
-		marginPosition: function(item) {
+		marginPosition(item) {
 			return BigNumber(item.marginPosition);
 		},
-		marginLevel: function(item) {
+		marginLevel(item) {
 			return BigNumber(item.blockedFunds)
 				.plus(BigNumber(item.marginPosition))
 				.div(BigNumber(item.blockedFunds))
 				.dp(2, 1)
 				.toString();
 		},
-		marginLevelClass: function(item) {
+		marginLevelClass(item) {
 			let marginLevel = this.marginLevel(item);
 			return {
 				'text-success': BigNumber(marginLevel).gte(1),
@@ -315,7 +326,7 @@ export default {
 				'text-danger': BigNumber(marginLevel).lte(this.marginCallValue),
 			};
 		},
-		marginPositionClass: function(item) {
+		marginPositionClass(item) {
 			let marginPosition = this.marginPosition(item);
 			return {
 				'text-success': BigNumber(marginPosition).gt(0),

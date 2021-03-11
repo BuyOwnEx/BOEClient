@@ -47,6 +47,7 @@
 			<OwnListsTabsWrapper
 				v-if="isLogged"
 				class="trading__desktop__own-lists-tabs-wrapper"
+				:is-margin='isMargin'
 				:currency="selectedCurrency"
 				:market="selectedMarket"
 			/>
@@ -109,6 +110,7 @@
 				<v-tab-item :key="7" v-if="isLogged">
 					<OwnListsTabsWrapper
 						class="trading__mobile__own-lists-tabs-wrapper"
+						:is-margin='isMargin'
 						:currency="selectedCurrency"
 						:market="selectedMarket"
 					/>
