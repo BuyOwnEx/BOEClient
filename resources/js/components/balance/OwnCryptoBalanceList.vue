@@ -10,7 +10,7 @@
 			dense
 		>
 			<template v-slot:top>
-				<v-toolbar flat dense class="mt-2">
+				<v-toolbar flat dense>
 					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
 
 					<v-spacer />
