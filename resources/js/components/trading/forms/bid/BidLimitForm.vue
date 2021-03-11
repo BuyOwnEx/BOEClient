@@ -666,7 +666,6 @@ export default {
 			font-size: 11px;
 		}
 		&__balance {
-			border-bottom: 1px dashed;
 			cursor: pointer;
 		}
 	}
