@@ -57,15 +57,13 @@
 export default {
 	name: 'Email',
 
-	//components: {Snackbar},
-
 	data() {
 		return {
 			valid: true,
 			loading: false,
-			formTitle: 'Password recovery',
+			formTitle: this.$t('auth.forgot.title'),
 			formSubTitle:
-				'Please, enter your email address which was used during last registration and after submitting form check password recovery link in your email',
+				this.$t('auth.forgot.subtitle'),
 			applyButton: 'Send',
 			rules: {
 				required: v => !!v || 'The field is required',

@@ -83,13 +83,13 @@
 
 			<div class="caption grey--text darken-4 pb-4 pl-6 pr-6">
 				<v-btn color="primary" href="/password/reset" small plain>
-					{{ $t('auth.forgot') }}
+					{{ $t('auth.login.forgot') }}
 				</v-btn>
 			</div>
 		</v-card>
 
 		<v-alert v-if="verify_block" dense text type="success" class="mt-4">
-			{{ $t('auth.verified_text') }}
+			{{ $t('auth.login.verified_text') }}
 		</v-alert>
 
 		<v-alert v-if="verify_error" dense text type="error" class="mt-4">
@@ -97,22 +97,17 @@
 		</v-alert>
 
 		<div class="text-center mt-6" style="position: relative; z-index: 2">
-			<div class="caption grey--text darken-4">{{ $t('auth.no_account') }}</div>
+			<div class="caption grey--text darken-4">{{ $t('auth.login.noaccount') }}</div>
 			<v-btn block small text tile href="/register" color="primary darken-1">
-				{{ $t('auth.register') }}
+				{{ $t('auth.login.create') }}
 			</v-btn>
 		</div>
-		<!--<snackbar position="relative"></snackbar>-->
 	</div>
 </template>
 
 <script>
-//import Snackbar from "../../Snackbar";
-
 export default {
 	name: 'Login',
-
-	//components: {Snackbar},
 
 	data() {
 		return {

@@ -105,7 +105,7 @@ export default {
 		return {
 			valid: true,
 			loading: false,
-			formTitle: 'Set new password',
+			formTitle: this.$t('auth.check.title'),
 			formSubTitle:
 				'Please, store your password in a safe place and do not give it to other persons',
 			applyButton: 'Set',

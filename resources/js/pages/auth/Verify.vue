@@ -65,18 +65,13 @@
 				{{ $t('auth.login_btn_text') }}
 			</v-btn>
 		</div>
-
-		<!--<snackbar position="relative"></snackbar>-->
 	</div>
 </template>
 
 <script>
-//import Snackbar from "../../Snackbar";
 
 export default {
 	name: 'Verify',
-
-	//components: {Snackbar},
 
 	data() {
 		return {

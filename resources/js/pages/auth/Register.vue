@@ -138,22 +138,18 @@
 
 		<div class="text-center mt-6" style="position: relative; z-index: 2">
 			<div class="caption grey--text darken-4">
-				{{ $t('auth.already_have_account') }}
+				{{ $t('auth.register.account') }}
 			</div>
 			<v-btn block small text tile href="/login" color="primary darken-1">
-				{{ $t('auth.login') }}
+				{{ $t('auth.register.signin') }}
 			</v-btn>
 		</div>
 	</div>
 </template>
 
 <script>
-//import Snackbar from "../../Snackbar";
-
 export default {
 	name: 'Register',
-
-	//components: {Snackbar},
 
 	data() {
 		return {
@@ -169,7 +165,7 @@ export default {
 			],
 			valid: true,
 			loading: false,
-			formTitle: 'Registration',
+			formTitle: this.$t('auth.register.title'),
 			formSubTitle: 'Fill the below fields to register as a trader',
 			applyButton: 'Register',
 			show: false,
