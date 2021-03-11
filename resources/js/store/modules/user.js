@@ -13,13 +13,13 @@ export default {
 		marginCall: {
 			status: false,
 			positions: [],
-		}
+		},
 	},
 	getters: {
-		selectedCurrency({ rootState }) {
+		selectedCurrency(rootState) {
 			return rootState.trading.selectedCurrency;
 		},
-		selectedMarket({ rootState }) {
+		selectedMarket(rootState) {
 			return rootState.trading.selectedMarket;
 		},
 	},
@@ -45,10 +45,10 @@ export default {
 			}
 		},
 		addOrder(state, order) {
-				state.orders.unshift(order);
+			state.orders.unshift(order);
 		},
 		updateOrder(state, data) {
-			let index = _.findIndex(state.orders, (item) => {
+			let index = _.findIndex(state.orders, item => {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
@@ -58,7 +58,7 @@ export default {
 			}
 		},
 		updateConditionOrder(state, data) {
-			let index = _.findIndex(state.orders, (item) => {
+			let index = _.findIndex(state.orders, item => {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
@@ -67,7 +67,7 @@ export default {
 			}
 		},
 		updateMatchOrder(state, data) {
-			let index = _.findIndex(state.orders, (item) => {
+			let index = _.findIndex(state.orders, item => {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
@@ -81,7 +81,7 @@ export default {
 			}
 		},
 		deleteOrder(state, data) {
-			let index = _.findIndex(state.orders, (item) => {
+			let index = _.findIndex(state.orders, item => {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
@@ -89,13 +89,13 @@ export default {
 			}
 		},
 		addDeal(state, deal) {
-				state.deals.unshift(deal);
+			state.deals.unshift(deal);
 		},
 		addPosition(state, position) {
-				state.positions.unshift(position);
+			state.positions.unshift(position);
 		},
 		updatePosition(state, data) {
-			let index = _.findIndex(state.positions, (item) => {
+			let index = _.findIndex(state.positions, item => {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
@@ -106,7 +106,7 @@ export default {
 			}
 		},
 		updateMatchPosition(state, data) {
-			let index = _.findIndex(state.positions, (item) => {
+			let index = _.findIndex(state.positions, item => {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
@@ -119,7 +119,7 @@ export default {
 			}
 		},
 		deletePosition(state, data) {
-			let index = _.findIndex(state.positions, (item) => {
+			let index = _.findIndex(state.positions, item => {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
@@ -134,67 +134,82 @@ export default {
 	actions: {
 		getBalancesFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
-				axios.get('/trader/ext/balances').then((response) => {
-					if (_.get(response, 'data.success') === true) {
-						_.forEach(response.data.data, function(val) {
-							_.assign(val, {
-								color: randomColor.randomColor({
-									luminosity: 'dark',
-									format: 'rgba',
-									alpha: 0.5,
-								}),
+				axios
+					.get('/trader/ext/balances')
+					.then(response => {
+						if (_.get(response, 'data.success') === true) {
+							_.forEach(response.data.data, function(val) {
+								_.assign(val, {
+									color: randomColor.randomColor({
+										luminosity: 'dark',
+										format: 'rgba',
+										alpha: 0.5,
+									}),
+								});
 							});
-						});
-						commit('setBalances', response.data.data);
-					}
-					resolve();
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
+							commit('setBalances', response.data.data);
+						}
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
 			});
 		},
 		getOrdersFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
-				axios.get('/trader/ext/orders').then((response) => {
-					commit('setOrders', response.data.data);
-					resolve();
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
+				axios
+					.get('/trader/ext/orders')
+					.then(response => {
+						commit('setOrders', response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
 			});
 		},
 		getDealsFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
-				axios.get('/trader/ext/deals').then((response) => {
-					commit('setDeals', response.data.data);
-					resolve();
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
+				axios
+					.get('/trader/ext/deals')
+					.then(response => {
+						commit('setDeals', response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
 			});
 		},
 		getPositionsFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
-				axios.get('/trader/ext/positions').then((response) => {
-					commit('setPositions', response.data.data);
-					resolve();
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
+				axios
+					.get('/trader/ext/positions')
+					.then(response => {
+						commit('setPositions', response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
 			});
 		},
 		getTraderTokenFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
-				axios.get('/trader/ext/token').then((response) => {
-					resolve(response.data);
-				}).catch(error => {
-					console.log(error);
-					reject();
-				});
+				axios
+					.get('/trader/ext/token')
+					.then(response => {
+						resolve(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
 			});
 		},
 	},
