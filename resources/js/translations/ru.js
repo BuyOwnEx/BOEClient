@@ -323,7 +323,7 @@ export default {
 		headers: {
 			own_fiat_balance_list: 'Own Fiat Balance List',
 			own_crypto_balance_list: 'Own Crypto Balance List',
-			own_active_withdraw_list: 'Own Active Withdrw List',
+			own_active_withdraw_list: 'Own Active Withdraw List',
 		},
 		currency: 'Currency',
 		name: 'Name',
