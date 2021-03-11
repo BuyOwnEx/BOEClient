@@ -11,19 +11,19 @@
 			<canvas class="waves" id="waves"></canvas>
 
 			<div class="auth-layout__side-top mt-3 mt-md-1 pa-2">
-				<div
-					class="auth-layout__company display-2 font-weight-bold primary--text"
-				>
-					{{ product.name }}
-				</div>
+				<a href="/"><v-img max-width="250" src="/images/logo_full.png" class="ma-auto" /></a>
 
-				<div class="title my-2">be the future. be the crypto</div>
+				<div class="title my-2">{{ product.slogan }}</div>
 
-				<v-btn href="/" class="my-4" plain>Take me back</v-btn>
 			</div>
 
-			<div class="pa-2 mb-1">
-				<v-img max-width="250" src="/images/logo_full.png" class="ma-auto" />
+			<div class="overline pa-1 mb-1" style="z-index:1">
+				<span>
+					<a class="text-decoration-none mr-1 white--text" href="/">Торговля</a>
+					<a class="text-decoration-none mr-1 white--text" href="/fees">Комиссии и лимиты</a>
+					<a class="text-decoration-none mr-1 white--text" href="/statusPage">Состояние системы</a>
+					<a class="text-decoration-none mr-1 white--text" href="/api">API</a>
+				</span>
 			</div>
 		</v-sheet>
 
