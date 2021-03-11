@@ -65,7 +65,18 @@ class TraderController extends Controller
         return view('notifications', ['user' => Auth::user()]);
     }
 
-
+    public function getPolicyView(Request $request)
+    {
+        return view('policy', ['user' => Auth::user()]);
+    }
+    public function getTermsView(Request $request)
+    {
+        return view('terms', ['user' => Auth::user()]);
+    }
+    public function getApiView(Request $request)
+    {
+        return view('api', ['user' => Auth::user()]);
+    }
 
     public function getTickers()
     {

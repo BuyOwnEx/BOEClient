@@ -32,6 +32,10 @@ Route::get('support', 'TraderController@getSupportView')->name('support_view');
 Route::get('settings', 'TraderController@getSettingsView')->name('settings_view');
 Route::get('notifications', 'TraderController@getNotificationsView')->name('notifications_view');
 
+Route::get('policy', 'TraderController@getPolicyView')->name('policy_view');
+Route::get('terms', 'TraderController@getTermsView')->name('terms_view');
+Route::get('api', 'TraderController@getApiView')->name('api_view');
+
 Route::group(['prefix' => 'trader'], function () {
     Route::group(['prefix' => 'ext'], function () {
         Route::get('token', 'JWTController@getOwnToken')->name('token');

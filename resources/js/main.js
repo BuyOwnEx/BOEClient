@@ -32,6 +32,9 @@ Vue.component('settings', require('./pages/Settings.vue').default);
 Vue.component('support', require('./pages/Support.vue').default);
 Vue.component('transactions', require('./pages/Transactions.vue').default);
 Vue.component('transfers', require('./pages/Transfers.vue').default);
+Vue.component('policy', require('./pages/docs/Policy.vue').default);
+Vue.component('terms', require('./pages/docs/Terms.vue').default);
+Vue.component('api', require('./pages/docs/Api.vue').default);
 
 export default new Vue({
 	i18n,
