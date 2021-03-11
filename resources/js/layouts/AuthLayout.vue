@@ -1,20 +1,19 @@
 <template>
-	<div
-		class="auth-layout d-flex text-center flex-column flex-md-row flex-grow-1"
-	>
+	<div class="auth-layout flex-md-row ">
 		<div class="auth-layout__header">
-			<ToolbarLanguage />
-			<ToolbarThemeChanger />
+			<ToolbarLanguage class="auth-layout__lang" />
+			<ToolbarThemeChanger class="auth-layout__theme ml-1 ml-md-0" />
 		</div>
 
 		<v-sheet
-			class="layout-side mx-auto d-none d-md-flex flex-md-column justify-space-between"
-			style="background: linear-gradient(5deg, rgba(26, 55, 122, 0.75) 0%, rgba(255, 255, 255, 0) 60%);"
+			class="auth-layout__side mx-auto d-none d-md-flex flex-md-column justify-space-between"
 		>
 			<canvas class="waves" id="waves"></canvas>
 
-			<div class="mt-3 mt-md-10 pa-2">
-				<div class="display-2 font-weight-bold primary--text">
+			<div class="auth-layout__side-top mt-3 mt-md-1 pa-2">
+				<div
+					class="auth-layout__company display-2 font-weight-bold primary--text"
+				>
 					{{ product.name }}
 				</div>
 
@@ -63,10 +62,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.layout-side {
-	width: 420px;
-}
-
 .layout-content {
 	max-width: 480px;
 }
@@ -81,13 +76,41 @@ export default {
 }
 
 .auth-layout {
-	background-color: #ababab21;
+	display: flex;
+	flex-flow: column;
+	flex-grow: 1;
+	text-align: center;
+
 	&__header {
 		position: absolute;
 		top: 32px;
 		right: 64px;
-		bottom: 0;
+		bottom: 64px;
 		z-index: 1;
+	}
+	&__side {
+		width: 420px;
+		background: rgba(0, 0, 0, 0)
+			linear-gradient(
+				5deg,
+				rgba(3, 164, 194, 0.55) 0%,
+				rgba(255, 255, 255, 0) 60%
+			)
+			repeat scroll 0 0;
+	}
+	&__company {
+		color: rgba(3, 164, 194, 0.65) !important;
+	}
+}
+.theme--dark .auth-layout {
+	background-color: #222;
+}
+@media screen and (max-width: 960px) {
+	.auth-layout {
+		&__header {
+			top: 16px;
+			right: 8px;
+		}
 	}
 }
 </style>
