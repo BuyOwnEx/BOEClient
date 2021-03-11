@@ -1,6 +1,6 @@
 <template>
 	<v-card class="ask-list pa-1">
-		<v-card-title class="ask-list__header pa-0">
+		<v-card-title class="ask-list__header trading-component-title pa-0">
 			{{ $t('trading.headers.ask_orders') }}
 		</v-card-title>
 
@@ -78,10 +78,7 @@ export default {
 <style scoped lang="sass">
 .ask-list
 	&__header
-		word-break: normal
-		font-weight: 700
 		margin-left: 4px
-		text-transform: uppercase
 	&__content
 		position: relative
 

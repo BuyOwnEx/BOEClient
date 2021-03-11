@@ -1,6 +1,6 @@
 <template>
 	<v-card class="own-history-deal-list pa-1">
-		<v-card-title class="own-history-deal-list__header pa-0">
+		<v-card-title class="own-history-deal-list__header trading-component-title pa-0">
 			<span>
 				{{ $t('trading.headers.own_history_deal_list') }}
 			</span>
@@ -27,7 +27,7 @@
 				dense
 			>
 				<template v-slot:item.date="{ item }">
-					<span class="own-history-deal-list__date">
+					<span class="table-date">
 						{{ formatDate(item.createdAt) }}
 					</span>
 				</template>
@@ -161,9 +161,5 @@ export default {
 <style scoped lang="sass">
 .own-history-deal-list
 	&__header
-		word-break: normal
-		font-weight: 700
-		text-transform: uppercase
-	&__date
-		color: #a8a8a8
+		margin-left: 4px
 </style>

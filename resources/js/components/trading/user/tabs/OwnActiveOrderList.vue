@@ -1,6 +1,6 @@
 <template>
 	<v-card class="own-active-order-list pa-1">
-		<v-card-title class="own-active-order-list__header pa-0">
+		<v-card-title class="own-active-order-list__header trading-component-title pa-0">
 			<span>
 				{{ $t('trading.headers.own_active_order_list') }}
 			</span>
@@ -58,7 +58,7 @@
 				dense
 			>
 				<template v-slot:item.date="{ item }">
-					<span class="own-active-order-list__date">
+					<span class="table-date">
 						{{ formatDate(item.createdAt) }}
 					</span>
 				</template>
@@ -346,11 +346,7 @@ export default {
 <style scoped lang="sass">
 .own-active-order-list
 	&__header
-		word-break: normal
-		font-weight: 700
-		text-transform: uppercase
-	&__date
-		color: #a8a8a8
+		margin-left: 4px
 	&__cancel
 		&-icon
 			opacity: 0.6

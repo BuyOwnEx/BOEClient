@@ -1,6 +1,6 @@
 <template>
 	<v-card class="hdl pa-1">
-		<v-card-title class="hdl__header pa-0">
+		<v-card-title class="hdl__header trading-component-title pa-0">
 			{{ $t('trading.headers.history_deal_list') }}
 		</v-card-title>
 
@@ -65,10 +65,7 @@ export default {
 <style scoped lang="sass">
 .hdl
 	&__header
-		word-break: normal
-		font-weight: 700
 		margin-left: 8px
-		text-transform: uppercase
 	&__content
 		position: relative
 </style>

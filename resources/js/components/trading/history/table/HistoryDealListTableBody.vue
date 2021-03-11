@@ -19,7 +19,7 @@
 				</div>
 			</td>
 			<td>
-				<div class="hdl-table-body__item--date">
+				<div class="hdl-table-body__item--date table-date">
 					{{ formatDate(item.createdAt) }}
 				</div>
 			</td>
@@ -67,5 +67,4 @@ export default {
 
 		&--date
 			text-align: right
-			color: #a8a8a8
 </style>

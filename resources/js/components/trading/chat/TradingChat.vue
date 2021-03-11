@@ -1,6 +1,6 @@
 <template>
 	<v-card class="trading-chat pa-1">
-		<v-card-title class="trading-chat__header pa-0">
+		<v-card-title class="trading-chat__header trading-component-title pa-0">
 			{{ $t('trading.headers.chat') }}
 		</v-card-title>
 
@@ -37,9 +37,4 @@ export default {
 	flex-grow: 1
 	flex-flow: column
 	position: relative
-	//height: 327px;
-	&__header
-		word-break: normal
-		font-weight: 700
-		text-transform: uppercase
 </style>

@@ -1,5 +1,7 @@
 <template>
-	<v-card>
+	<v-card clas="own-active-position-list pa-1">
+		<v-card-title class="own-active-position-list__header pa-0"></v-card-title>
+		<v-card-text class="own-active-position-list__content pa-0"></v-card-text>
 		<v-data-table
 			:calculate-widths="true"
 			:headers="headers"
@@ -74,7 +76,9 @@
 			</template>
 
 			<template v-slot:item.date="{ item }">
-				{{ item.createdAt }}
+				<span class="table-date">
+					{{ item.createdAt }}
+				</span>
 			</template>
 
 			<template v-slot:item.market="{ item }">
@@ -348,4 +352,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.own-active-position-list
+	&__header
+		margin-left: 4px
+</style>

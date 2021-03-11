@@ -1,6 +1,6 @@
 <template>
 	<v-card class="bid-list pa-1">
-		<v-card-title class="bid-list__header pa-0">
+		<v-card-title class="bid-list__header trading-component-title pa-0">
 			{{ $t('trading.headers.bid_orders') }}
 		</v-card-title>
 
@@ -78,10 +78,7 @@ export default {
 <style scoped lang="sass">
 .bid-list
 	&__header
-		word-break: normal
-		font-weight: 700
 		margin-left: 4px
-		text-transform: uppercase
 	&__content
 		position: relative
 
