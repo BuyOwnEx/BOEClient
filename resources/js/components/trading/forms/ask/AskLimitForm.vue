@@ -233,7 +233,7 @@
 
 				<div class="alf__footer__available text-center">
 					{{ $t('trading.order.available') }}
-					<span class="available_balance" @click="setAmount(100)">
+					<span class="alf__footer__balance" @click="setAmount(100)">
 						{{ formatWithCurrencyScale(balance, currency) }}
 					</span>
 					{{ currency.toUpperCase() }}
@@ -665,6 +665,10 @@ export default {
 	&__footer {
 		&__available {
 			font-size: 11px;
+		}
+		&__balance {
+			border-bottom: 1px dashed;
+			cursor: pointer;
 		}
 	}
 }
