@@ -1,40 +1,23 @@
 .highcharts-range-selector-buttons > text {
 	display: none;
 }
-@media (max-width: 450px) {
-	.highcharts-exporting-group {
-		display: none;
-	}
-}
-@media (max-width: 960px) {
-	.highcharts-menu-wrapper {
-		max-height: 325px !important;
-	}
-	.highcharts-arrow-wrapper {
-		bottom: 0 !important;
-		top: 335px !important;
-	}
-}
+
 .chart:-webkit-full-screen {
 	width: 100%;
 	height: 100%;
 }
-
 .chart:-moz-full-screen {
 	width: 100%;
 	height: 100%;
 }
-
 .chart:-ms-fullscreen {
 	width: 100%;
 	height: 100%;
 }
-
 .chart:fullscreen {
 	width: 100%;
 	height: 100%;
 }
-
 .chart {
 	width: 100%;
 	float: left;
@@ -604,35 +587,10 @@
 .highcharts-stocktools-toolbar {
 	height: 700px !important;
 }
-@media screen and (max-width: 960px) {
-	.highcharts-stocktools-toolbar {
-		height: 850px !important;
-	}
-	@media (min-height: 700px) {
-		.highcharts-stocktools-toolbar {
-			height: 1100px !important;
-		}
-	}
-	@media (min-height: 900px) {
-		.highcharts-stocktools-toolbar {
-			height: 1200px !important;
-		}
-	}
-}
 
 // Fix after fullscreen exit bug
 .highcharts-container {
 	width: auto !important;
-}
-
-// (Market activity margin), height fix
-@media screen and (max-width: 1768px) {
-	.highcharts-menu-wrapper {
-		height: calc(100% - 98px) !important;
-	}
-	.highcharts-arrow-wrapper {
-		bottom: 68px !important;
-	}
 }
 
 // Some popup fixes
@@ -679,6 +637,29 @@
 // Fix chart title
 .highcharts-title {
 	font-weight: 600 !important;
+}
+
+@media screen and (max-width: 1768px) {
+	.highcharts-menu-wrapper {
+		height: calc(100% - 98px) !important;
+	}
+	.highcharts-arrow-wrapper {
+		bottom: 68px !important;
+	}
+}
+@media screen and (max-width: 960px) {
+	.highcharts-menu-wrapper {
+		height: calc(100vh - 206px) !important;
+	}
+	.highcharts-arrow-wrapper {
+		bottom: 0 !important;
+		top: calc(100vh - 196px) !important;
+	}
+	@media screen and (min-height: 874px) {
+		.highcharts-arrow-wrapper {
+			display: none !important;
+		}
+	}
 }
 
 //
