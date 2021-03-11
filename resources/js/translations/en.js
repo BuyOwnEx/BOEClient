@@ -317,6 +317,24 @@ export default {
 			signin: 'Sign In',
 		},
 	},
+	balance: {
+		headers: {
+			own_fiat_balance_list: 'Own Fiat Balance List',
+			own_crypto_balance_list: 'Own Crypto Balance List',
+			own_active_withdraw_list: 'Own Active Withdrw List',
+		},
+		currency: 'Currency',
+		name: 'Name',
+		safe: 'Safe',
+		trade: 'Trade',
+		withdraw: 'Withdraw',
+		blocked: 'Blocked',
+		state: 'State',
+		actions: 'Actions',
+		date: 'Date',
+		amount: 'Amount',
+		show_only_not_null_balances: 'Show only not null balances',
+	},
 	// Vuetify components translations
 	$vuetify: {
 		badge: 'Badge',

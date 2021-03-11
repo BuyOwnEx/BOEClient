@@ -321,19 +321,21 @@ export default {
 
 	balance: {
 		headers: {
-			own_fiat_balance_list: '',
-			own_crypto_balance_list: '',
-			own_active_withdrawn_list: '',
+			own_fiat_balance_list: 'Own Fiat Balance List',
+			own_crypto_balance_list: 'Own Crypto Balance List',
+			own_active_withdraw_list: 'Own Active Withdrw List',
 		},
-		currency: '',
-		name: '',
-		safe: '',
-		trade: '',
-		withdraw: '',
-		blocked: '',
-		state: '',
-		actions: '',
-		date: '',
+		currency: 'Currency',
+		name: 'Name',
+		safe: 'Safe',
+		trade: 'Trade',
+		withdraw: 'Withdraw',
+		blocked: 'Blocked',
+		state: 'State',
+		actions: 'Actions',
+		date: 'Date',
+		amount: 'Amount',
+		show_only_not_null_balances: 'Show only not null balances',
 	},
 
 	$vuetify: {
