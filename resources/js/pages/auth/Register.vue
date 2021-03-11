@@ -108,14 +108,14 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6">
 				<v-btn
-					block
-					color="primary"
-					style="border-radius: unset"
-					tile
-					@click="register"
+					color="rgba(3,164,194,0.7)"
 					:loading="loading"
 					:disabled="!valid || loading"
-					>{{ applyButton }}
+					block
+					tile
+					@click="register"
+				>
+					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
 

@@ -77,13 +77,14 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn
-					block
-					color="primary"
-					tile
-					@click="set"
+					color="rgba(3,164,194,0.7)"
 					:loading="loading"
 					:disabled="!valid || loading"
-					>{{ applyButton }}
+					block
+					tile
+					@click="set"
+				>
+					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
 		</v-card>

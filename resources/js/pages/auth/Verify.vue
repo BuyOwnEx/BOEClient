@@ -40,12 +40,12 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn
-					block
-					color="primary"
-					tile
-					@click="resend"
+					color="rgba(3,164,194,0.7)"
 					:loading="loading"
 					:disabled="!valid || loading"
+					block
+					tile
+					@click="resend"
 				>
 					{{ applyButton }}
 				</v-btn>
