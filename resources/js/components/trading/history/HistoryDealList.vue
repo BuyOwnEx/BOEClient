@@ -9,7 +9,7 @@
 				:currency="currency"
 				:historyData="historyDealList"
 				:market="market"
-				:key="historyDealList[0].price"
+				:key="firstDataElement"
 			/>
 		</v-card-text>
 	</v-card>
@@ -53,6 +53,9 @@ export default {
 		},
 		historyDealList() {
 			return this.$store.state.trading.history_deal_list;
+		},
+		firstDataElement() {
+			if (this.historyDealList) return this.historyDealList[0].price;
 		},
 	},
 

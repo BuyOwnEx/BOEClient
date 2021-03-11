@@ -42,10 +42,10 @@
 
 .trading {
 	// Label size only for own lists
-	.own-active-order-list .v-input--switch,
-	.own-history-deal-list .v-input--switch,
-	.own-active-position-list .v-input--switch {
-		label {
+	.own-active-order-list,
+	.own-history-deal-list,
+	.own-active-position-list {
+		.v-input--switch label {
 			font-size: 10px !important;
 		}
 	}
