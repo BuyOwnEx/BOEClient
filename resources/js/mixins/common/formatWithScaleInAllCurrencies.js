@@ -3,7 +3,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 export default {
 	methods: {
-		formatWithCurrencyScale(value, currency) {
+		formatWithScaleInAllCurrencies(value, currency) {
 			const scale = this.findCurrencyScale(currency.toUpperCase());
 
 			if (scale) {

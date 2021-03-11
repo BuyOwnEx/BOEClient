@@ -70,7 +70,7 @@
 
 			<template v-slot:item.volume24="{ item }">
 				<span>
-					{{ formatWithCurrencyScale(item.volume, item.market) }}
+					{{ formatWithScaleInAllCurrencies(item.volume, item.market) }}
 					{{ item.market.toUpperCase() }}
 				</span>
 			</template>
@@ -82,12 +82,12 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import formatWithCurrencyScale from '../../mixins/common/formatWithCurrencyScale';
+import formatWithScaleInAllCurrencies from '../../mixins/common/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'MarketOverview',
 
-	mixins: [formatWithCurrencyScale],
+	mixins: [formatWithScaleInAllCurrencies],
 
 	data() {
 		return {

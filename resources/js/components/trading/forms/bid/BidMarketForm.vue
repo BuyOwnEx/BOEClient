@@ -222,7 +222,7 @@
 				<div class="bmf__footer__available text-center">
 					{{ $t('trading.order.available') }}
 					<span class="bmf__footer__balance" @click="setAmount(100)">
-						{{ formatWithCurrencyScale(balance, market) }}
+						{{ formatWithScaleInAllCurrencies(balance, market) }}
 					</span>
 					{{ market.toUpperCase() }}
 				</div>
@@ -238,14 +238,14 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import TradingFormsInfoTooltip from '../common/TradingFormsInfoTooltip';
 import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
-import formatWithCurrencyScale from '../../../../mixins/common/formatWithCurrencyScale';
+import formatWithScaleInAllCurrencies from '../../../../mixins/common/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'BidMarketForm',
 
 	components: { TradingFormsInfoTooltip, TradingFormsConfirmDialog },
 
-	mixins: [formatWithCurrencyScale],
+	mixins: [formatWithScaleInAllCurrencies],
 
 	props: {
 		currency: {

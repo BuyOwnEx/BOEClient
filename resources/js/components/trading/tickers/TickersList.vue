@@ -169,7 +169,7 @@
 							</td>
 
 							<td class="tickers-list__content__body__item--volume">
-								{{ formatWithCurrencyScale(item.volume, market) }}
+								{{ formatWithScaleInAllCurrencies(item.volume, market) }}
 							</td>
 
 							<td
@@ -199,14 +199,14 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import CommonProgressCircular from '../../common/CommonProgressCircular';
 
-import formatWithCurrencyScale from '../../../mixins/common/formatWithCurrencyScale';
+import formatWithScaleInAllCurrencies from '../../../mixins/common/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'TickersList',
 
 	components: { CommonProgressCircular },
 
-	mixins: [formatWithCurrencyScale],
+	mixins: [formatWithScaleInAllCurrencies],
 
 	props: {
 		market: {
