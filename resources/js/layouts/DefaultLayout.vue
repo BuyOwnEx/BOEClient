@@ -165,7 +165,8 @@
 			</v-footer>
 		</v-main>
 
-		<CommonSnackbar />
+		<!--		<CommonSnackbar />-->
+		<CommonNotification />
 	</div>
 </template>
 
@@ -183,6 +184,7 @@ import ToolbarCurrency from '../components/toolbar/ToolbarCurrency';
 import ToolbarNotifications from '../components/toolbar/ToolbarNotifications';
 import CommonSnackbar from '../components/common/CommonSnackbar';
 import ToolbarThemeChanger from '../components/toolbar/ToolbarThemeChanger';
+import CommonNotification from '../components/common/CommonNotification';
 
 export default {
 	components: {
@@ -194,6 +196,7 @@ export default {
 		ToolbarNotifications,
 		CommonSnackbar,
 		ToolbarThemeChanger,
+		CommonNotification,
 	},
 	data() {
 		return {

@@ -1,16 +1,14 @@
 <template>
-	<transition-group name="notification" tag="div">
-		<div
+	<transition-group class="notification" name="notification" tag="ul">
+		<li
 			v-for="(item, index) in notificationsForDisplay"
 			:key="item.id"
-			class="notification-container"
+			class="notification__item "
+			:class="'clickable alert alert-' + item.status + ' nomb'"
+			@click.self="removeNotification(item.id)"
 		>
-			<div
-				:class="'clickable alert alert-' + item.status + ' nomb'"
-				v-html="item.text"
-				@click.self="removeNotification(item.id)"
-			></div>
-		</div>
+			{{ item.text }}
+		</li>
 	</transition-group>
 </template>
 
@@ -92,7 +90,31 @@ export default {
 	},
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
+.notification {
+	position: fixed;
+	bottom: 36px;
+	right: 16px;
+	//min-height: 80px;
+	//max-height: 160px;
+	//min-width: 20vw;
+	max-width: 40vw;
+	z-index: 2;
+	&__item {
+		background: #e8e8e8;
+		padding: 4px 8px;
+		list-style-type: none;
+		transition: all 0.3s;
+	}
+}
+.theme--dark {
+	.notification {
+		&__item {
+			background: #30303c;
+		}
+	}
+}
+
 .slide-from-right-enter-active {
 	transition: all 0.3s ease;
 }
@@ -105,23 +127,6 @@ export default {
 .slide-from-right-leave-to {
 	transform: translateX(100%);
 	opacity: 0;
-}
-
-.notification-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: fixed;
-	bottom: 56px;
-	right: 16px;
-	min-height: 80px;
-	max-height: 160px;
-	min-width: 200px;
-	max-width: 500px;
-	background: rgb(143, 164, 178);
-	z-index: 2;
-	padding: 8px 4px;
-	transition: all 0.3s;
 }
 
 .notification-enter-active,

@@ -117,9 +117,11 @@ let transformTradingNotification = function(item) {
 
 export default {
 	namespaced: true,
+
 	state: {
 		notifications: [],
 	},
+
 	mutations: {
 		addNotification(state, notification) {
 			if (!('id' in notification)) {
@@ -128,10 +130,12 @@ export default {
 			notification['timeout'] = _.get(notification, 'timeout', defaultTimeout);
 			state.notifications.push(notification);
 		},
+
 		addTradingNotification(state, notification) {
 			console.log(notification);
 			state.notifications.push(transformTradingNotification(notification));
 		},
+
 		addNotifications(state, arr) {
 			state.notifications = state.notifications.concat(_.map(arr, (item) => {
 				if (!('id' in item)) {
@@ -141,6 +145,7 @@ export default {
 				return item;
 			}));
 		},
+
 		setNotifications(state, arr) {
 			state.notifications = _.map(arr, (item) => {
 				if (!('id' in item)) {
@@ -150,6 +155,7 @@ export default {
 				return item;
 			});
 		},
+
 		dropNotificationIfExists(state, id) {
 			let itemId = _.findIndex(state.notifications, item => {
 				return item.id === id;
@@ -158,6 +164,7 @@ export default {
 				state.notifications.splice(itemId, 1);
 			}
 		},
+
 		dropNotificationByIndex(state, index) {
 			state.notifications.splice(index, 1);
 		},
