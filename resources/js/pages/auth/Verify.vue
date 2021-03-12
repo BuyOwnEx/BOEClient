@@ -40,7 +40,7 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn
-					color="rgba(3,164,194,0.7)"
+					color="primary"
 					:loading="loading"
 					:disabled="!valid || loading"
 					block
