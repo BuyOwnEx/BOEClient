@@ -11,7 +11,7 @@
 		>
 			<template v-slot:top>
 				<v-toolbar flat dense>
-					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
+					<div class="trading-component-title">{{ componentTitle }}</div>
 				</v-toolbar>
 			</template>
 
@@ -83,7 +83,7 @@ export default {
 	data() {
 		return {
 			withdrawals: [],
-			tableCaption: this.$t('balance.headers.own_active_withdraw_list'),
+			componentTitle: this.$t('balance.headers.own_active_withdraw_list'),
 			itemsPerPage: 5,
 			headers: [
 				{

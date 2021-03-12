@@ -11,7 +11,7 @@
 		>
 			<template v-slot:top>
 				<v-toolbar flat dense>
-					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
+					<div class="trading-component-title">{{componentTitle}}</div>
 
 					<v-spacer />
 
@@ -133,7 +133,7 @@ export default {
 	data() {
 		return {
 			showOnlyNotNullBalances: false,
-			tableCaption: this.$t('balance.headers.own_fiat_balance_list'),
+			componentTitle: this.$t('balance.headers.own_fiat_balance_list'),
 			itemsPerPage: 10,
 			headers: [
 				{
