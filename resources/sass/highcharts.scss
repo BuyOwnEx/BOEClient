@@ -650,10 +650,17 @@
 @media screen and (max-width: 960px) {
 	.highcharts-menu-wrapper {
 		height: calc(100vh - 206px) !important;
+		max-height: 567px;
 	}
 	.highcharts-arrow-wrapper {
 		bottom: 0 !important;
 		top: calc(100vh - 196px) !important;
+	}
+
+	@media screen and (min-height: 775px) {
+		.highcharts-arrow-wrapper {
+			top: 579px !important;
+		}
 	}
 	@media screen and (min-height: 874px) {
 		.highcharts-arrow-wrapper {
