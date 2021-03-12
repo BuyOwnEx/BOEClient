@@ -1,84 +1,96 @@
 <template>
-	<v-card class='terms flex-grow-1'>
-		<div class='pa-3 min-w-0 w-full'>
-			<div class='display-1'>{{ $t('Политика конфиденциальности') }}</div>
+	<v-card class="terms flex-grow-1">
+		<div class="pa-3 min-w-0 w-full">
+			<DocsTitle> {{ $t('docs.terms.title') }} </DocsTitle>
 
-			<!-- faqs -->
 			<v-row>
-				<v-col cols='12' md='3' xl='2'>
-					<div class='sticky' style='top: 90px'>
-						<div class='title mb-2'>Contents</div>
-						<div v-for='faq in faqs' :key='faq.id' class='mb-1'>
-							<v-btn text color='primary' @click='$vuetify.goTo(`#${faq.id}`, { offset: 30 })'>{{faq.title }}</v-btn>
-						</div>
-					</div>
-				</v-col>
-
-				<v-col cols='12' md='9' xl='10'>
-					<div v-for='faq in faqs' :id='faq.id' :key='faq.id'>
-						<div id='#general' class='title pb-2'>{{ faq.title }}</div>
-						<v-expansion-panels class='mb-4' multiple>
-							<v-expansion-panel
-									v-for='(item,i) in faq.items'
-									:key='i'
-							>
-								<v-expansion-panel-header class='font-weight-black'>{{ item.title }}
-								</v-expansion-panel-header>
-								<v-expansion-panel-content>
-									{{ item.content }}
-								</v-expansion-panel-content>
-							</v-expansion-panel>
-						</v-expansion-panels>
-					</div>
-				</v-col>
+				<DocsNavigation :data-array="terms" />
+				<DocsContent :data-array="terms" />
 			</v-row>
 
-			<div class='caption mt-2 text-center'>{{ $t('faq.call') }}<a href='/contacts'>{{ $t('common.contact') }}</a>
-			</div>
+			<DocsFooter />
 		</div>
 	</v-card>
 </template>
 
 <script>
+import DocsTitle from '../../components/docs/DocsTitle';
+import DocsNavigation from '../../components/docs/DocsNavigation';
+import DocsContent from '../../components/docs/DocsContent';
+import DocsFooter from '../../components/docs/DocsFooter';
+
 export default {
 	name: 'Terms',
+
+	components: { DocsTitle, DocsNavigation, DocsContent, DocsFooter },
+
 	data() {
 		return {
-
-			faqs: [{
-				id: 'general',
-				title: 'Политика конфиденциальности',
-				items: [{
-					title: 'Благодарим за Ваш интерес',
-					content: 'Эта страница информирует вас о нашей политике в отношении сбора, использования и раскрытия Личной Информации, которую мы получаем от пользователей Сайта. Мы не несем ответственности за сайты, расположенные на доменах, отличных от вышеуказанного. Мы используем Личную Информацию только для обеспечения и улучшения работы Сайта. Используя Сайт, вы соглашаетесь на сбор и использование информации в соответствии с данной политикой. Если иное не определено в настоящей Политике Конфиденциальности, то термины, используемые в настоящей Политике конфиденциальности, имеют те же значения, что и в наших Положениях и Условиях, размещенных на {{config(\'app.text_url\')}}. Мы используем Личную Информацию только для обеспечения и улучшения работы Сайта. Используя Сайт, вы соглашаетесь на сбор и использование информации в соответствии с данной политикой. Если иное не определено в настоящей Политике Конфиденциальности, то термины, используемые в настоящей Политике конфиденциальности, имеют те же значения, что и в наших Положениях и Условиях, размещенных на {{config(\'app.text_url\')}}.',
-				}, {
-					title: 'Сбор и использование информации',
-					content: 'Во время использования нашего Сайта, мы можем попросить вас предоставить нам определенную личную информацию, которая может быть использована для связи с вами или вашей идентификации. Личная информация может включать, но не ограничивается: вашим именем, адресом электронной почты, почтовым адресом и номером телефона («Личная информация»).',
-				}, {
-					title: 'Данные журнала событий',
-					content: 'Как и многие другие операторы сайтов, мы собираем информацию, которую ваш браузер передает каждый раз, когда вы посещаете наш Сайт («Данные Журнала Событий»). Эти Данные Журнала Событий могут включать в себя такую ​​информацию, как адрес интернет-протокола вашего компьютера («IP»), тип браузера, версию браузера, посещенные вами страницы нашего Сайта, время и дату вашего визита, время, проведенное на этих страницах и другие статистические данные.',
-				}, {
-					title: 'Файлы cookie',
-					content: 'Файлы сookie – это файлы, содержащие небольшое количество данных, которые могут включать в себя анонимный уникальный идентификатор. Файлы сookie отправляются браузеру веб-сайтом и хранятся на жестком диске вашего компьютера.Как и многие сайты, мы используем файлы сookie для сбора информации. Вы можете настроить Ваш браузер отказываться от всех файлов сookie или уведомлять об отправке файлов сookie. Однако если вы не будете принимать файлы сookie, то можете быть не в состоянии использовать некоторые разделы нашего сайта.',
-				}, {
-					title: 'Безопасность',
-					content: 'Безопасность вашей Личной Информации важна для нас, но необходимо помнить о том, что ни один из методов передачи данных через интернет или метод электронного хранения не безопасен на 100%. Несмотря на то, что мы стремимся использовать коммерчески приемлемые средства для защиты вашей Личной Информации, мы не можем гарантировать ее абсолютную безопасность.',
-				}, {
-					title: 'Ссылки на другие сайты',
-					content: 'Наш сайт может содержать ссылки на другие сайты, которые не управляются нами. Если вы нажмете на ссылку стороннего сайта, то будете перенаправлены на этот сторонний сайт. Мы настоятельно рекомендуем вам ознакомиться с политикой конфиденциальности каждого посещаемого сайта.{{config(\'app.text_name\')}} не имеет никакого контроля и не несет никакой ответственности за содержание, политику конфиденциальности или действия любых сторонних сайтов или сервисов.',
-				}, {
-					title: 'Изменения этой Политики Конфиденциальности',
-					content: '{{config(\'app.text_name\')}} может время от времени обновлять настоящую Политику Конфиденциальности. Мы будем сообщать вам о любых изменениях, размещая новую Политику Конфиденциальности на Сайте. Рекомендуется периодически просматривать эту Политику Конфиденциальности, чтобы узнавать о ее изменениях.',
-				}, {
-					title: 'Обратная связь',
-					content: 'Если у вас есть какие-либо вопросы по поводу данной Политики Конфиденциальности, пожалуйста, свяжитесь с нами.',
-				}],
-			}],
+			terms: [
+				{
+					title: this.$t('docs.terms.general.title'),
+					items: [
+						{
+							id: 'general',
+							title: this.$t('docs.terms.general.title'),
+							content: this.$t('docs.terms.general.content'),
+						},
+						{
+							id: 'definition',
+							title: this.$t('docs.terms.definition.title'),
+							content: this.$t('docs.terms.definition.content'),
+						},
+						{
+							id: 'account',
+							title: this.$t('docs.terms.account.title'),
+							content: this.$t('docs.terms.account.content'),
+						},
+						{
+							id: 'platform',
+							title: this.$t('docs.terms.platform.title'),
+							content: this.$t('docs.terms.platform.content'),
+						},
+						{
+							id: 'service_duty',
+							title: this.$t('docs.terms.service_duty.title'),
+							content: this.$t('docs.terms.service_duty.content'),
+						},
+						{
+							id: 'user_duty',
+							title: this.$t('docs.terms.user_duty.title'),
+							content: this.$t('docs.terms.user_duty.content'),
+						},
+						{
+							id: 'ip',
+							title: this.$t('docs.terms.ip.title'),
+							content: this.$t('docs.terms.ip.content'),
+						},
+						{
+							id: 'responsibility',
+							title: this.$t('docs.terms.responsibility.title'),
+							content: this.$t('docs.terms.responsibility.content'),
+						},
+						{
+							id: 'stop',
+							title: this.$t('docs.terms.stop.title'),
+							content: this.$t('docs.terms.stop.content'),
+						},
+						{
+							id: 'additional',
+							title: this.$t('docs.terms.additional.title'),
+							content: this.$t('docs.terms.additional.content'),
+						},
+						{
+							id: 'contacts',
+							title: this.$t('docs.terms.contacts.title'),
+							content: this.$t('docs.terms.contacts.content'),
+						},
+					],
+				},
+			],
 		};
 	},
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
