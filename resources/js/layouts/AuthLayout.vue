@@ -11,18 +11,30 @@
 			<canvas class="waves" id="waves"></canvas>
 
 			<div class="auth-layout__side-top mt-3 mt-md-1 pa-2">
-				<a href="/"><v-img max-width="250" src="/images/logo_full.png" class="ma-auto" /></a>
+				<a href="/">
+					<v-img
+						min-height="103"
+						max-width="250"
+						src="/images/logo_full.png"
+						class="ma-auto"
+					/>
+				</a>
 
-				<div class="title my-2">{{ product.slogan }}</div>
-
+				<div class="auth-layout__slogan title my-2 white--text">
+					{{ product.slogan }}
+				</div>
 			</div>
 
-			<div class="overline pa-1 mb-1" style="z-index:1">
+			<div class="auth-layout__links overline pa-1 mb-1">
 				<span>
-					<a class="text-decoration-none mr-1 white--text" href="/">Торговля</a>
-					<a class="text-decoration-none mr-1 white--text" href="/fees">Комиссии и лимиты</a>
-					<a class="text-decoration-none mr-1 white--text" href="/statusPage">Состояние системы</a>
-					<a class="text-decoration-none mr-1 white--text" href="/api">API</a>
+					<a class="white--text" href="/">Торговля</a>
+					<a class="white--text" href="/fees">
+						Комиссии и лимиты
+					</a>
+					<a class="white--text" href="/statusPage">
+						Состояние системы
+					</a>
+					<a class="white--text" href="/api">API</a>
 				</span>
 			</div>
 		</v-sheet>
@@ -33,8 +45,20 @@
 			<div class="layout-content ma-auto w-full">
 				<slot></slot>
 			</div>
+
 			<div class="overline mt-4">
-				{{ product.name }} - {{ product.version }}
+				<div v-if="$vuetify.breakpoint.smAndDown" class="auth-layout__links">
+					<a href="/"> Торговля</a>
+					<a href="/fees">
+						Комиссии и лимиты
+					</a>
+					<a href="/statusPage">
+						Состояние системы
+					</a>
+					<a href="/api">API</a>
+				</div>
+
+				<div>{{ product.name }} - {{ product.version }}</div>
 			</div>
 		</div>
 	</div>
@@ -91,6 +115,25 @@ export default {
 	&__side {
 		width: 420px;
 		background: rgba(0, 0, 0, 0)
+			linear-gradient(5deg, rgb(20, 47, 109) 0%, rgb(9, 28, 72) 40%) repeat
+			scroll 0% 0%;
+	}
+	&__slogan {
+		z-index: 1;
+	}
+	&__links {
+		z-index: 1;
+		a {
+			text-decoration: none;
+			color: unset;
+			margin-right: 8px;
+		}
+	}
+}
+.theme--dark .auth-layout {
+	background-color: #222;
+	&__side {
+		background: rgba(0, 0, 0, 0)
 			linear-gradient(
 				5deg,
 				rgba(3, 164, 194, 0.55) 0%,
@@ -98,12 +141,6 @@ export default {
 			)
 			repeat scroll 0 0;
 	}
-	&__company {
-		color: rgba(3, 164, 194, 0.65) !important;
-	}
-}
-.theme--dark .auth-layout {
-	background-color: #222;
 }
 @media screen and (max-width: 960px) {
 	.auth-layout {
