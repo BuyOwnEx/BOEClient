@@ -19,7 +19,12 @@
 				inset
 			/>
 
-			<v-menu transition="slide-y-transition" bottom>
+			<v-menu
+				v-model="isCloseMenu"
+				transition="slide-y-transition"
+				content-class="small-text-menu"
+				bottom
+			>
 				<template v-slot:activator="{ on, attrs }">
 					<v-btn
 						class="mr-1"
@@ -35,20 +40,26 @@
 					</v-btn>
 				</template>
 
-				<v-list>
-					<v-list-item
-						dense
-						v-for="(item, i) in closeOptions"
-						:key="i"
-						@click="item.click"
+				<v-list dense>
+					<OwnListConfirmDialog
+						v-for="item in closeOptions"
+						:key="item.text"
+						@confirm="handleCloseConfirm(item)"
 					>
-						<v-list-item-title>{{ item.text }}</v-list-item-title>
-					</v-list-item>
+						<template #default>
+							<v-list-item @click="closeCancelMenu">
+								<v-list-item-title>{{ item.text }}</v-list-item-title>
+							</v-list-item>
+						</template>
+						<template #text>
+							Вы уверены, что хотите отменить все {{ item.type }} позиции?
+						</template>
+					</OwnListConfirmDialog>
 				</v-list>
 			</v-menu>
 		</v-card-title>
 
-		<v-card-text class="own-active-position-list__content pa-0">
+		<v-card-text class="own-active-position-list__content pa-0 pt-1">
 			<v-data-table
 				:calculate-widths="true"
 				:headers="headers"
@@ -174,8 +185,15 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import positionClose from '../../../dialogs/trading/PositionClose';
 import positionAddFunds from '../../../dialogs/trading/PositionAddFunds';
 
+import OwnListConfirmDialog from '../common/OwnListConfirmDialog';
+import confirmDialog from '../../../../mixins/trading/confirmDialog';
+
 export default {
 	name: 'OwnActivePositionList',
+
+	components: { positionClose, positionAddFunds, OwnListConfirmDialog },
+
+	mixins: [confirmDialog],
 
 	props: {
 		currency: {
@@ -188,13 +206,9 @@ export default {
 		},
 	},
 
-	components: {
-		positionClose,
-		positionAddFunds,
-	},
-
 	data() {
 		return {
+			isCloseMenu: false,
 			showOtherPairs: false,
 			marginCallValue: 0.14,
 			itemsPerPage: 10,
@@ -264,6 +278,7 @@ export default {
 			closeOptions: [
 				{
 					text: this.$t('trading.position.close_all'),
+					type: '',
 					link: '/trader/ext/position/close_all',
 					click: () => {
 						axios.post('/trader/ext/position/close_all', {
@@ -275,6 +290,7 @@ export default {
 				},
 				{
 					text: this.$t('trading.position.close_long'),
+					type: this.$t('trading.position.close-long-type'),
 					link: '/trader/ext/position/close_all_long',
 					click: () => {
 						axios.post('/trader/ext/position/close_all_long', {
@@ -286,6 +302,7 @@ export default {
 				},
 				{
 					text: this.$t('trading.position.close_short'),
+					type: this.$t('trading.position.close-short-type'),
 					link: '/trader/ext/position/close_all_short',
 					click: () => {
 						axios.post('/trader/ext/position/close_all_short', {
@@ -351,6 +368,14 @@ export default {
 		},
 		closeMenu(item) {
 			item.menu = false;
+		},
+
+		closeCancelMenu() {
+			this.isCloseMenu = false;
+		},
+		handleCloseConfirm(item) {
+			this.closeCancelMenu();
+			item.click();
 		},
 	},
 };
