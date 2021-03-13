@@ -1,6 +1,6 @@
 <template>
 	<v-col cols="12" md="3" xl="2">
-		<div class="sticky" style="top: 90px">
+		<div class="docs-navigation__sticky-wrapper">
 			<div class="title mb-2">
 				{{ $t('docs.navigation') }}
 			</div>
@@ -73,4 +73,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+.docs-navigation
+	&__sticky-wrapper
+		position: sticky
+		top: 90px
+</style>
