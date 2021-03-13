@@ -1,5 +1,5 @@
 <template>
-	<v-card class="terms pa-3  flex-grow-1">
+	<v-card class="terms pa-3">
 		<DocsTitle> {{ $t('docs.terms.title') }} </DocsTitle>
 
 		<v-row>
@@ -91,4 +91,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang='sass'>
+.terms
+	display: flex
+	flex-flow: column
+	flex-grow: 1
+</style>

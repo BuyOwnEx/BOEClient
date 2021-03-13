@@ -1,5 +1,5 @@
 <template>
-	<v-card class="api pa-3 flex-grow-1">
+	<v-card class="api pa-3">
 		<DocsTitle>API</DocsTitle>
 
 		<v-row>
@@ -145,4 +145,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang='sass'>
+.api
+	display: flex
+	flex-flow: column
+	flex-grow: 1
+</style>
