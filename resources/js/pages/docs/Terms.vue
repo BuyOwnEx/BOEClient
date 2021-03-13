@@ -1,15 +1,13 @@
 <template>
-	<v-card class="terms flex-grow-1">
-		<div class="pa-3 min-w-0 w-full">
-			<DocsTitle> {{ $t('docs.terms.title') }} </DocsTitle>
+	<v-card class="terms pa-3  flex-grow-1">
+		<DocsTitle> {{ $t('docs.terms.title') }} </DocsTitle>
 
-			<v-row>
-				<DocsNavigation :data-array="terms" />
-				<DocsContent :data-array="terms" />
-			</v-row>
+		<v-row>
+			<DocsNavigation :data-array="terms" />
+			<DocsContent :data-array="terms" />
+		</v-row>
 
-			<DocsFooter />
-		</div>
+		<DocsFooter />
 	</v-card>
 </template>
 

@@ -1,16 +1,14 @@
 <template>
-	<v-card class="api flex-grow-1">
-		<div class="pa-3 min-w-0 w-full">
-			<DocsTitle>API</DocsTitle>
+	<v-card class="api pa-3 flex-grow-1">
+		<DocsTitle>API</DocsTitle>
 
-			<v-row>
-				<DocsNavigation :data-array="api" nested />
+		<v-row>
+			<DocsNavigation :data-array="api" nested />
 
-				<DocsContent :data-array="api" />
-			</v-row>
+			<DocsContent :data-array="api" nested />
+		</v-row>
 
-			<DocsFooter />
-		</div>
+		<DocsFooter />
 	</v-card>
 </template>
 
