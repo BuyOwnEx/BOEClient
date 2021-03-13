@@ -8,27 +8,26 @@
 
 			<slot>
 				<div v-if="nested">
-					<div v-for="dataItem in dataArray" :key="dataItem.id" class="mb-1">
-						<v-btn
-							text
-							color="primary"
-							@click="$vuetify.goTo(`#${dataItem.id}`, { offset: 30 })"
-						>
-							{{ dataItem.title }}
-						</v-btn>
-
-						<div v-if="dataItem.items">
-							<div class="pl-2" v-for="item in dataItem.items" :key="item.id">
-								<v-btn
-									text
-									color="primary"
-									@click="$vuetify.goTo(`#${item.id}`, { offset: 30 })"
-								>
-									{{ item.title }}
-								</v-btn>
-							</div>
-						</div>
-					</div>
+					<v-treeview
+						v-model="tree"
+						:items="dataArray"
+						:open="['general']"
+						:hoverable="false"
+						item-children="items"
+						item-text="title"
+						open-on-click
+						dense
+					>
+						<template #label="{ item }">
+							<v-btn
+								color="primary"
+								text
+								@click.stop="$vuetify.goTo(`#${item.id}`, { offset: 30 })"
+							>
+								{{ item.title }}
+							</v-btn>
+						</template>
+					</v-treeview>
 				</div>
 
 				<div v-else>
@@ -64,6 +63,12 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+	},
+
+	data() {
+		return {
+			tree: [],
+		};
 	},
 };
 </script>
