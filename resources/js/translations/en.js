@@ -335,6 +335,169 @@ export default {
 		amount: 'Amount',
 		show_only_not_null_balances: 'Show only not null balances',
 	},
+
+	// docs: {
+	// 	navigation: 'Contents',
+	// 	terms: {
+	// 		title: 'Terms',
+	// 		general: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		definition: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		account: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		platform: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		service_duty: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		user_duty: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		ip: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		responsibility: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		stop: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		additional: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		contacts: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 	},
+	// 	policy: {
+	// 		title: 'Policy',
+	// 		general: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		collecting_data: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		event_data: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		cookie: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		links: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		changes: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		contact: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 	},
+	// 	api: {
+	// 		general: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		auth: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		limits: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		codes: {
+	// 			title: '',
+	// 			content: '',
+	// 		},
+	// 		public: {
+	// 			title: '',
+	// 			market: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			currency: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			get_ticker: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			get_depth: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			get_deal: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 		},
+	// 		private: {
+	// 			title: '',
+	// 			deal_list: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			orders_list: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			orders_info: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			balance: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			transaction_list: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			transfer_list: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			commission: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			place_order: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 			cancel_order: {
+	// 				title: '',
+	// 				content: '',
+	// 			},
+	// 		},
+	// 	},
+	// },
+
 	// Vuetify components translations
 	$vuetify: {
 		badge: 'Badge',
