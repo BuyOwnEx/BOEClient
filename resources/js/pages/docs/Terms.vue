@@ -26,7 +26,7 @@ export default {
 		return {
 			terms: [
 				{
-					title: this.$t('docs.terms.general.title'),
+					title: this.$t('docs.terms.title'),
 					items: [
 						{
 							id: 'general',

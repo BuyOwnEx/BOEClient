@@ -26,7 +26,7 @@ export default {
 		return {
 			policy: [
 				{
-					title: this.$t('docs.policy.general.title'),
+					title: this.$t('docs.policy.title'),
 					items: [
 						{
 							id: 'general',
