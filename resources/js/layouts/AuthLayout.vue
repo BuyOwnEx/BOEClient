@@ -47,7 +47,10 @@
 			</div>
 
 			<div class="overline mt-4">
-				<div v-if="$vuetify.breakpoint.smAndDown" class="auth-layout__links">
+				<div
+					v-if="$vuetify.breakpoint.smAndDown"
+					class="auth-layout__links mb-1"
+				>
 					<a href="/"> Торговля</a>
 					<a href="/fees">
 						Комиссии и лимиты
