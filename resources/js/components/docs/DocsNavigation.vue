@@ -12,7 +12,7 @@
 						v-model="tree"
 						:items="dataArray"
 						:open="['general']"
-						:hoverable="false"
+						:transition="true"
 						item-children="items"
 						item-text="title"
 						open-on-click
