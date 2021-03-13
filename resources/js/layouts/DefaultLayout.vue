@@ -126,6 +126,7 @@
 			<v-footer
 				class="footer overline"
 				:app="$vuetify.breakpoint.mdAndUp"
+				:height="calculateFooterHeight"
 				inset
 			>
 				<span>
@@ -217,6 +218,16 @@ export default {
 		navigation() {
 			return this.isLogged ? config.navigation : config.guest_navigation;
 		},
+
+		calculateFooterHeight() {
+			const width = this.$vuetify.breakpoint.width;
+			const isMediumBreakpoint = width < 1264 && width > 960;
+			const isMobile = this.$vuetify.breakpoint.smAndDown;
+
+			if (isMediumBreakpoint) return 40;
+			else if (isMobile) return undefined;
+			else return 29;
+		},
 	},
 
 	mounted() {
@@ -238,20 +249,13 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	font-size: 8px;
-	height: 29px;
 	letter-spacing: 1px !important;
-}
-@media screen and (max-width: 1263px) {
-	.footer {
-		height: 40px;
-	}
 }
 @media screen and (max-width: 960px) {
 	.footer {
-		font-size: 10px;
-		height: 171px;
-		padding-bottom: 150px;
-		margin-top: -84px;
+		height: 139px !important;
+		padding-bottom: 110px;
+		margin-top: -69px;
 	}
 }
 </style>
