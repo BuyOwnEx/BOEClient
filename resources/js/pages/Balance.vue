@@ -1,28 +1,33 @@
 <template>
-	<v-container class="balance fill-height pa-0" fluid>
-		<v-row class="balance__fiat" align="start" justify="center" no-gutters>
-			<v-col cols="12" class="text-center">
-				<own-fiat-balance-list />
-			</v-col>
-		</v-row>
+	<v-card class="balance flex-grow-1">
+		<v-tabs v-model="selectedTab">
+			<v-tab :key="1">
+				{{ $t('balance.headers.own_crypto_balance_list') }}
+			</v-tab>
 
-		<v-row class="balance__crypto" align="start" justify="center" no-gutters>
-			<v-col cols="12" class="text-center">
-				<own-crypto-balance-list />
-			</v-col>
-		</v-row>
+			<v-tab :key="2">
+				{{ $t('balance.headers.own_fiat_balance_list') }}
+			</v-tab>
 
-		<v-row
-			class="balance__withdrawal"
-			align="start"
-			justify="center"
-			no-gutters
-		>
-			<v-col cols="12" class="text-center">
-				<own-withdrawal-list />
-			</v-col>
-		</v-row>
-	</v-container>
+			<v-tab :key="3">
+				{{ $t('balance.headers.own_active_withdraw_list') }}
+			</v-tab>
+		</v-tabs>
+
+		<v-tabs-items v-model="selectedTab">
+			<v-tab-item :key="1">
+				<OwnCryptoBalanceList />
+			</v-tab-item>
+
+			<v-tab-item :key="2">
+				<OwnFiatBalanceList />
+			</v-tab-item>
+
+			<v-tab-item :key="3">
+				<OwnWithdrawalList />
+			</v-tab-item>
+		</v-tabs-items>
+	</v-card>
 </template>
 
 <script>
@@ -43,7 +48,9 @@ export default {
 	},
 
 	data() {
-		return {};
+		return {
+			selectedTab: 0,
+		};
 	},
 
 	computed: {
