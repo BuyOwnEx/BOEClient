@@ -1,7 +1,7 @@
 <template>
 	<v-card class="own-active-order-list pa-1">
-		<v-card-title class="own-active-order-list__header trading-component-title pa-0">
-			<span>
+		<v-card-title class="own-active-order-list__header pa-0">
+			<span class="trading-component-title">
 				{{ $t('trading.headers.own_active_order_list') }}
 			</span>
 
@@ -9,7 +9,7 @@
 
 			<v-switch
 				v-model="showOtherPairs"
-				class="mr-3"
+				class="small-label-table-switch mr-3"
 				:label="$t('trading.show_other_pairs')"
 				hide-details
 				dense
@@ -23,7 +23,15 @@
 				bottom
 			>
 				<template v-slot:activator="{ on, attrs }">
-					<v-btn class='mr-1' color="#A6A6A6" v-bind="attrs" v-on="on" text tile small>
+					<v-btn
+						class="mr-1"
+						color="#A6A6A6"
+						v-bind="attrs"
+						v-on="on"
+						text
+						tile
+						small
+					>
 						{{ $t('trading.cancel') }}
 						<v-icon right>mdi-chevron-down</v-icon>
 					</v-btn>

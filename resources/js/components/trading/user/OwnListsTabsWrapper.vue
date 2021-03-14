@@ -1,6 +1,6 @@
 <template>
 	<v-card class="own-lists-tabs-wrapper">
-		<v-tabs v-model="selectedTab">
+		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">
 				{{ $t('trading.headers.own_active_order_list') }}
 			</v-tab>

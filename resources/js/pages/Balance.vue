@@ -1,6 +1,6 @@
 <template>
 	<v-card class="balance flex-grow-1">
-		<v-tabs v-model="selectedTab">
+		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">
 				{{ $t('balance.headers.own_crypto_balance_list') }}
 			</v-tab>

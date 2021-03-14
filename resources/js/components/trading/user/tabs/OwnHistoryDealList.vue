@@ -1,7 +1,7 @@
 <template>
 	<v-card class="own-history-deal-list pa-1">
-		<v-card-title class="own-history-deal-list__header trading-component-title pa-0">
-			<span>
+		<v-card-title class="own-history-deal-list__header pa-0">
+			<span class="trading-component-title">
 				{{ $t('trading.headers.own_history_deal_list') }}
 			</span>
 
@@ -9,7 +9,7 @@
 
 			<v-switch
 				v-model="showOtherPairs"
-				class='mr-1'
+				class="small-label-table-switch mr-1"
 				:label="$t('trading.show_other_pairs')"
 				hide-details
 				dense

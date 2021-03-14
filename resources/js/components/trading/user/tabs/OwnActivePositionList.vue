@@ -1,9 +1,9 @@
 <template>
 	<v-card class="own-active-position-list pa-1">
 		<v-card-title
-			class="own-active-position-list__header trading-component-title pa-0"
+			class="own-active-position-list__header pa-0"
 		>
-			<span>
+			<span class='trading-component-title'>
 				{{ $t('trading.headers.own_active_position_list') }}
 			</span>
 
@@ -11,7 +11,7 @@
 
 			<v-switch
 				v-model="showOtherPairs"
-				class="mr-3"
+				class="small-label-table-switch mr-3"
 				:label="$t('trading.show_other_pairs')"
 				hide-details
 				left

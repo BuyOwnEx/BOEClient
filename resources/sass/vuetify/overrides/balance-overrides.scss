@@ -3,4 +3,15 @@
 	.v-data-table__wrapper {
 		min-height: calc(100vh - 256px);
 	}
+	table {
+		padding: 0 !important;
+	}
+	.v-card {
+		box-shadow: none !important;
+	}
+	@media screen and (max-width: 600px) {
+		.v-data-table {
+			margin-top: 16px;
+		}
+	}
 }

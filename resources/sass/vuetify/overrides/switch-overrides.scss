@@ -40,13 +40,13 @@
 	}
 }
 
-.trading {
-	// Label size only for own lists
-	.own-active-order-list,
-	.own-history-deal-list,
-	.own-active-position-list {
-		.v-input--switch label {
+// Label size for some switch in tables
+.v-application {
+	.small-label-table-switch.v-input {
+		.v-input__slot label {
 			font-size: 10px !important;
+			text-transform: uppercase !important;
+			font-weight: 600 !important;
 		}
 	}
 }

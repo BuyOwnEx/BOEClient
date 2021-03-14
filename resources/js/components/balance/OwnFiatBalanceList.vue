@@ -1,7 +1,7 @@
 <template>
 	<v-card>
 		<v-data-table
-			class="px-2"
+			class="px-sm-2"
 			:calculate-widths="true"
 			:headers="headers"
 			:items="fiatBalances"
@@ -10,15 +10,15 @@
 			dense
 		>
 			<template v-slot:top>
-				<v-toolbar flat dense>
-					<div class="trading-component-title">{{componentTitle}}</div>
+				<v-toolbar class="trading-component-title" flat dense>
+					<div>{{ componentTitle }}</div>
 
 					<v-spacer />
 
 					<v-switch
 						v-model="showOnlyNotNullBalances"
-						class="mr-3"
-						:label="$t('trading.show_only_not_null_balances')"
+						class="small-label-table-switch mr-sm-3"
+						:label="$t('balance.show_only_not_null_balances')"
 						hide-details
 						left
 						dense
