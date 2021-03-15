@@ -225,7 +225,7 @@ export default {
 			return new Promise(async (resolve, reject) => {
 				let result = await this.getItems(this.options);
 				let items = result.data;
-				const total = result.data.length;
+				const total = result.total;
 				let self = this;
 				_.forEach(items, function(value) {
 					_.assign(value, { color: self.getRandomColor() });

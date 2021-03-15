@@ -7,6 +7,7 @@ export default {
 			sub_order_book: null,
 			sub_history_deals: null,
 			sub_graph: null,
+			sub_depth: null,
 			sub_tickers: null,
 			sub_currencies: null,
 			sub_markets: null,
@@ -181,8 +182,12 @@ export default {
 			this.sub_history_deals.removeAllListeners();
 			this.$store.commit('trading/resetHistoryDealList');
 
+			this.sub_depth.unsubscribe();
+			this.sub_depth.removeAllListeners();
+
 			this.sub_graph.unsubscribe();
 			this.sub_graph.removeAllListeners();
+
 			//this.$store.commit('trading/resetGraphList');
 
 		},
@@ -285,8 +290,11 @@ export default {
 					ticker.bid = data.data.ticker.bid_price;
 					ticker.ask = data.data.ticker.ask_price;
 					this.$store.commit('tickers/updateSingleTicker', ticker);
-					this.$store.commit('trading/setBestAsk', data.data.ticker.ask_price);
-					this.$store.commit('trading/setBestBid', data.data.ticker.bid_price);
+					if(ticker.currency.toLowerCase() === this.selectedCurrency.toLowerCase() && ticker.market.toLowerCase() === this.selectedMarket.toLowerCase())
+					{
+						this.$store.commit('trading/setBestAsk', data.data.ticker.ask_price);
+						this.$store.commit('trading/setBestBid', data.data.ticker.bid_price);
+					}
 					break;
 				case 'day_change_ticker':
 					ticker.previous_day = data.data.ticker.price;
