@@ -336,167 +336,171 @@ export default {
 		show_only_not_null_balances: 'Show only not null balances',
 	},
 
-	// docs: {
-	// 	navigation: 'Contents',
-	// 	terms: {
-	// 		title: 'Terms',
-	// 		general: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		definition: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		account: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		platform: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		service_duty: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		user_duty: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		ip: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		responsibility: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		stop: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		additional: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		contacts: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 	},
-	// 	policy: {
-	// 		title: 'Policy',
-	// 		general: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		collecting_data: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		event_data: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		cookie: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		links: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		changes: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		contact: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 	},
-	// 	api: {
-	// 		general: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		auth: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		limits: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		codes: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		public: {
-	// 			title: '',
-	// 			market: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			currency: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			get_ticker: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			get_depth: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			get_deal: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 		},
-	// 		private: {
-	// 			title: '',
-	// 			deal_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			orders_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			orders_info: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			balance: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			transaction_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			transfer_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			commission: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			place_order: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			cancel_order: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 		},
-	// 	},
-	// },
+	docs: {
+		navigation: 'Contents',
+		terms: {
+			title: 'Terms',
+			general: {
+				title: 'Thanks for your interest',
+				content: 'Thanks for your interest',
+			},
+			definition: {
+				title: 'Definitions',
+				content: 'Definitions',
+			},
+			account: {
+				title: 'Your account',
+				content: 'Your account',
+			},
+			platform: {
+				title: 'Platform for sale-purchase transactions',
+				content: 'Platform for sale-purchase transactions',
+			},
+			service_duty: {
+				title: 'Responsibilities of the service',
+				content: 'Responsibilities of the service',
+			},
+			user_duty: {
+				title: 'Responsibilities of users',
+				content: 'Responsibilities of users',
+			},
+			ip: {
+				title: 'Intellectual property',
+				content: 'Intellectual property',
+			},
+			responsibility: {
+				title: 'Liability',
+				content: 'Liability',
+			},
+			stop: {
+				title: 'Termination',
+				content: 'Termination',
+			},
+			additional: {
+				title: 'Additional terms',
+				content: 'Additional terms',
+			},
+			contacts: {
+				title: 'Contacts',
+				content: 'Contacts',
+			},
+		},
+		policy: {
+			title: 'Policy',
+			general: {
+				title: 'Thanks for your interest',
+				content: 'Thanks for your interest',
+			},
+			collecting_data: {
+				title: 'Information Collection And Use',
+				content: 'Information Collection And Use',
+			},
+			event_data: {
+				title: 'Log Data',
+				content: 'Log Data',
+			},
+			cookie: {
+				title: 'Cookies',
+				content: 'Cookies',
+			},
+			security: {
+				title: 'Security',
+				content: 'Security',
+			},
+			links: {
+				title: 'Links To Other Sites',
+				content: 'Links To Other Sites',
+			},
+			changes: {
+				title: 'Changes To This Privacy Policy',
+				content: 'Changes To This Privacy Policy',
+			},
+			contact: {
+				title: 'Contact Us',
+				content: 'Contact Us',
+			},
+		},
+		api: {
+			general: {
+				title: 'General information',
+				content: 'General information',
+			},
+			auth: {
+				title: 'Authorization',
+				content: 'Authorization',
+			},
+			limits: {
+				title: 'Limitations',
+				content: 'Limitations',
+			},
+			codes: {
+				title: 'HTTP response codes and API error codes',
+				content: 'HTTP response codes and API error codes',
+			},
+			public: {
+				title: 'Public API',
+				market: {
+					title: 'Summary market data',
+					content: 'Summary market data',
+				},
+				currency: {
+					title: 'Assets info',
+					content: 'Assets info',
+				},
+				get_ticker: {
+					title: 'Ticker',
+					content: 'Ticker',
+				},
+				get_depth: {
+					title: 'Order book',
+					content: 'Order book',
+				},
+				get_deal: {
+					title: 'Trades list',
+					content: 'Trades list',
+				},
+			},
+			private: {
+				title: 'Personal API',
+				deal_list: {
+					title: 'Deals list',
+					content: 'Deals list',
+				},
+				orders_list: {
+					title: 'Orders list',
+					content: 'Orders list',
+				},
+				orders_info: {
+					title: 'Order info',
+					content: 'Order info',
+				},
+				balance: {
+					title: 'Balance',
+					content: 'Balance',
+				},
+				transaction_list: {
+					title: 'Transactions list',
+					content: 'Transactions list',
+				},
+				transfer_list: {
+					title: 'Transfers list',
+					content: 'Transfers list',
+				},
+				commission: {
+					title: 'Current fee info',
+					content: 'Current fee info',
+				},
+				place_order: {
+					title: 'Place order',
+					content: 'Place order',
+				},
+				cancel_order: {
+					title: 'Cancel order',
+					content: 'Cancel order',
+				},
+			},
+		},
+	},
 
 	// Vuetify components translations
 	$vuetify: {

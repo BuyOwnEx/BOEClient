@@ -338,171 +338,171 @@ export default {
 		show_only_not_null_balances: 'Show only not null balances',
 	},
 
-	// docs: {
-	// 	navigation: 'Содержание',
-	// 	terms: {
-	// 		title: 'Правила системы',
-	// 		general: {
-	// 			title: '',
-	// 			content: ''
-	// 		},
-	// 		definition: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		account: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		platform: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		service_duty: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		user_duty: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		ip: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		responsibility: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		stop: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		additional: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		contacts: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 	},
-	// 	policy: {
-	// 		title: 'Политика конфиденциальности',
-	// 		general: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		collecting_data: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		event_data: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		cookie: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		security: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		links: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		changes: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		contact: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 	},
-	// 	api: {
-	// 		general: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		auth: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		limits: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		codes: {
-	// 			title: '',
-	// 			content: '',
-	// 		},
-	// 		public: {
-	// 			title: '',
-	// 			market: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			currency: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			get_ticker: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			get_depth: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			get_deal: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 		},
-	// 		private: {
-	// 			title: '',
-	// 			deal_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			orders_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			orders_info: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			balance: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			transaction_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			transfer_list: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			commission: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			place_order: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 			cancel_order: {
-	// 				title: '',
-	// 				content: '',
-	// 			},
-	// 		},
-	// 	},
-	// },
+	docs: {
+		navigation: 'Содержание',
+		terms: {
+			title: 'Правила системы',
+			general: {
+				title: 'Благодарим за Ваш интерес',
+				content: 'Благодарим за Ваш интерес',
+			},
+			definition: {
+				title: 'Определения',
+				content: 'Определения',
+			},
+			account: {
+				title: 'Ваш счет',
+				content: 'Ваш счет',
+			},
+			platform: {
+				title: 'Платформа сделок купли-продажи',
+				content: 'Платформа сделок купли-продажи',
+			},
+			service_duty: {
+				title: 'Обязанности сервиса',
+				content: 'Обязанности сервиса',
+			},
+			user_duty: {
+				title: 'Обязанности пользователей',
+				content: 'Обязанности пользователей',
+			},
+			ip: {
+				title: 'Интеллектуальная собственность',
+				content: 'Интеллектуальная собственность',
+			},
+			responsibility: {
+				title: 'Ответственность',
+				content: 'Ответственность',
+			},
+			stop: {
+				title: 'Прекращение',
+				content: 'Прекращение',
+			},
+			additional: {
+				title: 'Дополнительно',
+				content: 'Дополнительно',
+			},
+			contacts: {
+				title: 'Контакты',
+				content: 'Контакты',
+			},
+		},
+		policy: {
+			title: 'Политика конфиденциальности',
+			general: {
+				title: 'Благодарим за ваш интерес',
+				content: 'Благодарим за ваш интерес',
+			},
+			collecting_data: {
+				title: 'Сбор и использование информации',
+				content: 'Сбор и использование информации',
+			},
+			event_data: {
+				title: 'Данные журнала событий',
+				content: 'Данные журнала событий',
+			},
+			cookie: {
+				title: 'Файлы cookie',
+				content: 'Файлы cookie',
+			},
+			security: {
+				title: 'Безопасность',
+				content: 'Безопасность',
+			},
+			links: {
+				title: 'Ссылки на другие сайты',
+				content: 'Ссылки на другие сайты',
+			},
+			changes: {
+				title: 'Изменения этой Политики Конфиденциальности',
+				content: 'Изменения этой Политики Конфиденциальности',
+			},
+			contact: {
+				title: 'Обратная связь',
+				content: 'Обратная связь',
+			},
+		},
+		api: {
+			general: {
+				title: 'Общая информация',
+				content: 'Общая информация',
+			},
+			auth: {
+				title: 'Авторизация',
+				content: 'Авторизация',
+			},
+			limits: {
+				title: 'Ограничения',
+				content: 'Ограничения',
+			},
+			codes: {
+				title: 'Коды возврата и коды ошибок API',
+				content: 'Коды возврата и коды ошибок API',
+			},
+			public: {
+				title: 'Публичное API',
+				market: {
+					title: 'Рыночные данные',
+					content: 'Рыночные данные',
+				},
+				currency: {
+					title: 'Информация по валютам',
+					content: 'Информация по валютам',
+				},
+				get_ticker: {
+					title: 'Получение тикера',
+					content: 'Получение тикера',
+				},
+				get_depth: {
+					title: 'Получение стакана',
+					content: 'Получение стакана',
+				},
+				get_deal: {
+					title: 'Получение сделок',
+					content: 'Получение сделок',
+				},
+			},
+			private: {
+				title: 'Персональное API',
+				deal_list: {
+					title: 'Список сделок',
+					content: 'Список сделок',
+				},
+				orders_list: {
+					title: 'Список ордеров',
+					content: 'Список ордеров',
+				},
+				orders_info: {
+					title: 'Информация по ордеру',
+					content: 'Информация по ордеру',
+				},
+				balance: {
+					title: 'Баланс',
+					content: 'Баланс',
+				},
+				transaction_list: {
+					title: 'Список транзакций',
+					content: 'Список транзакций',
+				},
+				transfer_list: {
+					title: 'Список переводов',
+					content: 'Список переводов',
+				},
+				commission: {
+					title: 'Информация о текущей комисси',
+					content: 'Информация о текущей комисси',
+				},
+				place_order: {
+					title: 'Выставить ордер',
+					content: 'Выставить ордер',
+				},
+				cancel_order: {
+					title: 'Отменить ордер',
+					content: 'Отменить ордер',
+				},
+			},
+		},
+	},
 
 	$vuetify: {
 		badge: 'Значок',
