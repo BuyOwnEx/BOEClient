@@ -4,6 +4,15 @@
 			.v-btn__content {
 			opacity: 0.9 !important;
 		}
+
+		.v-treeview-node {
+			&__root {
+				padding: 0 !important;
+			}
+			&__label button {
+				padding: 0 !important;
+			}
+		}
 	}
 
 	.theme--dark.v-expansion-panels .v-expansion-panel {
