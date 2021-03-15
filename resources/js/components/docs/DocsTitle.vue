@@ -1,5 +1,5 @@
 <template>
-	<div class="display-1">
+	<div class="docs-title display-1 trading-component-title">
 		<!--		-->
 
 		<slot>
@@ -16,4 +16,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.docs-title {
+	font-size: 30px !important;
+}
+</style>
