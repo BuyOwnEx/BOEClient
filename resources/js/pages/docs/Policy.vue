@@ -1,5 +1,5 @@
 <template>
-	<v-card class="policy pa-3">
+	<v-card class="docs policy pa-3">
 		<DocsTitle> {{ $t('docs.policy.title') }} </DocsTitle>
 
 		<v-row>

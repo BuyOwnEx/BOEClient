@@ -1,5 +1,5 @@
 <template>
-	<v-card class="api pa-3">
+	<v-card class="docs api pa-3">
 		<DocsTitle>API</DocsTitle>
 
 		<v-row>
