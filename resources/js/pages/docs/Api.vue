@@ -102,40 +102,40 @@ export default {
 					title: this.$t('docs.api.private.title'),
 					items: [
 						{
-							title: this.$t('docs.api.public.private.deal_list.title'),
-							content: this.$t('docs.api.public.deal_list.content'),
+							title: this.$t('docs.api.private.deal_list.title'),
+							content: this.$t('docs.api.private.deal_list.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.orders_list.title'),
-							content: this.$t('docs.api.public.orders_list.content'),
+							title: this.$t('docs.api.private.orders_list.title'),
+							content: this.$t('docs.api.private.orders_list.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.orders_info.title'),
-							content: this.$t('docs.api.public.orders_info.content'),
+							title: this.$t('docs.api.private.orders_info.title'),
+							content: this.$t('docs.api.private.orders_info.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.balance.title'),
-							content: this.$t('docs.api.public.balance.content'),
+							title: this.$t('docs.api.private.balance.title'),
+							content: this.$t('docs.api.private.balance.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.transaction_list.title'),
-							content: this.$t('docs.api.public.transaction_list.content'),
+							title: this.$t('docs.api.private.transaction_list.title'),
+							content: this.$t('docs.api.private.transaction_list.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.transfer_list.title'),
-							content: this.$t('docs.api.public.transfer_list.content'),
+							title: this.$t('docs.api.private.transfer_list.title'),
+							content: this.$t('docs.api.private.transfer_list.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.commission.title'),
-							content: this.$t('docs.api.public.commission.content'),
+							title: this.$t('docs.api.private.commission.title'),
+							content: this.$t('docs.api.private.commission.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.place_order.title'),
-							content: this.$t('docs.api.public.place_order.content'),
+							title: this.$t('docs.api.private.place_order.title'),
+							content: this.$t('docs.api.private.place_order.content'),
 						},
 						{
-							title: this.$t('docs.api.public.private.cancel_order.title'),
-							content: this.$t('docs.api.public.cancel_order.content'),
+							title: this.$t('docs.api.private.cancel_order.title'),
+							content: this.$t('docs.api.private.cancel_order.content'),
 						},
 					],
 				},
@@ -145,7 +145,7 @@ export default {
 };
 </script>
 
-<style scoped lang='sass'>
+<style scoped lang="sass">
 .api
 	display: flex
 	flex-flow: column
