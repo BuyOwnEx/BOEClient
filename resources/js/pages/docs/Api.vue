@@ -3,7 +3,7 @@
 		<DocsTitle>API</DocsTitle>
 
 		<v-row>
-			<DocsNavigation :data-array="api" nested />
+			<DocsNavigation :data-array="api" />
 
 			<DocsContent :data-array="api" nested />
 		</v-row>
@@ -29,42 +29,22 @@ export default {
 				{
 					id: 'general',
 					title: this.$t('docs.api.general.title'),
-					items: [
-						{
-							title: this.$t('docs.api.general.title'),
-							content: this.$t('docs.api.general.content'),
-						},
-					],
+					content: this.$t('docs.api.general.content'),
 				},
 				{
 					id: 'auth',
 					title: this.$t('docs.api.auth.title'),
-					items: [
-						{
-							title: this.$t('docs.api.auth.title'),
-							content: this.$t('docs.api.auth.content'),
-						},
-					],
+					content: this.$t('docs.api.auth.content'),
 				},
 				{
 					id: 'limits',
 					title: this.$t('docs.api.limits.title'),
-					items: [
-						{
-							title: this.$t('docs.api.limits.title'),
-							content: this.$t('docs.api.limits.content'),
-						},
-					],
+					content: this.$t('docs.api.limits.content'),
 				},
 				{
 					id: 'codes',
 					title: this.$t('docs.api.codes.title'),
-					items: [
-						{
-							title: this.$t('docs.api.codes.title'),
-							content: this.$t('docs.api.codes.content'),
-						},
-					],
+					content: this.$t('docs.api.codes.content'),
 				},
 				{
 					id: 'public',
@@ -102,38 +82,47 @@ export default {
 					title: this.$t('docs.api.private.title'),
 					items: [
 						{
+							id: 'private_deal_list',
 							title: this.$t('docs.api.private.deal_list.title'),
 							content: this.$t('docs.api.private.deal_list.content'),
 						},
 						{
+							id: 'private_orders_list',
 							title: this.$t('docs.api.private.orders_list.title'),
 							content: this.$t('docs.api.private.orders_list.content'),
 						},
 						{
+							id: 'private_orders_info',
 							title: this.$t('docs.api.private.orders_info.title'),
 							content: this.$t('docs.api.private.orders_info.content'),
 						},
 						{
+							id: 'private_balance',
 							title: this.$t('docs.api.private.balance.title'),
 							content: this.$t('docs.api.private.balance.content'),
 						},
 						{
+							id: 'private_transaction_list',
 							title: this.$t('docs.api.private.transaction_list.title'),
 							content: this.$t('docs.api.private.transaction_list.content'),
 						},
 						{
+							id: 'private_transfer_list',
 							title: this.$t('docs.api.private.transfer_list.title'),
 							content: this.$t('docs.api.private.transfer_list.content'),
 						},
 						{
+							id: 'private_commission',
 							title: this.$t('docs.api.private.commission.title'),
 							content: this.$t('docs.api.private.commission.content'),
 						},
 						{
+							id: 'private_place_order',
 							title: this.$t('docs.api.private.place_order.title'),
 							content: this.$t('docs.api.private.place_order.content'),
 						},
 						{
+							id: 'private_cancel_order',
 							title: this.$t('docs.api.private.cancel_order.title'),
 							content: this.$t('docs.api.private.cancel_order.content'),
 						},
