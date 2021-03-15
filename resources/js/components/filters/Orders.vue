@@ -113,7 +113,7 @@
 									disabled = false;
 								}
 							"
-						></v-date-picker>
+						/>
 					</v-menu>
 				</v-col>
 

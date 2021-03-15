@@ -37,7 +37,7 @@
 									disabled = false;
 								}
 							"
-						></v-date-picker>
+						/>
 					</v-menu>
 				</v-col>
 
@@ -101,7 +101,7 @@
 								readonly
 								v-bind="attrs"
 								v-on="on"
-							></v-text-field>
+							/>
 						</template>
 						<v-date-picker
 							v-model="filters.end_date"
@@ -113,7 +113,7 @@
 									disabled = false;
 								}
 							"
-						></v-date-picker>
+						/>
 					</v-menu>
 				</v-col>
 
@@ -138,7 +138,7 @@
 								readonly
 								v-bind="attrs"
 								v-on="on"
-							></v-text-field>
+							/>
 						</template>
 						<v-time-picker
 							v-if="menu_end_time"
@@ -152,7 +152,7 @@
 									disabled = false;
 								}
 							"
-						></v-time-picker>
+						/>
 					</v-menu>
 				</v-col>
 			</v-row>
@@ -167,7 +167,7 @@
 						persistent-hint
 						hide-details="auto"
 						clearable
-					></v-text-field>
+					/>
 				</v-col>
 
 				<v-col class="px-1" cols="12" sm="4" md="4">
