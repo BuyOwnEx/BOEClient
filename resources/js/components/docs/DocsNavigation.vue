@@ -1,5 +1,5 @@
 <template>
-	<v-col cols="12" md="3" xl="2">
+	<v-col class="docs-navigation" cols="12" md="3" xl="2">
 		<div class="docs-navigation__sticky-wrapper">
 			<div class="title mb-2">
 				{{ $t('docs.navigation') }}
@@ -22,6 +22,7 @@
 							<v-btn
 								color="primary"
 								text
+								plain
 								@click.stop="$vuetify.goTo(`#${item.id}`, { offset: 30 })"
 							>
 								{{ item.title }}
@@ -33,8 +34,9 @@
 				<div v-else>
 					<div v-for="item in dataArray[0].items" :key="item.id" class="mb-1">
 						<v-btn
-							text
 							color="primary"
+							text
+							plain
 							@click="$vuetify.goTo(`#${item.id}`, { offset: 30 })"
 						>
 							{{ item.title }}

@@ -1,0 +1,6 @@
+.docs-navigation {
+	.v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover)
+		.v-btn__content {
+		opacity: 0.9 !important;
+	}
+}
