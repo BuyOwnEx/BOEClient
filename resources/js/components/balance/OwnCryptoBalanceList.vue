@@ -36,7 +36,7 @@
 					bottom
 				>
 					<template v-slot:activator="{ on }">
-						<v-btn x-small color="success" dense v-on="on">
+						<v-btn color="#A6A6A6" v-on="on" text tile small>
 							{{ $t('trading.actions') }}
 							<v-icon right>mdi-chevron-down</v-icon>
 						</v-btn>
@@ -174,6 +174,7 @@ export default {
 					text: this.$t('balance.actions'),
 					value: 'action',
 					sortable: false,
+					align: 'center',
 				},
 			],
 			footer_props: {
