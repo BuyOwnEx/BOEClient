@@ -23,13 +23,6 @@
 					:all_types="types"
 					:all_statuses="statuses"
 				/>
-
-				<v-divider />
-
-				<v-toolbar flat dense height="42">
-					<v-toolbar-title>{{ tableCaption }}</v-toolbar-title>
-					<v-spacer />
-				</v-toolbar>
 			</template>
 
 			<template v-slot:item.pair="{ item }">
