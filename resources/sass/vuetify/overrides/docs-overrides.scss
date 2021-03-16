@@ -12,6 +12,9 @@
 			&__label button {
 				padding: 0 !important;
 			}
+			.v-icon:focus::after {
+				opacity: 0;
+			}
 		}
 	}
 
