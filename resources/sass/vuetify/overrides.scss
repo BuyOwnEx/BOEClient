@@ -281,3 +281,9 @@ td {
 		border: 1px solid #4b4b4b3b;
 	}
 }
+
+// изменение чипов таблицы
+.v-data-table-header-mobile__wrapper .v-chip {
+	font-size: 11px !important;
+	border-radius: 0 !important;
+}
