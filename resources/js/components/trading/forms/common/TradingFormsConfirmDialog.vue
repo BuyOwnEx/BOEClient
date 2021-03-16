@@ -108,7 +108,7 @@
 					<v-spacer />
 					<v-btn
 						class="text-uppercase"
-						style='letter-spacing: 1px'
+						style="letter-spacing: 1px"
 						color="grey"
 						text
 						tile
@@ -120,7 +120,7 @@
 					<v-spacer />
 					<v-btn
 						class="text-uppercase"
-						style='letter-spacing: 1px'
+						style="letter-spacing: 1px"
 						color="success"
 						text
 						tile
@@ -228,9 +228,9 @@ export default {
 		font-weight: 600 !important
 		padding: 8px 24px 8px !important
 		&--buy
-			background: #8aff9c5c
+			background: var(--v-success-base)
 		&--sell
-			background: #ff8b8b5c
+			background: var(--v-error-base)
 	&__content
 		padding-top: 8px !important
 
@@ -243,4 +243,11 @@ export default {
 
 	&__important
 		font-weight: 600
+.theme--dark
+	.trading-forms-confirm-dialog
+		&__header
+			&--buy
+				background: var(--v-success-darken1)
+			&--sell
+				background: var(--v-error-darken1)
 </style>
