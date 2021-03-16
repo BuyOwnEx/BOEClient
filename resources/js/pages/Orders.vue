@@ -39,11 +39,15 @@
 			</template>
 
 			<template v-slot:item.status="{ item }">
-				<span>{{ getStatusName(item.status) }}</span>
+				<span :class="getStatusClassColor(item.status)">
+					{{ getStatusName(item.status) }}
+				</span>
 			</template>
 
 			<template v-slot:item.side="{ item }">
-				<span>{{ getSideName(item.side) }}</span>
+				<span :class="item.side === false ? 'success--text' : 'error--text'">
+					{{ getSideName(item.side) }}
+				</span>
 			</template>
 
 			<template v-slot:item.created_at="{ item }">
@@ -63,11 +67,13 @@
 					{{ BigNumber(item.actual_size) + ' ' + item.currency }}
 				</span>
 			</template>
+
 			<template v-slot:item.volume="{ item }">
 				<span>
 					{{ getVolume(item.size, item.price) + ' ' + item.market }}
 				</span>
 			</template>
+
 			<template v-slot:item.actualVolume="{ item }">
 				<span>
 					{{ getVolume(item.actual_size, item.price) + ' ' + item.market }}
@@ -271,6 +277,13 @@ export default {
 			} catch (error) {
 				console.error(error);
 			}
+		},
+
+		getStatusClassColor(status) {
+			if (status === 'filled') return 'success--text';
+			else if (status === 'partiallyFilled') return 'warning--text';
+			else if (status === 'cancelled') return 'error-text';
+			else return '';
 		},
 	},
 };

@@ -56,11 +56,15 @@
 			</template>
 
 			<template v-slot:item.type="{ item }">
-				<span>{{ getTypeName(item.type) }}</span>
+				<span :class="item.type === true ? 'success--text' : 'danger--text'">
+					{{ getTypeName(item.type) }}
+				</span>
 			</template>
 
 			<template v-slot:item.status="{ item }">
-				<span>{{ getStatusName(item.status) }}</span>
+				<span :class="getStatusColorClass(item.status)">
+					{{ getStatusName(item.status) }}
+				</span>
 			</template>
 
 			<template v-slot:item.created_at="{ item }">
@@ -123,6 +127,7 @@ export default {
 			currencies: [],
 		};
 	},
+
 	watch: {
 		options: {
 			handler() {
@@ -134,11 +139,13 @@ export default {
 			deep: true,
 		},
 	},
+
 	mounted() {
 		axios.get('/trader/ext/fiat_currencies').then(response => {
 			this.currencies = response.data.data;
 		});
 	},
+
 	methods: {
 		BigNumber(item) {
 			return BigNumber(item).toString();
@@ -244,6 +251,13 @@ export default {
 		},
 		getImage(img) {
 			return '/' + img;
+		},
+
+		getStatusColorClass(status) {
+			if (status === 'done') return 'success--text';
+			else if (status === 'wait' || status === 'new') return 'warning--text';
+			else if (status === 'fail') return 'error--text';
+			else return '';
 		},
 	},
 };

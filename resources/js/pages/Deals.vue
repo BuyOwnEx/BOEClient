@@ -40,7 +40,9 @@
 			</template>
 
 			<template v-slot:item.side="{ item }">
-				<span>{{ getSideName(item.side) }}</span>
+				<span :class="item.side === 'buy' ? 'success--text' : 'error--text'">
+					{{ getSideName(item.side) }}
+				</span>
 			</template>
 
 			<template v-slot:item.created_at="{ item }">
