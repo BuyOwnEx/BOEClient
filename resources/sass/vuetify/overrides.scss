@@ -283,7 +283,12 @@ td {
 }
 
 // изменение чипов таблицы
-.v-data-table-header-mobile__wrapper .v-chip {
-	font-size: 11px !important;
-	border-radius: 0 !important;
+.v-data-table-header-mobile__wrapper {
+	.v-chip {
+		font-size: 11px !important;
+		border-radius: 0 !important;
+	}
+	.v-select__slot label {
+		font-size: 0.8rem;
+	}
 }
