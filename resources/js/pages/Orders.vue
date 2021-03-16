@@ -282,7 +282,7 @@ export default {
 		getStatusClassColor(status) {
 			if (status === 'filled') return 'success--text';
 			else if (status === 'partiallyFilled') return 'warning--text';
-			else if (status === 'cancelled') return 'error-text';
+			else if (status === 'cancelled') return 'error--text';
 			else return '';
 		},
 	},

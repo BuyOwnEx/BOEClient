@@ -40,7 +40,7 @@
 			</template>
 
 			<template v-slot:item.side="{ item }">
-				<span :class="item.side === 'buy' ? 'success--text' : 'error--text'">
+				<span :class="item.side === false ? 'success--text' : 'error--text'">
 					{{ getSideName(item.side) }}
 				</span>
 			</template>

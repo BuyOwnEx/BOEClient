@@ -56,7 +56,7 @@
 			</template>
 
 			<template v-slot:item.type="{ item }">
-				<span :class="item.type === true ? 'success--text' : 'danger--text'">
+				<span :class="item.type === true ? 'success--text' : 'error--text'">
 					{{ getTypeName(item.type) }}
 				</span>
 			</template>
