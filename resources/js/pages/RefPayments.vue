@@ -14,6 +14,7 @@
 			:loading="loading"
 			:style="{ 'min-height': calculateTableHeight }"
 			caption="Referral payments"
+			dense
 		>
 			<template v-slot:top>
 				<filters
@@ -33,7 +34,7 @@
 			</template>
 
 			<template v-slot:item.currency="{ item }">
-				<v-avatar :color="item.color" size="32" v-if="!item.logo">
+				<v-avatar :color="item.color" size="22" v-if="!item.logo">
 					<v-img
 						v-if="item.logo"
 						class="elevation-6"
@@ -48,8 +49,8 @@
 					class="elevation-0 d-inline-flex"
 					style="vertical-align: middle"
 					:src="getImage(item.logo)"
-					max-height="32"
-					max-width="32"
+					max-height="22"
+					max-width="22"
 				/>
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
