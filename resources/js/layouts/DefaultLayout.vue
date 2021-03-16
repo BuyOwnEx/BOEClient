@@ -116,7 +116,7 @@
 			</v-card>
 		</v-app-bar>
 
-		<v-main>
+		<v-main class="main">
 			<v-container class="fill-height" :fluid="!isContentBoxed">
 				<v-layout>
 					<slot></slot>
@@ -252,10 +252,14 @@ export default {
 	letter-spacing: 1px !important;
 }
 @media screen and (max-width: 960px) {
+	.main {
+		margin-bottom: 150px !important;
+	}
 	.footer {
-		height: 139px !important;
-		padding-bottom: 110px;
-		margin-top: -69px;
+		display: flex;
+		align-content: flex-start;
+		margin-bottom: -140px;
+		height: 140px !important;
 	}
 }
 </style>
