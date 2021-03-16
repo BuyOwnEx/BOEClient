@@ -160,22 +160,10 @@
 	background: none;
 }
 
-// Menu with class small-text-menu <03.03.21>
-.small-text-menu {
-	.v-list-item {
-		text-align: center !important;
-		min-height: 30px !important;
-		&__title {
-			font-weight: normal !important;
-			font-size: 11px !important;
-			letter-spacing: 0.0071428571em !important;
-		}
-	}
-}
 // Only menu with select list
 .v-menu__content .v-select-list {
 	.v-list-item {
-		text-align: center !important;
+		text-align: left !important;
 		min-height: 15px !important;
 		&__title {
 			font-weight: normal !important;
