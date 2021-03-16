@@ -77,6 +77,15 @@ class TraderController extends Controller
     {
         return view('api', ['user' => Auth::user()]);
     }
+    public function getFeesView(Request $request)
+    {
+        return view('fees', ['user' => Auth::user()]);
+    }
+    public function getStatusView(Request $request)
+    {
+        return view('status', ['user' => Auth::user()]);
+    }
+
 
     public function getTickers()
     {

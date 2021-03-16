@@ -35,6 +35,8 @@ Route::get('notifications', 'TraderController@getNotificationsView')->name('noti
 Route::get('policy', 'TraderController@getPolicyView')->name('policy_view');
 Route::get('terms', 'TraderController@getTermsView')->name('terms_view');
 Route::get('api', 'TraderController@getApiView')->name('api_view');
+Route::get('fees', 'TraderController@getFeesView')->name('fees_view');
+Route::get('status', 'TraderController@getStatusView')->name('status_view');
 
 Route::group(['prefix' => 'trader'], function () {
     Route::group(['prefix' => 'ext'], function () {
