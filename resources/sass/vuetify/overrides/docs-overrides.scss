@@ -1,10 +1,5 @@
 .docs {
 	.docs-navigation {
-		.v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover)
-			.v-btn__content {
-			opacity: 0.9 !important;
-		}
-
 		.v-treeview-node {
 			&__root {
 				padding: 0 !important;
@@ -14,6 +9,11 @@
 			}
 			.v-icon:focus::after {
 				opacity: 0;
+			}
+			.v-treeview-node__label {
+				color: var(--v-primary-base);
+				font-size: 0.875rem;
+				font-weight: 700;
 			}
 		}
 	}

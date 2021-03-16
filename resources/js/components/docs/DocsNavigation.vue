@@ -1,5 +1,5 @@
 <template>
-	<v-col class="docs-navigation" cols="12" md="3" xl="2">
+	<v-col class="docs-navigation pr-0" cols="12" md="3" xl="2">
 		<div class="docs-navigation__sticky-wrapper">
 			<div class="trading-component-title mb-2">
 				{{ $t('docs.navigation') }}
@@ -18,14 +18,12 @@
 					dense
 				>
 					<template #label="{ item }">
-						<v-btn
-							color="primary"
-							text
-							plain
+						<span
+							class="docs-navigation__item"
 							@click.stop="$vuetify.goTo(`#${item.id}`, { offset: 30 })"
 						>
 							{{ item.title }}
-						</v-btn>
+						</span>
 					</template>
 				</v-treeview>
 			</slot>
@@ -61,4 +59,7 @@ export default {
 	&__sticky-wrapper
 		position: sticky
 		top: 90px
+	&__item
+		overflow: hidden
+		text-overflow: ellipsis
 </style>
