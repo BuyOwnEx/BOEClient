@@ -26,7 +26,7 @@
 								v-on="on"
 							/>
 						</template>
-						<v-date-picker v-model="filters.dates" no-title scrollable range>
+						<v-date-picker v-model="filters.dates" color='primary' no-title scrollable range>
 							<v-spacer />
 							<v-btn text color="primary" @click="menu = false">Cancel</v-btn>
 							<v-btn text color="primary" @click="setApplyEnable">OK</v-btn>

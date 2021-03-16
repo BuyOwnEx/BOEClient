@@ -29,6 +29,7 @@
 						</template>
 						<v-date-picker
 							v-model="filters.start_date"
+							color='primary'
 							no-title
 							scrollable
 							@change="
@@ -62,12 +63,13 @@
 								readonly
 								v-bind="attrs"
 								v-on="on"
-							></v-text-field>
+							/>
 						</template>
 						<v-time-picker
 							v-if="menu_start_time"
 							v-model="filters.start_time"
 							format="24hr"
+							color='primary'
 							use-seconds
 							no-title
 							@click:second="
@@ -105,6 +107,7 @@
 						</template>
 						<v-date-picker
 							v-model="filters.end_date"
+							color='primary'
 							no-title
 							scrollable
 							@change="
