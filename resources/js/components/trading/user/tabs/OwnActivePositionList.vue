@@ -1,9 +1,7 @@
 <template>
 	<v-card class="own-active-position-list pa-1">
-		<v-card-title
-			class="own-active-position-list__header pa-0"
-		>
-			<span class='trading-component-title'>
+		<v-card-title class="own-active-position-list__header pa-0">
+			<span class="trading-component-title">
 				{{ $t('trading.headers.own_active_position_list') }}
 			</span>
 
@@ -31,8 +29,8 @@
 						color="#A6A6A6"
 						v-bind="attrs"
 						v-on="on"
+						text
 						tile
-						outlined
 						small
 					>
 						{{ $t('trading.close') }}
