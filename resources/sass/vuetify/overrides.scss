@@ -203,7 +203,7 @@ td {
 	border-radius: 0 !important;
 }
 
-// Table padding for similar pages
+// Styles for similar pages
 .transfers,
 .transactions,
 .fiat-transactions,
@@ -212,6 +212,7 @@ td {
 .deals {
 	.v-data-table__wrapper {
 		padding: 0 8px !important;
+		min-height: inherit !important;
 	}
 	.v-data-footer {
 		margin: 0 12px !important;

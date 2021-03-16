@@ -12,14 +12,16 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
+			:style="{ 'min-height': calculateTableHeight }"
 			caption="Referral payments"
 		>
 			<template v-slot:top>
 				<filters
-					v-on:apply-table-filter="onFilterApply"
-					v-on:reset-table-filter="onFilterReset"
-					v-on:table-filter="onUseFilter"
 					:all_currencies="currencies"
+					@apply-table-filter="onFilterApply"
+					@reset-table-filter="onFilterReset"
+					@table-filter="onUseFilter"
+					@toggleFiltersShow="toggleFiltersShow"
 				/>
 
 				<v-divider />
@@ -80,6 +82,7 @@ export default {
 
 	data() {
 		return {
+			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -112,6 +115,27 @@ export default {
 				});
 			},
 			deep: true,
+		},
+	},
+
+	computed: {
+		calculateTableHeight() {
+			const width = this.$vuetify.breakpoint.width;
+			const isMediumBreakpoint = width < 1264 && width > 960;
+			const diffBetweenLargeAndMediumFooter = 11;
+
+			const fullPageWithOpenFilters = 'calc(100vh - 422px)';
+			const fullPageWithoutOpenFilters = 'calc(100vh - 284px)';
+			const fullMediumPageWithOpenFilters = `calc(100vh - 422px - ${diffBetweenLargeAndMediumFooter}px)`;
+			const fullMediumPageWithoutOpenFilters = `calc(100vh - 284px - ${diffBetweenLargeAndMediumFooter}px)`;
+
+			if (isMediumBreakpoint) {
+				if (this.isFiltersShow) return fullMediumPageWithOpenFilters;
+				else return fullMediumPageWithoutOpenFilters;
+			} else {
+				if (this.isFiltersShow) return fullPageWithOpenFilters;
+				else return fullPageWithoutOpenFilters;
+			}
 		},
 	},
 
@@ -209,6 +233,10 @@ export default {
 		},
 		getImage(img) {
 			return '/' + img;
+		},
+
+		toggleFiltersShow() {
+			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 

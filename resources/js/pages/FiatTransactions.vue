@@ -12,17 +12,19 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
+			:style="{ 'min-height': calculateTableHeight }"
 			caption="Fiat transactions"
 		>
 			<template v-slot:top>
 				<filters
-					v-on:apply-table-filter="onFilterApply"
-					v-on:reset-table-filter="onFilterReset"
-					v-on:table-filter="onUseFilter"
 					:all_types="types"
 					:all_payment_types="payments"
 					:all_currencies="currencies"
 					:all_statuses="statuses"
+					@apply-table-filter="onFilterApply"
+					@reset-table-filter="onFilterReset"
+					@table-filter="onUseFilter"
+					@toggleFiltersShow="toggleFiltersShow"
 				/>
 
 				<v-divider />
@@ -91,6 +93,7 @@ export default {
 	},
 	data() {
 		return {
+			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -140,10 +143,25 @@ export default {
 		},
 	},
 
-	mounted() {
-		axios.get('/trader/ext/fiat_currencies').then(response => {
-			this.currencies = response.data.data;
-		});
+	computed: {
+		calculateTableHeight() {
+			const width = this.$vuetify.breakpoint.width;
+			const isMediumBreakpoint = width < 1264 && width > 960;
+			const diffBetweenLargeAndMediumFooter = 11;
+
+			const fullPageWithOpenFilters = 'calc(100vh - 563px)';
+			const fullPageWithoutOpenFilters = 'calc(100vh - 284px)';
+			const fullMediumPageWithOpenFilters = `calc(100vh - 563px - ${diffBetweenLargeAndMediumFooter}px)`;
+			const fullMediumPageWithoutOpenFilters = `calc(100vh - 284px - ${diffBetweenLargeAndMediumFooter}px)`;
+
+			if (isMediumBreakpoint) {
+				if (this.isFiltersShow) return fullMediumPageWithOpenFilters;
+				else return fullMediumPageWithoutOpenFilters;
+			} else {
+				if (this.isFiltersShow) return fullPageWithOpenFilters;
+				else return fullPageWithoutOpenFilters;
+			}
+		},
 	},
 
 	methods: {
@@ -259,6 +277,16 @@ export default {
 			else if (status === 'fail') return 'error--text';
 			else return '';
 		},
+
+		toggleFiltersShow() {
+			this.isFiltersShow = !this.isFiltersShow;
+		},
+	},
+
+	mounted() {
+		axios.get('/trader/ext/fiat_currencies').then(response => {
+			this.currencies = response.data.data;
+		});
 	},
 };
 </script>

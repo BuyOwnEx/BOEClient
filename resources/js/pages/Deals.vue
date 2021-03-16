@@ -12,14 +12,16 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
+			:style="{ 'min-height': calculateTableHeight }"
 			caption="Deals"
 		>
 			<template v-slot:top>
 				<filters
-					v-on:apply-table-filter="onFilterApply"
-					v-on:reset-table-filter="onFilterReset"
-					v-on:table-filter="onUseFilter"
 					:all_sides="sides"
+					@apply-table-filter="onFilterApply"
+					@reset-table-filter="onFilterReset"
+					@table-filter="onUseFilter"
+					@toggleFiltersShow="toggleFiltersShow"
 				/>
 
 				<v-divider />
@@ -90,6 +92,7 @@ export default {
 
 	data() {
 		return {
+			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -122,6 +125,24 @@ export default {
 	computed: {
 		pairs() {
 			return this.$store.state.tickers.markets;
+		},
+		calculateTableHeight() {
+			const width = this.$vuetify.breakpoint.width;
+			const isMediumBreakpoint = width < 1264 && width > 960;
+			const diffBetweenLargeAndMediumFooter = 11;
+
+			const fullPageWithOpenFilters = 'calc(100vh - 504px)';
+			const fullPageWithoutOpenFilters = 'calc(100vh - 284px)';
+			const fullMediumPageWithOpenFilters = `calc(100vh - 504px - ${diffBetweenLargeAndMediumFooter}px)`;
+			const fullMediumPageWithoutOpenFilters = `calc(100vh - 284px - ${diffBetweenLargeAndMediumFooter}px)`;
+
+			if (isMediumBreakpoint) {
+				if (this.isFiltersShow) return fullMediumPageWithOpenFilters;
+				else return fullMediumPageWithoutOpenFilters;
+			} else {
+				if (this.isFiltersShow) return fullPageWithOpenFilters;
+				else return fullPageWithoutOpenFilters;
+			}
 		},
 	},
 
@@ -244,6 +265,10 @@ export default {
 			} catch (error) {
 				console.error(error);
 			}
+		},
+
+		toggleFiltersShow() {
+			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 };

@@ -294,19 +294,9 @@ export default {
 		};
 	},
 
-	mounted() {
-		if (localStorage.orderFilters) {
-			let saved_filters = JSON.parse(localStorage.orderFilters);
-			this.filters.start_date = saved_filters.start_date;
-			this.filters.start_time = saved_filters.start_time;
-			this.filters.end_date = saved_filters.end_date;
-			this.filters.end_time = saved_filters.end_time;
-			this.filters.id = saved_filters.id;
-			this.filters.pair = saved_filters.pair;
-			this.filters.side = saved_filters.side;
-			this.filters.type = saved_filters.type;
-			this.filters.status = saved_filters.status;
-			this.$emit('table-filter', this.filterData);
+	watch: {
+		show() {
+			this.$emit('toggleFiltersShow')
 		}
 	},
 
@@ -371,6 +361,22 @@ export default {
 
 	created() {
 		this.$store.dispatch('tickers/getMarketDataFromServer');
+	},
+
+	mounted() {
+		if (localStorage.orderFilters) {
+			let saved_filters = JSON.parse(localStorage.orderFilters);
+			this.filters.start_date = saved_filters.start_date;
+			this.filters.start_time = saved_filters.start_time;
+			this.filters.end_date = saved_filters.end_date;
+			this.filters.end_time = saved_filters.end_time;
+			this.filters.id = saved_filters.id;
+			this.filters.pair = saved_filters.pair;
+			this.filters.side = saved_filters.side;
+			this.filters.type = saved_filters.type;
+			this.filters.status = saved_filters.status;
+			this.$emit('table-filter', this.filterData);
+		}
 	},
 };
 </script>

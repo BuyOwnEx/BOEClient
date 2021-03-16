@@ -300,6 +300,12 @@ export default {
 		};
 	},
 
+	watch: {
+		show() {
+			this.$emit('toggleFiltersShow')
+		}
+	},
+
 	computed: {
 		filterData() {
 			return {

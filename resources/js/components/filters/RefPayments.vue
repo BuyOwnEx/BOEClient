@@ -133,6 +133,9 @@ export default {
 			}
 			debounce(this.makeFollowerSearch, 200)(value, this);
 		},
+		show() {
+			this.$emit('toggleFiltersShow')
+		}
 	},
 
 	methods: {
