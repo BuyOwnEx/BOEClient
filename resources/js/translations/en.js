@@ -344,7 +344,7 @@ export default {
 				title: 'Thanks for your interest',
 				content:
 					'<p>' +
-					"  This Agreement sets out the terms (“terms”) of the access offered to you to internal sections of the website {{config('app.text_url')}} (“Website”) and to its trading platform (“Platform”). Please read these terms carefully and do not use the Website or the Platform, if you do not accept them. The Platform managed by {{product.name}} (“Service”), enables the buyers (“Buyer”) and sellers (“Seller”) to buy and sell goods online, known as “Cryptocurrency”.</p>" +
+					'  This Agreement sets out the terms (“terms”) of the access offered to you to internal sections of the website {{product.url}}} (“Website”) and to its trading platform (“Platform”). Please read these terms carefully and do not use the Website or the Platform, if you do not accept them. The Platform managed by BuyOwnEx.com (“Service”), enables the buyers (“Buyer”) and sellers (“Seller”) to buy and sell goods online, known as “Cryptocurrency”.</p>' +
 					'<p>' +
 					'  By opening the account (“Account”), the User acknowledges and warrants that:' +
 					'  1. They accept these Terms' +
@@ -391,7 +391,7 @@ export default {
 					'  “Commission” is the amount payable to the Service for transactions, including payment of a fee to the commission agent.' +
 					'</p>' +
 					'<p>' +
-					'  “Arbitrage“ is an array of buy/sale operations carried out in a short time within the {{product.name}} Exchange.' +
+					'  “Arbitrage“ is an array of buy/sale operations carried out in a short time within the BuyOwnEx.com Exchange.' +
 					'</p>',
 			},
 			account: {
@@ -484,7 +484,7 @@ export default {
 					'  The Customer agrees not to utilize the Trading platform for any type of illegal activities, including, but not limited to laundering of money, financing of terrorism, or any kind of operations producing a negative effect on the Trading Platform functioning efficiency.' +
 					'</p>' +
 					'<p>' +
-					"  The Customer acknowledges that he (her) should independently monitor the {{product.name}} news in order to get the latest update on the assets listing/disabling/de-listing, as well as on any other relevant information; in case the user fails to get a timely update, the user is not liable to lodge compensation claims against the {{config('app.text_url')}} for the losses incurred." +
+					'  The Customer acknowledges that he (her) should independently monitor the BuyOwnEx.com news in order to get the latest update on the assets listing/disabling/de-listing, as well as on any other relevant information; in case the user fails to get a timely update, the user is not liable to lodge compensation claims against the {{product.url}}} for the losses incurred.' +
 					'</p>' +
 					'<p>' +
 					'  The Customer agrees, that in case he (she) needs to keep a few thousand open orders at a time, he (she) is obligated to inform the Support service, specifying the reason for doing so.' +
@@ -594,10 +594,10 @@ export default {
 				title: 'Thanks for your interest',
 				content:
 					'<p>' +
-					'	{{product.name}} ("us", "we", or "our") operates {{config(\'app.text_url\')}} (the "Site"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the Site. We are not responsible for the websites located on any other domains.' +
+					'	BuyOwnEx.com ("us", "we", or "our") operates {{config(\'app.text_url\')}} (the "Site"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the Site. We are not responsible for the websites located on any other domains.' +
 					'</p>' +
 					'<p>' +
-					"	We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at {{config('app.text_url')}}." +
+					'	We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at {{product.url}}}.' +
 					'</p>',
 			},
 			collecting_data: {
@@ -638,14 +638,14 @@ export default {
 					"	Our Site may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit." +
 					'</p>' +
 					'<p>' +
-					'	{{product.name}} has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party sites or services.' +
+					'	BuyOwnEx.com has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party sites or services.' +
 					'</p>',
 			},
 			changes: {
 				title: 'Changes To This Privacy Policy',
 				content:
 					'<p>' +
-					'	{{product.name}} may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on the Site. You are advised to review this Privacy Policy periodically for any changes.' +
+					'	BuyOwnEx.com may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on the Site. You are advised to review this Privacy Policy periodically for any changes.' +
 					'</p>',
 			},
 			contact: {
