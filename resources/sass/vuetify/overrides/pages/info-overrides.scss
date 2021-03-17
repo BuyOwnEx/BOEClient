@@ -1,0 +1,30 @@
+.info-page {
+	table {
+		padding: 0 !important;
+	}
+}
+.status-page {
+	table {
+		td {
+			text-align: center;
+			&:last-child {
+				padding-right: 0 !important;
+			}
+		}
+		th {
+			text-align: center;
+		}
+		&__table-in-table-header {
+			padding-left: 20px !important;
+		}
+
+		// table in table
+		table {
+			th,
+			td {
+				padding-left: 4px !important;
+				padding-right: 4px !important;
+			}
+		}
+	}
+}

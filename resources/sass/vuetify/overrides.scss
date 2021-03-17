@@ -2,14 +2,15 @@
  * Vuetify Styles Overrides
  */
 
-@import './overrides/trading-overrides';
-@import './overrides/auth-overrides';
-@import './overrides/balance-overrides';
-@import './overrides/docs-overrides';
+@import 'overrides/pages/trading-overrides';
+@import 'overrides/pages/auth-overrides';
+@import 'overrides/pages/balance-overrides';
+@import 'overrides/pages/docs-overrides';
+@import 'overrides/pages/info-overrides';
 
-@import './overrides/scrollbar-overrides';
-@import './overrides/switch-overrides';
-@import 'overrides/popups-overrides';
+@import 'overrides/components/scrollbar-overrides';
+@import 'overrides/components/switch-overrides';
+@import 'overrides/components/popups-overrides';
 
 // Flex min-width: 0
 .v-application .d-flex {
@@ -253,7 +254,8 @@ td {
 
 // Custom tabs height
 .own-lists-tabs-wrapper,
-.balance {
+.balance,
+.fees-page {
 	.v-tabs {
 		height: 35px;
 	}
