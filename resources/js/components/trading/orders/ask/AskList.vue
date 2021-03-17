@@ -1,6 +1,6 @@
 <template>
 	<v-card class="ask-list pa-1">
-		<v-card-title class="ask-list__header trading-component-title pa-0">
+		<v-card-title class="ask-list__header component-title pa-0">
 			{{ $t('trading.headers.ask_orders') }}
 		</v-card-title>
 

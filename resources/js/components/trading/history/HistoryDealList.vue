@@ -1,6 +1,6 @@
 <template>
 	<v-card class="hdl pa-1">
-		<v-card-title class="hdl__header trading-component-title pa-0">
+		<v-card-title class="hdl__header component-title pa-0">
 			{{ $t('trading.headers.history_deal_list') }}
 		</v-card-title>
 

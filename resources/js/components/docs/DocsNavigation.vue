@@ -1,7 +1,7 @@
 <template>
 	<v-col class="docs-navigation pr-0" cols="12" md="3" xl="2">
 		<div class="docs-navigation__sticky-wrapper">
-			<div class="trading-component-title mb-2">
+			<div class="component-title mb-2">
 				{{ $t('docs.navigation') }}
 			</div>
 			<!---->

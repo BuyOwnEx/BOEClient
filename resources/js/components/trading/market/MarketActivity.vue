@@ -1,6 +1,6 @@
 <template>
 	<v-card class="market-activity pa-1">
-		<v-card-title class="market-activity__header trading-component-title pa-0">
+		<v-card-title class="market-activity__header component-title pa-0">
 			{{ $t('trading.headers.market_activity') }}
 		</v-card-title>
 

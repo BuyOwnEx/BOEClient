@@ -11,7 +11,7 @@
 		>
 			<template v-slot:top>
 				<v-toolbar flat dense>
-					<div class="trading-component-title">{{ componentTitle }}</div>
+					<div class="component-title">{{ componentTitle }}</div>
 				</v-toolbar>
 			</template>
 

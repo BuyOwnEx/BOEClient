@@ -10,7 +10,7 @@
 			dense
 		>
 			<template v-slot:top>
-				<v-toolbar class="trading-component-title" flat dense>
+				<v-toolbar class="component-title" flat dense>
 					<div>{{ componentTitle }}</div>
 
 					<v-spacer />

@@ -3,7 +3,7 @@
 		<v-row no-gutters>
 			<v-col class="trading-forms__buy" cols="12" md="6">
 				<v-card-title
-					class="trading-forms__header trading-component-title pa-0"
+					class="trading-forms__header component-title pa-0"
 				>
 					<span>
 						{{ $t('trading.order.direction.buy') }}
@@ -21,7 +21,7 @@
 
 			<v-col class="trading-forms__sell" cols="12" md="6">
 				<v-card-title
-					class="trading-forms__header trading-component-title pa-0"
+					class="trading-forms__header component-title pa-0"
 				>
 					<span>
 						{{ $t('trading.order.direction.sell') }}

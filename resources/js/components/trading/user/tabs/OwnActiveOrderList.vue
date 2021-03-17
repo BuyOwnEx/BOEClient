@@ -1,7 +1,7 @@
 <template>
 	<v-card class="own-active-order-list pa-1">
 		<v-card-title class="own-active-order-list__header pa-0">
-			<span class="trading-component-title">
+			<span class="component-title">
 				{{ $t('trading.headers.own_active_order_list') }}
 			</span>
 

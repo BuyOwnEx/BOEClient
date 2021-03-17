@@ -5,7 +5,7 @@
 			:id="dataItem.id"
 			:key="dataItem.id"
 		>
-			<div class="trading-component-title pb-2">
+			<div class="component-title pb-2">
 				{{ dataItem.title }}
 			</div>
 
