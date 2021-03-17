@@ -1,5 +1,8 @@
 .docs {
 	.docs-navigation {
+		.v-treeview {
+			margin-left: -10px;
+		}
 		.v-treeview-node {
 			&__root {
 				padding: 0 !important;
