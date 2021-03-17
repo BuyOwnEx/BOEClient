@@ -8,8 +8,7 @@
 			<v-expansion-panel-header>
 				{{ item.title }}
 			</v-expansion-panel-header>
-			<v-expansion-panel-content>
-				{{ item.content }}
+			<v-expansion-panel-content v-html='item.content'>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 	</span>

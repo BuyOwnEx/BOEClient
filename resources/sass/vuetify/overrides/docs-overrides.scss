@@ -18,6 +18,11 @@
 		}
 	}
 
+	.v-expansion-panel-content {
+		display: block;
+		padding: 0 24px 16px;
+	}
+
 	.theme--dark.v-expansion-panels .v-expansion-panel {
 		&::before {
 			box-shadow: 0 0 3px 0 rgb(110 110 110 / 15%), 0 0 3px 0 rgb(85 85 85 / 6%),

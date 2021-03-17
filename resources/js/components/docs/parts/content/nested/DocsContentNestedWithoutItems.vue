@@ -4,8 +4,7 @@
 			<v-expansion-panel-header>
 				{{ dataItem.title }}
 			</v-expansion-panel-header>
-			<v-expansion-panel-content>
-				{{ dataItem.content }}
+			<v-expansion-panel-content v-html='dataItem.content'>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 	</span>
