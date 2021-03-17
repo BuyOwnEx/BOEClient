@@ -14,6 +14,7 @@
 			:loading="loading"
 			:style="{ 'min-height': calculateTableHeight }"
 			caption="Deals"
+			dense
 		>
 			<template v-slot:top>
 				<filters
@@ -33,7 +34,7 @@
 			</template>
 
 			<template v-slot:item.pair="{ item }">
-				<v-avatar :color="item.color" size="32">
+				<v-avatar :color="item.color" size="22">
 					<span class="white--text subtitle-2">
 						{{ item.currency.charAt(0) + item.market.charAt(0) }}
 					</span>

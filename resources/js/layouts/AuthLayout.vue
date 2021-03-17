@@ -31,7 +31,7 @@
 					<a class="white--text" href="/fees">
 						Комиссии и лимиты
 					</a>
-					<a class="white--text" href="/statusPage">
+					<a class="white--text" href="/status">
 						Состояние системы
 					</a>
 					<a class="white--text" href="/api">API</a>
@@ -55,7 +55,7 @@
 					<a href="/fees">
 						Комиссии и лимиты
 					</a>
-					<a href="/statusPage">
+					<a href="/status">
 						Состояние системы
 					</a>
 					<a href="/api">API</a>

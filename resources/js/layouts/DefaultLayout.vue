@@ -130,7 +130,7 @@
 				inset
 			>
 				<span>
-					<a class="text-decoration-none pr-1" href="/statusPage">
+					<a class="text-decoration-none pr-1" href="/status">
 						Состояние системы
 					</a>
 
