@@ -47,7 +47,7 @@
 			<OwnListsTabsWrapper
 				v-if="isLogged"
 				class="trading__desktop__own-lists-tabs-wrapper"
-				:is-margin='isMargin'
+				:is-margin="isMargin"
 				:currency="selectedCurrency"
 				:market="selectedMarket"
 			/>
@@ -110,7 +110,7 @@
 				<v-tab-item :key="7" v-if="isLogged">
 					<OwnListsTabsWrapper
 						class="trading__mobile__own-lists-tabs-wrapper"
-						:is-margin='isMargin'
+						:is-margin="isMargin"
 						:currency="selectedCurrency"
 						:market="selectedMarket"
 					/>
@@ -352,33 +352,28 @@ export default {
 
 		&__tickers {
 			flex-grow: 1;
-			max-height: calc(100vh - 115px);
 			min-height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__chart {
-			max-height: calc(100vh - 115px);
 			height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__history {
 			flex-grow: 1;
-			max-height: calc(100vh - 115px);
 			min-height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__chat {
 			flex-grow: 1;
-			max-height: calc(100vh - 115px);
 			min-height: calc(100vh - 115px);
 			overflow: auto;
 		}
 
 		&__orders {
-			max-height: calc(100vh - 115px);
 			overflow: auto;
 
 			&__bid {
@@ -389,13 +384,11 @@ export default {
 		}
 
 		&__forms {
-			max-height: calc(100vh - 115px);
 			overflow: auto;
 			flex-grow: 1;
 		}
 
 		&__own-lists-tabs-wrapper {
-			max-height: calc(100vh - 115px);
 			min-height: calc(100vh - 115px);
 			overflow: auto;
 			flex-grow: 1;
