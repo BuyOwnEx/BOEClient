@@ -35,8 +35,8 @@ Vue.component('transfers', require('./pages/Transfers.vue').default);
 Vue.component('policy', require('./pages/docs/Policy.vue').default);
 Vue.component('terms', require('./pages/docs/Terms.vue').default);
 Vue.component('api', require('./pages/docs/Api.vue').default);
-Vue.component('fees', require('./pages/Fees.vue').default);
-Vue.component('status', require('./pages/Status.vue').default);
+Vue.component('fees', require('./pages/info/Fees.vue').default);
+Vue.component('status', require('./pages/info/Status.vue').default);
 
 export default new Vue({
 	i18n,

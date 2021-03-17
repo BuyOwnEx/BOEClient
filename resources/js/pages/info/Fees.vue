@@ -1,11 +1,13 @@
 <template>
-	<v-card class='fees flex-grow-1'>fees</v-card>
+    <v-card class="fees flex-grow-1">
+
+    </v-card>
 </template>
 
 <script>
-export default {
-	name: 'Fees',
-};
+	export default {
+		name: 'Fees',
+	};
 </script>
 
 <style scoped>
