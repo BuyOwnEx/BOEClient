@@ -5,24 +5,30 @@
 				<thead>
 					<tr>
 						<th>
-							Валюта
+							Код
 						</th>
 						<th>
-							Комиссия на ввод средств
+							Наименование
 						</th>
 						<th>
-							Комиссия на вывод средств
+							Комиссия при пополнении
 						</th>
 						<th>
-							Минимальное кол-во подтверждений при вводе
+							Комиссия при выводе
+						</th>
+						<th>
+							Мин. кол-во подтверждений сети
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<!--					<tr v-for="item in desserts" :key="item.name">-->
-					<!--						<td>{{ item.name }}</td>-->
-					<!--						<td>{{ item.calories }}</td>-->
-					<!--					</tr>-->
+					<tr v-for="item in crypto" :key="item.id">
+						<td>{{ item.currency }}</td>
+						<td>{{ item.name }}</td>
+						<td>{{ item.feeReplenish }}</td>
+						<td>{{ item.feeWithdraw }} {{ item.currency }}</td>
+						<td>{{ item.confirmations }}</td>
+					</tr>
 				</tbody>
 			</template>
 		</v-simple-table>
@@ -32,6 +38,32 @@
 <script>
 export default {
 	name: 'FeesDepositAndWithdrawalTab',
+	data() {
+		return {
+			currencies: [],
+		};
+	},
+	computed: {
+		crypto() {
+			let result = [];
+			_.forEach(this.currencies, function(value, key) {
+				result.push({
+					id: value.id,
+					currency: value.currency,
+					name: value.name,
+					feeReplenish: '-',
+					feeWithdraw: value.feeWithdraw,
+					confirmations: value.approve
+				});
+			});
+			return result;
+		},
+	},
+	mounted() {
+		axios.get('/trader/ext/crypto_currencies').then(response => {
+			this.currencies = response.data.data;
+		});
+	},
 };
 </script>
 

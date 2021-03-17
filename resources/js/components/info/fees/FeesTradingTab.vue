@@ -8,21 +8,27 @@
 							Пара
 						</th>
 						<th>
-							Покупатель
+							Комиссия по сделке, Maker
 						</th>
 						<th>
-							Продавец
+							Комиссия по сделке, Taker
 						</th>
 						<th>
-							Минимальный объем ордера
+							Минимальный размер ордера
+						</th>
+						<th>
+							Минимальный объём ордера
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<!--					<tr v-for="item in desserts" :key="item.name">-->
-					<!--						<td>{{ item.name }}</td>-->
-					<!--						<td>{{ item.calories }}</td>-->
-					<!--					</tr>-->
+					<tr v-for="item in pairs" :key="item.id">
+						<td>{{ item.pair }}</td>
+						<td>{{ item.makerFee }} %</td>
+						<td>{{ item.takerFee }} %</td>
+						<td>{{ item.minAmount }} {{item.currency}}</td>
+						<td>{{ item.minReverseAmount }} {{item.market}}</td>
+					</tr>
 				</tbody>
 			</template>
 		</v-simple-table>
@@ -32,6 +38,32 @@
 <script>
 export default {
 	name: 'FeesTradingTab',
+	computed: {
+		markets() {
+			return this.$store.state.tickers.markets;
+		},
+		pairs() {
+			let result = [];
+			_.forEach(this.markets, function(value, key) {
+				_.forEach(value, function(item, key2) {
+					result.push({
+						id: item.id,
+						currency: item.currency,
+						market: item.market,
+						pair: item.currency + '/' + item.market,
+						makerFee: '0.2',
+						takerFee: '0.2',
+						minAmount: item.minAmount,
+						minReverseAmount: item.minReverseAmount,
+					});
+				});
+			});
+			return result;
+		},
+	},
+	created() {
+		this.$store.dispatch('tickers/getMarketDataFromServer');
+	},
 };
 </script>
 
