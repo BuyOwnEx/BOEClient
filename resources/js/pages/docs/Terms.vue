@@ -1,18 +1,21 @@
 <template>
-	<v-card class="docs terms pa-3">
-		<DocsTitle> {{ $t('docs.terms.title') }} </DocsTitle>
+	<v-card class="docs-page terms-page">
+		<CommonPageTitle> {{ $t('docs.terms.title') }} </CommonPageTitle>
 
-		<v-row>
-			<DocsNavigation :data-array="terms" />
-			<DocsContent :data-array="terms" />
-		</v-row>
+		<v-card-text>
+			<v-row>
+				<DocsNavigation :data-array="terms" />
+				<DocsContent :data-array="terms" />
+			</v-row>
 
-		<DocsFooter />
+			<DocsFooter />
+		</v-card-text>
 	</v-card>
 </template>
 
 <script>
-import DocsTitle from '../../components/docs/DocsTitle';
+import CommonPageTitle from '../../components/common/CommonPageTitle';
+
 import DocsNavigation from '../../components/docs/DocsNavigation';
 import DocsContent from '../../components/docs/DocsContent';
 import DocsFooter from '../../components/docs/DocsFooter';
@@ -20,7 +23,7 @@ import DocsFooter from '../../components/docs/DocsFooter';
 export default {
 	name: 'Terms',
 
-	components: { DocsTitle, DocsNavigation, DocsContent, DocsFooter },
+	components: { CommonPageTitle, DocsNavigation, DocsContent, DocsFooter },
 
 	data() {
 		return {
@@ -87,7 +90,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.terms
+.terms-page
 	display: flex
 	flex-flow: column
 	flex-grow: 1

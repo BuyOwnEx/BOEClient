@@ -1,19 +1,22 @@
 <template>
-	<v-card class="docs api pa-3">
-		<DocsTitle>API</DocsTitle>
+	<v-card class="docs-page api-page">
+		<CommonPageTitle>API</CommonPageTitle>
 
-		<v-row>
-			<DocsNavigation :data-array="api" />
+		<v-card-text>
+			<v-row>
+				<DocsNavigation :data-array="api" />
 
-			<DocsContent :data-array="api" nested />
-		</v-row>
+				<DocsContent :data-array="api" nested />
+			</v-row>
 
-		<DocsFooter />
+			<DocsFooter />
+		</v-card-text>
 	</v-card>
 </template>
 
 <script>
-import DocsTitle from '../../components/docs/DocsTitle';
+import CommonPageTitle from '../../components/common/CommonPageTitle';
+
 import DocsNavigation from '../../components/docs/DocsNavigation';
 import DocsContent from '../../components/docs/DocsContent';
 import DocsFooter from '../../components/docs/DocsFooter';
@@ -21,7 +24,7 @@ import DocsFooter from '../../components/docs/DocsFooter';
 export default {
 	name: 'Api',
 
-	components: { DocsTitle, DocsNavigation, DocsContent, DocsFooter },
+	components: { CommonPageTitle, DocsNavigation, DocsContent, DocsFooter },
 
 	data() {
 		return {
@@ -135,7 +138,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.api
+.api-page
 	display: flex
 	flex-flow: column
 	flex-grow: 1

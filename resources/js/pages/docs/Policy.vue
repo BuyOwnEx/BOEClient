@@ -1,18 +1,23 @@
 <template>
-	<v-card class="docs policy pa-3">
-		<DocsTitle> {{ $t('docs.policy.title') }} </DocsTitle>
+	<v-card class="docs-page policy-page">
+		<CommonPageTitle>
+			{{ $t('docs.policy.title') }}
+		</CommonPageTitle>
 
-		<v-row>
-			<DocsNavigation :data-array="policy" />
-			<DocsContent :data-array="policy" />
-		</v-row>
+		<v-card-text>
+			<v-row>
+				<DocsNavigation :data-array="policy" />
+				<DocsContent :data-array="policy" />
+			</v-row>
 
-		<DocsFooter />
+			<DocsFooter />
+		</v-card-text>
 	</v-card>
 </template>
 
 <script>
-import DocsTitle from '../../components/docs/DocsTitle';
+import CommonPageTitle from '../../components/common/CommonPageTitle';
+
 import DocsNavigation from '../../components/docs/DocsNavigation';
 import DocsContent from '../../components/docs/DocsContent';
 import DocsFooter from '../../components/docs/DocsFooter';
@@ -20,7 +25,7 @@ import DocsFooter from '../../components/docs/DocsFooter';
 export default {
 	name: 'Policy',
 
-	components: { DocsTitle, DocsNavigation, DocsContent, DocsFooter },
+	components: { CommonPageTitle, DocsNavigation, DocsContent, DocsFooter },
 
 	data() {
 		return {
@@ -72,7 +77,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.policy
+.policy-page
 	display: flex
 	flex-flow: column
 	flex-grow: 1
