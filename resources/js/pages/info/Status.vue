@@ -2,13 +2,13 @@
 	<v-card class="info-page status-page flex-grow-1">
 		<CommonPageTitle>Состояние системы</CommonPageTitle>
 
-		<InfoStatusSupportCurrencyText />
+		<StatusSupportCurrencyText />
 		<v-divider />
 
 		<v-card-text>
-			<InfoStatusDefinitionText />
+			<StatusDefinitionText />
 
-			<InfoStatusTables
+			<StatusTables
 				:fiat-data="fiatCurrencies"
 				:crypto-data="cryptoCurrencies"
 			/>
@@ -19,18 +19,18 @@
 <script>
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 
-import InfoStatusSupportCurrencyText from '../../components/info/status/InfoStatusSupportCurrencyText';
-import InfoStatusDefinitionText from '../../components/info/status/InfoStatusDefinitionText';
-import InfoStatusTables from '../../components/info/status/InfoStatusTables';
+import StatusSupportCurrencyText from '../../components/info/status/StatusSupportCurrencyText';
+import StatusDefinitionText from '../../components/info/status/StatusDefinitionText';
+import StatusTables from '../../components/info/status/StatusTables';
 
 export default {
 	name: 'Status',
 
 	components: {
 		CommonPageTitle,
-		InfoStatusSupportCurrencyText,
-		InfoStatusDefinitionText,
-		InfoStatusTables,
+		StatusSupportCurrencyText,
+		StatusDefinitionText,
+		StatusTables,
 	},
 
 	data() {
