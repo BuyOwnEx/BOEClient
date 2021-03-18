@@ -144,15 +144,24 @@
 						<tr v-for="item in cryptoData" :key="item.currency">
 							<td>{{ item.currency }}</td>
 							<td>{{ item.name }}</td>
-							<td>{{ formatFirstCharToUppercase(item.type) }}</td>
-							<td :class="getStatusColor(item.depositStatus)">
-								{{ formatFirstCharToUppercase(item.depositStatus) }}
+							<td class="text-capitalize">{{ item.type }}</td>
+							<td
+								class="text-capitalize"
+								:class="getStatusColor(item.depositStatus)"
+							>
+								{{ item.depositStatus }}
 							</td>
-							<td :class="getStatusColor(item.withdrawalStatus)">
-								{{ formatFirstCharToUppercase(item.withdrawalStatus) }}
+							<td
+								class="text-capitalize"
+								:class="getStatusColor(item.withdrawalStatus)"
+							>
+								{{ item.withdrawalStatus }}
 							</td>
-							<td :class="getStatusColor(item.tradingStatus)">
-								{{ formatFirstCharToUppercase(item.tradingStatus) }}
+							<td
+								class="text-capitalize"
+								:class="getStatusColor(item.tradingStatus)"
+							>
+								{{ item.tradingStatus }}
 							</td>
 							<td>{{ item.minDeposit }} {{ item.currency }}</td>
 							<td>{{ item.minWithdrawal }} {{ item.currency }}</td>
@@ -169,12 +178,8 @@
 </template>
 
 <script>
-import formatFirstCharToUppercase from '../../../mixins/common/formatFirstCharToUppercase';
-
 export default {
 	name: 'StatusTables',
-
-	mixins: [formatFirstCharToUppercase],
 
 	data() {
 		return {};
