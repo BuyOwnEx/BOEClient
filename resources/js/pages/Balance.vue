@@ -1,5 +1,7 @@
 <template>
 	<v-card class="balance flex-grow-1">
+		<CommonPageTitle>Баланс</CommonPageTitle>
+
 		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">
 				{{ $t('balance.headers.own_crypto_balance_list') }}
@@ -31,10 +33,13 @@
 </template>
 
 <script>
-import CentrifugeBalanceMixin from '../mixins/centrifugo-balance';
+import CommonPageTitle from '../components/common/CommonPageTitle';
+
 import OwnFiatBalanceList from '../components/balance/OwnFiatBalanceList';
 import OwnCryptoBalanceList from '../components/balance/OwnCryptoBalanceList';
 import OwnWithdrawalList from '../components/balance/OwnWithdrawalList';
+
+import CentrifugeBalanceMixin from '../mixins/centrifugo-balance';
 
 export default {
 	name: 'Balance',
@@ -42,6 +47,7 @@ export default {
 	mixins: [CentrifugeBalanceMixin],
 
 	components: {
+		CommonPageTitle,
 		OwnFiatBalanceList,
 		OwnCryptoBalanceList,
 		OwnWithdrawalList,

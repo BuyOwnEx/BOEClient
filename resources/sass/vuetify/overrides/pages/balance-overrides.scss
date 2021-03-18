@@ -1,7 +1,10 @@
 .balance {
 	// Balance table full height
 	.v-data-table__wrapper {
-		min-height: calc(100vh - 256px);
+		min-height: calc(100vh - 307px);
+		@media screen and (max-width: 1264px) {
+			min-height: calc(100vh - 318px);
+		}
 	}
 	table {
 		padding: 0 !important;

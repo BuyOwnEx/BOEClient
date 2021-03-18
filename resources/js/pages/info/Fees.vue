@@ -1,6 +1,6 @@
 <template>
 	<v-card class="info-page fees-page flex-grow-1">
-		<!--		<CommonPageTitle>Комиссии и лимиты</CommonPageTitle>-->
+		<CommonPageTitle>Комиссии и лимиты</CommonPageTitle>
 
 		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">
