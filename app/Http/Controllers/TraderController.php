@@ -56,9 +56,9 @@ class TraderController extends Controller
     {
         return view('support', ['user' => Auth::user()]);
     }
-    public function getSettingsView(Request $request)
+    public function getProfileView(Request $request)
     {
-        return view('settings', ['user' => Auth::user()]);
+        return view('profile', ['user' => Auth::user()]);
     }
     public function getNotificationsView(Request $request)
     {

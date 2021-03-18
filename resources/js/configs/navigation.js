@@ -24,8 +24,8 @@ export default {
 			{ icon: 'mdi-currency-usd', key: 'menu.balance', text: 'Balance', link: '/balance' },
 			{ icon: 'mdi-account-cash', key: 'menu.refs', text: 'Referral payments', link: '/ref_payments' },
 			{ icon: 'mdi-message-outline', key: 'menu.support', text: 'Support', link: '/support' },
-			{ icon: 'mdi-cogs', key: 'menu.settings', text: 'Trading', link: '/settings' },
-			{ icon: 'mdi-information-outline', key: 'menu.notifications', text: 'Trading', link: '/notifications' },
+			{ icon: 'mdi-cogs', key: 'menu.profile', text: 'Profile', link: '/profile' },
+			{ icon: 'mdi-information-outline', key: 'menu.notifications', text: 'Notifications', link: '/notifications' },
 		],
 	}/*, {
     text: 'Apps',

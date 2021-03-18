@@ -29,7 +29,7 @@ Route::get('orders', 'TraderController@getOrdersView')->name('orders_view');
 Route::get('deals', 'TraderController@getDealsView')->name('deals_view');
 Route::get('ref_payments', 'TraderController@getRefPaymentsView')->name('referrals_view');
 Route::get('support', 'TraderController@getSupportView')->name('support_view');
-Route::get('settings', 'TraderController@getSettingsView')->name('settings_view');
+Route::get('profile', 'TraderController@getProfileView')->name('profile_view');
 Route::get('notifications', 'TraderController@getNotificationsView')->name('notifications_view');
 
 Route::get('policy', 'TraderController@getPolicyView')->name('policy_view');

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-    {{trans('titles.settings')}}
+    {{trans('titles.profile')}}
 @endsection
 @section('keywords')
     keywords
@@ -15,7 +15,7 @@
     <script>
         window.user = {!! json_encode($user); !!};
         window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
-        window.component = 'settings';
+        window.component = 'profile';
     </script>
     <script src="{{mix('dist/js/main.js')}}"></script>
 @endsection

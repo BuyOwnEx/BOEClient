@@ -28,7 +28,7 @@ Vue.component('fiat-transactions', require('./pages/FiatTransactions.vue').defau
 Vue.component('notifications', require('./pages/Notifications.vue').default);
 Vue.component('orders', require('./pages/Orders.vue').default);
 Vue.component('ref-payments', require('./pages/RefPayments.vue').default);
-Vue.component('settings', require('./pages/Settings.vue').default);
+Vue.component('profile', require('./pages/Profile.vue').default);
 Vue.component('support', require('./pages/Support.vue').default);
 Vue.component('transactions', require('./pages/Transactions.vue').default);
 Vue.component('transfers', require('./pages/Transfers.vue').default);
