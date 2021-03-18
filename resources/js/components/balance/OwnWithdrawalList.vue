@@ -1,7 +1,6 @@
 <template>
 	<v-card>
 		<v-data-table
-			class="px-sm-2"
 			:calculate-widths="true"
 			:headers="headers"
 			:items="withdrawals"
