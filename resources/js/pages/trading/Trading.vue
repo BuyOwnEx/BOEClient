@@ -398,7 +398,7 @@ export default {
 			position: fixed;
 			left: 0;
 			right: 0;
-			bottom: 0;
+			bottom: 58px !important;
 			z-index: 5;
 			box-shadow: 0 -25px 20px 0 rgb(85 85 85 / 4%);
 		}

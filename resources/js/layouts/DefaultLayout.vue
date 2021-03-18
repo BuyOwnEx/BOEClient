@@ -276,9 +276,6 @@ export default {
 	.main {
 		padding-bottom: 105px !important;
 	}
-	.footer {
-		bottom: 48px !important;
-	}
 }
 @media screen and (max-width: 600px) {
 	.footer {
