@@ -125,9 +125,9 @@
 
 			<v-footer
 				class="footer overline"
-				:app="$vuetify.breakpoint.mdAndUp"
 				:height="calculateFooterHeight"
 				inset
+				app
 			>
 				<span>
 					<a class="text-decoration-none pr-1" href="/status">
@@ -138,7 +138,11 @@
 						Комиссии и лимиты
 					</a>
 
-					<a class="text-decoration-none pr-1" href="/contacts">
+					<a
+						v-if="isWidthMore400px"
+						class="text-decoration-none pr-1"
+						href="/contacts"
+					>
 						Контакты
 					</a>
 
@@ -146,15 +150,27 @@
 						Обзор рынка
 					</a>
 
-					<a class="text-decoration-none pr-1" href="/api">
+					<a
+						v-if="isWidthMore400px"
+						class="text-decoration-none pr-1"
+						href="/api"
+					>
 						API
 					</a>
 
-					<a class="text-decoration-none pr-1" href="/terms">
+					<a
+						v-if="isWidthMore400px"
+						class="text-decoration-none pr-1"
+						href="/terms"
+					>
 						Правила системы
 					</a>
 
-					<a class="text-decoration-none pr-1" href="/policy">
+					<a
+						v-if="isWidthMore400px"
+						class="text-decoration-none pr-1"
+						href="/policy"
+					>
 						Политика конфиденциальности
 					</a>
 				</span>
@@ -225,8 +241,12 @@ export default {
 			const isMobile = this.$vuetify.breakpoint.smAndDown;
 
 			if (isMediumBreakpoint) return 40;
-			else if (isMobile) return undefined;
+			else if (isMobile) return 58;
 			else return 29;
+		},
+
+		isWidthMore400px() {
+			return this.$vuetify.breakpoint.width >= 400;
 		},
 	},
 
@@ -245,21 +265,24 @@ export default {
 .container {
 	padding: 5px;
 }
+
 .footer {
 	display: flex;
 	justify-content: space-between;
-	font-size: 8px;
+	font-size: 9px !important;
 	letter-spacing: 1px !important;
 }
 @media screen and (max-width: 960px) {
 	.main {
-		margin-bottom: 150px !important;
+		padding-bottom: 105px !important;
 	}
 	.footer {
-		display: flex;
-		align-content: flex-start;
-		margin-bottom: -140px;
-		height: 140px !important;
+		bottom: 48px !important;
+	}
+}
+@media screen and (max-width: 600px) {
+	.footer {
+		font-size: 8px !important;
 	}
 }
 </style>

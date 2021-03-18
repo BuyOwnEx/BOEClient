@@ -352,24 +352,24 @@ export default {
 
 		&__tickers {
 			flex-grow: 1;
-			min-height: calc(100vh - 115px);
+			min-height: calc(100vh - 156px);
 			overflow: auto;
 		}
 
 		&__chart {
-			height: calc(100vh - 115px);
+			height: calc(100vh - 156px);
 			overflow: auto;
 		}
 
 		&__history {
 			flex-grow: 1;
-			min-height: calc(100vh - 115px);
+			min-height: calc(100vh - 156px);
 			overflow: auto;
 		}
 
 		&__chat {
 			flex-grow: 1;
-			min-height: calc(100vh - 115px);
+			min-height: calc(100vh - 156px);
 			overflow: auto;
 		}
 
@@ -389,7 +389,7 @@ export default {
 		}
 
 		&__own-lists-tabs-wrapper {
-			min-height: calc(100vh - 115px);
+			min-height: calc(100vh - 156px);
 			overflow: auto;
 			flex-grow: 1;
 		}
