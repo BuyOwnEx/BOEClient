@@ -1,43 +1,76 @@
 <template>
 	<div class="fees-trading-tab">
-		<v-simple-table dense>
-			<template v-slot:default>
-				<thead>
-					<tr>
-						<th>
-							Пара
-						</th>
-						<th>
-							Комиссия по сделке, Maker
-						</th>
-						<th>
-							Комиссия по сделке, Taker
-						</th>
-						<th>
-							Минимальный размер ордера
-						</th>
-						<th>
-							Минимальный объём ордера
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="item in pairs" :key="item.id">
-						<td>{{ item.pair }}</td>
-						<td>{{ item.makerFee }} %</td>
-						<td>{{ item.takerFee }} %</td>
-						<td>{{ item.minAmount }} {{item.currency}}</td>
-						<td>{{ item.minReverseAmount }} {{item.market}}</td>
-					</tr>
-				</tbody>
+		<v-data-table
+			:headers="headers"
+			:items="pairs"
+			:search="search"
+			dense
+		>
+			<template #top>
+				<v-toolbar flat dense>
+					<div class="component-title">Торговая комиссия</div>
+
+					<v-text-field
+						class="fees-page__search"
+						v-model="search"
+						append-icon="mdi-magnify"
+						label="Поиск"
+						single-line
+						hide-details
+					/>
+				</v-toolbar>
 			</template>
-		</v-simple-table>
+		</v-data-table>
 	</div>
 </template>
 
 <script>
 export default {
 	name: 'FeesTradingTab',
+
+	data() {
+		return {
+			headers: [
+				{
+					text: 'Пара',
+					align: 'center',
+					sortable: true,
+					filterable: true,
+					value: 'pair',
+				},
+				{
+					text: 'Комиссия по сделке, Maker',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'makerFee',
+				},
+				{
+					text: 'Комиссия по сделке, Taker',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'takerFee',
+				},
+				{
+					text: 'Минимальный размер ордера',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'minAmount',
+				},
+				{
+					text: 'Минимальный объём ордера',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'minReverseAmount',
+				},
+			],
+			search: '',
+		};
+	},
+
 	computed: {
 		markets() {
 			return this.$store.state.tickers.markets;

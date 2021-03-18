@@ -1,48 +1,77 @@
 <template>
 	<div class="fees-deposit-and-withdrawal-tab">
-		<v-simple-table dense>
-			<template v-slot:default>
-				<thead>
-					<tr>
-						<th>
-							Код
-						</th>
-						<th>
-							Наименование
-						</th>
-						<th>
-							Комиссия при пополнении
-						</th>
-						<th>
-							Комиссия при выводе
-						</th>
-						<th>
-							Мин. кол-во подтверждений сети
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="item in crypto" :key="item.id">
-						<td>{{ item.currency }}</td>
-						<td>{{ item.name }}</td>
-						<td>{{ item.feeReplenish }}</td>
-						<td>{{ item.feeWithdraw }} {{ item.currency }}</td>
-						<td>{{ item.confirmations }}</td>
-					</tr>
-				</tbody>
+		<v-data-table
+			:headers="headers"
+			:items="crypto"
+			:search="search"
+			dense
+		>
+			<template #top>
+				<v-toolbar flat dense>
+					<div class="component-title">Комиссия на ввод и вывод</div>
+
+					<v-text-field
+						class="fees-page__search"
+						v-model="search"
+						append-icon="mdi-magnify"
+						label="Поиск"
+						single-line
+						hide-details
+					/>
+				</v-toolbar>
 			</template>
-		</v-simple-table>
+		</v-data-table>
 	</div>
 </template>
 
 <script>
 export default {
 	name: 'FeesDepositAndWithdrawalTab',
+
 	data() {
 		return {
 			currencies: [],
+			headers: [
+				{
+					text: 'Код',
+					align: 'center',
+					sortable: true,
+					filterable: true,
+					value: 'currency',
+				},
+				{
+					text: 'Наименование',
+					align: 'center',
+					sortable: true,
+					filterable: true,
+					value: 'name',
+				},
+				{
+					text: 'Комиссия при пополнении',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'feeReplenish',
+				},
+				{
+					text: 'Комиссия при выводе',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'feeWithdraw',
+				},
+				{
+					text: 'Мин. кол-во подтверждений сети',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'confirmations',
+				},
+			],
+			search: '',
 		};
 	},
+
 	computed: {
 		crypto() {
 			let result = [];
@@ -53,7 +82,7 @@ export default {
 					name: value.name,
 					feeReplenish: '-',
 					feeWithdraw: value.feeWithdraw,
-					confirmations: value.approve
+					confirmations: value.approve,
 				});
 			});
 			return result;

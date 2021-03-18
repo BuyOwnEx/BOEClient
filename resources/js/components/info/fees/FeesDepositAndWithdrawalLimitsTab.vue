@@ -1,41 +1,34 @@
 <template>
 	<div class="fees-deposit-and-withdrawal-limits-tab">
-		<v-simple-table dense>
-			<template v-slot:default>
-				<thead>
-					<tr>
-						<th>
-							Код
-						</th>
-						<th>
-							Наименование
-						</th>
-						<th>
-							Минимальная сумма пополнения
-						</th>
-						<th>
-							Минимальная сумма вывода
-						</th>
-						<th>
-							Лимит вывода (в день)
-						</th>
-						<th>
-							Лимит вывода для прошедших верификацию (в день)
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="item in crypto" :key="item.id">
-						<td>{{ item.currency }}</td>
-						<td>{{ item.name }}</td>
-						<td>{{ item.minReplenish }} {{ item.currency }}</td>
-						<td>{{ item.minWithdraw }} {{ item.currency }}</td>
-						<td>{{ item.maxWithdraw }} {{ item.currency }}</td>
-						<td>{{ item.maxVerifyWithdraw }} {{ item.currency }}</td>
-					</tr>
-				</tbody>
+		<v-data-table :headers="headers" :items="crypto" :search="search" dense>
+			<template #top>
+				<v-toolbar flat dense>
+					<div class="component-title">Лимиты по вводу и выводу</div>
+
+					<v-text-field
+						class="fees-page__search"
+						v-model="search"
+						append-icon="mdi-magnify"
+						label="Поиск"
+						single-line
+						hide-details
+					/>
+				</v-toolbar>
 			</template>
-		</v-simple-table>
+
+			<template #item.minReplenish="{item}">
+				{{ item.minReplenish }} {{ item.currency }}
+			</template>
+			<template #item.minWithdraw="{item}">
+				{{ item.minWithdraw }} {{ item.currency }}
+			</template>
+			<template #item.maxWithdraw="{item}">
+				{{ item.maxWithdraw }} {{ item.currency }}
+			</template>
+			<template #item.maxVerifyWithdraw="{item}">
+				{{ item.maxVerifyWithdraw }} {{ item.currency }}
+			</template>
+		</v-data-table>
 	</div>
 </template>
 
@@ -45,6 +38,51 @@ export default {
 	data() {
 		return {
 			currencies: [],
+			headers: [
+				{
+					text: 'Код',
+					align: 'center',
+					sortable: true,
+					filterable: true,
+					value: 'currency',
+				},
+				{
+					text: 'Наименование',
+					align: 'center',
+					sortable: true,
+					filterable: true,
+					value: 'name',
+				},
+				{
+					text: 'Минимальная сумма пополнения',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'minReplenish',
+				},
+				{
+					text: 'Минимальная сумма вывода',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'minWithdraw',
+				},
+				{
+					text: 'Лимит вывода (в день)',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'maxWithdraw',
+				},
+				{
+					text: 'Лимит вывода для прошедших верификацию (в день)',
+					align: 'center',
+					sortable: true,
+					filterable: false,
+					value: 'maxVerifyWithdraw',
+				},
+			],
+			search: '',
 		};
 	},
 	computed: {
@@ -58,7 +96,7 @@ export default {
 					minReplenish: value.minReplenish,
 					minWithdraw: value.minWithdraw,
 					maxWithdraw: value.maxWithdraw,
-					maxVerifyWithdraw: value.maxVerifyWithdraw
+					maxVerifyWithdraw: value.maxVerifyWithdraw,
 				});
 			});
 			return result;
