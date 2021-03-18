@@ -1,5 +1,5 @@
 <template>
-	<v-card class='my-2'>
+	<v-card>
 		<v-card-title>User Information</v-card-title>
 		<v-card-text>
 			<v-form>
@@ -61,16 +61,20 @@
 
 <script>
 export default {
+	name: 'UserInformationTab',
+
 	data: () => ({
 		date: '1990-10-09',
 		menu: false,
 		gender: 'male',
 	}),
+
 	watch: {
 		menu(val) {
 			val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'));
 		},
 	},
+
 	methods: {
 		save(date) {
 			this.$refs.menu.save(date);

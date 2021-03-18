@@ -1,5 +1,5 @@
 <template>
-	<div class='my-2'>
+	<div>
 		<div>
 			<v-card v-if='user.disabled' class='warning mb-4' light>
 				<v-card-title>User Disabled</v-card-title>
@@ -181,6 +181,8 @@
 
 <script>
 export default {
+	name: 'UserAccountTab',
+
 	props: {
 		user: {
 			type: Object,

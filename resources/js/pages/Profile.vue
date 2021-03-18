@@ -1,32 +1,53 @@
 <template>
 	<div class="profile-page flex-grow-1">
 		<v-tabs v-model="selectedTab" background-color="transparent" show-arrows>
-			<v-tab :key="1">Account</v-tab>
-			<v-tab :key="2">Information</v-tab>
+			<v-tab :key="1">Аккаунт</v-tab>
+			<v-tab :key="2">Информация</v-tab>
+			<v-tab :key="3">Верификация</v-tab>
+			<v-tab :key="4">API</v-tab>
+			<v-tab :key="4">Безопасность</v-tab>
 		</v-tabs>
 
-		<v-tabs-items v-model="selectedTab">
+		<v-tabs-items v-model="selectedTab" class="pt-1">
 			<v-tab-item :key="1">
-				<AccountTab :user="user" />
+				<UserAccountTab :user="user" />
 			</v-tab-item>
 
 			<v-tab-item :key="2">
-				<InformationTab :user="user" />
+				<UserInformationTab :user="user" />
+			</v-tab-item>
+
+			<v-tab-item :key="3">
+				<UserVerificationTab />
+			</v-tab-item>
+
+			<v-tab-item :key="4">
+				<UserApiTab />
+			</v-tab-item>
+
+			<v-tab-item :key="5">
+				<UserSecurityTab />
 			</v-tab-item>
 		</v-tabs-items>
 	</div>
 </template>
 
 <script>
-import AccountTab from '../pages/users/EditUser/AccountTab';
-import InformationTab from '../pages/users/EditUser/InformationTab';
+import UserAccountTab from '../components/user/tabs/UserAccountTab';
+import UserInformationTab from '../components/user/tabs/UserInformationTab';
+import UserVerificationTab from '../components/user/tabs/UserVerificationTab';
+import UserApiTab from '../components/user/tabs/UserApiTab';
+import UserSecurityTab from '../components/user/tabs/UserSecurityTab';
 
 export default {
 	name: 'Profile',
 
 	components: {
-		AccountTab,
-		InformationTab,
+		UserAccountTab,
+		UserInformationTab,
+		UserVerificationTab,
+		UserApiTab,
+		UserSecurityTab,
 	},
 
 	data() {

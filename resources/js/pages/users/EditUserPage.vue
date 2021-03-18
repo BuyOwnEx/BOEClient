@@ -41,11 +41,11 @@
 
 		<v-tabs-items v-model='tab'>
 			<v-tab-item value='tabs-account'>
-				<account-tab ref='tabs-account' :user='user'></account-tab>
+				<UserAccountTab ref='tabs-account' :user='user'></UserAccountTab>
 			</v-tab-item>
 
 			<v-tab-item value='tabs-information'>
-				<information-tab ref='tabs-information' :user='user'></information-tab>
+				<UserInformationTab ref='tabs-information' :user='user'></UserInformationTab>
 			</v-tab-item>
 		</v-tabs-items>
 	</div>
@@ -53,14 +53,14 @@
 
 <script>
 import CopyLabel from '../../components/common/CopyLabel';
-import AccountTab from './EditUser/AccountTab';
-import InformationTab from './EditUser/InformationTab';
+import UserAccountTab from '../../components/user/tabs/UserAccountTab';
+import UserInformationTab from '../../components/user/tabs/UserInformationTab';
 
 export default {
 	components: {
 		CopyLabel,
-		AccountTab,
-		InformationTab,
+		UserAccountTab,
+		UserInformationTab,
 	},
 	data() {
 		return {
