@@ -6,25 +6,19 @@
 .status-page {
 	table {
 		td {
-			text-align: center;
+			text-align: center !important;
 			&:last-child {
+				padding-left: 0 !important;
 				padding-right: 0 !important;
 			}
 		}
 		th {
-			text-align: center;
-		}
-		&__table-in-table-header {
-			padding-left: 20px !important;
+			text-align: center !important;
 		}
 
-		// table in table
-		table {
-			th,
-			td {
-				padding-left: 4px !important;
-				padding-right: 4px !important;
-			}
+		td,
+		th {
+			padding: 0 8px !important;
 		}
 	}
 }

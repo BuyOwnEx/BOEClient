@@ -30,9 +30,17 @@
 					</thead>
 					<tbody>
 						<tr v-for="item in fiatData" :key="item.currency">
-							<td :class="getDepositStatusColor(true)"></td>
-							<td :class="getWithdrawalStatusColor(true)"></td>
-							<td :class="getTradingStatusColor(true)"></td>
+							<td>{{ item.currency }}</td>
+							<td>{{ item.name }}</td>
+							<td :class="getStatusColor(item.depositStatus)">
+								{{ formatFirstCharToUppercase(item.depositStatus) }}
+							</td>
+							<td :class="getStatusColor(item.withdrawalStatus)">
+								{{ formatFirstCharToUppercase(item.withdrawalStatus) }}
+							</td>
+							<td :class="getStatusColor(item.tradingStatus)">
+								{{ formatFirstCharToUppercase(item.tradingStatus) }}
+							</td>
 							<td>
 								<v-simple-table dense>
 									<template #default>
@@ -53,18 +61,30 @@
 												<th>
 													Комиссия по выводу
 												</th>
-												<th
-													class="status-page__table-in-table-header"
-													colspan="2"
-												>
-													Макс. дневной лимит по выводу (Не прошедшие/Прошедшие
-													KYC процедуру)
+												<th colspan="2">
+													Дневной лимит по выводу (Не прошедшие/Прошедшие
+													верификацию)
 												</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr v-if="true"></tr>
-											<tr v-else>
+										<tbody v-if="item.payment">
+											<tr v-for="payment in item.payment" :key="payment.name">
+												<td>{{ payment.name }}</td>
+												<td>{{ payment.minDeposit }} {{ item.currency }}</td>
+												<td>{{ payment.minWithdraw }} {{ item.currency }}</td>
+												<td>{{ payment.depositFee }} {{ item.currency }}</td>
+												<td>{{ payment.withdrawFee }} {{ item.currency }}</td>
+												<td>
+													{{ payment.noVerifyDayLimit }} {{ item.currency }}
+												</td>
+												<td>
+													{{ payment.verifyDayLimit }} {{ item.currency }}
+												</td>
+											</tr>
+										</tbody>
+
+										<tbody v-else>
+											<tr>
 												<td class="text-center" colspan="6">No Data</td>
 											</tr>
 										</tbody>
@@ -115,14 +135,32 @@
 							<th>
 								Комиссия по выводу
 							</th>
-							<th>
-								Макс. дневной лимит по выводу (Не прошедшие/Прошедшие KYC
-								процедуру)
+							<th colspan="2">
+								Дневной лимит по выводу (Не прошедшие/Прошедшие верификацию)
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="item in cryptoData" :key="item.currency"></tr>
+						<tr v-for="item in cryptoData" :key="item.currency">
+							<td>{{ item.currency }}</td>
+							<td>{{ item.name }}</td>
+							<td>{{ formatFirstCharToUppercase(item.type) }}</td>
+							<td :class="getStatusColor(item.depositStatus)">
+								{{ formatFirstCharToUppercase(item.depositStatus) }}
+							</td>
+							<td :class="getStatusColor(item.withdrawalStatus)">
+								{{ formatFirstCharToUppercase(item.withdrawalStatus) }}
+							</td>
+							<td :class="getStatusColor(item.tradingStatus)">
+								{{ formatFirstCharToUppercase(item.tradingStatus) }}
+							</td>
+							<td>{{ item.minDeposit }} {{ item.currency }}</td>
+							<td>{{ item.minWithdrawal }} {{ item.currency }}</td>
+							<td>{{ item.depositFee }} {{ item.currency }}</td>
+							<td>{{ item.withdrawalFee }} {{ item.currency }}</td>
+							<td>{{ item.noVerifyDayLimit }} {{ item.currency }}</td>
+							<td>{{ item.verifyDayLimit }} {{ item.currency }}</td>
+						</tr>
 					</tbody>
 				</template>
 			</v-simple-table>
@@ -131,22 +169,22 @@
 </template>
 
 <script>
+import formatFirstCharToUppercase from '../../../mixins/common/formatFirstCharToUppercase';
+
 export default {
 	name: 'StatusTables',
+
+	mixins: [formatFirstCharToUppercase],
 
 	data() {
 		return {};
 	},
 
 	methods: {
-		getDepositStatusColor(status) {
-			return 'status-page__online-back';
-		},
-		getWithdrawalStatusColor(status) {
-			return 'status-page__offline-back';
-		},
-		getTradingStatusColor(status) {
-			return 'status-page__maintenance-back';
+		getStatusColor(status) {
+			if (status === 'active') return 'status-page__active-back';
+			else if (status === 'maintenance') return 'status-page__maintenance-back';
+			else return 'status-page__offline-back';
 		},
 	},
 
@@ -165,7 +203,7 @@ export default {
 
 <style scoped lang="sass">
 .status-page
-	&__online-back
+	&__active-back
 		background: rgba(177, 255, 171, 0.45)
 	&__offline-back
 		background: rgba(255, 177, 171, 0.45)
