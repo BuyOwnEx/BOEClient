@@ -19,9 +19,7 @@
 				:currency="selectedCurrency"
 			/>
 
-			<TradingChat
-				class="trading__desktop__chat"
-			/>
+			<TradingChat class="trading__desktop__chat" />
 
 			<AskList
 				class="trading__desktop__ask-list"
@@ -79,9 +77,7 @@
 				</v-tab-item>
 
 				<v-tab-item :key="4">
-					<TradingChat
-						class="trading__mobile__chat"
-					/>
+					<TradingChat class="trading__mobile__chat" />
 				</v-tab-item>
 
 				<v-tab-item class="trading__mobile__orders" :key="5">
@@ -336,24 +332,24 @@ export default {
 
 		&__tickers {
 			flex-grow: 1;
-			min-height: calc(100vh - 156px);
+			min-height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
 		&__chart {
-			height: calc(100vh - 156px);
+			height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
 		&__history {
 			flex-grow: 1;
-			min-height: calc(100vh - 156px);
+			min-height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
 		&__chat {
 			flex-grow: 1;
-			min-height: calc(100vh - 156px);
+			min-height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
@@ -373,7 +369,7 @@ export default {
 		}
 
 		&__own-lists-tabs-wrapper {
-			min-height: calc(100vh - 156px);
+			min-height: calc(100vh - 171px);
 			overflow: auto;
 			flex-grow: 1;
 		}
