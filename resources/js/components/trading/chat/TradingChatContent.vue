@@ -1,10 +1,10 @@
 <template>
-	<v-list class='trading-chat-content' flat>
-		<v-list-item-group class='trading-chat-content__group'>
+	<v-list class="trading-chat-content" flat>
+		<v-list-item-group class="trading-chat-content__group">
 			<TradingChatMessage
-				v-for='msg in messagesData'
-				:key='msg.id'
-				:message='msg'
+				v-for="msg in messagesData"
+				:key="msg.data.ts"
+				:message="msg.data"
 			/>
 		</v-list-item-group>
 	</v-list>
@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .trading-chat-content {
 	overflow-y: auto;
 	position: absolute;

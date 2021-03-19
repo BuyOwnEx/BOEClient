@@ -20,12 +20,14 @@ import TradingChatAddMessage from './TradingChatAddMessage';
 export default {
 	name: 'TradingChat',
 
-	components: { TradingChatContent, TradingChatAddMessage },
+	components: {
+		TradingChatContent,
+		TradingChatAddMessage,
+	},
 
-	props: {
-		messagesData: {
-			type: Array,
-			required: true,
+	computed: {
+		messagesData() {
+			return this.$store.state.chat.messages;
 		},
 	},
 };

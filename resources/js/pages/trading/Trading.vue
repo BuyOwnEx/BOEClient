@@ -21,7 +21,6 @@
 
 			<TradingChat
 				class="trading__desktop__chat"
-				:messages-data="messagesData"
 			/>
 
 			<AskList
@@ -82,7 +81,6 @@
 				<v-tab-item :key="4">
 					<TradingChat
 						class="trading__mobile__chat"
-						:messages-data="messagesData"
 					/>
 				</v-tab-item>
 
@@ -195,20 +193,6 @@ export default {
 
 	data: () => ({
 		selectedTab: 0,
-		messagesData: [
-			{
-				id: 1,
-				author: 'mockAuthor',
-				text: 'mockTextTextmockTextTextmock TextTextmockTextText',
-				date: '2021-02-17T06:30:05.263Z',
-			},
-			{
-				id: 2,
-				author: 'mockAuthor',
-				text: 'mockTextTextmockTextTextmock TextTextmockTextText',
-				date: '2021-02-17T06:30:05.263Z',
-			},
-		],
 	}),
 
 	computed: {

@@ -2,12 +2,12 @@
 	<v-list-item class="tcm px-0">
 		<v-list-item-content class="pt-0">
 			<v-list-item-title class="tcm__title text--disabled">
-				<span class="tcm__title__author"> {{ message.author }}: </span>
+				<span class="tcm__title__author"> {{ message.login }}: </span>
 				<span class="tcm__title__date">{{ formatMessageDate() }}</span>
 			</v-list-item-title>
 
 			<div class="tcm__text">
-				{{ message.text }}
+				{{ message.message }}
 			</div>
 		</v-list-item-content>
 	</v-list-item>
@@ -28,10 +28,7 @@ export default {
 
 	methods: {
 		formatMessageDate() {
-			return new Date(this.message.date).toLocaleTimeString();
-			return utc(this.message.date)
-				.tz(moment.tz.guess())
-				.format('HH:mm:ss');
+			return moment.tz(moment.tz.guess()).format('HH:mm:ss');
 		},
 	},
 };
