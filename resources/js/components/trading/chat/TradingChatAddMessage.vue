@@ -33,10 +33,15 @@ export default {
 
 	methods: {
 		sendMessage() {
-			console.log(this.messageText);
-			this.clearMessageText();
+			axios.post('/trader/ext/message/send', {
+				message: this.messageText
+			}).then(response => {
+				if (response.data.success === true) {
+					console.log(response.data);
+					this.clearMessageText();
+				}
+			});
 		},
-
 		clearMessageText() {
 			this.messageText = '';
 		},

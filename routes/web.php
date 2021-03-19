@@ -79,6 +79,8 @@ Route::group(['prefix' => 'trader'], function () {
         Route::post('transfer/trade', 'TraderController@transferToTradeWallet')->name('transfer_to_trade');
         Route::post('transfer/safe', 'TraderController@transferToSafeWallet')->name('transfer_to_safe');
 
+        Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
+
         Route::get('all_orders', 'TraderController@getAllOrders')->name('all_orders');
         Route::get('all_deals', 'TraderController@getAllDeals')->name('all_deals');
         Route::get('all_transactions', 'TraderController@getAllTransactions')->name('all_transactions');

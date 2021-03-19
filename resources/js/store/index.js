@@ -11,6 +11,7 @@ import TodoModule from '../apps/todo/store';
 
 import tickers from './modules/tickers';
 import trading from './modules/trading';
+import chat from './modules/chat';
 import user from './modules/user';
 import snackbar from './modules/snackbar';
 import ordersTooltip from './modules/ordersTooltip';
@@ -26,6 +27,7 @@ const store = new Vuex.Store({
 		app: AppModule,
 		tickers: tickers,
 		trading: trading,
+		chat: chat,
 		user: user,
 		snackbar: snackbar,
 		notifications: notifications,

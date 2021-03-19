@@ -359,6 +359,18 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function sendMessage(int $user_id, string $message)
+    {
+        $params = [
+            'trader' => $user_id,
+            'message' => $message
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/send_message',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
     private function sign($params)
     {
         $prefix = self::PREFIX;

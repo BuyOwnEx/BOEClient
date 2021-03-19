@@ -11,6 +11,7 @@ export default {
 			sub_tickers: null,
 			sub_currencies: null,
 			sub_markets: null,
+			sub_chat: null,
 			centrifuge: null,
 			connected: false,
 		};
@@ -160,6 +161,16 @@ export default {
 				this.sub_currencies.on('unsubscribe', this.channelUnsubscribeHandler);
 			});
 
+			this.sub_chat = this.centrifuge.subscribe('chat:ru');
+			this.sub_chat.on('subscribe', this.channelSubscribeHandler);
+			this.sub_chat.on('publish', this.chatPubHandler);
+			this.sub_chat.on('error', this.channelErrorHandler);
+			this.sub_chat.on('unsubscribe', this.channelUnsubscribeHandler);
+			let st = this.$store;
+			this.sub_chat.history().then(resp => {
+				st.commit('chat/setHistoryMessages', resp.publications);
+				console.log(resp);
+			});
 		},
 
 		subscribeGraphPeriod() {
@@ -276,6 +287,10 @@ export default {
 			console.log(data);
 		},
 		currenciesPubHandler(data) {
+			console.log(data);
+		},
+		chatPubHandler(data) {
+			this.$store.commit('chat/addMessage', data);
 			console.log(data);
 		},
 		tickersPubHandler(data) {

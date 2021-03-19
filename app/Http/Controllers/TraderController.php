@@ -441,6 +441,19 @@ class TraderController extends Controller
         }
     }
 
+    public function sendMessage(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->sendMessage(
+                Auth::id(),
+                $request->message
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
     public function getAllOrders(Request $request)
     {
         try {
