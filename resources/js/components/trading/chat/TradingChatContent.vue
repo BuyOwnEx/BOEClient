@@ -1,5 +1,5 @@
 <template>
-	<v-list class="trading-chat-content" flat>
+	<v-list ref="chatContent" class="trading-chat-content" flat>
 		<v-list-item-group class="trading-chat-content__group">
 			<TradingChatMessage
 				v-for="msg in messagesData"
@@ -25,8 +25,15 @@ export default {
 		},
 	},
 
-	data() {
-		return {};
+	watch: {
+		messagesData(val, oldVal) {
+			if (!oldVal.length) {
+				this.$nextTick(() => {
+					const element = this.$refs.chatContent.$el;
+					element.scrollTop = 100000;
+				});
+			}
+		},
 	},
 };
 </script>
