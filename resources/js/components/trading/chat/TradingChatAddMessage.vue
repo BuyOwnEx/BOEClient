@@ -34,6 +34,11 @@ export default {
 
 	methods: {
 		sendMessage() {
+			if (this.messageText.trim() === '') {
+				this.clearMessageText();
+				return;
+			}
+
 			axios
 				.post('/trader/ext/message/send', {
 					message: this.messageText,
