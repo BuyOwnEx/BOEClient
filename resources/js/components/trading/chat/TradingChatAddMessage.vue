@@ -1,16 +1,17 @@
 <template>
-	<v-form class='trading-chat-add-message' @submit.prevent='sendMessage'>
+	<v-form class="trading-chat-add-message" @submit.prevent="sendMessage">
 		<v-text-field
-			v-model='messageText'
-			class='trading-chat-add-message__field px-1'
-			placeholder='Your message...'
+			v-model="messageText"
+			class="trading-chat-add-message__field px-1"
+			placeholder="Your message..."
+			maxlength="1024"
 			hide-details
 		/>
 
 		<v-btn
-			class='trading-chat-add-message__send'
-			color='primary'
-			type='submit'
+			class="trading-chat-add-message__send"
+			color="primary"
+			type="submit"
 			:disabled="messageText === ''"
 			icon
 		>
@@ -33,14 +34,16 @@ export default {
 
 	methods: {
 		sendMessage() {
-			axios.post('/trader/ext/message/send', {
-				message: this.messageText
-			}).then(response => {
-				if (response.data.success === true) {
-					console.log(response.data);
-					this.clearMessageText();
-				}
-			});
+			axios
+				.post('/trader/ext/message/send', {
+					message: this.messageText,
+				})
+				.then(response => {
+					if (response.data.success === true) {
+						console.log(response.data);
+						this.clearMessageText();
+					}
+				});
 		},
 		clearMessageText() {
 			this.messageText = '';
@@ -49,7 +52,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .trading-chat-add-message {
 	display: flex;
 	justify-content: space-between;
