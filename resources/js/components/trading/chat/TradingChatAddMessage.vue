@@ -2,9 +2,10 @@
 	<v-form class="trading-chat-add-message" @submit.prevent="sendMessage">
 		<v-text-field
 			v-model="messageText"
-			class="trading-chat-add-message__field px-1"
+			class="trading-chat-add-message__field pr-1"
 			placeholder="Your message..."
 			maxlength="512"
+			counter="512"
 			hide-details
 		/>
 

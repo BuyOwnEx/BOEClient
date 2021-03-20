@@ -48,7 +48,7 @@ export default {
 	bottom: 49px;
 	margin-right: 5px;
 	&:hover {
-		overflow-y: auto;
+		overflow-y: scroll;
 		margin-right: 0;
 	}
 }
