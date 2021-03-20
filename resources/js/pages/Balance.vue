@@ -1,6 +1,6 @@
 <template>
 	<v-card class="balance flex-grow-1">
-		<CommonPageTitle>Баланс</CommonPageTitle>
+		<CommonPageTitle>{{ $t('balance.title') }}</CommonPageTitle>
 
 		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">

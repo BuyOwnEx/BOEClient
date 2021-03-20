@@ -318,6 +318,7 @@ export default {
 		},
 	},
 	balance: {
+		title: 'Balance',
 		headers: {
 			own_fiat_balance_list: 'Own Fiat Balance List',
 			own_crypto_balance_list: 'Own Crypto Balance List',
