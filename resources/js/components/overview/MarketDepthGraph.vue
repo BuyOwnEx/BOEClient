@@ -67,7 +67,7 @@ export default {
 				chart: {
 					type: 'area',
 					style: {
-						fontFamily: '"Quicksand", sans-serif',
+						fontFamily: '"Roboto", sans-serif',
 						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},
