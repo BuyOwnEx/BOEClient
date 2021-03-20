@@ -131,7 +131,7 @@ export default {
 				legend: {
 					offsetY: 40,
 					fontSize: '13px',
-					fontFamily: 'Quicksand',
+					fontFamily: 'Roboto',
 					fontWeight: 700,
 				},
 				responsive: [{
