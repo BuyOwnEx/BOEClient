@@ -26,6 +26,7 @@
 					@table-filter="onUseFilter"
 					@toggleFiltersShow="toggleFiltersShow"
 				/>
+				<v-divider class="pb-2" />
 			</template>
 
 			<template v-slot:item.currency="{ item }">
@@ -144,10 +145,10 @@ export default {
 			const isMediumBreakpoint = width < 1264 && width > 960;
 			const diffBetweenLargeAndMediumFooter = 11;
 
-			const fullPageWithOpenFilters = 'calc(100vh - 528px)';
-			const fullPageWithoutOpenFilters = 'calc(100vh - 230px)';
-			const fullMediumPageWithOpenFilters = `calc(100vh - 528px - ${diffBetweenLargeAndMediumFooter}px)`;
-			const fullMediumPageWithoutOpenFilters = `calc(100vh - 230px - ${diffBetweenLargeAndMediumFooter}px)`;
+			const fullPageWithOpenFilters = 'calc(100vh - 545px)';
+			const fullPageWithoutOpenFilters = 'calc(100vh - 247px)';
+			const fullMediumPageWithOpenFilters = `calc(100vh - 545px - ${diffBetweenLargeAndMediumFooter}px)`;
+			const fullMediumPageWithoutOpenFilters = `calc(100vh - 247px - ${diffBetweenLargeAndMediumFooter}px)`;
 
 			if (isMediumBreakpoint) {
 				if (this.isFiltersShow) return fullMediumPageWithOpenFilters;
