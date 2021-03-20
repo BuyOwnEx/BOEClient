@@ -40,12 +40,24 @@ export default {
 
 <style scoped lang="scss">
 .trading-chat-content {
-	overflow-y: auto;
+	overflow-y: hidden;
 	position: absolute;
 	top: 38px;
 	left: 8px;
 	right: 8px;
 	bottom: 49px;
-	margin-right: 2px;
+	margin-right: 5px;
+	&:hover {
+		overflow-y: auto;
+		margin-right: 0;
+	}
+}
+@-moz-document url-prefix() {
+	.trading-chat-content {
+		margin-right: 7px !important;
+		&:hover {
+			margin-right: 0 !important;
+		}
+	}
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<v-list-item class="tcm px-0">
+	<v-list-item class="tcm">
 		<v-list-item-content class="pt-0">
 			<v-list-item-title class="tcm__title text--disabled">
 				<span class="tcm__title__author"> {{ message.login }}: </span>
@@ -36,6 +36,9 @@ export default {
 
 <style scoped lang="scss">
 .tcm {
+	padding-left: 0 !important;
+	padding-right: 4px;
+
 	&__title {
 		display: flex;
 		justify-content: space-between;
