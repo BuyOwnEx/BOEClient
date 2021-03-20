@@ -9,9 +9,9 @@ export default {
 			state.messages = list;
 		},
 		addMessage(state, item) {
-			state.messages.unshift(item);
+			state.messages.push(item);
 			if (state.messages > state.limit) {
-				state.messages.pop();
+				state.messages.shift();
 			}
 		}
 	}

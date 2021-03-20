@@ -4,7 +4,7 @@
 			v-model="messageText"
 			class="trading-chat-add-message__field px-1"
 			placeholder="Your message..."
-			maxlength="1024"
+			maxlength="512"
 			hide-details
 		/>
 
