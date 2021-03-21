@@ -1,55 +1,36 @@
 <template>
 	<div class="d-flex flex-grow-1">
-		<!-- Navigation -->
 		<v-navigation-drawer
 			v-if="isLogged"
 			v-model="drawer"
-			app
-			floating
-			expand-on-hover
 			class="elevation-1"
 			:right="$vuetify.rtl"
 			:light="menuTheme === 'light'"
 			:dark="menuTheme === 'dark'"
+			app
+			floating
+			expand-on-hover
 		>
-			<!-- Navigation menu info -->
 			<template v-slot:prepend>
 				<v-list-item style="padding: 0 4px;">
 					<v-list-item-avatar height="48" min-width="48" width="48">
 						<v-img src="/images/logo.png"></v-img>
 					</v-list-item-avatar>
+
 					<v-list-item-content>
 						<v-list-item-title>{{ product.name }}</v-list-item-title>
-						<v-list-item-subtitle
-							><small>{{ product.version }}</small></v-list-item-subtitle
-						>
+						<v-list-item-subtitle>
+							<small>{{ product.version }}</small>
+						</v-list-item-subtitle>
 					</v-list-item-content>
 				</v-list-item>
-				<v-divider></v-divider>
+
+				<v-divider />
 			</template>
 
-			<!-- Navigation menu -->
-			<main-menu :menu="navigation.menu" />
-
-			<!-- Navigation menu footer -->
-			<template v-slot:append>
-				<!-- Footer navigation links -->
-				<div class="pa-1 text-center">
-					<v-btn
-						v-for="(item, index) in navigation.footer"
-						:key="index"
-						:href="item.href"
-						:target="item.target"
-						small
-						text
-					>
-						{{ item.key ? $t(item.key) : item.text }}
-					</v-btn>
-				</div>
-			</template>
+			<MainMenu :menu="navigation.menu" />
 		</v-navigation-drawer>
 
-		<!-- Toolbar -->
 		<v-app-bar
 			app
 			:color="isToolbarDetached ? 'surface' : undefined"
@@ -68,36 +49,41 @@
 						<v-app-bar-nav-icon
 							v-if="isLogged"
 							@click.stop="drawer = !drawer"
-						></v-app-bar-nav-icon>
+						/>
 						<v-list-item v-if="!isLogged" style="padding: 0 4px;">
 							<v-list-item-avatar height="48" min-width="48" width="48">
-								<v-img src="/images/logo.png"></v-img>
+								<v-img src="/images/logo.png" />
 							</v-list-item-avatar>
+
 							<v-list-item-content>
-								<v-list-item-title>{{ product.name }}</v-list-item-title>
-								<v-list-item-subtitle
-									><small>{{ product.version }}</small></v-list-item-subtitle
-								>
+								<v-list-item-title>
+									{{ product.name }}
+								</v-list-item-title>
+								<v-list-item-subtitle>
+									<small>
+										{{ product.version }}
+									</small>
+								</v-list-item-subtitle>
 							</v-list-item-content>
 						</v-list-item>
-						<v-spacer class="d-none d-lg-block"></v-spacer>
 
-						<v-spacer class="d-block"></v-spacer>
+						<v-spacer class="d-none d-lg-block" />
+						<v-spacer class="d-block" />
 
 						<ToolbarThemeChanger />
 
-						<toolbar-language />
+						<ToolbarLanguage />
 
 						<div class="hidden-xs-only mx-1">
-							<toolbar-currency />
+							<ToolbarCurrency />
 						</div>
 
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']">
-							<toolbar-apps />
+							<ToolbarApps />
 						</div>
 
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged">
-							<toolbar-notifications />
+							<ToolbarNotifications />
 						</div>
 
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged">
@@ -105,7 +91,7 @@
 						</div>
 
 						<div v-if="isLogged">
-							<toolbar-user />
+							<ToolbarUser />
 						</div>
 
 						<div v-else>
