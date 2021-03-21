@@ -1,7 +1,7 @@
 <template>
 	<v-card class="market-overview">
 		<v-data-table
-			class="pa-2"
+			class="pa-0 py-2 pa-sm-2"
 			caption="Market overview"
 			:calculate-widths="true"
 			:headers="headers"

@@ -1,7 +1,7 @@
 <template>
 	<v-container class="overview" fluid>
 		<v-row align="start" justify="center">
-			<v-col cols="12" class="overview__col text-center">
+			<v-col cols="12" class="overview__col overview__col--graph text-center">
 				<market-depth-graph
 					:currency="selectedCurrency"
 					:market="selectedMarket"
@@ -69,5 +69,6 @@ export default {
 	padding: 0 24px !important
 	&__col
 		padding: 0 !important
-		padding-bottom: 5px !important
+		&--graph
+			padding-bottom: 5px !important
 </style>
