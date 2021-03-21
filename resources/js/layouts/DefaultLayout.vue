@@ -266,11 +266,12 @@ export default {
 	justify-content: space-between;
 	font-size: 9px !important;
 	letter-spacing: 1px !important;
+	-webkit-transform: translateZ(0);
 }
 @media screen and (max-width: 960px) {
-	/*.v-main {*/
-	/*	padding-bottom: 48px !important;*/
-	/*}*/
+	.main {
+		padding-bottom: 105px !important;
+	}
 }
 @media screen and (max-width: 600px) {
 	.footer {

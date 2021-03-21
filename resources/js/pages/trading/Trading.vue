@@ -111,35 +111,35 @@
 				</v-tab-item>
 			</v-tabs-items>
 
-			<!--			<v-tabs-->
-			<!--				v-if="isMobile"-->
-			<!--				v-model="selectedTab"-->
-			<!--				class="trading__mobile__tabs"-->
-			<!--				fixed-tabs-->
-			<!--				show-arrows-->
-			<!--			>-->
-			<!--				<v-tab :key="1">-->
-			<!--					Chart-->
-			<!--				</v-tab>-->
-			<!--				<v-tab :key="2">-->
-			<!--					Tickers-->
-			<!--				</v-tab>-->
-			<!--				<v-tab :key="3">-->
-			<!--					History-->
-			<!--				</v-tab>-->
-			<!--				<v-tab :key="4">-->
-			<!--					Chat-->
-			<!--				</v-tab>-->
-			<!--				<v-tab :key="5">-->
-			<!--					Orders-->
-			<!--				</v-tab>-->
-			<!--				<v-tab :key="6">-->
-			<!--					Forms-->
-			<!--				</v-tab>-->
-			<!--				<v-tab :key="7" v-if="isLogged">-->
-			<!--					Own Lists-->
-			<!--				</v-tab>-->
-			<!--			</v-tabs>-->
+			<v-tabs
+				v-if="isMobile"
+				v-model="selectedTab"
+				class="trading__mobile__tabs"
+				fixed-tabs
+				show-arrows
+			>
+				<v-tab :key="1">
+					Chart
+				</v-tab>
+				<v-tab :key="2">
+					Tickers
+				</v-tab>
+				<v-tab :key="3">
+					History
+				</v-tab>
+				<v-tab :key="4">
+					Chat
+				</v-tab>
+				<v-tab :key="5">
+					Orders
+				</v-tab>
+				<v-tab :key="6">
+					Forms
+				</v-tab>
+				<v-tab :key="7" v-if="isLogged">
+					Own Lists
+				</v-tab>
+			</v-tabs>
 		</div>
 	</div>
 </template>
@@ -381,6 +381,7 @@ export default {
 			bottom: 58px !important;
 			z-index: 5;
 			box-shadow: 0 -25px 20px 0 rgb(85 85 85 / 4%);
+			-webkit-transform: translateZ(0);
 		}
 	}
 }

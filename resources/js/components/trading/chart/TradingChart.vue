@@ -348,10 +348,7 @@ export default {
 			const header = 56;
 			const marketInfo = 53;
 			const pageContainerPaddings = 10;
-
-			// TODO
-			const tabs = 0;
-
+			const tabs = 48;
 			const footer = 58;
 
 			return (
