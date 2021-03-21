@@ -234,6 +234,28 @@ export default {
 				close_position: 'Данное действие приведет к закрытию позиции',
 			},
 		},
+		notifications: {
+			order: {
+				text_sell: 'Ордер на продажу ',
+				text_buy: 'Ордер на покупку ',
+				accepted: ' успешно выставлен',
+				partiallyFilled: ' частично исполнен',
+				filled: ' исполнен полностью',
+				cancel: ' успешно отменен',
+				price: ' по цене ',
+			},
+			position: {
+				text_sell: 'Короткая позиция ',
+				text_buy: 'Длинная позиция ',
+				accepted: ' успешно открыта',
+				partiallyFilled: ' частично исполнена',
+				filled: ' исполнена полностью',
+				closed: ' успешно закрыта',
+				mc_liquidation: ' ликвидирована по причине недостаточности средств в обеспечении',
+				timeout_liquidation: ' ликвидирована по истечению срока позиции',
+				by_size: ' на сумму',
+			}
+		},
 		no_deals: 'Сделок нет',
 		no_activity: 'Активности нет',
 		date: 'Дата',
