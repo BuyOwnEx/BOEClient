@@ -65,6 +65,7 @@ export default {
 			sp: 1,
 			options: {
 				chart: {
+					animation: false,
 					type: 'area',
 					style: {
 						fontFamily: '"Quicksand","Roboto", sans-serif',
