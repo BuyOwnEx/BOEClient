@@ -122,65 +122,60 @@
 					<slot></slot>
 				</v-layout>
 			</v-container>
-
-			<v-footer
-				class="footer overline"
-				:height="calculateFooterHeight"
-				inset
-				app
-			>
-				<span>
-					<a class="text-decoration-none pr-1" href="/status">
-						Состояние системы
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/fees">
-						Комиссии и лимиты
-					</a>
-
-					<a
-						v-if="isWidthMore400px"
-						class="text-decoration-none pr-1"
-						href="/contacts"
-					>
-						Контакты
-					</a>
-
-					<a class="text-decoration-none pr-1" href="/overview">
-						Обзор рынка
-					</a>
-
-					<a
-						v-if="isWidthMore400px"
-						class="text-decoration-none pr-1"
-						href="/api"
-					>
-						API
-					</a>
-
-					<a
-						v-if="isWidthMore400px"
-						class="text-decoration-none pr-1"
-						href="/terms"
-					>
-						Правила системы
-					</a>
-
-					<a
-						v-if="isWidthMore400px"
-						class="text-decoration-none pr-1"
-						href="/policy"
-					>
-						Политика конфиденциальности
-					</a>
-				</span>
-
-				<span>
-					Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All
-					rights reserved
-				</span>
-			</v-footer>
 		</v-main>
+
+		<v-footer class="footer overline" :height="calculateFooterHeight" inset app>
+			<span>
+				<a class="text-decoration-none pr-1" href="/status">
+					Состояние системы
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/fees">
+					Комиссии и лимиты
+				</a>
+
+				<a
+					v-if="isWidthMore400px"
+					class="text-decoration-none pr-1"
+					href="/contacts"
+				>
+					Контакты
+				</a>
+
+				<a class="text-decoration-none pr-1" href="/overview">
+					Обзор рынка
+				</a>
+
+				<a
+					v-if="isWidthMore400px"
+					class="text-decoration-none pr-1"
+					href="/api"
+				>
+					API
+				</a>
+
+				<a
+					v-if="isWidthMore400px"
+					class="text-decoration-none pr-1"
+					href="/terms"
+				>
+					Правила системы
+				</a>
+
+				<a
+					v-if="isWidthMore400px"
+					class="text-decoration-none pr-1"
+					href="/policy"
+				>
+					Политика конфиденциальности
+				</a>
+			</span>
+
+			<span>
+				Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All
+				rights reserved
+			</span>
+		</v-footer>
 
 		<!--		<CommonSnackbar />-->
 		<CommonNotification />
@@ -273,9 +268,9 @@ export default {
 	letter-spacing: 1px !important;
 }
 @media screen and (max-width: 960px) {
-	.main {
-		padding-bottom: 105px !important;
-	}
+	/*.v-main {*/
+	/*	padding-bottom: 48px !important;*/
+	/*}*/
 }
 @media screen and (max-width: 600px) {
 	.footer {
