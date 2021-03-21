@@ -67,7 +67,9 @@ export default {
 						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},
-					height: this.$vuetify.breakpoint.smAndDown ? 600 : 400,
+					height: this.$vuetify.breakpoint.smAndDown
+						? this.calculateGraphHeight()
+						: 400,
 					spacing: [10, 10, 10, 10],
 					events: {
 						load() {
@@ -340,6 +342,27 @@ export default {
 	},
 
 	methods: {
+		calculateGraphHeight() {
+			const deviceHeight = this.$vuetify.breakpoint.height;
+
+			const header = 56;
+			const marketInfo = 53;
+			const pageContainerPaddings = 10;
+
+			// TODO
+			const tabs = 0;
+
+			const footer = 58;
+
+			return (
+				deviceHeight -
+				header -
+				marketInfo -
+				pageContainerPaddings -
+				tabs -
+				footer
+			);
+		},
 		monitoringFullMode() {
 			if (document.addEventListener) {
 				document.addEventListener(
