@@ -1,11 +1,13 @@
 <template>
 	<v-form class="trading-chat-add-message" @submit.prevent="sendMessage">
+		<input class="d-none" autocomplete="off" name="hidden" type="text" />
 		<v-text-field
 			v-model="messageText"
 			class="trading-chat-add-message__field pr-1"
 			placeholder="Your message..."
 			maxlength="512"
 			counter="512"
+			autocomplete="off"
 		/>
 
 		<v-btn
