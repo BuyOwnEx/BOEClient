@@ -1,14 +1,14 @@
 <template>
 	<v-btn
-		class='toolbar-theme-changer'
+		class="toolbar-theme-changer"
 		:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
 		icon
 		@click="changeTheme"
 	>
 		<v-icon v-if="$vuetify.theme.dark">
-			mdi-moon-waning-crescent
+			mdi-white-balance-sunny
 		</v-icon>
-		<v-icon v-else>mdi-white-balance-sunny</v-icon>
+		<v-icon v-else>mdi-moon-waning-crescent </v-icon>
 	</v-btn>
 </template>
 
@@ -38,10 +38,8 @@ export default {
 
 	mounted() {
 		this.getAndSetThemeFromStorage();
-	}
+	},
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
