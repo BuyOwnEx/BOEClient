@@ -11,10 +11,11 @@
 
 			<UserAccountTabPanels
 				:user="userData"
-				:loading="enableUserLoading"
+				:enable-loading="enableUserLoading"
 				@enable="enableUser"
 				@open-disable-dialog="openDisableDialog"
 				@open-delete-dialog="openDeleteDialog"
+				@reset-password="resetPassword"
 			/>
 		</div>
 
@@ -70,6 +71,8 @@ export default {
 			disableUserStore: 'user/disableUser',
 			deleteUserStore: 'user/deleteUser',
 		}),
+
+		async resetPassword() {},
 
 		async enableUser() {
 			try {

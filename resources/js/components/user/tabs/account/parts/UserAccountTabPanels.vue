@@ -11,7 +11,7 @@
 					<div class="subtitle mb-2">
 						Sends a reset password email to the user.
 					</div>
-					<v-btn class="mb-2" @click>
+					<v-btn class="mb-2" @click="resetPassword">
 						<v-icon left small>mdi-email</v-icon>
 						Send Reset Password Email
 					</v-btn>
@@ -62,7 +62,7 @@
 						<v-btn
 							v-if="user.disabled"
 							color="warning"
-							:loading="loading"
+							:loading="enableLoading"
 							@click="enableUser"
 						>
 							<v-icon left small>mdi-account-check</v-icon>
@@ -112,7 +112,7 @@ export default {
 			type: Object,
 			required: true,
 		},
-		loading: {
+		enableLoading: {
 			type: Boolean,
 			required: true,
 		},
@@ -133,6 +133,10 @@ export default {
 		},
 		openDeleteDialog() {
 			this.$emit('open-delete-dialog');
+		},
+
+		resetPassword() {
+			this.$emit('reset-password');
 		},
 	},
 };
