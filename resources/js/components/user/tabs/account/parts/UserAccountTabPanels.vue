@@ -95,15 +95,6 @@
 				{{ user.lastSignIn | formatDate('lll') }}
 			</v-expansion-panel-content>
 		</v-expansion-panel>
-
-		<v-expansion-panel>
-			<v-expansion-panel-header class="title">
-				Raw Data
-			</v-expansion-panel-header>
-			<v-expansion-panel-content>
-				<pre class="body-2">{{ user }}</pre>
-			</v-expansion-panel-content>
-		</v-expansion-panel>
 	</v-expansion-panels>
 </template>
 
