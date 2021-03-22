@@ -649,12 +649,12 @@
 }
 @media screen and (max-width: 960px) {
 	.highcharts-menu-wrapper {
-		height: calc(100vh - 255px) !important;
+		height: calc(100vh - 265px) !important;
 		max-height: 567px;
 	}
 	.highcharts-arrow-wrapper {
 		bottom: 0 !important;
-		top: calc(100vh - 245px) !important;
+		top: calc(100vh - 255px) !important;
 	}
 
 	@media screen and (min-height: 825px) {
