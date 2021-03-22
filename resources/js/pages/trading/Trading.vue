@@ -184,17 +184,6 @@ export default {
 		OwnListsTabsWrapper,
 	},
 
-	props: {
-		currency: {
-			type: String,
-			default: '',
-		},
-		market: {
-			type: String,
-			default: '',
-		},
-	},
-
 	data: () => ({
 		selectedTab: 0,
 	}),
@@ -271,7 +260,6 @@ export default {
 		this.debouncedUpdateUrl = _.debounce(this.updateUrl, 300);
 		this.$watch('selectedPair', this.debouncedUpdateUrl);
 		console.log('user: ' + this.$user);
-		//this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 	},
 };
 </script>
