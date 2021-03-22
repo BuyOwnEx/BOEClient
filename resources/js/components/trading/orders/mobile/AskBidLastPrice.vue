@@ -35,7 +35,7 @@ export default {
 
 	computed: {
 		ticker() {
-			return this.$store.getters.activeTicker;
+			return this.$store.getters['trading/activeTicker'];
 		},
 		lastPrice() {
 			return this.ticker ? BigNumber(this.ticker.latest).toString() : 0;
