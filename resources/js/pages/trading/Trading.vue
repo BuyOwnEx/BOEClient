@@ -325,6 +325,7 @@ export default {
 		display: flex;
 		flex-grow: 1;
 		flex-flow: column;
+		padding-bottom: 47px;
 
 		&__tickers {
 			flex-grow: 1;

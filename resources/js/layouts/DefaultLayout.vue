@@ -244,11 +244,7 @@ export default {
 	letter-spacing: 1px !important;
 	-webkit-transform: translateZ(0);
 }
-@media screen and (max-width: 960px) {
-	.main {
-		padding-bottom: 105px !important;
-	}
-}
+
 @media screen and (max-width: 600px) {
 	.footer {
 		font-size: 8px !important;
