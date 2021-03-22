@@ -1,31 +1,29 @@
 <template>
 	<div>
-		<div>
-			<UserAccountTabBlockedAlert
-				v-if="userData.disabled"
-				:loading="enableUserLoading"
-				@enable="enableUser"
-			/>
+		<UserAccountTabBlockedAlert
+			v-if="userData.blocked"
+			:loading="enableUserLoading"
+			@enable="enableUser"
+		/>
 
-			<UserAccountTabBasicInfo :user="userData" />
+		<UserAccountTabBasicInfo :user="userData" />
 
-			<UserAccountTabPanels
-				:user="userData"
-				:enable-loading="enableUserLoading"
-				@enable="enableUser"
-				@open-disable-dialog="openDisableDialog"
-				@open-delete-dialog="openDeleteDialog"
-				@reset-password="resetPassword"
-			/>
-		</div>
+		<UserAccountTabPanels
+			:user="userData"
+			:enable-loading="enableUserLoading"
+			@enable="enableUser"
+			@open-block-dialog="openBlockDialog"
+			@open-delete-dialog="openDeleteDialog"
+			@reset-password="resetPassword"
+		/>
 
 		<UserAccountDialogsWrapper
-			:disable-dialog="disableDialog"
+			:block-dialog="blockDialog"
 			:delete-dialog="deleteDialog"
 			:dialog-loading="dialogLoading"
-			@close-disable-dialog="closeDisableDialog"
+			@close-block-dialog="closeBlockDialog"
 			@close-delete-dialog="closeDeleteDialog"
-			@disable="disableUser"
+			@block="blockUser"
 			@delete="deleteUser"
 		/>
 	</div>
@@ -58,7 +56,7 @@ export default {
 	data() {
 		return {
 			deleteDialog: false,
-			disableDialog: false,
+			blockDialog: false,
 			dialogLoading: false,
 			enableUserLoading: false,
 			userData: this.user,
@@ -68,7 +66,7 @@ export default {
 	methods: {
 		...mapActions({
 			enableUserStore: 'user/enableUser',
-			disableUserStore: 'user/disableUser',
+			blockUserStore: 'user/blockUser',
 			deleteUserStore: 'user/deleteUser',
 		}),
 
@@ -78,19 +76,19 @@ export default {
 			try {
 				this.enableUserLoading = true;
 				await this.enableUserStore(user.id);
-				this.userData.disabled = false;
+				this.userData.blocked = false;
 			} catch (e) {
 				console.error(e);
 			} finally {
 				this.enableUserLoading = false;
 			}
 		},
-		async disableUser() {
+		async blockUser() {
 			try {
 				this.dialogLoading = true;
-				await this.disableUserStore(user.id);
-				this.userData.disabled = true;
-				this.closeDisableDialog();
+				await this.blockUserStore(user.id);
+				this.userData.blocked = true;
+				this.closeBlockDialog();
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -109,14 +107,14 @@ export default {
 			}
 		},
 
-		openDisableDialog() {
-			this.disableDialog = true;
+		openBlockDialog() {
+			this.blockDialog = true;
 		},
 		openDeleteDialog() {
 			this.deleteDialog = true;
 		},
-		closeDisableDialog() {
-			this.disableDialog = false;
+		closeBlockDialog() {
+			this.blockDialog = false;
 		},
 		closeDeleteDialog() {
 			this.deleteDialog = false;

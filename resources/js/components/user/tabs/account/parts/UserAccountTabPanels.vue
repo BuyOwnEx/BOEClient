@@ -60,7 +60,7 @@
 					</div>
 					<div class="my-2">
 						<v-btn
-							v-if="user.disabled"
+							v-if="user.blocked"
 							color="warning"
 							:loading="enableLoading"
 							@click="enableUser"
@@ -68,7 +68,7 @@
 							<v-icon left small>mdi-account-check</v-icon>
 							Enable User
 						</v-btn>
-						<v-btn v-else color="warning" @click="openDisableDialog">
+						<v-btn v-else color="warning" @click="openBlockDialog">
 							<v-icon left small>mdi-cancel</v-icon>
 							Disable User
 						</v-btn>
@@ -128,8 +128,8 @@ export default {
 		enableUser() {
 			this.$emit('enable');
 		},
-		openDisableDialog() {
-			this.$emit('open-disable-dialog');
+		openBlockDialog() {
+			this.$emit('open-block-dialog');
 		},
 		openDeleteDialog() {
 			this.$emit('open-delete-dialog');

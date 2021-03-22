@@ -235,7 +235,7 @@ export default {
 			// commit('', data)
 			return data;
 		},
-		async disableUser({ commit }, id) {
+		async blockUser({ commit }, id) {
 			// const data = await this.$axios.$post()...
 			const data = await new Promise(res => {
 				setTimeout(() => {

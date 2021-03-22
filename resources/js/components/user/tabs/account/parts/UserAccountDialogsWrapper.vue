@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<v-dialog
-			:value="disableDialog"
+			:value="blockDialog"
 			max-width="290"
-			@click:outside="closeDisableDialog"
+			@click:outside="closeBlockDialog"
 		>
 			<v-card>
 				<v-card-title class="headline">Disable User</v-card-title>
 				<v-card-text>Are you sure you want to disable this user?</v-card-text>
 				<v-card-actions>
 					<v-spacer />
-					<v-btn @click="closeDisableDialog">Cancel</v-btn>
-					<v-btn color="warning" :loading="dialogLoading" @click="disableUser">
+					<v-btn @click="closeBlockDialog">Cancel</v-btn>
+					<v-btn color="warning" :loading="dialogLoading" @click="blockUser">
 						Disable
 					</v-btn>
 				</v-card-actions>
@@ -43,7 +43,7 @@ export default {
 	name: 'UserAccountDialogsWrapper',
 
 	props: {
-		disableDialog: {
+		blockDialog: {
 			type: Boolean,
 			required: true,
 		},
@@ -58,15 +58,15 @@ export default {
 	},
 
 	methods: {
-		closeDisableDialog() {
-			this.$emit('close-disable-dialog');
+		closeBlockDialog() {
+			this.$emit('close-block-dialog');
 		},
 		closeDeleteDialog() {
 			this.$emit('close-delete-dialog');
 		},
 
-		disableUser() {
-			this.$emit('disable');
+		blockUser() {
+			this.$emit('block');
 		},
 		deleteUser() {
 			this.$emit('delete');

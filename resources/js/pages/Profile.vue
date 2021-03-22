@@ -8,13 +8,17 @@
 			<v-tab :key="5">{{ $t('user.title.settings') }}</v-tab>
 		</v-tabs>
 
-		<v-tabs-items v-model="selectedTab" class="profile-page__tabs-items">
+		<v-tabs-items
+			v-if="trader"
+			v-model="selectedTab"
+			class="profile-page__tabs-items"
+		>
 			<v-tab-item :key="1">
-				<UserAccountTab :user="user" />
+				<UserAccountTab :user="trader" />
 			</v-tab-item>
 
 			<v-tab-item :key="2">
-				<UserVerificationTab :user="user" />
+				<UserVerificationTab :user="trader" />
 			</v-tab-item>
 
 			<v-tab-item :key="3">
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import UserAccountTab from '../components/user/tabs/account/UserAccountTab';
 import UserVerificationTab from '../components/user/tabs/UserVerificationTab';
 import UserApiTab from '../components/user/tabs/UserApiTab';
@@ -52,17 +57,6 @@ export default {
 
 	data() {
 		return {
-			user: {
-				id: 32,
-				email: 'bfitchew0@ezinearticles.com',
-				name: 'Bartel Fitchew',
-				verified: false,
-				created: '2019-08-09T03:14:12Z',
-				lastSignIn: '2019-08-14T20:00:53Z',
-				disabled: true,
-				role: 'ADMIN',
-				avatar: '/images/avatars/avatar1.svg',
-			},
 			selectedTab: 0,
 			breadcrumbs: [
 				{
@@ -75,6 +69,10 @@ export default {
 				},
 			],
 		};
+	},
+
+	computed: {
+		...mapState('app', ['trader']),
 	},
 };
 </script>
