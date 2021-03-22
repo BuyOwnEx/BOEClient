@@ -25,7 +25,7 @@
 					</span>
 				</div>
 
-				<div class="flex-grow-1 pt-2 pa-sm-2">
+				<div class="flex-grow-1 pt-2 pt-sm-0 pa-sm-2">
 					<v-text-field
 						v-model="user.name"
 						label="Display name"
