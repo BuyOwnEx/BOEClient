@@ -86,6 +86,10 @@
 						:currency="selectedCurrency"
 						:market="selectedMarket"
 					/>
+					<AskBidLastPrice
+						class="trading__mobile__orders__last-price"
+						:market="selectedMarket"
+					/>
 					<AskList
 						class="trading__mobile__orders__ask"
 						:currency="selectedCurrency"
@@ -153,8 +157,11 @@ import HistoryDealList from '../../components/trading/history/HistoryDealList';
 
 import TradingChat from '../../components/trading/chat/TradingChat';
 import MarketActivity from '../../components/trading/market/MarketActivity';
+
 import AskList from '../../components/trading/orders/ask/AskList';
+import AskBidLastPrice from '../../components/trading/orders/mobile/AskBidLastPrice';
 import BidList from '../../components/trading/orders/bid/BidList';
+
 import TradingFormsWrapper from '../../components/trading/forms/TradingFormsWrapper';
 
 import OwnListsTabsWrapper from '../../components/trading/user/OwnListsTabsWrapper';
@@ -171,6 +178,7 @@ export default {
 		TradingChat,
 		MarketActivity,
 		AskList,
+		AskBidLastPrice,
 		BidList,
 		TradingFormsWrapper,
 		OwnListsTabsWrapper,
@@ -355,11 +363,8 @@ export default {
 
 		&__orders {
 			overflow: auto;
-
-			&__bid {
-			}
-			&__ask {
-				margin-top: 0.5rem;
+			&__last-price {
+				margin: 5px 0;
 			}
 		}
 
