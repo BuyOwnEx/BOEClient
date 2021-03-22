@@ -294,6 +294,10 @@ export default {
 			stop_loss_info: 'Stop Loss Info',
 			take_profit_info: 'Take Profit Info',
 			trailing_stop_info: 'Trailing Stop Info',
+			dialog: {
+				title: 'Confirm order',
+				order: 'order',
+			},
 		},
 		pair: 'Pair',
 	},

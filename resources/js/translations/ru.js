@@ -295,6 +295,10 @@ export default {
 			stop_loss_info: 'Информация Stop Loss',
 			take_profit_info: 'Информация Take Profit',
 			trailing_stop_info: 'Информация Trailing Stop',
+			dialog: {
+				title: 'Подтверждение ордера',
+				order: 'ордер',
+			},
 		},
 		pair: 'Пара',
 	},
