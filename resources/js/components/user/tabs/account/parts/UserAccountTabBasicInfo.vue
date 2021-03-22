@@ -38,10 +38,6 @@
 							</v-btn>
 						</div>
 					</div>
-
-					<div class="mt-2">
-						<v-btn color="primary" @click>Save</v-btn>
-					</div>
 				</div>
 			</div>
 		</v-card-text>
