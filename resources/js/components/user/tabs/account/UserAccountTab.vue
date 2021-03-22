@@ -1,12 +1,17 @@
 <template>
 	<div>
 		<div>
-			<UserAccountTabBlockedAlert v-if="user.disabled" @enable="enableUser" />
+			<UserAccountTabBlockedAlert
+				v-if="userData.disabled"
+				:loading="enableUserLoading"
+				@enable="enableUser"
+			/>
 
-			<UserAccountTabBasicInfo :user="user" />
+			<UserAccountTabBasicInfo :user="userData" />
 
 			<UserAccountTabPanels
-				:user="user"
+				:user="userData"
+				:loading="enableUserLoading"
 				@enable="enableUser"
 				@open-disable-dialog="openDisableDialog"
 				@open-delete-dialog="openDeleteDialog"
@@ -16,6 +21,7 @@
 		<UserAccountDialogsWrapper
 			:disable-dialog="disableDialog"
 			:delete-dialog="deleteDialog"
+			:dialog-loading="dialogLoading"
 			@close-disable-dialog="closeDisableDialog"
 			@close-delete-dialog="closeDeleteDialog"
 			@disable="disableUser"
@@ -52,6 +58,9 @@ export default {
 		return {
 			deleteDialog: false,
 			disableDialog: false,
+			dialogLoading: false,
+			enableUserLoading: false,
+			userData: this.user,
 		};
 	},
 
@@ -62,9 +71,40 @@ export default {
 			deleteUserStore: 'user/deleteUser',
 		}),
 
-		enableUser() {},
-		disableUser() {},
-		deleteUser() {},
+		async enableUser() {
+			try {
+				this.enableUserLoading = true;
+				await this.enableUserStore(user.id);
+				this.userData.disabled = false;
+			} catch (e) {
+				console.error(e);
+			} finally {
+				this.enableUserLoading = false;
+			}
+		},
+		async disableUser() {
+			try {
+				this.dialogLoading = true;
+				await this.disableUserStore(user.id);
+				this.userData.disabled = true;
+				this.closeDisableDialog();
+			} catch (e) {
+				console.error(e);
+			} finally {
+				this.dialogLoading = false;
+			}
+		},
+		async deleteUser() {
+			try {
+				this.dialogLoading = true;
+				await this.deleteUserStore(user.id);
+				this.closeDeleteDialog();
+			} catch (e) {
+				console.error(e);
+			} finally {
+				this.dialogLoading = false;
+			}
+		},
 
 		openDisableDialog() {
 			this.disableDialog = true;

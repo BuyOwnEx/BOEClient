@@ -11,7 +11,7 @@
 				<v-card-actions>
 					<v-spacer />
 					<v-btn @click="closeDisableDialog">Cancel</v-btn>
-					<v-btn color="warning" @click="disableUser">
+					<v-btn color="warning" :loading="dialogLoading" @click="disableUser">
 						Disable
 					</v-btn>
 				</v-card-actions>
@@ -29,7 +29,9 @@
 				<v-card-actions>
 					<v-spacer />
 					<v-btn @click="closeDeleteDialog">Cancel</v-btn>
-					<v-btn color="error" @click="deleteUser">Delete</v-btn>
+					<v-btn color="error" :loading="dialogLoading" @click="deleteUser"
+						>Delete</v-btn
+					>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -46,6 +48,10 @@ export default {
 			required: true,
 		},
 		deleteDialog: {
+			type: Boolean,
+			required: true,
+		},
+		dialogLoading: {
 			type: Boolean,
 			required: true,
 		},

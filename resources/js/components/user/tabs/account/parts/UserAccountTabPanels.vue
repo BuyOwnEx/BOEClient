@@ -59,7 +59,12 @@
 						Prevent the user from signing in on the platform.
 					</div>
 					<div class="my-2">
-						<v-btn v-if="user.disabled" color="warning" @click="enableUser">
+						<v-btn
+							v-if="user.disabled"
+							color="warning"
+							:loading="loading"
+							@click="enableUser"
+						>
 							<v-icon left small>mdi-account-check</v-icon>
 							Enable User
 						</v-btn>
@@ -105,6 +110,10 @@ export default {
 	props: {
 		user: {
 			type: Object,
+			required: true,
+		},
+		loading: {
+			type: Boolean,
 			required: true,
 		},
 	},

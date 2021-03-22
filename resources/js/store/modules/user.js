@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import randomColor from 'randomcolor';
 
@@ -14,7 +13,9 @@ export default {
 			status: false,
 			positions: [],
 		},
+		profileSelectedTab: 0,
 	},
+
 	getters: {
 		selectedCurrency(rootState) {
 			return rootState.trading.selectedCurrency;
@@ -23,6 +24,7 @@ export default {
 			return rootState.trading.selectedMarket;
 		},
 	},
+
 	mutations: {
 		setBalances(state, balances) {
 			state.balances = balances;
@@ -130,7 +132,12 @@ export default {
 			state.marginCall.status = true;
 			state.marginCall.positions.push(data.position.id);
 		},
+
+		SET_PROFILE_TAB(state, tabIndex) {
+			state.profileSelectedTab = tabIndex;
+		},
 	},
+
 	actions: {
 		getBalancesFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
@@ -211,6 +218,44 @@ export default {
 						reject();
 					});
 			});
+		},
+
+		setProfileTab({ commit }, tabIndex) {
+			commit('SET_PROFILE_TAB', tabIndex);
+		},
+
+		async enableUser({ commit }, id) {
+			// const data = await this.$axios.$post()...
+			const data = await new Promise(res => {
+				setTimeout(() => {
+					res();
+				}, 1000);
+			});
+
+			// commit('', data)
+			return data;
+		},
+		async disableUser({ commit }, id) {
+			// const data = await this.$axios.$post()...
+			const data = await new Promise(res => {
+				setTimeout(() => {
+					res();
+				}, 1000);
+			});
+
+			// commit('', data)
+			return data;
+		},
+		async deleteUser({ commit }, id) {
+			// const data = await this.$axios.$post()...
+			const data = await new Promise(res => {
+				setTimeout(() => {
+					res();
+				}, 1000);
+			});
+
+			// commit('', data)
+			return data;
 		},
 	},
 };
