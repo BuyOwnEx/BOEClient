@@ -1,6 +1,10 @@
 <template>
 	<div>
-		<v-dialog v-model="disableDialog" max-width="290">
+		<v-dialog
+			:value="disableDialog"
+			max-width="290"
+			@click:outside="closeDisableDialog"
+		>
 			<v-card>
 				<v-card-title class="headline">Disable User</v-card-title>
 				<v-card-text>Are you sure you want to disable this user?</v-card-text>
@@ -14,7 +18,11 @@
 			</v-card>
 		</v-dialog>
 
-		<v-dialog v-model="deleteDialog" max-width="290">
+		<v-dialog
+			:value="deleteDialog"
+			max-width="290"
+			@click:outside="closeDeleteDialog"
+		>
 			<v-card>
 				<v-card-title class="headline">Delete User</v-card-title>
 				<v-card-text>Are you sure you want to delete this user?</v-card-text>
