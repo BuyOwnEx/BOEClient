@@ -1,17 +1,17 @@
 <template>
-	<div class="bids_last_price_line text-center">
+	<div class="last_price_line text-center">
 		<div
-			class="bids_last_price ib"
+			class="last_price"
 			:class="{
 				'text-success': lastChangeIsPositive,
 				'text-danger': lastChangeIsNegative,
 			}"
 		>
 			<span
-				class="glyphicon"
+				class="mdi"
 				:class="{
-					'glyphicon-arrow-down': lastChangeIsNegative,
-					'glyphicon-arrow-up': lastChangeIsPositive,
+					'mdi-arrow-down': lastChangeIsNegative,
+					'mdi-arrow-up': lastChangeIsPositive,
 				}"
 			/>
 			{{ lastPrice }} {{ market.toUpperCase() }}
