@@ -14,21 +14,25 @@
 					'trading-forms-confirm-dialog__header--sell': isSell,
 				}"
 			>
-				<slot name="header">Подтверждение сделки</slot>
+				<slot name="header">{{ $t('trading.forms.dialog.title') }}</slot>
 			</v-card-title>
 
 			<v-card-text class="trading-forms-confirm-dialog__content">
 				<slot name="text">
 					<span>Вы собираетесь</span>
 
-					<span v-if="isBuy">купить</span>
-					<span v-else-if="isSell">продать</span>
-
 					<span class="trading-forms-confirm-dialog__important">
-						{{ amount }} {{ currency.toUpperCase() }}
+						<span v-if="isBuy">купить</span>
+						<span v-else-if="isSell">продать</span>
+						<span>{{ amount }} {{ currency.toUpperCase() }}</span>
 					</span>
 
-					<span v-if="isLimit">по цене</span>
+					<span v-if="isLimit">
+						<span>по цене</span>
+						<span class="trading-forms-confirm-dialog__important">
+							{{ price }} {{ market.toUpperCase() }}
+						</span>
+					</span>
 					<span v-else-if="isMarket">по рыночной цене</span>
 
 					<span v-if="isAdditionalParams && isAnyAdditionalParamExist">
@@ -37,69 +41,102 @@
 					<div v-if="isAdditionalParams && isAnyAdditionalParamExist">
 						<ul class="trading-forms-confirm-dialog__add-params-list">
 							<li v-if="stopLoss">
-								<span v-if="isBuy">Купить</span>
-								<span v-else-if="isSell">Продать</span>
+								<span v-if="isBuy">Продажа</span>
+								<span v-else-if="isSell">Покупка</span>
+								<span>по рынку в случае, если</span>
 
-								<span v-if="isMarket">по рыночной цене</span>
-								в случае, если
-
-								<span v-if="isBuy">Best Bid</span>
-								<span v-else-if="isSell">Best Ask</span>
+								<span
+									v-if="isBuy"
+									class="trading-forms-confirm-dialog__important"
+								>
+									Best Bid
+								</span>
+								<span
+									v-else-if="isSell"
+									class="trading-forms-confirm-dialog__important"
+								>
+									Best Ask
+								</span>
 
 								достигнет значения
-								<span class="trading-forms-confirm-dialog__important">
-									{{ stopLoss }}
+								<span>
+									<span> {{ stopLoss }} {{ currency.toUpperCase() }} </span>
+									<span>
+										(
+										<span class="trading-forms-confirm-dialog__important">
+											SL
+										</span>
+										<span>{{ $t('trading.forms.dialog.order') }}</span>
+										)
+									</span>
 								</span>
 							</li>
 
 							<li v-if="takeProfit">
-								<span v-if="isBuy">Купить</span>
-								<span v-else-if="isSell">Продать</span>
+								<span v-if="isBuy">Продажа</span>
+								<span v-else-if="isSell">Покупка</span>
+								<span>по рынку в случае, если</span>
 
-								<span v-if="isMarket">по рыночной цене</span>
-								в случае, если
-
-								<span v-if="isBuy">Best Ask</span>
-								<span v-else-if="isSell">Best Bid</span>
+								<span
+									v-if="isBuy"
+									class="trading-forms-confirm-dialog__important"
+								>
+									Best Bid
+								</span>
+								<span
+									v-else-if="isSell"
+									class="trading-forms-confirm-dialog__important"
+								>
+									Best Ask
+								</span>
 
 								достигнет значения
-								<span class="trading-forms-confirm-dialog__important">
-									{{ takeProfit }}
+								<span>
+									<span> {{ takeProfit }} {{ currency.toUpperCase() }} </span>
+									<span>
+										(
+										<span class="trading-forms-confirm-dialog__important">
+											TP
+										</span>
+										<span>{{ $t('trading.forms.dialog.order') }}</span>
+										)
+									</span>
 								</span>
 							</li>
 
 							<li v-if="trailingStop">
-								<span v-if="isBuy">Купить</span>
-								<span v-else-if="isSell">Продать</span>
+								<span v-if="isBuy">Продажа</span>
+								<span v-else-if="isSell">Покупка</span>
+								<span>по рынку в случае, если</span>
+								<span>цена актива</span>
 
-								<span v-if="isMarket">по рыночной цене</span>
-								в случае, если цена актива
+								<span v-if="isBuy">упадет</span>
+								<span v-else-if="isSell">поднимается</span>
 
-								<span v-if="isBuy">поднимается</span>
-								<span v-else-if="isSell">упадет</span>
-
-								одномоментно на
+								<span>одномоментно на</span>
 								<span class="trading-forms-confirm-dialog__important">
 									{{ trailingStop }}
 								</span>
-								пунктов
+								<span>пунктов</span>
+
+								<span>
+									(
+									<span class="trading-forms-confirm-dialog__important">
+										TS
+									</span>
+									<span>{{ $t('trading.forms.dialog.order') }}</span>
+									)
+								</span>
 							</li>
 						</ul>
 
 						<div
 							v-if="isMultiplyAdditionalParams"
-							class="trading-forms-confirm-dialog__small-text text-right"
+							class="trading-forms-confirm-dialog__small-text pt-1"
 						>
 							* Сработает только один из условных ордеров
 						</div>
 					</div>
-
-					<span
-						v-else-if="!isAdditionalParams && isLimit"
-						class="trading-forms-confirm-dialog__important"
-					>
-						{{ price }} {{ market.toUpperCase() }}
-					</span>
 				</slot>
 			</v-card-text>
 
@@ -242,7 +279,8 @@ export default {
 		opacity: 0.7
 
 	&__important
-		font-weight: 600
+		font-weight: 800
+		font-size: 14px
 .theme--dark
 	.trading-forms-confirm-dialog
 		&__header
