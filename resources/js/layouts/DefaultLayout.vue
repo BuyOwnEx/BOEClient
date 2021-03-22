@@ -163,7 +163,6 @@
 			</span>
 		</v-footer>
 
-		<!--		<CommonSnackbar />-->
 		<CommonNotification />
 	</div>
 </template>
@@ -171,7 +170,6 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-// navigation menu configurations
 import config from '../configs';
 
 import MainMenu from '../components/navigation/MainMenu';
@@ -212,6 +210,7 @@ export default {
 			'trader',
 		]),
 		...mapGetters('app', ['isLogged']),
+
 		navigation() {
 			return this.isLogged ? config.navigation : config.guest_navigation;
 		},
@@ -225,7 +224,6 @@ export default {
 			else if (isMobile) return 58;
 			else return 29;
 		},
-
 		isWidthMore400px() {
 			return this.$vuetify.breakpoint.width >= 400;
 		},
