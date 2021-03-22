@@ -23,7 +23,6 @@
 							v-html="generatedAvatar"
 						/>
 					</span>
-					<v-btn class="mt-1" small>Edit Avatar</v-btn>
 				</div>
 
 				<div class="flex-grow-1 pt-2 pa-sm-2">
