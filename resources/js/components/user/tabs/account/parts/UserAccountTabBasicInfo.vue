@@ -20,8 +20,14 @@
 						v-model="user.name"
 						label="Display name"
 						placeholder="name"
+						readonly
 					/>
-					<v-text-field v-model="user.email" label="Email" hide-details />
+					<v-text-field
+						v-model="user.email"
+						label="Email"
+						readonly
+						hide-details
+					/>
 
 					<div class="d-flex flex-column">
 						<v-checkbox
