@@ -1,10 +1,10 @@
 <template>
 	<transition-group class="notification" name="notification" tag="ul">
 		<li
-			v-for="(item, index) in notificationsForDisplay"
+			v-for="item in notificationsForDisplay"
 			:key="item.id"
-			class="notification__item "
-			:class="'clickable alert alert-' + item.status + ' nomb'"
+			class="notification__item"
+			:class="getStatusBackgroundColor(item.status)"
 			@click.self="removeNotification(item.id)"
 		>
 			{{ item.text }}
@@ -22,6 +22,7 @@ export default {
 			notificationIdInRemoveQueue: null,
 		};
 	},
+
 	computed: {
 		notifications() {
 			return this.$store.state.notifications.notifications;
@@ -30,6 +31,7 @@ export default {
 			return this.notifications.slice(0, this.displayLimit);
 		},
 	},
+
 	methods: {
 		initHandler() {
 			if (this.notificationsHandler === null) {
@@ -65,20 +67,23 @@ export default {
 				});
 			}
 		},
+
+		getStatusBackgroundColor(status) {
+			const isWarning = status === 'partiallyFilled';
+			const isSuccess =
+				status === 'filled' || status === 'cancel' || status === 'closed';
+			const isError =
+				status === 'mc_liquidation' || status === 'timeout_liquidation';
+
+			if (isWarning) return 'warning';
+			else if (isSuccess) return 'success';
+			else if (isError) return 'error';
+			else return 'primary';
+		},
 	},
-	created() {
-		if (this.notifications.length > 0) {
-			this.initHandler();
-		}
-	},
-	beforeDestroy() {
-		if (this.notificationsHandler !== null) {
-			clearInterval(this.notificationsHandler);
-			this.notificationsHandler = null;
-		}
-	},
+
 	watch: {
-		notifications(val, oldVal) {
+		notifications(val) {
 			if (val.length === 0 && this.notificationsHandler !== null) {
 				clearInterval(this.notificationsHandler);
 				this.notificationsHandler = null;
@@ -87,6 +92,19 @@ export default {
 				this.initHandler();
 			}
 		},
+	},
+
+	created() {
+		if (this.notifications.length > 0) {
+			this.initHandler();
+		}
+	},
+
+	beforeDestroy() {
+		if (this.notificationsHandler !== null) {
+			clearInterval(this.notificationsHandler);
+			this.notificationsHandler = null;
+		}
 	},
 };
 </script>
@@ -101,16 +119,18 @@ export default {
 	max-width: 40vw;
 	z-index: 2;
 	&__item {
-		background: #e8e8e8;
+		font-size: 13px;
+		//background: #e8e8e8;
 		padding: 4px 8px;
 		list-style-type: none;
-		transition: all 0.3s;
+		cursor: pointer;
+		transition: transform 0.3s;
 	}
 }
 .theme--dark {
 	.notification {
 		&__item {
-			background: #30303c;
+			//background: #30303c;
 		}
 	}
 }
