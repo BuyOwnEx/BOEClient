@@ -1,5 +1,5 @@
 <template>
-	<v-card class="warning mb-4" light>
+	<v-card class="user-account-tab-blocked-alert warning" light>
 		<v-card-title>User Disabled</v-card-title>
 		<v-card-subtitle>
 			This user has been disabled! Login access has been revoked.
@@ -32,4 +32,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="sass" scoped>
+.user-account-tab-blocked-alert
+	margin-bottom: 5px
+</style>

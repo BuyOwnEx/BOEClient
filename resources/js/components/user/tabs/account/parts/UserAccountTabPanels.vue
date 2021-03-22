@@ -1,5 +1,5 @@
 <template>
-	<v-expansion-panels v-model="panel" multiple class="mt-3">
+	<v-expansion-panels class="user-account-tab-panels" v-model="panel" multiple>
 		<v-expansion-panel>
 			<v-expansion-panel-header class="title">
 				Actions
@@ -142,4 +142,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="sass" scoped>
+.user-account-tab-panels
+	padding-top: 5px
+	::v-deep.v-expansion-panel--active
+		margin-top: 5px
+		+ .v-expansion-panel
+			margin-top: 5px
+</style>
