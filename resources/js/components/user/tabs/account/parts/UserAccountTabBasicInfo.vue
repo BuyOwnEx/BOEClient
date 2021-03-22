@@ -24,11 +24,17 @@
 					<v-text-field v-model="user.email" label="Email" hide-details />
 
 					<div class="d-flex flex-column">
-						<v-checkbox v-model="user.verified" dense label="Email Verified" />
+						<v-checkbox
+							:ripple="false"
+							:input-value="true"
+							readonly
+							dense
+							label="Email Verified"
+						/>
 						<div>
-							<v-btn v-if="!user.verified">
+							<v-btn>
 								<v-icon left small>mdi-email</v-icon>
-								Send Verification Email
+								Change Email Request
 							</v-btn>
 						</div>
 					</div>
