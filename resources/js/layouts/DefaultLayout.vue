@@ -226,12 +226,6 @@ export default {
 			return this.$vuetify.breakpoint.width >= 400;
 		},
 	},
-
-	mounted() {
-		this.$store.dispatch('snackbar/showMessage', {
-			text: 'Test Text Snackbar',
-		});
-	},
 };
 </script>
 
