@@ -45,7 +45,7 @@
 			</v-tab-item>
 
 			<v-tab-item value='tabs-information'>
-				<UserInformationTab ref='tabs-information' :user='user'></UserInformationTab>
+				<UserVerificationTab ref='tabs-information' :user='user'></UserVerificationTab>
 			</v-tab-item>
 		</v-tabs-items>
 	</div>
@@ -54,13 +54,13 @@
 <script>
 import CopyLabel from '../../components/common/CopyLabel';
 import UserAccountTab from '../../components/user/tabs/UserAccountTab';
-import UserInformationTab from '../../components/user/tabs/UserInformationTab';
+import UserVerificationTab from '../../components/user/tabs/UserVerificationTab';
 
 export default {
 	components: {
 		CopyLabel,
 		UserAccountTab,
-		UserInformationTab,
+		UserVerificationTab,
 	},
 	data() {
 		return {

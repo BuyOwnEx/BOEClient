@@ -2,10 +2,10 @@
 	<div class="profile-page flex-grow-1">
 		<v-tabs v-model="selectedTab" background-color="transparent" show-arrows>
 			<v-tab :key="1">Аккаунт</v-tab>
-			<v-tab :key="2">Информация</v-tab>
-			<v-tab :key="3">Верификация</v-tab>
-			<v-tab :key="4">API</v-tab>
+			<v-tab :key="2">Верификация</v-tab>
+			<v-tab :key="3">API</v-tab>
 			<v-tab :key="4">Безопасность</v-tab>
+			<v-tab :key="5">Настройки</v-tab>
 		</v-tabs>
 
 		<v-tabs-items v-model="selectedTab" class="pt-1">
@@ -14,19 +14,19 @@
 			</v-tab-item>
 
 			<v-tab-item :key="2">
-				<UserInformationTab :user="user" />
+				<UserVerificationTab :user="user" />
 			</v-tab-item>
 
 			<v-tab-item :key="3">
-				<UserVerificationTab />
-			</v-tab-item>
-
-			<v-tab-item :key="4">
 				<UserApiTab />
 			</v-tab-item>
 
-			<v-tab-item :key="5">
+			<v-tab-item :key="4">
 				<UserSecurityTab />
+			</v-tab-item>
+
+			<v-tab-item :key="5">
+				<UserSettingsTab />
 			</v-tab-item>
 		</v-tabs-items>
 	</div>
@@ -34,20 +34,20 @@
 
 <script>
 import UserAccountTab from '../components/user/tabs/UserAccountTab';
-import UserInformationTab from '../components/user/tabs/UserInformationTab';
 import UserVerificationTab from '../components/user/tabs/UserVerificationTab';
 import UserApiTab from '../components/user/tabs/UserApiTab';
 import UserSecurityTab from '../components/user/tabs/UserSecurityTab';
+import UserSettingsTab from '../components/user/tabs/UserSettingsTab';
 
 export default {
 	name: 'Profile',
 
 	components: {
 		UserAccountTab,
-		UserInformationTab,
 		UserVerificationTab,
 		UserApiTab,
 		UserSecurityTab,
+		UserSettingsTab,
 	},
 
 	data() {
