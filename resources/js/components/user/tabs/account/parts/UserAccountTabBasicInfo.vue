@@ -5,13 +5,24 @@
 		<v-card-text>
 			<div class="d-flex flex-column flex-sm-row">
 				<div>
-					<v-img
-						:src="user.avatar"
-						aspect-ratio="1"
-						class="blue-grey lighten-4 rounded elevation-3"
-						max-width="90"
-						max-height="90"
-					/>
+					<span>
+						<v-img
+							v-if="user.avatar"
+							:src="user.avatar"
+							aspect-ratio="1"
+							class="blue-grey lighten-4 rounded elevation-3"
+							max-width="90"
+							max-height="90"
+						/>
+						<v-img
+							v-else
+							aspect-ratio="1"
+							class="blue-grey lighten-4 rounded elevation-3"
+							max-width="90"
+							max-height="90"
+							v-html="generatedAvatar"
+						/>
+					</span>
 					<v-btn class="mt-1" small>Edit Avatar</v-btn>
 				</div>
 
@@ -58,6 +69,12 @@ export default {
 		user: {
 			type: Object,
 			required: true,
+		},
+	},
+
+	computed: {
+		generatedAvatar() {
+			return this.$store.getters['user/generatedAvatar'];
 		},
 	},
 };

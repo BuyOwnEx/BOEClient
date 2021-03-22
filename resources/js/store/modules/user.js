@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
 import randomColor from 'randomcolor';
+import Avatars from '@dicebear/avatars';
+import sprites from '@dicebear/avatars-avataaars-sprites';
 
 export default {
 	namespaced: true,
@@ -17,11 +20,16 @@ export default {
 	},
 
 	getters: {
-		selectedCurrency(rootState) {
-			return rootState.trading.selectedCurrency;
-		},
-		selectedMarket(rootState) {
-			return rootState.trading.selectedMarket;
+		// selectedCurrency(rootState) {
+		// 	return rootState.trading.selectedCurrency;
+		// },
+		// selectedMarket(rootState) {
+		// 	return rootState.trading.selectedMarket;
+		// },
+		generatedAvatar() {
+			let options = {};
+			let avatars = new Avatars(sprites, options);
+			return avatars.create('custom-seed');
 		},
 	},
 

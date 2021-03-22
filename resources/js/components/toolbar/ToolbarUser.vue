@@ -3,9 +3,7 @@
 		<template v-slot:activator="{ on }">
 			<v-btn icon class="elevation-2" v-on="on">
 				<v-badge color="success" offset-x="10" offset-y="10" dot bordered>
-					<v-avatar size="40">
-						<span v-html="avatar" />
-					</v-avatar>
+					<v-avatar v-html="generatedAvatar" size="40" />
 				</v-badge>
 			</v-btn>
 		</template>
@@ -45,9 +43,6 @@
 </template>
 
 <script>
-import Avatars from '@dicebear/avatars';
-import sprites from '@dicebear/avatars-avataaars-sprites';
-
 export default {
 	name: 'ToolbarUser',
 
@@ -84,11 +79,8 @@ export default {
 	},
 
 	computed: {
-		avatar() {
-			let options = {};
-			let avatars = new Avatars(sprites, options);
-			console.log(avatars.create('custom-seed'));
-			return avatars.create('custom-seed');
+		generatedAvatar() {
+			return this.$store.getters['user/generatedAvatar'];
 		},
 	},
 
