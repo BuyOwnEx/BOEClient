@@ -1,11 +1,11 @@
 <template>
 	<div class="profile-page flex-grow-1">
 		<v-tabs v-model="selectedTab" background-color="transparent" show-arrows>
-			<v-tab :key="1">Аккаунт</v-tab>
-			<v-tab :key="2">Верификация</v-tab>
-			<v-tab :key="3">API</v-tab>
-			<v-tab :key="4">Безопасность</v-tab>
-			<v-tab :key="5">Настройки</v-tab>
+			<v-tab :key="1">{{ $t('user.title.account') }}</v-tab>
+			<v-tab :key="2">{{ $t('user.title.verification') }}</v-tab>
+			<v-tab :key="3">{{ $t('user.title.api') }}</v-tab>
+			<v-tab :key="4">{{ $t('user.title.security') }}</v-tab>
+			<v-tab :key="5">{{ $t('user.title.settings') }}</v-tab>
 		</v-tabs>
 
 		<v-tabs-items v-model="selectedTab" class="pt-1">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import UserAccountTab from '../components/user/tabs/UserAccountTab';
+import UserAccountTab from '../components/user/tabs/account/UserAccountTab';
 import UserVerificationTab from '../components/user/tabs/UserVerificationTab';
 import UserApiTab from '../components/user/tabs/UserApiTab';
 import UserSecurityTab from '../components/user/tabs/UserSecurityTab';

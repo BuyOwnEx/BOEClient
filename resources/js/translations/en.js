@@ -254,7 +254,7 @@ export default {
 				mc_liquidation: ' liquidated due to insufficient initial margin',
 				timeout_liquidation: ' liquidated due to expiration of the position',
 				by_size: ' on size',
-			}
+			},
 		},
 		no_deals: 'No deals',
 		no_activity: 'No activity',
@@ -2134,7 +2134,17 @@ export default {
 		},
 	},
 
-	// Vuetify components translations
+	user: {
+		title: {
+			profile: 'Profile',
+			account: 'Account',
+			verification: 'Verification',
+			api: 'API',
+			security: 'Security',
+			settings: 'Settings',
+		},
+	},
+
 	$vuetify: {
 		badge: 'Badge',
 		close: 'Close',
