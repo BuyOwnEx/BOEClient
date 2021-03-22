@@ -9,8 +9,9 @@
 					offset-x='10'
 					offset-y='10'
 				>
+
 					<v-avatar size='40'>
-						<v-img src='/images/avatars/avatar1.svg'></v-img>
+						<span v-html="avatar"></span>
 					</v-avatar>
 				</v-badge>
 			</v-btn>
@@ -50,6 +51,8 @@
 
 <script>
 import config from '../../configs';
+import Avatars from '@dicebear/avatars';
+import sprites from '@dicebear/avatars-avataaars-sprites';
 /*
 |---------------------------------------------------------------------
 | Toolbar User Component
@@ -63,6 +66,14 @@ export default {
 		return {
 			menu: config.toolbar.user,
 		};
+	},
+	computed: {
+		avatar() {
+			let options = {};
+			let avatars = new Avatars(sprites, options);
+			console.log(avatars.create('custom-seed'));
+			return avatars.create('custom-seed');
+		},
 	},
 	methods: {
 		sendLogout(event) {

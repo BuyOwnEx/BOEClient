@@ -12,6 +12,8 @@
         "production": "mix --production"
     },
     "dependencies": {
+        "@dicebear/avatars": "^4.5.4",
+        "@dicebear/avatars-avataaars-sprites": "^4.5.4",
         "animate.css": "^4.1.0",
         "apexcharts": "^3.19.2",
         "bignumber.js": "^9.0.1",
