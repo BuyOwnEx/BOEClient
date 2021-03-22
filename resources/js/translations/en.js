@@ -234,6 +234,28 @@ export default {
 				close_position: 'This action will close your position',
 			},
 		},
+		notifications: {
+			order: {
+				text_sell: 'Sell order ',
+				text_buy: 'Buy order ',
+				accepted: ' is successfully placed',
+				partiallyFilled: ' is partially executed',
+				filled: ' has been fully executed',
+				cancel: ' has been successfully cancelled',
+				price: ' at the price ',
+			},
+			position: {
+				text_sell: 'Long position ',
+				text_buy: 'Short position ',
+				accepted: ' is successfully opened',
+				partiallyFilled: ' is partially executed',
+				filled: ' has been fully executed',
+				closed: ' has been successfully closed',
+				mc_liquidation: ' liquidated due to insufficient initial margin',
+				timeout_liquidation: ' liquidated due to expiration of the position',
+				by_size: ' on size',
+			}
+		},
 		no_deals: 'No deals',
 		no_activity: 'No activity',
 		date: 'Date',
