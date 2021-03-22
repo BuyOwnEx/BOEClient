@@ -1,6 +1,6 @@
 <template>
 	<div class="profile-page flex-grow-1">
-		<v-tabs v-model="selectedTab" background-color="transparent" show-arrows>
+		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">{{ $t('user.title.account') }}</v-tab>
 			<v-tab :key="2">{{ $t('user.title.verification') }}</v-tab>
 			<v-tab :key="3">{{ $t('user.title.api') }}</v-tab>
@@ -8,7 +8,7 @@
 			<v-tab :key="5">{{ $t('user.title.settings') }}</v-tab>
 		</v-tabs>
 
-		<v-tabs-items v-model="selectedTab" class="pt-1">
+		<v-tabs-items v-model="selectedTab" class="profile-page__tabs-items">
 			<v-tab-item :key="1">
 				<UserAccountTab :user="user" />
 			</v-tab-item>
@@ -79,4 +79,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="sass" scoped>
+.profile-page
+	&__tabs-items
+		padding-top: 5px
+</style>
