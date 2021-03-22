@@ -20,16 +20,12 @@ export default {
 	},
 
 	getters: {
-		// selectedCurrency(rootState) {
-		// 	return rootState.trading.selectedCurrency;
-		// },
-		// selectedMarket(rootState) {
-		// 	return rootState.trading.selectedMarket;
-		// },
-		generatedAvatar() {
-			let options = {};
-			let avatars = new Avatars(sprites, options);
-			return avatars.create('custom-seed');
+		generatedAvatar(_, __, rootState) {
+			const options = {};
+			const avatars = new Avatars(sprites, options);
+			const user = rootState.app.trader;
+
+			return avatars.create(user.name);
 		},
 	},
 
