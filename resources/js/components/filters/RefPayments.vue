@@ -41,7 +41,7 @@
 						:items="followers"
 						:loading="loadingFollowers"
 						:search-input.sync="searchFollowers"
-						hint="Start typing login to search follower"
+						hint="Start typing follower login to search follower"
 						persistent-hint
 						hide-no-data
 						item-text="name"
@@ -151,14 +151,13 @@ export default {
 			}
 			self.loadingFollowers = true;
 
-			// YOUR AJAX Methods go here
-			// if you prefer not to use vue-api-query
 			await axios
 				.get('/trader/ext/all_followers', {
 					params: { name: value },
 				})
 				.then(response => {
-					self.followers = response.data.users;
+					console.log(response);
+					self.followers = response.data.data;
 				})
 				.catch(error => {
 					console.log(error);

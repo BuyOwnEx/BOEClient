@@ -88,7 +88,7 @@ export default {
 			headers: [
 				{ text: 'ID', value: 'id' },
 				{ text: 'Date', value: 'created_at' },
-				{ text: 'Follower', value: 'follower_id' },
+				{ text: 'Follower', value: 'name' },
 				{ text: 'Percent, %', value: 'percent' },
 				{ text: 'Currency', value: 'currency' },
 				{ text: 'Amount', value: 'amount' },
@@ -175,7 +175,7 @@ export default {
 			this.loading = true;
 			return new Promise(async (resolve, reject) => {
 				let result = await this.getItems(this.options);
-				let items = result.items;
+				let items = result.data;
 				const total = result.total;
 				let self = this;
 				_.forEach(items, function(value) {
