@@ -94,10 +94,10 @@
 			</v-expansion-panel-header>
 			<v-expansion-panel-content class="body-2">
 				<span class="font-weight-bold">Created</span>
-				{{ user.created | formatDate('lll') }}
+				{{ user.created_at | formatDate('lll') }}
 				<br />
 				<span class="font-weight-bold">Last Sign In</span>
-				{{ user.lastSignIn | formatDate('lll') }}
+				{{ user.lastLoginAt | formatDate('lll') }}
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 	</v-expansion-panels>
