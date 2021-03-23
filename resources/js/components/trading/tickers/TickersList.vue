@@ -105,6 +105,7 @@
 							</th>
 							<th
 								class="tickers-list__content__header__item--change"
+								:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
 								@click="setSorting('change')"
 							>
 								<span>
@@ -174,7 +175,10 @@
 
 							<td
 								class="tickers-list__content__body__item--change"
-								:class="getPercentColorClass(item.changePercent)"
+								:class="[
+									getPercentColorClass(item.changePercent),
+									$vuetify.rtl ? 'text-left' : 'text-right',
+								]"
 							>
 								<span>{{ item.changePercent }}</span>
 								<span>%</span>
@@ -568,7 +572,6 @@ export default {
 
 				&--change
 					cursor: pointer
-					text-align: right !important
 					margin-right: 8px !important
 					&:hover
 						color: rgba(0, 0, 0, 0.87) !important
@@ -588,7 +591,6 @@ export default {
 						color: unset
 
 				&--change
-					text-align: right
 					margin-right: 8px !important
 
 	::v-deep .v-data-table__wrapper

@@ -1,26 +1,29 @@
 <template>
-	<thead class='bid-table-header'>
-	<tr>
-		<th>
-			<div class='bid-table-header__item--price'>
-				<span>{{ $t('trading.rate') }}</span>
-				<span>({{ market }})</span>
-			</div>
-		</th>
+	<thead class="bid-table-header">
+		<tr>
+			<th>
+				<div class="bid-table-header__item--price">
+					<span>{{ $t('trading.rate') }}</span>
+					<span>({{ market }})</span>
+				</div>
+			</th>
 
-		<th>
-			<div class='bid-table-header__item--amount'>
-				<span>{{ $t('trading.amount') }}</span>
-				<span>({{ currency }})</span>
-			</div>
-		</th>
+			<th>
+				<div class="bid-table-header__item--amount">
+					<span>{{ $t('trading.amount') }}</span>
+					<span>({{ currency }})</span>
+				</div>
+			</th>
 
-		<th>
-			<div class='bid-table-header__item--total text-right'>
-				{{ $t('trading.volume') }}
-			</div>
-		</th>
-	</tr>
+			<th>
+				<div
+					class="bid-table-header__item--total"
+					:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
+				>
+					{{ $t('trading.volume') }}
+				</div>
+			</th>
+		</tr>
 	</thead>
 </template>
 

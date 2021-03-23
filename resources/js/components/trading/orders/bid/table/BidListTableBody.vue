@@ -32,7 +32,10 @@
 						type="bid"
 					/>
 
-					<div class="bid-list-table-body__item--volume text-right">
+					<div
+						class="bid-list-table-body__item--volume"
+						:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
+					>
 						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>

@@ -70,4 +70,9 @@ export default {
 		&__search
 			max-width: 100%
 			padding-left: 16px
+
+.v-application--is-rtl
+	.fees-page__search
+		margin-right: auto
+		margin-left: unset
 </style>

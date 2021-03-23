@@ -1,5 +1,11 @@
 <template>
-	<v-col class="docs-navigation pr-0" cols="12" md="3" xl="2">
+	<v-col
+		class="docs-navigation"
+		:class="[$vuetify.rtl ? 'pl-0' : 'pr-0']"
+		cols="12"
+		md="3"
+		xl="2"
+	>
 		<div class="docs-navigation__sticky-wrapper">
 			<div class="component-title mb-2">
 				{{ $t('docs.navigation') }}

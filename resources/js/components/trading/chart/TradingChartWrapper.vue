@@ -37,6 +37,8 @@ export default {
 	display: flex
 	flex-grow: 1
 	flex-flow: column
+	&__chart
+		direction: ltr
 
 @media screen and (max-width: 1764px)
 	.trading-chart-wrapper__chart

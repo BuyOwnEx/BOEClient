@@ -14,15 +14,15 @@
 		>
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
-				<b class="ml-auto">{{ averagePrice }}</b>
+				<b class="orders-tooltip__value">{{ averagePrice }}</b>
 			</div>
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.total_size') }}:</span>
-				<b class="ml-auto">{{ sumSize }}</b>
+				<b class="orders-tooltip__value">{{ sumSize }}</b>
 			</div>
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.total_volume') }}:</span>
-				<b class="ml-auto">{{ sumVolume }}</b>
+				<b class="orders-tooltip__value">{{ sumVolume }}</b>
 			</div>
 		</div>
 
@@ -32,15 +32,15 @@
 		>
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
-				<b class="ml-auto">{{ averagePrice }}</b>
+				<b class="orders-tooltip__value">{{ averagePrice }}</b>
 			</div>
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.total_size') }}:</span>
-				<b class="ml-auto">{{ sumSize }}</b>
+				<b class="orders-tooltip__value">{{ sumSize }}</b>
 			</div>
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.total_volume') }}:</span>
-				<b class="ml-auto">{{ sumVolume }}</b>
+				<b class="orders-tooltip__value">{{ sumVolume }}</b>
 			</div>
 		</div>
 	</div>
@@ -96,11 +96,18 @@ export default {
 		height: 80px
 		padding: 8px 16px
 		background: #defbec
-
 	&--ask
 		height: 80px
 		padding: 8px 16px
 		background: rgb(255, 223, 223)
+
+	&__value
+		margin-left: auto
+
+.v-application--is-rtl
+	.orders-tooltip__value
+			margin-right: auto
+			margin-left: 0
 
 .theme--dark
 	.orders-tooltip

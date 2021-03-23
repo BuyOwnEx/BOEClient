@@ -88,4 +88,12 @@ export default {
 		font-size: 9px !important;
 	}
 }
+
+.v-application--is-rtl {
+	.trading-chat-add-message {
+		&__send i {
+			transform: scaleX(-1) !important;
+		}
+	}
+}
 </style>

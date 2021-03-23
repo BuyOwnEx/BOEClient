@@ -2,9 +2,7 @@
 	<v-card class="trading-forms pa-1">
 		<v-row no-gutters>
 			<v-col class="trading-forms__buy" cols="12" md="6">
-				<v-card-title
-					class="trading-forms__header component-title pa-0"
-				>
+				<v-card-title class="trading-forms__header component-title pa-0">
 					<span>
 						{{ $t('trading.order.direction.buy') }}
 						{{ currency }}
@@ -20,9 +18,7 @@
 			</v-col>
 
 			<v-col class="trading-forms__sell" cols="12" md="6">
-				<v-card-title
-					class="trading-forms__header component-title pa-0"
-				>
+				<v-card-title class="trading-forms__header component-title pa-0">
 					<span>
 						{{ $t('trading.order.direction.sell') }}
 						{{ currency }}
@@ -101,6 +97,15 @@ export default {
 		display: flex
 		flex-flow: column
 		flex-grow: 1
+
+.v-application--is-rtl
+	.trading-forms
+		&__buy
+			padding-right: 0
+			padding-left: 8px
+		&__sell
+			padding-left: 0
+			padding-right: 8px
 
 @media screen and (min-width: 960px)
 	.trading-forms

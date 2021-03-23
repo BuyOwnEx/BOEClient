@@ -59,12 +59,10 @@ export default {
 <style scoped lang="sass">
 .hdl-table-body
 	&__item
-		&--rate
-			text-align: left
-
-		&--size
-			text-align: left
-
 		&--date
 			text-align: right
+
+.v-application--is-rtl
+	.hdl-table-body__item--date
+		text-align: left !important
 </style>

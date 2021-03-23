@@ -2,7 +2,10 @@
 	<div class="auth-layout flex-md-row ">
 		<div class="auth-layout__header">
 			<ToolbarLanguage class="auth-layout__lang" />
-			<ToolbarThemeChanger class="auth-layout__theme ml-1 ml-md-0" />
+			<ToolbarThemeChanger
+				class="auth-layout__theme mr-md-0 ml-md-0"
+				:class="[$vuetify.rtl ? 'mr-1' : 'ml-1']"
+			/>
 		</div>
 
 		<v-sheet
@@ -111,8 +114,7 @@ export default {
 	&__header {
 		position: absolute;
 		top: 32px;
-		right: 64px;
-		bottom: 64px;
+		right: 32px;
 		z-index: 1;
 	}
 	&__side {
@@ -133,6 +135,15 @@ export default {
 		}
 	}
 }
+
+.v-application--is-rtl .auth-layout {
+	&__header {
+		text-align: left;
+		left: 32px;
+		right: unset;
+	}
+}
+
 .theme--dark .auth-layout {
 	background-color: #222;
 	&__side {
@@ -145,11 +156,17 @@ export default {
 			repeat scroll 0 0;
 	}
 }
+
 @media screen and (max-width: 960px) {
 	.auth-layout {
 		&__header {
 			top: 16px;
 			right: 8px;
+		}
+	}
+	.v-application--is-rtl .auth-layout {
+		&__header {
+			left: 8px;
 		}
 	}
 }

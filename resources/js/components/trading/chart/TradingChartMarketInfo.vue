@@ -1,6 +1,6 @@
 <template>
 	<div class="market-info px-2 pt-1">
-		<div class="market-info__last-price">
+		<div class="market-info__last-price market-info__item">
 			<span class="info-value">
 				<span>{{ lastPrice }}</span>
 				<span class="currency">{{ selectedMarket }}</span>
@@ -10,7 +10,7 @@
 			</span>
 		</div>
 
-		<div class="market-info__daily">
+		<div class="market-info__daily market-info__item">
 			<span
 				class="info-value"
 				:class="{
@@ -25,7 +25,7 @@
 			</span>
 		</div>
 
-		<div class="market-info__daily-high">
+		<div class="market-info__daily-high market-info__item">
 			<span class="info-value">
 				{{ dailyHigh }}
 				<span class="currency">{{ selectedMarket }}</span>
@@ -33,7 +33,7 @@
 			<span class="info-title">{{ $t('trading.daily_high') }}</span>
 		</div>
 
-		<div class="market-info__daily-low">
+		<div class="market-info__daily-low market-info__item">
 			<span class="info-value">
 				{{ dailyLow }}
 				<span class="currency">{{ selectedMarket }}</span>
@@ -41,7 +41,7 @@
 			<span class="info-title">{{ $t('trading.daily_low') }}</span>
 		</div>
 
-		<div class="market-info__daily-volume">
+		<div class="market-info__daily-volume market-info__item">
 			<span class="info-value">
 				<span>{{ formatWithScaleInAllCurrencies(dailyVolume, market) }} </span>
 				<span class="currency">{{ selectedMarket }}</span>
@@ -148,9 +148,7 @@ export default {
 				: 0;
 		},
 		dailyVolume() {
-			return this.ticker
-				? this.ticker.volume
-				: 0;
+			return this.ticker ? this.ticker.volume : 0;
 		},
 	},
 
@@ -168,31 +166,7 @@ export default {
 	flex-flow: row
 	height: 33px
 
-	&__last-price
-		display: flex
-		align-items: center
-		justify-content: center
-		flex-wrap: wrap
-		padding-right: 12px
-	&__daily
-		display: flex
-		align-items: center
-		justify-content: center
-		flex-wrap: wrap
-		padding-right: 12px
-	&__daily-high
-		display: flex
-		align-items: center
-		justify-content: center
-		flex-wrap: wrap
-		padding-right: 12px
-	&__daily-low
-		display: flex
-		align-items: center
-		justify-content: center
-		flex-wrap: wrap
-		padding-right: 12px
-	&__daily-volume
+	&__item
 		display: flex
 		align-items: center
 		justify-content: center
@@ -223,15 +197,7 @@ export default {
 		.info-title
 			font-size: 9px
 
-		&__last-price
-			padding-right: 2px
-		&__daily
-			padding-right: 2px
-		&__daily-high
-			padding-right: 2px
-		&__daily-low
-			padding-right: 2px
-		&__daily-volume
+		&__item
 			padding-right: 2px
 
 @media screen and (min-width: 960px) and (max-width: 1382px)
@@ -241,15 +207,7 @@ export default {
 		.info-title
 			font-size: 11px
 
-		&__last-price
-			padding-right: 16px
-		&__daily
-			padding-right: 16px
-		&__daily-high
-			padding-right: 16px
-		&__daily-low
-			padding-right: 16px
-		&__daily-volume
+		&__item
 			padding-right: 16px
 
 @media screen and (max-width: 960px)
@@ -261,15 +219,7 @@ export default {
 		.info-title
 			font-size: 10px
 
-		&__last-price
-			padding-right: 8px
-		&__daily
-			padding-right: 8px
-		&__daily-high
-			padding-right: 8px
-		&__daily-low
-			padding-right: 8px
-		&__daily-volume
+		&__item
 			padding-right: 8px
 
 @media screen and (max-width: 700px)
@@ -281,14 +231,28 @@ export default {
 		.info-title
 			font-size: 9px
 
-		&__last-price
+		&__item
 			padding-right: 2px
-		&__daily
-			padding-right: 2px
-		&__daily-high
-			padding-right: 2px
-		&__daily-low
-			padding-right: 2px
-		&__daily-volume
-			padding-right: 2px
+
+.v-application--is-rtl
+	.market-info
+		&__item
+			padding-left: 12px
+			padding-right: 0
+		.info-value
+			padding-left: 4px
+			padding-right: 0
+
+		@media screen and (min-width: 1382px) and (max-width: 1500px)
+			padding-left: 2px
+			padding-right: 0
+		@media screen and (min-width: 960px) and (max-width: 1382px)
+			padding-left: 16px
+			padding-right: 0
+		@media screen and (max-width: 960px)
+			padding-left: 8px
+			padding-right: 0
+		@media screen and (max-width: 700px)
+			padding-left: 2px
+			padding-right: 0
 </style>
