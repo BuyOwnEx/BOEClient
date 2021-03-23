@@ -36,7 +36,7 @@
 					<span v-else-if="isMarket">по рыночной цене</span>
 
 					<span v-if="isAdditionalParams && isAnyAdditionalParamExist">
-						со следующими параметрами дальнейшей продажи:
+						со следующими связанными условными ордерами:
 					</span>
 					<div v-if="isAdditionalParams && isAnyAdditionalParamExist">
 						<ul class="trading-forms-confirm-dialog__add-params-list">
@@ -60,7 +60,9 @@
 
 								достигнет значения
 								<span>
-									<span> {{ stopLoss }} {{ currency.toUpperCase() }} </span>
+									<span class="trading-forms-confirm-dialog__important">
+										{{ stopLoss }} {{ market.toUpperCase() }}
+									</span>
 									<span>
 										(
 										<span class="trading-forms-confirm-dialog__important">
@@ -92,7 +94,9 @@
 
 								достигнет значения
 								<span>
-									<span> {{ takeProfit }} {{ currency.toUpperCase() }} </span>
+									<span class="trading-forms-confirm-dialog__important">
+										{{ takeProfit }} {{ market.toUpperCase() }}
+									</span>
 									<span>
 										(
 										<span class="trading-forms-confirm-dialog__important">
