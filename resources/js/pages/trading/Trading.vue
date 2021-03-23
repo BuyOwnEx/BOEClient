@@ -51,7 +51,11 @@
 		</div>
 
 		<div v-if="isMobile" class="trading__mobile">
-			<v-tabs-items v-model="selectedTab" class="trading__mobile__tab-pages">
+			<v-tabs-items
+				v-model="selectedTab"
+				class="trading__mobile__tab-pages"
+				:touchless="isChartTab"
+			>
 				<v-tab-item :key="1">
 					<TradingChartWrapper
 						class="trading__mobile__chart"
@@ -205,6 +209,7 @@ export default {
 				null
 			);
 		},
+
 		isMargin() {
 			let market = this.markets
 				? _.find(
@@ -222,6 +227,10 @@ export default {
 
 		isMobile() {
 			return this.$vuetify.breakpoint.smAndDown;
+		},
+		isChartTab() {
+			const chartTabIndex = 0;
+			return this.selectedTab === chartTabIndex;
 		},
 	},
 
