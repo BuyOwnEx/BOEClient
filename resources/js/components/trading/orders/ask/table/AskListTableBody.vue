@@ -17,10 +17,7 @@
 						:volume="calculateVolume(item.price, item.actualSize)"
 						type="ask"
 					/>
-					<div
-						class="ask-list-table-body__item--volume"
-						:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
-					>
+					<div class="ask-list-table-body__item--volume text-end">
 						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>
@@ -31,10 +28,7 @@
 				</div>
 			</td>
 			<td v-if="!isMobile">
-				<div
-					class="ask-list-table-body__item--price"
-					:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
-				>
+				<div class="ask-list-table-body__item--price text-end">
 					<strong class="text-danger">
 						{{ formatPrice(item.price, getPriceScale) }}
 					</strong>
@@ -61,10 +55,7 @@
 						type="ask"
 						mobile
 					/>
-					<div
-						class="ask-list-table-body__item--volume"
-						:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
-					>
+					<div class="ask-list-table-body__item--volume text-end">
 						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>

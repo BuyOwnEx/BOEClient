@@ -34,7 +34,7 @@
 // Menu with class small-text-menu <03.03.21>
 .small-text-menu {
 	.v-list-item {
-		text-align: left !important;
+		text-align: start !important;
 		min-height: 30px !important;
 		&__title {
 			font-weight: normal !important;

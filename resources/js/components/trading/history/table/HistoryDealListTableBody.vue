@@ -60,9 +60,5 @@ export default {
 .hdl-table-body
 	&__item
 		&--date
-			text-align: right
-
-.v-application--is-rtl
-	.hdl-table-body__item--date
-		text-align: left !important
+			text-align: end
 </style>

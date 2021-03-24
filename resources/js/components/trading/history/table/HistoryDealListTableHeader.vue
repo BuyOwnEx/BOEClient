@@ -48,9 +48,5 @@ export default {
 			&__head
 				&__item
 					&--date
-						text-align: right
-
-.v-application--is-rtl
-	.hdl__content__table__head__item--date
-		text-align: left
+						text-align: end
 </style>

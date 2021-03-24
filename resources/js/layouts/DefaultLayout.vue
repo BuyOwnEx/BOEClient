@@ -112,47 +112,31 @@
 
 		<v-footer class="footer overline" :height="calculateFooterHeight" inset app>
 			<span>
-				<a class="text-decoration-none pr-1" href="/status">
+				<a class="footer__link" href="/status">
 					Состояние системы
 				</a>
 
-				<a class="text-decoration-none pr-1" href="/fees">
+				<a class="footer__link" href="/fees">
 					Комиссии и лимиты
 				</a>
 
-				<a
-					v-if="isWidthMore400px"
-					class="text-decoration-none pr-1"
-					href="/contacts"
-				>
+				<a v-if="isWidthMore400px" class="footer__link" href="/contacts">
 					Контакты
 				</a>
 
-				<a class="text-decoration-none pr-1" href="/overview">
+				<a class="footer__link" href="/overview">
 					Обзор рынка
 				</a>
 
-				<a
-					v-if="isWidthMore400px"
-					class="text-decoration-none pr-1"
-					href="/api"
-				>
+				<a v-if="isWidthMore400px" class="footer__link" href="/api">
 					API
 				</a>
 
-				<a
-					v-if="isWidthMore400px"
-					class="text-decoration-none pr-1"
-					href="/terms"
-				>
+				<a v-if="isWidthMore400px" class="footer__link" href="/terms">
 					Правила системы
 				</a>
 
-				<a
-					v-if="isWidthMore400px"
-					class="text-decoration-none pr-1"
-					href="/policy"
-				>
+				<a v-if="isWidthMore400px" class="footer__link" href="/policy">
 					Политика конфиденциальности
 				</a>
 			</span>
@@ -229,7 +213,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .buy-button {
 	box-shadow: 1px 1px 18px #ee44aa;
 }
@@ -243,6 +227,17 @@ export default {
 	font-size: 9px !important;
 	letter-spacing: 1px !important;
 	-webkit-transform: translateZ(0);
+	&__link {
+		text-decoration: none;
+		padding-right: 8px;
+	}
+}
+
+.v-application--is-rtl {
+	.footer__link {
+		padding-right: 0;
+		padding-left: 8px;
+	}
 }
 
 @media screen and (max-width: 600px) {

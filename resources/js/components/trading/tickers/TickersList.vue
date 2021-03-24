@@ -104,8 +104,7 @@
 								</v-icon>
 							</th>
 							<th
-								class="tickers-list__content__header__item--change"
-								:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
+								class="tickers-list__content__header__item--change text-end"
 								@click="setSorting('change')"
 							>
 								<span>
@@ -174,10 +173,9 @@
 							</td>
 
 							<td
-								class="tickers-list__content__body__item--change"
+								class="tickers-list__content__body__item--change text-end"
 								:class="[
 									getPercentColorClass(item.changePercent),
-									$vuetify.rtl ? 'text-left' : 'text-right',
 								]"
 							>
 								<span>{{ item.changePercent }}</span>

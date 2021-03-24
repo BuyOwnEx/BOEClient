@@ -14,8 +14,7 @@
 			</th>
 			<th>
 				<div
-					class="ask-table-header__item--price"
-					:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
+					class="ask-table-header__item--price text-end"
 				>
 					<span>{{ $t('trading.rate') }}</span>
 					<span>({{ market }})</span>
@@ -38,8 +37,7 @@
 			</th>
 			<th>
 				<div
-					class="ask-table-header__item--total"
-					:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
+					class="ask-table-header__item--total text-end"
 				>
 					{{ $t('trading.volume') }}
 				</div>
