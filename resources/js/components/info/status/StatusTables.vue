@@ -32,14 +32,14 @@
 						<tr v-for="item in fiatData" :key="item.currency">
 							<td>{{ item.currency }}</td>
 							<td>{{ item.name }}</td>
-							<td :class="getStatusColor(item.depositStatus)">
-								{{ formatFirstCharToUppercase(item.depositStatus) }}
+							<td class='text-capitalize' :class="getStatusColor(item.depositStatus)">
+								{{ item.depositStatus }}
 							</td>
-							<td :class="getStatusColor(item.withdrawalStatus)">
-								{{ formatFirstCharToUppercase(item.withdrawalStatus) }}
+							<td class='text-capitalize' :class="getStatusColor(item.withdrawalStatus)">
+								{{ item.withdrawalStatus }}
 							</td>
-							<td :class="getStatusColor(item.tradingStatus)">
-								{{ formatFirstCharToUppercase(item.tradingStatus) }}
+							<td class='text-capitalize' :class="getStatusColor(item.tradingStatus)">
+								{{ item.tradingStatus }}
 							</td>
 							<td>
 								<v-simple-table dense>
