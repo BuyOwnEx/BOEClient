@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import UserAccountTab from '../components/user/tabs/account/UserAccountTab';
 import UserVerificationTab from '../components/user/tabs/UserVerificationTab';
 import UserApiTab from '../components/user/tabs/UserApiTab';
@@ -55,24 +55,26 @@ export default {
 		UserSettingsTab,
 	},
 
-	data() {
-		return {
-			selectedTab: 0,
-			breadcrumbs: [
-				{
-					text: 'Users',
-					to: '/users/list',
-					exact: true,
-				},
-				{
-					text: 'Edit User',
-				},
-			],
-		};
+	computed: {
+		...mapState({
+			trader: state => state.app.trader,
+			selectedTabStore: state => state.user.profileSelectedTab,
+		}),
+
+		selectedTab: {
+			get() {
+				return this.selectedTabStore;
+			},
+			set(index) {
+				this.setProfileTab(index);
+			},
+		},
 	},
 
-	computed: {
-		...mapState('app', ['trader']),
+	methods: {
+		...mapActions({
+			setProfileTab: 'user/setProfileTab',
+		}),
 	},
 };
 </script>
