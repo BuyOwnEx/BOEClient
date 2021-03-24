@@ -52,6 +52,12 @@ export default {
 			return this.ticker ? this.$_lastChange.isNegative() : false;
 		},
 	},
+
+	mounted() {
+		this.$nextTick(() => {
+			this.$emit('mounted');
+		});
+	},
 };
 </script>
 

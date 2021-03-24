@@ -17,7 +17,7 @@
 						:volume="calculateVolume(item.price, item.actualSize)"
 						type="ask"
 					/>
-					<div class="ask-list-table-body__item--volume text-end">
+					<div class="ask-list-table-body__item--volume text-start">
 						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>

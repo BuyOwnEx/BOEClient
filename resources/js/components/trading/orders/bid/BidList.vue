@@ -1,5 +1,8 @@
 <template>
-	<v-card class="bid-list pa-1">
+	<v-card
+		class="bid-list pa-1"
+		:class="{ 'bid-list--rotated': $vuetify.breakpoint.smAndDown }"
+	>
 		<v-card-title class="bid-list__header component-title pa-0">
 			{{ $t('trading.headers.bid_orders') }}
 		</v-card-title>
@@ -77,6 +80,21 @@ export default {
 
 <style scoped lang="sass">
 .bid-list
+	&--rotated
+		transform: rotate(180deg)
+		.bid-list__header
+			transform: rotate(180deg)
+		::v-deep.bid-list-table-header
+			transform: rotate(180deg)
+			th
+				box-shadow: none !important
+		::v-deep.bid-list-table-body
+			transform: rotate(180deg)
+		::v-deep.orders-tooltip--bid
+			transform: rotate(180deg)
+		::v-deep.orders-wall--bid
+			top: 0
+
 	&__header
 		margin-left: 4px
 	&__content

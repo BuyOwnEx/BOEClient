@@ -3,18 +3,12 @@
 		<span
 			v-if="type === 'bid'"
 			class="orders-wall--bid"
-			:style="{ 'margin-top': calculateMargin, left: calculateLength }"
-		/>
-
-		<span
-			v-if="type === 'ask' && !mobile"
-			class="orders-wall--ask"
-			:style="{ 'margin-top': calculateMargin, right: calculateLength }"
+			:style="{ transform: calculateMargin, left: calculateLength }"
 		/>
 		<span
-			v-if="type === 'ask' && mobile"
+			v-if="type === 'ask'"
 			class="orders-wall--ask"
-			:style="{ 'margin-top': calculateMargin, left: calculateLength }"
+			:style="{ transform: calculateMargin, right: calculateLength }"
 		/>
 	</span>
 </template>
@@ -37,17 +31,15 @@ export default {
 				return ['ask', 'bid'].indexOf(value) !== -1;
 			},
 		},
-		mobile: {
-			type: Boolean,
-			default: false,
-		},
 	},
 
 	computed: {
 		calculateMargin() {
 			const rowHeight = 25;
 			const rowsSelected = this.itemIndex;
-			return rowsSelected * rowHeight + 'px';
+			const calculatedMargin = rowsSelected * rowHeight + 'px';
+
+			return `translateY(${calculatedMargin})`;
 		},
 		calculateLength() {
 			let volumeDepth = 0;

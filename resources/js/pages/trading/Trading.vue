@@ -92,7 +92,10 @@
 					/>
 					<AskBidLastPrice
 						class="trading__mobile__orders__last-price"
+						id="last-price"
+						ref="askBidLastPrice"
 						:market="selectedMarket"
+						@mounted="moveToOrdersLastPrice"
 					/>
 					<AskList
 						class="trading__mobile__orders__ask"
@@ -138,6 +141,7 @@
 				<v-tab :key="4">
 					Chat
 				</v-tab>
+				<!--				@click="moveToOrdersLastPrice"-->
 				<v-tab :key="5">
 					Orders
 				</v-tab>
@@ -191,6 +195,12 @@ export default {
 	data: () => ({
 		selectedTab: 0,
 	}),
+
+	// watch: {
+	// 	selectedTab(tabIndex) {
+	// 		if (tabIndex === 4) this.moveToOrdersLastPrice();
+	// 	},
+	// },
 
 	computed: {
 		selectedMarket() {
@@ -248,6 +258,23 @@ export default {
 						this.selectedCurrency.toUpperCase()
 				);
 			}
+		},
+
+		// TODO
+		moveToOrdersLastPrice() {
+			setTimeout(() => {
+				const element = this.$refs.askBidLastPrice.$el;
+				element.scrollIntoView({
+					block: 'center',
+				});
+			}, 0);
+			// this.$vuetify.goTo('#last-price');
+			// this.$nextTick(() => {
+			// 	const element = this.$refs.askBidLastPrice.$el;
+			// 	element.scrollIntoView({
+			// 		block: 'center',
+			// 	});
+			// });
 		},
 	},
 

@@ -1,10 +1,10 @@
 <template>
 	<tbody v-if="ordersData" class="bid-list-table-body">
 		<tr
-			v-for="(item, itemIndex) in ordersData"
+			v-for="(item, itemIndex) in sortedOrdersData"
 			class="bid-list-table-body__row"
 			:class="{
-				'orders-active-row': isAboveThanHoverElement(itemIndex, 'bid'),
+				'orders-active-row': isActiveRow(itemIndex, 'bid'),
 			}"
 			@mouseover="selectItemHover(item)"
 			@mouseout="clearSelectedRowIndex"
@@ -107,6 +107,12 @@ export default {
 		...mapGetters({
 			isAboveThanHoverElement: 'tooltip/isAboveThanHoverElement',
 		}),
+
+		sortedOrdersData() {
+			if (this.$vuetify.breakpoint.smAndDown)
+				return this.ordersData.slice().reverse();
+			else return this.ordersData;
+		},
 	},
 
 	methods: {
@@ -146,6 +152,15 @@ export default {
 				amountScale: this.getAmountScale,
 			};
 			this.updateData(payload);
+		},
+
+		isActiveRow(itemIndex, type) {
+			if (this.$vuetify.breakpoint.smAndDown) {
+				const reversedIndex = this.ordersData.length - 1 - itemIndex;
+				return this.isAboveThanHoverElement(reversedIndex, type);
+			} else {
+				return this.isAboveThanHoverElement(itemIndex, type);
+			}
 		},
 	},
 };

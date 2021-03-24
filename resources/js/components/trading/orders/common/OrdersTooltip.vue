@@ -3,7 +3,7 @@
 		v-if="selectedRowIndex !== -1"
 		class="orders-tooltip"
 		:style="{
-			'margin-top': calculateMargin,
+			transform: calculateMargin,
 			right: calculateRight,
 			left: calculateLeft,
 		}"
@@ -72,8 +72,11 @@ export default {
 		calculateMargin() {
 			const rowHeight = 25;
 			const lastRowSelectedIndex = this.selectedRowIndex;
-			return (lastRowSelectedIndex - 2) * rowHeight + 'px';
+			const calculatedMargin = (lastRowSelectedIndex - 2) * rowHeight + 'px';
+
+			return `translateY(${calculatedMargin})`;
 		},
+
 		calculateLeft() {
 			if (this.type === 'bid') return '100%';
 		},
