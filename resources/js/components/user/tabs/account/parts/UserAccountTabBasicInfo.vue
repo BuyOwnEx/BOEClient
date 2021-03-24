@@ -1,25 +1,14 @@
 <template>
-	<v-card>
+	<v-card class="user-account-tab-basic-info">
 		<v-card-title>Basic Information</v-card-title>
 
 		<v-card-text>
 			<div class="d-flex flex-column flex-sm-row">
 				<div>
 					<span>
-						<v-img
-							v-if="user.avatar"
-							:src="user.avatar"
-							aspect-ratio="1"
-							class="blue-grey lighten-4 rounded elevation-3"
-							max-width="90"
-							max-height="90"
-						/>
-						<v-img
-							v-else
-							aspect-ratio="1"
-							class="blue-grey lighten-4 rounded elevation-3"
-							max-width="90"
-							max-height="90"
+						<v-avatar
+							class="user-account-tab-basic-info__avatar rounded"
+							size="90"
 							v-html="generatedAvatar"
 						/>
 					</span>
@@ -79,4 +68,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="sass" scoped>
+.user-account-tab-basic-info
+	&__avatar
+		background: #cfd8dc
+.theme--dark
+	.user-account-tab-basic-info__avatar
+		background: #687479
+</style>
