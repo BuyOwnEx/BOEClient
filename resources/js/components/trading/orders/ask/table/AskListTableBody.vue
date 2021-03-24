@@ -61,7 +61,10 @@
 						type="ask"
 						mobile
 					/>
-					<div class="ask-list-table-body__item--volume">
+					<div
+						class="ask-list-table-body__item--volume"
+						:class="[$vuetify.rtl ? 'text-left' : 'text-right']"
+					>
 						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>
