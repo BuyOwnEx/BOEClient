@@ -12,9 +12,9 @@
 			<v-list-item
 				v-for="item in items"
 				:key="item.text"
-				:href="item.link"
 				:disabled="item.disabled"
 				link
+				@click="navigatePage(item)"
 			>
 				<v-list-item-icon>
 					<v-icon small :class="{ 'grey--text': item.disabled }">
@@ -52,27 +52,27 @@ export default {
 				{
 					icon: 'mdi-account-box-outline',
 					text: this.$t('user.title.profile'),
-					link: '/profile',
+					tabIndex: 0,
 				},
 				{
 					icon: 'mdi-email-outline',
 					text: this.$t('user.title.verification'),
-					link: '/apps/email',
+					tabIndex: 1,
 				},
 				{
 					icon: 'mdi-format-list-checkbox',
 					text: this.$t('user.title.api'),
-					link: '/apps/todo',
+					tabIndex: 2,
 				},
 				{
 					icon: 'mdi-shield-key-outline',
 					text: this.$t('user.title.security'),
-					link: '/apps/chat',
+					tabIndex: 3,
 				},
 				{
 					icon: 'mdi-cog-outline',
 					text: this.$t('user.title.settings'),
-					link: '/apps/board',
+					tabIndex: 4,
 				},
 			],
 		};
@@ -89,6 +89,19 @@ export default {
 			axios.post('/logout').then(response => {
 				window.location.reload();
 			});
+		},
+
+		navigatePage(item) {
+			if (item.link) this.$router.push(item.link);
+			else this.pushToProfileAndSetActiveTab(item.tabIndex);
+		},
+
+		pushToProfileAndSetActiveTab(tabIndex) {
+			console.log('vue router route', this.$route);
+			this.$store.dispatch('user/setProfileTab', tabIndex);
+			if (this.$route.path !== '/profile') {
+				this.$router.push('/profile');
+			}
 		},
 	},
 };
