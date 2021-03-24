@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Library\BuyOwnExClientAPI;
+use App\Library\SumSubAPI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -523,6 +524,17 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->all_referral_types(Auth::id());
         } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function getSumSubToken()
+    {
+        try {
+            $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
+            return $api->getAccessToken(Auth::user()->name.'_1');
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }

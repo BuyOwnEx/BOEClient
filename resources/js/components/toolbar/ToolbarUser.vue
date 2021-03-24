@@ -52,27 +52,27 @@ export default {
 				{
 					icon: 'mdi-account-box-outline',
 					text: this.$t('user.title.profile'),
-					link: '/profile',
+					link: '/profile#account',
 				},
 				{
 					icon: 'mdi-email-outline',
 					text: this.$t('user.title.verification'),
-					link: '/apps/email',
+					link: '/profile#verification',
 				},
 				{
 					icon: 'mdi-format-list-checkbox',
 					text: this.$t('user.title.api'),
-					link: '/apps/todo',
+					link: '/profile#api',
 				},
 				{
 					icon: 'mdi-shield-key-outline',
 					text: this.$t('user.title.security'),
-					link: '/apps/chat',
+					link: '/profile#security',
 				},
 				{
 					icon: 'mdi-cog-outline',
 					text: this.$t('user.title.settings'),
-					link: '/apps/board',
+					link: '/profile#settings',
 				},
 			],
 		};

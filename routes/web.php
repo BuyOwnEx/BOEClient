@@ -93,6 +93,8 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
         Route::post('set_referral_type', 'TraderController@setReferralType')->name('set_referral_type');
 
+        Route::get('sumsub_token', 'TraderController@getSumSubToken')->name('sumsub_token');
+
     });
 });
 
