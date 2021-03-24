@@ -1,68 +1,89 @@
-export default [{
-	path: '/login',
-	name: 'login',
-	component: () => import(/* webpackChunkName: "auth-signin" */ '@/pages/auth/Login.vue'),
-	meta: {
-		layout: 'auth',
+export default [
+	{
+		path: '/trading',
+		name: 'trading',
+		component: () =>
+			import(/* webpackChunkName: "trading" */ '@/pages/trading/Trading.vue'),
 	},
-}, {
-	path: '/register',
-	name: 'register',
-	component: () => import(/* webpackChunkName: "auth-signup" */ '@/pages/auth/Register.vue'),
-	meta: {
-		layout: 'auth',
+	{
+		path: '/dashboard',
+		name: 'dashboard',
+		component: () =>
+			import(
+				/* webpackChunkName: "dashboard" */ '@/pages/dashboard/DashboardPage.vue'
+			),
 	},
-}, {
-	path: '/email/verify',
-	name: 'verify',
-	component: () => import(/* webpackChunkName: "auth-verify-email" */ '@/pages/auth/Verify.vue'),
-	meta: {
-		layout: 'auth',
+	{
+		path: '/overview',
+		name: 'overview',
+		component: () =>
+			import(
+				/* webpackChunkName: "dashboard" */ '@/pages/overview/Overview.vue'
+			),
 	},
-}, {
-	path: '/password/reset',
-	name: 'email',
-	component: () => import(/* webpackChunkName: "auth-forgot" */ '@/pages/auth/Email.vue'),
-	meta: {
-		layout: 'auth',
+
+	{
+		path: '/transactions',
+		name: 'transactions',
+		component: () =>
+			import(
+				/* webpackChunkName: "transactions" */ '@/pages/Transactions.vue'
+			),
 	},
-}, {
-	path: '/password/reset/{token}',
-	name: 'reset',
-	component: () => import(/* webpackChunkName: "auth-reset" */ '@/pages/auth/Reset.vue'),
-	meta: {
-		layout: 'auth',
+	{
+		path: '/fiat-transactions',
+		name: 'fiat-transactions',
+		component: () =>
+			import(
+				/* webpackChunkName: "fiat-transactions" */ '@/pages/FiatTransactions.vue'
+			),
 	},
-}, {
-	path: '/error/not-found',
-	name: 'error-not-found',
-	component: () => import(/* webpackChunkName: "error-not-found" */ '@/pages/error/NotFoundPage.vue'),
-	meta: {
-		layout: 'error',
+	{
+		path: '/orders',
+		name: 'orders',
+		component: () =>
+			import(
+				/* webpackChunkName: "orders" */ '@/pages/Orders.vue'
+			),
 	},
-}, {
-	path: '/error/unexpected',
-	name: 'error-unexpected',
-	component: () => import(/* webpackChunkName: "error-unexpected" */ '@/pages/error/UnexpectedPage.vue'),
-	meta: {
-		layout: 'error',
+	{
+		path: '/deals',
+		name: 'deals',
+		component: () =>
+			import(
+				/* webpackChunkName: "deals" */ '@/pages/Deals.vue'
+			),
 	},
-}, {
-	path: '/utility/maintenance',
-	name: 'utility-maintenance',
-	component: () => import(/* webpackChunkName: "utility-maintenance" */ '@/pages/utility/MaintenancePage.vue'),
-	meta: {
-		layout: 'auth',
+	{
+		path: '/transfers',
+		name: 'transfers',
+		component: () =>
+			import(
+				/* webpackChunkName: "transfers" */ '@/pages/Transfers.vue'
+			),
 	},
-}, {
-	path: '/utility/coming-soon',
-	name: 'utility-soon',
-	component: () => import(/* webpackChunkName: "utility-soon" */ '@/pages/utility/SoonPage.vue'),
-	meta: {
-		layout: 'auth',
+	{
+		path: '/balance',
+		name: 'balance',
+		component: () =>
+			import(
+				/* webpackChunkName: "balance" */ '@/pages/Balance.vue'
+			),
 	},
-}, {
-	path: '/utility/help',
-	name: 'utility-help',
-	component: () => import(/* webpackChunkName: "utility-help" */ '@/pages/utility/HelpPage.vue'),
-}];
+	{
+		path: '/ref-payments',
+		name: 'ref-payments',
+		component: () =>
+			import(
+				/* webpackChunkName: "ref-payments" */ '@/pages/RefPayments.vue'
+			),
+	},
+	{
+		path: '/notifications',
+		name: 'notifications',
+		component: () =>
+			import(
+				/* webpackChunkName: "notifications" */ '@/pages/Notifications.vue'
+			),
+	},
+];
