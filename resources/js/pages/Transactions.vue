@@ -1,7 +1,7 @@
 <template>
 	<v-card class="transactions flex-grow-1">
 		<v-data-table
-			class="pa-2"
+			class="pa-1 pa-sm-2"
 			:calculate-widths="true"
 			:headers="headers"
 			:items="items"

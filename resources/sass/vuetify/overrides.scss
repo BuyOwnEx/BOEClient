@@ -217,6 +217,18 @@ td {
 	.v-data-footer {
 		margin: 0 12px !important;
 	}
+	table {
+		padding: 0 !important;
+	}
+	th {
+		padding: 0 !important;
+	}
+	td {
+		padding: 0 !important;
+	}
+	caption {
+		text-align: start;
+	}
 }
 
 // Изменение яркого белого цвета бордера у инпутов
