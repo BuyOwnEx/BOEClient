@@ -30,7 +30,7 @@ export default {
 			if (!oldVal.length) {
 				this.$nextTick(() => {
 					const element = this.$refs.chatContent.$el;
-					element.scrollTop = 100000;
+					element.scrollTop = element.scrollHeight;
 				});
 			}
 		},
