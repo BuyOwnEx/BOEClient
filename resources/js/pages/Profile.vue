@@ -55,26 +55,39 @@ export default {
 		UserSettingsTab,
 	},
 
+	watch: {
+		selectedTabStore(value) {
+			this.selectedTab = value;
+		},
+	},
+
+	data() {
+		return {
+			selectedTab: this.selectedTabStore,
+		};
+	},
+
 	computed: {
 		...mapState({
 			trader: state => state.app.trader,
 			selectedTabStore: state => state.user.profileSelectedTab,
 		}),
-
-		selectedTab: {
-			get() {
-				return this.selectedTabStore;
-			},
-			set(index) {
-				this.setProfileTab(index);
-			},
-		},
 	},
 
 	methods: {
 		...mapActions({
 			setProfileTab: 'user/setProfileTab',
 		}),
+	},
+
+	mounted() {
+		const tabName = window.location.hash;
+		if (tabName) {
+			if (tabName === '#verification') this.selectedTab = 1;
+			else if (tabName === '#api') this.selectedTab = 2;
+			else if (tabName === '#security') this.selectedTab = 3;
+			else if (tabName === '#settings') this.selectedTab = 4;
+		}
 	},
 };
 </script>
