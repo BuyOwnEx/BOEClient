@@ -9,28 +9,38 @@ import UsersRoutes from './users.routes';
 import EcommerceRoutes from './ecommerce.routes';
 import LandingRoutes from './landing.routes';
 
-import AuthRoutes from './auth';
-import DocsRoutes from './docs';
-import InfoRoutes from './info';
-import UserRoutes from './user';
-import { ErrorRoutes, UtilityRoutes } from './common';
-
 Vue.use(Router);
 
 export const routes = [
+	{
+		path: '/',
+		name: 'trading',
+		component: () => import(/* webpackChunkName: "blank" */ '@/pages/trading/Trading.vue'),
+	},
+	{
+		path: '/dashboard',
+		name: 'dashboard',
+		component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/dashboard/DashboardPage.vue'),
+	},
 	...AppsRoutes,
 	...UIRoutes,
 	...PagesRoutes,
 	...UsersRoutes,
 	...EcommerceRoutes,
 	...LandingRoutes,
-	...AuthRoutes,
-	...DocsRoutes,
-	...InfoRoutes,
-	...UserRoutes,
-	...ErrorRoutes,
-	...UtilityRoutes,
-];
+	{
+		path: '/blank',
+		name: 'blank',
+		component: () => import(/* webpackChunkName: "blank" */ '@/pages/BlankPage.vue'),
+	},
+	{
+		path: '*',
+		name: 'error',
+		component: () => import(/* webpackChunkName: "error" */ '@/pages/error/NotFoundPage.vue'),
+		meta: {
+			layout: 'error',
+		},
+	}];
 
 const router = new Router({
 	mode: 'history',
@@ -43,9 +53,17 @@ const router = new Router({
 	routes,
 });
 
+/**
+	* Before each route update
+	*/
 router.beforeEach((to, from, next) => {
 	return next();
 });
-router.afterEach((to, from) => {});
+
+/**
+	* After each route update
+	*/
+router.afterEach((to, from) => {
+});
 
 export default router;
