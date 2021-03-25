@@ -5,10 +5,16 @@
 			class="orders-wall--bid"
 			:style="{ transform: calculateMargin, left: calculateLength }"
 		/>
+
 		<span
-			v-if="type === 'ask'"
+			v-if="type === 'ask' && !isMobile"
 			class="orders-wall--ask"
 			:style="{ transform: calculateMargin, right: calculateLength }"
+		/>
+		<span
+			v-if="type === 'ask' && isMobile"
+			class="orders-wall--ask"
+			:style="{ transform: calculateMargin, left: calculateLength }"
 		/>
 	</span>
 </template>
@@ -56,6 +62,10 @@ export default {
 		},
 		askVolumeDepth() {
 			return this.$store.state.trading.ask_volume_depth;
+		},
+
+		isMobile() {
+			return this.$vuetify.breakpoint.smAndDown;
 		},
 	},
 };
