@@ -141,7 +141,6 @@
 				<v-tab :key="4">
 					Chat
 				</v-tab>
-				<!--				@click="moveToOrdersLastPrice"-->
 				<v-tab :key="5">
 					Orders
 				</v-tab>
@@ -195,12 +194,6 @@ export default {
 	data: () => ({
 		selectedTab: 0,
 	}),
-
-	// watch: {
-	// 	selectedTab(tabIndex) {
-	// 		if (tabIndex === 4) this.moveToOrdersLastPrice();
-	// 	},
-	// },
 
 	computed: {
 		selectedMarket() {
@@ -260,21 +253,14 @@ export default {
 			}
 		},
 
-		// TODO
+		// TODO: нифига не работает. точнее работает, но после нескольких сотен мс возвращается обратно.
 		moveToOrdersLastPrice() {
-			setTimeout(() => {
+			this.$nextTick(() => {
 				const element = this.$refs.askBidLastPrice.$el;
 				element.scrollIntoView({
 					block: 'center',
 				});
-			}, 0);
-			// this.$vuetify.goTo('#last-price');
-			// this.$nextTick(() => {
-			// 	const element = this.$refs.askBidLastPrice.$el;
-			// 	element.scrollIntoView({
-			// 		block: 'center',
-			// 	});
-			// });
+			});
 		},
 	},
 
