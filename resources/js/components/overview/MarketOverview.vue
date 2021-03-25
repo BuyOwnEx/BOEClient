@@ -149,7 +149,7 @@ export default {
 					pairName:
 						item.currency.toUpperCase() + '/' + item.market.toUpperCase(),
 					pairLink:
-						'/trader/trading/' +
+						'/trading/' +
 						item.market.toUpperCase() +
 						'/' +
 						item.currency.toUpperCase(),
