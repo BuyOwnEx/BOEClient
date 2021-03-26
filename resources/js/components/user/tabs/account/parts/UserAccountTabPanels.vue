@@ -93,19 +93,38 @@
 				Metadata
 			</v-expansion-panel-header>
 			<v-expansion-panel-content class="body-2">
-				<span class="font-weight-bold">Created</span>
-				{{ user.created_at | formatDate('lll') }}
-				<br />
-				<span class="font-weight-bold">Last Sign In</span>
-				{{ user.lastLoginAt | formatDate('lll') }}
+				<div>
+					<span class="font-weight-bold">Created: </span>
+					{{ formatDate(user.created_at) }}
+				</div>
+				<div>
+					<span class="font-weight-bold">Last Sign In: </span>
+					{{ formatDate(user.lastLoginAt) }}
+				</div>
+				<div>
+					<span class="font-weight-bold">Last Browser: </span>
+					{{ user.lastBrowser }}
+				</div>
+				<div>
+					<span class="font-weight-bold">Last Device: </span>
+					{{ user.lastDevice }}
+				</div>
+				<div>
+					<span class="font-weight-bold">Last OS: </span>
+					{{ user.lastOS }}
+				</div>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 	</v-expansion-panels>
 </template>
 
 <script>
+import formatDate from '../../../../../mixins/format/formatDate';
+
 export default {
 	name: 'UserAccountTabPanels',
+
+	mixins: [formatDate],
 
 	props: {
 		user: {
