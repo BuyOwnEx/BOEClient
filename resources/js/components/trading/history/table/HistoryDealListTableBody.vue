@@ -20,7 +20,7 @@
 			</td>
 			<td>
 				<div class="hdl-table-body__item--date table-date">
-					{{ formatDate(item.createdAt) }}
+					{{ formatDate(item.createdAt, 'trading') }}
 				</div>
 			</td>
 		</tr>
@@ -30,7 +30,7 @@
 <script>
 import formatPrice from '../../../../mixins/trading/formatPrice';
 import formatSize from '../../../../mixins/trading/formatSize';
-import formatDate from '../../../../mixins/trading/formatDate';
+import formatDate from '../../../../mixins/format/formatDate';
 import getPriceScale from '../../../../mixins/trading/getPriceScale';
 import getAmountScale from '../../../../mixins/trading/getAmountScale';
 

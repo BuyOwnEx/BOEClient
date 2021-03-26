@@ -29,7 +29,7 @@
 			>
 				<template v-slot:item.date="{ item }">
 					<span class="table-date">
-						{{ formatDate(item.createdAt) }}
+						{{ formatDate(item.createdAt, 'trading') }}
 					</span>
 				</template>
 
@@ -81,7 +81,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import OwnListConfirmDialog from '../common/OwnListConfirmDialog';
 import confirmDialog from '../../../../mixins/trading/confirmDialog';
 
-import formatDate from '../../../../mixins/trading/formatDate';
+import formatDate from '../../../../mixins/format/formatDate';
 import formatSize from '../../../../mixins/trading/formatSize';
 import formatPrice from '../../../../mixins/trading/formatPrice';
 import calculateVolume from '../../../../mixins/trading/calculateVolume';
