@@ -2156,6 +2156,39 @@ export default {
 			security: 'Безопасность',
 			settings: 'Настройки',
 		},
+		security: {
+			title: 'buyownex рекомендует использовать двухфакторную авторизацию',
+			description: {
+				line_one:
+					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio',
+				line_two:
+					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus nihil nulla omnis quidem, quo repellat, sapiente sed sit veniam! Atque eos ipsam porro!',
+				line_three:
+					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus',
+			},
+			status: {
+				enabled: 'Включена',
+				disabled: 'Отключена',
+			},
+			two_factor_auth: 'Двухфакторная авторизация',
+			secret_key: 'Секретный ключ',
+			enable: 'Включить',
+			disable: 'Выключить',
+			auth_code: 'Аутентификационный код (2fa)',
+		},
+		settings: {
+
+		}
+	},
+
+	forms_validation: {
+		required: 'Обязательное поле',
+		min_5char: 'Мин. 5 символов',
+		min_8char: 'Мин. 8 символов',
+		passwords_not_match: 'Пароли не совпадают',
+		email_invalid: 'Неверный формат E-mail',
+		unsupported_char_latinAndNumbers:
+			'Неподдерживаемые символы. Только [a-zA-Z0-9-_]',
 	},
 
 	$vuetify: {

@@ -2147,6 +2147,37 @@ export default {
 			security: 'Security',
 			settings: 'Settings',
 		},
+		security: {
+			title: 'buyownex recommends using two-factor authentication',
+			description: {
+				line_one:
+					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio',
+				line_two:
+					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus nihil nulla omnis quidem, quo repellat, sapiente sed sit veniam! Atque eos ipsam porro!',
+				line_three:
+					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus',
+			},
+			status: {
+				enabled: 'Enabled',
+				disabled: 'Disabled',
+			},
+			two_factor_auth: 'Two-factor authentication',
+			secret_key: 'Secret key',
+			enable: 'Enable',
+			disable: 'Disable',
+			auth_code: 'Auth code (2fa)',
+		},
+		settings: {},
+	},
+
+	forms_validation: {
+		required: 'Required field',
+		min_5char: 'Min. 5 characters',
+		min_8char: 'Min. 8 characters',
+		passwords_not_match: "Passwords don't match",
+		email_invalid: 'Invalid E-mail',
+		unsupported_char_latinAndNumbers:
+			'Unsupported characters. Only [a-zA-Z0-9-_]',
 	},
 
 	$vuetify: {
