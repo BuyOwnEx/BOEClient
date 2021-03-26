@@ -47,7 +47,8 @@ export default {
 						console.log('WebSDK onMessage', type, payload)
 					},
 					uiConf: {
-						customCss: `../../../../sass/sumsub.css`
+						//customCss: "https://buyownex.com/css/sumsub.css"
+						customCssStr: ".content{margin:0 !important;}p{color:yellow !important;}"
 						// URL to css file in case you need change it dynamically from the code
 						// the similar setting at Applicant flow will rewrite customCss
 						// you may also use to pass string with plain styles `customCssStr:`
