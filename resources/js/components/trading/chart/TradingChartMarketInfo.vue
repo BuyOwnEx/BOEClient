@@ -57,7 +57,7 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import formatWithScaleInAllCurrencies from '../../../mixins/common/formatWithScaleInAllCurrencies';
+import formatWithScaleInAllCurrencies from '../../../mixins/format/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'MarketInfo',

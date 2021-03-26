@@ -236,7 +236,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import TradingFormsInfoTooltip from '../common/TradingFormsInfoTooltip';
 import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
-import formatWithScaleInAllCurrencies from '../../../../mixins/common/formatWithScaleInAllCurrencies';
+import formatWithScaleInAllCurrencies from '../../../../mixins/format/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'AskMarketForm',

@@ -201,7 +201,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import CommonProgressCircular from '../../common/CommonProgressCircular';
 
-import formatWithScaleInAllCurrencies from '../../../mixins/common/formatWithScaleInAllCurrencies';
+import formatWithScaleInAllCurrencies from '../../../mixins/format/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'TickersList',
