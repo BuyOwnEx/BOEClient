@@ -22,15 +22,15 @@
 			</v-tab-item>
 
 			<v-tab-item :key="3">
-				<UserApiTab />
+				<UserApiTab :user="trader"/>
 			</v-tab-item>
 
 			<v-tab-item :key="4">
-				<UserSecurityTab />
+				<UserSecurityTab :user="trader"/>
 			</v-tab-item>
 
 			<v-tab-item :key="5">
-				<UserSettingsTab />
+				<UserSettingsTab :user="trader"/>
 			</v-tab-item>
 		</v-tabs-items>
 	</v-card>
