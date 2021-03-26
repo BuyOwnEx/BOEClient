@@ -1,6 +1,6 @@
 <template>
 	<v-expansion-panels class="user-account-tab-panels" v-model="panel" multiple>
-		<v-expansion-panel>
+		<v-expansion-panel class="user-account-tab-panels__actions" readonly>
 			<v-expansion-panel-header class="title">
 				Actions
 			</v-expansion-panel-header>
@@ -88,7 +88,7 @@
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 
-		<v-expansion-panel>
+		<v-expansion-panel class="user-account-tab-panels__metadata">
 			<v-expansion-panel-header class="title">
 				Metadata
 			</v-expansion-panel-header>
@@ -139,7 +139,7 @@ export default {
 
 	data() {
 		return {
-			panel: [1],
+			panel: [0, 1],
 		};
 	},
 
@@ -164,8 +164,15 @@ export default {
 <style lang="sass" scoped>
 .user-account-tab-panels
 	padding-top: 5px
+
 	::v-deep.v-expansion-panel--active
 		margin-top: 5px
 		+ .v-expansion-panel
 			margin-top: 5px
+		&:first-child
+			margin-top: 0
+
+	&__actions
+		::v-deep.v-expansion-panel-header__icon
+			display: none
 </style>
