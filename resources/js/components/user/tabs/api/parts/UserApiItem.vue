@@ -15,7 +15,13 @@
 			<v-row>
 				<v-col cols="0" sm="3" xl="2">
 					<div class="user-api-item__lock-wrapper">
-						<div></div>
+						<span>
+							<v-avatar
+									class=""
+									size="150"
+									v-html="generatedIcon(apiItem.name)"
+							/>
+						</span>
 					</div>
 				</v-col>
 
@@ -72,6 +78,9 @@
 </template>
 
 <script>
+import Avatars from '@dicebear/avatars';
+import sprites from '@dicebear/avatars-jdenticon-sprites';
+
 export default {
 	name: 'UserApiItem',
 
@@ -95,6 +104,11 @@ export default {
 	methods: {
 		openEditDialog() {},
 		openDeleteDialog() {},
+		generatedIcon(name) {
+			const options = {};
+			const avatars = new Avatars(sprites, options);
+			return avatars.create(name);
+		},
 	},
 };
 </script>
