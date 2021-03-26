@@ -1,19 +1,61 @@
 <template>
 	<div class="user-api-tab">
-		<v-card>
-			<v-card-title>user api tab</v-card-title>
-			<v-card-text id="sumsub-websdk-container"></v-card-text>
-		</v-card>
+		<UserApiCreate @created="addApiToLocalApiData" />
+		<UserApiList :api="apiData" />
+
+		<div id="sumsub-websdk-container"></div>
 	</div>
 </template>
 
 <script>
 import snsWebSdk from '@sumsub/websdk';
 
+import UserApiCreate from './parts/UserApiCreate';
+import UserApiList from './parts/UserApiList';
+
 export default {
 	name: 'UserApiTab',
+
+	components: {
+		UserApiCreate,
+		UserApiList,
+	},
+
 	data() {
 		return {
+			apiData: [
+				{
+					id: 1,
+					name: 'apiname',
+					public: 'f23f23fdf',
+					secret: 'g34g34gasd',
+					abilities: ['trading'],
+					created_at: '2021-03-26T09:37:07.005Z',
+					updated_at: '2021-03-26T09:37:07.005Z',
+					last_used_at: '2021-03-26T09:37:07.005Z',
+				},
+				{
+					id: 2,
+					name: 'apiname',
+					public: 'f23f23fdf',
+					secret: 'g34g34gasd',
+					abilities: ['withdraw'],
+					created_at: '2021-03-26T09:37:07.005Z',
+					updated_at: '2021-03-26T09:37:07.005Z',
+					last_used_at: '2021-03-26T09:37:07.005Z',
+				},
+				{
+					id: 3,
+					name: 'apiname',
+					public: 'f23f23fdf',
+					secret: 'g34g34gasd',
+					abilities: ['trading', 'withdraw'],
+					created_at: '2021-03-26T09:37:07.005Z',
+					updated_at: '2021-03-26T09:37:07.005Z',
+					last_used_at: '2021-03-26T09:37:07.005Z',
+				},
+			],
+
 			accessToken: '',
 			api: 'https://test-api.sumsub.com',
 			flowName: 'scheme',
@@ -23,6 +65,10 @@ export default {
 		};
 	},
 	methods: {
+		addApiToLocalApiData(newAPI) {
+			this.apiData.push(newAPI);
+		},
+
 		newAccessToken: async function() {
 			let token = await axios.get('/trader/ext/sumsub_token');
 			this.accessToken = token.data.token;
@@ -108,4 +154,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="sass" scoped>
+.user-api-tab
+	> ::v-deep.v-card
+		margin-bottom: 5px
+		&:last-child
+			margin-bottom: 0
+</style>
