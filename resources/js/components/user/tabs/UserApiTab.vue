@@ -1,5 +1,5 @@
 <template>
-	<div class='user-api-tab'>
+	<div class="user-api-tab">
 		<v-card>
 			<v-card-title>user api tab</v-card-title>
 			<v-card-text id="sumsub-websdk-container"></v-card-text>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import snsWebSdk from '@sumsub/websdk'
+import snsWebSdk from '@sumsub/websdk';
 
 export default {
 	name: 'UserApiTab',
@@ -19,7 +19,7 @@ export default {
 			flowName: 'scheme',
 			email: '',
 			phone: null,
-			i18n: null
+			i18n: null,
 		};
 	},
 	methods: {
@@ -28,15 +28,22 @@ export default {
 			this.accessToken = token.data.token;
 			return token.data.token;
 		},
-		launchWebSdk(apiUrl, flowName, accessToken, applicantEmail, applicantPhone, customI18nMessages) {
-			let snsWebSdkInstance = snsWebSdk.Builder(apiUrl, flowName)
-				.withAccessToken(accessToken, (newAccessTokenCallback) => {
-						// Access token expired
-						// get a new one and pass it to the callback to re-initiate the WebSDK
-						let newAccessToken = this.newAccessToken(); // get a new token from your backend
-						newAccessTokenCallback(newAccessToken)
-					}
-				)
+		launchWebSdk(
+			apiUrl,
+			flowName,
+			accessToken,
+			applicantEmail,
+			applicantPhone,
+			customI18nMessages
+		) {
+			let snsWebSdkInstance = snsWebSdk
+				.Builder(apiUrl, flowName)
+				.withAccessToken(accessToken, newAccessTokenCallback => {
+					// Access token expired
+					// get a new one and pass it to the callback to re-initiate the WebSDK
+					let newAccessToken = this.newAccessToken(); // get a new token from your backend
+					newAccessTokenCallback(newAccessToken);
+				})
 				.withConf({
 					lang: 'en',
 					email: applicantEmail,
@@ -44,32 +51,61 @@ export default {
 					i18n: customI18nMessages,
 					onMessage: (type, payload) => {
 						// see below what kind of messages the WebSDK generates
-						console.log('WebSDK onMessage', type, payload)
+						console.log('WebSDK onMessage', type, payload);
 					},
 					uiConf: {
 						//customCss: "https://buyownex.com/css/sumsub.css"
-						customCssStr: ".content{margin:0 !important;}p{color:yellow !important;}"
+						customCssStr: `
+							:root {
+								--success-color: #06d6a0;
+								--red-color: #ef476f;
+							}
+
+							input, select, textarea {
+								color: #404254;
+								background: none
+							}
+
+							.input-field span, .radio-group span {
+								font-size: 11px;
+							}
+							.phone-input .phone {
+								box-shadow: none !important;
+							}
+							.content {
+								background: none;
+							}
+							.input-field span, .radio-group span {
+								color: #404254;
+							}
+							`,
 						// URL to css file in case you need change it dynamically from the code
 						// the similar setting at Applicant flow will rewrite customCss
 						// you may also use to pass string with plain styles `customCssStr:`
 					},
-					onError: (error) => {
-						console.error('WebSDK onError', error)
+					onError: error => {
+						console.error('WebSDK onError', error);
 					},
-			}).build();
+				})
+				.build();
 			// you are ready to go:
 			// just launch the WebSDK by providing the container element for it
-			snsWebSdkInstance.launch('#sumsub-websdk-container')
+			snsWebSdkInstance.launch('#sumsub-websdk-container');
 		},
 	},
 	async mounted() {
 		let self = this;
 		let token = await this.newAccessToken();
-		this.launchWebSdk(self.api, self.flowName, token, self.email, self.phone, self.i18n)
+		this.launchWebSdk(
+			self.api,
+			self.flowName,
+			token,
+			self.email,
+			self.phone,
+			self.i18n
+		);
 	},
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

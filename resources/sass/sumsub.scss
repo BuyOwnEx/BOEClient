@@ -1,6 +1,26 @@
-.content {
-	margin: 0 !important;
+:root {
+	--success-color: #06d6a0;
+	--red-color: #ef476f;
 }
-p {
-	color: yellow !important;
+
+input,
+select,
+textarea {
+	color: #404254;
+	background: none;
+}
+
+.input-field span,
+.radio-group span {
+	font-size: 11px;
+}
+.phone-input .phone {
+	box-shadow: none !important;
+}
+.content {
+	background: none;
+}
+.input-field span,
+.radio-group span {
+	color: #404254;
 }
