@@ -1,6 +1,5 @@
 <template>
 	<div class="user-api-tab">
-		<UserApiCreate @created="addApiToLocalApiData" />
 		<UserApiList />
 
 		<div id="sumsub-websdk-container"></div>
@@ -10,14 +9,12 @@
 <script>
 import snsWebSdk from '@sumsub/websdk';
 
-import UserApiCreate from './parts/UserApiCreate';
 import UserApiList from './parts/UserApiList';
 
 export default {
 	name: 'UserApiTab',
 
 	components: {
-		UserApiCreate,
 		UserApiList,
 	},
 
@@ -32,10 +29,6 @@ export default {
 		};
 	},
 	methods: {
-		addApiToLocalApiData(newAPI) {
-			this.apiData.push(newAPI);
-		},
-
 		newSumSubToken: async function() {
 			let token = await axios.get('/trader/ext/sumsub_token');
 			this.SumSubToken = token.data.token;
