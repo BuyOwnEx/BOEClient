@@ -4,7 +4,7 @@
 			<div>{{ apiItem.name }}</div>
 
 			<div>
-				<v-btn @click="openEditDialog">Редактировать ограничения</v-btn>
+				<v-btn @click="openEditDialog">Редактировать разрешения</v-btn>
 				<v-btn @click="openDeleteDialog">Удалить</v-btn>
 			</div>
 		</v-card-title>
@@ -27,50 +27,47 @@
 
 				<v-col cols="12" sm="9" xl="10">
 					<div class="user-api-item__api-key-wrapper">
-						<div class="user-api-item__header">API Key</div>
-						<div class="user-api-item__api-key">{{ apiItem.public }}</div>
+						<div class="user-api-item__header">API Key Hash (SHA 256)</div>
+						<div class="user-api-item__api-key">{{ apiItem.token }}</div>
 					</div>
 
 					<div class="user-api-item__secret-key-wrapper">
-						<div class="user-api-item__header">Secret Key</div>
-						<div class="user-api-item__secret-key">{{ secretKeyMask }}</div>
+						<div class="user-api-item__header">Secret Key (Hidden)</div>
+						<div class="user-api-item__secret-key"> *************** </div>
 					</div>
 
-					<v-form class="user-api-item__limits-form">
-						<div class="user-api-item__header">Ограничения API</div>
-						<div>
-							<v-checkbox
-								class="mt-sm-0"
-								hide-details
-								dense
-								label="Разрешить чтение"
-							/>
-							<v-checkbox
-								class="mt-sm-0"
-								hide-details
-								dense
-								label="Разрешить чтение"
-							/>
-							<v-checkbox
-								class="mt-sm-0"
-								hide-details
-								dense
-								label="Разрешить чтение"
-							/>
-							<v-checkbox hide-details dense label="Разрешить чтение" />
-							<v-checkbox hide-details dense label="Разрешить чтение" />
-							<v-checkbox hide-details dense label="Разрешить чтение" />
-							<v-checkbox hide-details dense label="Разрешить чтение" />
-						</div>
+					<div class="user-api-item__header">Разрешения API</div>
 
-						<div class="user-api-item__header">Ограничения доступа по IP</div>
+					<div class="user-api-item__abilities-key-wrapper">
 						<div>
-							<v-radio-group class="mt-0" hide-details mandatory dense>
-								<v-radio :ripple="false" label="radio" />
-								<v-radio :ripple="false" label="radio" />
-							</v-radio-group>
+							<v-checkbox
+									class="mt-sm-0"
+									hide-details
+									dense
+									disabled
+									label="Торговля"
+							/>
+							<v-checkbox
+									class="mt-sm-0"
+									hide-details
+									dense
+									disabled
+									label="Вывод средств"
+							/>
 						</div>
-					</v-form>
+					</div>
+					<div class="user-api-item__created-key-wrapper">
+						<div class="user-api-item__header">Создан</div>
+						<div class="user-api-item__created"> {{ apiItem.created_at }} </div>
+					</div>
+					<div class="user-api-item__updated-key-wrapper">
+						<div class="user-api-item__header">Обновлен</div>
+						<div class="user-api-item__updated"> {{ apiItem.updated_at }} </div>
+					</div>
+					<div class="user-api-item__used-key-wrapper">
+						<div class="user-api-item__header">Последнее использование</div>
+						<div class="user-api-item__used"> {{ apiItem.last_used_at }} </div>
+					</div>
 				</v-col>
 			</v-row>
 		</v-card-text>
@@ -93,12 +90,6 @@ export default {
 
 	data() {
 		return {};
-	},
-
-	computed: {
-		secretKeyMask() {
-			return this.apiItem.secret.replace(/./gm, '*');
-		},
 	},
 
 	methods: {

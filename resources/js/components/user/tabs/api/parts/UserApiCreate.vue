@@ -7,7 +7,7 @@
 		<v-card-text>
 			<v-form class="user-api-create__form" @submit.prevent="createApi">
 				<v-text-field
-					v-model="apiName"
+					v-model="form.name"
 					label="API name"
 					hide-details
 					outlined
@@ -27,12 +27,19 @@ export default {
 
 	data() {
 		return {
-			apiName: '',
+			form: {
+				name: '',
+				abilities: "'trading','withdraw'",
+			},
 		};
 	},
 
 	methods: {
-		createApi() {},
+		createApi(event) {
+			axios.post('/trader/ext/new_api_token', this.form).then(response => {
+				console.log(response.data);
+			});
+		},
 	},
 };
 </script>

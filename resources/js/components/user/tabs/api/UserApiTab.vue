@@ -1,7 +1,7 @@
 <template>
 	<div class="user-api-tab">
 		<UserApiCreate @created="addApiToLocalApiData" />
-		<UserApiList :api="apiData" />
+		<UserApiList />
 
 		<div id="sumsub-websdk-container"></div>
 	</div>
@@ -23,40 +23,7 @@ export default {
 
 	data() {
 		return {
-			apiData: [
-				{
-					id: 1,
-					name: 'apiname',
-					public: 'f23f23fdf',
-					secret: 'g34g34gasd',
-					abilities: ['trading'],
-					created_at: '2021-03-26T09:37:07.005Z',
-					updated_at: '2021-03-26T09:37:07.005Z',
-					last_used_at: '2021-03-26T09:37:07.005Z',
-				},
-				{
-					id: 2,
-					name: 'apiname',
-					public: 'f23f23fdf',
-					secret: 'g34g34gasd',
-					abilities: ['withdraw'],
-					created_at: '2021-03-26T09:37:07.005Z',
-					updated_at: '2021-03-26T09:37:07.005Z',
-					last_used_at: '2021-03-26T09:37:07.005Z',
-				},
-				{
-					id: 3,
-					name: 'apiname',
-					public: 'f23f23fdf',
-					secret: 'g34g34gasd',
-					abilities: ['trading', 'withdraw'],
-					created_at: '2021-03-26T09:37:07.005Z',
-					updated_at: '2021-03-26T09:37:07.005Z',
-					last_used_at: '2021-03-26T09:37:07.005Z',
-				},
-			],
-
-			accessToken: '',
+			SumSubToken: '',
 			api: 'https://test-api.sumsub.com',
 			flowName: 'scheme',
 			email: '',
@@ -69,9 +36,9 @@ export default {
 			this.apiData.push(newAPI);
 		},
 
-		newAccessToken: async function() {
+		newSumSubToken: async function() {
 			let token = await axios.get('/trader/ext/sumsub_token');
-			this.accessToken = token.data.token;
+			this.SumSubToken = token.data.token;
 			return token.data.token;
 		},
 		launchWebSdk(
@@ -84,11 +51,11 @@ export default {
 		) {
 			let snsWebSdkInstance = snsWebSdk
 				.Builder(apiUrl, flowName)
-				.withAccessToken(accessToken, newAccessTokenCallback => {
+				.withAccessToken(accessToken, newSumSubTokenCallback => {
 					// Access token expired
 					// get a new one and pass it to the callback to re-initiate the WebSDK
-					let newAccessToken = this.newAccessToken(); // get a new token from your backend
-					newAccessTokenCallback(newAccessToken);
+					let newSumSubToken = this.newSumSubToken(); // get a new token from your backend
+					newSumSubTokenCallback(newSumSubToken);
 				})
 				.withConf({
 					lang: 'en',
@@ -141,7 +108,7 @@ export default {
 	},
 	async mounted() {
 		let self = this;
-		let token = await this.newAccessToken();
+		let token = await this.newSumSubToken();
 		this.launchWebSdk(
 			self.api,
 			self.flowName,

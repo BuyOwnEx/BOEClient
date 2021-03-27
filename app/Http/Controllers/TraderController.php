@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Laravel\Sanctum\Sanctum;
 
 class TraderController extends Controller
 {
@@ -533,6 +534,54 @@ class TraderController extends Controller
         try {
             $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
             return $api->getAccessToken(Auth::user()->name.'_1');
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function newAPIToken(Request $request)
+    {
+        try {
+            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
+            $token = $request->user()->createToken($request->name, [$request->abilities]);
+            return ['success'=>true, 'data'=>$token];
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function getAPITokens()
+    {
+        try {
+            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
+            $tokens = Auth::user()->tokens;
+            return ['success'=>true, 'data'=>$tokens];
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function deleteAPIToken(Request $request)
+    {
+        try {
+            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
+            Auth::user()->tokens()->where('id', $request->id)->delete();
+            return ['success'=>true];
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function deleteAllAPITokens(Request $request)
+    {
+        try {
+            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
+            Auth::user()->tokens()->delete();
+            return ['success'=>true];
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];

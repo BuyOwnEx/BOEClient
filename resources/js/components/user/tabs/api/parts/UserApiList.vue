@@ -1,7 +1,7 @@
 <template>
 	<v-card class="user-api-list">
 		<v-card-title class="justify-space-between">
-			<div>API Лист</div>
+			<div>API ключи</div>
 			<v-btn @click="deleteAllApi">Удалить все API</v-btn>
 		</v-card-title>
 
@@ -21,18 +21,20 @@ import UserApiItem from './UserApiItem';
 
 export default {
 	name: 'UserApiList',
-
-	components: { UserApiItem },
-
-	props: {
-		api: {
-			type: Array,
-			required: true,
-		},
+	data() {
+		return {
+			api: []
+		};
 	},
+	components: { UserApiItem },
 
 	methods: {
 		async deleteAllApi() {},
+	},
+	mounted() {
+		axios.get('/trader/ext/api_tokens').then(response => {
+			this.api = response.data.data;
+		});
 	},
 };
 </script>

@@ -95,6 +95,10 @@ Route::group(['prefix' => 'trader'], function () {
 
         Route::get('sumsub_token', 'TraderController@getSumSubToken')->name('sumsub_token');
 
+        Route::post('new_api_token', 'TraderController@newAPIToken')->name('new_api_token');
+        Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');
+        Route::post('delete_api_token', 'TraderController@deleteAPIToken')->name('delete_api_token');
+        Route::post('delete_all_api_tokens', 'TraderController@deleteAllAPITokens')->name('delete_all_api_tokens');
     });
 });
 
