@@ -45,7 +45,7 @@ export default {
 			this.api = [];
 		},
 		deleteAPIByID(id) {
-			this.api.filter(item => item.id !== id);
+			this.api = this.api.filter(item => item.id !== id);
 		},
 	},
 
