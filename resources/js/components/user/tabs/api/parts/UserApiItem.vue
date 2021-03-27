@@ -4,12 +4,12 @@
 			<div class="user-api-item__name">{{ apiItem.name }}</div>
 
 			<div :class="[$vuetify.rtl ? 'mr-1' : 'ml-1']">
-					<UserApiDialogEdit :api-item="apiItem" @edit="editAPI" />
-					<UserApiDialogDeleteOne
-						:id="apiItem.id"
-						:name="apiItem.name"
-						@delete="deleteAPI"
-					/>
+				<UserApiDialogEdit :api-item="apiItem" @edit="editAPI" />
+				<UserApiDialogDeleteOne
+					:id="apiItem.id"
+					:name="apiItem.name"
+					@delete="deleteAPI"
+				/>
 			</div>
 		</v-card-title>
 
@@ -162,7 +162,7 @@ export default {
 
 	&__icon
 		padding: 8px
-		border: 1px solid rgba(103,103,103,0.32)
+		border: 1px solid #a9a8a838
 		border-radius: 0
 
 	&__abilities-key-wrapper
