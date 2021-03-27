@@ -131,26 +131,94 @@ export default {
 						//customCss: "https://buyownex.com/css/sumsub.css"
 						customCssStr: `
 							:root {
+								--v-primary-base: #03a4c2;
+								--primary-color: #9395a9;
+								--accent-color: #2fc3dfd9;
 								--success-color: #06d6a0;
 								--red-color: #ef476f;
 							}
-
+							
 							input, select, textarea {
-								color: #404254;
-								background: none
+								background: none;
+								border-bottom: 1px solid #7a7a7aab !important;
 							}
-
+							input:focus, select:focus, textarea:focus {
+								border-bottom-color: var(--primary-color);
+							}
+							input::placeholder, textarea::placeholder {
+								color: (--primary-color) !important;
+								// opacity: 0.9 !important;
+							}
 							.input-field span, .radio-group span {
 								font-size: 11px;
+							}
+							.input-field path {
+								fill: #9395a9;
+							}
+							.input-field .success-icon path {
+								fill: var(--success-color);
 							}
 							.phone-input .phone {
 								box-shadow: none !important;
 							}
+							button:active:not(:disabled):not(.disabled), button:hover:not(:disabled):not(.disabled):not(:active) {
+								box-shadow: none;
+								transform: none;
+							}
+							radio:checked ~ .checkmark {
+								border: 2px solid var(--v-primary-color) !important;
+							}
+							.checkmark {
+								border: 2px solid var(--v-primary-base);
+							}
+							.radio-item .checkmark:after {
+								background-color: var(--accent-color);
+							}
+							.show-hide {
+								top: 5px !important;
+								right: 3px !important;
+							}
+							.success-icon {
+								top: 2px !important;
+								right: 0 !important;
+							}
+							.step.active .bullet {
+								box-shadow: 0 4px 16px 0 #e7e7e72e;
+							}
+
+							button {
+								height: 35px !important;
+    						padding: 0 15px !important;
+							}
+							button.back {
+								border-radius: 5px;
+   							background: none;
+							}
+							button.back:hover {
+								background: #88888814;
+							}
+							button.back:active {
+								background: #88888836;
+							}
+							button.back .arrow {
+								display: none;
+							}
+							button.submit {
+								border-radius: 5px;
+								background: var(--v-primary-base) !important;
+							}
+							button.submit:hover {
+								background: #0baecc !important;
+							}
+							button.submit:active {
+								background: #11b6d4 !important;
+							}
+							button.submit .arrow {
+								margin-left: 4px;
+							}
+
 							.content {
 								background: none;
-							}
-							.input-field span, .radio-group span {
-								color: #404254;
 							}
 							`,
 						// URL to css file in case you need change it dynamically from the code
