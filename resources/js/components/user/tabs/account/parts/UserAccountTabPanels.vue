@@ -173,6 +173,7 @@ export default {
 			margin-top: 0
 
 	&__actions
+		cursor: default !important
 		::v-deep.v-expansion-panel-header__icon
 			display: none
 </style>

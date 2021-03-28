@@ -1,5 +1,5 @@
 <template>
-	<v-card class="user-settings-tab">
+	<v-card class="user-settings-tab tab-fill-height">
 		<v-card-title> {{ $t('user.title.settings') }} </v-card-title>
 
 		<v-card-text>
@@ -54,10 +54,6 @@ export default {
 		async saveSettings() {
 			console.log('saveSettings');
 		},
-	},
-
-	mounted() {
-		window.location.hash = '#settings';
 	},
 };
 </script>

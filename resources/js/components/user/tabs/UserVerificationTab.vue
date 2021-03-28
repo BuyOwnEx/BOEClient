@@ -1,5 +1,5 @@
 <template>
-	<div class="user-verification-tab">
+	<div class="user-verification-tab tab-fill-height">
 		<v-card>
 			<v-card-title>User Verification</v-card-title>
 
@@ -237,7 +237,6 @@ export default {
 	},
 
 	async mounted() {
-		window.location.hash = '#verification';
 		let self = this;
 		let token = await this.newSumSubToken();
 		this.launchWebSdk(

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="user-account-tab tab-fill-height">
 		<UserAccountTabBlockedAlert
 			v-if="userData.blocked"
 			:loading="enableUserLoading"

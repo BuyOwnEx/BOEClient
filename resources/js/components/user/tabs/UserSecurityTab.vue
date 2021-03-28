@@ -1,5 +1,5 @@
 <template>
-	<v-card class="user-security-tab">
+	<v-card class="user-security-tab tab-fill-height">
 		<v-card-title>
 			{{ $t('user.title.security') }}
 		</v-card-title>
@@ -126,10 +126,6 @@ export default {
 			this.$refs.form.reset();
 		},
 	},
-
-	mounted() {
-		window.location.hash = '#security';
-	}
 };
 </script>
 

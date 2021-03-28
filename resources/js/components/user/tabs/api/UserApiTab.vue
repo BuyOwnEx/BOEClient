@@ -61,7 +61,6 @@ export default {
 	},
 
 	async mounted() {
-		window.location.hash = '#api';
 		const { data } = await axios.get('/trader/ext/api_tokens');
 		this.api = data.data;
 	},
