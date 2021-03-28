@@ -46,13 +46,22 @@
 				<v-card-actions>
 					<v-spacer />
 
-					<v-btn text @click="close">
+					<v-btn small
+								 tile
+								 text @click="close">
 						Закрыть
 					</v-btn>
 
 					<v-spacer />
 
-					<v-btn :loading="editing" type="submit" color="primary" text>
+					<v-btn
+						:loading="editing"
+						type="submit"
+						color="primary"
+						small
+						tile
+						text
+					>
 						Редактировать
 					</v-btn>
 

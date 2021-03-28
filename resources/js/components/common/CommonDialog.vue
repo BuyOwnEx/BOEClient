@@ -23,7 +23,7 @@
 						<v-spacer />
 
 						<slot name="close">
-							<v-btn text @click="close">
+							<v-btn small tile text @click="close">
 								Закрыть
 							</v-btn>
 						</slot>
@@ -31,11 +31,7 @@
 						<v-spacer />
 
 						<slot name="confirm">
-							<v-btn
-								:color="confirmColor"
-								text
-								@click="confirm"
-							>
+							<v-btn :color="confirmColor" small tile text @click="confirm">
 								{{ confirmText }}
 							</v-btn>
 						</slot>
