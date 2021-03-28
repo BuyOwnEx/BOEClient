@@ -43,3 +43,13 @@
 		}
 	}
 }
+
+.tab-fill-height {
+	min-height: calc(100vh - 64px - 29px - 48px - 15px);
+	@media screen and (max-width: 1264px) {
+		min-height: calc(100vh - 64px - 40px - 48px - 15px);
+	}
+	@media screen and (max-width: 960px) {
+		min-height: calc(100vh - 56px - 58px - 48px - 15px);
+	}
+}
