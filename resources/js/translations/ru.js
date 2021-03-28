@@ -2185,6 +2185,7 @@ export default {
 		required: 'Обязательное поле',
 		min_5char: 'Мин. 5 символов',
 		min_8char: 'Мин. 8 символов',
+		max_64char: 'Макс. 64 символа',
 		passwords_not_match: 'Пароли не совпадают',
 		email_invalid: 'Неверный формат E-mail',
 		unsupported_char_latinAndNumbers:

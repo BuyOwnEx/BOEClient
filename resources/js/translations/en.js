@@ -2174,6 +2174,7 @@ export default {
 		required: 'Required field',
 		min_5char: 'Min. 5 characters',
 		min_8char: 'Min. 8 characters',
+		max_64char: 'Max. 64 characters',
 		passwords_not_match: "Passwords don't match",
 		email_invalid: 'Invalid E-mail',
 		unsupported_char_latinAndNumbers:
