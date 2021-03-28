@@ -446,7 +446,9 @@ export default {
 				this.offers = response.data;
 			});
 		},
-		sendAskLimit(event) {
+		sendAskLimit() {
+			if (!this.form.amount) return
+
 			let form = this.additionalParamsEnabled
 				? this.form
 				: _.omit(this.form, ['sl_rate', 'tp_rate', 'ts_offset']);

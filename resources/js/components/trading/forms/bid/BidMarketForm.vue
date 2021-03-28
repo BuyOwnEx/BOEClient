@@ -449,7 +449,9 @@ export default {
 				this.form.amount = 0;
 			}
 		},
-		sendBidMarket(event) {
+		sendBidMarket() {
+			if (!this.form.amount) return;
+
 			let form = this.additionalParamsEnabled
 				? this.form
 				: _.omit(this.form, ['sl_rate', 'tp_rate', 'ts_offset']);
