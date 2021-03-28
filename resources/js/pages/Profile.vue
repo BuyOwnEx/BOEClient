@@ -1,5 +1,5 @@
 <template>
-	<v-card class="profile-page flex-grow-1">
+	<div class="profile-page flex-grow-1">
 		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">{{ $t('user.title.account') }}</v-tab>
 			<v-tab :key="2">{{ $t('user.title.verification') }}</v-tab>
@@ -33,7 +33,7 @@
 				<UserSettingsTab :user="trader" />
 			</v-tab-item>
 		</v-tabs-items>
-	</v-card>
+	</div>
 </template>
 
 <script>
@@ -105,7 +105,7 @@ export default {
 
 <style lang="sass" scoped>
 .profile-page
-	background: transparent !important
+	max-width: 100%
 
 	&__tabs-items
 		padding-top: 5px
