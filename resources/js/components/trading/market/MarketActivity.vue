@@ -4,7 +4,7 @@
 			{{ $t('trading.headers.market_activity') }}
 		</v-card-title>
 
-		<CommonProgressCircular v-if="isLoading || !tickersList" />
+		<CommonLoading v-if="isLoading || !tickersList" />
 		<v-card-text v-else class="market-activity__content pa-0">
 			<v-simple-table dense>
 				<template v-slot:default>
@@ -59,12 +59,12 @@ import BigNumber from 'bignumber.js';
 
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CommonProgressCircular from '../../common/CommonProgressCircular';
+import CommonLoading from '../../common/CommonLoading';
 
 export default {
 	name: 'MarketActivity',
 
-	components: { CommonProgressCircular },
+	components: { CommonLoading },
 
 	data() {
 		return {

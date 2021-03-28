@@ -37,7 +37,7 @@
 			</div>
 		</div>
 
-		<CommonProgressCircular v-if="isLoading || !tickersList" />
+		<CommonLoading v-if="isLoading || !tickersList" />
 		<div v-else class="tickers-list__content-wrapper">
 			<v-simple-table
 				v-if="tickersList && tickersListFilteredAndSorted.length > 0"
@@ -199,14 +199,14 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CommonProgressCircular from '../../common/CommonProgressCircular';
+import CommonLoading from '../../common/CommonLoading';
 
 import formatWithScaleInAllCurrencies from '../../../mixins/format/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'TickersList',
 
-	components: { CommonProgressCircular },
+	components: { CommonLoading },
 
 	mixins: [formatWithScaleInAllCurrencies],
 

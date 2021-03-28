@@ -6,7 +6,7 @@
 
 <script>
 export default {
-	name: 'CommonProgressCircular',
+	name: 'CommonLoading',
 
 	props: {
 		color: {

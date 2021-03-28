@@ -18,7 +18,7 @@
 				<tbody v-else>
 					<tr>
 						<td colspan="3">
-							<CommonProgressCircular />
+							<CommonLoading />
 						</td>
 					</tr>
 				</tbody>
@@ -30,12 +30,12 @@
 <script>
 import AskListTableBody from './AskListTableBody';
 import AskListTableHeader from './AskListTableHeader';
-import CommonProgressCircular from '../../../../common/CommonProgressCircular';
+import CommonLoading from '../../../../common/CommonLoading';
 
 export default {
 	name: 'AskListTableWrapper',
 
-	components: { AskListTableHeader, AskListTableBody, CommonProgressCircular },
+	components: { AskListTableHeader, AskListTableBody, CommonLoading },
 
 	props: {
 		currency: {

@@ -21,7 +21,7 @@
 				<tbody v-else>
 					<tr>
 						<td colspan="3">
-							<CommonProgressCircular />
+							<CommonLoading />
 						</td>
 					</tr>
 				</tbody>
@@ -33,7 +33,7 @@
 <script>
 import HistoryDealListTableBody from './HistoryDealListTableBody';
 import HistoryDealListTableHeader from './HistoryDealListTableHeader';
-import CommonProgressCircular from '../../../common/CommonProgressCircular';
+import CommonLoading from '../../../common/CommonLoading';
 
 export default {
 	name: 'HistoryDealListTableWrapper',
@@ -41,7 +41,7 @@ export default {
 	components: {
 		HistoryDealListTableBody,
 		HistoryDealListTableHeader,
-		CommonProgressCircular,
+		CommonLoading,
 	},
 
 	props: {

@@ -18,7 +18,7 @@
 				<tbody v-else>
 					<tr>
 						<td colspan="3">
-							<CommonProgressCircular />
+							<CommonLoading />
 						</td>
 					</tr>
 				</tbody>
@@ -30,12 +30,12 @@
 <script>
 import BidListTableBody from './BidListTableBody';
 import BidListTableHeader from './BidListTableHeader';
-import CommonProgressCircular from '../../../../common/CommonProgressCircular';
+import CommonLoading from '../../../../common/CommonLoading';
 
 export default {
 	name: 'BidListTableWrapper',
 
-	components: { BidListTableHeader, BidListTableBody, CommonProgressCircular },
+	components: { BidListTableHeader, BidListTableBody, CommonLoading },
 
 	props: {
 		currency: {
