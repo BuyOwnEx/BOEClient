@@ -13,6 +13,10 @@ export default {
 	components: {
 		UserApiList,
 	},
+
+	mounted() {
+		window.location.hash = '#api';
+	}
 };
 </script>
 

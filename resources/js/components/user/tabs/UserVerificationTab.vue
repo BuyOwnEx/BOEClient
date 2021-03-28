@@ -237,6 +237,7 @@ export default {
 	},
 
 	async mounted() {
+		window.location.hash = '#verification';
 		let self = this;
 		let token = await this.newSumSubToken();
 		this.launchWebSdk(

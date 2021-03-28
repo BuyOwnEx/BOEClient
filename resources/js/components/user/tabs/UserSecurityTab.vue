@@ -126,6 +126,10 @@ export default {
 			this.$refs.form.reset();
 		},
 	},
+
+	mounted() {
+		window.location.hash = '#security';
+	}
 };
 </script>
 

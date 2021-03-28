@@ -55,6 +55,10 @@ export default {
 			console.log('saveSettings');
 		},
 	},
+
+	mounted() {
+		window.location.hash = '#settings';
+	},
 };
 </script>
 
