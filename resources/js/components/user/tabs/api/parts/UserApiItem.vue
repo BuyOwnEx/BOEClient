@@ -39,17 +39,17 @@
 
 				<div class="user-api-item__abilities-key-wrapper">
 					<v-checkbox
+						v-model="tradingItemValue"
 						class="mt-0"
 						label="Торговля"
-						:value="tradingItemValue"
 						hide-details
 						dense
 						disabled
 					/>
 					<v-checkbox
+						v-model="withdrawItemValue"
 						class="mt-0"
 						label="Вывод средств"
-						:value="withdrawItemValue"
 						hide-details
 						dense
 						disabled

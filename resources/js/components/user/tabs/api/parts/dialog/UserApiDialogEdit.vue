@@ -14,18 +14,15 @@
 			</span>
 		</template>
 
-		<v-card>
-			<v-card-title class="pb-0">Редактирвать разрешения</v-card-title>
+		<v-card class="user-api-dialog-edit">
+			<v-card-title class="common-dialog__title">
+				Редактирвать разрешения
+			</v-card-title>
 
-			<v-form
-				ref="form"
-				class="user-api-dialog-create__form"
-				@submit.prevent="edit"
-			>
-				<v-card-text>
+			<v-form ref="form" class="common-dialog__content" @submit.prevent="edit">
+				<v-card-text class="pt-0">
 					<v-checkbox
 						v-model="form.trading"
-						class="mt-0"
 						:ripple="false"
 						label="Торговля"
 						hide-details
@@ -33,7 +30,6 @@
 					/>
 					<v-checkbox
 						v-model="form.withdraw"
-						class="mt-0"
 						label="Вывод средств"
 						:ripple="false"
 						hide-details
@@ -43,12 +39,10 @@
 
 				<v-divider />
 
-				<v-card-actions>
+				<v-card-actions class="common-dialog__actions">
 					<v-spacer />
 
-					<v-btn small
-								 tile
-								 text @click="close">
+					<v-btn small tile text plain @click="close">
 						Закрыть
 					</v-btn>
 
@@ -61,6 +55,7 @@
 						small
 						tile
 						text
+						plain
 					>
 						Редактировать
 					</v-btn>
@@ -101,11 +96,27 @@ export default {
 	computed: {
 		isNoChanges() {
 			const isTradingNoChange =
-				this.apiItem.abilities.trading === this.form.trading;
+				this.beforeEditTradingValue === this.form.trading;
 			const isWithdrawNoChange =
-				this.apiItem.abilities.withdraw === this.form.withdraw;
+				this.beforeEditWithdrawValue === this.form.withdraw;
 
 			return isTradingNoChange && isWithdrawNoChange;
+		},
+
+		enabledAbilities() {
+			const result = [];
+
+			if (this.form.trading) result.push('trading');
+			if (this.form.withdraw) result.push('withdraw');
+
+			return result;
+		},
+
+		beforeEditTradingValue() {
+			return this.apiItem.abilities.indexOf('trading') !== -1;
+		},
+		beforeEditWithdrawValue() {
+			return this.apiItem.abilities.indexOf('withdraw') !== -1;
 		},
 	},
 
@@ -113,22 +124,21 @@ export default {
 		async edit() {
 			if (this.isNoChanges) {
 				this.close();
-				return
+				return;
 			}
 
 			try {
 				this.startLoading();
 
-				// const { data } = await axios.post('', this.form);
+				// const { data } = await axios.post('', this.enabledAbilities);
 				await new Promise(res => {
 					setTimeout(() => {
 						res();
 					}, 1000);
 				});
 
-				this.$emit('edit', this.form);
+				this.$emit('edit', this.enabledAbilities);
 				this.close();
-				this.clearForm();
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -136,10 +146,6 @@ export default {
 			}
 		},
 
-		clearForm() {
-			this.form.trading = this.apiItem.abilities.trading;
-			this.form.withdraw = this.apiItem.abilities.withdraw;
-		},
 		startLoading() {
 			this.editing = true;
 		},
@@ -152,15 +158,16 @@ export default {
 	},
 
 	mounted() {
-		this.form.trading = this.apiItem.trading;
-		this.form.withdraw = this.apiItem.withdraw;
+		this.form.trading = this.beforeEditTradingValue;
+		this.form.withdraw = this.beforeEditWithdrawValue;
 	},
 };
 </script>
 
 <style lang="sass" scoped>
-.user-api-dialog-create
+.user-api-dialog-edit
 	::v-deep.v-input--checkbox
 		display: inline-flex
-		width: 50%
+		width: 49%
+		margin-top: 0
 </style>
