@@ -5,10 +5,10 @@
 		@confirm="deleteOne"
 	>
 		<template #default>
-			<v-btn v-if="$vuetify.breakpoint.smAndUp">Удалить API</v-btn>
+			<v-btn color="error" small tile v-if="$vuetify.breakpoint.smAndUp">Удалить API</v-btn>
 
-			<v-btn v-else icon>
-				<v-icon color="#888888d6">
+			<v-btn v-else icon color="error" small>
+				<v-icon>
 					mdi-delete
 				</v-icon>
 			</v-btn>
@@ -48,7 +48,7 @@ export default {
 		async deleteOne() {
 			try {
 				this.$emit('delete');
-				await axios.post('/trader/ext/delete_api_token', this.id);
+				await axios.post('/trader/ext/delete_api_token', {id: this.id});
 			} catch (e) {
 				console.error(e);
 			}

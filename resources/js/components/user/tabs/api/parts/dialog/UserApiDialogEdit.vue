@@ -2,12 +2,12 @@
 	<v-dialog v-model="dialog" width="500">
 		<template v-slot:activator="{ on, attrs }">
 			<span :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-bind="attrs" v-on="on">
-				<v-btn v-if="$vuetify.breakpoint.smAndUp" :loading="editing">
+				<v-btn small tile v-if="$vuetify.breakpoint.smAndUp" :loading="editing">
 					Редактировать разрешения
 				</v-btn>
 
-				<v-btn v-else icon>
-					<v-icon color='#888888d6'>
+				<v-btn v-else icon small>
+					<v-icon>
 						mdi-pencil
 					</v-icon>
 				</v-btn>

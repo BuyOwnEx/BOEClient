@@ -5,7 +5,7 @@
 		@confirm="deleteAll"
 	>
 		<template #default>
-			<v-btn color="error">Удалить все API</v-btn>
+			<v-btn small tile color="error">Удалить все API</v-btn>
 		</template>
 
 		<template #title>
