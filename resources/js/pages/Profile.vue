@@ -22,15 +22,15 @@
 			</v-tab-item>
 
 			<v-tab-item :key="3">
-				<UserApiTab :user="trader"/>
+				<UserApiTab :user="trader" />
 			</v-tab-item>
 
 			<v-tab-item :key="4">
-				<UserSecurityTab :user="trader"/>
+				<UserSecurityTab :user="trader" />
 			</v-tab-item>
 
 			<v-tab-item :key="5">
-				<UserSettingsTab :user="trader"/>
+				<UserSettingsTab :user="trader" />
 			</v-tab-item>
 		</v-tabs-items>
 	</v-card>
@@ -55,12 +55,6 @@ export default {
 		UserSettingsTab,
 	},
 
-	watch: {
-		selectedTabStore(value) {
-			this.selectedTab = value;
-		},
-	},
-
 	data() {
 		return {
 			selectedTab: this.selectedTabStore,
@@ -74,10 +68,27 @@ export default {
 		}),
 	},
 
+	watch: {
+		selectedTabStore(value) {
+			this.selectedTab = value;
+		},
+		selectedTab(value) {
+			this.setHash(value);
+		},
+	},
+
 	methods: {
 		...mapActions({
 			setProfileTab: 'user/setProfileTab',
 		}),
+
+		setHash(tabIndex) {
+			if (tabIndex === 0) history.replaceState(null, null, ' ');
+			else if (tabIndex === 1) window.location.hash = '#verification';
+			else if (tabIndex === 2) window.location.hash = '#api';
+			else if (tabIndex === 3) window.location.hash = '#security';
+			else if (tabIndex === 4) window.location.hash = '#settings';
+		},
 	},
 
 	mounted() {
@@ -94,8 +105,8 @@ export default {
 
 <style lang="sass" scoped>
 .profile-page
-	&.v-card
-		background: transparent !important
+	background: transparent !important
+
 	&__tabs-items
 		padding-top: 5px
 </style>
