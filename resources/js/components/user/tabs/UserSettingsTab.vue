@@ -3,41 +3,53 @@
 		<v-card-title> {{ $t('user.title.settings') }} </v-card-title>
 
 		<v-card-text>
-			<v-form @submit.prevent="saveSettings">
-				<section class="user-settings-tab__notifications">
+			<section class="user-settings-tab__notifications">
+				<v-form @submit.prevent="saveNotificationsSetting">
 					<div class="user-settings-tab__header">
 						Управление почтовыми оповещениями
 					</div>
 
-					<v-checkbox hide-details label="checkbox" />
+					<v-checkbox :ripple="false" label="checkbox" hide-details />
 					<v-radio-group hide-details mandatory dense row>
 						<v-radio :ripple="false" label="radio" />
 						<v-radio :ripple="false" label="radio" />
 					</v-radio-group>
-				</section>
 
-				<section class="user-settings-tab__system">
+					<v-btn type="submit" class="mt-3">{{ $t('common.save') }}</v-btn>
+				</v-form>
+			</section>
+
+			<v-divider class="my-4" />
+
+			<section class="user-settings-tab__system">
+				<v-form @submit.prevent="saveSystemSettings">
 					<div class="user-settings-tab__header">Настрйоки системы</div>
 
-					<v-checkbox hide-details label="checkbox" />
+					<v-checkbox :ripple="false" label="checkbox" hide-details />
 					<v-radio-group hide-details mandatory dense row>
 						<v-radio :ripple="false" label="radio" />
 						<v-radio :ripple="false" label="radio" />
 					</v-radio-group>
-				</section>
 
-				<section class="user-settings-tab__security">
+					<v-btn type="submit" class="mt-3">{{ $t('common.save') }}</v-btn>
+				</v-form>
+			</section>
+
+			<v-divider class="my-4" />
+
+			<section class="user-settings-tab__security">
+				<v-form @submit.prevent="saveSecuritySettings">
 					<div class="user-settings-tab__header">Настрйоки безопасности</div>
 
-					<v-checkbox hide-details label="checkbox" />
+					<v-checkbox :ripple="false" label="checkbox" hide-details />
 					<v-radio-group hide-details mandatory dense row>
 						<v-radio :ripple="false" label="radio" />
 						<v-radio :ripple="false" label="radio" />
 					</v-radio-group>
-				</section>
 
-				<v-btn type="submit">{{ $t('common.save') }}</v-btn>
-			</v-form>
+					<v-btn type="submit" class="mt-3">{{ $t('common.save') }}</v-btn>
+				</v-form>
+			</section>
 		</v-card-text>
 	</v-card>
 </template>
@@ -51,8 +63,14 @@ export default {
 	},
 
 	methods: {
-		async saveSettings() {
-			console.log('saveSettings');
+		async saveNotificationsSetting() {
+			console.log('saveNotificationsSetting');
+		},
+		async saveSystemSettings() {
+			console.log('saveSystemSettings');
+		},
+		async saveSecuritySettings() {
+			console.log('saveSecuritySettings');
 		},
 	},
 };
@@ -64,9 +82,6 @@ export default {
 		font-size: 0.9rem
 		font-weight: 500
 
-	section
-		padding-bottom: 32px
-
-	::v-deep.v-input
-		margin-top: 8px
+	::v-deep.v-input--selection-controls
+		margin-top: 4px
 </style>
