@@ -545,7 +545,7 @@ class TraderController extends Controller
     {
         try {
             Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
-            $token = $request->user()->createToken($request->name, [$request->abilities]);
+            $token = $request->user()->createToken($request->name, $request->abilities);
             return ['success'=>true, 'data'=>$token];
         } catch (\Exception $e) {
             Log::info($e->getMessage());
