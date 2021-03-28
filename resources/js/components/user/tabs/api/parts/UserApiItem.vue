@@ -27,7 +27,7 @@
 			<div class="user-api-item__info-wrapper">
 				<div class="user-api-item__api-key-wrapper">
 					<div class="user-api-item__header">API Key Hash (SHA 256)</div>
-					<div class="user-api-item__api-key">{{ apiItem.token }}</div>
+					<CopyLabel :text="apiItem.token" />
 				</div>
 
 				<div class="user-api-item__secret-key-wrapper">
@@ -85,13 +85,14 @@ import sprites from '@dicebear/avatars-jdenticon-sprites';
 
 import UserApiDialogEdit from './dialog/UserApiDialogEdit';
 import UserApiDialogDeleteOne from './dialog/UserApiDialogDeleteOne';
+import CopyLabel from '../../../../common/CopyLabel';
 
 import formatDate from '../../../../../mixins/format/formatDate';
 
 export default {
 	name: 'UserApiItem',
 
-	components: { UserApiDialogEdit, UserApiDialogDeleteOne },
+	components: { UserApiDialogEdit, UserApiDialogDeleteOne, CopyLabel },
 
 	mixins: [formatDate],
 
@@ -171,8 +172,8 @@ export default {
 	&__api-key-wrapper
 		.user-api-item__header
 			padding-top: 0
-	&__api-key
-		font-size: 1.1rem
+	::v-deep.copylabel
+		font-size: 1rem
 
 	&__secret-key
 		font-size: 1.1rem

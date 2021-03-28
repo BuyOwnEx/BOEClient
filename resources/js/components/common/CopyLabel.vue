@@ -1,7 +1,14 @@
 <template>
 	<v-tooltip bottom>
-		<template v-slot:activator='{ on }'>
-			<div ref='copylabel' class='copylabel animate__faster' v-on='on' @click.stop.prevent='copy'>{{ text }}</div>
+		<template v-slot:activator="{ on }">
+			<div
+				ref="copylabel"
+				class="copylabel animate__faster"
+				v-on="on"
+				@click.stop.prevent="copy"
+			>
+				{{ text }}
+			</div>
 		</template>
 		<span>{{ tooltip }}</span>
 	</v-tooltip>
@@ -17,6 +24,8 @@
 |
 */
 export default {
+	name: 'CopyLabel',
+
 	props: {
 		// Text to copy to clipboard
 		text: {
@@ -29,9 +38,9 @@ export default {
 			default: 'Copied to clipboard!',
 		},
 		/**
-			* CSS animation with animate.css
-			* https://animate.style/
-			*/
+		 * CSS animation with animate.css
+		 * https://animate.style/
+		 */
 		animation: {
 			type: String,
 			default: 'heartBeat',
