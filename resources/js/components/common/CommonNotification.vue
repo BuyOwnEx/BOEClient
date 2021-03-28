@@ -69,11 +69,17 @@ export default {
 		},
 
 		getStatusBackgroundColor(status) {
-			const isWarning = status === 'partiallyFilled';
+			const isWarning = status === 'partiallyFilled' || status === 'warning';
 			const isSuccess =
-				status === 'filled' || status === 'cancel' || status === 'closed';
+				status === 'filled' ||
+				status === 'cancel' ||
+				status === 'closed' ||
+				status === 'success';
 			const isError =
-				status === 'mc_liquidation' || status === 'timeout_liquidation';
+				status === 'mc_liquidation' ||
+				status === 'timeout_liquidation' ||
+				status === 'danger' ||
+				status === 'error';
 
 			if (isWarning) return 'warning';
 			else if (isSuccess) return 'success';
@@ -113,25 +119,15 @@ export default {
 	position: fixed;
 	bottom: 36px;
 	right: 16px;
-	//min-height: 80px;
-	//max-height: 160px;
-	//min-width: 20vw;
 	max-width: 40vw;
 	z-index: 2;
 	&__item {
+		color: white;
 		font-size: 13px;
-		//background: #e8e8e8;
 		padding: 4px 8px;
 		list-style-type: none;
 		cursor: pointer;
 		transition: transform 0.3s;
-	}
-}
-.theme--dark {
-	.notification {
-		&__item {
-			//background: #30303c;
-		}
 	}
 }
 
