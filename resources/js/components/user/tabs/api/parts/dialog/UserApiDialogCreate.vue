@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="dialog" width="500">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" :loading="creating" color="primary" v-bind="attrs" v-on="on">
+			<v-btn small tile :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" :loading="creating" color="success" v-bind="attrs" v-on="on">
 				Создать API
 			</v-btn>
 		</template>
@@ -25,13 +25,13 @@
 				<v-card-actions>
 					<v-spacer />
 
-					<v-btn text @click="close">
+					<v-btn small tile text @click="close">
 						Закрыть
 					</v-btn>
 
 					<v-spacer />
 
-					<v-btn :loading="creating" type="submit" color="primary" text>
+					<v-btn :loading="creating" type="submit" color="primary" small tile text>
 						Создать
 					</v-btn>
 

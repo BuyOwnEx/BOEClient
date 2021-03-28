@@ -29,6 +29,11 @@ class APIToken implements Arrayable, Jsonable
      */
     public $plainTextSecretToken;
 
+    public static $abilities = [
+        "trading",
+        "withdraw"
+    ];
+
     /**
      * Create a new access token result.
      *
