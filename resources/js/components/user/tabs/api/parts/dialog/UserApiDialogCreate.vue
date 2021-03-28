@@ -61,7 +61,7 @@ export default {
 		async create() {
 			if (this.form.name.trim() === '') {
 				this.close();
-				this.clearForm();
+				return;
 			}
 
 			try {

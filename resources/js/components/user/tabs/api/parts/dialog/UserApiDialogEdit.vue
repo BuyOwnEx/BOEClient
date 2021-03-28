@@ -113,6 +113,7 @@ export default {
 		async edit() {
 			if (this.isNoChanges) {
 				this.close();
+				return
 			}
 
 			try {
