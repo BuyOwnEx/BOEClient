@@ -84,9 +84,6 @@ export default {
 			border-color: #90909057 !important;
 		}
 	}
-	::v-deep.v-counter {
-		font-size: 9px !important;
-	}
 }
 
 .v-application--is-rtl {

@@ -295,7 +295,7 @@ td {
 	}
 	.v-btn {
 		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
-		0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
+			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
 	}
 }
 
@@ -308,4 +308,9 @@ td {
 	.v-select__slot label {
 		font-size: 0.8rem;
 	}
+}
+
+// input counter size
+.v-counter {
+	font-size: 9px !important;
 }
