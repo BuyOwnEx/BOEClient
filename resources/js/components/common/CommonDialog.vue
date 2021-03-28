@@ -6,9 +6,12 @@
 			</span>
 		</template>
 
-		<v-card>
+		<v-card class="common-dialog">
 			<slot name="card">
-				<v-card-title class="common-dialog__title">
+				<v-card-title
+					class="common-dialog__title"
+					:class="getBackgroundClassColor"
+				>
 					<slot name="title"></slot>
 				</v-card-title>
 
@@ -23,15 +26,23 @@
 						<v-spacer />
 
 						<slot name="close">
-							<v-btn small tile text @click="close">
-								Закрыть
+							<v-btn small tile text plain @click="close">
+								Отмена
 							</v-btn>
 						</slot>
 
 						<v-spacer />
 
 						<slot name="confirm">
-							<v-btn :color="confirmColor" small tile text @click="confirm">
+							<v-btn
+								class="text-uppercase"
+								:color="confirmColor"
+								small
+								tile
+								text
+								plain
+								@click="confirm"
+							>
 								{{ confirmText }}
 							</v-btn>
 						</slot>
@@ -52,12 +63,17 @@ export default {
 		confirmText: {
 			type: String,
 			required: false,
-			default: 'Принять',
+			default: 'Подтвердить',
 		},
 		confirmColor: {
 			type: String,
 			required: false,
 			default: 'primary',
+		},
+		headerColor: {
+			type: String,
+			required: false,
+			default: '',
 		},
 	},
 
@@ -65,6 +81,15 @@ export default {
 		return {
 			dialog: false,
 		};
+	},
+
+	computed: {
+		getBackgroundClassColor() {
+			if (this.headerColor === 'success')
+				return 'common-dialog__title--success';
+			else if (this.headerColor === 'error')
+				return 'common-dialog__title--error';
+		},
 	},
 
 	methods: {
@@ -80,4 +105,29 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="sass">
+.common-dialog
+	&__title
+		font-weight: 600 !important
+		padding: 8px 24px 8px !important
+
+		&--success
+			background-color: var(--v-success-base)
+		&--error
+			background-color: var(--v-error-base)
+
+	&__content
+		padding-top: 8px !important
+
+	&__actions
+		.v-btn
+			text-transform: uppercase !important
+			letter-spacing: 1px !important
+
+.theme--dark
+	.common-dialog
+			&--success
+				background-color: var(--v-success-darken1) !important
+			&--error
+				background-color: var(--v-error-darken1) !important
+</style>

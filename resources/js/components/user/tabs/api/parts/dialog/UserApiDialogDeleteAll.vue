@@ -2,6 +2,7 @@
 	<CommonDialog
 		confirm-color="error"
 		confirm-text="Удалить"
+		header-color='error'
 		@confirm="deleteAll"
 	>
 		<template #default>

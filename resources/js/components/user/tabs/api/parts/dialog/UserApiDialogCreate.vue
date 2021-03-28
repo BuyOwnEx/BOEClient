@@ -15,20 +15,20 @@
 		</template>
 
 		<v-card class="user-api-dialog-create">
-			<v-card-title class="user-api-dialog-create__header">
+			<v-card-title class="common-dialog__title common-dialog__title--success">
 				Создать API
 			</v-card-title>
 
 			<v-form
 				v-model="valid"
 				ref="form"
-				class="user-api-dialog-create__form"
+				class="common-dialog__content"
 				@submit.prevent="create"
 			>
 				<v-card-text>
 					<v-text-field
 						v-model="form.name"
-						class="mt-0 pt-1"
+						class="mt-0"
 						label="API name"
 						counter="64"
 						:rules="[rules.required, rules.max64char]"
@@ -54,10 +54,10 @@
 
 				<v-divider />
 
-				<v-card-actions>
+				<v-card-actions class="common-dialog__actions">
 					<v-spacer />
 
-					<v-btn small tile text @click="close">
+					<v-btn small tile text plain @click="close">
 						Закрыть
 					</v-btn>
 
@@ -70,6 +70,7 @@
 						small
 						tile
 						text
+						plain
 					>
 						Создать
 					</v-btn>
@@ -160,16 +161,6 @@ export default {
 
 <style lang="sass" scoped>
 .user-api-dialog-create
-	&__header
-		background: var(--v-success-base)
-		font-weight: 600 !important
-		padding: 8px 24px 8px !important
-
 	::v-deep.v-input--checkbox
 		margin-top: 0
-
-.theme--dark
-	.user-api-dialog-create
-		&__header
-			background: var(--v-success-darken1)
 </style>

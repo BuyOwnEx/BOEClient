@@ -1,189 +1,177 @@
 <template>
-	<v-dialog v-model="dialog" content-class="confirm-dialog">
-		<template v-slot:activator="{ on, attrs }">
-			<div v-bind="attrs" v-on="on">
-				<slot></slot>
-			</div>
+	<CommonDialog
+		:confirm-color="getTypeColor"
+		:header-color="getTypeColor"
+		@confirm="confirm"
+	>
+		<template #default>
+			<slot></slot>
 		</template>
 
-		<v-card>
-			<v-card-title
-				class="trading-forms-confirm-dialog__header"
-				:class="{
-					'trading-forms-confirm-dialog__header--buy': isBuy,
-					'trading-forms-confirm-dialog__header--sell': isSell,
-				}"
-			>
-				<slot name="header">{{ $t('trading.forms.dialog.title') }}</slot>
-			</v-card-title>
+		<template #title>
+			{{ $t('trading.forms.dialog.title') }}
+		</template>
 
-			<v-card-text class="trading-forms-confirm-dialog__content">
-				<slot name="text">
-					<span>Вы собираетесь</span>
+		<template #content>
+			<div>
+				<span>Вы собираетесь</span>
 
+				<span class="trading-forms-confirm-dialog__important">
+					<span v-if="isBuy">купить</span>
+					<span v-else-if="isSell">продать</span>
+					<span>{{ amount }} {{ currency.toUpperCase() }}</span>
+				</span>
+
+				<span v-if="isLimit">
+					<span>по цене</span>
 					<span class="trading-forms-confirm-dialog__important">
-						<span v-if="isBuy">купить</span>
-						<span v-else-if="isSell">продать</span>
-						<span>{{ amount }} {{ currency.toUpperCase() }}</span>
+						{{ price }} {{ market.toUpperCase() }}
 					</span>
+				</span>
+				<span v-else-if="isMarket">по рыночной цене</span>
 
-					<span v-if="isLimit">
-						<span>по цене</span>
-						<span class="trading-forms-confirm-dialog__important">
-							{{ price }} {{ market.toUpperCase() }}
-						</span>
-					</span>
-					<span v-else-if="isMarket">по рыночной цене</span>
+				<span v-if="isAdditionalParams && isAnyAdditionalParamExist">
+					со следующими связанными условными ордерами:
+				</span>
+				<div v-if="isAdditionalParams && isAnyAdditionalParamExist">
+					<ul class="trading-forms-confirm-dialog__add-params-list">
+						<li v-if="stopLoss">
+							<span v-if="isBuy">Продажа</span>
+							<span v-else-if="isSell">Покупка</span>
+							<span>по рынку в случае, если</span>
 
-					<span v-if="isAdditionalParams && isAnyAdditionalParamExist">
-						со следующими связанными условными ордерами:
-					</span>
-					<div v-if="isAdditionalParams && isAnyAdditionalParamExist">
-						<ul class="trading-forms-confirm-dialog__add-params-list">
-							<li v-if="stopLoss">
-								<span v-if="isBuy">Продажа</span>
-								<span v-else-if="isSell">Покупка</span>
-								<span>по рынку в случае, если</span>
+							<span
+								v-if="isBuy"
+								class="trading-forms-confirm-dialog__important"
+							>
+								Best Bid
+							</span>
+							<span
+								v-else-if="isSell"
+								class="trading-forms-confirm-dialog__important"
+							>
+								Best Ask
+							</span>
 
-								<span
-									v-if="isBuy"
-									class="trading-forms-confirm-dialog__important"
-								>
-									Best Bid
-								</span>
-								<span
-									v-else-if="isSell"
-									class="trading-forms-confirm-dialog__important"
-								>
-									Best Ask
-								</span>
-
-								достигнет значения
-								<span>
-									<span class="trading-forms-confirm-dialog__important">
-										{{ stopLoss }} {{ market.toUpperCase() }}
-									</span>
-									<span>
-										(
-										<span class="trading-forms-confirm-dialog__important">
-											SL
-										</span>
-										<span>{{ $t('trading.forms.dialog.order') }}</span>
-										)
-									</span>
-								</span>
-							</li>
-
-							<li v-if="takeProfit">
-								<span v-if="isBuy">Продажа</span>
-								<span v-else-if="isSell">Покупка</span>
-								<span>по рынку в случае, если</span>
-
-								<span
-									v-if="isBuy"
-									class="trading-forms-confirm-dialog__important"
-								>
-									Best Bid
-								</span>
-								<span
-									v-else-if="isSell"
-									class="trading-forms-confirm-dialog__important"
-								>
-									Best Ask
-								</span>
-
-								достигнет значения
-								<span>
-									<span class="trading-forms-confirm-dialog__important">
-										{{ takeProfit }} {{ market.toUpperCase() }}
-									</span>
-									<span>
-										(
-										<span class="trading-forms-confirm-dialog__important">
-											TP
-										</span>
-										<span>{{ $t('trading.forms.dialog.order') }}</span>
-										)
-									</span>
-								</span>
-							</li>
-
-							<li v-if="trailingStop">
-								<span v-if="isBuy">Продажа</span>
-								<span v-else-if="isSell">Покупка</span>
-								<span>по рынку в случае, если</span>
-								<span>цена актива</span>
-
-								<span v-if="isBuy">упадет</span>
-								<span v-else-if="isSell">поднимается</span>
-
-								<span>одномоментно на</span>
+							достигнет значения
+							<span>
 								<span class="trading-forms-confirm-dialog__important">
-									{{ trailingStop }}
+									{{ stopLoss }} {{ market.toUpperCase() }}
 								</span>
-								<span>пунктов</span>
-
 								<span>
 									(
 									<span class="trading-forms-confirm-dialog__important">
-										TS
+										SL
 									</span>
 									<span>{{ $t('trading.forms.dialog.order') }}</span>
 									)
 								</span>
-							</li>
-						</ul>
+							</span>
+						</li>
 
-						<div
-							v-if="isMultiplyAdditionalParams"
-							class="trading-forms-confirm-dialog__small-text pt-1"
-						>
-							* Сработает только один из условных ордеров
-						</div>
+						<li v-if="takeProfit">
+							<span v-if="isBuy">Продажа</span>
+							<span v-else-if="isSell">Покупка</span>
+							<span>по рынку в случае, если</span>
+
+							<span
+								v-if="isBuy"
+								class="trading-forms-confirm-dialog__important"
+							>
+								Best Bid
+							</span>
+							<span
+								v-else-if="isSell"
+								class="trading-forms-confirm-dialog__important"
+							>
+								Best Ask
+							</span>
+
+							достигнет значения
+							<span>
+								<span class="trading-forms-confirm-dialog__important">
+									{{ takeProfit }} {{ market.toUpperCase() }}
+								</span>
+								<span>
+									(
+									<span class="trading-forms-confirm-dialog__important">
+										TP
+									</span>
+									<span>{{ $t('trading.forms.dialog.order') }}</span>
+									)
+								</span>
+							</span>
+						</li>
+
+						<li v-if="trailingStop">
+							<span v-if="isBuy">Продажа</span>
+							<span v-else-if="isSell">Покупка</span>
+							<span>по рынку в случае, если</span>
+							<span>цена актива</span>
+
+							<span v-if="isBuy">упадет</span>
+							<span v-else-if="isSell">поднимается</span>
+
+							<span>одномоментно на</span>
+							<span class="trading-forms-confirm-dialog__important">
+								{{ trailingStop }}
+							</span>
+							<span>пунктов</span>
+
+							<span>
+								(
+								<span class="trading-forms-confirm-dialog__important">
+									TS
+								</span>
+								<span>{{ $t('trading.forms.dialog.order') }}</span>
+								)
+							</span>
+						</li>
+					</ul>
+
+					<div
+						v-if="isMultiplyAdditionalParams"
+						class="trading-forms-confirm-dialog__small-text pt-1"
+					>
+						* Сработает только один из условных ордеров
 					</div>
-				</slot>
-			</v-card-text>
+				</div>
+			</div>
+		</template>
+	</CommonDialog>
 
-			<v-card-actions>
-				<slot name="actions">
-					<v-spacer />
-					<v-btn
-						class="text-uppercase"
-						style="letter-spacing: 1px"
-						color="grey"
-						text
-						tile
-						plain
-						@click="closeDialog"
-					>
-						Отмена
-					</v-btn>
-					<v-spacer />
-					<v-btn
-						class="text-uppercase"
-						style="letter-spacing: 1px"
-						color="success"
-						text
-						tile
-						plain
-						@click="confirm"
-					>
-						Подтвердить
-					</v-btn>
-					<v-spacer />
-				</slot>
-			</v-card-actions>
-		</v-card>
-	</v-dialog>
+	<!--	<v-dialog v-model="dialog" content-class="confirm-dialog">-->
+	<!--		<template v-slot:activator="{ on, attrs }">-->
+	<!--			<div v-bind="attrs" v-on="on">-->
+	<!--				<slot></slot>-->
+	<!--			</div>-->
+	<!--		</template>-->
+
+	<!--		<v-card>-->
+	<!--			<v-card-title-->
+	<!--				class="trading-forms-confirm-dialog__header"-->
+	<!--				:class="{-->
+	<!--					'trading-forms-confirm-dialog__header&#45;&#45;buy': isBuy,-->
+	<!--					'trading-forms-confirm-dialog__header&#45;&#45;sell': isSell,-->
+	<!--				}"-->
+	<!--			>-->
+	<!--				<slot name="header"></slot>-->
+	<!--			</v-card-title>-->
+
+	<!--			<v-card-text class="trading-forms-confirm-dialog__content">-->
+	<!--				<slot name="text"> </slot>-->
+	<!--			</v-card-text>-->
+	<!--		</v-card>-->
+	<!--	</v-dialog>-->
 </template>
 
 <script>
-import confirmDialog from '../../../../mixins/trading/confirmDialog';
+import CommonDialog from '../../../common/CommonDialog';
 
 export default {
 	name: 'TradingFormsConfirmDialog',
 
-	mixins: [confirmDialog],
+	components: { CommonDialog },
 
 	props: {
 		orderType: {
@@ -259,37 +247,48 @@ export default {
 
 			return isFirstAndSecond || isFirstAndThird || isSecondAndThird || isAll;
 		},
+
+		getTypeColor() {
+			if (this.isBuy) return 'success';
+			else return 'error';
+		},
+	},
+
+	methods: {
+		confirm() {
+			this.$emit('confirm');
+		},
 	},
 };
 </script>
 
 <style scoped lang="sass">
-.trading-forms-confirm-dialog
-	&__header
-		font-weight: 600 !important
-		padding: 8px 24px 8px !important
-		&--buy
-			background: var(--v-success-base)
-		&--sell
-			background: var(--v-error-base)
-	&__content
-		padding-top: 8px !important
-
-	&__add-params-list
-		padding-top: 8px
-		padding-left: 16px !important
-	&__small-text
-		font-size: 11px
-		opacity: 0.7
-
-	&__important
-		font-weight: 800
-		font-size: 14px
-.theme--dark
-	.trading-forms-confirm-dialog
-		&__header
-			&--buy
-				background: var(--v-success-darken1)
-			&--sell
-				background: var(--v-error-darken1)
+//.trading-forms-confirm-dialog
+//	&__header
+//		font-weight: 600 !important
+//		padding: 8px 24px 8px !important
+//		&--buy
+//			background: var(--v-success-base)
+//		&--sell
+//			background: var(--v-error-base)
+//	&__content
+//		padding-top: 8px !important
+//
+//	&__add-params-list
+//		padding-top: 8px
+//		padding-left: 16px !important
+//	&__small-text
+//		font-size: 11px
+//		opacity: 0.7
+//
+//	&__important
+//		font-weight: 800
+//		font-size: 14px
+//.theme--dark
+//	.trading-forms-confirm-dialog
+//		&__header
+//			&--buy
+//				background: var(--v-success-darken1)
+//			&--sell
+//				background: var(--v-error-darken1)
 </style>
