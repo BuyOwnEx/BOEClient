@@ -2,7 +2,7 @@
 	<v-expansion-panels class="user-account-tab-panels" v-model="panel" multiple>
 		<v-expansion-panel class="user-account-tab-panels__actions" readonly>
 			<v-expansion-panel-header class="title">
-				Actions
+				{{ $t('user.title.actions') }}
 			</v-expansion-panel-header>
 
 			<v-expansion-panel-content>
@@ -90,7 +90,7 @@
 
 		<v-expansion-panel class="user-account-tab-panels__metadata">
 			<v-expansion-panel-header class="title">
-				Metadata
+				{{ $t('user.title.metadata') }}
 			</v-expansion-panel-header>
 			<v-expansion-panel-content class="body-2">
 				<div>

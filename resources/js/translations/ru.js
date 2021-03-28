@@ -2151,6 +2151,9 @@ export default {
 		title: {
 			profile: 'Профиль',
 			account: 'Аккаунт',
+			basic_info: 'Основная Информация',
+			actions: 'Действия',
+			metadata: 'Метаданные',
 			verification: 'Верификация',
 			api: 'API',
 			security: 'Безопасность',

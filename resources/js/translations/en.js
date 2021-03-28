@@ -2142,6 +2142,9 @@ export default {
 		title: {
 			profile: 'Profile',
 			account: 'Account',
+			basic_info: 'Bacic Information',
+			actions: 'Actions',
+			metadata: 'Metadata',
 			verification: 'Verification',
 			api: 'API',
 			security: 'Security',

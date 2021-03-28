@@ -1,6 +1,6 @@
 <template>
 	<v-card class="user-account-tab-basic-info">
-		<v-card-title>Basic Information</v-card-title>
+		<v-card-title>{{ $t('user.title.basic_info') }}</v-card-title>
 
 		<v-card-text>
 			<div class="d-flex flex-column flex-sm-row">
