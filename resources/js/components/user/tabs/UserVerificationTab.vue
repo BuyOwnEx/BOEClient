@@ -101,7 +101,7 @@ export default {
 								right: 3px !important;
 							}
 							.success-icon {
-								top: 2px !important;
+								top: -2px !important;
 								right: 0 !important;
 							}
 							.step.active .bullet {
@@ -144,10 +144,27 @@ export default {
 								transform: none;
 							}
 
+							.upload-item {
+								background-color: #8a8a8a08 !important;
+								box-shadow: 0px 5px 9px 0px #61677a2b !important;
+   							border: 1px solid #e3e3e314 !important;
+							}
+							.drag-drop {
+								background-color: transparent !important
+							}
+							.mobile-button {
+								background-color: #8a8a8a08 !important;
+								box-shadow: 0px 5px 9px 0px #61677a2b !important;
+   							border: 1px solid #e3e3e314 !important;
+							}
+
 							.content {
 								background: none;
 								margin: 0;
   						  min-width: 100vw;
+  						  padding: 16px !important;
+  						  border-radius: 0;
+  						  box-shadow: none;
 							}
 							.transparent.desktop {
 								display: none;
