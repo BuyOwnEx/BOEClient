@@ -1,13 +1,13 @@
 <template>
 	<v-card class="user-api-item">
 		<v-card-title class="user-api-item__title">
-			<div class="user-api-item__name">{{ apiItem.name }}</div>
+			<div class="user-api-item__name">{{ api.name }}</div>
 
 			<div :class="[$vuetify.rtl ? 'mr-1' : 'ml-1']">
-				<UserApiDialogEdit :api-item="apiItem" @edit="editAPI" />
+				<UserApiDialogEdit :api-item="api" @edit="editAPI" />
 				<UserApiDialogDeleteOne
-					:id="apiItem.id"
-					:name="apiItem.name"
+					:id="api.id"
+					:name="api.name"
 					@delete="deleteAPI"
 				/>
 			</div>
@@ -20,14 +20,14 @@
 				<v-avatar
 					class="user-api-item__icon"
 					size="150"
-					v-html="generatedIcon(apiItem.name)"
+					v-html="generatedIcon(api.name)"
 				/>
 			</div>
 
 			<div class="user-api-item__info-wrapper">
 				<div class="user-api-item__api-key-wrapper">
 					<div class="user-api-item__header">API Key Hash (SHA 256)</div>
-					<CopyLabel :text="apiItem.token" />
+					<CopyLabel :text="api.token" />
 				</div>
 
 				<div class="user-api-item__secret-key-wrapper">
@@ -59,19 +59,19 @@
 				<div class="user-api-item__created-key-wrapper">
 					<div class="user-api-item__header">Создан</div>
 					<div class="user-api-item__created">
-						{{ formatDate(apiItem.created_at) }}
+						{{ formatDate(api.created_at) }}
 					</div>
 				</div>
 				<div class="user-api-item__updated-key-wrapper">
 					<div class="user-api-item__header">Обновлен</div>
 					<div class="user-api-item__updated">
-						{{ formatDate(apiItem.updated_at) }}
+						{{ formatDate(api.updated_at) }}
 					</div>
 				</div>
 				<div class="user-api-item__used-key-wrapper">
 					<div class="user-api-item__header">Последнее использование</div>
 					<div class="user-api-item__used">
-						{{ formatDate(apiItem.last_used_at) }}
+						{{ formatDate(api.last_used_at) }}
 					</div>
 				</div>
 			</div>
@@ -104,15 +104,17 @@ export default {
 	},
 
 	data() {
-		return {};
+		return {
+			api: this.apiItem,
+		};
 	},
 
 	computed: {
 		tradingItemValue() {
-			return this.apiItem.abilities.indexOf('trading') !== -1;
+			return this.api.abilities.indexOf('trading') !== -1;
 		},
 		withdrawItemValue() {
-			return this.apiItem.abilities.indexOf('withdraw') !== -1;
+			return this.api.abilities.indexOf('withdraw') !== -1;
 		},
 	},
 
@@ -124,10 +126,11 @@ export default {
 		},
 
 		editAPI(newAbilities) {
-			this.apiItem.abilities = newAbilities;
+			this.api.abilities = newAbilities;
+			this.api.updated_at = new Date().toISOString();
 		},
 		deleteAPI() {
-			this.$emit('delete', this.apiItem.id);
+			this.$emit('delete', this.api.id);
 		},
 	},
 };
