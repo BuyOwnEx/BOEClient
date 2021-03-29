@@ -38,6 +38,12 @@ Route::get('api', 'TraderController@getApiView')->name('api_view');
 Route::get('fees', 'TraderController@getFeesView')->name('fees_view');
 Route::get('status', 'TraderController@getStatusView')->name('status_view');
 
+Route::get('2fa', 'Auth\LoginController@getValidateToken');
+Route::post('2fa/validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
+Route::get('forget_2fa','Google2FAController@forgetTwoFactor');
+Route::post('security/enable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@enableTwoFactorReady']);
+Route::post('security/disable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@disableTwoFactorReady']);
+
 Route::group(['prefix' => 'trader'], function () {
     Route::group(['prefix' => 'ext'], function () {
         Route::get('token', 'JWTController@getOwnToken')->name('token');
@@ -95,8 +101,9 @@ Route::group(['prefix' => 'trader'], function () {
 
         Route::get('sumsub_token', 'TraderController@getSumSubToken')->name('sumsub_token');
 
-        Route::post('new_api_token', 'TraderController@newAPIToken')->name('new_api_token');
         Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');
+        Route::post('new_api_token', 'TraderController@newAPIToken')->name('new_api_token');
+        Route::post('edit_api_token', 'TraderController@editAPIToken')->name('edit_api_token');
         Route::post('delete_api_token', 'TraderController@deleteAPIToken')->name('delete_api_token');
         Route::post('delete_all_api_tokens', 'TraderController@deleteAllAPITokens')->name('delete_all_api_tokens');
     });

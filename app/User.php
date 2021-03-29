@@ -49,7 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'secret' => $secretTextToken = Str::random(80),
             'abilities' => $abilities,
         ]);
-        Log::info($token);
         return new APIToken($token, $plainTextToken, $secretTextToken);
     }
 

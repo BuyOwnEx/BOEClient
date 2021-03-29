@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ValidateSecretRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class LoginController extends Controller
 {
@@ -64,7 +67,7 @@ class LoginController extends Controller
                 $request->session()->put('2fa:user:id', $user->id);
                 return response()->json([
                     'auth' => true,
-                    'intended' => '/2fa/validate',
+                    'intended' => '2fa',
                 ]);
             }
             return response()->json([
@@ -73,5 +76,27 @@ class LoginController extends Controller
             ]);
         }
         return true;
+    }
+
+    public function getValidateToken()
+    {
+        if (session('2fa:user:id')) {
+            return view('auth/2fa');
+        }
+        return redirect('login');
+    }
+
+    public function postValidateToken(ValidateSecretRequest $request)
+    {
+        //get user id and create cache key
+        $userId = $request->session()->pull('2fa:user:id');
+        $key = $userId . ':' . $request->totp;
+
+        //use cache to store token to blacklist
+        Cache::add($key, true, 4);
+
+        //login and redirect user
+        Auth::loginUsingId($userId);
+        return redirect()->intended($this->redirectTo);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;
+use App\PersonalAccessToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -546,6 +547,19 @@ class TraderController extends Controller
         try {
             Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
             $token = $request->user()->createToken($request->name, $request->abilities);
+            return ['success'=>true, 'data'=>$token];
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function editAPIToken(Request $request)
+    {
+        try {
+            $token = PersonalAccessToken::findOrFail($request->id);
+            $token->abilities = $request->abilities;
+            $token->save();
             return ['success'=>true, 'data'=>$token];
         } catch (\Exception $e) {
             Log::info($e->getMessage());

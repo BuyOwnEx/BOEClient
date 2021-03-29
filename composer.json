@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5|^7.3|^8.0",
+        "bacon/bacon-qr-code": "^2.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0",
@@ -16,7 +17,8 @@
         "laravel/framework": "^7.24",
         "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.4"
+        "laravel/ui": "^2.4",
+        "pragmarx/google2fa": "^8.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
