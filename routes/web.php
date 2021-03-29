@@ -39,12 +39,16 @@ Route::get('fees', 'TraderController@getFeesView')->name('fees_view');
 Route::get('status', 'TraderController@getStatusView')->name('status_view');
 
 Route::get('2fa', 'Auth\LoginController@getValidateToken');
-Route::post('2fa/validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
+Route::post('2fa_validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
 Route::get('forget_2fa','Google2FAController@forgetTwoFactor');
-Route::post('security/enable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@enableTwoFactorReady']);
-Route::post('security/disable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@disableTwoFactorReady']);
+
 
 Route::group(['prefix' => 'trader'], function () {
+
+    Route::post('security/enable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@enableTwoFactorReady']);
+    Route::post('security/disable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@disableTwoFactorReady']);
+    Route::get('2fa_generate', 'Google2FAController@generateTwoFactor');
+
     Route::group(['prefix' => 'ext'], function () {
         Route::get('token', 'JWTController@getOwnToken')->name('token');
         Route::post('private', 'JWTController@getPrivateToken')->name('private');

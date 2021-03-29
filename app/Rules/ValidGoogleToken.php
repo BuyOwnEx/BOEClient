@@ -31,7 +31,7 @@ class ValidGoogleToken implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $secret = Crypt::decrypt($this->user->google2fa_secret);
+            $secret = Crypt::decrypt($this->user->g2fa_secret);
             $tmp = new Google2FA();
             return $tmp->verifyKey($secret, $value);
         }

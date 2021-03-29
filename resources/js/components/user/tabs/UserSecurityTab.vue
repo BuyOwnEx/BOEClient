@@ -113,6 +113,7 @@ export default {
 		return {
 			userData: this.user,
 			authCode: '',
+			image: ''
 		};
 	},
 
@@ -126,6 +127,14 @@ export default {
 			this.$refs.form.reset();
 		},
 	},
+	mounted() {
+		axios.get('/trader/2fa_generate').then(response => {
+			if (_.get(response, 'data.success') === true) {
+				this.authCode = response.data.secret;
+				this.image = response.data.image;
+			}
+		});
+	}
 };
 </script>
 
