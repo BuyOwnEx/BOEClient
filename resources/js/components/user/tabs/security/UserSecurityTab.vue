@@ -15,12 +15,12 @@
 				</div>
 			</div>
 
-			<v-row v-if="userData.twoFA">
-				<v-col class="d-flex justify-center" cols="12" md="3" xl="2">
+			<div v-if="userData.twoFA" class="user-security-tab__content">
+				<div class="user-security-tab__qr-code">
 					<div v-html="image" />
-				</v-col>
+				</div>
 
-				<v-col cols="12" md="9" xl="10">
+				<div class="user-security-tab__form">
 					<div class="user-security-tab__header-wrapper">
 						<span class="user-security-tab__header">
 							{{ $t('user.security.two_factor_auth') }}
@@ -43,17 +43,19 @@
 							:placeholder="$t('user.security.auth_code')"
 							:rules="[rules.required]"
 						/>
-						<v-btn type="submit">{{ $t('user.security.disable') }}</v-btn>
+						<v-btn type="submit" :block="isXsBreakpoint" :loading='loading'>
+							{{ $t('user.security.disable') }}
+						</v-btn>
 					</v-form>
-				</v-col>
-			</v-row>
+				</div>
+			</div>
 
-			<v-row v-else>
-				<v-col class="d-flex justify-center" cols="12" md="3" xl="2">
+			<div v-else class="user-security-tab__content">
+				<div class="user-security-tab__qr-code">
 					<div v-html="image" />
-				</v-col>
+				</div>
 
-				<v-col cols="12" md="9" xl="10">
+				<div class="user-security-tab__form">
 					<div class="user-security-tab__header-wrapper">
 						<span class="user-security-tab__header">
 							{{ $t('user.security.two_factor_auth') }}
@@ -78,21 +80,24 @@
 							outlined
 							dense
 						/>
-						<v-btn type="submit">{{ $t('user.security.enable') }}</v-btn>
+						<v-btn type="submit" :block="isXsBreakpoint" :loading='loading'>
+							{{ $t('user.security.enable') }}
+						</v-btn>
 					</v-form>
-				</v-col>
-			</v-row>
+				</div>
+			</div>
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
 import formValidationRules from '../../../../mixins/common/formValidationRules';
+import loadingMixin from '../../../../mixins/common/loadingMixin';
 
 export default {
 	name: 'UserSecurityTab',
 
-	mixins: [formValidationRules],
+	mixins: [formValidationRules, loadingMixin],
 
 	props: {
 		user: {
@@ -109,14 +114,40 @@ export default {
 		};
 	},
 
+	computed: {
+		isXsBreakpoint() {
+			return this.$vuetify.breakpoint.xs;
+		},
+	},
+
 	methods: {
 		async enable2FA() {
 			console.log('enable2FA');
-			this.$refs.form.reset();
+			try {
+				this.startLoading();
+
+				// await axios.post()
+
+				this.userData.twoFA = true
+			} catch (e) {
+				console.error(e);
+			} finally {
+				this.stopLoading();
+			}
 		},
 		async disable2FA() {
 			console.log('disable2FA');
-			this.$refs.form.reset();
+			try {
+				this.startLoading();
+
+				// await axios.post()
+
+				this.userData.twoFA = false
+			} catch (e) {
+				console.error(e);
+			} finally {
+				this.stopLoading();
+			}
 		},
 	},
 
@@ -133,6 +164,16 @@ export default {
 
 <style lang="sass" scoped>
 .user-security-tab
+	&__content
+		display: grid
+		grid-template-columns: 250px 1fr
+		grid-template-areas: 'code form'
+		margin-top: 32px
+	&__qr-code
+		grid-area: code
+	&__form
+		grid-area: form
+
 	&__title
 		font-size: 1rem
 		font-weight: 500
@@ -145,6 +186,7 @@ export default {
 	&__status
 		font-size: 10px
 		text-transform: uppercase
+
 	p
 		margin-bottom: 5px
 		line-height: 18px
@@ -158,4 +200,13 @@ export default {
 			width: 50%
 		@media screen and (max-width: 960px)
 			width: 100%
+
+	@media screen and (max-width: 600px)
+		&__content
+			display: flex
+			flex-flow: column
+		&__qr-code
+			display: flex
+			justify-content: center
+			margin-bottom: 32px
 </style>

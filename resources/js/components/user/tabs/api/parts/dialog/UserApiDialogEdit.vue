@@ -2,7 +2,7 @@
 	<v-dialog v-model="dialog" width="500">
 		<template v-slot:activator="{ on, attrs }">
 			<span :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-bind="attrs" v-on="on">
-				<v-btn small tile v-if="$vuetify.breakpoint.smAndUp" :loading="editing">
+				<v-btn v-if="$vuetify.breakpoint.smAndUp" small tile>
 					Редактировать разрешения
 				</v-btn>
 
@@ -49,7 +49,7 @@
 					<v-spacer />
 
 					<v-btn
-						:loading="editing"
+						:loading="loading"
 						type="submit"
 						color="primary"
 						small
@@ -70,10 +70,14 @@
 <script>
 import CommonDialog from '../../../../../common/CommonDialog';
 
+import loadingMixin from '../../../../../../mixins/common/loadingMixin';
+
 export default {
 	name: 'UserApiDialogEdit',
 
 	components: { CommonDialog },
+
+	mixins: [loadingMixin],
 
 	props: {
 		apiItem: {
@@ -85,7 +89,6 @@ export default {
 	data() {
 		return {
 			dialog: false,
-			editing: false,
 			form: {
 				trading: false,
 				withdraw: false,
@@ -130,10 +133,10 @@ export default {
 			try {
 				this.startLoading();
 
-				const { data } = await axios.post(
-						'/trader/ext/edit_api_token',
-						{id: this.apiItem.id, abilities: this.enabledAbilities}
-				);
+				await axios.post('/trader/ext/edit_api_token', {
+					id: this.apiItem.id,
+					abilities: this.enabledAbilities,
+				});
 
 				this.$emit('edit', this.enabledAbilities);
 				this.close();
@@ -144,12 +147,6 @@ export default {
 			}
 		},
 
-		startLoading() {
-			this.editing = true;
-		},
-		stopLoading() {
-			this.editing = false;
-		},
 		close() {
 			this.dialog = false;
 		},

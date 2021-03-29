@@ -2,13 +2,12 @@
 	<v-dialog v-model="dialog" width="400">
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
-				small
-				tile
 				:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
-				:loading="creating"
 				color="success"
 				v-bind="attrs"
 				v-on="on"
+				small
+				tile
 			>
 				Создать API
 			</v-btn>
@@ -64,7 +63,7 @@
 					<v-spacer />
 
 					<v-btn
-						:loading="creating"
+						:loading="loading"
 						type="submit"
 						color="primary"
 						small
@@ -84,16 +83,16 @@
 
 <script>
 import formValidationRules from '../../../../../../mixins/common/formValidationRules';
+import loadingMixin from '../../../../../../mixins/common/loadingMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
 
-	mixins: [formValidationRules],
+	mixins: [formValidationRules, loadingMixin],
 
 	data() {
 		return {
 			dialog: false,
-			creating: false,
 			valid: false,
 
 			trading: false,
@@ -145,12 +144,6 @@ export default {
 			}
 		},
 
-		startLoading() {
-			this.creating = true;
-		},
-		stopLoading() {
-			this.creating = false;
-		},
 		close() {
 			this.dialog = false;
 			this.$refs.form.reset();
