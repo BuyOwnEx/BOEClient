@@ -54,7 +54,7 @@
 <script>
 import CopyLabel from '../../components/common/CopyLabel';
 import UserAccountTab from '../../components/user/tabs/account/UserAccountTab';
-import UserVerificationTab from '../../components/user/tabs/UserVerificationTab';
+import UserVerificationTab from '../../components/user/tabs/verification/UserVerificationTab';
 
 export default {
 	components: {

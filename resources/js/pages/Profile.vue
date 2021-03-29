@@ -39,10 +39,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import UserAccountTab from '../components/user/tabs/account/UserAccountTab';
-import UserVerificationTab from '../components/user/tabs/UserVerificationTab';
+import UserVerificationTab from '../components/user/tabs/verification/UserVerificationTab';
 import UserApiTab from '../components/user/tabs/api/UserApiTab';
-import UserSecurityTab from '../components/user/tabs/UserSecurityTab';
-import UserSettingsTab from '../components/user/tabs/UserSettingsTab';
+import UserSecurityTab from '../components/user/tabs/security/UserSecurityTab';
+import UserSettingsTab from '../components/user/tabs/settings/UserSettingsTab';
 
 export default {
 	name: 'Profile',

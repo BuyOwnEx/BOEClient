@@ -16,12 +16,8 @@
 			</div>
 
 			<v-row v-if="userData.twoFA">
-				<v-col cols="12" md="3" xl="2">
-					<!--					<v-img class="mx-auto" width="150" height="150" alt="QR code" src="/" />-->
-					<div
-						class="mx-auto"
-						style="width: 150px; height: 150px; background: rgb(222, 222, 222);"
-					/>
+				<v-col class="d-flex justify-center" cols="12" md="3" xl="2">
+					<div v-html="image" />
 				</v-col>
 
 				<v-col cols="12" md="9" xl="10">
@@ -53,14 +49,8 @@
 			</v-row>
 
 			<v-row v-else>
-				<v-col cols="12" md="3" xl="2">
-					<img
-						class="mx-auto"
-						:src="image"
-						alt="QR code"
-						width="150"
-						height="150"
-					/>
+				<v-col class="d-flex justify-center" cols="12" md="3" xl="2">
+					<div v-html="image" />
 				</v-col>
 
 				<v-col cols="12" md="9" xl="10">
@@ -97,7 +87,7 @@
 </template>
 
 <script>
-import formValidationRules from '../../../mixins/common/formValidationRules';
+import formValidationRules from '../../../../mixins/common/formValidationRules';
 
 export default {
 	name: 'UserSecurityTab',
