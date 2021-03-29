@@ -2154,11 +2154,11 @@ export default {
 			title: 'buyownex recommends using two-factor authentication',
 			description: {
 				line_one:
-					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio',
+					'Two-factor authentication (2fa) greatly enhances safety, requesting not only the login and password, but a special authorization code.',
 				line_two:
-					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus nihil nulla omnis quidem, quo repellat, sapiente sed sit veniam! Atque eos ipsam porro!',
+					'BuyOwnEx uses 2fa from Google Authenticator. To enable this feature, download Google Authenticator to your mobile phone and scan the QR code. ',
 				line_three:
-					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus',
+					'After installing the application, use the codes specified therein to work with BuyOwnEx.',
 			},
 			status: {
 				enabled: 'Enabled',

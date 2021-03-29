@@ -27,6 +27,7 @@ Vue.component('login', require('./pages/auth/Login.vue').default);
 Vue.component('verify', require('./pages/auth/Verify.vue').default);
 Vue.component('email', require('./pages/auth/Email.vue').default);
 Vue.component('reset', require('./pages/auth/Reset.vue').default);
+Vue.component('2fa', require('./pages/auth/2FA.vue').default);
 
 export default new Vue({
 	i18n,

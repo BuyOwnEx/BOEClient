@@ -36,7 +36,7 @@ class Google2FAController extends Controller
         Cache::add($key, true, 4);
 
         //encrypt and then save secret
-        $user->google2fa_enabled = true;
+        $user->g2fa = true;
         $user->save();
         return ['success'=> true];
     }
@@ -48,7 +48,7 @@ class Google2FAController extends Controller
         //use cache to store token to blacklist
         Cache::add($key, true, 4);
         $user = User::findOrFail($userId);
-        $user->google2fa_enabled = false;
+        $user->g2fa = false;
         $user->save();
         return ['success'=> true];
     }

@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'g2fa', 'g2fa_secret', 'lastIP'
+        'password', 'remember_token', 'g2fa_secret', 'lastIP'
     ];
 
     /**

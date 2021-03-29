@@ -2163,11 +2163,11 @@ export default {
 			title: 'buyownex рекомендует использовать двухфакторную авторизацию',
 			description: {
 				line_one:
-					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio',
+					'Двухфакторная авторизация (2fa) значительно увеличивает безопасность, запрашивая не только логин-пароль, но и специальный код авторизации.',
 				line_two:
-					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus nihil nulla omnis quidem, quo repellat, sapiente sed sit veniam! Atque eos ipsam porro!',
+					'BuyOwnEx использует 2fa от утилиты Google Authenticator. Для включения такой возможности, скачайте Google Authenticator на свой мобильный телефон и просканируйте QR-код.',
 				line_three:
-					'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium autem, distinctio fugiat magni modi necessitatibus',
+					'После установки приложения, используйте указанные в нём коды для работы с BuyOwnEx.',
 			},
 			status: {
 				enabled: 'Включена',

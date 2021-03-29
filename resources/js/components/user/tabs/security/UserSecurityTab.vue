@@ -68,13 +68,13 @@
 					<div>{{ $t('user.security.secret_key') }}</div>
 					<div>
 						<code>
-							**********
+							{{authCode}}
 						</code>
 					</div>
 
 					<v-form ref="form" @submit.prevent="enable2FA">
 						<v-text-field
-							v-model="authCode"
+							v-model="totp"
 							:placeholder="$t('user.security.auth_code')"
 							:rules="[rules.required]"
 							outlined
@@ -111,6 +111,7 @@ export default {
 			userData: this.user,
 			authCode: '',
 			image: '',
+			totp: null
 		};
 	},
 
@@ -126,6 +127,10 @@ export default {
 			try {
 				this.startLoading();
 
+				await axios.post('/trader/2fa_enable', {
+					secret: this.authCode,
+					totp: this.totp,
+				});
 				// await axios.post()
 
 				this.userData.twoFA = true;
@@ -140,7 +145,9 @@ export default {
 			try {
 				this.startLoading();
 
-				// await axios.post()
+				await axios.post('/trader/2fa_disable', {
+					totp: this.totp,
+				});
 
 				this.userData.twoFA = false;
 			} catch (e) {
