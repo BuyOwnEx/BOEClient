@@ -43,7 +43,7 @@
 							:placeholder="$t('user.security.auth_code')"
 							:rules="[rules.required]"
 						/>
-						<v-btn type="submit" :block="isXsBreakpoint" :loading='loading'>
+						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading">
 							{{ $t('user.security.disable') }}
 						</v-btn>
 					</v-form>
@@ -80,7 +80,7 @@
 							outlined
 							dense
 						/>
-						<v-btn type="submit" :block="isXsBreakpoint" :loading='loading'>
+						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading">
 							{{ $t('user.security.enable') }}
 						</v-btn>
 					</v-form>
@@ -128,7 +128,7 @@ export default {
 
 				// await axios.post()
 
-				this.userData.twoFA = true
+				this.userData.twoFA = true;
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -142,7 +142,7 @@ export default {
 
 				// await axios.post()
 
-				this.userData.twoFA = false
+				this.userData.twoFA = false;
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -171,6 +171,7 @@ export default {
 		margin-top: 32px
 	&__qr-code
 		grid-area: code
+		height: 200px
 	&__form
 		grid-area: form
 
