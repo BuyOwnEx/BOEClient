@@ -130,16 +130,10 @@ export default {
 			try {
 				this.startLoading();
 
-				// const { data } = await axios.post('', this.enabledAbilities);
 				const { data } = await axios.post(
 						'/trader/ext/edit_api_token',
 						{id: this.apiItem.id, abilities: this.enabledAbilities}
 				);
-				/*await new Promise(res => {
-					setTimeout(() => {
-						res();
-					}, 1000);
-				});*/
 
 				this.$emit('edit', this.enabledAbilities);
 				this.close();

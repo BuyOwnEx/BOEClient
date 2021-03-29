@@ -54,10 +54,12 @@
 
 			<v-row v-else>
 				<v-col cols="12" md="3" xl="2">
-					<!--					<v-img class="mx-auto" width="150" height="150" alt="QR code" src="/" />-->
-					<div
+					<img
 						class="mx-auto"
-						style="width: 150px; height: 150px; background: rgb(222, 222, 222);"
+						:src="image"
+						alt="QR code"
+						width="150"
+						height="150"
 					/>
 				</v-col>
 
@@ -113,7 +115,7 @@ export default {
 		return {
 			userData: this.user,
 			authCode: '',
-			image: ''
+			image: '',
 		};
 	},
 
@@ -127,14 +129,15 @@ export default {
 			this.$refs.form.reset();
 		},
 	},
-	mounted() {
+
+	created() {
 		axios.get('/trader/2fa_generate').then(response => {
 			if (_.get(response, 'data.success') === true) {
 				this.authCode = response.data.secret;
 				this.image = response.data.image;
 			}
 		});
-	}
+	},
 };
 </script>
 

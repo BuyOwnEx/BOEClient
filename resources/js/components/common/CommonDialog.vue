@@ -126,8 +126,9 @@ export default {
 
 .theme--dark
 	.common-dialog
-			&--success
-				background-color: var(--v-success-darken1) !important
-			&--error
-				background-color: var(--v-error-darken1) !important
+			&__title
+				&--success
+					background-color: var(--v-success-darken1)
+				&--error
+					background-color: var(--v-error-darken1)
 </style>
