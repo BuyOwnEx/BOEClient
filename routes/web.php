@@ -45,8 +45,8 @@ Route::get('forget_2fa','Google2FAController@forgetTwoFactor');
 
 Route::group(['prefix' => 'trader'], function () {
 
-    Route::post('security/enable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@enableTwoFactorReady']);
-    Route::post('security/disable2FAReady', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@disableTwoFactorReady']);
+    Route::post('2fa_enable', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@enableTwoFactorReady']);
+    Route::post('2fa_disable', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@disableTwoFactorReady']);
     Route::get('2fa_generate', 'Google2FAController@generateTwoFactor');
 
     Route::group(['prefix' => 'ext'], function () {
