@@ -10,6 +10,7 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import i18n from './plugins/vue-i18n';
 import './plugins/vue-head';
+import './plugins/clipboard';
 
 // STYLES
 // Main Theme SCSS
@@ -24,7 +25,10 @@ Vue.prototype.$component = window.component;
 
 Vue.component('balance', require('./pages/Balance.vue').default);
 Vue.component('deals', require('./pages/Deals.vue').default);
-Vue.component('fiat-transactions', require('./pages/FiatTransactions.vue').default);
+Vue.component(
+	'fiat-transactions',
+	require('./pages/FiatTransactions.vue').default
+);
 Vue.component('notifications', require('./pages/Notifications.vue').default);
 Vue.component('orders', require('./pages/Orders.vue').default);
 Vue.component('ref-payments', require('./pages/RefPayments.vue').default);

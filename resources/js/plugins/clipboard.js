@@ -1,10 +1,10 @@
 import Vue from 'vue';
 
 /**
-	* Copy to clipboard the text passed
-	* @param {String} text string to copy
-	* @param {String} toastText message to appear on the toast notification
-	*/
+ * Copy to clipboard the text passed
+ * @param {String} text string to copy
+ * @param {String} toastText message to appear on the toast notification
+ */
 Vue.prototype.$clipboard = function(text, toastText = 'Copied to clipboard!') {
 	const el = document.createElement('textarea');
 
@@ -14,5 +14,5 @@ Vue.prototype.$clipboard = function(text, toastText = 'Copied to clipboard!') {
 	document.execCommand('copy');
 	document.body.removeChild(el);
 
-	if (this.$store && this.$store.dispatch) this.$store.dispatch('notifications/addNotification', toastText);
+	this.$store.commit('notifications/addNotification', { text: toastText });
 };

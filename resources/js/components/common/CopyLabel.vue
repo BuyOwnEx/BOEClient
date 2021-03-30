@@ -57,7 +57,6 @@ export default {
 	},
 	methods: {
 		copy() {
-			this.$animate(this.$refs.copylabel, this.animation);
 			this.$clipboard(this.text, this.toastText);
 			this.tooltip = 'Copied!';
 
