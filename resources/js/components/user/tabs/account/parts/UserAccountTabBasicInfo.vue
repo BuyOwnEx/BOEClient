@@ -16,16 +16,25 @@
 
 				<div class="flex-grow-1 pt-2 pt-sm-0 px-sm-2">
 					<v-text-field
+						class="mb-2"
 						v-model="user.name"
 						label="Display name"
-						placeholder="name"
+						hide-details
 						readonly
 					/>
 					<v-text-field
+						class="mb-2"
 						v-model="user.email"
 						label="Email"
-						readonly
 						hide-details
+						readonly
+					/>
+					<v-text-field
+							class="mb-2"
+							v-model="user.rate_limit"
+							label="Rate API limit"
+							hide-details
+							readonly
 					/>
 
 					<div class="d-flex flex-column">
@@ -33,8 +42,18 @@
 							:ripple="false"
 							:input-value="true"
 							readonly
+							hide-details
 							dense
 							label="Email Verified"
+						/>
+
+						<v-checkbox
+								:ripple="false"
+								v-model="user.g2fa"
+								label="2FA Protected"
+								readonly
+								hide-details
+								dense
 						/>
 						<div>
 							<v-btn>
