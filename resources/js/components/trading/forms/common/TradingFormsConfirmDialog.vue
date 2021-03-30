@@ -139,30 +139,6 @@
 			</div>
 		</template>
 	</CommonDialog>
-
-	<!--	<v-dialog v-model="dialog" content-class="confirm-dialog">-->
-	<!--		<template v-slot:activator="{ on, attrs }">-->
-	<!--			<div v-bind="attrs" v-on="on">-->
-	<!--				<slot></slot>-->
-	<!--			</div>-->
-	<!--		</template>-->
-
-	<!--		<v-card>-->
-	<!--			<v-card-title-->
-	<!--				class="trading-forms-confirm-dialog__header"-->
-	<!--				:class="{-->
-	<!--					'trading-forms-confirm-dialog__header&#45;&#45;buy': isBuy,-->
-	<!--					'trading-forms-confirm-dialog__header&#45;&#45;sell': isSell,-->
-	<!--				}"-->
-	<!--			>-->
-	<!--				<slot name="header"></slot>-->
-	<!--			</v-card-title>-->
-
-	<!--			<v-card-text class="trading-forms-confirm-dialog__content">-->
-	<!--				<slot name="text"> </slot>-->
-	<!--			</v-card-text>-->
-	<!--		</v-card>-->
-	<!--	</v-dialog>-->
 </template>
 
 <script>
