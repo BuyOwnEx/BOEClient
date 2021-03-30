@@ -15,9 +15,10 @@
 				</div>
 			</div>
 
-			<div v-if="userData.twoFA" class="user-security-tab__content">
+			<!--if 2fa enabled-->
+			<div v-if="userData.g2fa" class="user-security-tab__content">
 				<div class="user-security-tab__qr-code">
-					<div v-html="image" />
+					{{ $t('user.security.for_disable') }}
 				</div>
 
 				<div class="user-security-tab__form">
@@ -40,16 +41,25 @@
 					<v-form ref="form" @submit.prevent="disable2FA">
 						<v-text-field
 							v-model="authCode"
+							type="number"
 							:placeholder="$t('user.security.auth_code')"
-							:rules="[rules.required]"
+							@keydown="handleCodeInput"
 						/>
-						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading">
+						<v-btn
+							type="submit"
+							:block="isXsBreakpoint"
+							:loading="loading"
+							color="error"
+							small
+							tile
+						>
 							{{ $t('user.security.disable') }}
 						</v-btn>
 					</v-form>
 				</div>
 			</div>
 
+			<!--if 2fa disabled-->
 			<div v-else class="user-security-tab__content">
 				<div class="user-security-tab__qr-code">
 					<div v-html="image" />
@@ -68,19 +78,27 @@
 					<div>{{ $t('user.security.secret_key') }}</div>
 					<div>
 						<code>
-							{{authCode}}
+							{{ authCode }}
 						</code>
 					</div>
 
 					<v-form ref="form" @submit.prevent="enable2FA">
 						<v-text-field
 							v-model="totp"
+							type="number"
 							:placeholder="$t('user.security.auth_code')"
-							:rules="[rules.required]"
-							outlined
+							:disabled="loading"
 							dense
+							@keydown="handleCodeInput"
 						/>
-						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading">
+						<v-btn
+							type="submit"
+							:block="isXsBreakpoint"
+							:loading="loading"
+							color="success"
+							small
+							tile
+						>
 							{{ $t('user.security.enable') }}
 						</v-btn>
 					</v-form>
@@ -91,13 +109,12 @@
 </template>
 
 <script>
-import formValidationRules from '../../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 
 export default {
 	name: 'UserSecurityTab',
 
-	mixins: [formValidationRules, loadingMixin],
+	mixins: [loadingMixin],
 
 	props: {
 		user: {
@@ -111,7 +128,7 @@ export default {
 			userData: this.user,
 			authCode: '',
 			image: '',
-			totp: null
+			totp: null,
 		};
 	},
 
@@ -123,17 +140,17 @@ export default {
 
 	methods: {
 		async enable2FA() {
-			console.log('enable2FA');
 			try {
+				if (this.totp.trim() === '') return;
 				this.startLoading();
 
 				await axios.post('/trader/2fa_enable', {
 					secret: this.authCode,
 					totp: this.totp,
 				});
-				// await axios.post()
 
 				this.userData.twoFA = true;
+				this.totp = '';
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -141,8 +158,8 @@ export default {
 			}
 		},
 		async disable2FA() {
-			console.log('disable2FA');
 			try {
+				if (this.totp.trim() === '') return;
 				this.startLoading();
 
 				await axios.post('/trader/2fa_disable', {
@@ -150,21 +167,41 @@ export default {
 				});
 
 				this.userData.twoFA = false;
+				this.totp = '';
 			} catch (e) {
 				console.error(e);
 			} finally {
 				this.stopLoading();
 			}
 		},
+
+		handleCodeInput(event) {
+			const keyCode = event.keyCode ? event.keyCode : event.which;
+
+			console.log(event.target.value.length);
+
+			const isNumber =
+				(keyCode >= 48 && keyCode <= 57) || (keyCode >= 96 && keyCode <= 105);
+			const isFuncKey = keyCode === 8 || keyCode === 46 || keyCode === 13;
+			const isLengthMoreThan6 = event.target.value.length > 6;
+
+			if (isFuncKey) return;
+			if (!isNumber || isLengthMoreThan6) event.preventDefault();
+			if (event.target.value.length === 6) {
+				this.enable2FA();
+			}
+		},
 	},
 
 	created() {
-		axios.get('/trader/2fa_generate').then(response => {
-			if (_.get(response, 'data.success') === true) {
-				this.authCode = response.data.secret;
-				this.image = response.data.image;
-			}
-		});
+		if (!this.userData.g2fa) {
+			axios.get('/trader/2fa_generate').then(response => {
+				if (_.get(response, 'data.success') === true) {
+					this.authCode = response.data.secret;
+					this.image = response.data.image;
+				}
+			});
+		}
 	},
 };
 </script>
