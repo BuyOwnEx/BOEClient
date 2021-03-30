@@ -64,7 +64,7 @@
 
 <script>
 	export default {
-		name: '2FA',
+		name: 'G2FA',
 
         data() {
             return {

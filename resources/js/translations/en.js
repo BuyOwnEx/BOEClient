@@ -2160,6 +2160,7 @@ export default {
 				line_three:
 					'After installing the application, use the codes specified therein to work with BuyOwnEx.',
 			},
+			for_disable: 'To disable two-factor authentication, enter the current code in the Google Authenticator App',
 			status: {
 				enabled: 'Enabled',
 				disabled: 'Disabled',

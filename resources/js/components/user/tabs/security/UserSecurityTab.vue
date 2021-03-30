@@ -16,7 +16,7 @@
 			</div>
 
 			<!--if 2fa enabled-->
-			<div v-if="userData.g2fa" class="user-security-tab__content">
+			<div v-if="g2faStatus" class="user-security-tab__content">
 				<div class="user-security-tab__qr-code">
 					{{ $t('user.security.for_disable') }}
 				</div>
@@ -38,12 +38,16 @@
 						</code>
 					</div>
 
-					<v-form ref="form" @submit.prevent="disable2FA">
+					<v-form @submit.prevent="disable2FA">
 						<v-text-field
-							v-model="authCode"
-							type="number"
+							v-model="totp"
 							:placeholder="$t('user.security.auth_code')"
-							@keydown="handleCodeInput"
+							:disabled="loading"
+							:rules="[rules.numbers, rules.counter]"
+							counter
+							maxlength="6"
+							dense
+							@input="handleCodeInputDisable"
 						/>
 						<v-btn
 							type="submit"
@@ -78,18 +82,20 @@
 					<div>{{ $t('user.security.secret_key') }}</div>
 					<div>
 						<code>
-							{{ authCode }}
+							{{ secret }}
 						</code>
 					</div>
 
-					<v-form ref="form" @submit.prevent="enable2FA">
+					<v-form @submit.prevent="enable2FA">
 						<v-text-field
 							v-model="totp"
-							type="number"
 							:placeholder="$t('user.security.auth_code')"
 							:disabled="loading"
+							:rules="[rules.numbers, rules.counter]"
+							counter
+							maxlength="6"
 							dense
-							@keydown="handleCodeInput"
+							@input="handleCodeInputEnable"
 						/>
 						<v-btn
 							type="submit"
@@ -98,6 +104,7 @@
 							color="success"
 							small
 							tile
+							:disabled="!valid"
 						>
 							{{ $t('user.security.enable') }}
 						</v-btn>
@@ -117,18 +124,21 @@ export default {
 	mixins: [loadingMixin],
 
 	props: {
-		user: {
-			type: Object,
+		g2fa: {
+			type: Boolean,
 			required: true,
 		},
 	},
 
 	data() {
 		return {
-			userData: this.user,
-			authCode: '',
-			image: '',
-			totp: null,
+			secret: null,
+			image: null,
+			totp: '',
+			rules: {
+				counter: value => value.length <= 6 || 'Max 6 numbers',
+				numbers: value => /^\d{0,6}$/i.test(value) || 'Unsupported characters. Must be only digits',
+			}
 		};
 	},
 
@@ -136,72 +146,84 @@ export default {
 		isXsBreakpoint() {
 			return this.$vuetify.breakpoint.xs;
 		},
+		g2faStatus() {
+			return this.g2fa;
+		}
 	},
 
 	methods: {
-		async enable2FA() {
+		enable2FA() {
 			try {
-				if (this.totp.trim() === '') return;
 				this.startLoading();
-
-				await axios.post('/trader/2fa_enable', {
-					secret: this.authCode,
+				let self = this;
+				axios.post('/trader/2fa_enable', {
+					secret: this.secret,
 					totp: this.totp,
+				}).then(response => {
+					if (_.get(response, 'data.success') === true) {
+						this.$store.commit('app/setUser2FA', true);
+						this.totp = '';
+						this.get2FAStatus();
+					}
+					else {
+						this.$store.commit('notifications/addNotification', { text: self.$t('error.occurred') });
+					}
 				});
-
-				this.userData.twoFA = true;
-				this.totp = '';
 			} catch (e) {
 				console.error(e);
 			} finally {
 				this.stopLoading();
 			}
 		},
-		async disable2FA() {
+		disable2FA() {
 			try {
-				if (this.totp.trim() === '') return;
 				this.startLoading();
-
-				await axios.post('/trader/2fa_disable', {
+				let self = this;
+				axios.post('/trader/2fa_disable', {
 					totp: this.totp,
+				}).then(response => {
+					if (_.get(response, 'data.success') === true) {
+						this.$store.commit('app/setUser2FA', false);
+						this.totp = '';
+						this.get2FAStatus();
+					}
+					else {
+						this.$store.commit('notifications/addNotification', { text: self.$t('error.occurred') });
+					}
 				});
-
-				this.userData.twoFA = false;
-				this.totp = '';
 			} catch (e) {
 				console.error(e);
 			} finally {
 				this.stopLoading();
 			}
 		},
-
-		handleCodeInput(event) {
-			const keyCode = event.keyCode ? event.keyCode : event.which;
-
-			console.log(event.target.value.length);
-
-			const isNumber =
-				(keyCode >= 48 && keyCode <= 57) || (keyCode >= 96 && keyCode <= 105);
-			const isFuncKey = keyCode === 8 || keyCode === 46 || keyCode === 13;
-			const isLengthMoreThan6 = event.target.value.length > 6;
-
-			if (isFuncKey) return;
-			if (!isNumber || isLengthMoreThan6) event.preventDefault();
-			if (event.target.value.length === 6) {
+		get2FAStatus() {
+			axios.get('/trader/2fa_generate').then(response => {
+				if (_.get(response, 'data.success') === true) {
+					if(!this.g2faStatus && _.get(response, 'data.secret') && _.get(response, 'data.image'))
+					{
+						this.secret = response.data.secret;
+						this.image = response.data.image;
+					}
+				}
+				else {
+					this.$store.commit('notifications/addNotification', { text: _.get(response, 'data.message') });
+				}
+			});
+		},
+		handleCodeInputEnable(data) {
+			if (data.length === 6) {
 				this.enable2FA();
 			}
 		},
+		handleCodeInputDisable(data) {
+			if (data.length === 6) {
+				this.disable2FA();
+			}
+		},
 	},
-
 	created() {
-		if (!this.userData.g2fa) {
-			axios.get('/trader/2fa_generate').then(response => {
-				if (_.get(response, 'data.success') === true) {
-					this.authCode = response.data.secret;
-					this.image = response.data.image;
-				}
-			});
-		}
+		this.get2FAStatus();
 	},
 };
 </script>
