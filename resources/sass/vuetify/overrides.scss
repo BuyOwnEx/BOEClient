@@ -314,3 +314,13 @@ td {
 .v-counter {
 	font-size: 9px !important;
 }
+
+input[type='number'] {
+	-moz-appearance: textfield;
+	-moz-default-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
