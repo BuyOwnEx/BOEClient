@@ -1,5 +1,9 @@
 <template>
-	<transition-group class="notification" name="notification" tag="ul">
+	<transition-group
+		class="notification"
+		name="scroll-y-reverse-transition"
+		tag="ul"
+	>
 		<li
 			v-for="item in notificationsForDisplay"
 			:key="item.id"
@@ -131,51 +135,7 @@ export default {
 	}
 }
 
-.slide-from-right-enter-active {
-	transition: all 0.3s ease;
-}
-
-.slide-from-right-leave-active {
-	transition: all 0.3s ease;
-}
-
-.slide-from-right-enter,
-.slide-from-right-leave-to {
-	transform: translateX(100%);
-	opacity: 0;
-}
-
-.notification-enter-active,
-.notification-leave-active {
-}
-
-.notification-enter {
-	opacity: 0;
-	transform: translateY(30px);
-}
-
-.notification-leave-to {
-	opacity: 0;
-	max-height: 0;
-	transform: translateY(-30px);
-}
-
-.notification-move {
-}
-
-.slide-up-enter-active {
-	transition: all 0.3s ease;
-}
-
-.slide-up-leave-active {
-	transition: all 0.3s ease;
-}
-
-.slide-up-enter,
-.slide-up-leave-to {
-	overflow: hidden;
-	padding-top: 0;
-	transform: translateY(-10px);
-	opacity: 0;
+.scroll-y-reverse-transition-move {
+	transition: transform 0.2s;
 }
 </style>
