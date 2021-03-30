@@ -30,15 +30,16 @@
 						readonly
 					/>
 					<v-text-field
-							class="mb-2"
-							v-model="user.rate_limit"
-							label="Rate API limit"
-							hide-details
-							readonly
+						class="mb-2"
+						v-model="user.rate_limit"
+						label="Rate API limit"
+						hide-details
+						readonly
 					/>
 
 					<div class="d-flex flex-column">
 						<v-checkbox
+							class='mt-0'
 							:ripple="false"
 							:input-value="true"
 							readonly
@@ -46,16 +47,17 @@
 							dense
 							label="Email Verified"
 						/>
-
 						<v-checkbox
-								:ripple="false"
-								v-model="user.g2fa"
-								label="2FA Protected"
-								readonly
-								hide-details
-								dense
+							class="mt-0"
+							v-model="user.g2fa"
+							:ripple="false"
+							label="2FA Protected"
+							readonly
+							hide-details
+							dense
 						/>
-						<div>
+
+						<div class="mt-2">
 							<v-btn>
 								<v-icon left small>mdi-email</v-icon>
 								Change Email Request
