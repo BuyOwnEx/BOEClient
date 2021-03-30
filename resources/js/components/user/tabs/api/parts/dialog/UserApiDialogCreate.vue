@@ -19,6 +19,7 @@
 			</v-card-title>
 
 			<v-form
+				v-show="!token"
 				v-model="valid"
 				ref="form"
 				class="common-dialog__content"
@@ -77,16 +78,49 @@
 					<v-spacer />
 				</v-card-actions>
 			</v-form>
+
+			<div v-show="token">
+				<v-card-text>
+					<div>
+						Скопируйте данные АПИ ключи, поскольку при закрытии диалогового окна
+						API Key будет отображен как SHA 256 хэш, а Secret Key будет скрыт
+					</div>
+					<div class="pt-2">
+						<span class="user-api-dialog-create__token-name">API Key: </span>
+						<div class="user-api-dialog-create__token">
+							<CopyLabel :text="token" />
+						</div>
+					</div>
+					<div class="pt-1">
+						<span class="user-api-dialog-create__token-name">Secret Key: </span>
+						<div class="user-api-dialog-create__token">
+							<CopyLabel :text="secretToken" />
+						</div>
+					</div>
+				</v-card-text>
+
+				<v-card-actions class="common-dialog__actions">
+					<v-spacer />
+					<v-btn small tile text plain @click="close">
+						Закрыть
+					</v-btn>
+					<v-spacer />
+				</v-card-actions>
+			</div>
 		</v-card>
 	</v-dialog>
 </template>
 
 <script>
+import CopyLabel from '../../../../../common/CopyLabel';
+
 import formValidationRules from '../../../../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../../../../mixins/common/loadingMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
+
+	components: { CopyLabel },
 
 	mixins: [formValidationRules, loadingMixin],
 
@@ -94,6 +128,9 @@ export default {
 		return {
 			dialog: false,
 			valid: false,
+
+			token: null,
+			secretToken: null,
 
 			trading: false,
 			withdraw: false,
@@ -112,6 +149,17 @@ export default {
 			if (this.withdraw) result.push('withdraw');
 
 			return result;
+		},
+	},
+
+	watch: {
+		dialog(value) {
+			if (value === true) {
+				this.form.name = '';
+				this.trading = false;
+				this.withdraw = false;
+				if (this.$refs.form) this.$refs.form.resetValidation();
+			}
 		},
 	},
 
@@ -135,8 +183,10 @@ export default {
 					formData
 				);
 
+				this.token = data.data.plainTextToken;
+				this.secretToken = data.data.plainTextSecretToken;
+
 				this.$emit('create', data.data.accessToken);
-				this.close();
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -146,7 +196,10 @@ export default {
 
 		close() {
 			this.dialog = false;
-			this.$refs.form.reset();
+			setTimeout(() => {
+				this.token = null;
+				this.secretToken = null;
+			}, 200);
 		},
 	},
 };
@@ -154,6 +207,11 @@ export default {
 
 <style lang="sass" scoped>
 .user-api-dialog-create
+	&__token
+		word-break: break-all
+	&__token-name
+		font-weight: 600
+
 	::v-deep.v-input--checkbox
 		margin-top: 0
 </style>
