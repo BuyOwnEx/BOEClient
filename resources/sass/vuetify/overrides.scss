@@ -78,22 +78,6 @@
 	overflow-y: auto;
 	min-height: 0;
 	padding: 8px 0;
-	background: linear-gradient(white 30%, rgba(255, 255, 255, 0)),
-		linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
-		radial-gradient(
-			farthest-side at 50% 0,
-			rgba(0, 0, 0, 0.06),
-			rgba(0, 0, 0, 0)
-		),
-		radial-gradient(
-				farthest-side at 50% 100%,
-				rgba(0, 0, 0, 0.06),
-				rgba(0, 0, 0, 0)
-			)
-			0 100%;
-	background-repeat: no-repeat;
-	background-size: 100% 40px, 100% 40px, 100% 15px, 100% 15px;
-	background-attachment: local, local, scroll, scroll;
 }
 
 .theme--dark .v-navigation-drawer__content {
@@ -315,6 +299,7 @@ td {
 	font-size: 9px !important;
 }
 
+// input number arrows
 input[type='number'] {
 	-moz-appearance: textfield;
 	-moz-default-appearance: textfield;
