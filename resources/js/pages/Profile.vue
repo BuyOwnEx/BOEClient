@@ -26,7 +26,7 @@
 			</v-tab-item>
 
 			<v-tab-item :key="4">
-				<UserSecurityTab :user="trader" />
+				<UserSecurityTab :g2fa="trader.g2fa" />
 			</v-tab-item>
 
 			<v-tab-item :key="5">

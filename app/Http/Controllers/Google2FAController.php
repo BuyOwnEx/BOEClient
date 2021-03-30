@@ -60,22 +60,31 @@ class Google2FAController extends Controller
 
     public function generateTwoFactor(Request $request)
     {
-        if(Auth::user() && !Auth::user()->g2fa)
+        if(Auth::user())
         {
-            $secret = $this->generateSecret();
-            Auth::user()->g2fa_secret = Crypt::encrypt($secret);
-            Auth::user()->save();
-
-            $google2fa = (new \PragmaRX\Google2FAQRCode\Google2FA());
-
-            $imageDataUri = $google2fa->getQRCodeInline(
-                $request->getHttpHost(),
-                Auth::user()->email,
-                $secret,
-                200
-            );
             $request->session()->put('2fa:user:id', Auth::id());
-            return ['success' => true, 'secret' => $secret, 'image' => $imageDataUri];
+            if(!Auth::user()->g2fa)
+            {
+                $secret = $this->generateSecret();
+                Auth::user()->g2fa_secret = Crypt::encrypt($secret);
+                Auth::user()->save();
+
+                $google2fa = (new \PragmaRX\Google2FAQRCode\Google2FA());
+
+                $imageDataUri = $google2fa->getQRCodeInline(
+                    $request->getHttpHost(),
+                    Auth::user()->email,
+                    $secret,
+                    200
+                );
+                return ['success' => true, 'secret' => $secret, 'image' => $imageDataUri];
+            }
+            else {
+                return ['success' => true];
+            }
+        }
+        else {
+            return ['success' => false, 'message' => trans('auth.unauthed')];
         }
     }
 

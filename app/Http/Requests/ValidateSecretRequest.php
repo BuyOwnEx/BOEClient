@@ -37,7 +37,13 @@ class ValidateSecretRequest extends FormRequest
     public function rules()
     {
         return [
-            'totp' => ['bail','required','digits:6',new ValidGoogleToken(User::findOrFail(session('2fa:user:id'))),new UsedGoogleToken(User::findOrFail(session('2fa:user:id')))],
+            'totp' => [
+                'bail',
+                'required',
+                'digits:6',
+                new ValidGoogleToken(User::findOrFail(session('2fa:user:id'))),
+                new UsedGoogleToken(User::findOrFail(session('2fa:user:id')))
+            ],
         ];
     }
 }
