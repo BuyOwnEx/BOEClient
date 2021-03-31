@@ -1,7 +1,8 @@
 <template>
-	<v-card class="deals flex-grow-1">
+	<v-card class="deals d-flex flex-grow-1">
 		<v-data-table
-			class="pa-1 pa-sm-2"
+			class="pa-1 pa-sm-2 d-flex flex-column"
+			:style="`width:100%`"
 			:calculate-widths="true"
 			:headers="headers"
 			:items="items"
@@ -12,7 +13,7 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			:style="{ 'min-height': calculateTableHeight }"
+
 			caption="Deals"
 			dense
 		>
@@ -268,4 +269,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="sass">
+	.deals
+
+	::v-deep .v-data-table__wrapper
+		flex-grow: 1 !important
+
+</style>
