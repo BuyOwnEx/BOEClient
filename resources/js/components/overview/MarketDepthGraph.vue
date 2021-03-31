@@ -236,9 +236,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="sass">
-@media screen and (min-width: 960px)
-	.market-depth-graph__graph
-		max-width: calc(100vw - 80px) !important
-</style>

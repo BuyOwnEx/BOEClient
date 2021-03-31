@@ -194,9 +194,16 @@ td {
 .ref-payments,
 .orders,
 .deals {
+	display: flex;
+	flex-grow: 1;
+	.v-data-table {
+		display: flex;
+		flex-flow: column;
+	}
 	.v-data-table__wrapper {
 		padding: 0 8px !important;
 		min-height: inherit !important;
+		flex-grow: 1 !important;
 	}
 	.v-data-footer {
 		margin: 0 12px !important;

@@ -1,7 +1,8 @@
 <template>
-	<v-card class="transfers flex-grow-1">
+	<v-card class="transfers">
 		<v-data-table
 			class="pa-1 pa-sm-2"
+			:style="`width:100%`"
 			:calculate-widths="true"
 			:headers="headers"
 			:items="items"
@@ -12,7 +13,6 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			:style="{ 'min-height': calculateTableHeight }"
 			caption="Internal transfers"
 			dense
 		>
@@ -118,27 +118,6 @@ export default {
 				});
 			},
 			deep: true,
-		},
-	},
-
-	computed: {
-		calculateTableHeight() {
-			const width = this.$vuetify.breakpoint.width;
-			const isMediumBreakpoint = width < 1264 && width > 960;
-			const diffBetweenLargeAndMediumFooter = 11;
-
-			const fullPageWithOpenFilters = 'calc(100vh - 475px)';
-			const fullPageWithoutOpenFilters = 'calc(100vh - 247px)';
-			const fullMediumPageWithOpenFilters = `calc(100vh - 475px - ${diffBetweenLargeAndMediumFooter}px)`;
-			const fullMediumPageWithoutOpenFilters = `calc(100vh - 247px - ${diffBetweenLargeAndMediumFooter}px)`;
-
-			if (isMediumBreakpoint) {
-				if (this.isFiltersShow) return fullMediumPageWithOpenFilters;
-				else return fullMediumPageWithoutOpenFilters;
-			} else {
-				if (this.isFiltersShow) return fullPageWithOpenFilters;
-				else return fullPageWithoutOpenFilters;
-			}
 		},
 	},
 
@@ -257,5 +236,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped></style>

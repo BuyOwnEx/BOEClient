@@ -239,32 +239,14 @@ export default {
 </script>
 
 <style scoped lang="sass">
-//.trading-forms-confirm-dialog
-//	&__header
-//		font-weight: 600 !important
-//		padding: 8px 24px 8px !important
-//		&--buy
-//			background: var(--v-success-base)
-//		&--sell
-//			background: var(--v-error-base)
-//	&__content
-//		padding-top: 8px !important
-//
-//	&__add-params-list
-//		padding-top: 8px
-//		padding-left: 16px !important
-//	&__small-text
-//		font-size: 11px
-//		opacity: 0.7
-//
-//	&__important
-//		font-weight: 800
-//		font-size: 14px
-//.theme--dark
-//	.trading-forms-confirm-dialog
-//		&__header
-//			&--buy
-//				background: var(--v-success-darken1)
-//			&--sell
-//				background: var(--v-error-darken1)
+.trading-forms-confirm-dialog
+	&__add-params-list
+		padding-top: 8px
+		padding-left: 16px !important
+	&__small-text
+		font-size: 11px
+		opacity: 0.7
+	&__important
+		font-weight: 800
+		font-size: 14px
 </style>
