@@ -17,7 +17,7 @@
 
 			<!--if 2fa enabled-->
 			<div v-if="g2faStatus" class="user-security-tab__content">
-				<div class="user-security-tab__qr-code">
+				<div class="user-security-tab__qr-code-wrapper">
 					{{ $t('user.security.for_disable') }}
 				</div>
 
@@ -65,8 +65,8 @@
 
 			<!--if 2fa disabled-->
 			<div v-else class="user-security-tab__content">
-				<div class="user-security-tab__qr-code">
-					<div v-html="image" />
+				<div class="user-security-tab__qr-code-wrapper">
+					<div class="user-security-tab__qr-code" v-html="image" />
 				</div>
 
 				<div class="user-security-tab__form">
@@ -137,8 +137,10 @@ export default {
 			totp: '',
 			rules: {
 				counter: value => value.length <= 6 || 'Max 6 numbers',
-				numbers: value => /^\d{0,6}$/i.test(value) || 'Unsupported characters. Must be only digits',
-			}
+				numbers: value =>
+					/^\d{0,6}$/i.test(value) ||
+					'Unsupported characters. Must be only digits',
+			},
 		};
 	},
 
@@ -148,7 +150,7 @@ export default {
 		},
 		g2faStatus() {
 			return this.g2fa;
-		}
+		},
 	},
 
 	methods: {
@@ -156,19 +158,22 @@ export default {
 			try {
 				this.startLoading();
 				let self = this;
-				axios.post('/trader/2fa_enable', {
-					secret: this.secret,
-					totp: this.totp,
-				}).then(response => {
-					if (_.get(response, 'data.success') === true) {
-						this.$store.commit('app/setUser2FA', true);
-						this.totp = '';
-						this.get2FAStatus();
-					}
-					else {
-						this.$store.commit('notifications/addNotification', { text: self.$t('error.occurred') });
-					}
-				});
+				axios
+					.post('/trader/2fa_enable', {
+						secret: this.secret,
+						totp: this.totp,
+					})
+					.then(response => {
+						if (_.get(response, 'data.success') === true) {
+							this.$store.commit('app/setUser2FA', true);
+							this.totp = '';
+							this.get2FAStatus();
+						} else {
+							this.$store.commit('notifications/addNotification', {
+								text: self.$t('error.occurred'),
+							});
+						}
+					});
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -179,18 +184,21 @@ export default {
 			try {
 				this.startLoading();
 				let self = this;
-				axios.post('/trader/2fa_disable', {
-					totp: this.totp,
-				}).then(response => {
-					if (_.get(response, 'data.success') === true) {
-						this.$store.commit('app/setUser2FA', false);
-						this.totp = '';
-						this.get2FAStatus();
-					}
-					else {
-						this.$store.commit('notifications/addNotification', { text: self.$t('error.occurred') });
-					}
-				});
+				axios
+					.post('/trader/2fa_disable', {
+						totp: this.totp,
+					})
+					.then(response => {
+						if (_.get(response, 'data.success') === true) {
+							this.$store.commit('app/setUser2FA', false);
+							this.totp = '';
+							this.get2FAStatus();
+						} else {
+							this.$store.commit('notifications/addNotification', {
+								text: self.$t('error.occurred'),
+							});
+						}
+					});
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -200,14 +208,18 @@ export default {
 		get2FAStatus() {
 			axios.get('/trader/2fa_generate').then(response => {
 				if (_.get(response, 'data.success') === true) {
-					if(!this.g2faStatus && _.get(response, 'data.secret') && _.get(response, 'data.image'))
-					{
+					if (
+						!this.g2faStatus &&
+						_.get(response, 'data.secret') &&
+						_.get(response, 'data.image')
+					) {
 						this.secret = response.data.secret;
 						this.image = response.data.image;
 					}
-				}
-				else {
-					this.$store.commit('notifications/addNotification', { text: _.get(response, 'data.message') });
+				} else {
+					this.$store.commit('notifications/addNotification', {
+						text: _.get(response, 'data.message'),
+					});
 				}
 			});
 		},
@@ -235,8 +247,9 @@ export default {
 		grid-template-columns: 250px 1fr
 		grid-template-areas: 'code form'
 		margin-top: 32px
-	&__qr-code
+	&__qr-code-wrapper
 		grid-area: code
+	&__qr-code
 		height: 200px
 	&__form
 		grid-area: form
