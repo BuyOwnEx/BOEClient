@@ -17,7 +17,9 @@
 				<div class="title font-weight-bold">Уведомления</div>
 			</v-toolbar>
 
-			<component :is="notificationsTypeComponentToShow" :key="hash" />
+			<keep-alive>
+				<component :is="notificationsTypeComponentToShow" :key="hash" />
+			</keep-alive>
 		</div>
 	</div>
 </template>
