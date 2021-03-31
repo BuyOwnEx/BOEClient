@@ -31,7 +31,7 @@ export const routes = [
 	{
 		path: '/blank',
 		name: 'blank',
-		component: () => import(/* webpackChunkName: "blank" */ '@/pages/BlankPage.vue'),
+		component: () => import(/* webpackChunkName: "blank" */ '@/pages/utility/BlankPage.vue'),
 	},
 	{
 		path: '*',

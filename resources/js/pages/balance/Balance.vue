@@ -33,13 +33,13 @@
 </template>
 
 <script>
-import CommonPageTitle from '../components/common/CommonPageTitle';
+import CommonPageTitle from '../../components/common/CommonPageTitle';
 
-import OwnFiatBalanceList from '../components/balance/OwnFiatBalanceList';
-import OwnCryptoBalanceList from '../components/balance/OwnCryptoBalanceList';
-import OwnWithdrawalList from '../components/balance/OwnWithdrawalList';
+import OwnFiatBalanceList from '../../components/balance/OwnFiatBalanceList';
+import OwnCryptoBalanceList from '../../components/balance/OwnCryptoBalanceList';
+import OwnWithdrawalList from '../../components/balance/OwnWithdrawalList';
 
-import CentrifugeBalanceMixin from '../mixins/centrifugo-balance';
+import CentrifugeBalanceMixin from '../../mixins/centrifugo-balance';
 
 export default {
 	name: 'Balance',

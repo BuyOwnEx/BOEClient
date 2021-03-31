@@ -23,14 +23,14 @@ Vue.prototype.$eventHub = new Vue();
 Vue.prototype.$user = window.user;
 Vue.prototype.$component = window.component;
 
-Vue.component('balance', require('./pages/Balance.vue').default);
+Vue.component('balance', require('./pages/balance/Balance.vue').default);
 Vue.component('deals', require('./pages/Deals.vue').default);
 Vue.component('fiat-transactions', require('./pages/FiatTransactions.vue').default);
-Vue.component('notifications', require('./pages/Notifications.vue').default);
+Vue.component('notifications', require('./pages/notifications/Notifications.vue').default);
 Vue.component('orders', require('./pages/Orders.vue').default);
 Vue.component('ref-payments', require('./pages/RefPayments.vue').default);
-Vue.component('profile', require('./pages/Profile.vue').default);
-Vue.component('support', require('./pages/Support.vue').default);
+Vue.component('profile', require('./pages/user/Profile.vue').default);
+Vue.component('support', require('./pages/support/Support.vue').default);
 Vue.component('transactions', require('./pages/Transactions.vue').default);
 Vue.component('transfers', require('./pages/Transfers.vue').default);
 Vue.component('policy', require('./pages/docs/Policy.vue').default);
