@@ -60,9 +60,10 @@ export default {
 		},
 	},
 
-	async mounted() {
-		const { data } = await axios.get('/trader/ext/api_tokens');
-		this.api = data.data;
+	created() {
+		axios.get('/trader/ext/api_tokens').then(res => {
+			this.api = res.data.data;
+		});
 	},
 };
 </script>
