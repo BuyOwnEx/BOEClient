@@ -271,7 +271,9 @@ export default {
 		margin-bottom: 5px
 		line-height: 18px
 	::v-deep.v-input
-		padding-top: 12px
+		padding-top: 0
+		margin-top: 0
+		margin-bottom: 12px
 		&__slot
 			min-height: 30px !important
 	.v-form
