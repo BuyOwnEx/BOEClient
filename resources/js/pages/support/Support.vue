@@ -10,7 +10,7 @@
 		>
 			<SupportSidebarMenu
 				:processing-quantity="processingQuantity"
-				@update="updateHash"
+				@update="updateType"
 			/>
 		</v-navigation-drawer>
 
@@ -21,7 +21,7 @@
 			</v-toolbar>
 
 			<keep-alive>
-				<component :is="supportTypeComponentToShow" :key="hash" />
+				<component :is="supportTypeComponentToShow" :key="type" />
 			</keep-alive>
 		</div>
 	</div>
@@ -40,13 +40,13 @@ export default {
 	data() {
 		return {
 			drawer: false,
-			hash: '',
+			type: 'processing',
 		};
 	},
 
 	computed: {
 		...mapGetters({
-			processingQuantity: 'getProcessingTicketsQuantity',
+			processingQuantity: 'support/getProcessingTicketsQuantity',
 		}),
 
 		supportTypeComponentToShow() {},
@@ -55,15 +55,21 @@ export default {
 	methods: {
 		...mapActions({
 			fetchTicketsStore: 'support/fetchTickets',
+			fetchPriorityListStore: 'support/fetchPriorityList',
+			fetchStatusList: 'support/fetchStatusList',
+			fetchTagList: 'support/fetchTagList',
 		}),
 
-		updateHash(hash) {
-			this.hash = hash;
+		updateType(type) {
+			this.type = type;
 		},
 	},
 
 	created() {
 		// this.fetchTicketsStore();
+		// this.fetchPriorityListStore();
+		// this.fetchStatusList();
+		// this.fetchTagList();
 	},
 };
 </script>

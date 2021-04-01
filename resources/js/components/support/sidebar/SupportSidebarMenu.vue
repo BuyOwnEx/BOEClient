@@ -1,44 +1,39 @@
 <template>
-	<div class="pa-2">
-		<v-btn
-			block
-			large
-			color="primary"
-			class="mb-3"
-			@click="$emit('open-compose')"
-		>
-			Добавить тикет
-		</v-btn>
+	<div class="pa-1 pt-0">
+		<div class="mt-2 mb-3">
+			<v-btn block large color="primary" @click="$emit('open-compose')">
+				Добавить тикет
+			</v-btn>
+		</div>
 
-		<v-list class="mt-2 pa-0" nav>
-			<v-list-item active-class="primary--text">
+		<v-list class="mt-2 pa-0" dense nav>
+			<v-list-item
+				v-for="item in supportTypes"
+				:key="item.type"
+				:input-value="selectedType === item.type"
+				:ripple="false"
+				active-class="primary--text"
+				@click="navigate(item.type)"
+			>
 				<v-list-item-icon>
-					<v-icon small>mdi-checkbox-marked-circle-outline</v-icon>
+					<v-icon :color="item.color" small>{{ item.icon }}</v-icon>
 				</v-list-item-icon>
 
 				<v-list-item-content>
-					<v-list-item-title>Тикеты</v-list-item-title>
+					<v-list-item-title>{{ item.name }}</v-list-item-title>
 				</v-list-item-content>
 
-				<v-list-item-action v-if="processingQuantity > 0">
+				<v-list-item-action
+					v-if="isProcessingTypeAndQuantityMoreZero(item.type)"
+				>
 					<v-badge
-						inline
 						color="primary"
 						class="font-weight-bold"
 						:content="processingQuantity"
+						inline
 					>
 					</v-badge>
 				</v-list-item-action>
-			</v-list-item>
-
-			<v-list-item active-class="primary--text">
-				<v-list-item-icon>
-					<v-icon small>mdi-check</v-icon>
-				</v-list-item-icon>
-
-				<v-list-item-content>
-					<v-list-item-title>{{ $t('todo.completed') }}</v-list-item-title>
-				</v-list-item-content>
 			</v-list-item>
 		</v-list>
 
@@ -63,6 +58,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'SupportSidebarMenu',
 
@@ -75,27 +72,22 @@ export default {
 
 	data() {
 		return {
-			supportTypes: [
-				{
-					name: 'Системные',
-					color: 'primary',
-					icon: 'mdi-label-outline',
-					hash: 'system',
-				},
-				{
-					name: 'Новости',
-					color: 'green',
-					icon: 'mdi-label-outline',
-					hash: 'news',
-				},
-			],
+			selectedType: 'processing',
 		};
 	},
 
+	computed: {
+		...mapState('support', ['supportTypes']),
+	},
+
 	methods: {
-		navigate(hash) {
-			window.location.hash = hash;
-			this.$emit('update', hash);
+		navigate(type) {
+			window.location.hash = type;
+			this.selectedType = type;
+			this.$emit('update', type);
+		},
+		isProcessingTypeAndQuantityMoreZero(type) {
+			return type === 'processing' && this.processingQuantity > 0;
 		},
 	},
 };
