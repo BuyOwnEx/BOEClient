@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import NotificationCommonModal from './common/NotificationCommonModal';
 
 export default {
@@ -178,8 +179,17 @@ export default {
 				}
 			});
 		},
+		notificationProp(val) {
+			this.notifications = val;
+		},
 	},
 	methods: {
+		...mapActions({
+			readNotificationStore: 'notifications/readNotification',
+			readSelectedStore: 'notifications/readSelected',
+			removeSelectedStore: 'notifications/removeSelected',
+		}),
+
 		onMenuSelection(key) {
 			switch (key) {
 				case 'all':
@@ -199,41 +209,23 @@ export default {
 			} else {
 				this.selected = this.notifications.map(i => i.id);
 			}
-
 			this.selectAlmostAll = false;
 			this.selectAll = !this.selectAll;
 		},
 
 		readNotification(notification) {
+			console.log(notification)
 			this.showDetails = true;
 			this.selectedNotificationDetails = notification;
-
-			const itemIndex = this.notifications.findIndex(
-				item => item.id === notification.id
-			);
-			this.notifications[itemIndex].isChecked = true;
-
-			// запрос на бек
+			this.readNotificationStore(notification.id);
 		},
 		readSelected() {
-			this.selected.forEach(id => {
-				const itemIndex = this.notifications.findIndex(item => item.id === id);
-				this.notifications[itemIndex].isChecked = true;
-			});
-
-			// запрос на бек
-
+			this.readSelectedStore(this.selected);
 			this.selected = [];
 		},
 		removeSelected() {
 			this.closeDetailsIfDeletingItemOpen();
-
-			this.notifications = this.notifications.filter(item => {
-				return this.selected.indexOf(item.id) === -1;
-			});
-
-			// запрос на бек
-
+			this.removeSelectedStore(this.selected);
 			this.selected = [];
 		},
 
