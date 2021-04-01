@@ -49,6 +49,13 @@ Route::group(['prefix' => 'trader'], function () {
     Route::post('2fa_disable', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@disableTwoFactorReady']);
     Route::get('2fa_generate', 'Google2FAController@generateTwoFactor');
 
+    Route::get('tickets', 'TicketController@getAllTickets');
+    Route::get('ticket/comments', 'TicketController@getAllTicketComments');
+    Route::get('ticket/priorities', 'TicketController@getPriorities');
+    Route::get('ticket/statuses', 'TicketController@getStatuses');
+    Route::get('ticket/tags', 'TicketController@getTags');
+    Route::post('ticket/create', 'TicketController@createTicket');
+
     Route::group(['prefix' => 'ext'], function () {
         Route::get('token', 'JWTController@getOwnToken')->name('token');
         Route::post('private', 'JWTController@getPrivateToken')->name('private');
