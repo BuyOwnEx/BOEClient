@@ -169,7 +169,7 @@ export default {
 							this.totp = '';
 							this.get2FAStatus();
 						} else {
-							this.$store.commit('notifications/addNotification', {
+							this.$store.commit('snackbar/addNotification', {
 								text: self.$t('error.occurred'),
 							});
 						}
@@ -194,7 +194,7 @@ export default {
 							this.totp = '';
 							this.get2FAStatus();
 						} else {
-							this.$store.commit('notifications/addNotification', {
+							this.$store.commit('snackbar/addNotification', {
 								text: self.$t('error.occurred'),
 							});
 						}
@@ -217,7 +217,7 @@ export default {
 						this.image = response.data.image;
 					}
 				} else {
-					this.$store.commit('notifications/addNotification', {
+					this.$store.commit('snackbar/addNotification', {
 						text: _.get(response, 'data.message'),
 					});
 				}

@@ -14,5 +14,5 @@ Vue.prototype.$clipboard = function(text, toastText = 'Copied to clipboard!') {
 	document.execCommand('copy');
 	document.body.removeChild(el);
 
-	this.$store.commit('notifications/addNotification', { text: toastText });
+	this.$store.commit('snackbar/addNotification', { text: toastText });
 };

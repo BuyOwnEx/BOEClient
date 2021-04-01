@@ -219,7 +219,7 @@ export default {
 					break;
 				case 'order_was_created':
 					this.$store.commit('user/addOrder', data.data.order);
-					this.$store.commit('notifications/addTradingNotification', {
+					this.$store.commit('snackbar/addTradingNotification', {
 						id: data.data.order.id + data.data.order.status,
 						status: data.data.order.status,
 						side: data.data.order.side,
@@ -238,8 +238,8 @@ export default {
 				case 'match_order_was_updated':
 					this.$store.commit('user/updateMatchOrder', data.data.order);
 					/*let id = tmp.id + tmp.status + 'order';
-					this.$store.commit('notifications/dropNotificationIfExists', id);
-					this.$store.commit('notifications/addTradingNotification', {
+					this.$store.commit('snackbar/dropNotificationIfExists', id);
+					this.$store.commit('snackbar/addTradingNotification', {
 						id: tmp.id + tmp.status,
 						status: tmp.status,
 						side: tmp.side,
@@ -253,7 +253,7 @@ export default {
 					break;
 				case 'order_was_deleted':
 					this.$store.commit('user/deleteOrder', data.data.order);
-					this.$store.commit('notifications/addTradingNotification', {
+					this.$store.commit('snackbar/addTradingNotification', {
 						id: data.data.order.id + data.data.order.status,
 						status: data.data.order.status,
 						side: data.data.order.side,

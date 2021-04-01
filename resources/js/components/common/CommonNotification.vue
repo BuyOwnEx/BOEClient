@@ -29,7 +29,7 @@ export default {
 
 	computed: {
 		notifications() {
-			return this.$store.state.notifications.notifications;
+			return this.$store.state.snackbar.notifications;
 		},
 		notificationsForDisplay() {
 			return this.notifications.slice(0, this.displayLimit);
@@ -51,7 +51,7 @@ export default {
 				this.notificationIdInRemoveQueue = id;
 				setTimeout(() => {
 					this.$store.commit(
-						'notifications/setNotifications',
+						'snackbar/setNotifications',
 						_.tail(this.notifications)
 					);
 				}, _.get(this.notifications[0], 'timeout', this.defaultDisplayInterval));
@@ -64,7 +64,7 @@ export default {
 				this.notificationsHandler = null;
 			}
 
-			this.$store.commit('notifications/dropNotificationIfExists', id);
+			this.$store.commit('snackbar/dropNotificationIfExists', id);
 			if (firstNotificationRemoved) {
 				this.$nextTick(() => {
 					this.initHandler();

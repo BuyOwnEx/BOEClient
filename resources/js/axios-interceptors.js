@@ -38,7 +38,7 @@ window.axios.interceptors.response.use(function (response) {
                 }
             }
 
-            store.commit('notifications/addNotification', notification)
+            store.commit('snackbar/addNotification', notification)
         }
     } catch (e) {
         // do nothing
@@ -56,7 +56,7 @@ window.axios.interceptors.response.use(function (response) {
                     text: error.response.data.message,
                     timeout,
                 };
-                store.commit('notifications/addNotification', notification);
+                store.commit('snackbar/addNotification', notification);
             }
         } else if (error.response.status === 422) {
             let errors = _.get(error, 'response.data');
@@ -68,7 +68,7 @@ window.axios.interceptors.response.use(function (response) {
                             text: message,
                             timeout
                         };
-                        store.commit('notifications/addNotification', notification);
+                        store.commit('snackbar/addNotification', notification);
                     });
                 });
             }
@@ -88,7 +88,7 @@ window.axios.interceptors.response.use(function (response) {
                         timeout,
                     }
                 }
-                store.commit('notifications/addNotification', notification);
+                store.commit('snackbar/addNotification', notification);
             }
         }
     } catch (e) {
