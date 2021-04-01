@@ -1,10 +1,12 @@
 <template>
-	<v-list class="pa-0" dense nav>
-		<div class="overline pa-1">Типы уведомлений</div>
+	<v-list class="pa-1" dense nav>
+		<div class="overline pa-1 pt-0 pb-2">Типы уведомлений</div>
 
 		<v-list-item
 			v-for="item in notificationTypes"
 			:key="item.type"
+			:input-value="selectedType === item.type"
+			:ripple="false"
 			active-class="primary--text"
 			@click="navigate(item.type)"
 		>
@@ -35,6 +37,12 @@ import { mapState, mapGetters } from 'vuex';
 export default {
 	name: 'NotificationsSidebarMenu',
 
+	data() {
+		return {
+			selectedType: 'system',
+		};
+	},
+
 	computed: {
 		...mapState('notifications', ['notificationTypes']),
 		...mapGetters({
@@ -46,6 +54,7 @@ export default {
 	methods: {
 		navigate(type) {
 			window.location.hash = type;
+			this.selectedType = type;
 			this.$emit('update', type);
 		},
 		getTypeQuantity(type) {

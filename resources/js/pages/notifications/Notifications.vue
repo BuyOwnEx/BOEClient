@@ -8,7 +8,7 @@
 			width="240"
 			floating
 		>
-			<NotificationsSidebarMenu @update="updateHash" />
+			<NotificationsSidebarMenu @update="updateType" />
 		</v-navigation-drawer>
 
 		<div class="notifications__content-wrapper d-flex flex-grow-1 flex-column">
@@ -18,7 +18,7 @@
 			</v-toolbar>
 
 			<keep-alive>
-				<component :is="notificationsTypeComponentToShow" :key="hash" />
+				<component :is="notificationsTypeComponentToShow" :key="type" />
 			</keep-alive>
 		</div>
 	</div>
@@ -41,20 +41,20 @@ export default {
 	data() {
 		return {
 			drawer: false,
-			hash: 'system',
+			type: 'system',
 		};
 	},
 
 	computed: {
 		notificationsTypeComponentToShow() {
-			if (this.hash === 'news') return 'NotificationsTypeNews';
-			else if (this.hash === 'system') return 'NotificationsTypeSystem';
+			if (this.type === 'news') return 'NotificationsTypeNews';
+			else if (this.type === 'system') return 'NotificationsTypeSystem';
 		},
 	},
 
 	methods: {
-		updateHash(hash) {
-			this.hash = hash;
+		updateType(type) {
+			this.type = type;
 		},
 	},
 };
