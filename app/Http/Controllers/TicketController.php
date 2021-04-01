@@ -29,7 +29,8 @@ class TicketController extends Controller
     public function getAllTickets(Request $request)
     {
         try {
-            $tickets = Zendesk::users(Auth::id())->tickets()->requested();
+            //$tickets = Zendesk::users(Auth::id())->tickets()->requested();
+            $tickets = Zendesk::search()->find('type:ticket requester:'.Auth::id());
             return ['success' => true, 'tickets' => $tickets];
         }
         catch (\Exception $e)
