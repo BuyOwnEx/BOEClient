@@ -1,6 +1,9 @@
 <template>
 	<div class="d-flex flex-grow-1">
-		<NotificationsList :notifications-prop="newsNotifications" />
+		<NotificationsList
+			:key="newsNotifications.length"
+			:notifications-prop="newsNotifications"
+		/>
 	</div>
 </template>
 

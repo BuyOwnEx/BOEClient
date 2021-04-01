@@ -97,6 +97,13 @@
 			</v-list-item-group>
 		</v-list>
 
+		<div
+			v-if="!notifications.length"
+			class="d-flex align-center justify-center overline mt-2"
+		>
+			Уведомлений нет
+		</div>
+
 		<NotificationCommonModal
 			v-if="showDetails"
 			:show="showDetails"
@@ -214,7 +221,6 @@ export default {
 		},
 
 		readNotification(notification) {
-			console.log(notification)
 			this.showDetails = true;
 			this.selectedNotificationDetails = notification;
 			this.readNotificationStore(notification.id);

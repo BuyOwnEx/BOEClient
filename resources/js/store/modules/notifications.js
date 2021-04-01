@@ -68,6 +68,71 @@ export default {
 				isChecked: false,
 				labels: [1],
 			},
+			{
+				id: 23423232,
+				title: 'Disk capacity is at maximum',
+				subtitle:
+					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
+				text:
+					'text text text text text text text text text text text text text text text text text text text text',
+				author: 'author(?)',
+				type: 'system',
+				created_at: '2021-03-31T02:49:29.847Z',
+				isChecked: false,
+				labels: [1],
+			},
+			{
+				id: 2344123232,
+				title: 'Disk capacity is at maximum',
+				subtitle:
+					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
+				text:
+					'text text text text text text text text text text text text text text text text text text text text',
+				author: 'author(?)',
+				type: 'system',
+				created_at: '2021-03-31T02:49:29.847Z',
+				isChecked: false,
+				labels: [1],
+			},
+			{
+				id: 23423255542432,
+				title: 'Disk capacity is at maximum',
+				subtitle:
+					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
+				text:
+					'text text text text text text text text text text text text text text text text text text text text',
+				author: 'author(?)',
+				type: 'news',
+				created_at: '2021-03-31T02:49:29.847Z',
+				isChecked: false,
+				labels: [1],
+			},
+			{
+				id: 234232414212432,
+				title: 'Disk capacity is at maximum',
+				subtitle:
+					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
+				text:
+					'text text text text text text text text text text text text text text text text text text text text',
+				author: 'author(?)',
+				type: 'news',
+				created_at: '2021-03-31T02:49:29.847Z',
+				isChecked: false,
+				labels: [1, 2],
+			},
+			{
+				id: 234232412442432,
+				title: 'Disk capacity is at maximum',
+				subtitle:
+					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
+				text:
+					'text text text text text text text text text text text text text text text text text text text text',
+				author: 'author(?)',
+				type: 'system',
+				created_at: '2021-03-31T02:49:29.847Z',
+				isChecked: false,
+				labels: [1],
+			},
 		],
 		notificationTypes: [
 			{
@@ -94,20 +159,26 @@ export default {
 		},
 
 		getSystemNotificationUnreadQuantity(_, getters) {
-			const nonChekcedArray = getters.getSystemNotifications.filter(
+			const nonCheckedArray = getters.getSystemNotifications.filter(
 				item => item.isChecked !== true
 			);
-			return nonChekcedArray.length;
+			return nonCheckedArray.length;
 		},
 		getNewsNotificationUnreadQuantity(_, getters) {
-			const nonChekcedArray = getters.getNewsNotifications.filter(
+			const nonCheckedArray = getters.getNewsNotifications.filter(
 				item => item.isChecked !== true
 			);
-			return nonChekcedArray.length;
+			return nonCheckedArray.length;
 		},
 
-		getFirstFiveNotificationsForToolbar(state) {
-			return state.notifications.slice(0, 5);
+		getUnreadNotifications(state) {
+			return state.notifications.filter(item => !item.isChecked);
+		},
+		getFirstFiveUnreadNotificationsForToolbar(_, getters) {
+			return getters.getUnreadNotifications.slice(0, 5);
+		},
+		getUnreadNotificationsQuantity(_, getters) {
+			return getters.getUnreadNotifications.length;
 		},
 
 		getNotificationColor: state => type => {
@@ -140,7 +211,6 @@ export default {
 
 	actions: {
 		readNotification({ commit }, id) {
-			console.log(id);
 			commit('READ_NOTIFICATION', id);
 			// запрос на бек
 		},
