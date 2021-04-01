@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog" width="400">
+	<v-dialog v-model="dialog" width="400" :persistent="!!token">
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
 				:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
