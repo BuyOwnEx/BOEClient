@@ -1,9 +1,7 @@
 <template>
 	<div class="pa-1 pt-0">
 		<div class="mt-2 mb-3">
-			<v-btn block large color="primary" @click="$emit('open-compose')">
-				Добавить тикет
-			</v-btn>
+			<SupportDialogCreate />
 		</div>
 
 		<v-list class="mt-2 pa-0" dense nav>
@@ -60,8 +58,12 @@
 <script>
 import { mapState } from 'vuex';
 
+import SupportDialogCreate from '../dialog/SupportDialogCreate';
+
 export default {
 	name: 'SupportSidebarMenu',
+
+	components: { SupportDialogCreate },
 
 	props: {
 		processingQuantity: {

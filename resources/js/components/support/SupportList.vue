@@ -1,16 +1,18 @@
 <template>
 	<v-card class="support-list">
-		<v-text-field
-			v-model="filter"
-			class="pa-1 py-2 support-list__filter elevation-1"
-			placeholder="Filter tasks"
-			prepend-inner-icon="mdi-magnify"
-			hide-details
-			block
-			clearable
-			solo
-			flat
-		/>
+		<div>
+			<v-text-field
+				v-model="filter"
+				class="pa-1 py-2 support-list__filter elevation-1"
+				placeholder="Filter tasks"
+				prepend-inner-icon="mdi-magnify"
+				hide-details
+				block
+				clearable
+				solo
+				flat
+			/>
+		</div>
 
 		<v-divider />
 
@@ -40,12 +42,12 @@
 					class="support-list__item-content flex-grow-1"
 					:class="{ complete: ticket.completed }"
 				>
-					<div class="font-weight-bold">{{ ticket.title }}</div>
-					<div>{{ ticket.description }}</div>
+					<div class="font-weight-bold">{{ ticket.subject }}</div>
+					<div>{{ ticket.body }}</div>
 
 					<div>
 						<v-chip
-							:color="getCategoryColor(ticket.priority)"
+							:color="getCategoryColor(ticket.category)"
 							class="font-weight-bold mt-1 mr-1"
 							outlined
 							x-small
@@ -109,4 +111,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="sass" scoped>
+.support-list
+	display: flex
+	flex-grow: 1
+	flex-flow: column
+</style>

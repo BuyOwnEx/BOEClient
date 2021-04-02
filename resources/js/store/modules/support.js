@@ -8,7 +8,7 @@ export default {
 				subject: 'theme',
 				body: 'content',
 				category: 'category',
-				priority: 'high',
+				priority: 3,
 				status: 'completed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -20,7 +20,7 @@ export default {
 				subject: 'theme',
 				body: 'content',
 				category: 'category',
-				priority: 'high',
+				priority: 1,
 				status: 'completed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -32,7 +32,7 @@ export default {
 				subject: 'theme',
 				body: 'content',
 				category: 'category',
-				priority: 'high',
+				priority: 3,
 				status: 'completed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -44,7 +44,7 @@ export default {
 				subject: 'theme',
 				body: 'content',
 				category: 'category',
-				priority: 'low',
+				priority: 2,
 				status: 'processing',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -56,7 +56,7 @@ export default {
 				subject: 'theme',
 				body: 'content',
 				category: 'category',
-				priority: 'medium',
+				priority: 1,
 				status: 'closed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -84,9 +84,26 @@ export default {
 				color: 'red',
 			},
 		],
-		priorityList: null,
-		statusList: null,
-		tagList: null,
+		priorityList: [
+			{
+				id: 1,
+				name: 'Низкий приоритет',
+				color: 'warning',
+			},
+			{
+				id: 2,
+				name: 'Средний приоритет',
+				color: 'orange',
+			},
+			{
+				id: 3,
+				name: 'Высокий приоритет',
+				color: 'error',
+			},
+		],
+		// priorityList: null,
+		// statusList: null,
+		// tagList: null,
 	},
 
 	getters: {
@@ -96,8 +113,8 @@ export default {
 		getProcessingTickets(store) {
 			return store.tickets.filter(ticket => ticket.status === 'processing');
 		},
-		getCanceledTickets(store) {
-			return store.tickets.filter(ticket => ticket.status === 'canceled');
+		getClosedTickets(store) {
+			return store.tickets.filter(ticket => ticket.status === 'closed');
 		},
 
 		getProcessingTicketsQuantity(_, getters) {
@@ -170,13 +187,9 @@ export default {
 		},
 
 		async addTicket({ commit }, ticket) {
-			try {
-				const { data } = await axios.post('/trader/ticket/create', ticket);
-				commit('ADD_TICKET', data);
-				console.log('add ticket', ticket, data);
-			} catch (e) {
-				console.error(e);
-			}
+			const { data } = await axios.post('/trader/ticket/create', ticket);
+			commit('ADD_TICKET', data);
+			console.log('add ticket', ticket, data);
 		},
 		async removeTicket({ commit }, id) {},
 	},

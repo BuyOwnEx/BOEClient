@@ -31,11 +31,19 @@
 import { mapGetters, mapActions } from 'vuex';
 
 import SupportSidebarMenu from '../../components/support/sidebar/SupportSidebarMenu';
+import SupportTypeProcessing from '../../components/support/type/SupportTypeProcessing';
+import SupportTypeCompleted from '../../components/support/type/SupportTypeCompleted';
+import SupportTypeClosed from '../../components/support/type/SupportTypeClosed';
 
 export default {
 	name: 'Support',
 
-	components: { SupportSidebarMenu },
+	components: {
+		SupportSidebarMenu,
+		SupportTypeProcessing,
+		SupportTypeCompleted,
+		SupportTypeClosed,
+	},
 
 	data() {
 		return {
@@ -49,7 +57,11 @@ export default {
 			processingQuantity: 'support/getProcessingTicketsQuantity',
 		}),
 
-		supportTypeComponentToShow() {},
+		supportTypeComponentToShow() {
+			const firstCharToUppercase = this.type.charAt(0).toUpperCase();
+			const restOfWord = this.type.slice(1);
+			return 'SupportType' + firstCharToUppercase + restOfWord;
+		},
 	},
 
 	methods: {
