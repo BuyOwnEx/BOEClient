@@ -20,7 +20,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.4",
         "pragmarx/google2fa": "^8.0",
-        "pragmarx/google2fa-qrcode": "^2.1"
+        "pragmarx/google2fa-qrcode": "^2.1",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
