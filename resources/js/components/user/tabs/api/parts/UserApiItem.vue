@@ -146,7 +146,6 @@ export default {
 		font-size: 1rem
 		font-weight: 500
 		padding-top: 16px
-		padding-bottom: 4px
 
 	&__name
 		text-overflow: ellipsis

@@ -19,8 +19,8 @@
 				Редактирвать разрешения
 			</v-card-title>
 
-			<v-form ref="form" class="common-dialog__content" @submit.prevent="edit">
-				<v-card-text class="pt-0">
+			<v-card-text class="common-dialog__content pt-0">
+				<v-form ref="form">
 					<v-checkbox
 						v-model="form.trading"
 						:ripple="false"
@@ -35,34 +35,34 @@
 						hide-details
 						dense
 					/>
-				</v-card-text>
+				</v-form>
+			</v-card-text>
 
-				<v-divider />
+			<v-divider />
 
-				<v-card-actions class="common-dialog__actions">
-					<v-spacer />
+			<v-card-actions class="common-dialog__actions">
+				<v-spacer />
 
-					<v-btn small tile text plain @click="close">
-						Закрыть
-					</v-btn>
+				<v-btn small tile text plain @click="close">
+					Закрыть
+				</v-btn>
 
-					<v-spacer />
+				<v-spacer />
 
-					<v-btn
-						:loading="loading"
-						type="submit"
-						color="primary"
-						small
-						tile
-						text
-						plain
-					>
-						Редактировать
-					</v-btn>
+				<v-btn
+					:loading="loading"
+					color="primary"
+					small
+					tile
+					text
+					plain
+					@click="edit"
+				>
+					Редактировать
+				</v-btn>
 
-					<v-spacer />
-				</v-card-actions>
-			</v-form>
+				<v-spacer />
+			</v-card-actions>
 		</v-card>
 	</v-dialog>
 </template>

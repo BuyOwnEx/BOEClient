@@ -18,66 +18,60 @@
 				Создать API
 			</v-card-title>
 
-			<v-form
-				v-show="!token"
-				v-model="valid"
-				ref="form"
-				class="common-dialog__content"
-				@submit.prevent="create"
-			>
-				<v-card-text>
-					<v-text-field
-						v-model="form.name"
-						class="mt-0"
-						label="API name"
-						counter="64"
-						:rules="[rules.required, rules.max64char]"
-						dense
-						autofocus
-					/>
+			<div v-if="!token">
+				<v-card-text class="pt-1">
+					<v-form v-model="valid" ref="form">
+						<v-text-field
+							v-model="form.name"
+							class="common-dialog__content"
+							counter="64"
+							placeholder="API name"
+							:rules="[rules.required, rules.max64char]"
+							dense
+							autofocus
+						/>
 
-					<v-checkbox
-						v-model="trading"
-						:ripple="false"
-						hide-details
-						dense
-						label="Торговля"
-					/>
-					<v-checkbox
-						v-model="withdraw"
-						:ripple="false"
-						hide-details
-						dense
-						label="Вывод средств"
-					/>
+						<v-checkbox
+							v-model="form.abilities"
+							:ripple="false"
+							value="trading"
+							hide-details
+							dense
+							label="Торговля"
+						/>
+						<v-checkbox
+							v-model="form.abilities"
+							:ripple="false"
+							value="withdraw"
+							hide-details
+							dense
+							label="Вывод средств"
+						/>
+					</v-form>
 				</v-card-text>
 
 				<v-divider />
 
 				<v-card-actions class="common-dialog__actions">
 					<v-spacer />
-
 					<v-btn small tile text plain @click="close">
 						Закрыть
 					</v-btn>
-
 					<v-spacer />
-
 					<v-btn
 						:loading="loading"
-						type="submit"
 						color="primary"
 						small
 						tile
 						text
 						plain
+						@click="create"
 					>
 						Создать
 					</v-btn>
-
 					<v-spacer />
 				</v-card-actions>
-			</v-form>
+			</div>
 
 			<div v-show="token">
 				<v-card-text>
@@ -132,32 +126,18 @@ export default {
 			token: null,
 			secretToken: null,
 
-			trading: false,
-			withdraw: false,
-
 			form: {
 				name: '',
+				abilities: [],
 			},
 		};
-	},
-
-	computed: {
-		enabledAbilities() {
-			const result = [];
-
-			if (this.trading) result.push('trading');
-			if (this.withdraw) result.push('withdraw');
-
-			return result;
-		},
 	},
 
 	watch: {
 		dialog(value) {
 			if (value === true) {
 				this.form.name = '';
-				this.trading = false;
-				this.withdraw = false;
+				this.form.abilities = [];
 				if (this.$refs.form) this.$refs.form.resetValidation();
 			}
 		},
@@ -173,14 +153,9 @@ export default {
 			try {
 				this.startLoading();
 
-				const formData = {
-					...this.form,
-					abilities: this.enabledAbilities,
-				};
-
 				const { data } = await axios.post(
 					'/trader/ext/new_api_token',
-					formData
+					this.form
 				);
 
 				this.token = data.data.plainTextToken;
