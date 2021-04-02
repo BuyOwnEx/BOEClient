@@ -17,59 +17,53 @@
 		<v-divider />
 
 		<div v-if="tickets.length === 0">
-			<div class="px-1 py-6 text-center">Тикетов нет</div>
+			<div class="px-1 py-6 text-center overline">Тикетов нет</div>
 		</div>
 
-		<v-slide-y-transition v-else group tag="div">
-			<div
+		<v-list v-else class="pa-0">
+			<v-list-item
 				v-for="ticket in tickets"
 				:key="ticket.id"
-				class="d-flex pa-2 support-list__item align-center"
-				@click="$emit('edit-task', ticket)"
+				class="support-list__item d-flex pa-2 align-center"
+				:class="{
+					'support-list__item--completed': ticket.status !== 'processing',
+				}"
+				@click="openTicketDetails(ticket)"
 			>
-				<v-checkbox
-					:input-value="ticket.completed"
-					class="mt-0 pt-0"
-					hide-details
-					off-icon="mdi-checkbox-blank-circle-outline"
-					on-icon="mdi-checkbox-marked-circle"
-					@click.stop="
-						ticket.completed ? setIncomplete(ticket) : setComplete(ticket)
-					"
-				/>
+				<v-list-item-content class="support-list__item-content flex-grow-1">
+					<v-list-item-title class="font-weight-bold">
+						{{ ticket.subject }}
+					</v-list-item-title>
 
-				<div
-					class="support-list__item-content flex-grow-1"
-					:class="{ complete: ticket.completed }"
-				>
-					<div class="font-weight-bold">{{ ticket.subject }}</div>
-					<div>{{ ticket.body }}</div>
+					<v-list-item-subtitle>{{ ticket.body }}</v-list-item-subtitle>
 
-					<div>
+					<div v-if="ticket.status === 'processing'">
 						<v-chip
 							:color="getCategoryColor(ticket.category)"
 							class="font-weight-bold mt-1 mr-1"
+							small
 							outlined
-							x-small
 						>
-							{{ getCategoryColor(ticket.category) }}
+							{{ getCategoryName(ticket.category) }}
 						</v-chip>
 						<v-chip
-							:color="getPriorityTitle(ticket.priority)"
+							:color="getPriorityColor(ticket.priority)"
 							class="font-weight-bold mt-1 mr-1"
+							small
 							outlined
-							x-small
 						>
-							{{ getPriorityTitle(ticket.priority) }}
+							{{ getPriorityName(ticket.priority) }}
 						</v-chip>
 					</div>
-				</div>
-			</div>
-		</v-slide-y-transition>
+				</v-list-item-content>
+			</v-list-item>
+		</v-list>
 	</v-card>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'SupportList',
 
@@ -87,6 +81,10 @@ export default {
 		};
 	},
 
+	computed: {
+		...mapState('support', ['categoryList', 'priorityList']),
+	},
+
 	watch: {
 		ticketsProp(val) {
 			this.tickets = val;
@@ -94,11 +92,22 @@ export default {
 	},
 
 	methods: {
-		getCategoryColor() {},
-		getCategoryTitle() {},
-		getPriorityColor() {},
-		getPriorityTitle() {},
+		openTicketDetails(ticket) {
+			console.log(ticket);
+		},
 
+		getCategoryColor(itemCategory) {
+			return this.categoryList.find(item => item.key === itemCategory).color;
+		},
+		getCategoryName(itemCategory) {
+			return this.categoryList.find(item => item.key === itemCategory).name;
+		},
+		getPriorityColor(itemPriority) {
+			return this.priorityList.find(item => item.key === itemPriority).color;
+		},
+		getPriorityName(itemPriority) {
+			return this.priorityList.find(item => item.key === itemPriority).name;
+		},
 		getLabelColor(id) {
 			const label = this.labels.find(l => l.id === id);
 			return label ? label.color : '';
@@ -116,4 +125,10 @@ export default {
 	display: flex
 	flex-grow: 1
 	flex-flow: column
+	&__item
+		border-bottom: 1px solid #8c8c8c1a
+		&:last-child
+			border-bottom: none
+		&--completed
+			text-decoration: line-through
 </style>

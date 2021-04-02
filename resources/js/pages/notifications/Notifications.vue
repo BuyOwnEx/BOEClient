@@ -65,15 +65,8 @@ export default {
 .notifications
 	&__sidebar
 		margin-right: 5px
-		position: sticky
-		top: 69px !important
 	&__toolbar
 		margin-bottom: 5px
-
-	@media screen and (max-width: 1263px)
-		&__sidebar
-			position: fixed
-			top: 0 !important
 
 .v-application--is-rtl
 	.notifications

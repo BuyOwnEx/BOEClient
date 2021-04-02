@@ -316,3 +316,15 @@ input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
 }
+
+.support-page,
+.notifications {
+	.v-navigation-drawer {
+		transform: none !important;
+		will-change: auto;
+		&__content {
+			position: fixed;
+			width: inherit;
+		}
+	}
+}

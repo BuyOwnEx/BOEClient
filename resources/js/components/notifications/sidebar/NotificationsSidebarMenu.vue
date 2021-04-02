@@ -1,5 +1,5 @@
 <template>
-	<v-list class="pa-1" dense nav>
+	<v-list class="notifications-sidebar-menu pa-1" dense nav>
 		<div class="overline pa-1 pt-0 pb-2">Типы уведомлений</div>
 
 		<v-list-item
@@ -64,5 +64,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped></style>

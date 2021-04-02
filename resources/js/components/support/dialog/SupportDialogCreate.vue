@@ -6,7 +6,7 @@
 			</v-btn>
 		</template>
 
-		<v-card class="user-api-dialog-create">
+		<v-card class="support-dialog-create">
 			<v-card-title class="common-dialog__title justify-space-between">
 				<span>Создать тикет</span>
 				<v-btn icon @click="close">
@@ -21,6 +21,7 @@
 					<v-text-field
 						v-model="form.subject"
 						:placeholder="$t('common.title')"
+						:rules="[rules.required]"
 						solo
 						flat
 						autofocus
@@ -32,6 +33,7 @@
 					<v-textarea
 						v-model="form.body"
 						:placeholder="$t('common.description')"
+						:rules="[rules.required]"
 						hide-details
 						auto-grow
 						solo
@@ -43,7 +45,7 @@
 						:menu-props="{ bottom: true, offsetY: true }"
 						:items="priorityList"
 						placeholder="Приоритет"
-						item-value="id"
+						item-value="key"
 						hide-details
 						solo
 						flat
@@ -56,90 +58,21 @@
 								:color="item.color"
 								:input-value="selected"
 								outlined
-								label
 								small
 							>
 								<span class="pr-2">
 									{{ item.name }}
 								</span>
-								<v-icon small @click="parent.selectItem(item)">
-									mdi-close
-								</v-icon>
 							</v-chip>
 						</template>
 
-						<template v-slot:item="{ index, item }">
-							<v-chip class="my-1" :color="item.color" label outlined small>
-								{{ item.name }}
-							</v-chip>
-						</template> </v-select
-					><v-select
-						v-model="form.priority"
-						:menu-props="{ bottom: true, offsetY: true }"
-						:items="priorityList"
-						placeholder="Приоритет"
-						item-value="id"
-						hide-details
-						solo
-						flat
-					>
-						<template v-slot:selection="{ attrs, item, parent, selected }">
+						<template v-slot:item="{ item }">
 							<v-chip
-								v-if="item === Object(item)"
-								class="font-weight-bold"
-								v-bind="attrs"
+								class="font-weight-bold my-1"
 								:color="item.color"
-								:input-value="selected"
 								outlined
-								label
 								small
 							>
-								<span class="pr-2">
-									{{ item.name }}
-								</span>
-								<v-icon small @click="parent.selectItem(item)">
-									mdi-close
-								</v-icon>
-							</v-chip>
-						</template>
-
-						<template v-slot:item="{ index, item }">
-							<v-chip class="my-1" :color="item.color" label outlined small>
-								{{ item.name }}
-							</v-chip>
-						</template> </v-select
-					><v-select
-						v-model="form.priority"
-						:menu-props="{ bottom: true, offsetY: true }"
-						:items="priorityList"
-						placeholder="Приоритет"
-						item-value="id"
-						hide-details
-						solo
-						flat
-					>
-						<template v-slot:selection="{ attrs, item, parent, selected }">
-							<v-chip
-								v-if="item === Object(item)"
-								class="font-weight-bold"
-								v-bind="attrs"
-								:color="item.color"
-								:input-value="selected"
-								outlined
-								label
-								small
-							>
-								<span class="pr-2">
-									{{ item.name }}
-								</span>
-								<v-icon small @click="parent.selectItem(item)">
-									mdi-close
-								</v-icon>
-							</v-chip>
-						</template>
-
-						<template v-slot:item="{ index, item }">
-							<v-chip class="my-1" :color="item.color" label outlined small>
 								{{ item.name }}
 							</v-chip>
 						</template>
@@ -160,6 +93,7 @@
 
 				<v-btn
 					:loading="loading"
+					:disabled="!valid"
 					type="submit"
 					color="primary"
 					small
@@ -178,7 +112,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../mixins/common/loadingMixin';
@@ -196,7 +130,7 @@ export default {
 			form: {
 				subject: '',
 				body: '',
-				priority: 2,
+				priority: 'medium',
 			},
 		};
 	},
@@ -208,28 +142,28 @@ export default {
 	watch: {
 		dialog(value) {
 			if (value === true) {
-				this.form.subject = '';
-				this.form.body = '';
-				this.form.priority = 2;
-				if (this.$refs.form) this.$refs.form.resetValidation();
+				this.$nextTick(() => {
+					this.form.subject = '';
+					this.form.body = '';
+					this.form.priority = 'medium';
+					this.$refs.form.resetValidation();
+				})
 			}
-		},
+		}
 	},
 
 	methods: {
-		async create() {
-			if (
-				this.form.subject.trim() === '' ||
-				this.form.subject.trim() === '' ||
-				!this.valid
-			) {
-				this.close();
-				return;
-			}
+		...mapActions({
+			addTicketStore: 'support/addTicket',
+		}),
 
+		async create() {
 			try {
 				this.startLoading();
-				await axios.post('/trader/ticket/create', this.form);
+
+				await this.addTicketStore(this.form);
+
+				this.close();
 			} catch (e) {
 				console.error(e);
 			} finally {
@@ -239,13 +173,13 @@ export default {
 
 		close() {
 			this.dialog = false;
-			setTimeout(() => {
-				this.token = null;
-				this.secretToken = null;
-			}, 200);
 		},
 	},
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.support-dialog-create
+	::v-deep.v-input__slot
+		padding: 0
+</style>

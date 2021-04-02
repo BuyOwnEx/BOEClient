@@ -136,9 +136,11 @@ export default {
 	watch: {
 		dialog(value) {
 			if (value === true) {
-				this.form.name = '';
-				this.form.abilities = [];
-				if (this.$refs.form) this.$refs.form.resetValidation();
+				this.$nextTick(() => {
+					this.form.name = '';
+					this.form.abilities = [];
+					this.$refs.form.resetValidation();
+				});
 			}
 		},
 	},

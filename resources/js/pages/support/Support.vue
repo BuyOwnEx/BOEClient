@@ -68,9 +68,20 @@ export default {
 		...mapActions({
 			fetchTicketsStore: 'support/fetchTickets',
 			fetchPriorityListStore: 'support/fetchPriorityList',
-			fetchStatusList: 'support/fetchStatusList',
-			fetchTagList: 'support/fetchTagList',
+			fetchStatusListStore: 'support/fetchStatusList',
+			fetchTagListStore: 'support/fetchTagList',
 		}),
+
+		async fetch() {
+			try {
+				await this.fetchTicketsStore();
+				await this.fetchPriorityListStore();
+				await this.fetchStatusListStore();
+				await this.fetchTagListStore();
+			} catch (e) {
+				console.error(e);
+			}
+		},
 
 		updateType(type) {
 			this.type = type;
@@ -78,30 +89,20 @@ export default {
 	},
 
 	created() {
-		// this.fetchTicketsStore();
-		// this.fetchPriorityListStore();
-		// this.fetchStatusList();
-		// this.fetchTagList();
+		// this.fetch();
 	},
 };
 </script>
 
 <style lang="sass" scoped>
-.support
+.support-page
 	&__sidebar
 		margin-right: 5px
-		position: sticky
-		top: 69px !important
 	&__toolbar
 		margin-bottom: 5px
 
-	@media screen and (max-width: 1263px)
-		&__sidebar
-			position: fixed
-			top: 0 !important
-
 .v-application--is-rtl
-	.notifications
+	.support-page
 		&__sidebar
 			margin-right: 0
 			margin-left: 5px

@@ -7,8 +7,8 @@ export default {
 				id: 1,
 				subject: 'theme',
 				body: 'content',
-				category: 'category',
-				priority: 3,
+				category: 'service',
+				priority: 'high',
 				status: 'completed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -19,8 +19,8 @@ export default {
 				id: 12,
 				subject: 'theme',
 				body: 'content',
-				category: 'category',
-				priority: 1,
+				category: 'service',
+				priority: 'medium',
 				status: 'completed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -31,8 +31,8 @@ export default {
 				id: 13,
 				subject: 'theme',
 				body: 'content',
-				category: 'category',
-				priority: 3,
+				category: 'finance',
+				priority: 'medium',
 				status: 'completed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -43,8 +43,32 @@ export default {
 				id: 14,
 				subject: 'theme',
 				body: 'content',
-				category: 'category',
-				priority: 2,
+				category: 'technical',
+				priority: 'high',
+				status: 'processing',
+				agent: 'agent',
+				created_at: '2021-03-31T02:49:29.847Z',
+				updated_at: '2021-03-31T02:49:29.847Z',
+				completed_at: '2021-03-31T02:49:29.847Z',
+			},
+			{
+				id: 134,
+				subject: 'theme',
+				body: 'content',
+				category: 'technical',
+				priority: 'low',
+				status: 'processing',
+				agent: 'agent',
+				created_at: '2021-03-31T02:49:29.847Z',
+				updated_at: '2021-03-31T02:49:29.847Z',
+				completed_at: '2021-03-31T02:49:29.847Z',
+			},
+			{
+				id: 144,
+				subject: 'theme',
+				body: 'content',
+				category: 'technical',
+				priority: 'medium',
 				status: 'processing',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -54,9 +78,10 @@ export default {
 			{
 				id: 15,
 				subject: 'theme',
-				body: 'content',
-				category: 'category',
-				priority: 1,
+				body:
+					'contentcontent contentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontentconte ntcontentco ntentcontentcontentcontent contentconten tcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontent',
+				category: 'technical',
+				priority: 'medium',
 				status: 'closed',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
@@ -67,37 +92,60 @@ export default {
 		supportTypes: [
 			{
 				name: 'Тикеты',
-				type: 'processing',
+				key: 'processing',
 				icon: 'mdi-dots-horizontal',
 				color: 'primary',
 			},
 			{
 				name: 'Выполненные тикеты',
-				type: 'completed',
+				key: 'completed',
 				icon: 'mdi-check',
 				color: 'green',
 			},
 			{
 				name: 'Закрытые тикеты',
-				type: 'closed',
+				key: 'closed',
 				icon: 'mdi-close',
 				color: 'red',
+			},
+		],
+		categoryList: [
+			{
+				id: 1,
+				name: 'Техническая служба',
+				key: 'technical',
+				color: 'blue',
+			},
+			{
+				id: 2,
+				name: 'Финансовая служба',
+				key: 'finance',
+				color: 'blue',
+			},
+			{
+				id: 3,
+				name: 'Сервисная служба',
+				key: 'service',
+				color: 'blue',
 			},
 		],
 		priorityList: [
 			{
 				id: 1,
 				name: 'Низкий приоритет',
+				key: 'low',
 				color: 'warning',
 			},
 			{
 				id: 2,
 				name: 'Средний приоритет',
+				key: 'medium',
 				color: 'orange',
 			},
 			{
 				id: 3,
 				name: 'Высокий приоритет',
+				key: 'high',
 				color: 'error',
 			},
 		],
@@ -134,6 +182,11 @@ export default {
 		},
 		FETCH_TAG_LIST(state, list) {
 			state.tagList = list;
+		},
+
+		ADD_TICKET(state, ticket) {
+			console.log('store add ticket', ticket);
+			state.tickets.push(ticket);
 		},
 	},
 
@@ -187,10 +240,9 @@ export default {
 		},
 
 		async addTicket({ commit }, ticket) {
-			const { data } = await axios.post('/trader/ticket/create', ticket);
-			commit('ADD_TICKET', data);
-			console.log('add ticket', ticket, data);
+			commit('ADD_TICKET', ticket);
+			// const { data } = await axios.post('/trader/ticket/create', ticket);
+			// commit('ADD_TICKET', data.data.ticket);
 		},
-		async removeTicket({ commit }, id) {},
 	},
 };

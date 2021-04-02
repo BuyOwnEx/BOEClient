@@ -48,53 +48,50 @@
 		<v-divider />
 
 		<v-list>
-			<v-list-item-group>
-				<v-list-item
-					v-for="item in notifications"
-					:key="item.id"
-					:class="{
-						'grey lighten-4': item.isChecked && !$vuetify.theme.dark,
-						'grey darken-4': item.isChecked && $vuetify.theme.dark,
-						'v-list-item--active primary--text':
-							selected.indexOf(item.id) !== -1,
-					}"
-					@click="readNotification(item)"
-				>
-					<v-list-item-action class="d-flex flex-row align-center">
-						<v-checkbox v-model="selected" :value="item.id" @click.stop />
-					</v-list-item-action>
+			<v-list-item
+				v-for="item in notifications"
+				:key="item.id"
+				:class="{
+					'grey lighten-4': item.isChecked && !$vuetify.theme.dark,
+					'grey darken-4': item.isChecked && $vuetify.theme.dark,
+					'v-list-item--active primary--text': selected.indexOf(item.id) !== -1,
+				}"
+				@click="readNotification(item)"
+			>
+				<v-list-item-action class="d-flex flex-row align-center">
+					<v-checkbox v-model="selected" :value="item.id" @click.stop />
+				</v-list-item-action>
 
-					<v-list-item-content>
-						<v-list-item-title :class="{ 'font-weight-light': item.isChecked }">
-							{{ item.title }}
-						</v-list-item-title>
-						<v-list-item-subtitle>
-							{{ item.author }}
-						</v-list-item-subtitle>
-						<v-list-item-subtitle class="font-weight-light">
-							{{ item.text }}
-						</v-list-item-subtitle>
-						<v-list-item-subtitle>
-							<v-chip
-								v-for="label in item.labels"
-								:key="label"
-								:color="getLabelColor(label)"
-								class="font-weight-bold mt-1 mr-1"
-								outlined
-								small
-							>
-								{{ getLabelTitle(label) }}
-							</v-chip>
-						</v-list-item-subtitle>
-					</v-list-item-content>
+				<v-list-item-content>
+					<v-list-item-title :class="{ 'font-weight-light': item.isChecked }">
+						{{ item.title }}
+					</v-list-item-title>
+					<v-list-item-subtitle>
+						{{ item.author }}
+					</v-list-item-subtitle>
+					<v-list-item-subtitle class="font-weight-light">
+						{{ item.text }}
+					</v-list-item-subtitle>
+					<v-list-item-subtitle>
+						<v-chip
+							v-for="label in item.labels"
+							:key="label"
+							:color="getLabelColor(label)"
+							class="font-weight-bold mt-1 mr-1"
+							outlined
+							small
+						>
+							{{ getLabelTitle(label) }}
+						</v-chip>
+					</v-list-item-subtitle>
+				</v-list-item-content>
 
-					<v-list-item-action>
-						<v-list-item-action-text>
-							{{ item.created_at }}
-						</v-list-item-action-text>
-					</v-list-item-action>
-				</v-list-item>
-			</v-list-item-group>
+				<v-list-item-action>
+					<v-list-item-action-text>
+						{{ item.created_at }}
+					</v-list-item-action-text>
+				</v-list-item-action>
+			</v-list-item>
 		</v-list>
 
 		<div

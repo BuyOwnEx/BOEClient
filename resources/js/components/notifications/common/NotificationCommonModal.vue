@@ -3,7 +3,6 @@
 		ref="dialog"
 		v-model="dialog"
 		:fullscreen="$vuetify.breakpoint.mdAndDown"
-		:hide-overlay="!$vuetify.breakpoint.mdAndDown"
 		no-click-animation
 		persistent
 		width="600"
