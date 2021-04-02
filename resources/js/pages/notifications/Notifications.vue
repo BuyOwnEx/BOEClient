@@ -47,8 +47,9 @@ export default {
 
 	computed: {
 		notificationsTypeComponentToShow() {
-			if (this.type === 'news') return 'NotificationsTypeNews';
-			else if (this.type === 'system') return 'NotificationsTypeSystem';
+			const firstCharToUppercase = this.type.charAt(0).toUpperCase();
+			const restOfWord = this.type.slice(1);
+			return 'NotificationsType' + firstCharToUppercase + restOfWord;
 		},
 	},
 
