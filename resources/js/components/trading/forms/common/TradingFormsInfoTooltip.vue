@@ -17,5 +17,3 @@ export default {
 	name: 'TradingFormsInfoTooltip',
 };
 </script>
-
-<style scoped></style>

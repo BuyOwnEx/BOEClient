@@ -16,5 +16,3 @@ export default {
 	name: 'DocsFooter',
 };
 </script>
-
-<style scoped></style>

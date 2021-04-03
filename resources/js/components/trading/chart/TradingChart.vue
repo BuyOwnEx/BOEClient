@@ -549,5 +549,3 @@ export default {
 	deactivated() {},
 };
 </script>
-
-<style scoped></style>

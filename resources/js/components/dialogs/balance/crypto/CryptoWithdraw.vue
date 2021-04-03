@@ -7,7 +7,3 @@ export default {
 	name: 'CryptoWithdraw',
 };
 </script>
-
-<style scoped>
-
-</style>

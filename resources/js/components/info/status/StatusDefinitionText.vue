@@ -19,5 +19,3 @@ export default {
 	name: 'StatusDefinitionText',
 };
 </script>
-
-<style scoped></style>
