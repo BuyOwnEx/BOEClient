@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^7.0",
         "hisorange/browser-detect": "^4.4",
         "huddledigital/zendesk-laravel": "^3.5",
+        "laravel-lang/lang": "~7.0",
         "laravel/framework": "^7.24",
         "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.0",

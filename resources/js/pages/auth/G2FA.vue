@@ -94,7 +94,9 @@
                     .post('/2fa_validate', this.form)
                     .then(response => {
                     	console.log(response.data);
-                        //else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
+                    	if(response.data.auth)
+                    		window.location.href=response.data.intended;
+                        else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
                     })
                     .catch(error => {
                         if (error.response.status === 422) {

@@ -97,6 +97,9 @@ class LoginController extends Controller
 
         //login and redirect user
         Auth::loginUsingId($userId);
-        return redirect()->intended($this->redirectTo);
+        return response()->json([
+            'auth' => auth()->check(),
+            'intended' => $this->redirectPath(),
+        ]);
     }
 }

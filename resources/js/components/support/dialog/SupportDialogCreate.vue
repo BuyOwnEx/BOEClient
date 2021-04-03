@@ -130,7 +130,7 @@ export default {
 			form: {
 				subject: '',
 				body: '',
-				priority: 'medium',
+				priority: 'normal',
 			},
 		};
 	},
@@ -145,7 +145,7 @@ export default {
 				this.$nextTick(() => {
 					this.form.subject = '';
 					this.form.body = '';
-					this.form.priority = 'medium';
+					this.form.priority = 'normal';
 					this.$refs.form.resetValidation();
 				})
 			}

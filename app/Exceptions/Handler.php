@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -52,6 +54,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if($request->ajax())
+        {
+            if ($exception instanceof ThrottleRequestsException) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Too Many Attempts.'
+                ],
+                    Response::HTTP_CONFLICT
+                );
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }

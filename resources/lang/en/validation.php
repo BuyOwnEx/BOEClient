@@ -118,6 +118,8 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    '2fa' => 'Not a valid 2FA code',
+    '2fa_reuse' => 'Cannot reuse 2FA code',
 
     /*
     |--------------------------------------------------------------------------

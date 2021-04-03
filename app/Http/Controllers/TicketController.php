@@ -60,7 +60,12 @@ class TicketController extends Controller
                     'body' => $request->body
                 ],
                 'priority' => $request->priority,
-                'requester_id'=> Auth::id()
+                'requester_id'=> Auth::id(),
+                'requester' => array(
+                    'locale_id' => '1', // en TODO get locale from Auth::user()->language
+                    'name' => Auth::user()->name,
+                    'email' => Auth::user()->email,
+                ),
             ]);
             return ['success' => true, 'ticket' => $ticket];
         }
