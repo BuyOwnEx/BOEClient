@@ -47,7 +47,7 @@
 
 		<v-divider />
 
-		<v-list>
+		<v-list class="pa-0">
 			<v-list-item
 				v-for="item in notifications"
 				:key="item.id"
@@ -88,7 +88,7 @@
 
 				<v-list-item-action>
 					<v-list-item-action-text>
-						{{ item.created_at }}
+						{{ formatDate(item.created_at, 'timeAgo') }}
 					</v-list-item-action-text>
 				</v-list-item-action>
 			</v-list-item>
@@ -96,7 +96,7 @@
 
 		<div
 			v-if="!notifications.length"
-			class="d-flex align-center justify-center overline mt-2"
+			class="d-flex align-center justify-center overline py-6"
 		>
 			Уведомлений нет
 		</div>
@@ -112,12 +112,15 @@
 
 <script>
 import { mapActions } from 'vuex';
-import NotificationCommonModal from './common/NotificationCommonModal';
+import NotificationCommonModal from '../common/NotificationCommonModal';
+import formatDate from '../../../mixins/format/formatDate';
 
 export default {
 	name: 'NotificationsList',
 
 	components: { NotificationCommonModal },
+
+	mixins: [formatDate],
 
 	props: {
 		notificationsProp: {
@@ -255,4 +258,6 @@ export default {
 	display: flex
 	flex-grow: 1
 	flex-flow: column
+	&__top
+		height: 82px
 </style>

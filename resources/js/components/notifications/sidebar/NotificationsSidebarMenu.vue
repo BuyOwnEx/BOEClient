@@ -46,8 +46,7 @@ export default {
 	computed: {
 		...mapState('notifications', ['notificationTypes']),
 		...mapGetters({
-			systemQuantity: 'notifications/getSystemNotificationUnreadQuantity',
-			newsQuantity: 'notifications/getNewsNotificationUnreadQuantity',
+			getTypeQuantity: 'notifications/getNotificationsUnreadQuantityByType',
 		}),
 	},
 
@@ -56,10 +55,6 @@ export default {
 			window.location.hash = type;
 			this.selectedType = type;
 			this.$emit('update', type);
-		},
-		getTypeQuantity(type) {
-			const name = `${type}Quantity`;
-			return this[name];
 		},
 	},
 };

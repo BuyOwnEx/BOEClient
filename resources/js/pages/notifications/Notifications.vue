@@ -17,25 +17,21 @@
 				<div class="title font-weight-bold">Уведомления</div>
 			</v-toolbar>
 
-			<keep-alive>
-				<component :is="notificationsTypeComponentToShow" :key="type" />
-			</keep-alive>
+			<NotificationsListWrapper :type-to-show='type'/>
 		</div>
 	</div>
 </template>
 
 <script>
 import NotificationsSidebarMenu from '../../components/notifications/sidebar/NotificationsSidebarMenu';
-import NotificationsTypeSystem from '../../components/notifications/type/NotificationsTypeSystem';
-import NotificationsTypeNews from '../../components/notifications/type/NotificationsTypeNews';
+import NotificationsListWrapper from '../../components/notifications/list/NotificationsListWrapper';
 
 export default {
 	name: 'Notifications',
 
 	components: {
 		NotificationsSidebarMenu,
-		NotificationsTypeSystem,
-		NotificationsTypeNews,
+		NotificationsListWrapper
 	},
 
 	data() {
@@ -43,14 +39,6 @@ export default {
 			drawer: false,
 			type: 'system',
 		};
-	},
-
-	computed: {
-		notificationsTypeComponentToShow() {
-			const firstCharToUppercase = this.type.charAt(0).toUpperCase();
-			const restOfWord = this.type.slice(1);
-			return 'NotificationsType' + firstCharToUppercase + restOfWord;
-		},
 	},
 
 	methods: {

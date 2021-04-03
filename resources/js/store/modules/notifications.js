@@ -151,23 +151,13 @@ export default {
 	},
 
 	getters: {
-		getSystemNotifications(state) {
-			return state.notifications.filter(item => item.type === 'system');
+		getNotificationsByType: state => type => {
+			return state.notifications.filter(item => item.type === type);
 		},
-		getNewsNotifications(state) {
-			return state.notifications.filter(item => item.type === 'news');
-		},
-
-		getSystemNotificationUnreadQuantity(_, getters) {
-			const nonCheckedArray = getters.getSystemNotifications.filter(
-				item => item.isChecked !== true
-			);
-			return nonCheckedArray.length;
-		},
-		getNewsNotificationUnreadQuantity(_, getters) {
-			const nonCheckedArray = getters.getNewsNotifications.filter(
-				item => item.isChecked !== true
-			);
+		getNotificationsUnreadQuantityByType: (_, getters) => type => {
+			const nonCheckedArray = getters
+				.getNotificationsByType(type)
+				.filter(item => item.isChecked !== true);
 			return nonCheckedArray.length;
 		},
 

@@ -54,7 +54,7 @@
 
 								<v-list-item-action class="align-self-center">
 									<v-list-item-action-text>
-										{{ item.created_at }}
+										{{ formatDate(item.created_at, 'timeAgo') }}
 									</v-list-item-action-text>
 								</v-list-item-action>
 							</v-list-item>
@@ -90,11 +90,14 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import NotificationCommonModal from '../notifications/common/NotificationCommonModal';
+import formatDate from '../../mixins/format/formatDate';
 
 export default {
 	name: 'ToolbarNotifications',
 
 	components: { NotificationCommonModal },
+
+	mixins: [formatDate],
 
 	data() {
 		return {
