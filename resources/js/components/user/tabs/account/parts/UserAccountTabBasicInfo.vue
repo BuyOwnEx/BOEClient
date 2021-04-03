@@ -83,7 +83,7 @@ export default {
 
 	computed: {
 		generatedAvatar() {
-			return this.$store.getters['user/generatedAvatar'];
+			return this.$store.getters['user/getGeneratedAvatar']();
 		},
 	},
 };

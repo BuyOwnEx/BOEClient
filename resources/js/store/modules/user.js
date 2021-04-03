@@ -20,12 +20,13 @@ export default {
 	},
 
 	getters: {
-		generatedAvatar(_, __, rootState) {
+		getGeneratedAvatar: (_, __, rootState) => seed => {
 			const options = {};
 			const avatars = new Avatars(sprites, options);
 			const user = rootState.app.trader;
 
-			return avatars.create(user.name);
+			if (!seed) return avatars.create(user.name);
+			else return avatars.create(seed);
 		},
 	},
 
