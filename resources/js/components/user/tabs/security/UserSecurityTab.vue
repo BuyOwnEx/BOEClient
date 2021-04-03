@@ -174,8 +174,6 @@ export default {
 							});
 						}
 					});
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.stopLoading();
 			}
@@ -199,8 +197,6 @@ export default {
 							});
 						}
 					});
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.stopLoading();
 			}

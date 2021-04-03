@@ -140,8 +140,6 @@ export default {
 
 				this.$emit('edit', this.enabledAbilities);
 				this.close();
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.stopLoading();
 			}

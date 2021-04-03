@@ -2,11 +2,13 @@
 	<CommonDialog
 		confirm-color="error"
 		confirm-text="Удалить"
-		header-color='error'
+		header-color="error"
 		@confirm="deleteOne"
 	>
 		<template #default>
-			<v-btn color="error" small tile v-if="$vuetify.breakpoint.smAndUp">Удалить API</v-btn>
+			<v-btn color="error" small tile v-if="$vuetify.breakpoint.smAndUp">
+				Удалить API
+			</v-btn>
 
 			<v-btn v-else icon color="error" small>
 				<v-icon>
@@ -47,12 +49,8 @@ export default {
 
 	methods: {
 		async deleteOne() {
-			try {
-				this.$emit('delete');
-				await axios.post('/trader/ext/delete_api_token', {id: this.id});
-			} catch (e) {
-				console.error(e);
-			}
+			this.$emit('delete');
+			await axios.post('/trader/ext/delete_api_token', { id: this.id });
 		},
 	},
 };

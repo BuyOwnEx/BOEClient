@@ -147,9 +147,9 @@ export default {
 					this.form.body = '';
 					this.form.priority = 'normal';
 					this.$refs.form.resetValidation();
-				})
+				});
 			}
-		}
+		},
 	},
 
 	methods: {
@@ -164,8 +164,6 @@ export default {
 				await this.addTicketStore(this.form);
 
 				this.close();
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.stopLoading();
 			}

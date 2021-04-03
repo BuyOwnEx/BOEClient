@@ -77,8 +77,6 @@ export default {
 				this.enableUserLoading = true;
 				await this.enableUserStore(user.id);
 				this.userData.blocked = false;
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.enableUserLoading = false;
 			}
@@ -89,8 +87,6 @@ export default {
 				await this.blockUserStore(user.id);
 				this.userData.blocked = true;
 				this.closeBlockDialog();
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.dialogLoading = false;
 			}
@@ -100,8 +96,6 @@ export default {
 				this.dialogLoading = true;
 				await this.deleteUserStore(user.id);
 				this.closeDeleteDialog();
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.dialogLoading = false;
 			}

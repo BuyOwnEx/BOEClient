@@ -2,7 +2,7 @@
 	<CommonDialog
 		confirm-color="error"
 		confirm-text="Удалить"
-		header-color='error'
+		header-color="error"
 		@confirm="deleteAll"
 	>
 		<template #default>
@@ -31,12 +31,8 @@ export default {
 
 	methods: {
 		async deleteAll() {
-			try {
-				this.$emit('delete');
-				await axios.post('/trader/ext/delete_all_api_tokens');
-			} catch (e) {
-				console.error(e);
-			}
+			this.$emit('delete');
+			await axios.post('/trader/ext/delete_all_api_tokens');
 		},
 	},
 };

@@ -164,8 +164,6 @@ export default {
 				this.secretToken = data.data.plainTextSecretToken;
 
 				this.$emit('create', data.data.accessToken);
-			} catch (e) {
-				console.error(e);
 			} finally {
 				this.stopLoading();
 			}
