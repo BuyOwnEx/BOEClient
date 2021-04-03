@@ -5,39 +5,42 @@ export default {
 		tickets: [
 			{
 				id: 1,
-				subject: 'theme',
-				body: 'content',
+				subject: 'У меня есть проблемы с тем и тем',
+				body: 'enters \n \n test <b>b tag</b>',
 				category: 'service',
-				priority: 'high',
-				status: 'completed',
+				priority: 'urgent',
+				status: 'pending',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
 				updated_at: '2021-03-31T02:49:29.847Z',
 				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'rtwertwert', 'wwwrtqt'],
 			},
 			{
 				id: 12,
 				subject: 'theme',
 				body: 'content',
 				category: 'service',
-				priority: 'medium',
-				status: 'completed',
+				priority: 'normal',
+				status: 'hold',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
 				updated_at: '2021-03-31T02:49:29.847Z',
 				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'rtwertwert', 'wwwrtqt'],
 			},
 			{
 				id: 13,
 				subject: 'theme',
 				body: 'content',
 				category: 'finance',
-				priority: 'medium',
-				status: 'completed',
+				priority: 'normal',
+				status: 'solved',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
 				updated_at: '2021-03-31T02:49:29.847Z',
 				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'rtwertwert', 'wwwrtqt'],
 			},
 			{
 				id: 14,
@@ -45,11 +48,12 @@ export default {
 				body: 'content',
 				category: 'technical',
 				priority: 'high',
-				status: 'processing',
+				status: 'open',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
 				updated_at: '2021-03-31T02:49:29.847Z',
 				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'rtwertwert', 'wwwrtqt'],
 			},
 			{
 				id: 134,
@@ -57,53 +61,108 @@ export default {
 				body: 'content',
 				category: 'technical',
 				priority: 'low',
-				status: 'processing',
+				status: 'open',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
 				updated_at: '2021-03-31T02:49:29.847Z',
 				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'rtwertwert', 'wwwrtqt'],
 			},
 			{
 				id: 144,
 				subject: 'theme',
 				body: 'content',
 				category: 'technical',
-				priority: 'medium',
-				status: 'processing',
+				priority: 'normal',
+				status: 'open',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
 				updated_at: '2021-03-31T02:49:29.847Z',
 				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'rtwertwert', 'wwwrtqt'],
 			},
 			{
-				id: 15,
+				id: 135,
 				subject: 'theme',
 				body:
 					'contentcontent contentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontentconte ntcontentco ntentcontentcontentcontent contentconten tcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontent',
 				category: 'technical',
-				priority: 'medium',
-				status: 'closed',
+				priority: 'normal',
+				status: 'open',
 				agent: 'agent',
 				created_at: '2021-03-31T02:49:29.847Z',
 				updated_at: '2021-03-31T02:49:29.847Z',
 				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'rtwertwert', 'wwwrtqt'],
+			},
+			{
+				id: 1335,
+				subject: 'theme',
+				body:
+					'contentcontent contentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontentconte ntcontentco ntentcontentcontentcontent contentconten tcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontent',
+				category: 'technical',
+				priority: 'normal',
+				status: 'open',
+				agent: 'agent',
+				created_at: '2021-03-31T02:49:29.847Z',
+				updated_at: '2021-03-31T02:49:29.847Z',
+				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123'],
+			},
+			{
+				id: 13335,
+				subject: 'theme',
+				body:
+					'contentcontent contentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontentconte ntcontentco ntentcontentcontentcontent contentconten tcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontent',
+				category: 'technical',
+				priority: 'normal',
+				status: 'new',
+				agent: 'agent',
+				created_at: '2021-03-31T02:49:29.847Z',
+				updated_at: '2021-03-31T02:49:29.847Z',
+				completed_at: '2021-03-31T02:49:29.847Z',
+				tags: ['123', 'wwwrtqt'],
 			},
 		],
 		supportTypes: [
 			{
-				name: 'Тикеты',
-				key: 'processing',
+				name: 'Все тикеты',
+				key: 'all',
 				icon: 'mdi-dots-horizontal',
 				color: 'primary',
 			},
 			{
-				name: 'Выполненные тикеты',
-				key: 'completed',
+				name: 'Новые',
+				key: 'new',
+				icon: 'mdi-dots-horizontal',
+				color: 'primary',
+			},
+			{
+				name: 'Открытые',
+				key: 'open',
+				icon: 'mdi-dots-horizontal',
+				color: 'primary',
+			},
+			{
+				name: 'Ожидающие',
+				key: 'pending',
+				icon: 'mdi-circle-slice-2',
+				color: 'yellow',
+			},
+			{
+				name: 'На удержании',
+				key: 'hold',
+				icon: 'mdi-circle-slice-2',
+				color: 'yellow',
+			},
+			{
+				name: 'Выполненные',
+				key: 'solved',
 				icon: 'mdi-check',
 				color: 'green',
 			},
 			{
-				name: 'Закрытые тикеты',
+				name: 'Закрытые',
 				key: 'closed',
 				icon: 'mdi-close',
 				color: 'red',
@@ -139,13 +198,19 @@ export default {
 			{
 				id: 2,
 				name: 'Средний приоритет',
-				key: 'medium',
+				key: 'normal',
 				color: 'orange',
 			},
 			{
 				id: 3,
 				name: 'Высокий приоритет',
 				key: 'high',
+				color: 'error',
+			},
+			{
+				id: 4,
+				name: 'Срочный',
+				key: 'urgent',
 				color: 'error',
 			},
 		],
@@ -155,18 +220,14 @@ export default {
 	},
 
 	getters: {
-		getCompletedTickets(store) {
-			return store.tickets.filter(ticket => ticket.status === 'completed');
+		getTicketsByStatus: store => status => {
+			return store.tickets.filter(ticket => ticket.status === status);
 		},
-		getProcessingTickets(store) {
-			return store.tickets.filter(ticket => ticket.status === 'processing');
+		getTicketsByPriority: store => priority => {
+			return store.tickets.filter(ticket => ticket.priority === priority);
 		},
-		getClosedTickets(store) {
-			return store.tickets.filter(ticket => ticket.status === 'closed');
-		},
-
-		getProcessingTicketsQuantity(_, getters) {
-			return getters.getProcessingTickets.length;
+		getQuantityByStatus: (state, getters) => status => {
+			return getters.getTicketsByStatus(status).length;
 		},
 	},
 
@@ -188,61 +249,54 @@ export default {
 			console.log('store add ticket', ticket);
 			state.tickets.push(ticket);
 		},
+		CLOSE_TICKET(state, ticketID) {
+			const ticketIndex = state.tickets.findIndex(item => item.id === ticketID);
+			state.tickets[ticketIndex].status = 'closed';
+		},
 	},
 
 	actions: {
 		async fetchTickets({ commit }) {
-			try {
-				const { data } = await axios.get('/trader/tickets');
-				commit('FETCH_TICKETS', data.tickets.results);
-				console.log('fetch tickets', data);
-			} catch (e) {
-				console.error(e);
-			}
+			const { data } = await axios.get('/trader/tickets');
+			commit('FETCH_TICKETS', data.tickets.results);
+			console.log('fetch tickets', data);
 		},
 		async fetchPriorityList({ commit }) {
-			try {
-				const { data } = await axios.get('/trader/ticket/priorities');
-				commit('FETCH_PRIORITY_LIST', data.tickets.results);
-				console.log('fetch priorities', data);
-			} catch (e) {
-				console.error(e);
-			}
+			const { data } = await axios.get('/trader/ticket/priorities');
+			commit('FETCH_PRIORITY_LIST', data.tickets.results);
+			console.log('fetch priorities', data);
 		},
 		async fetchStatusList({ commit }) {
-			try {
-				const { data } = await axios.get('/trader/ticket/statuses');
-				commit('FETCH_STATUS_LIST', data.tickets.results);
-				console.log('fetch statuses', data);
-			} catch (e) {
-				console.error(e);
-			}
+			const { data } = await axios.get('/trader/ticket/statuses');
+			commit('FETCH_STATUS_LIST', data.tickets.results);
+			console.log('fetch statuses', data);
 		},
 		async fetchTagList({ commit }) {
-			try {
-				const { data } = await axios.get('/trader/ticket/tags');
-				commit('FETCH_TAG_LIST', data.tickets.results);
-				console.log('fetch tags', data);
-			} catch (e) {
-				console.error(e);
-			}
+			const { data } = await axios.get('/trader/ticket/tags');
+			commit('FETCH_TAG_LIST', data.tickets.results);
+			console.log('fetch tags', data);
 		},
+
 		async fetchCommentsById({ commit }, id) {
-			try {
-				const { data } = await axios.get('/trader/ticket/comments', {
-					params: { id },
-				});
-				commit('FETCH_COMMENTS', data.tickets.results);
-				console.log('fetch tags', data);
-			} catch (e) {
-				console.error(e);
-			}
+			const { data } = await axios.get('/trader/ticket/comments', {
+				params: { id },
+			});
+			return data.comments.comments;
 		},
 
 		async addTicket({ commit }, ticket) {
 			commit('ADD_TICKET', ticket);
 			// const { data } = await axios.post('/trader/ticket/create', ticket);
 			// commit('ADD_TICKET', data.data.ticket);
+		},
+		async closeTicket({ commit }, ticketID) {
+			// await axios.delete('')
+			await new Promise(res => {
+				setTimeout(() => {
+					res();
+				}, 1000);
+			});
+			commit('CLOSE_TICKET', ticketID);
 		},
 	},
 };

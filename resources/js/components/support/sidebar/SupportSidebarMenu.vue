@@ -22,13 +22,11 @@
 						<v-list-item-title>{{ type.name }}</v-list-item-title>
 					</v-list-item-content>
 
-					<v-list-item-action
-						v-if="isProcessingTypeAndQuantityMoreZero(type.key)"
-					>
+					<v-list-item-action v-if="showQuantity(type.key)">
 						<v-badge
 							color="primary"
 							class="font-weight-bold"
-							:content="processingQuantity"
+							:content="getQuantity(type.key)"
 							inline
 						>
 						</v-badge>
@@ -36,29 +34,32 @@
 				</v-list-item>
 			</v-list>
 
-			<!--		<v-list dense nav class="mt-2 pa-0">-->
-			<!--			<div class="overline pa-1 mt-2">{{ $t('todo.labels') }}</div>-->
+			<v-list dense nav class="mt-2 pa-0">
+				<div class="overline pa-1 mt-2">Приоритет</div>
 
-			<!--			<v-list-item-->
-			<!--				v-for="label in labels"-->
-			<!--				:key="label.id"-->
-			<!--				active-class="primary&#45;&#45;text"-->
-			<!--			>-->
-			<!--				<v-list-item-icon>-->
-			<!--					<v-icon small :color="label.color">mdi-label-outline</v-icon>-->
-			<!--				</v-list-item-icon>-->
+				<v-list-item
+					v-for="priority in priorityList"
+					:key="priority.id"
+					:input-value="selectedType === priority.key"
+					:ripple="false"
+					active-class="primary--text"
+					@click="navigate(priority.key)"
+				>
+					<v-list-item-icon>
+						<v-icon small :color="priority.color">mdi-label-outline</v-icon>
+					</v-list-item-icon>
 
-			<!--				<v-list-item-content>-->
-			<!--					<v-list-item-title>{{ label.title }}</v-list-item-title>-->
-			<!--				</v-list-item-content>-->
-			<!--			</v-list-item>-->
-			<!--		</v-list>-->
+					<v-list-item-content>
+						<v-list-item-title>{{ priority.name }}</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+			</v-list>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 import SupportDialogCreate from '../dialog/SupportDialogCreate';
 
@@ -67,31 +68,33 @@ export default {
 
 	components: { SupportDialogCreate },
 
-	props: {
-		processingQuantity: {
-			type: Number,
-			required: true,
-		},
-	},
-
 	data() {
 		return {
-			selectedType: 'processing',
+			selectedType: 'all',
 		};
 	},
 
 	computed: {
-		...mapState('support', ['supportTypes']),
+		...mapState('support', ['supportTypes', 'priorityList']),
+		...mapGetters({
+			getQuantity: 'support/getQuantityByStatus',
+		}),
 	},
 
 	methods: {
+		showQuantity(type) {
+			return (
+				this.getQuantity(type) > 0 &&
+				type !== 'closed' &&
+				type !== 'solved' &&
+				type !== 'all'
+			);
+		},
+
 		navigate(type) {
 			window.location.hash = type;
 			this.selectedType = type;
 			this.$emit('update', type);
-		},
-		isProcessingTypeAndQuantityMoreZero(type) {
-			return type === 'processing' && this.processingQuantity > 0;
 		},
 	},
 };
