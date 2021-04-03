@@ -184,14 +184,11 @@ import positionClose from '../../../dialogs/trading/PositionClose';
 import positionAddFunds from '../../../dialogs/trading/PositionAddFunds';
 
 import OwnListConfirmDialog from '../common/OwnListConfirmDialog';
-import confirmDialog from '../../../../mixins/trading/confirmDialog';
 
 export default {
 	name: 'OwnActivePositionList',
 
 	components: { positionClose, positionAddFunds, OwnListConfirmDialog },
-
-	mixins: [confirmDialog],
 
 	props: {
 		currency: {

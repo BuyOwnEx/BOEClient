@@ -171,7 +171,6 @@ import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import OwnListConfirmDialog from '../common/OwnListConfirmDialog';
-import confirmDialog from '../../../../mixins/trading/confirmDialog';
 
 import formatDate from '../../../../mixins/format/formatDate';
 import calculateVolume from '../../../../mixins/trading/calculateVolume';
@@ -190,7 +189,6 @@ export default {
 		formatPrice,
 		calculateVolume,
 		findScale,
-		confirmDialog,
 	],
 
 	props: {

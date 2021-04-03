@@ -78,9 +78,6 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import OwnListConfirmDialog from '../common/OwnListConfirmDialog';
-import confirmDialog from '../../../../mixins/trading/confirmDialog';
-
 import formatDate from '../../../../mixins/format/formatDate';
 import formatSize from '../../../../mixins/trading/formatSize';
 import formatPrice from '../../../../mixins/trading/formatPrice';
@@ -90,15 +87,12 @@ import findScale from '../../../../mixins/trading/findScale';
 export default {
 	name: 'OwnHistoryDealList',
 
-	components: { OwnListConfirmDialog },
-
 	mixins: [
 		formatDate,
 		formatSize,
 		formatPrice,
 		calculateVolume,
 		findScale,
-		confirmDialog,
 	],
 
 	props: {
