@@ -15,6 +15,8 @@ export default {
 				return new Date(date).toLocaleDateString();
 			} else if (type === 'timeOnly') {
 				return new Date(date).toLocaleTimeString();
+			} else if (type === 'timeAgo') {
+				return moment(date).fromNow();
 			} else {
 				return new Date(date).toLocaleString();
 			}
