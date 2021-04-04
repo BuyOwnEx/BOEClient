@@ -26,19 +26,16 @@
 								</span>
 							</td>
 
-							<td class="history-deal-date">
-								<div
-									class="market-activity-indicator"
-									:class="{
-										positive: item.trend === 'positive',
-										negative: item.trend === 'negative',
-									}"
-								>
-									<div
-										v-for="star in item.stars"
-										class="market-activity-arrow"
-									></div>
-								</div>
+							<td class="market-activity__trend">
+								<v-icon v-if="item.trend === 'positive'" color="success" small>
+									mdi-arrow-up
+								</v-icon>
+								<v-icon v-if="item.trend === 'negative'" color="error" small>
+									mdi-arrow-down
+								</v-icon>
+								<span v-else>
+									—
+								</span>
 							</td>
 						</tr>
 
@@ -153,4 +150,6 @@ export default {
 		display: flex
 		flex-grow: 1
 		flex-flow: column
+	&__trend
+		width: 1%
 </style>
