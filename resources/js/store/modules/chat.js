@@ -1,9 +1,11 @@
 export default {
 	namespaced: true,
+
 	state: {
 		limit: 50,
-		messages: [],
+		messages: undefined,
 	},
+
 	mutations: {
 		setHistoryMessages(state, list) {
 			state.messages = list;
@@ -13,6 +15,6 @@ export default {
 			if (state.messages > state.limit) {
 				state.messages.shift();
 			}
-		}
-	}
+		},
+	},
 };

@@ -4,7 +4,9 @@
 			{{ $t('trading.headers.chat') }}
 		</v-card-title>
 
+		<CommonLoading v-if="!messagesData" />
 		<TradingChatContent
+			v-else
 			class="trading-chat__content pa-0"
 			:messages-data="messagesData"
 		/>
@@ -16,6 +18,7 @@
 <script>
 import TradingChatContent from './TradingChatContent';
 import TradingChatAddMessage from './TradingChatAddMessage';
+import CommonLoading from '../../common/CommonLoading';
 
 export default {
 	name: 'TradingChat',
@@ -23,6 +26,7 @@ export default {
 	components: {
 		TradingChatContent,
 		TradingChatAddMessage,
+		CommonLoading,
 	},
 
 	computed: {
