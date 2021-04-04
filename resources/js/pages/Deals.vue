@@ -211,37 +211,26 @@ export default {
 			});
 		},
 		async getItems(opts) {
-			try {
-				console.log(opts);
-				let parameters = opts;
-				if (opts.filters === undefined) {
-					let dates = {
-						filters: {
-							start:
-								moment()
-									.startOf('month')
-									.format('YYYY-MM-DD') +
-								' ' +
-								'00:00:00',
-							end: moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
-						},
-					};
-					_.assign(parameters, dates);
-				}
-				const response = await axios
-					.get('/trader/ext/all_deals', {
-						params: parameters,
-					})
-					.catch(function(error) {
-						console.log(error);
-					})
-					.finally(function() {
-						// always executed
-					});
-				return response.data;
-			} catch (error) {
-				console.error(error);
+			console.log(opts);
+			let parameters = opts;
+			if (opts.filters === undefined) {
+				let dates = {
+					filters: {
+						start:
+							moment()
+								.startOf('month')
+								.format('YYYY-MM-DD') +
+							' ' +
+							'00:00:00',
+						end: moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
+					},
+				};
+				_.assign(parameters, dates);
 			}
+			const response = await axios.get('/trader/ext/all_deals', {
+				params: parameters,
+			});
+			return response.data;
 		},
 
 		toggleFiltersShow() {

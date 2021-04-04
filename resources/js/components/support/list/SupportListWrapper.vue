@@ -12,7 +12,11 @@ export default {
 	name: 'SupportListWrapper',
 
 	props: {
-		typeToShow: {
+		statusToShow: {
+			type: String,
+			required: true,
+		},
+		priorityToShow: {
 			type: String,
 			required: true,
 		},
@@ -21,20 +25,24 @@ export default {
 	components: { SupportList },
 
 	computed: {
-		...mapState('support', ['tickets', 'supportTypes', 'priorityList']),
+		...mapState('support', ['tickets', 'supportStatuses', 'priorityList']),
 		...mapGetters({
 			getTicketsByStatus: 'support/getTicketsByStatus',
 			getTicketsByPriority: 'support/getTicketsByPriority',
+			getTicketsByPriorityAndStatus: 'support/getTicketsByPriorityAndStatus',
 		}),
 
 		ticketsData() {
-			const isAllTickets = this.typeToShow === 'all';
+			const isAllStatuses = this.statusToShow === 'all';
+			const isAllPriorities = this.priorityToShow === 'all';
+			const isStatus =
+					this.supportStatuses.findIndex(p => p.key === this.statusToShow) !== -1;
 			const isPriority =
-				this.priorityList.findIndex(p => p.key === this.typeToShow) !== -1;
-
-			if (isAllTickets) return this.tickets;
-			else if (isPriority) return this.getTicketsByPriority(this.typeToShow);
-			else return this.getTicketsByStatus(this.typeToShow);
+				this.priorityList.findIndex(p => p.key === this.priorityToShow) !== -1;
+            if(isAllStatuses && isAllPriorities) return this.tickets;
+			else if (isAllStatuses && !isAllPriorities && isPriority) return this.getTicketsByPriority(this.priorityToShow);
+			else if (isAllPriorities && !isAllStatuses && isStatus) return this.getTicketsByStatus(this.statusToShow);
+			else return this.getTicketsByPriorityAndStatus(this.priorityToShow, this.statusToShow);
 		},
 	},
 };

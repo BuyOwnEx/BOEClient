@@ -170,34 +170,23 @@ export default {
 			});
 		},
 		async getItems(opts) {
-			try {
-				console.log(opts);
-				let parameters = opts;
-				if (opts.filters === undefined) {
-					let dates = {
-						filters: {
-							start: moment()
-								.startOf('month')
-								.format('YYYY-MM-DD'),
-							end: moment().format('YYYY-MM-DD'),
-						},
-					};
-					_.assign(parameters, dates);
-				}
-				const response = await axios
-					.get('/trader/ext/all_ref_payments', {
-						params: parameters,
-					})
-					.catch(function(error) {
-						console.log(error);
-					})
-					.finally(function() {
-						// always executed
-					});
-				return response.data;
-			} catch (error) {
-				console.error(error);
+			console.log(opts);
+			let parameters = opts;
+			if (opts.filters === undefined) {
+				let dates = {
+					filters: {
+						start: moment()
+							.startOf('month')
+							.format('YYYY-MM-DD'),
+						end: moment().format('YYYY-MM-DD'),
+					},
+				};
+				_.assign(parameters, dates);
 			}
+			const response = await axios.get('/trader/ext/all_ref_payments', {
+				params: parameters,
+			});
+			return response.data;
 		},
 		menuItemExist(func) {
 			return _.findIndex(this.actions, action => action.name === func) !== -1;

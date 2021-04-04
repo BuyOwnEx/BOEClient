@@ -7,26 +7,26 @@
 
 			<v-list class="mt-2 pa-0" dense nav>
 				<v-list-item
-					v-for="type in supportTypes"
-					:key="type.id"
-					:input-value="selectedType === type.key"
+					v-for="status in supportStatuses"
+					:key="status.id"
+					:input-value="selectedStatus === status.key"
 					:ripple="false"
 					active-class="primary--text"
-					@click="navigate(type.key)"
+					@click="navigateStatus(status.key)"
 				>
 					<v-list-item-icon>
-						<v-icon :color="type.color" small>{{ type.icon }}</v-icon>
+						<v-icon :color="status.color" small>{{ status.icon }}</v-icon>
 					</v-list-item-icon>
 
 					<v-list-item-content>
-						<v-list-item-title>{{ type.name }}</v-list-item-title>
+						<v-list-item-title>{{ status.name }}</v-list-item-title>
 					</v-list-item-content>
 
-					<v-list-item-action v-if="showQuantity(type.key)">
+					<v-list-item-action v-if="showQuantity(status.key)">
 						<v-badge
 							color="primary"
 							class="font-weight-bold"
-							:content="getQuantity(type.key)"
+							:content="getQuantity(status.key)"
 							inline
 						>
 						</v-badge>
@@ -40,10 +40,10 @@
 				<v-list-item
 					v-for="priority in priorityList"
 					:key="priority.id"
-					:input-value="selectedType === priority.key"
+					:input-value="selectedPriority === priority.key"
 					:ripple="false"
 					active-class="primary--text"
-					@click="navigate(priority.key)"
+					@click="navigatePriority(priority.key)"
 				>
 					<v-list-item-icon>
 						<v-icon small :color="priority.color">mdi-label-outline</v-icon>
@@ -70,31 +70,38 @@ export default {
 
 	data() {
 		return {
-			selectedType: 'all',
+			selectedStatus: 'all',
+			selectedPriority: 'all',
 		};
 	},
 
 	computed: {
-		...mapState('support', ['supportTypes', 'priorityList']),
+		...mapState('support', ['supportStatuses', 'priorityList']),
 		...mapGetters({
 			getQuantity: 'support/getQuantityByStatus',
 		}),
 	},
 
 	methods: {
-		showQuantity(type) {
+		showQuantity(status) {
 			return (
-				this.getQuantity(type) > 0 &&
-				type !== 'closed' &&
-				type !== 'solved' &&
-				type !== 'all'
+				this.getQuantity(status) > 0 &&
+				status !== 'closed' &&
+				status !== 'solved' &&
+				status !== 'all'
 			);
 		},
 
-		navigate(type) {
-			window.location.hash = type;
-			this.selectedType = type;
-			this.$emit('update', type);
+		navigateStatus(status) {
+			//window.location.hash = status;
+			this.selectedStatus = status;
+			this.$emit('update-status', status);
+		},
+
+		navigatePriority(priority) {
+			//window.location.hash = status;
+			this.selectedPriority = priority;
+			this.$emit('update-priority', priority);
 		},
 	},
 };

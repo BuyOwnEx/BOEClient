@@ -15,19 +15,12 @@
 						<template v-slot:default="{ open }">
 							<div class="d-flex">
 								<v-avatar
-									v-if="isAuthorUser(item.author_id)"
 									size="36"
-									v-html="getGeneratedAvatar"
+									v-html="getGeneratedAvatar(item.author)"
 								/>
-								<v-avatar
-									v-else
-									size="36"
-									v-html="getGeneratedAvatar(item.audit_id)"
-								/>
-
 								<div class="mx-2 min-w-0">
 									<div class="font-weight-bold mb-1">
-										{{ getAuthorName(item.author_id) }}
+										{{ item.author }}
 									</div>
 									<div
 										v-show="!open"
@@ -103,15 +96,7 @@ export default {
 		}),
 		async fetch() {
 			this.comments = await this.fetchComments(this.ticket.id);
-		},
-
-		isAuthorUser(authorID) {
-			const user = this.$store.state.app.trader;
-			return authorID === user.id;
-		},
-		getAuthorName(authorID) {
-			if (this.isAuthorUser(authorID)) return user.name;
-			else return 'Support Team';
+			console.log(this.comments);
 		},
 	},
 };

@@ -203,37 +203,26 @@ export default {
 			});
 		},
 		async getItems(opts) {
-			try {
-				console.log(opts);
-				let parameters = opts;
-				if (opts.filters === undefined) {
-					let dates = {
-						filters: {
-							start:
-								moment()
-									.startOf('month')
-									.format('YYYY-MM-DD') +
-								' ' +
-								'00:00:00',
-							end: moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
-						},
-					};
-					_.assign(parameters, dates);
-				}
-				const response = await axios
-					.get('/trader/ext/all_fiat_transactions', {
-						params: parameters,
-					})
-					.catch(function(error) {
-						console.log(error);
-					})
-					.finally(function() {
-						// always executed
-					});
-				return response.data;
-			} catch (error) {
-				console.error(error);
+			console.log(opts);
+			let parameters = opts;
+			if (opts.filters === undefined) {
+				let dates = {
+					filters: {
+						start:
+							moment()
+								.startOf('month')
+								.format('YYYY-MM-DD') +
+							' ' +
+							'00:00:00',
+						end: moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
+					},
+				};
+				_.assign(parameters, dates);
 			}
+			const response = await axios.get('/trader/ext/all_fiat_transactions', {
+				params: parameters,
+			});
+			return response.data;
 		},
 		menuItemExist(func) {
 			return _.findIndex(this.actions, action => action.name === func) !== -1;

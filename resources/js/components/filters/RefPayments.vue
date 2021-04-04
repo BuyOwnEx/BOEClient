@@ -159,9 +159,6 @@ export default {
 					console.log(response);
 					self.followers = response.data.data;
 				})
-				.catch(error => {
-					console.log(error);
-				})
 				.finally(() => (self.loadingFollowers = false));
 		},
 		setApplyEnable() {

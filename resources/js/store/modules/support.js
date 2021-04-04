@@ -124,7 +124,7 @@ export default {
 				tags: ['123', 'wwwrtqt'],
 			},
 		],
-		supportTypes: [
+		supportStatuses: [
 			{
 				name: 'Все тикеты',
 				key: 'all',
@@ -134,13 +134,13 @@ export default {
 			{
 				name: 'Новые',
 				key: 'new',
-				icon: 'mdi-dots-horizontal',
+				icon: 'mdi-new-box',
 				color: 'primary',
 			},
 			{
 				name: 'Открытые',
 				key: 'open',
-				icon: 'mdi-dots-horizontal',
+				icon: 'mdi-book-open-outline',
 				color: 'primary',
 			},
 			{
@@ -152,8 +152,8 @@ export default {
 			{
 				name: 'На удержании',
 				key: 'hold',
-				icon: 'mdi-circle-slice-2',
-				color: 'yellow',
+				icon: 'mdi-circle-slice-6',
+				color: 'orange',
 			},
 			{
 				name: 'Выполненные',
@@ -168,55 +168,38 @@ export default {
 				color: 'red',
 			},
 		],
-		categoryList: [
-			{
-				id: 1,
-				name: 'Техническая служба',
-				key: 'technical',
-				color: 'blue',
-			},
-			{
-				id: 2,
-				name: 'Финансовая служба',
-				key: 'finance',
-				color: 'blue',
-			},
-			{
-				id: 3,
-				name: 'Сервисная служба',
-				key: 'service',
-				color: 'blue',
-			},
-		],
 		priorityList: [
 			{
 				id: 1,
+				name: 'Все',
+				key: 'all',
+				color: 'primary',
+			},
+			{
+				id: 2,
 				name: 'Низкий приоритет',
 				key: 'low',
 				color: 'warning',
 			},
 			{
-				id: 2,
+				id: 3,
 				name: 'Средний приоритет',
 				key: 'normal',
 				color: 'orange',
 			},
 			{
-				id: 3,
+				id: 4,
 				name: 'Высокий приоритет',
 				key: 'high',
 				color: 'error',
 			},
 			{
-				id: 4,
+				id: 5,
 				name: 'Срочный',
 				key: 'urgent',
-				color: 'error',
+				color: 'pink',
 			},
 		],
-		// priorityList: null,
-		// statusList: null,
-		// tagList: null,
 	},
 
 	getters: {
@@ -226,6 +209,9 @@ export default {
 		getTicketsByPriority: store => priority => {
 			return store.tickets.filter(ticket => ticket.priority === priority);
 		},
+		getTicketsByPriorityAndStatus: store => (priority, status) => {
+			return store.tickets.filter(ticket => ticket.priority === priority && ticket.status === status);
+		},
 		getQuantityByStatus: (state, getters) => status => {
 			return getters.getTicketsByStatus(status).length;
 		},
@@ -234,15 +220,6 @@ export default {
 	mutations: {
 		FETCH_TICKETS(state, tickets) {
 			state.tickets = tickets;
-		},
-		FETCH_PRIORITY_LIST(state, list) {
-			state.priorityList = list;
-		},
-		FETCH_STATUS_LIST(state, list) {
-			state.statusList = list;
-		},
-		FETCH_TAG_LIST(state, list) {
-			state.tagList = list;
 		},
 
 		ADD_TICKET(state, ticket) {
@@ -261,32 +238,22 @@ export default {
 			commit('FETCH_TICKETS', data.tickets.results);
 			console.log('fetch tickets', data);
 		},
-		async fetchPriorityList({ commit }) {
-			const { data } = await axios.get('/trader/ticket/priorities');
-			commit('FETCH_PRIORITY_LIST', data.tickets.results);
-			console.log('fetch priorities', data);
-		},
-		async fetchStatusList({ commit }) {
-			const { data } = await axios.get('/trader/ticket/statuses');
-			commit('FETCH_STATUS_LIST', data.tickets.results);
-			console.log('fetch statuses', data);
-		},
-		async fetchTagList({ commit }) {
-			const { data } = await axios.get('/trader/ticket/tags');
-			commit('FETCH_TAG_LIST', data.tickets.results);
-			console.log('fetch tags', data);
-		},
 
 		async fetchCommentsById({ commit }, id) {
 			const { data } = await axios.get('/trader/ticket/comments', {
 				params: { id },
 			});
-			return data.comments.comments;
+			return _.forEach(data.comments.comments, function(value,key) {
+				let user = _.find(data.comments.users, function(user) { return user.id === value.author_id; });
+				_.extend(value, {author: user.name})
+			});
 		},
 
 		async addTicket({ commit }, ticket) {
 			commit('ADD_TICKET', ticket);
-			// const { data } = await axios.post('/trader/ticket/create', ticket);
+
+			const { data } = await axios.post('/trader/ticket/create', ticket);
+			console.log('add ticket response', data);
 			// commit('ADD_TICKET', data.data.ticket);
 		},
 		async closeTicket({ commit }, ticketID) {
