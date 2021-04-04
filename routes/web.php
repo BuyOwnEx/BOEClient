@@ -42,6 +42,7 @@ Route::get('2fa', 'Auth\LoginController@getValidateToken');
 Route::post('2fa_validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
 Route::get('forget_2fa','Google2FAController@forgetTwoFactor');
 
+Route::post('set_locale', 'TraderController@setLocale');
 
 Route::group(['prefix' => 'trader'], function () {
 

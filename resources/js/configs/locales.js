@@ -14,10 +14,18 @@ const supported = ['en', 'es', 'pt', 'de', 'fr', 'ar', 'ko', 'ru', 'zh', 'ja', '
 let locale = 'en';
 
 try {
-	// get browser default language
-	const { 0: browserLang } = navigator.language.split('-');
+	// get locale from backend
+	if(window.locale)
+	{
+		locale = window.locale;
+	}
+	else // get browser default language
+	{
+		const { 0: browserLang } = navigator.language.split('-');
 
-	if (supported.includes(browserLang)) locale = browserLang;
+		if (supported.includes(browserLang)) locale = browserLang;
+	}
+
 } catch (e) {
 	console.log(e);
 }

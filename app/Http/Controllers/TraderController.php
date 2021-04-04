@@ -7,6 +7,7 @@ use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;
 use App\PersonalAccessToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -600,6 +601,23 @@ class TraderController extends Controller
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function setLocale(Request $request)
+    {
+        if (in_array($request->lang, config('app.locales'))) {   # Проверяем, что у пользователя выбран доступный язык
+            App::setLocale($request->lang);
+            session(['locale' =>$request->lang]);
+            if(Auth::user())
+            {
+                Auth::user()->language = $request->lang;
+                Auth::user()->save();
+            }
+            return ['success'=>true];
+        }
+        else {
+            return ['success'=>false, 'message'=>'Language is not supported'];
         }
     }
 }

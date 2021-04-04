@@ -60,15 +60,25 @@ export default {
 	},
 	methods: {
 		setLocale(locale) {
-			this.$i18n.locale = locale;
-			this.$vuetify.lang.current = locale;
+			axios.post('/set_locale', {
+				lang: locale,
+			}).then(resp => {
+				if(resp.data.success)
+				{
+					this.$i18n.locale = locale;
+					this.$vuetify.lang.current = locale;
+					const html = document.documentElement; // returns the html tag
+					html.setAttribute('lang', locale);
+					// example on how certain languages can be RTL
+					if (locale === 'ar') {
+						this.$vuetify.rtl = true;
+					} else {
+						this.$vuetify.rtl = false;
+					}
+				}
+			});
 
-			// example on how certain languages can be RTL
-			if (locale === 'ar') {
-				this.$vuetify.rtl = true;
-			} else {
-				this.$vuetify.rtl = false;
-			}
+
 		},
 	},
 };
