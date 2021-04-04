@@ -12,7 +12,7 @@
 					:input-value="selectedStatus === status.key"
 					:ripple="false"
 					active-class="primary--text"
-					@click="navigateStatus(status.key)"
+					@click="updateStatus(status.key)"
 				>
 					<v-list-item-icon>
 						<v-icon :color="status.color" small>{{ status.icon }}</v-icon>
@@ -43,7 +43,7 @@
 					:input-value="selectedPriority === priority.key"
 					:ripple="false"
 					active-class="primary--text"
-					@click="navigatePriority(priority.key)"
+					@click="updatePriority(priority.key)"
 				>
 					<v-list-item-icon>
 						<v-icon small :color="priority.color">mdi-label-outline</v-icon>
@@ -92,12 +92,12 @@ export default {
 			);
 		},
 
-		navigateStatus(status) {
+		updateStatus(status) {
 			this.selectedStatus = status;
 			this.$emit('update-status', status);
 		},
 
-		navigatePriority(priority) {
+		updatePriority(priority) {
 			this.selectedPriority = priority;
 			this.$emit('update-priority', priority);
 		},
