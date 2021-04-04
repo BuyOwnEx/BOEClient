@@ -3,7 +3,7 @@ export default {
 
 	state: {
 		limit: 50,
-		messages: undefined,
+		messages: null,
 	},
 
 	mutations: {
