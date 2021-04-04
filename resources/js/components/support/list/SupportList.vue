@@ -48,7 +48,7 @@
 						{{ ticket.subject }}
 					</v-list-item-title>
 
-					<v-list-item-subtitle>{{ ticket.body }}</v-list-item-subtitle>
+					<v-list-item-subtitle>{{ ticket.description }}</v-list-item-subtitle>
 
 					<v-list-item-subtitle>
 						<span

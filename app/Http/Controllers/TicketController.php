@@ -30,7 +30,7 @@ class TicketController extends Controller
     {
         try {
             //$tickets = Zendesk::users(Auth::id())->tickets()->requested();
-            $tickets = Zendesk::search()->find('type:ticket requester:'.Auth::id());
+            $tickets = Zendesk::search()->find('type:ticket requester:'.Auth::user()->name);
             return ['success' => true, 'tickets' => $tickets];
         }
         catch (\Exception $e)
@@ -42,7 +42,7 @@ class TicketController extends Controller
     public function getAllTicketComments(Request $request)
     {
         try {
-            $comments = Zendesk::tickets($request->id)->comments()->findAll();
+            $comments = Zendesk::tickets($request->id)->comments()->sideload(['users'])->findAll();
             return ['success' => true, 'comments' => $comments];
         }
         catch (\Exception $e)
