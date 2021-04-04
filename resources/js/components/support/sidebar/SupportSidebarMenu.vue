@@ -93,13 +93,11 @@ export default {
 		},
 
 		navigateStatus(status) {
-			//window.location.hash = status;
 			this.selectedStatus = status;
 			this.$emit('update-status', status);
 		},
 
 		navigatePriority(priority) {
-			//window.location.hash = status;
 			this.selectedPriority = priority;
 			this.$emit('update-priority', priority);
 		},

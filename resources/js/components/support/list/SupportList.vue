@@ -1,5 +1,5 @@
 <template>
-	<v-card class="support-list">
+	<div class="support-list">
 		<div class="support-list__top px-2 d-flex align-center">
 			<v-btn v-if="ticketDetails" icon @click="ticketDetails = null">
 				<v-icon>mdi-arrow-left</v-icon>
@@ -21,10 +21,10 @@
 			<v-spacer />
 
 			<div class="caption mr-1">1 - 20 of 428</div>
-			<v-btn icon disabled>
+			<v-btn icon disabled @click="getPrevPage">
 				<v-icon>mdi-chevron-left</v-icon>
 			</v-btn>
-			<v-btn icon>
+			<v-btn icon @click="getNextPage">
 				<v-icon>mdi-chevron-right</v-icon>
 			</v-btn>
 		</div>
@@ -70,7 +70,7 @@
 		</v-list>
 
 		<SupportTicketDetails v-else-if="ticketDetails" :ticket="ticketDetails" />
-	</v-card>
+	</div>
 </template>
 
 <script>
@@ -117,7 +117,6 @@ export default {
 			closeTicketStore: 'support/closeTicket',
 		}),
 		openTicketDetails(ticket) {
-			console.log(ticket);
 			this.resetScroll();
 			this.ticketDetails = ticket;
 		},
@@ -125,6 +124,13 @@ export default {
 		refresh() {
 			console.log('refresh');
 		},
+		async getPrevPage() {
+			console.log('get prev page');
+		},
+		async getNextPage() {
+			console.log('get next page');
+		},
+
 		async closeTicket() {
 			try {
 				this.startLoading();

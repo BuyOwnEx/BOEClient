@@ -2,128 +2,6 @@ export default {
 	namespaced: true,
 
 	state: {
-		tickets: [
-			{
-				id: 1,
-				subject: 'У меня есть проблемы с тем и тем',
-				body: 'enters \n \n test <b>b tag</b>',
-				category: 'service',
-				priority: 'urgent',
-				status: 'pending',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'rtwertwert', 'wwwrtqt'],
-			},
-			{
-				id: 12,
-				subject: 'theme',
-				body: 'content',
-				category: 'service',
-				priority: 'normal',
-				status: 'hold',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'rtwertwert', 'wwwrtqt'],
-			},
-			{
-				id: 13,
-				subject: 'theme',
-				body: 'content',
-				category: 'finance',
-				priority: 'normal',
-				status: 'solved',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'rtwertwert', 'wwwrtqt'],
-			},
-			{
-				id: 14,
-				subject: 'theme',
-				body: 'content',
-				category: 'technical',
-				priority: 'high',
-				status: 'open',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'rtwertwert', 'wwwrtqt'],
-			},
-			{
-				id: 134,
-				subject: 'theme',
-				body: 'content',
-				category: 'technical',
-				priority: 'low',
-				status: 'open',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'rtwertwert', 'wwwrtqt'],
-			},
-			{
-				id: 144,
-				subject: 'theme',
-				body: 'content',
-				category: 'technical',
-				priority: 'normal',
-				status: 'open',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'rtwertwert', 'wwwrtqt'],
-			},
-			{
-				id: 135,
-				subject: 'theme',
-				body:
-					'contentcontent contentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontentconte ntcontentco ntentcontentcontentcontent contentconten tcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontent',
-				category: 'technical',
-				priority: 'normal',
-				status: 'open',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'rtwertwert', 'wwwrtqt'],
-			},
-			{
-				id: 1335,
-				subject: 'theme',
-				body:
-					'contentcontent contentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontentconte ntcontentco ntentcontentcontentcontent contentconten tcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontent',
-				category: 'technical',
-				priority: 'normal',
-				status: 'open',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123'],
-			},
-			{
-				id: 13335,
-				subject: 'theme',
-				body:
-					'contentcontent contentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontentconte ntcontentco ntentcontentcontentcontent contentconten tcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcont entcontentcontentcontentcontentcontentcontentcontentcontentconten tcontentcontentcontent',
-				category: 'technical',
-				priority: 'normal',
-				status: 'new',
-				agent: 'agent',
-				created_at: '2021-03-31T02:49:29.847Z',
-				updated_at: '2021-03-31T02:49:29.847Z',
-				completed_at: '2021-03-31T02:49:29.847Z',
-				tags: ['123', 'wwwrtqt'],
-			},
-		],
 		supportStatuses: [
 			{
 				name: 'Все тикеты',
@@ -200,6 +78,10 @@ export default {
 				color: 'pink',
 			},
 		],
+
+		tickets: null,
+		prevPage: null,
+		nextPage: null,
 	},
 
 	getters: {
@@ -210,7 +92,9 @@ export default {
 			return store.tickets.filter(ticket => ticket.priority === priority);
 		},
 		getTicketsByPriorityAndStatus: store => (priority, status) => {
-			return store.tickets.filter(ticket => ticket.priority === priority && ticket.status === status);
+			return store.tickets.filter(
+				ticket => ticket.priority === priority && ticket.status === status
+			);
 		},
 		getQuantityByStatus: (state, getters) => status => {
 			return getters.getTicketsByStatus(status).length;
@@ -219,7 +103,9 @@ export default {
 
 	mutations: {
 		FETCH_TICKETS(state, tickets) {
-			state.tickets = tickets;
+			state.nextPage = tickets.next_page;
+			state.prevPage = tickets.prev_page;
+			state.tickets = tickets.results;
 		},
 
 		ADD_TICKET(state, ticket) {
@@ -235,7 +121,7 @@ export default {
 	actions: {
 		async fetchTickets({ commit }) {
 			const { data } = await axios.get('/trader/tickets');
-			commit('FETCH_TICKETS', data.tickets.results);
+			commit('FETCH_TICKETS', data.tickets);
 			console.log('fetch tickets', data);
 		},
 
@@ -243,9 +129,11 @@ export default {
 			const { data } = await axios.get('/trader/ticket/comments', {
 				params: { id },
 			});
-			return _.forEach(data.comments.comments, function(value,key) {
-				let user = _.find(data.comments.users, function(user) { return user.id === value.author_id; });
-				_.extend(value, {author: user.name})
+			return _.forEach(data.comments.comments, value => {
+				let user = _.find(data.comments.users, user => {
+					return user.id === value.author_id;
+				});
+				_.extend(value, { author: user.name });
 			});
 		},
 

@@ -1,6 +1,11 @@
 <template>
-	<div class='text-center mt-3'>
-		<v-progress-circular :color='color' :size='size' :width='width' indeterminate />
+	<div class="common-loading text-center mt-3">
+		<v-progress-circular
+			:color="color"
+			:size="size"
+			:width="width"
+			indeterminate
+		/>
 	</div>
 </template>
 
@@ -18,3 +23,9 @@ export default {
 	},
 };
 </script>
+
+<style scoped>
+.common-loading {
+	width: 100%;
+}
+</style>
