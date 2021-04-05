@@ -68,6 +68,15 @@
 							</span>
 						</template>
 					</v-select>
+
+					<v-file-input
+						v-model="form.image"
+						class="support-dialog-create__file"
+						accept="image/*"
+						label="Прикрепите файл"
+						prepend-icon="mdi-image"
+						small-chips
+					/>
 				</v-form>
 			</v-card-text>
 
@@ -122,6 +131,7 @@ export default {
 				subject: '',
 				body: '',
 				priority: 'normal',
+				image: null,
 			},
 		};
 	},
@@ -141,6 +151,7 @@ export default {
 					this.form.subject = '';
 					this.form.body = '';
 					this.form.priority = 'normal';
+					this.form.image = null
 					this.$refs.form.resetValidation();
 				});
 			}
@@ -173,6 +184,8 @@ export default {
 
 <style lang="sass" scoped>
 .support-dialog-create
+	&__file
+		padding: 8px 12px
 	::v-deep.v-input__slot
 		padding: 0
 </style>
