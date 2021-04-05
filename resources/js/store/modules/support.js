@@ -112,7 +112,7 @@ export default {
 		FETCH_TICKETS(state, tickets) {
 			state.nextPage = tickets.next_page;
 			state.prevPage = tickets.prev_page;
-			state.tickets = tickets.results;
+			state.tickets = tickets.results.slice().reverse();
 		},
 
 		ADD_TICKET(state, ticket) {
