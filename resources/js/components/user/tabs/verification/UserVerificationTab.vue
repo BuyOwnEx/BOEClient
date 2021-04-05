@@ -69,6 +69,7 @@ export default {
 							}
 							input:focus, select:focus, textarea:focus {
 								border-bottom-color: var(--primary-color);
+								outline: none;
 							}
 							::placeholder {
 								color: var(--primary-color) !important;
@@ -102,12 +103,32 @@ export default {
 								cursor: pointer;
 								margin-right: -8px;
 							}
+							select	{
+								appearance: none;
+							}
+							.line-form-item span {
+								color: #7a7a7aab;
+							}
+							.welcome-input.phone-input {
+								background: transparent !important;
+								border: 1px solid #8888883b !important;
+							}
+							.row .welcome-input.phone-input > input {
+								background-color: transparent !important;
+								color: #9395a9 !important;
+							}
+							.welcome-input.phone-input .fa-icon {
+								fill: #9395a9;
+							}
+							.calling-code {
+								color: #9395a9 !important;
+							}
 
 							.show-hide {
 								top: 5px !important;
 								right: 3px !important;
 							}
-							.success-icon {
+							.fields-list .success-icon {
 								top: -2px !important;
 								right: 0 !important;
 							}
@@ -132,15 +153,16 @@ export default {
 							button.back .arrow {
 								display: none;
 							}
-							button.submit {
+							button.submit, button.continue {
 								border-radius: 5px;
 								border: none !important;
 								background: var(--v-primary-base) !important;
+								color: white;
 							}
-							button.submit:hover {
+							button.submit:hover, button.continue:hover {
 								background: #0baecc !important;
 							}
-							button.submit:active {
+							button.submit:active, button.continue:active {
 								background: #11b6d4 !important;
 							}
 							button.submit .arrow {
