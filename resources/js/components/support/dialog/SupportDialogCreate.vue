@@ -51,30 +51,21 @@
 						flat
 					>
 						<template v-slot:selection="{ attrs, item, parent, selected }">
-							<v-chip
-								v-if="item === Object(item)"
-								class="font-weight-bold"
-								v-bind="attrs"
-								:color="item.color"
-								:input-value="selected"
-								outlined
-								small
+							<span
+								class="font-weight-bold pr-2"
+								:class="[`${item.color}--text`]"
 							>
-								<span class="pr-2">
-									{{ item.name }}
-								</span>
-							</v-chip>
+								{{ item.name }}
+							</span>
 						</template>
 
 						<template v-slot:item="{ item }">
-							<v-chip
+							<span
 								class="font-weight-bold my-1"
-								:color="item.color"
-								outlined
-								small
+								:class="[`${item.color}--text`]"
 							>
 								{{ item.name }}
-							</v-chip>
+							</span>
 						</template>
 					</v-select>
 				</v-form>
