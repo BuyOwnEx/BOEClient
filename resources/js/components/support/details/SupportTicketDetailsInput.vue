@@ -131,10 +131,16 @@
 		<v-divider />
 
 		<div class="d-flex align-center pa-2">
-			<v-btn color="primary">
+			<v-btn :loading="loading" color="primary" @click="addComment">
 				{{ $t('email.send') }}
 			</v-btn>
-			<v-file-input hide-input class="pa-0 mx-1" />
+
+			<v-file-input
+				v-model="image"
+				class="pa-0 mx-1"
+				accept="image/*"
+				hide-input
+			/>
 		</div>
 	</div>
 </template>
@@ -169,6 +175,17 @@ export default {
 		EditorMenuBar,
 	},
 
+	props: {
+		ticketId: {
+			type: Number,
+			required: true,
+		},
+		loading: {
+			type: Boolean,
+			required: true,
+		},
+	},
+
 	data() {
 		return {
 			editor: new Editor({
@@ -191,26 +208,28 @@ export default {
 					new Underline(),
 					new History(),
 				],
+
 				content: `
-          <h3>
-            Hi there,
-          </h3>
-          <p>
-            <br />
-            I'll take my boat.
-          </p>
-          <blockquote>
-            Best regards 👏
-            <br />
-            – Tom Cruise
-          </blockquote>
+          Default message
         `,
 			}),
+			image: null,
 		};
 	},
 
 	beforeDestroy() {
 		this.editor.destroy();
+	},
+
+	methods: {
+		addComment() {
+			const payload = {
+				id: this.ticketId,
+				body: this.editor.getHTML(),
+				image: this.image,
+			};
+			this.$emit('add', payload);
+		},
 	},
 };
 </script>

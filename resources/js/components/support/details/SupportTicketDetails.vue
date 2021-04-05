@@ -43,7 +43,11 @@
 			</v-expansion-panels>
 
 			<v-card v-if="!isClosedTicket" class="mt-4">
-				<SupportTicketDetailsInput />
+				<SupportTicketDetailsInput
+					:ticket-id="ticket.id"
+					:loading="loading"
+					@add="addComment"
+				/>
 			</v-card>
 		</div>
 	</div>
@@ -55,13 +59,14 @@ import SupportTicketDetailsInput from './SupportTicketDetailsInput';
 import CommonLoading from '../../common/CommonLoading';
 
 import formatDate from '../../../mixins/format/formatDate';
+import loadingMixin from '../../../mixins/common/loadingMixin';
 
 export default {
 	name: 'SupportTicketDetails',
 
 	components: { SupportTicketDetailsInput, CommonLoading },
 
-	mixins: [formatDate],
+	mixins: [formatDate, loadingMixin],
 
 	props: {
 		ticket: {
@@ -73,7 +78,7 @@ export default {
 	data() {
 		return {
 			comments: null,
-			commentsExpanded: [3],
+			commentsExpanded: [],
 		};
 	},
 
@@ -93,10 +98,30 @@ export default {
 	methods: {
 		...mapActions({
 			fetchComments: 'support/fetchCommentsById',
+			addTicketCommentStore: 'support/addTicketComment',
 		}),
+
 		async fetch() {
-			this.comments = await this.fetchComments(this.ticket.id);
-			console.log(this.comments);
+			const comments = await this.fetchComments(this.ticket.id);
+			const lastCommentIndex = comments.length - 1;
+
+			this.comments = comments;
+			this.commentsExpanded.push(lastCommentIndex);
+		},
+
+		async addComment(comment) {
+			try {
+				this.startLoading();
+				await this.addTicketCommentStore(comment);
+				this.comments.push({
+					...comment,
+					author: this.$store.state.app.trader.name,
+					created_at: new Date().toISOString(),
+					html_body: comment.body,
+				});
+			} finally {
+				this.stopLoading();
+			}
 		},
 	},
 };

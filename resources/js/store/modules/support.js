@@ -143,6 +143,9 @@ export default {
 				_.extend(value, { author: user.name });
 			});
 		},
+		async addTicketComment({ commit }, payload) {
+			await axios.post('/trader/ticket/comment/add', payload);
+		},
 
 		async addTicket({ commit }, ticket) {
 			const { data } = await axios.post('/trader/ticket/create', ticket);
