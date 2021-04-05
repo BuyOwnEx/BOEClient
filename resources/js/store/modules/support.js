@@ -86,18 +86,25 @@ export default {
 
 	getters: {
 		getTicketsByStatus: store => status => {
-			return store.tickets.filter(ticket => ticket.status === status);
+			if (store.tickets) {
+				return store.tickets.filter(ticket => ticket.status === status);
+			}
 		},
 		getTicketsByPriority: store => priority => {
-			return store.tickets.filter(ticket => ticket.priority === priority);
+			if (store.tickets) {
+				return store.tickets.filter(ticket => ticket.priority === priority);
+			}
 		},
 		getTicketsByPriorityAndStatus: store => (priority, status) => {
-			return store.tickets.filter(
-				ticket => ticket.priority === priority && ticket.status === status
-			);
+			if (store.tickets) {
+				return store.tickets.filter(
+					ticket => ticket.priority === priority && ticket.status === status
+				);
+			}
 		},
 		getQuantityByStatus: (state, getters) => status => {
-			return getters.getTicketsByStatus(status).length;
+			const dataArray = getters.getTicketsByStatus(status);
+			if (dataArray) return dataArray.length;
 		},
 	},
 
@@ -138,19 +145,11 @@ export default {
 		},
 
 		async addTicket({ commit }, ticket) {
-			commit('ADD_TICKET', ticket);
-
 			const { data } = await axios.post('/trader/ticket/create', ticket);
-			console.log('add ticket response', data);
-			// commit('ADD_TICKET', data.data.ticket);
+			commit('ADD_TICKET', data.ticket.ticket);
 		},
 		async closeTicket({ commit }, ticketID) {
-			await axios.post('/trader/ticket/close', {id: ticketID});
-			/*await new Promise(res => {
-				setTimeout(() => {
-					res();
-				}, 1000);
-			});*/
+			await axios.post('/trader/ticket/close', { id: ticketID });
 			commit('CLOSE_TICKET', ticketID);
 		},
 	},
