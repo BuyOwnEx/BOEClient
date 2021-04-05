@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Huddle\Zendesk\Facades\Zendesk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
@@ -78,16 +79,19 @@ class TicketController extends Controller
     public function addComment(Request $request)
     {
         try {
-            $ticket = Zendesk::tickets()->update($request->id, [
-                'comment' => [
-                    'body' => $request->body,
-                    'author' => array(
-                        'name' => Auth::user()->name,
-                        'email' => Auth::user()->email,
-                    ),
-                ]
-            ]);
-            return ['success' => true, 'ticket' => $ticket];
+            $params = array('query' => 'email:'.Auth::user()->email.' name:'.Auth::user()->name);
+            $search = Zendesk::users()->search($params);
+            if (empty($search->users)) {
+                return ['success' => false, 'message' => 'User not found'];
+            } else {
+                $ticket = Zendesk::tickets()->update($request->id, [
+                    'comment' => [
+                        'body' => $request->body,
+                        'author_id' => $search->users[0]->id,
+                    ]
+                ]);
+                return ['success' => true, 'ticket' => $ticket];
+            }
         }
         catch (\Exception $e)
         {
