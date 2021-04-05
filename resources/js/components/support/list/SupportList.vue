@@ -1,5 +1,5 @@
 <template>
-	<div class="support-list">
+	<div class="support-list min-w-0">
 		<div class="support-list__top px-2 d-flex align-center">
 			<v-btn v-if="ticketDetails" icon @click="ticketDetails = null">
 				<v-icon>mdi-arrow-left</v-icon>
