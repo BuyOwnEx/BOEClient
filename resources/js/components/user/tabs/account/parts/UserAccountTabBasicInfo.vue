@@ -37,9 +37,14 @@
 						readonly
 					/>
 
+					<div class="mt-1 mb-2">
+						<div>Реферальная ссылка</div>
+						<CopyLabel :text="refLink" />
+					</div>
+
 					<div class="d-flex flex-column">
 						<v-checkbox
-							class='mt-0'
+							class="mt-0"
 							:ripple="false"
 							:input-value="true"
 							readonly
@@ -56,6 +61,15 @@
 							hide-details
 							dense
 						/>
+						<v-checkbox
+							class="mt-0"
+							v-model="user.verify_status"
+							:ripple="false"
+							label="KYC status"
+							readonly
+							hide-details
+							dense
+						/>
 					</div>
 				</div>
 			</div>
@@ -64,8 +78,12 @@
 </template>
 
 <script>
+import CopyLabel from '../../../../common/CopyLabel';
+
 export default {
 	name: 'UserAccountTabBasicInfo',
+
+	components: { CopyLabel },
 
 	props: {
 		user: {
@@ -78,6 +96,9 @@ export default {
 		generatedAvatar() {
 			return this.$store.getters['user/getGeneratedAvatar']();
 		},
+		refLink() {
+			return `${window.location.hostname}?ref=${user.id}`;
+		},
 	},
 };
 </script>
@@ -86,6 +107,8 @@ export default {
 .user-account-tab-basic-info
 	&__avatar
 		background: #cfd8dc
+	::v-deep.v-input--checkbox:first-child
+		padding-top: 0
 .theme--dark
 	.user-account-tab-basic-info__avatar
 		background: #687479
