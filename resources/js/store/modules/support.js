@@ -117,7 +117,7 @@ export default {
 
 		ADD_TICKET(state, ticket) {
 			console.log('store add ticket', ticket);
-			state.tickets.push(ticket);
+			state.tickets.unshift(ticket);
 		},
 		CLOSE_TICKET(state, ticketID) {
 			const ticketIndex = state.tickets.findIndex(item => item.id === ticketID);
