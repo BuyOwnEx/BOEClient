@@ -1,6 +1,6 @@
 <template>
 	<v-card class="d-flex flex-grow-1">
-		<CommonLoading v-if="!tickets" class="mt-6" />
+		<CommonLoading v-if="!ticketsData" class="mt-6" />
 		<SupportList v-else :key="ticketsData.length" :tickets-prop="ticketsData" />
 	</v-card>
 </template>
@@ -27,7 +27,7 @@ export default {
 	},
 
 	computed: {
-		...mapState('support', ['tickets', 'supportStatuses', 'priorityList']),
+		...mapState('support', ['supportStatuses', 'priorityList']),
 		...mapGetters({
 			getTicketsByStatus: 'support/getTicketsByStatus',
 			getTicketsByPriority: 'support/getTicketsByPriority',
@@ -46,7 +46,7 @@ export default {
 			const priority = isAllStatuses && !isAllPriorities && isPriority;
 			const status = isAllPriorities && !isAllStatuses && isStatus;
 
-			if (all) return this.tickets;
+			if (all) return this.getTicketsByStatus('all');
 			else if (priority) return this.getTicketsByPriority(this.priorityToShow);
 			else if (status) return this.getTicketsByStatus(this.statusToShow);
 			else
