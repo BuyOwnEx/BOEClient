@@ -14,10 +14,7 @@
 					<v-expansion-panel-header>
 						<template v-slot:default="{ open }">
 							<div class="d-flex">
-								<v-avatar
-									size="36"
-									v-html="getGeneratedAvatar(item.author)"
-								/>
+								<v-avatar size="36" v-html="getGeneratedAvatar(item.author)" />
 								<div class="mx-2 min-w-0">
 									<div class="font-weight-bold mb-1">
 										{{ item.author }}
@@ -45,7 +42,7 @@
 				</v-expansion-panel>
 			</v-expansion-panels>
 
-			<v-card class="mt-4">
+			<v-card v-if="!isClosedTicket" class="mt-4">
 				<SupportTicketDetailsInput />
 			</v-card>
 		</div>
@@ -97,6 +94,10 @@ export default {
 		async fetch() {
 			this.comments = await this.fetchComments(this.ticket.id);
 			console.log(this.comments);
+		},
+
+		isClosedTicket() {
+			return this.ticket.status !== 'closed';
 		},
 	},
 };

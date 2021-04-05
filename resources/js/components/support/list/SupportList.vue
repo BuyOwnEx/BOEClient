@@ -6,7 +6,7 @@
 			</v-btn>
 
 			<v-btn
-				v-if="ticketDetails"
+				v-if="isDetailsStatusNotClosed"
 				class="mx-2"
 				:loading="loading"
 				@click="closeTicket"
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import SupportTicketDetails from '../details/SupportTicketDetails';
 
 import formatDate from '../../../mixins/format/formatDate';
@@ -102,7 +102,9 @@ export default {
 	},
 
 	computed: {
-		...mapState('support', ['categoryList', 'priorityList']),
+		isDetailsStatusNotClosed() {
+			return this.ticketDetails && this.ticketDetails.status !== 'closed';
+		},
 	},
 
 	watch: {
@@ -142,27 +144,6 @@ export default {
 			} finally {
 				this.stopLoading();
 			}
-		},
-
-		getCategoryColor(itemCategory) {
-			return this.categoryList.find(item => item.key === itemCategory).color;
-		},
-		getCategoryName(itemCategory) {
-			return this.categoryList.find(item => item.key === itemCategory).name;
-		},
-		getPriorityColor(itemPriority) {
-			return this.priorityList.find(item => item.key === itemPriority).color;
-		},
-		getPriorityName(itemPriority) {
-			return this.priorityList.find(item => item.key === itemPriority).name;
-		},
-		getLabelColor(id) {
-			const label = this.labels.find(l => l.id === id);
-			return label ? label.color : '';
-		},
-		getLabelTitle(id) {
-			const label = this.labels.find(l => l.id === id);
-			return label ? label.title : '';
 		},
 
 		resetScroll() {
