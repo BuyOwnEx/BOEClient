@@ -17,7 +17,7 @@
 				<div class="title font-weight-bold">Уведомления</div>
 			</v-toolbar>
 
-			<NotificationsListWrapper :type-to-show='type'/>
+			<NotificationsListWrapper :type-to-show="type" />
 		</div>
 	</div>
 </template>
@@ -31,7 +31,7 @@ export default {
 
 	components: {
 		NotificationsSidebarMenu,
-		NotificationsListWrapper
+		NotificationsListWrapper,
 	},
 
 	data() {
@@ -53,6 +53,8 @@ export default {
 .notifications
 	&__sidebar
 		margin-right: 5px
+		@media screen and (max-width: 960px)
+			border-radius: 0 !important
 	&__toolbar
 		margin-bottom: 5px
 

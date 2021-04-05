@@ -8,7 +8,10 @@
 			width="240"
 			floating
 		>
-			<SupportSidebarMenu @update-status="updateStatus" @update-priority="updatePriority" />
+			<SupportSidebarMenu
+				@update-status="updateStatus"
+				@update-priority="updatePriority"
+			/>
 		</v-navigation-drawer>
 
 		<div class="support-page__content-wrapper d-flex flex-grow-1 flex-column">
@@ -17,7 +20,10 @@
 				<div class="title font-weight-bold">Поддержка</div>
 			</v-toolbar>
 
-			<SupportListWrapper :status-to-show="status" :priority-to-show="priority" />
+			<SupportListWrapper
+				:status-to-show="status"
+				:priority-to-show="priority"
+			/>
 		</div>
 	</div>
 </template>
@@ -40,7 +46,7 @@ export default {
 		return {
 			drawer: false,
 			status: 'all',
-			priority: 'all'
+			priority: 'all',
 		};
 	},
 
@@ -62,7 +68,7 @@ export default {
 	},
 
 	created() {
-		 this.fetch();
+		this.fetch();
 	},
 };
 </script>
@@ -71,6 +77,8 @@ export default {
 .support-page
 	&__sidebar
 		margin-right: 5px
+		@media screen and (max-width: 960px)
+			border-radius: 0 !important
 	&__toolbar
 		margin-bottom: 5px
 
