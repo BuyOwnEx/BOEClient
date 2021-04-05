@@ -46,7 +46,12 @@
 					@click="updatePriority(priority.key)"
 				>
 					<v-list-item-icon>
-						<v-icon small :color="priority.color">mdi-label-outline</v-icon>
+						<v-icon v-if="priority.key === 'all'" small :color="priority.color">
+							mdi-dots-horizontal
+						</v-icon>
+						<v-icon v-else small :color="priority.color">
+							mdi-label-outline
+						</v-icon>
 					</v-list-item-icon>
 
 					<v-list-item-content>
