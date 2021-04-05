@@ -74,4 +74,38 @@ class TicketController extends Controller
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
+
+    public function addComment(Request $request)
+    {
+        try {
+            $ticket = Zendesk::tickets()->update($request->id, [
+                'comment' => [
+                    'body' => $request->body,
+                    'author' => array(
+                        'name' => Auth::user()->name,
+                        'email' => Auth::user()->email,
+                    ),
+                ]
+            ]);
+            return ['success' => true, 'ticket' => $ticket];
+        }
+        catch (\Exception $e)
+        {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
+    public function closeTicket(Request $request)
+    {
+        try {
+            $ticket = Zendesk::tickets()->update($request->id, [
+                'status' => 'closed',
+            ]);
+            return ['success' => true, 'ticket' => $ticket];
+        }
+        catch (\Exception $e)
+        {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
 }

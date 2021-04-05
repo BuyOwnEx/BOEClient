@@ -145,12 +145,12 @@ export default {
 			// commit('ADD_TICKET', data.data.ticket);
 		},
 		async closeTicket({ commit }, ticketID) {
-			// await axios.delete('')
-			await new Promise(res => {
+			await axios.post('/trader/ticket/close', {id: ticketID});
+			/*await new Promise(res => {
 				setTimeout(() => {
 					res();
 				}, 1000);
-			});
+			});*/
 			commit('CLOSE_TICKET', ticketID);
 		},
 	},
