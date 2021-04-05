@@ -2150,6 +2150,13 @@ export default {
 			security: 'Security',
 			settings: 'Settings',
 		},
+
+		disabled_alert: {
+			title: 'User blocked',
+			content:
+				'You have been blocked by system administrator. Please, contact support team for reason',
+		},
+
 		security: {
 			title: 'buyownex recommends using two-factor authentication',
 			description: {
@@ -2160,7 +2167,8 @@ export default {
 				line_three:
 					'After installing the application, use the codes specified therein to work with BuyOwnEx.',
 			},
-			for_disable: 'To disable two-factor authentication, enter the current code in the Google Authenticator App',
+			for_disable:
+				'To disable two-factor authentication, enter the current code in the Google Authenticator App',
 			status: {
 				enabled: 'Enabled',
 				disabled: 'Disabled',

@@ -2,8 +2,6 @@
 	<div class="user-account-tab tab-fill-height">
 		<UserAccountTabBlockedAlert
 			v-if="userData.blocked"
-			:loading="enableUserLoading"
-			@enable="enableUser"
 		/>
 
 		<UserAccountTabBasicInfo :user="userData" />
