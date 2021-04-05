@@ -81,6 +81,9 @@ export default {
 		...mapGetters({
 			getGeneratedAvatar: 'user/getGeneratedAvatar',
 		}),
+		isClosedTicket() {
+			return this.ticket.status === 'closed';
+		},
 	},
 
 	created() {
@@ -94,10 +97,6 @@ export default {
 		async fetch() {
 			this.comments = await this.fetchComments(this.ticket.id);
 			console.log(this.comments);
-		},
-
-		isClosedTicket() {
-			return this.ticket.status !== 'closed';
 		},
 	},
 };
