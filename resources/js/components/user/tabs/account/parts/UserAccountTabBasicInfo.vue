@@ -56,13 +56,6 @@
 							hide-details
 							dense
 						/>
-
-						<div class="mt-2">
-							<v-btn>
-								<v-icon left small>mdi-email</v-icon>
-								Change Email Request
-							</v-btn>
-						</div>
 					</div>
 				</div>
 			</div>
