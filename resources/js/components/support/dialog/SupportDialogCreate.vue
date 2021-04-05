@@ -43,7 +43,7 @@
 					<v-select
 						v-model="form.priority"
 						:menu-props="{ bottom: true, offsetY: true }"
-						:items="priorityList"
+						:items="priorityListToShow"
 						placeholder="Приоритет"
 						item-value="key"
 						hide-details
@@ -128,6 +128,10 @@ export default {
 
 	computed: {
 		...mapState('support', ['priorityList']),
+
+		priorityListToShow() {
+			return this.priorityList.filter(p => p.key !== 'all');
+		},
 	},
 
 	watch: {
