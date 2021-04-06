@@ -5,6 +5,8 @@
 		</div>
 
 		<v-list class="mt-2 pa-0" dense nav>
+			<div class="overline pa-1 mt-2">Статус</div>
+
 			<v-list-item
 				v-for="status in supportStatuses"
 				:key="status.id"
