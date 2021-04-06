@@ -38,6 +38,17 @@
 
 					<v-expansion-panel-content>
 						<div v-html="item.html_body" />
+
+						<div>
+							<span v-for="image in item.attachments" :key="image.id">
+								<v-img
+									:src="image.content_url"
+									alt="image"
+									width="150"
+									height="150"
+								/>
+							</span>
+						</div>
 					</v-expansion-panel-content>
 				</v-expansion-panel>
 			</v-expansion-panels>
@@ -128,6 +139,11 @@ export default {
 					body: comment.body,
 					html_body: comment.body,
 					created_at: new Date().toISOString(),
+					attachments: [
+						{
+							content_url: URL.createObjectURL(comment.image),
+						},
+					],
 				});
 				this.pushLastIndexToExpandedComments();
 				this.clear = true;
