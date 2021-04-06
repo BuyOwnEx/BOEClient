@@ -163,11 +163,11 @@ export default {
 				_.extend(value, { author: user.name });
 			});
 		},
-		async addTicketComment({ commit }, { ticketId, body, image }) {
+		async addTicketComment({ commit }, { ticketId, body, file }) {
 			const fd = new FormData();
 			fd.append('id', ticketId);
 			fd.append('body', body);
-			if (image) fd.append('image', image);
+			if (file) fd.append('file', file);
 
 			return await axios.post('/trader/ticket/comment/add', fd, {
 				headers: {
@@ -176,12 +176,12 @@ export default {
 			});
 		},
 
-		async addTicket({ commit }, { image, subject, body, priority }) {
+		async addTicket({ commit }, { file, subject, body, priority }) {
 			const fd = new FormData();
 			fd.append('subject', subject);
 			fd.append('body', body);
 			fd.append('priority', priority);
-			if (image) fd.append('image', image);
+			if (file) fd.append('file', file);
 
 			const { data } = await axios.post('/trader/ticket/create', fd, {
 				headers: {

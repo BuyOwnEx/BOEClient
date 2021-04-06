@@ -1,7 +1,7 @@
 <template>
 	<v-file-input
 		:rules='rules'
-		accept='image/png, image/jpeg, image/bmp'
+		accept='image/png, image/jpeg, image/bmp, application/zip'
 		placeholder='Pick an avatar'
 		prepend-icon='mdi-camera'
 		label='Avatar'
@@ -12,7 +12,7 @@
 export default {
 	data: () => ({
 		rules: [
-			(value) => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+			(value) => !value || value.size < 2000000 || 'File size should be less than 2 MB!',
 		],
 	}),
 };

@@ -51,12 +51,12 @@
 
 							<span
 								class="support-ticket-details__attachments-item"
-								v-for="image in item.attachments"
-								:key="image.id"
+								v-for="file in item.attachments"
+								:key="file.id"
 							>
 								<v-icon small>mdi-paperclip</v-icon>
-								<a :href="image.content_url" target="_blank">
-									{{ image.file_name }}
+								<a :href="file.content_url" target="_blank">
+									{{ file.file_name }}
 								</a>
 							</span>
 						</div>
@@ -152,8 +152,8 @@ export default {
 					created_at: new Date().toISOString(),
 					attachments: [
 						{
-							content_url: URL.createObjectURL(comment.image),
-							file_name: comment.image.name,
+							content_url: URL.createObjectURL(comment.file),
+							file_name: comment.file.name,
 						},
 					],
 				});

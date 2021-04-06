@@ -54,12 +54,11 @@ class TicketController extends Controller
     public function createTicket(Request $request)
     {
         try {
-            if($request->image)
+            if($request->file)
             {
                 $attachment = Zendesk::attachments()->upload([
-                    'file' => $request->image,
-                    'type' => 'image/png',
-                    'name' => 'attachment.png'
+                    'file' => $request->file,
+                    'name' => $request->file('file')->getClientOriginalName()
                 ]);
                 if($attachment->upload->token)
                 {
@@ -78,7 +77,7 @@ class TicketController extends Controller
                     return ['success' => true, 'ticket' => $ticket];
                 }
                 else {
-                    return ['success' => false, 'message' => 'Image upload error'];
+                    return ['success' => false, 'message' => 'File upload error'];
                 }
             }
             $ticket = Zendesk::tickets()->create([
@@ -103,12 +102,11 @@ class TicketController extends Controller
     public function addComment(Request $request)
     {
         try {
-            if($request->image)
+            if($request->file)
             {
                 $attachment = Zendesk::attachments()->upload([
-                    'file' => $request->image,
-                    'type' => 'image/png',
-                    'name' => 'attachment.png'
+                    'file' => $request->file,
+                    'name' => $request->file('file')->getClientOriginalName()
                 ]);
                 if($attachment->upload->token)
                 {
@@ -128,7 +126,7 @@ class TicketController extends Controller
                     }
                 }
                 else {
-                    return ['success' => false, 'message' => 'Image upload error'];
+                    return ['success' => false, 'message' => 'File upload error'];
                 }
             }
             $params = array('query' => 'email:'.Auth::user()->email.' name:'.Auth::user()->name);

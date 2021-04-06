@@ -136,9 +136,9 @@
 			</v-btn>
 
 			<v-file-input
-				v-model="image"
+				v-model="file"
 				class="pa-0 mx-1"
-				accept="image/png, image/jpeg, image/bmp"
+				accept="image/png, image/jpeg, image/bmp, application/zip"
 				hide-input
 			/>
 		</div>
@@ -217,7 +217,7 @@ export default {
           Default message
         `,
 			}),
-			image: null,
+			file: null,
 		};
 	},
 
@@ -225,7 +225,7 @@ export default {
 		clear(val) {
 			if (val) {
 				this.editor.clearContent();
-				this.image = null;
+				this.file = null;
 				this.$emit('cleared');
 			}
 		},
@@ -240,7 +240,7 @@ export default {
 			const comment = {
 				ticketId: this.ticketId,
 				body: this.editor.getHTML(),
-				image: this.image,
+				file: this.file,
 			};
 			const bodyJSON = this.editor.getJSON();
 			this.$emit('add', { comment, bodyJSON });

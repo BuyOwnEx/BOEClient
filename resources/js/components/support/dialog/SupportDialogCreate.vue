@@ -70,9 +70,9 @@
 					</v-select>
 
 					<v-file-input
-						v-model="form.image"
+						v-model="form.file"
 						class="support-dialog-create__file"
-						accept="image/png, image/jpeg, image/bmp"
+						accept="image/png, image/jpeg, image/bmp, application/zip"
 						label="Прикрепите изображение"
 						show-size
 						small-chips
@@ -138,7 +138,7 @@ export default {
 				subject: '',
 				body: '',
 				priority: 'normal',
-				image: null,
+				file: null,
 			},
 		};
 	},
@@ -158,7 +158,7 @@ export default {
 					this.form.subject = '';
 					this.form.body = '';
 					this.form.priority = 'normal';
-					this.form.image = null;
+					this.form.file = null;
 					this.$refs.form.resetValidation();
 				});
 			}
