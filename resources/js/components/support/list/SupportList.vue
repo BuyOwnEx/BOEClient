@@ -20,11 +20,13 @@
 
 			<v-spacer />
 
-			<div class="caption mr-1">1 - 20 of 428</div>
-			<v-btn icon disabled @click="getPrevPage">
+			<div class="caption mr-1">
+				1 - {{ tickets.length }} of {{ totalTicketsCount }}
+			</div>
+			<v-btn icon :disabled="!prevPage" @click="getPrevPage">
 				<v-icon>mdi-chevron-left</v-icon>
 			</v-btn>
-			<v-btn icon @click="getNextPage">
+			<v-btn icon :disabled="!nextPage" @click="getNextPage">
 				<v-icon>mdi-chevron-right</v-icon>
 			</v-btn>
 		</div>
@@ -74,7 +76,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import SupportTicketDetails from '../details/SupportTicketDetails';
 
 import formatDate from '../../../mixins/format/formatDate';
@@ -102,6 +104,7 @@ export default {
 	},
 
 	computed: {
+		...mapState('support', ['totalTicketsCount', 'nextPage', 'prevPage']),
 		isDetailsStatusNotClosed() {
 			return this.ticketDetails && this.ticketDetails.status !== 'closed';
 		},
@@ -116,6 +119,7 @@ export default {
 
 	methods: {
 		...mapActions({
+			fetchPage: 'support/fetchNextOrPrevPage',
 			closeTicketStore: 'support/closeTicket',
 		}),
 		openTicketDetails(ticket) {
@@ -124,13 +128,13 @@ export default {
 		},
 
 		refresh() {
-			console.log('refresh');
+			this.$emit('refresh');
 		},
-		async getPrevPage() {
-			console.log('get prev page');
+		getPrevPage() {
+			this.fetchPage({ type: 'next', page: this.nextPage });
 		},
-		async getNextPage() {
-			console.log('get next page');
+		getNextPage() {
+			this.fetchPage({ type: 'prev', page: this.prevPage });
 		},
 
 		async closeTicket() {

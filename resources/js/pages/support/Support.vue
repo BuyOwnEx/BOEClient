@@ -23,6 +23,7 @@
 			<SupportListWrapper
 				:status-to-show="status"
 				:priority-to-show="priority"
+				@refresh="fetch"
 			/>
 		</div>
 	</div>

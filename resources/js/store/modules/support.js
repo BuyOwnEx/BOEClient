@@ -80,6 +80,7 @@ export default {
 		],
 
 		tickets: null,
+		totalTicketsCount: null,
 		prevPage: null,
 		nextPage: null,
 	},
@@ -109,9 +110,10 @@ export default {
 	},
 
 	mutations: {
-		FETCH_TICKETS(state, tickets) {
+		SET_DATA(state, tickets) {
 			state.nextPage = tickets.next_page;
 			state.prevPage = tickets.prev_page;
+			state.totalTicketsCount = tickets.count;
 			state.tickets = tickets.results.sort(
 				(a, b) => new Date(b.updated_at) - new Date(a.updated_at)
 			);
@@ -124,13 +126,30 @@ export default {
 			const ticketIndex = state.tickets.findIndex(item => item.id === ticketID);
 			state.tickets[ticketIndex].status = 'closed';
 		},
+
+		CLEAR_TICKETS(state) {
+			state.tickets = null;
+		},
 	},
 
 	actions: {
 		async fetchTickets({ commit }) {
+			commit('CLEAR_TICKETS');
+
 			const { data } = await axios.get('/trader/tickets');
-			commit('FETCH_TICKETS', data.tickets);
-			console.log('fetch tickets', data);
+
+			commit('SET_DATA', data.tickets);
+		},
+		async fetchNextOrPrevPage({ commit }, { type, page }) {
+			commit('CLEAR_TICKETS');
+
+			if (type === 'next') {
+				// const { data } = await axios.get('/', { page });
+			} else if (type === 'prev') {
+				// const { data } = await axios.get('/', { page });
+			}
+
+			commit('SET_DATA', data.tickets);
 		},
 
 		async fetchCommentsById({ commit }, id) {

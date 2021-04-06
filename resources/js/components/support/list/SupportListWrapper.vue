@@ -1,7 +1,7 @@
 <template>
 	<v-card class="d-flex flex-grow-1">
 		<CommonLoading v-if="!ticketsData" class="mt-6" />
-		<SupportList v-else :key="ticketsData.length" :tickets-prop="ticketsData" />
+		<SupportList v-else :key="ticketsData.length" :tickets-prop="ticketsData" @refresh='refresh'/>
 	</v-card>
 </template>
 
@@ -56,6 +56,12 @@ export default {
 				);
 		},
 	},
+
+	methods: {
+		refresh() {
+			this.$emit('refresh')
+		}
+	}
 };
 </script>
 
