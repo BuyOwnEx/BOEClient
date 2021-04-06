@@ -46,7 +46,9 @@
 				<SupportTicketDetailsInput
 					:ticket-id="ticket.id"
 					:loading="loading"
+					:clear="clear"
 					@add="addComment"
+					@cleared="clear = false"
 				/>
 			</v-card>
 		</div>
@@ -60,13 +62,14 @@ import CommonLoading from '../../common/CommonLoading';
 
 import formatDate from '../../../mixins/format/formatDate';
 import loadingMixin from '../../../mixins/common/loadingMixin';
+import errorNotificationMixin from '../../../mixins/common/errorNotificationMixin';
 
 export default {
 	name: 'SupportTicketDetails',
 
 	components: { SupportTicketDetailsInput, CommonLoading },
 
-	mixins: [formatDate, loadingMixin],
+	mixins: [formatDate, loadingMixin, errorNotificationMixin],
 
 	props: {
 		ticket: {
@@ -79,6 +82,7 @@ export default {
 		return {
 			comments: null,
 			commentsExpanded: [],
+			clear: false,
 		};
 	},
 
@@ -102,26 +106,38 @@ export default {
 		}),
 
 		async fetch() {
-			const comments = await this.fetchComments(this.ticket.id);
-			const lastCommentIndex = comments.length - 1;
-
-			this.comments = comments;
-			this.commentsExpanded.push(lastCommentIndex);
+			this.comments = await this.fetchComments(this.ticket.id);
+			this.pushLastIndexToExpandedComments();
 		},
 
-		async addComment(comment) {
+		async addComment({ comment, bodyJSON }) {
+			if (bodyJSON.content[0].content[0].text.trim() === '') {
+				this.pushErrorNotification();
+				return;
+			}
+
 			try {
 				this.startLoading();
+
 				await this.addTicketCommentStore(comment);
+
 				this.comments.push({
 					...comment,
+					id: Date.now(),
 					author: this.$store.state.app.trader.name,
-					created_at: new Date().toISOString(),
+					body: comment.body,
 					html_body: comment.body,
+					created_at: new Date().toISOString(),
 				});
+				this.pushLastIndexToExpandedComments();
+				this.clear = true;
 			} finally {
 				this.stopLoading();
 			}
+		},
+
+		pushLastIndexToExpandedComments() {
+			this.commentsExpanded.push(this.comments.length - 1);
 		},
 	},
 };

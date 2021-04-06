@@ -184,6 +184,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		clear: {
+			type: Boolean,
+			required: true,
+		},
 	},
 
 	data() {
@@ -217,6 +221,16 @@ export default {
 		};
 	},
 
+	watch: {
+		clear(val) {
+			if (val) {
+				this.editor.clearContent();
+				this.image = null;
+				this.$emit('cleared');
+			}
+		},
+	},
+
 	beforeDestroy() {
 		this.editor.destroy();
 	},
@@ -224,11 +238,13 @@ export default {
 	methods: {
 		addComment() {
 			const payload = {
-				id: this.ticketId,
+				ticketId: this.ticketId,
 				body: this.editor.getHTML(),
 				image: this.image,
 			};
-			this.$emit('add', payload);
+			const bodyJSON = this.editor.getJSON();
+
+			this.$emit('add', { payload, bodyJSON });
 		},
 	},
 };
