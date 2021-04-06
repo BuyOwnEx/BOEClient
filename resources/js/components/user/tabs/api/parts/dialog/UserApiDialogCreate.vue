@@ -110,13 +110,14 @@ import CopyLabel from '../../../../../common/CopyLabel';
 
 import formValidationRules from '../../../../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../../../../mixins/common/loadingMixin';
+import errorNotificationMixin from '../../../../../../mixins/common/errorNotificationMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
 
 	components: { CopyLabel },
 
-	mixins: [formValidationRules, loadingMixin],
+	mixins: [formValidationRules, loadingMixin, errorNotificationMixin],
 
 	data() {
 		return {
@@ -149,6 +150,7 @@ export default {
 		async create() {
 			if (this.form.name.trim() === '' || !this.valid) {
 				this.close();
+				this.pushErrorNotification()
 				return;
 			}
 
