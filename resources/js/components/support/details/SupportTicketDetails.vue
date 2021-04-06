@@ -39,14 +39,25 @@
 					<v-expansion-panel-content>
 						<div v-html="item.html_body" />
 
-						<div>
-							<span v-for="image in item.attachments" :key="image.id">
-								<v-img
-									:src="image.content_url"
-									alt="image"
-									width="150"
-									height="150"
-								/>
+						<div
+							v-if="item.attachments.length"
+							class="support-ticket-details__attachments"
+						>
+							<v-divider class="mb-1" />
+
+							<span class="support-ticket-details__attachments-title">
+								Прикрепленные файлы:
+							</span>
+
+							<span
+								class="support-ticket-details__attachments-item"
+								v-for="image in item.attachments"
+								:key="image.id"
+							>
+								<v-icon small>mdi-paperclip</v-icon>
+								<a :href="image.content_url" target="_blank">
+									{{ image.file_name }}
+								</a>
 							</span>
 						</div>
 					</v-expansion-panel-content>
@@ -142,6 +153,7 @@ export default {
 					attachments: [
 						{
 							content_url: URL.createObjectURL(comment.image),
+							file_name: comment.image.name,
 						},
 					],
 				});
@@ -168,4 +180,12 @@ export default {
 		display: flex
 		justify-content: flex-end
 		font-size: 0.8rem
+
+	&__attachments-title
+		font-size: 0.8rem
+		opacity: 0.8
+	&__attachments-item
+		display: inline-flex
+		font-size: 0.9rem
+		opacity: 0.8
 </style>
