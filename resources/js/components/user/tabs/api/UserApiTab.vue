@@ -85,17 +85,13 @@ export default {
 		span
 			margin-bottom: 64px
 
-	&__item
+	&__item:not(:last-child)
 		margin-bottom: 5px
-		&:last-child
-			margin-bottom: 0
 	::v-deep.v-card
 		box-shadow: none
 		border: 1px solid #7b7b7b52
-	> ::v-deep.v-card
+	> ::v-deep.v-card:not(:last-child)
 		margin-bottom: 5px
-		&:last-child
-			margin-bottom: 0
 
 	@media screen and (max-width: 450px)
 		&__title-wrapper

@@ -160,10 +160,8 @@ export default {
 	flex-flow: column
 	&__top
 		height: 82px
-	&__item
+	&__item:not(:last-child)
 		border-bottom: 1px solid #8c8c8c1a
-		&:last-child
-			border-bottom: none
 	&__tag
 		font-size: 0.8rem
 		padding-right: 4px

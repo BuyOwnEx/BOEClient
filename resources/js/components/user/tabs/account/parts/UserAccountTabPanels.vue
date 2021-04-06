@@ -110,12 +110,10 @@ export default {
 .user-account-tab-panels
 	padding-top: 5px
 
-	::v-deep.v-expansion-panel--active
+	::v-deep.v-expansion-panel--active:not(:first-child)
 		margin-top: 5px
 		+ .v-expansion-panel
 			margin-top: 5px
-		&:first-child
-			margin-top: 0
 
 	&__actions
 		cursor: default !important
