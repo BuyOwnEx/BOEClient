@@ -138,7 +138,7 @@
 			<v-file-input
 				v-model="image"
 				class="pa-0 mx-1"
-				accept="image/*"
+				accept="image/png, image/jpeg, image/bmp"
 				hide-input
 			/>
 		</div>
