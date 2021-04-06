@@ -31,7 +31,7 @@ export default {
 	},
 	email: {
 		compose: 'Написать письмо',
-		send: 'послать',
+		send: 'Отправить',
 		subject: 'Тема',
 		labels: 'Этикетки',
 		emptyList: 'Пустой список рассылки',
