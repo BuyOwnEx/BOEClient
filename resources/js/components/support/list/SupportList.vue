@@ -63,7 +63,7 @@
 
 				<v-list-item-action>
 					<v-list-item-action-text>
-						{{ formatDate(ticket.created_at, 'timeAgo') }}
+						{{ formatDate(ticket.updated_at, 'timeAgo') }}
 					</v-list-item-action-text>
 				</v-list-item-action>
 			</v-list-item>
