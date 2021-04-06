@@ -72,11 +72,21 @@
 					<v-file-input
 						v-model="form.image"
 						class="support-dialog-create__file"
-						accept="image/*"
-						label="Прикрепите файл"
-						prepend-icon="mdi-image"
+						accept="image/png, image/jpeg, image/bmp"
+						label="Прикрепите изображение"
+						show-size
 						small-chips
-					/>
+					>
+						<template v-slot:selection="{ text }">
+							<v-chip
+									small
+									label
+									color="primary"
+							>
+								{{ text }}
+							</v-chip>
+						</template>
+					</v-file-input>
 				</v-form>
 			</v-card-text>
 
@@ -151,7 +161,7 @@ export default {
 					this.form.subject = '';
 					this.form.body = '';
 					this.form.priority = 'normal';
-					this.form.image = null
+					this.form.image = null;
 					this.$refs.form.resetValidation();
 				});
 			}

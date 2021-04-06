@@ -144,12 +144,28 @@ export default {
 			});
 		},
 		async addTicketComment({ commit }, payload) {
+			// Здесь тоже должно быть multipart/form-data
 			await axios.post('/trader/ticket/comment/add', payload);
 		},
 
 		async addTicket({ commit }, ticket) {
-			const { data } = await axios.post('/trader/ticket/create', ticket);
-			commit('ADD_TICKET', data.ticket.ticket);
+			let formData = new FormData();
+			if(ticket.image !== null)
+				formData.append('image', ticket.image);
+			formData.append('subject', ticket.subject);
+			formData.append('body', ticket.body);
+			formData.append('priority', ticket.priority);
+			axios.post('/trader/ticket/create',
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				}
+			).then( resp => {
+				commit('ADD_TICKET', resp.ticket.ticket);
+			});
+			//const { data } = await axios.post('/trader/ticket/create', ticket);
 		},
 		async closeTicket({ commit }, ticketID) {
 			await axios.post('/trader/ticket/close', { id: ticketID });

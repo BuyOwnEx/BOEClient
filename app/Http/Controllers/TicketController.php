@@ -30,7 +30,6 @@ class TicketController extends Controller
     public function getAllTickets(Request $request)
     {
         try {
-            //$tickets = Zendesk::users(Auth::id())->tickets()->requested();
             $tickets = Zendesk::search()->find('type:ticket requester:'.Auth::user()->name);
             return ['success' => true, 'tickets' => $tickets];
         }
@@ -55,15 +54,40 @@ class TicketController extends Controller
     public function createTicket(Request $request)
     {
         try {
+            if($request->image)
+            {
+                $attachment = Zendesk::attachments()->upload([
+                    'file' => $request->image,
+                    'type' => 'image/png',
+                    'name' => 'attachment.png'
+                ]);
+                if($attachment->upload->token)
+                {
+                    $ticket = Zendesk::tickets()->create([
+                        'subject' => $request->subject,
+                        'comment' => [
+                            'body' => $request->body,
+                            'uploads' => [$attachment->upload->token]
+                        ],
+                        'priority' => $request->priority,
+                        'requester' => array(
+                            'name' => Auth::user()->name,
+                            'email' => Auth::user()->email,
+                        ),
+                    ]);
+                    return ['success' => true, 'ticket' => $ticket];
+                }
+                else {
+                    return ['success' => false, 'message' => 'Image upload error'];
+                }
+            }
             $ticket = Zendesk::tickets()->create([
                 'subject' => $request->subject,
                 'comment' => [
                     'body' => $request->body
                 ],
                 'priority' => $request->priority,
-                'requester_id'=> Auth::id(),
                 'requester' => array(
-                    'locale_id' => '1', // en TODO get locale from Auth::user()->language
                     'name' => Auth::user()->name,
                     'email' => Auth::user()->email,
                 ),
@@ -79,6 +103,34 @@ class TicketController extends Controller
     public function addComment(Request $request)
     {
         try {
+            if($request->image)
+            {
+                $attachment = Zendesk::attachments()->upload([
+                    'file' => $request->image,
+                    'type' => 'image/png',
+                    'name' => 'attachment.png'
+                ]);
+                if($attachment->upload->token)
+                {
+                    $params = array('query' => 'email:'.Auth::user()->email.' name:'.Auth::user()->name);
+                    $search = Zendesk::users()->search($params);
+                    if (empty($search->users)) {
+                        return ['success' => false, 'message' => 'User not found'];
+                    } else {
+                        $ticket = Zendesk::tickets()->update($request->id, [
+                            'comment' => [
+                                'body' => $request->body,
+                                'author_id' => $search->users[0]->id,
+                                'uploads' => [$attachment->upload->token]
+                            ]
+                        ]);
+                        return ['success' => true, 'ticket' => $ticket];
+                    }
+                }
+                else {
+                    return ['success' => false, 'message' => 'Image upload error'];
+                }
+            }
             $params = array('query' => 'email:'.Auth::user()->email.' name:'.Auth::user()->name);
             $search = Zendesk::users()->search($params);
             if (empty($search->users)) {
