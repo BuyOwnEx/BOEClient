@@ -78,11 +78,7 @@
 						small-chips
 					>
 						<template v-slot:selection="{ text }">
-							<v-chip
-									small
-									label
-									color="primary"
-							>
+							<v-chip small label color="primary">
 								{{ text }}
 							</v-chip>
 						</template>
@@ -126,11 +122,12 @@ import { mapState, mapActions } from 'vuex';
 
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../mixins/common/loadingMixin';
+import errorNotificationMixin from '../../../mixins/common/errorNotificationMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
 
-	mixins: [formValidationRules, loadingMixin],
+	mixins: [formValidationRules, loadingMixin, errorNotificationMixin],
 
 	data() {
 		return {
@@ -174,6 +171,11 @@ export default {
 		}),
 
 		async create() {
+			if (this.form.body.trim() === '') {
+				this.pushErrorNotification();
+				return;
+			}
+
 			try {
 				this.startLoading();
 
