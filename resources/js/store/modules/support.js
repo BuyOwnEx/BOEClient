@@ -112,11 +112,12 @@ export default {
 		FETCH_TICKETS(state, tickets) {
 			state.nextPage = tickets.next_page;
 			state.prevPage = tickets.prev_page;
-			state.tickets = tickets.results.slice().reverse();
+			state.tickets = tickets.results.sort(
+				(a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+			);
 		},
 
 		ADD_TICKET(state, ticket) {
-			console.log('store add ticket', ticket);
 			state.tickets.unshift(ticket);
 		},
 		CLOSE_TICKET(state, ticketID) {
@@ -143,29 +144,32 @@ export default {
 				_.extend(value, { author: user.name });
 			});
 		},
-		async addTicketComment({ commit }, payload) {
-			// Здесь тоже должно быть multipart/form-data
-			await axios.post('/trader/ticket/comment/add', payload);
+		async addTicketComment({ commit }, { ticketId, body, image }) {
+			const fd = new FormData();
+			fd.append('id', ticketId);
+			fd.append('body', body);
+			if (image) fd.append('image', image);
+
+			return await axios.post('/trader/ticket/comment/add', fd, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
 		},
 
-		async addTicket({ commit }, ticket) {
-			let formData = new FormData();
-			if(ticket.image !== null)
-				formData.append('image', ticket.image);
-			formData.append('subject', ticket.subject);
-			formData.append('body', ticket.body);
-			formData.append('priority', ticket.priority);
-			axios.post('/trader/ticket/create',
-				formData,
-				{
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				}
-			).then( resp => {
-				commit('ADD_TICKET', resp.ticket.ticket);
+		async addTicket({ commit }, { image, subject, body, priority }) {
+			const fd = new FormData();
+			fd.append('subject', subject);
+			fd.append('body', body);
+			fd.append('priority', priority);
+			if (image) fd.append('image', image);
+
+			const { data } = await axios.post('/trader/ticket/create', fd, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
 			});
-			//const { data } = await axios.post('/trader/ticket/create', ticket);
+			commit('ADD_TICKET', data.ticket.ticket);
 		},
 		async closeTicket({ commit }, ticketID) {
 			await axios.post('/trader/ticket/close', { id: ticketID });
