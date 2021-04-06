@@ -22,8 +22,8 @@
 									<div
 										v-show="!open"
 										class="support-ticket-details__item-text text-truncate"
+										v-html="item.body"
 									>
-										{{ item.body }}
 									</div>
 								</div>
 							</div>
@@ -37,7 +37,7 @@
 					</v-expansion-panel-header>
 
 					<v-expansion-panel-content>
-						<div v-html="item.html_body" />
+						<div v-html="item.body" />
 
 						<div
 							v-if="item.attachments.length"
@@ -133,6 +133,7 @@ export default {
 		},
 
 		async addComment({ comment, bodyJSON }) {
+			console.log(comment);
 			if (bodyJSON.content[0].content[0].text.trim() === '') {
 				this.pushErrorNotification();
 				return;

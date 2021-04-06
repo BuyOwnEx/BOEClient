@@ -242,6 +242,7 @@ export default {
 				body: this.editor.getHTML(),
 				file: this.file,
 			};
+			console.log(comment);
 			const bodyJSON = this.editor.getJSON();
 			this.$emit('add', { comment, bodyJSON });
 		},
