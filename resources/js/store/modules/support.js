@@ -55,19 +55,19 @@ export default {
 			},
 			{
 				id: 2,
-				name: 'Низкий приоритет',
+				name: 'Низкий',
 				key: 'low',
 				color: 'warning',
 			},
 			{
 				id: 3,
-				name: 'Средний приоритет',
+				name: 'Средний',
 				key: 'normal',
 				color: 'orange',
 			},
 			{
 				id: 4,
-				name: 'Высокий приоритет',
+				name: 'Высокий',
 				key: 'high',
 				color: 'error',
 			},
