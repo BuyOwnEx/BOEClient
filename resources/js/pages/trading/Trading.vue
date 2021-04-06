@@ -158,37 +158,28 @@
 <script>
 import CentrifugeTradingMixin from '../../mixins/centrifugo-trading';
 
-import TickersList from '../../components/trading/tickers/TickersList';
-import TradingChartWrapper from '../../components/trading/chart/TradingChartWrapper';
-import HistoryDealList from '../../components/trading/history/HistoryDealList';
-
-import TradingChat from '../../components/trading/chat/TradingChat';
-import MarketActivity from '../../components/trading/market/MarketActivity';
-
-import AskList from '../../components/trading/orders/ask/AskList';
-import AskBidLastPrice from '../../components/trading/orders/mobile/AskBidLastPrice';
-import BidList from '../../components/trading/orders/bid/BidList';
-
-import TradingFormsWrapper from '../../components/trading/forms/TradingFormsWrapper';
-
-import OwnListsTabsWrapper from '../../components/trading/user/OwnListsTabsWrapper';
-
 export default {
 	name: 'Trading',
 
 	mixins: [CentrifugeTradingMixin],
 
 	components: {
-		TickersList,
-		TradingChartWrapper,
-		HistoryDealList,
-		TradingChat,
-		MarketActivity,
-		AskList,
-		AskBidLastPrice,
-		BidList,
-		TradingFormsWrapper,
-		OwnListsTabsWrapper,
+		TickersList: () => import('../../components/trading/tickers/TickersList'),
+		TradingChartWrapper: () =>
+			import('../../components/trading/chart/TradingChartWrapper'),
+		HistoryDealList: () =>
+			import('../../components/trading/history/HistoryDealList'),
+		TradingChat: () => import('../../components/trading/chat/TradingChat'),
+		MarketActivity: () =>
+			import('../../components/trading/market/MarketActivity'),
+		AskList: () => import('../../components/trading/orders/ask/AskList'),
+		AskBidLastPrice: () =>
+			import('../../components/trading/orders/mobile/AskBidLastPrice'),
+		BidList: () => import('../../components/trading/orders/bid/BidList'),
+		TradingFormsWrapper: () =>
+			import('../../components/trading/forms/TradingFormsWrapper'),
+		OwnListsTabsWrapper: () =>
+			import('../../components/trading/user/OwnListsTabsWrapper'),
 	},
 
 	data: () => ({
