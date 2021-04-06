@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="toolbar-notifications">
 		<v-menu
 			transition="slide-y-transition"
 			:close-on-content-click="false"
@@ -21,7 +21,7 @@
 				</v-badge>
 			</template>
 
-			<v-card>
+			<v-card class="toolbar-notifications__card">
 				<div v-if="unreadQuantity > 0">
 					<v-list three-line dense max-width="400">
 						<v-subheader class="pa-2 font-weight-bold">
@@ -137,3 +137,8 @@ export default {
 	},
 };
 </script>
+
+<style lang="sass" scoped>
+.theme--dark .toolbar-notifications__card
+	background-color: var(--dark-popups-background-color) !important
+</style>
