@@ -237,14 +237,13 @@ export default {
 
 	methods: {
 		addComment() {
-			const payload = {
+			const comment = {
 				ticketId: this.ticketId,
 				body: this.editor.getHTML(),
 				image: this.image,
 			};
 			const bodyJSON = this.editor.getJSON();
-
-			this.$emit('add', { payload, bodyJSON });
+			this.$emit('add', { comment, bodyJSON });
 		},
 	},
 };
