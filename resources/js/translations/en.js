@@ -2191,6 +2191,7 @@ export default {
 		email_invalid: 'Invalid E-mail',
 		unsupported_char_latinAndNumbers:
 			'Unsupported characters. Only [a-zA-Z0-9-_]',
+		max_filesize_5MB: 'Max. file size 5 MB',
 	},
 
 	$vuetify: {
