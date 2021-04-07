@@ -2,138 +2,8 @@ export default {
 	namespaced: true,
 
 	state: {
-		notifications: [
-			{
-				id: 124112455,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'system',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: true,
-				labels: [1],
-			},
-			{
-				id: 12414355,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'system',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: true,
-				labels: [],
-			},
-			{
-				id: 124633155,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'system',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1, 2],
-			},
-			{
-				id: 1242155,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'news',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1, 2],
-			},
-			{
-				id: 234232,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'news',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1],
-			},
-			{
-				id: 23423232,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'system',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1],
-			},
-			{
-				id: 2344123232,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'system',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1],
-			},
-			{
-				id: 23423255542432,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'news',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1],
-			},
-			{
-				id: 234232414212432,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'news',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1, 2],
-			},
-			{
-				id: 234232412442432,
-				title: 'Disk capacity is at maximum',
-				subtitle:
-					'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint, repudiandae?',
-				text:
-					'text text text text text text text text text text text text text text text text text text text text',
-				author: 'author(?)',
-				type: 'system',
-				created_at: '2021-03-31T02:49:29.847Z',
-				isChecked: false,
-				labels: [1],
-			},
-		],
+		notifications: null,
+
 		notificationTypes: [
 			{
 				name: 'Системные',
@@ -146,6 +16,69 @@ export default {
 				type: 'news',
 				icon: 'mdi-newspaper-variant-outline',
 				color: 'green',
+			},
+			{
+				name: 'Финансы',
+				type: 'finance',
+				icon: 'mdi-currency-usd',
+				color: 'purple',
+			},
+		],
+		notificationsKinds: [
+			{
+				id: 1,
+				key: 'login',
+				subject: 'subject',
+			},
+			{
+				id: 2,
+				key: 'addMoney',
+				subject: 'subject',
+			},
+			{
+				id: 3,
+				key: 'withdrawMoney',
+				subject: 'subject',
+			},
+			{
+				id: 4,
+				key: 'ref',
+				subject: 'subject',
+			},
+			{
+				id: 5,
+				key: 'tradingBlock',
+				subject: 'subject',
+			},
+			{
+				id: 6,
+				key: 'moneyBlock',
+				subject: 'subject',
+			},
+			{
+				id: 7,
+				key: 'systemBlock',
+				subject: 'subject',
+			},
+			{
+				id: 8,
+				key: 'positionLiquidationWarn',
+				subject: 'subject',
+			},
+			{
+				id: 9,
+				key: 'positionLiquidation',
+				subject: 'subject',
+			},
+			{
+				id: 10,
+				key: 'maintenance',
+				subject: 'subject',
+			},
+			{
+				id: 11,
+				key: 'news',
+				subject: 'subject',
 			},
 		],
 	},
@@ -213,7 +146,7 @@ export default {
 	actions: {
 		async fetchNotifications({ commit }) {
 			const { data } = await axios.get('/trader/notifications');
-			commit('SET_NOTIFICATIONS', data);
+			commit('SET_NOTIFICATIONS', data.notifications);
 		},
 
 		readNotification({ commit }, id) {

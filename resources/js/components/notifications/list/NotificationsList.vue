@@ -1,5 +1,5 @@
 <template>
-	<v-card class="notifications-list">
+	<div class="notifications-list">
 		<div class="notifications-list__top px-2 d-flex align-center">
 			<v-checkbox
 				:value="selectAll"
@@ -107,18 +107,20 @@
 			:notification="selectedNotificationDetails"
 			@close="showDetails = false"
 		/>
-	</v-card>
+	</div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import NotificationCommonModal from '../common/NotificationCommonModal';
 import formatDate from '../../../mixins/format/formatDate';
 
 export default {
 	name: 'NotificationsList',
 
-	components: { NotificationCommonModal },
+	components: {
+		NotificationCommonModal: () =>
+			import(/* webpackPrefetch: true */ '../common/NotificationCommonModal'),
+	},
 
 	mixins: [formatDate],
 

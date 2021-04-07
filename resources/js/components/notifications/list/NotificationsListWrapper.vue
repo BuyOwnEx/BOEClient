@@ -1,15 +1,18 @@
 <template>
-	<div class="d-flex flex-grow-1">
+	<v-card class="d-flex flex-grow-1">
+		<CommonLoading v-if="!notificationsData" class="mt-6" />
 		<NotificationsList
+			v-else
 			:key="notificationsData.length"
 			:notifications-prop="notificationsData"
 		/>
-	</div>
+	</v-card>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import NotificationsList from './NotificationsList';
+import CommonLoading from '../../common/CommonLoading';
 
 export default {
 	name: 'NotificationsListWrapper',
@@ -21,7 +24,7 @@ export default {
 		},
 	},
 
-	components: { NotificationsList },
+	components: { NotificationsList, CommonLoading },
 
 	computed: {
 		...mapGetters({
