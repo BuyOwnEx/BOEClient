@@ -27,14 +27,14 @@
 
 <script>
 import BidListTableWrapper from './table/BidListTableWrapper';
-import OrdersTooltip from '../common/OrdersTooltip';
 
 export default {
 	name: 'BidList',
 
 	components: {
 		BidListTableWrapper,
-		OrdersTooltip,
+		OrdersTooltip: () =>
+			import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
 	},
 
 	props: {

@@ -24,14 +24,14 @@
 
 <script>
 import AskListTableWrapper from './table/AskListTableWrapper';
-import OrdersTooltip from '../common/OrdersTooltip';
 
 export default {
 	name: 'AskList',
 
 	components: {
 		AskListTableWrapper,
-		OrdersTooltip,
+		OrdersTooltip: () =>
+			import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
 	},
 
 	props: {

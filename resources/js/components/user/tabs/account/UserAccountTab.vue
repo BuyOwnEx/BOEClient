@@ -1,8 +1,6 @@
 <template>
 	<div class="user-account-tab tab-fill-height">
-		<UserAccountTabBlockedAlert
-			v-if="userData.blocked"
-		/>
+		<UserAccountTabBlockedAlert v-if="userData.blocked" />
 
 		<UserAccountTabBasicInfo :user="userData" />
 
@@ -16,6 +14,7 @@
 		/>
 
 		<UserAccountDialogsWrapper
+			v-if="blockDialog || deleteDialog"
 			:block-dialog="blockDialog"
 			:delete-dialog="deleteDialog"
 			:dialog-loading="dialogLoading"
@@ -29,19 +28,19 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UserAccountTabBlockedAlert from './parts/UserAccountTabBlockedAlert';
 import UserAccountTabBasicInfo from './parts/UserAccountTabBasicInfo';
 import UserAccountTabPanels from './parts/UserAccountTabPanels';
-import UserAccountDialogsWrapper from './parts/UserAccountDialogsWrapper';
 
 export default {
 	name: 'UserAccountTab',
 
 	components: {
-		UserAccountTabBlockedAlert,
 		UserAccountTabBasicInfo,
 		UserAccountTabPanels,
-		UserAccountDialogsWrapper,
+		UserAccountTabBlockedAlert: () =>
+			import(/* webpackPrefetch: true */ './parts/UserAccountTabBlockedAlert'),
+		UserAccountDialogsWrapper: () =>
+			import(/* webpackPrefetch: true */ './parts/UserAccountDialogsWrapper'),
 	},
 
 	props: {

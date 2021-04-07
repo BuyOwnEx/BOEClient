@@ -19,7 +19,7 @@
 				:currency="selectedCurrency"
 			/>
 
-			<TradingChat class="trading__desktop__chat" />
+			<TradingChat v-if="!isMediumBreakpoint" class="trading__desktop__chat" />
 
 			<AskList
 				class="trading__desktop__ask-list"
@@ -39,7 +39,10 @@
 				:market="selectedMarket"
 			/>
 
-			<MarketActivity class="trading__desktop__market-activity" />
+			<MarketActivity
+				v-if="!isMediumBreakpoint"
+				class="trading__desktop__market-activity"
+			/>
 
 			<OwnListsTabsWrapper
 				v-if="isLogged"
@@ -158,28 +161,37 @@
 <script>
 import CentrifugeTradingMixin from '../../mixins/centrifugo-trading';
 
+import TickersList from '../../components/trading/tickers/TickersList';
+import TradingChartWrapper from '../../components/trading/chart/TradingChartWrapper';
+import HistoryDealList from '../../components/trading/history/HistoryDealList';
+
+import TradingChat from '../../components/trading/chat/TradingChat';
+import AskList from '../../components/trading/orders/ask/AskList';
+import MarketActivity from '../../components/trading/market/MarketActivity';
+import BidList from '../../components/trading/orders/bid/BidList';
+
+import TradingFormsWrapper from '../../components/trading/forms/TradingFormsWrapper';
+import OwnListsTabsWrapper from '../../components/trading/user/OwnListsTabsWrapper';
+
 export default {
 	name: 'Trading',
 
 	mixins: [CentrifugeTradingMixin],
 
 	components: {
-		TickersList: () => import('../../components/trading/tickers/TickersList'),
-		TradingChartWrapper: () =>
-			import('../../components/trading/chart/TradingChartWrapper'),
-		HistoryDealList: () =>
-			import('../../components/trading/history/HistoryDealList'),
-		TradingChat: () => import('../../components/trading/chat/TradingChat'),
-		MarketActivity: () =>
-			import('../../components/trading/market/MarketActivity'),
-		AskList: () => import('../../components/trading/orders/ask/AskList'),
+		TickersList,
+		TradingChartWrapper,
+		HistoryDealList,
+		TradingChat,
+		MarketActivity,
+		AskList,
 		AskBidLastPrice: () =>
-			import('../../components/trading/orders/mobile/AskBidLastPrice'),
-		BidList: () => import('../../components/trading/orders/bid/BidList'),
-		TradingFormsWrapper: () =>
-			import('../../components/trading/forms/TradingFormsWrapper'),
-		OwnListsTabsWrapper: () =>
-			import('../../components/trading/user/OwnListsTabsWrapper'),
+			import(
+				/* webpackPrefetch: true */ '../../components/trading/orders/mobile/AskBidLastPrice'
+			),
+		BidList,
+		TradingFormsWrapper,
+		OwnListsTabsWrapper,
 	},
 
 	data: () => ({
@@ -225,6 +237,9 @@ export default {
 		isChartTab() {
 			const chartTabIndex = 0;
 			return this.selectedTab === chartTabIndex;
+		},
+		isMediumBreakpoint() {
+			return this.$vuetify.breakpoint.width < 1382;
 		},
 	},
 
@@ -433,14 +448,6 @@ export default {
 				'forms forms forms forms forms forms forms forms history history history history'
 				'forms forms forms forms forms forms forms forms history history history history'
 				'own own own own own own own own own own own own';
-
-			&__market-activity {
-				display: none !important;
-			}
-
-			&__chat {
-				display: none !important;
-			}
 		}
 	}
 }

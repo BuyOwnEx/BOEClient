@@ -78,7 +78,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import SupportTicketDetailsInput from './SupportTicketDetailsInput';
 import CommonLoading from '../../common/CommonLoading';
 
 import formatDate from '../../../mixins/format/formatDate';
@@ -88,7 +87,11 @@ import errorNotificationMixin from '../../../mixins/common/errorNotificationMixi
 export default {
 	name: 'SupportTicketDetails',
 
-	components: { SupportTicketDetailsInput, CommonLoading },
+	components: {
+		SupportTicketDetailsInput: () =>
+			import(/* webpackPrefetch: true */ "./SupportTicketDetailsInput"),
+		CommonLoading,
+	},
 
 	mixins: [formatDate, loadingMixin, errorNotificationMixin],
 
