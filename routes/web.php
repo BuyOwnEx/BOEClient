@@ -59,6 +59,8 @@ Route::group(['prefix' => 'trader'], function () {
     Route::post('ticket/comment/add', 'TicketController@addComment');
     Route::post('ticket/close', 'TicketController@closeTicket');
 
+    Route::get('notifications', 'TraderController@getAllNotifications');
+
 
     Route::group(['prefix' => 'ext'], function () {
         Route::get('token', 'JWTController@getOwnToken')->name('token');
