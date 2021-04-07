@@ -152,23 +152,30 @@ export default {
 
 	getters: {
 		getNotificationsByType: state => type => {
+			if (!state.notifications) return;
 			return state.notifications.filter(item => item.type === type);
 		},
 		getNotificationsUnreadQuantityByType: (_, getters) => type => {
-			const nonCheckedArray = getters
-				.getNotificationsByType(type)
-				.filter(item => item.isChecked !== true);
-			return nonCheckedArray.length;
+			const dataArray = getters.getNotificationsByType(type);
+			if (dataArray) {
+				const nonCheckedArray = dataArray.filter(
+					item => item.isChecked !== true
+				);
+				return nonCheckedArray.length;
+			}
 		},
 
 		getUnreadNotifications(state) {
+			if (!state.notifications) return;
 			return state.notifications.filter(item => !item.isChecked);
 		},
 		getFirstFiveUnreadNotificationsForToolbar(_, getters) {
-			return getters.getUnreadNotifications.slice(0, 5);
+			const dataArray = getters.getUnreadNotifications;
+			if (dataArray) return dataArray.slice(0, 5);
 		},
 		getUnreadNotificationsQuantity(_, getters) {
-			return getters.getUnreadNotifications.length;
+			const dataArray = getters.getUnreadNotifications;
+			if (dataArray) return dataArray.length;
 		},
 
 		getNotificationColor: state => type => {
@@ -183,7 +190,7 @@ export default {
 
 	mutations: {
 		SET_NOTIFICATIONS(state, notifications) {
-			state.notifications = notifications
+			state.notifications = notifications;
 		},
 
 		READ_NOTIFICATION(state, id) {
@@ -204,9 +211,9 @@ export default {
 	},
 
 	actions: {
-		async fetchNotifications({commit}) {
-			const {data} = await axios.get('/trader/notifications')
-			commit('SET_NOTIFICATIONS', data)
+		async fetchNotifications({ commit }) {
+			const { data } = await axios.get('/trader/notifications');
+			commit('SET_NOTIFICATIONS', data);
 		},
 
 		readNotification({ commit }, id) {

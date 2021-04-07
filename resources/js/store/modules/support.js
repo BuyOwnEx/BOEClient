@@ -88,20 +88,20 @@ export default {
 	},
 
 	getters: {
-		getTicketsByStatus: store => status => {
-			if (!store.tickets) return;
+		getTicketsByStatus: state => status => {
+			if (!state.tickets) return;
 			if (status === 'all') {
-				return store.tickets.filter(ticket => ticket.status !== 'closed');
+				return state.tickets.filter(ticket => ticket.status !== 'closed');
 			}
-			return store.tickets.filter(ticket => ticket.status === status);
+			return state.tickets.filter(ticket => ticket.status === status);
 		},
-		getTicketsByPriority: store => priority => {
-			if (!store.tickets) return;
-			return store.tickets.filter(ticket => ticket.priority === priority);
+		getTicketsByPriority: state => priority => {
+			if (!state.tickets) return;
+			return state.tickets.filter(ticket => ticket.priority === priority);
 		},
-		getTicketsByPriorityAndStatus: store => (priority, status) => {
-			if (!store.tickets) return;
-			return store.tickets.filter(
+		getTicketsByPriorityAndStatus: state => (priority, status) => {
+			if (!state.tickets) return;
+			return state.tickets.filter(
 				ticket => ticket.priority === priority && ticket.status === status
 			);
 		},
