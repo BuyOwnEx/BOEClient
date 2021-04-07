@@ -1,7 +1,14 @@
 <template>
 	<v-card class="d-flex flex-grow-1">
 		<CommonLoading v-if="!ticketsData" class="mt-6" />
-		<SupportList v-else :key="ticketsData.length" :tickets-prop="ticketsData" @refresh='refresh'/>
+		<SupportList
+			v-else
+			:key="ticketsData.length"
+			:tickets-prop="ticketsData"
+			:tickets-status="statusToShow"
+			:closed-tickets-quantity="getQuantityByStatus('closed')"
+			@refresh="refresh"
+		/>
 	</v-card>
 </template>
 
@@ -32,6 +39,7 @@ export default {
 			getTicketsByStatus: 'support/getTicketsByStatus',
 			getTicketsByPriority: 'support/getTicketsByPriority',
 			getTicketsByPriorityAndStatus: 'support/getTicketsByPriorityAndStatus',
+			getQuantityByStatus: 'support/getQuantityByStatus',
 		}),
 
 		ticketsData() {
@@ -59,9 +67,9 @@ export default {
 
 	methods: {
 		refresh() {
-			this.$emit('refresh')
-		}
-	}
+			this.$emit('refresh');
+		},
+	},
 };
 </script>
 

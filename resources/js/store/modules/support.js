@@ -79,6 +79,8 @@ export default {
 			},
 		],
 
+		ticketsPerPage: 5,
+
 		tickets: null,
 		totalTicketsCount: null,
 		prevPage: null,

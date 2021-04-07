@@ -20,26 +20,30 @@
 
 			<v-spacer />
 
-			<div class="caption mr-1">
-				1 - {{ tickets.length }} of {{ totalTicketsCount }}
+			<div v-if="ticketsProp.length" class="d-flex align-center">
+				<div class="caption mr-1">
+					{{ currentPage * ticketsPerPage - ticketsPerPage + 1 }} -
+					{{ Math.min(currentPage * ticketsPerPage, getTicketsQuantity()) }} of
+					{{ getTicketsQuantity() }}
+				</div>
+				<v-btn icon :disabled="currentPage === 1" @click="getPrevPage">
+					<v-icon>mdi-chevron-left</v-icon>
+				</v-btn>
+				<v-btn icon :disabled="currentPage === totalPages" @click="getNextPage">
+					<v-icon>mdi-chevron-right</v-icon>
+				</v-btn>
 			</div>
-			<v-btn icon :disabled="!prevPage" @click="getPrevPage">
-				<v-icon>mdi-chevron-left</v-icon>
-			</v-btn>
-			<v-btn icon :disabled="!nextPage" @click="getNextPage">
-				<v-icon>mdi-chevron-right</v-icon>
-			</v-btn>
 		</div>
 
 		<v-divider />
 
-		<div v-if="tickets.length === 0">
+		<div v-if="ticketsProp.length === 0">
 			<div class="py-6 text-center overline">Тикетов нет</div>
 		</div>
 
-		<v-list v-else-if="tickets.length && !ticketDetails" class="pa-0">
+		<v-list v-else-if="ticketsProp.length && !ticketDetails" class="pa-0">
 			<v-list-item
-				v-for="ticket in tickets"
+				v-for="ticket in paginatedTickets"
 				:key="ticket.id"
 				class="support-list__item d-flex pa-2 align-center"
 				:ripple="false"
@@ -94,26 +98,41 @@ export default {
 			type: Array,
 			required: true,
 		},
+		ticketsStatus: {
+			type: String,
+			required: true,
+		},
+		closedTicketsQuantity: {
+			type: Number,
+			required: true,
+		},
 	},
 
 	data() {
 		return {
-			tickets: this.ticketsProp,
 			ticketDetails: null,
+			currentPage: 1,
 		};
 	},
 
 	computed: {
-		...mapState('support', ['totalTicketsCount', 'nextPage', 'prevPage']),
+		...mapState('support', [
+			'totalTicketsCount',
+			'nextPage',
+			'prevPage',
+			'ticketsPerPage',
+		]),
+
 		isDetailsStatusNotClosed() {
 			return this.ticketDetails && this.ticketDetails.status !== 'closed';
 		},
-	},
-
-	watch: {
-		ticketsProp(val) {
-			this.resetScroll();
-			this.tickets = val;
+		paginatedTickets() {
+			const from = this.currentPage * this.ticketsPerPage - this.ticketsPerPage;
+			const to = this.currentPage * this.ticketsPerPage;
+			return this.ticketsProp.slice(from, to);
+		},
+		totalPages() {
+			return Math.ceil(this.ticketsProp.length / this.ticketsPerPage);
 		},
 	},
 
@@ -131,10 +150,17 @@ export default {
 			this.$emit('refresh');
 		},
 		getPrevPage() {
-			this.fetchPage({ type: 'next', page: this.nextPage });
+			this.currentPage--;
+			// this.fetchPage({ type: 'next', page: this.nextPage });
 		},
 		getNextPage() {
-			this.fetchPage({ type: 'prev', page: this.prevPage });
+			this.currentPage++;
+			// this.fetchPage({ type: 'prev', page: this.prevPage });
+		},
+		getTicketsQuantity() {
+			if (this.ticketsStatus === 'all')
+				return this.totalTicketsCount - this.closedTicketsQuantity;
+			else return this.ticketsProp.length;
 		},
 
 		async closeTicket() {
