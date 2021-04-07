@@ -42,6 +42,7 @@
 
 					<v-select
 						v-model="form.priority"
+						class='mb-1'
 						:menu-props="{ bottom: true, offsetY: true }"
 						:items="priorityListToShow"
 						placeholder="Приоритет"
@@ -73,7 +74,10 @@
 						v-model="form.file"
 						class="support-dialog-create__file"
 						accept="image/png, image/jpeg, image/bmp, application/zip"
-						label="Прикрепите изображение"
+						label="Прикрепите файл"
+						hint="Допускаются изображения форматов: .png, .jpg, .bmp и архив формата .zip. Максимальный размер загружаемого файла: 5 Mb"
+						:rules="[rules.maxFileSize5MB]"
+						persistent-hint
 						show-size
 						small-chips
 					>
@@ -137,7 +141,7 @@ export default {
 			form: {
 				subject: '',
 				body: '',
-				priority: 'normal',
+				priority: null,
 				file: null,
 			},
 		};
@@ -157,7 +161,7 @@ export default {
 				this.$nextTick(() => {
 					this.form.subject = '';
 					this.form.body = '';
-					this.form.priority = 'normal';
+					this.form.priority = null;
 					this.form.file = null;
 					this.$refs.form.resetValidation();
 				});
