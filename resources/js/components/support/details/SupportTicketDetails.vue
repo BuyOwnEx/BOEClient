@@ -23,8 +23,7 @@
 										v-show="!open"
 										class="support-ticket-details__item-text text-truncate"
 										v-html="item.body"
-									>
-									</div>
+									></div>
 								</div>
 							</div>
 						</template>
@@ -132,12 +131,8 @@ export default {
 			this.pushLastIndexToExpandedComments();
 		},
 
-		async addComment({ comment, bodyJSON }) {
+		async addComment(comment) {
 			console.log(comment);
-			if (bodyJSON.content[0].content[0].text.trim() === '') {
-				this.pushErrorNotification();
-				return;
-			}
 
 			try {
 				this.startLoading();

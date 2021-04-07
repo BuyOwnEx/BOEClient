@@ -243,8 +243,7 @@ export default {
 				file: this.file,
 			};
 			console.log(comment);
-			const bodyJSON = this.editor.getJSON();
-			this.$emit('add', { comment, bodyJSON });
+			this.$emit('add', comment);
 		},
 	},
 };
