@@ -182,6 +182,10 @@ export default {
 	},
 
 	mutations: {
+		SET_NOTIFICATIONS(state, notifications) {
+			state.notifications = notifications
+		},
+
 		READ_NOTIFICATION(state, id) {
 			const itemIndex = state.notifications.findIndex(item => item.id === id);
 			state.notifications[itemIndex].isChecked = true;
@@ -200,6 +204,11 @@ export default {
 	},
 
 	actions: {
+		async fetchNotifications({commit}) {
+			const {data} = await axios.get('/trader/notifications')
+			commit('SET_NOTIFICATIONS', data)
+		},
+
 		readNotification({ commit }, id) {
 			commit('READ_NOTIFICATION', id);
 			// запрос на бек

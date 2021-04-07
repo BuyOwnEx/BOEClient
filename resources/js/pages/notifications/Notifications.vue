@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import NotificationsSidebarMenu from '../../components/notifications/sidebar/NotificationsSidebarMenu';
 import NotificationsListWrapper from '../../components/notifications/list/NotificationsListWrapper';
 
@@ -41,7 +43,18 @@ export default {
 		};
 	},
 
+	created() {
+		this.fetch();
+	},
+
 	methods: {
+		...mapActions({
+			fetchNotificationsStore: 'notifications/fetchNotifications',
+		}),
+
+		async fetch() {
+			await this.fetchNotificationsStore();
+		},
 		updateType(type) {
 			this.type = type;
 		},
