@@ -20,7 +20,9 @@ export default {
 					this.$t('forms_validation.unsupported_char_latinAndNumbers'),
 
 				maxFileSize5MB: v =>
-					v.size < 5000000 || this.$t('forms_validation.max_filesize_5MB'),
+					!v ||
+					v.size < 5000000 ||
+					this.$t('forms_validation.max_filesize_5MB'),
 			},
 		};
 	},
