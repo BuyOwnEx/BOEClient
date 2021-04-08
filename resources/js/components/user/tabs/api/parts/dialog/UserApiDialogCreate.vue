@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog" width="400" :persistent="!!token">
+	<v-dialog v-model="dialog" width="400" :persistent="Boolean(token)">
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn
 				:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
@@ -150,7 +150,7 @@ export default {
 		async create() {
 			if (this.form.name.trim() === '' || !this.valid) {
 				this.close();
-				this.pushErrorNotification()
+				this.pushErrorNotification();
 				return;
 			}
 
