@@ -51,6 +51,13 @@ export default {
 				}
 			}
 		},
+		updateCurrencyState(state, data) {
+			if (state.balances !== null) {
+				if (data.currency.toUpperCase() in state.balances) {
+					state.balances[data.currency.toUpperCase()].state = data.state;
+				}
+			}
+		},
 		addOrder(state, order) {
 			state.orders.unshift(order);
 		},

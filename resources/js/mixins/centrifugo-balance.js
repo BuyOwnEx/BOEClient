@@ -4,6 +4,7 @@ export default {
 	name: 'CentrifugeTrading',
 	data() {
 		return {
+			sub_state: null,
 			centrifuge: null,
 			connected: false,
 		};
@@ -30,6 +31,7 @@ export default {
 			});
 			if (this.$store.getters["app/isLogged"]) {
 				this.getInitTraderData();
+				this.subscribePublic();
 				this.$store.dispatch('user/getTraderTokenFromServer').then(resp => {
 					this.centrifuge.setToken(resp.token);
 					this.centrifuge.on('publish', this.privatePubHandler);
@@ -53,6 +55,13 @@ export default {
 				this.$store.dispatch('user/getBalancesFromServer');
 			}
 		},
+		subscribePublic() {
+			this.sub_state = this.centrifuge.subscribe('public:nodes');
+			this.sub_state.on('subscribe', this.channelSubscribeHandler);
+			this.sub_state.on('publish', this.statePubHandler);
+			this.sub_state.on('error', this.channelErrorHandler);
+			this.sub_state.on('unsubscribe', this.channelUnsubscribeHandler);
+		},
 		privatePubHandler(data) {
 			console.log(data);
 			switch (data.data.action) {
@@ -61,6 +70,22 @@ export default {
 					this.$store.commit('user/updateBalance', data.data.balance);
 					break;
 			}
+		},
+		statePubHandler(data) {
+			switch (data.data.action) {
+				case 'state_was_changed':
+					this.$store.commit('user/updateCurrencyState', data.data.data);
+					break;
+			}
+		},
+		channelSubscribeHandler(context) {
+			console.log(context);
+		},
+		channelUnsubscribeHandler(context) {
+			console.log(context);
+		},
+		channelErrorHandler(err) {
+			console.log(err);
 		},
 	},
 	mounted() {
@@ -74,9 +99,9 @@ export default {
 		this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 	activated() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	deactivated() {
-		this.$eventHub.$off('set-user', this.initWSConnection);
+		//this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 };
