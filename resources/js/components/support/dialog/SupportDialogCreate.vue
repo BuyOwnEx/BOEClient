@@ -30,19 +30,32 @@
 
 					<v-divider />
 
-					<v-textarea
-						v-model="form.body"
-						:placeholder="$t('common.description')"
-						:rules="[rules.required]"
-						hide-details
-						auto-grow
-						solo
-						flat
-					/>
+					<!--					<v-textarea-->
+					<!--						v-model="form.body"-->
+					<!--						:placeholder="$t('common.description')"-->
+					<!--						:rules="[rules.required]"-->
+					<!--						hide-details-->
+					<!--						auto-grow-->
+					<!--						solo-->
+					<!--						flat-->
+					<!--					/>-->
+					<div class="editor">
+						<input
+							type="text"
+							v-model="editor.extensions.options.placeholder.emptyNodeText"
+						/>
+						<editor-content
+							class="editor__content"
+							ref="editor"
+							:editor="editor"
+						/>
+					</div>
+
+					<v-divider />
 
 					<v-select
 						v-model="form.priority"
-						class='mb-1'
+						class="mb-1"
 						:menu-props="{ bottom: true, offsetY: true }"
 						:items="priorityListToShow"
 						placeholder="Приоритет"
@@ -124,12 +137,17 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import { Editor, EditorContent } from 'tiptap';
+import { Placeholder } from 'tiptap-extensions';
+
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../mixins/common/loadingMixin';
 import errorNotificationMixin from '../../../mixins/common/errorNotificationMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
+
+	components: { EditorContent },
 
 	mixins: [formValidationRules, loadingMixin, errorNotificationMixin],
 
@@ -144,6 +162,17 @@ export default {
 				priority: null,
 				file: null,
 			},
+
+			editor: new Editor({
+				extensions: [
+					new Placeholder({
+						emptyEditorClass: 'is-editor-empty',
+						emptyNodeClass: 'is-empty',
+						emptyNodeText: 'Описание',
+					}),
+				],
+				content: '',
+			}),
 		};
 	},
 
@@ -160,13 +189,17 @@ export default {
 			if (value === true) {
 				this.$nextTick(() => {
 					this.form.subject = '';
-					this.form.body = '';
 					this.form.priority = null;
 					this.form.file = null;
+					this.editor.clearContent();
 					this.$refs.form.resetValidation();
 				});
 			}
 		},
+	},
+
+	beforeDestroy() {
+		this.editor.destroy();
 	},
 
 	methods: {
@@ -175,7 +208,7 @@ export default {
 		}),
 
 		async create() {
-			if (this.form.body.trim() === '') {
+			if (this.form.subject.trim() === '') {
 				this.pushErrorNotification();
 				return;
 			}
@@ -183,7 +216,11 @@ export default {
 			try {
 				this.startLoading();
 
-				await this.addTicketStore(this.form);
+				const payload = {
+					...this.form,
+					body: this.editor.getHTML(),
+				};
+				await this.addTicketStore(payload);
 
 				this.close();
 			} finally {
@@ -198,10 +235,33 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
-.support-dialog-create
-	&__file
-		padding: 8px 12px
-	::v-deep.v-input__slot
-		padding: 0
+<style lang="scss" scoped>
+.support-dialog-create {
+	&__file {
+		padding: 8px 12px;
+	}
+
+	::v-deep.v-input__slot {
+		padding: 0;
+	}
+
+	.editor {
+		position: relative;
+		padding: 12px;
+		&__content {
+			outline: none;
+			.ProseMirror:focus {
+				background: yellow !important;
+				outline: none !important;
+			}
+			p.is-editor-empty:first-child::before {
+				content: attr(data-empty-text);
+				float: left;
+				color: #aaa;
+				pointer-events: none;
+				height: 0;
+			}
+		}
+	}
+}
 </style>
