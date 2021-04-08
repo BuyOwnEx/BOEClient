@@ -7,24 +7,6 @@
 				@click.stop="onSelectAll(selectAll)"
 			/>
 
-			<v-menu offset-y>
-				<template v-slot:activator="{ on, attrs }">
-					<v-btn icon v-bind="attrs" v-on="on">
-						<v-icon>mdi-menu-down</v-icon>
-					</v-btn>
-				</template>
-
-				<v-list>
-					<v-list-item
-						v-for="item in menuSelection"
-						:key="item.key"
-						@click="onMenuSelection(item.key)"
-					>
-						<v-list-item-title>{{ item.title }}</v-list-item-title>
-					</v-list-item>
-				</v-list>
-			</v-menu>
-
 			<div v-show="selected.length > 0">
 				<v-btn icon @click="readSelected">
 					<v-icon>mdi-eye</v-icon>
@@ -36,20 +18,24 @@
 
 			<v-spacer />
 
-			<div class="caption mr-1">1 - 20 of 428</div>
-			<v-btn icon disabled>
-				<v-icon>mdi-chevron-left</v-icon>
-			</v-btn>
-			<v-btn icon>
-				<v-icon>mdi-chevron-right</v-icon>
-			</v-btn>
+			<div v-if="notifications.length" class="d-flex align-center">
+				<div class="caption mr-1">
+					{{ pagesText }}
+				</div>
+				<v-btn icon :disabled="currentPage === 1" @click="getPrevPage">
+					<v-icon>mdi-chevron-left</v-icon>
+				</v-btn>
+				<v-btn icon :disabled="currentPage === totalPages" @click="getNextPage">
+					<v-icon>mdi-chevron-right</v-icon>
+				</v-btn>
+			</div>
 		</div>
 
 		<v-divider />
 
 		<v-list class="pa-0">
 			<v-list-item
-				v-for="item in notifications"
+				v-for="item in paginatedNotifications"
 				:key="item.id"
 				:class="{
 					'grey lighten-4': item.isChecked && !$vuetify.theme.dark,
@@ -142,6 +128,9 @@ export default {
 			selectAlmostAll: false,
 			selected: [],
 
+			currentPage: 1,
+			perPage: 20,
+
 			labels: [
 				{
 					id: 1,
@@ -154,21 +143,27 @@ export default {
 					color: 'error',
 				},
 			],
-			menuSelection: [
-				{
-					title: 'All',
-					key: 'all',
-				},
-				{
-					title: 'Read',
-					key: 'read',
-				},
-				{
-					title: 'Unread',
-					key: 'unread',
-				},
-			],
 		};
+	},
+
+	computed: {
+		pagesText() {
+			const firstVisibleElement =
+				this.currentPage * this.perPage - this.perPage + 1;
+			const showedElements = Math.min(
+				this.currentPage * this.perPage,
+				this.notifications.length
+			);
+			return `${firstVisibleElement} - ${showedElements} of ${this.notifications.length}`;
+		},
+		paginatedNotifications() {
+			const from = this.currentPage * this.perPage - this.perPage;
+			const to = this.currentPage * this.perPage;
+			return this.notifications.slice(from, to);
+		},
+		totalPages() {
+			return Math.ceil(this.notifications.length / this.perPage);
+		},
 	},
 
 	watch: {
@@ -199,19 +194,6 @@ export default {
 			removeSelectedStore: 'notifications/removeSelected',
 		}),
 
-		onMenuSelection(key) {
-			switch (key) {
-				case 'all':
-					this.selected = this.notifications.map(i => i.id);
-					this.selectAll = true;
-					this.selectAlmostAll = false;
-					break;
-				case 'read':
-					break;
-				case 'unread':
-					break;
-			}
-		},
 		onSelectAll(selectAll) {
 			if (this.selectAll) {
 				this.selected = [];
@@ -244,6 +226,13 @@ export default {
 		getLabelTitle(id) {
 			const label = this.labels.find(l => l.id === id);
 			return label ? label.title : '';
+		},
+
+		getPrevPage() {
+			this.currentPage--;
+		},
+		getNextPage() {
+			this.currentPage++;
 		},
 
 		closeDetailsIfDeletingItemOpen() {
