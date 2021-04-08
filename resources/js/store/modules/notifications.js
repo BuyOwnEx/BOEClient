@@ -108,7 +108,7 @@ export default {
 		},
 		getUnreadNotificationsQuantity(_, getters) {
 			const dataArray = getters.getUnreadNotifications;
-			if (dataArray) return dataArray.length;
+			return dataArray ? dataArray.length : 0;
 		},
 
 		getNotificationColor: state => type => {
