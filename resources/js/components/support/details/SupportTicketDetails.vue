@@ -45,7 +45,7 @@
 							<v-divider class="mb-1" />
 
 							<span class="support-ticket-details__attachments-title">
-								Прикрепленные файлы:
+								{{$t('support.attachments')}}:
 							</span>
 
 							<span

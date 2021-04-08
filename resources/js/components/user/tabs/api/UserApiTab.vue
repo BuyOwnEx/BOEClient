@@ -1,7 +1,7 @@
 <template>
 	<v-card class="user-api-tab tab-fill-height">
 		<v-card-title class="user-api-tab__title-wrapper">
-			<div class="user-api-tab__title">API ключи</div>
+			<div class="user-api-tab__title">{{$t('user.api.title')}}</div>
 
 			<div class="user-api-tab__actions">
 				<UserApiDialogCreate @create="addCreatedAPI" />
@@ -11,7 +11,7 @@
 
 		<CommonLoading v-if="!api" />
 		<div v-else-if="api && !api.length" class="user-api-tab__empty">
-			<span>API list is empty</span>
+			<span>{{$t('user.api.api_empty')}}</span>
 		</div>
 
 		<v-card-text v-else>

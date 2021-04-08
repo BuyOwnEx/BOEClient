@@ -3,7 +3,7 @@
 		<template v-slot:activator="{ on, attrs }">
 			<span :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-bind="attrs" v-on="on">
 				<v-btn v-if="$vuetify.breakpoint.smAndUp" small tile>
-					Редактировать разрешения
+					{{ $t('user.api.dialog.edit.title') }}
 				</v-btn>
 
 				<v-btn v-else icon small>
@@ -16,7 +16,7 @@
 
 		<v-card class="user-api-dialog-edit">
 			<v-card-title class="common-dialog__title">
-				Редактирвать разрешения
+				{{ $t('user.api.dialog.edit.title') }}
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content pt-0">
@@ -24,14 +24,14 @@
 					<v-checkbox
 						v-model="form.trading"
 						:ripple="false"
-						label="Торговля"
+						:label="$t('common.trading')"
 						hide-details
 						dense
 					/>
 					<v-checkbox
 						v-model="form.withdraw"
-						label="Вывод средств"
 						:ripple="false"
+						:label="$t('common.withdraw')"
 						hide-details
 						dense
 					/>
@@ -44,7 +44,7 @@
 				<v-spacer />
 
 				<v-btn small tile text plain @click="close">
-					Закрыть
+					{{ $t('common.close') }}
 				</v-btn>
 
 				<v-spacer />
@@ -58,7 +58,7 @@
 					plain
 					@click="edit"
 				>
-					Редактировать
+					{{ $t('common.edit') }}
 				</v-btn>
 
 				<v-spacer />

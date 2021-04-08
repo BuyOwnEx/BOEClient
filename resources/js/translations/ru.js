@@ -1,13 +1,21 @@
 export default {
 	common: {
 		add: 'Добавить',
-		cancel: 'Отменить',
-		description: 'Описание',
-		delete: 'Удалить',
-		title: 'Тема',
+		create: 'Создать',
 		save: 'Сохранить',
+		edit: 'Редактировать',
+		cancel: 'Отменить',
+		delete: 'Удалить',
+		close: 'Закрыть',
+
+		title: 'Тема',
+		description: 'Описание',
+
 		faq: 'Часто задаваемые вопросы',
 		contact: 'Связаться с нами',
+
+		trading: 'Торговля',
+		withdraw: 'Вывод средств',
 	},
 	board: {
 		titlePlaceholder: 'Введите название для этой карты',
@@ -2164,6 +2172,50 @@ export default {
 				'Вы были заблокированы администратором. Пожалуйста, свяжитесь с командой поддержки для выяснения причин',
 		},
 
+		info: {
+			display_name: 'Display name',
+			email: 'Email',
+			rate: 'Rate API limit',
+			ref_link: 'Реферальная ссылка',
+			email_verified: 'Email Verified',
+			protected: '2FA protected',
+			kyc_status: 'KYC Status',
+		},
+
+		api: {
+			title: 'API ключи',
+			api_empty: 'API list is empty',
+			dialog: {
+				create: {
+					title: 'Создать API',
+					api_name: 'API name',
+					copy_tokens_description:
+						'Скопируйте данные АПИ ключи, поскольку при закрытии диалогового окна API Key будет отображен как SHA 256 хэш, а Secret Key будет скрыт',
+					api_key: 'API ключ',
+					secret_key: 'Секретный ключ',
+				},
+				edit: {
+					title: 'Редактирвать разрешения',
+				},
+				delete_all: {
+					title: 'Удалить все API',
+					description: 'Вы уверены, что хотите удалить все API?',
+				},
+				delete_one: {
+					title: 'Удалить API',
+					description: 'Вы уверены, что хотите удалить API с именем',
+				}
+			},
+			headers: {
+				hash: 'API Key Hash (SHA 256)',
+				secret_key: 'Secret Key (Hidden)',
+				abilities: 'Разрешения API',
+				created: 'Создан',
+				updated: 'Обновлён',
+				last_usage: 'Последнее использование',
+			},
+		},
+
 		security: {
 			title: 'buyownex рекомендует использовать двухфакторную авторизацию',
 			description: {
@@ -2186,7 +2238,35 @@ export default {
 			disable: 'Выключить',
 			auth_code: 'Аутентификационный код (2fa)',
 		},
-		settings: {},
+
+		settings: {
+			headers: {
+				managing_email_notifications: 'Управление почтовыми оповещениями',
+				system_settings: 'Настрйоки системы',
+				security_settings: 'Настрйоки безопасности'
+			}
+		},
+	},
+
+	notifications: {
+		title: 'Уведомления',
+		notifications_types: 'Типы уведомлений',
+		no_notifications: 'Уведомлений нет',
+	},
+
+	support: {
+		title: 'Поддержка',
+		menu: {
+			status: 'Статус',
+			priority: 'Приоритет',
+		},
+		no_tickets: 'Тикетов нет',
+		close_ticket: 'Закрыть тикет',
+		attachments: 'Прикрепленные файлы',
+		attach_file: 'Прикрепите файл',
+		file_hint:
+			'Допускаются изображения форматов: .png, .jpg, .bmp и архив формата .zip. Максимальный размер загружаемого файла: 5 Mb',
+		create_ticket: 'Создать тикет',
 	},
 
 	forms_validation: {

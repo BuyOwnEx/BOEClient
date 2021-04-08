@@ -6,7 +6,7 @@
 			<section class="user-settings-tab__notifications">
 				<v-form @submit.prevent="saveNotificationsSetting">
 					<div class="user-settings-tab__header">
-						Управление почтовыми оповещениями
+						{{ $t('user.settings.headers.managing_email_notifications') }}
 					</div>
 
 					<v-checkbox :ripple="false" label="checkbox" hide-details />
@@ -23,7 +23,9 @@
 
 			<section class="user-settings-tab__system">
 				<v-form @submit.prevent="saveSystemSettings">
-					<div class="user-settings-tab__header">Настрйоки системы</div>
+					<div class="user-settings-tab__header">
+						{{ $t('user.settings.headers.system_settings') }}
+					</div>
 
 					<v-checkbox :ripple="false" label="checkbox" hide-details />
 					<v-radio-group hide-details mandatory dense row>
@@ -39,7 +41,9 @@
 
 			<section class="user-settings-tab__security">
 				<v-form @submit.prevent="saveSecuritySettings">
-					<div class="user-settings-tab__header">Настрйоки безопасности</div>
+					<div class="user-settings-tab__header">
+						{{ $t('user.settings.headers.security_settings') }}
+					</div>
 
 					<v-checkbox :ripple="false" label="checkbox" hide-details />
 					<v-radio-group hide-details mandatory dense row>

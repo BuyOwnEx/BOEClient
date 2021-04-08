@@ -5,7 +5,7 @@
 		</div>
 
 		<v-list class="mt-2 pa-0" dense nav>
-			<div class="overline pa-1 mt-2">Статус</div>
+			<div class="overline pa-1 mt-2">{{ $t('support.menu.status') }}</div>
 
 			<v-list-item
 				v-for="status in supportStatuses"
@@ -36,7 +36,7 @@
 		</v-list>
 
 		<v-list dense nav class="mt-2 pa-0">
-			<div class="overline pa-1 mt-2">Приоритет</div>
+			<div class="overline pa-1 mt-2">{{ $t('support.menu.priority') }}</div>
 
 			<v-list-item
 				v-for="priority in priorityList"

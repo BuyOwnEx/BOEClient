@@ -18,27 +18,27 @@
 					<v-text-field
 						class="mb-2"
 						v-model="user.name"
-						label="Display name"
+						:label="$t('user.info.display_name')"
 						hide-details
 						readonly
 					/>
 					<v-text-field
 						class="mb-2"
 						v-model="user.email"
-						label="Email"
+						:label="$t('user.info.email')"
 						hide-details
 						readonly
 					/>
 					<v-text-field
 						class="mb-2"
 						v-model="user.rate_limit"
-						label="Rate API limit"
+						:label="$t('user.info.display_name')"
 						hide-details
 						readonly
 					/>
 
 					<div class="mt-1 mb-2">
-						<div>Реферальная ссылка</div>
+						<div>{{ $t('user.info.ref_link') }}</div>
 						<CopyLabel :text="refLink" />
 					</div>
 
@@ -47,16 +47,16 @@
 							class="mt-0"
 							:ripple="false"
 							:input-value="true"
+							:label="$t('user.info.email_verified')"
 							readonly
 							hide-details
 							dense
-							label="Email Verified"
 						/>
 						<v-checkbox
 							class="mt-0"
 							v-model="user.g2fa"
 							:ripple="false"
-							label="2FA Protected"
+							:label="$t('user.info.protected')"
 							readonly
 							hide-details
 							dense
@@ -65,7 +65,7 @@
 							class="mt-0"
 							v-model="user.verify_status"
 							:ripple="false"
-							label="KYC status"
+							:label="$t('user.info.kyc_status')"
 							readonly
 							hide-details
 							dense

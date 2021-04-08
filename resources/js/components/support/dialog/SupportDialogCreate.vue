@@ -2,13 +2,13 @@
 	<v-dialog v-model="dialog" width="600" persistent>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn block large v-bind="attrs" v-on="on" color="primary">
-				Добавить тикет
+				{{$t('support.create_ticket')}}
 			</v-btn>
 		</template>
 
 		<v-card class="support-dialog-create">
 			<v-card-title class="common-dialog__title justify-space-between">
-				<span>Создать тикет</span>
+				<span>{{$t('support.create_ticket')}}</span>
 				<v-btn icon @click="close">
 					<v-icon>
 						mdi-close
@@ -58,7 +58,7 @@
 						class="mb-1"
 						:menu-props="{ bottom: true, offsetY: true }"
 						:items="priorityListToShow"
-						placeholder="Приоритет"
+						:placeholder="$t('support.menu.priority')"
 						item-value="key"
 						hide-details
 						solo
@@ -87,8 +87,8 @@
 						v-model="form.file"
 						class="support-dialog-create__file"
 						accept="image/png, image/jpeg, image/bmp, application/zip"
-						label="Прикрепите файл"
-						hint="Допускаются изображения форматов: .png, .jpg, .bmp и архив формата .zip. Максимальный размер загружаемого файла: 5 Mb"
+						:label="$t('support.attach_file')"
+						:hint="$t('support.file_hint')"
 						:rules="[rules.maxFileSize5MB]"
 						persistent-hint
 						show-size
@@ -109,7 +109,7 @@
 				<v-spacer />
 
 				<v-btn small tile text plain @click="close">
-					Закрыть
+					{{ $t('common.close') }}
 				</v-btn>
 
 				<v-spacer />
@@ -125,7 +125,7 @@
 					plain
 					@click="create"
 				>
-					Создать
+					{{ $t('common.create') }}
 				</v-btn>
 
 				<v-spacer />

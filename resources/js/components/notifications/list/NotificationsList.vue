@@ -84,7 +84,7 @@
 			v-if="!notifications.length"
 			class="d-flex align-center justify-center overline py-6"
 		>
-			Уведомлений нет
+			{{ $t('notifications.no_notifications') }}
 		</div>
 
 		<NotificationCommonModal

@@ -7,7 +7,7 @@
 	>
 		<template #default>
 			<v-btn color="error" small tile v-if="$vuetify.breakpoint.smAndUp">
-				Удалить API
+				{{ $t('user.api.dialog.delete_one.title') }}
 			</v-btn>
 
 			<v-btn v-else icon color="error" small>
@@ -18,11 +18,11 @@
 		</template>
 
 		<template #title>
-			Удалить API
+			{{ $t('user.api.dialog.delete_one.title') }}
 		</template>
 
 		<template #content>
-			Вы уверены, что хотите удалить API с именем
+			{{ $t('user.api.dialog.delete_one.description') }}
 			<b>{{ name }} </b>?
 		</template>
 	</CommonDialog>

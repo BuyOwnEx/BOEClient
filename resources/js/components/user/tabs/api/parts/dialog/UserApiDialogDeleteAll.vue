@@ -6,17 +6,17 @@
 		@confirm="deleteAll"
 	>
 		<template #default>
-			<v-btn small tile color="error">Удалить все API</v-btn>
+			<v-btn small tile color="error">{{
+				$t('user.api.dialog.delete_all.title')
+			}}</v-btn>
 		</template>
 
 		<template #title>
-			Удалить все API
+			{{ $t('user.api.dialog.delete_all.title') }}
 		</template>
 
 		<template #content>
-			Вы уверены, что хотите удалить все API? Изменения нельзя отменить..
-			подумайте о себе, о своих близких. Такое решение нельзя совершать не
-			обдумав
+			{{ $t('user.api.dialog.delete_all.description') }}
 		</template>
 	</CommonDialog>
 </template>

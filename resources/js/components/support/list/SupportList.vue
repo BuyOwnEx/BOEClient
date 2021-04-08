@@ -11,7 +11,7 @@
 				:loading="loading"
 				@click="closeTicket"
 			>
-				Закрыть тикет
+				{{ $t('support.close_ticket') }}
 			</v-btn>
 
 			<v-btn v-if="!ticketDetails" :loading="loading" icon @click="refresh">
@@ -36,7 +36,9 @@
 		<v-divider />
 
 		<div v-if="ticketsProp.length === 0">
-			<div class="py-6 text-center overline">Тикетов нет</div>
+			<div class="py-6 text-center overline">
+				{{ $t('support.no_tickets') }}
+			</div>
 		</div>
 
 		<v-list v-else-if="ticketsProp.length && !ticketDetails" class="pa-0">
@@ -128,8 +130,7 @@ export default {
 		]),
 
 		pagesText() {
-			const firstElement =
-				this.currentPage * this.perPage - this.perPage + 1;
+			const firstElement = this.currentPage * this.perPage - this.perPage + 1;
 			const showedElements = Math.min(
 				this.currentPage * this.perPage,
 				this.getTicketsQuantity()

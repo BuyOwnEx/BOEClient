@@ -9,13 +9,13 @@
 				small
 				tile
 			>
-				Создать API
+				{{ $t('user.api.dialog.create.title') }}
 			</v-btn>
 		</template>
 
 		<v-card class="user-api-dialog-create">
 			<v-card-title class="common-dialog__title common-dialog__title--success">
-				Создать API
+				{{ $t('user.api.dialog.create.title') }}
 			</v-card-title>
 
 			<div v-if="!token">
@@ -25,7 +25,7 @@
 							v-model="form.name"
 							class="common-dialog__content"
 							counter="64"
-							placeholder="API name"
+							:placeholder="$t('user.api.dialog.create.api_name')"
 							:rules="[rules.required, rules.max64char]"
 							dense
 							autofocus
@@ -34,18 +34,18 @@
 						<v-checkbox
 							v-model="form.abilities"
 							:ripple="false"
+							:label="$t('common.trading')"
 							value="trading"
 							hide-details
 							dense
-							label="Торговля"
 						/>
 						<v-checkbox
 							v-model="form.abilities"
 							:ripple="false"
+							:label="$t('common.withdraw')"
 							value="withdraw"
 							hide-details
 							dense
-							label="Вывод средств"
 						/>
 					</v-form>
 				</v-card-text>
@@ -55,7 +55,7 @@
 				<v-card-actions class="common-dialog__actions">
 					<v-spacer />
 					<v-btn small tile text plain @click="close">
-						Закрыть
+						{{ $t('common.close') }}
 					</v-btn>
 					<v-spacer />
 					<v-btn
@@ -67,7 +67,7 @@
 						plain
 						@click="create"
 					>
-						Создать
+						{{ $t('common.create') }}
 					</v-btn>
 					<v-spacer />
 				</v-card-actions>
@@ -76,17 +76,20 @@
 			<div v-show="token">
 				<v-card-text>
 					<div>
-						Скопируйте данные АПИ ключи, поскольку при закрытии диалогового окна
-						API Key будет отображен как SHA 256 хэш, а Secret Key будет скрыт
+						{{ $t('user.api.dialog.copy_tokens_description') }}
 					</div>
 					<div class="pt-2">
-						<span class="user-api-dialog-create__token-name">API Key: </span>
+						<span class="user-api-dialog-create__token-name">
+							{{ $t('user.api.dialog.create.api_key') }}:
+						</span>
 						<div class="user-api-dialog-create__token">
 							<CopyLabel :text="token" />
 						</div>
 					</div>
 					<div class="pt-1">
-						<span class="user-api-dialog-create__token-name">Secret Key: </span>
+						<span class="user-api-dialog-create__token-name">
+							{{ $t('user.api.dialog.create.secret_key') }}:
+						</span>
 						<div class="user-api-dialog-create__token">
 							<CopyLabel :text="secretToken" />
 						</div>
@@ -96,7 +99,7 @@
 				<v-card-actions class="common-dialog__actions">
 					<v-spacer />
 					<v-btn small tile text plain @click="close">
-						Закрыть
+						{{ $t('common.close') }}
 					</v-btn>
 					<v-spacer />
 				</v-card-actions>

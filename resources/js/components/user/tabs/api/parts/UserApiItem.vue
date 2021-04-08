@@ -26,22 +26,28 @@
 
 			<div class="user-api-item__info-wrapper">
 				<div class="user-api-item__api-key-wrapper">
-					<div class="user-api-item__header">API Key Hash (SHA 256)</div>
+					<div class="user-api-item__header">
+						{{ $t('user.api.headers.hash') }}
+					</div>
 					<CopyLabel :text="api.token" />
 				</div>
 
 				<div class="user-api-item__secret-key-wrapper">
-					<div class="user-api-item__header">Secret Key (Hidden)</div>
+					<div class="user-api-item__header">
+						{{ $t('user.api.headers.secret_key') }}
+					</div>
 					<div class="user-api-item__secret-key">***************</div>
 				</div>
 
-				<div class="user-api-item__header">Разрешения API</div>
+				<div class="user-api-item__header">
+					{{ $t('user.api.headers.abilities') }}
+				</div>
 
 				<div class="user-api-item__abilities-key-wrapper">
 					<v-checkbox
 						v-model="tradingItemValue"
 						class="mt-0"
-						label="Торговля"
+						:label="$t('common.trading')"
 						hide-details
 						dense
 						disabled
@@ -49,7 +55,7 @@
 					<v-checkbox
 						v-model="withdrawItemValue"
 						class="mt-0"
-						label="Вывод средств"
+						:label="$t('common.withdraw')"
 						hide-details
 						dense
 						disabled
@@ -57,19 +63,19 @@
 				</div>
 
 				<div class="user-api-item__created-key-wrapper">
-					<div class="user-api-item__header">Создан</div>
+					<div class="user-api-item__header">{{ $t('user.api.headers.created') }}</div>
 					<div class="user-api-item__created">
 						{{ formatDate(api.created_at) }}
 					</div>
 				</div>
 				<div class="user-api-item__updated-key-wrapper">
-					<div class="user-api-item__header">Обновлен</div>
+					<div class="user-api-item__header">{{ $t('user.api.headers.updated') }}</div>
 					<div class="user-api-item__updated">
 						{{ formatDate(api.updated_at) }}
 					</div>
 				</div>
 				<div class="user-api-item__used-key-wrapper">
-					<div class="user-api-item__header">Последнее использование</div>
+					<div class="user-api-item__header">{{ $t('user.api.headers.abilities') }}</div>
 					<div class="user-api-item__used">
 						{{ formatDate(api.last_used_at) }}
 					</div>

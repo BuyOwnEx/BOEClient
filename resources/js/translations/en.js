@@ -1,15 +1,21 @@
 export default {
 	common: {
 		add: 'Add',
-		cancel: 'Cancel',
-		description: 'Description',
-		delete: 'Delete',
-		title: 'Title',
+		create: 'Create',
 		save: 'Save',
+		edit: 'Edit',
+		delete: 'Delete',
+		cancel: 'Cancel',
+		close: 'Close',
+
+		title: 'Title',
+		description: 'Description',
+
 		faq: 'FAQ',
 		contact: 'Contact Us',
-		tos: 'Terms of Service',
-		policy: 'Privacy Policy',
+
+		trading: 'Trading',
+		withdraw: 'Withdraw',
 	},
 	board: {
 		titlePlaceholder: 'Enter a title for this card',
@@ -2157,6 +2163,50 @@ export default {
 				'You have been blocked by system administrator. Please, contact support team for reason',
 		},
 
+		info: {
+			display_name: 'Display name',
+			email: 'Email',
+			rate: 'Rate API limit',
+			ref_link: 'Referral Link',
+			email_verified: 'Email Verified',
+			protected: '2FA protected',
+			kyc_status: 'KYC Status',
+		},
+
+		api: {
+			title: 'API keys',
+			api_empty: 'API list is empty',
+			dialog: {
+				create: {
+					title: 'Create API',
+					api_name: 'API name',
+					copy_tokens_description:
+						'Copy the API key data, since when the dialog box is closed, the API Key will be displayed as SHA 256 hash, and the Secret Key will be hidden',
+					api_key: 'API key',
+					secret_key: 'Secret key',
+				},
+				edit: {
+					title: 'Edit abilities',
+				},
+				delete_all: {
+					title: 'Delete all API',
+					description: 'Are you sure you want to delete all API?',
+				},
+				delete_one: {
+					title: 'Delete API',
+					description: 'Are you sure you want to delete the API named',
+				},
+			},
+			headers: {
+				hash: 'API Key Hash (SHA 256)',
+				secret_key: 'Secret Key (Hidden)',
+				abilities: 'API abilities',
+				created: 'Created',
+				updated: 'Updated',
+				last_usage: 'Last usage',
+			},
+		},
+
 		security: {
 			title: 'buyownex recommends using two-factor authentication',
 			description: {
@@ -2179,7 +2229,35 @@ export default {
 			disable: 'Disable',
 			auth_code: 'Auth code (2fa)',
 		},
-		settings: {},
+
+		settings: {
+			headers: {
+				managing_email_notifications: 'Managing email notifications',
+				system_settings: 'System settings',
+				security_settings: 'Security settings',
+			},
+		},
+	},
+
+	notifications: {
+		title: 'Notifications',
+		notifications_types: 'Notifications types',
+		no_notifications: 'No notifications',
+	},
+
+	support: {
+		title: 'Support',
+		menu: {
+			status: 'Status',
+			priority: 'Priority',
+		},
+		no_tickets: 'No tickets',
+		close_ticket: 'Close ticket',
+		attachments: 'Attachements',
+		attach_file: 'Attach file',
+		file_hint:
+			'Image formats are allowed: .png, .jpg, .bmp and .zip archive. Maximum upload file size: 5 Mb',
+		create_ticket: 'Create ticket',
 	},
 
 	forms_validation: {

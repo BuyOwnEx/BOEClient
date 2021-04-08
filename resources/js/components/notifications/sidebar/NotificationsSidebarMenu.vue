@@ -1,6 +1,6 @@
 <template>
 	<v-list class="notifications-sidebar-menu pa-1" dense nav>
-		<div class="overline pa-1 pt-0 pb-2">Типы уведомлений</div>
+		<div class="overline pa-1 pt-0 pb-2">{{ $t('notifications.notifications_types') }}</div>
 
 		<v-list-item
 			v-for="item in notificationTypes"

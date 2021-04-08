@@ -14,7 +14,9 @@
 		<div class="notifications__content-wrapper d-flex flex-grow-1 flex-column">
 			<v-toolbar class="notifications__toolbar flex-grow-0 hidden-lg-and-up">
 				<v-app-bar-nav-icon @click="drawer = !drawer" />
-				<div class="title font-weight-bold">Уведомления</div>
+				<div class="title font-weight-bold">
+					{{ $t('notifications.title') }}
+				</div>
 			</v-toolbar>
 
 			<NotificationsListWrapper :type-to-show="type" />
