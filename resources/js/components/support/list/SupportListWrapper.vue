@@ -6,6 +6,7 @@
 			:key="ticketsData.length"
 			:tickets-prop="ticketsData"
 			:tickets-status="statusToShow"
+			:is-priority="Boolean(priorityToShow)"
 			:closed-tickets-quantity="getQuantityByStatus('closed')"
 			@refresh="refresh"
 		/>

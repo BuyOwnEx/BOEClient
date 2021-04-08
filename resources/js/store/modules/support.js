@@ -79,10 +79,10 @@ export default {
 			},
 		],
 
-		ticketsPerPage: 20,
-
 		tickets: null,
+
 		totalTicketsCount: null,
+		perPage: 20,
 		prevPage: null,
 		nextPage: null,
 	},

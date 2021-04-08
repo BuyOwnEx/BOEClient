@@ -22,9 +22,7 @@
 
 			<div v-if="ticketsProp.length" class="d-flex align-center">
 				<div class="caption mr-1">
-					{{ currentPage * ticketsPerPage - ticketsPerPage + 1 }} -
-					{{ Math.min(currentPage * ticketsPerPage, getTicketsQuantity()) }} of
-					{{ getTicketsQuantity() }}
+					{{ pagesText }}
 				</div>
 				<v-btn icon :disabled="currentPage === 1" @click="getPrevPage">
 					<v-icon>mdi-chevron-left</v-icon>
@@ -104,6 +102,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		isPriority: {
+			type: Boolean,
+			required: true,
+		},
 		closedTicketsQuantity: {
 			type: Number,
 			required: true,
@@ -122,19 +124,29 @@ export default {
 			'totalTicketsCount',
 			'nextPage',
 			'prevPage',
-			'ticketsPerPage',
+			'perPage',
 		]),
+
+		pagesText() {
+			const firstElement =
+				this.currentPage * this.perPage - this.perPage + 1;
+			const showedElements = Math.min(
+				this.currentPage * this.perPage,
+				this.getTicketsQuantity()
+			);
+			return `${firstElement} - ${showedElements} of ${this.getTicketsQuantity()}`;
+		},
 
 		isDetailsStatusNotClosed() {
 			return this.ticketDetails && this.ticketDetails.status !== 'closed';
 		},
 		paginatedTickets() {
-			const from = this.currentPage * this.ticketsPerPage - this.ticketsPerPage;
-			const to = this.currentPage * this.ticketsPerPage;
+			const from = this.currentPage * this.perPage - this.perPage;
+			const to = this.currentPage * this.perPage;
 			return this.ticketsProp.slice(from, to);
 		},
 		totalPages() {
-			return Math.ceil(this.ticketsProp.length / this.ticketsPerPage);
+			return Math.ceil(this.ticketsProp.length / this.perPage);
 		},
 	},
 
@@ -160,7 +172,7 @@ export default {
 			// this.fetchPage({ type: 'prev', page: this.prevPage });
 		},
 		getTicketsQuantity() {
-			if (this.ticketsStatus === 'all')
+			if (this.ticketsStatus === 'all' && !this.isPriority)
 				return this.totalTicketsCount - this.closedTicketsQuantity;
 			else return this.ticketsProp.length;
 		},
