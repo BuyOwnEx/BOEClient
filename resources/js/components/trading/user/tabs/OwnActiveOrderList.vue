@@ -170,8 +170,6 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import OwnListConfirmDialog from '../common/OwnListConfirmDialog';
-
 import formatDate from '../../../../mixins/format/formatDate';
 import calculateVolume from '../../../../mixins/trading/calculateVolume';
 import findScale from '../../../../mixins/trading/findScale';
@@ -181,15 +179,12 @@ import formatPrice from '../../../../mixins/trading/formatPrice';
 export default {
 	name: 'OwnActiveOrderList',
 
-	components: { OwnListConfirmDialog },
+	components: {
+		OwnListConfirmDialog: () =>
+			import(/* webpackPrefetch: true */ '../common/OwnListConfirmDialog'),
+	},
 
-	mixins: [
-		formatDate,
-		formatSize,
-		formatPrice,
-		calculateVolume,
-		findScale,
-	],
+	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],
 
 	props: {
 		currency: {
