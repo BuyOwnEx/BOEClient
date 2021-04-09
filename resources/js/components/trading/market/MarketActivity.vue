@@ -26,11 +26,15 @@
 								</span>
 							</td>
 
-							<td class="market-activity__trend">
+							<td class="market-activity__trend text-center">
 								<v-icon v-if="item.trend === 'positive'" color="success" small>
 									mdi-arrow-up
 								</v-icon>
-								<v-icon v-if="item.trend === 'negative'" color="error" small>
+								<v-icon
+									v-else-if="item.trend === 'negative'"
+									color="error"
+									small
+								>
 									mdi-arrow-down
 								</v-icon>
 								<span v-else>
