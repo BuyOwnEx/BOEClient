@@ -6,10 +6,9 @@ export default {
 					text,
 					status: 'error',
 				});
-			// TODO: добавить перевод к text
 			else
 				this.$store.commit('snackbar/addNotification', {
-					text: 'Заполните все поля',
+					text: this.$t('forms_validation.fill_all_fields'),
 					status: 'error',
 				});
 		},

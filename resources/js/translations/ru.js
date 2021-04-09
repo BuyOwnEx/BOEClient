@@ -2285,6 +2285,8 @@ export default {
 		unsupported_char_latinAndNumbers:
 			'Неподдерживаемые символы. Только [a-zA-Z0-9-_]',
 		max_filesize_5MB: 'Макс. размер файла 5 МБ',
+		fill_all_fields: 'Заполните все поля',
+		incorrect_data: 'Некорректные данные',
 	},
 
 	$vuetify: {
