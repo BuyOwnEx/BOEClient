@@ -1,5 +1,5 @@
 <template>
-	<div class="email-editor">
+	<div class="editor">
 		<editor-menu-bar v-slot="{ commands, isActive }" :editor="editor">
 			<div class="pa-1">
 				<v-btn
@@ -250,7 +250,7 @@ export default {
 </script>
 
 <style lang="scss">
-.email-editor {
+.editor {
 	position: relative;
 
 	.v-btn {

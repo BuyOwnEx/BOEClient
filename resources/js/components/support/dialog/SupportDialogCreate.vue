@@ -30,7 +30,7 @@
 
 					<v-divider />
 
-					<div class="ticket-editor">
+					<div class="editor">
 						<editor-menu-bar v-slot="{ commands, isActive }" :editor="editor">
 							<div class="pa-1">
 								<v-btn
@@ -154,13 +154,13 @@
 								</v-btn>
 							</div>
 						</editor-menu-bar>
+						<v-divider />
 						<editor-content
-							class="editor__content pa-3 py-4"
+							class="editor__content ticket-editor-content py-2"
 							:editor="editor"
 						/>
+						<v-divider />
 					</div>
-
-					<v-divider />
 
 					<v-select
 						v-model="form.priority"
@@ -380,129 +380,137 @@ export default {
 </script>
 
 <style lang="scss">
-.ticket-editor {
-	position: relative;
-
-	.v-btn {
-		&.is-active {
-			background-color: #f1f1f1;
-		}
-	}
-
-	.editor__content {
-		overflow-wrap: break-word;
-		word-wrap: break-word;
-		word-break: break-word;
-
-		* {
-			caret-color: currentColor;
-		}
-
-		.ProseMirror {
-			&:focus {
-				outline: none;
-			}
-		}
-
-		ul,
-		ol {
-			padding-left: 1rem;
-		}
-
-		li > p,
-		li > ol,
-		li > ul {
-			margin: 0;
-		}
-
-		a {
-			color: inherit;
-		}
-
-		blockquote {
-			border-left: 3px solid #b1b1b166;
-			color: rgba(0, 0, 0, 0.8);
-			padding-left: 0.8rem;
-			font-style: italic;
-
-			p {
-				margin: 0;
-			}
-		}
-
-		img {
-			max-width: 100%;
-			border-radius: 3px;
-		}
-
-		table {
-			border-collapse: collapse;
-			table-layout: fixed;
-			width: 100%;
-			margin: 0;
-			overflow: hidden;
-
-			td,
-			th {
-				min-width: 1em;
-				border: 2px solid #fafafa;
-				padding: 3px 5px;
-				vertical-align: top;
-				box-sizing: border-box;
-				position: relative;
-
-				> * {
-					margin-bottom: 0;
-				}
-			}
-
-			th {
-				font-weight: bold;
-				text-align: left;
-			}
-
-			.selectedCell:after {
-				z-index: 2;
-				position: absolute;
-				content: '';
-				left: 0;
-				right: 0;
-				top: 0;
-				bottom: 0;
-				background: rgba(200, 200, 255, 0.4);
-				pointer-events: none;
-			}
-
-			.column-resize-handle {
-				position: absolute;
-				right: -2px;
-				top: 0;
-				bottom: 0;
-				width: 4px;
-				z-index: 20;
-				background-color: #adf;
-				pointer-events: none;
-			}
-		}
-
-		.tableWrapper {
-			margin: 1em 0;
-			overflow-x: auto;
-		}
-
-		.resize-cursor {
-			cursor: ew-resize;
-			cursor: col-resize;
-		}
-	}
-}
 .support-dialog-create {
 	&__file {
 		padding: 8px 12px;
 	}
-
+	.ticket-editor-content {
+		padding: 0 12px;
+	}
 	::v-deep.v-input__slot {
 		padding: 0;
+	}
+
+	.editor {
+		position: relative;
+
+		.v-btn {
+			&.is-active {
+				background-color: #f1f1f1;
+			}
+		}
+
+		.editor__content {
+			overflow-wrap: break-word;
+			word-wrap: break-word;
+			word-break: break-word;
+
+			* {
+				caret-color: currentColor;
+			}
+
+			.ProseMirror {
+				&:focus {
+					outline: none;
+				}
+			}
+
+			ul,
+			ol {
+				padding-left: 1rem;
+			}
+
+			li > p,
+			li > ol,
+			li > ul {
+				margin: 0;
+			}
+
+			a {
+				color: inherit;
+			}
+
+			blockquote {
+				border-left: 3px solid #b1b1b166;
+				color: rgba(0, 0, 0, 0.8);
+				padding-left: 0.8rem;
+				font-style: italic;
+
+				p {
+					margin: 0;
+				}
+			}
+
+			img {
+				max-width: 100%;
+				border-radius: 3px;
+			}
+
+			table {
+				border-collapse: collapse;
+				table-layout: fixed;
+				width: 100%;
+				margin: 0;
+				overflow: hidden;
+
+				td,
+				th {
+					min-width: 1em;
+					border: 2px solid #fafafa;
+					padding: 3px 5px;
+					vertical-align: top;
+					box-sizing: border-box;
+					position: relative;
+
+					> * {
+						margin-bottom: 0;
+					}
+				}
+
+				th {
+					font-weight: bold;
+					text-align: left;
+				}
+
+				.selectedCell:after {
+					z-index: 2;
+					position: absolute;
+					content: '';
+					left: 0;
+					right: 0;
+					top: 0;
+					bottom: 0;
+					background: rgba(200, 200, 255, 0.4);
+					pointer-events: none;
+				}
+
+				.column-resize-handle {
+					position: absolute;
+					right: -2px;
+					top: 0;
+					bottom: 0;
+					width: 4px;
+					z-index: 20;
+					background-color: #adf;
+					pointer-events: none;
+				}
+			}
+
+			.tableWrapper {
+				margin: 1em 0;
+				overflow-x: auto;
+			}
+
+			.resize-cursor {
+				cursor: ew-resize;
+				cursor: col-resize;
+			}
+		}
+	}
+}
+.theme--dark .support-dialog-create {
+	.editor__content blockquote p {
+		color: white;
 	}
 }
 </style>
