@@ -235,39 +235,5 @@ export default {
 		setProfileTab({ commit }, tabIndex) {
 			commit('SET_PROFILE_TAB', tabIndex);
 		},
-
-		async enableUser({ commit }, id) {
-			// const data = await this.$axios.$post()...
-			const data = await new Promise(res => {
-				setTimeout(() => {
-					res();
-				}, 1000);
-			});
-
-			// commit('', data)
-			return data;
-		},
-		async blockUser({ commit }, id) {
-			// const data = await this.$axios.$post()...
-			const data = await new Promise(res => {
-				setTimeout(() => {
-					res();
-				}, 1000);
-			});
-
-			// commit('', data)
-			return data;
-		},
-		async deleteUser({ commit }, id) {
-			// const data = await this.$axios.$post()...
-			const data = await new Promise(res => {
-				setTimeout(() => {
-					res();
-				}, 1000);
-			});
-
-			// commit('', data)
-			return data;
-		},
 	},
 };
