@@ -253,13 +253,14 @@ import TradingFormsInfoTooltip from '../common/TradingFormsInfoTooltip';
 import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
 import formatWithScaleInAllCurrencies from '../../../../mixins/format/formatWithScaleInAllCurrencies';
+import errorNotificationMixin from '../../../../mixins/common/errorNotificationMixin';
 
 export default {
 	name: 'BidLimitForm',
 
 	components: { TradingFormsInfoTooltip, TradingFormsConfirmDialog },
 
-	mixins: [formatWithScaleInAllCurrencies],
+	mixins: [formatWithScaleInAllCurrencies, errorNotificationMixin],
 
 	props: {
 		currency: {
@@ -459,7 +460,10 @@ export default {
 			});
 		},
 		sendBidLimit() {
-			if (!this.form.amount) return;
+			if (!this.form.amount) {
+				this.pushErrorNotification(this.$t('forms_validation.incorrect_data'))
+				return
+			}
 
 			let form = this.additionalParamsEnabled
 				? this.form
