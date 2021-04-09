@@ -2,13 +2,13 @@
 	<v-dialog v-model="dialog" width="600" persistent>
 		<template v-slot:activator="{ on, attrs }">
 			<v-btn block large v-bind="attrs" v-on="on" color="primary">
-				{{$t('support.create_ticket')}}
+				{{ $t('support.create_ticket') }}
 			</v-btn>
 		</template>
 
 		<v-card class="support-dialog-create">
 			<v-card-title class="common-dialog__title justify-space-between">
-				<span>{{$t('support.create_ticket')}}</span>
+				<span>{{ $t('support.create_ticket') }}</span>
 				<v-btn icon @click="close">
 					<v-icon>
 						mdi-close
@@ -34,109 +34,109 @@
 						<editor-menu-bar v-slot="{ commands, isActive }" :editor="editor">
 							<div class="pa-1">
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.bold() }"
-										@click="commands.bold"
+									icon
+									tile
+									:class="{ 'is-active': isActive.bold() }"
+									@click="commands.bold"
 								>
 									<v-icon>mdi-format-bold</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.italic() }"
-										@click="commands.italic"
+									icon
+									tile
+									:class="{ 'is-active': isActive.italic() }"
+									@click="commands.italic"
 								>
 									<v-icon>mdi-format-italic</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.strike() }"
-										@click="commands.strike"
+									icon
+									tile
+									:class="{ 'is-active': isActive.strike() }"
+									@click="commands.strike"
 								>
 									<v-icon>mdi-format-strikethrough</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.underline() }"
-										@click="commands.underline"
+									icon
+									tile
+									:class="{ 'is-active': isActive.underline() }"
+									@click="commands.underline"
 								>
 									<v-icon>mdi-format-underline</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.paragraph() }"
-										@click="commands.paragraph"
+									icon
+									tile
+									:class="{ 'is-active': isActive.paragraph() }"
+									@click="commands.paragraph"
 								>
 									<v-icon>mdi-format-paragraph</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.heading({ level: 1 }) }"
-										@click="commands.heading({ level: 1 })"
+									icon
+									tile
+									:class="{ 'is-active': isActive.heading({ level: 1 }) }"
+									@click="commands.heading({ level: 1 })"
 								>
 									H1
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.heading({ level: 2 }) }"
-										@click="commands.heading({ level: 2 })"
+									icon
+									tile
+									:class="{ 'is-active': isActive.heading({ level: 2 }) }"
+									@click="commands.heading({ level: 2 })"
 								>
 									H2
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.heading({ level: 3 }) }"
-										@click="commands.heading({ level: 3 })"
+									icon
+									tile
+									:class="{ 'is-active': isActive.heading({ level: 3 }) }"
+									@click="commands.heading({ level: 3 })"
 								>
 									H3
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.bullet_list() }"
-										@click="commands.bullet_list"
+									icon
+									tile
+									:class="{ 'is-active': isActive.bullet_list() }"
+									@click="commands.bullet_list"
 								>
 									<v-icon>mdi-format-list-bulleted</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.ordered_list() }"
-										@click="commands.ordered_list"
+									icon
+									tile
+									:class="{ 'is-active': isActive.ordered_list() }"
+									@click="commands.ordered_list"
 								>
 									<v-icon>mdi-format-list-numbered</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.blockquote() }"
-										@click="commands.blockquote"
+									icon
+									tile
+									:class="{ 'is-active': isActive.blockquote() }"
+									@click="commands.blockquote"
 								>
 									<v-icon>mdi-format-quote-close</v-icon>
 								</v-btn>
 
 								<v-btn
-										icon
-										tile
-										:class="{ 'is-active': isActive.code_block() }"
-										@click="commands.code_block"
+									icon
+									tile
+									:class="{ 'is-active': isActive.code_block() }"
+									@click="commands.code_block"
 								>
 									<v-icon>mdi-code-tags</v-icon>
 								</v-btn>
@@ -154,7 +154,10 @@
 								</v-btn>
 							</div>
 						</editor-menu-bar>
-						<editor-content class="editor__content pa-3 py-4" :editor="editor" />
+						<editor-content
+							class="editor__content pa-3 py-4"
+							:editor="editor"
+						/>
 					</div>
 
 					<v-divider />
@@ -332,16 +335,9 @@ export default {
 					this.form.subject = '';
 					this.form.priority = null;
 					this.form.file = null;
-					//this.editor.clearContent();
+					this.editor.clearContent();
 					this.$refs.form.resetValidation();
 				});
-			}
-		},
-		clear(val) {
-			if (val) {
-				this.editor.clearContent();
-				this.file = null;
-				this.$emit('cleared');
 			}
 		},
 	},
@@ -385,121 +381,121 @@ export default {
 
 <style lang="scss">
 .ticket-editor {
-		position: relative;
+	position: relative;
 
-		.v-btn {
-			&.is-active {
-				background-color: #f1f1f1;
-			}
-		}
-
-		.editor__content {
-			overflow-wrap: break-word;
-			word-wrap: break-word;
-			word-break: break-word;
-
-			* {
-				caret-color: currentColor;
-			}
-
-			.ProseMirror {
-				&:focus {
-					outline: none;
-				}
-			}
-
-			ul,
-			ol {
-				padding-left: 1rem;
-			}
-
-			li > p,
-			li > ol,
-			li > ul {
-				margin: 0;
-			}
-
-			a {
-				color: inherit;
-			}
-
-			blockquote {
-				border-left: 3px solid #b1b1b166;
-				color: rgba(0, 0, 0, 0.8);
-				padding-left: 0.8rem;
-				font-style: italic;
-
-				p {
-					margin: 0;
-				}
-			}
-
-			img {
-				max-width: 100%;
-				border-radius: 3px;
-			}
-
-			table {
-				border-collapse: collapse;
-				table-layout: fixed;
-				width: 100%;
-				margin: 0;
-				overflow: hidden;
-
-				td,
-				th {
-					min-width: 1em;
-					border: 2px solid #fafafa;
-					padding: 3px 5px;
-					vertical-align: top;
-					box-sizing: border-box;
-					position: relative;
-
-					> * {
-						margin-bottom: 0;
-					}
-				}
-
-				th {
-					font-weight: bold;
-					text-align: left;
-				}
-
-				.selectedCell:after {
-					z-index: 2;
-					position: absolute;
-					content: '';
-					left: 0;
-					right: 0;
-					top: 0;
-					bottom: 0;
-					background: rgba(200, 200, 255, 0.4);
-					pointer-events: none;
-				}
-
-				.column-resize-handle {
-					position: absolute;
-					right: -2px;
-					top: 0;
-					bottom: 0;
-					width: 4px;
-					z-index: 20;
-					background-color: #adf;
-					pointer-events: none;
-				}
-			}
-
-			.tableWrapper {
-				margin: 1em 0;
-				overflow-x: auto;
-			}
-
-			.resize-cursor {
-				cursor: ew-resize;
-				cursor: col-resize;
-			}
+	.v-btn {
+		&.is-active {
+			background-color: #f1f1f1;
 		}
 	}
+
+	.editor__content {
+		overflow-wrap: break-word;
+		word-wrap: break-word;
+		word-break: break-word;
+
+		* {
+			caret-color: currentColor;
+		}
+
+		.ProseMirror {
+			&:focus {
+				outline: none;
+			}
+		}
+
+		ul,
+		ol {
+			padding-left: 1rem;
+		}
+
+		li > p,
+		li > ol,
+		li > ul {
+			margin: 0;
+		}
+
+		a {
+			color: inherit;
+		}
+
+		blockquote {
+			border-left: 3px solid #b1b1b166;
+			color: rgba(0, 0, 0, 0.8);
+			padding-left: 0.8rem;
+			font-style: italic;
+
+			p {
+				margin: 0;
+			}
+		}
+
+		img {
+			max-width: 100%;
+			border-radius: 3px;
+		}
+
+		table {
+			border-collapse: collapse;
+			table-layout: fixed;
+			width: 100%;
+			margin: 0;
+			overflow: hidden;
+
+			td,
+			th {
+				min-width: 1em;
+				border: 2px solid #fafafa;
+				padding: 3px 5px;
+				vertical-align: top;
+				box-sizing: border-box;
+				position: relative;
+
+				> * {
+					margin-bottom: 0;
+				}
+			}
+
+			th {
+				font-weight: bold;
+				text-align: left;
+			}
+
+			.selectedCell:after {
+				z-index: 2;
+				position: absolute;
+				content: '';
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				background: rgba(200, 200, 255, 0.4);
+				pointer-events: none;
+			}
+
+			.column-resize-handle {
+				position: absolute;
+				right: -2px;
+				top: 0;
+				bottom: 0;
+				width: 4px;
+				z-index: 20;
+				background-color: #adf;
+				pointer-events: none;
+			}
+		}
+
+		.tableWrapper {
+			margin: 1em 0;
+			overflow-x: auto;
+		}
+
+		.resize-cursor {
+			cursor: ew-resize;
+			cursor: col-resize;
+		}
+	}
+}
 .support-dialog-create {
 	&__file {
 		padding: 8px 12px;
