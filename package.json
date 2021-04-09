@@ -12,6 +12,7 @@
         "production": "mix --production"
     },
     "dependencies": {
+        "@chenfengyuan/vue-qrcode": "^1.0.2",
         "@dicebear/avatars": "^4.5.4",
         "@dicebear/avatars-avataaars-sprites": "^4.5.4",
         "@dicebear/avatars-jdenticon-sprites": "^4.5.4",
