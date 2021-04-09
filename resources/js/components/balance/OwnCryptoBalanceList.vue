@@ -44,22 +44,27 @@
 						<crypto-deposit
 							v-if="menuItemExist('deposit')"
 							:cryptoObj="item"
-							v-on:closeMenu="closeMenu(item)"
+							@closeMenu="closeMenu(item)"
 						/>
 						<crypto-withdraw
 							v-if="menuItemExist('withdraw')"
 							:cryptoObj="item"
-							v-on:closeMenu="closeMenu(item)"
+							@closeMenu="closeMenu(item)"
 						/>
 						<crypto-transfer-trade
 							v-if="menuItemExist('transfer_to_trade')"
 							:cryptoObj="item"
-							v-on:closeMenu="closeMenu(item)"
+							@closeMenu="closeMenu(item)"
 						/>
 						<crypto-transfer-safe
 							v-if="menuItemExist('transfer_to_safe')"
 							:cryptoObj="item"
-							v-on:closeMenu="closeMenu(item)"
+							@closeMenu="closeMenu(item)"
+						/>
+						<BalanceCommonDialogReplenish
+							:address="address"
+							:currency-object="item"
+							@closeMenu="closeMenu(item)"
 						/>
 					</v-list>
 				</v-menu>
@@ -125,22 +130,36 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CryptoDeposit from '../dialogs/balance/crypto/CryptoDeposit';
-import CryptoWithdraw from '../dialogs/balance/crypto/CryptoWithdraw';
-import CryptoTransferTrade from '../dialogs/balance/crypto/CryptoTransferTrade';
-import CryptoTransferSafe from '../dialogs/balance/crypto/CryptoTransferSafe';
-
 export default {
 	name: 'OwnCryptoBalanceList',
+
 	components: {
-		CryptoDeposit,
-		CryptoWithdraw,
-		CryptoTransferTrade,
-		CryptoTransferSafe,
+		CryptoDeposit: () =>
+			import(
+				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoDeposit'
+			),
+		CryptoWithdraw: () =>
+			import(
+				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoWithdraw'
+			),
+		CryptoTransferTrade: () =>
+			import(
+				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoTransferTrade'
+			),
+		CryptoTransferSafe: () =>
+			import(
+				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoTransferSafe'
+			),
+		BalanceCommonDialogReplenish: () =>
+			import(
+				/* webpackPrefetch: true */ './common/BalanceCommonDialogReplenish'
+			),
 	},
 
 	data() {
 		return {
+			address: 'mock',
+
 			showOnlyNotNullBalances: false,
 			componentTitle: this.$t('balance.headers.own_crypto_balance_list'),
 			itemsPerPage: 10,
@@ -223,7 +242,15 @@ export default {
 		},
 	},
 
+	created() {
+		this.getAddress();
+	},
+
 	methods: {
+		getAddress() {
+			// axios.get('/trader/ext/get_address');
+		},
+
 		BigNumber(item) {
 			return BigNumber(item);
 		},
