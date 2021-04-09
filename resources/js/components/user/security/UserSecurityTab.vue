@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import loadingMixin from '../../../../mixins/common/loadingMixin';
+import loadingMixin from '../../../mixins/common/loadingMixin';
 
 export default {
 	name: 'UserSecurityTab',

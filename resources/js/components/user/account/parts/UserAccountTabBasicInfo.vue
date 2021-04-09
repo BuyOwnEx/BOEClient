@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import CopyLabel from '../../../../common/CopyLabel';
+import CopyLabel from '../../../common/CopyLabel';
 
 export default {
 	name: 'UserAccountTabBasicInfo',

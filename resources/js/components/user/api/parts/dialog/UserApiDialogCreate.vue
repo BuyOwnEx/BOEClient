@@ -109,11 +109,11 @@
 </template>
 
 <script>
-import CopyLabel from '../../../../../common/CopyLabel';
+import CopyLabel from '../../../../common/CopyLabel';
 
-import formValidationRules from '../../../../../../mixins/common/formValidationRules';
-import loadingMixin from '../../../../../../mixins/common/loadingMixin';
-import errorNotificationMixin from '../../../../../../mixins/common/errorNotificationMixin';
+import formValidationRules from '../../../../../mixins/common/formValidationRules';
+import loadingMixin from '../../../../../mixins/common/loadingMixin';
+import errorNotificationMixin from '../../../../../mixins/common/errorNotificationMixin';
 
 export default {
 	name: 'UserApiDialogCreate',

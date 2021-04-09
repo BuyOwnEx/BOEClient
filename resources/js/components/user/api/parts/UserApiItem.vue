@@ -91,9 +91,9 @@ import sprites from '@dicebear/avatars-jdenticon-sprites';
 
 import UserApiDialogEdit from './dialog/UserApiDialogEdit';
 import UserApiDialogDeleteOne from './dialog/UserApiDialogDeleteOne';
-import CopyLabel from '../../../../common/CopyLabel';
+import CopyLabel from '../../../common/CopyLabel';
 
-import formatDate from '../../../../../mixins/format/formatDate';
+import formatDate from '../../../../mixins/format/formatDate';
 
 export default {
 	name: 'UserApiItem',

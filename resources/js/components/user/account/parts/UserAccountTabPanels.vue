@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import formatDate from '../../../../../mixins/format/formatDate';
+import formatDate from '../../../../mixins/format/formatDate';
 
 export default {
 	name: 'UserAccountTabPanels',

@@ -30,7 +30,7 @@
 import UserApiItem from './parts/UserApiItem';
 import UserApiDialogCreate from './parts/dialog/UserApiDialogCreate';
 import UserApiDialogDeleteAll from './parts/dialog/UserApiDialogDeleteAll';
-import CommonLoading from '../../../common/CommonLoading';
+import CommonLoading from '../../common/CommonLoading';
 
 export default {
 	name: 'UserApiTab',

@@ -103,6 +103,10 @@ export default {
 							.fields-list .phone {
 								border: none !important;
 							}
+							input[type="date"] {
+								font-family: Arial;
+   							opacity: 0.6;
+							}
 
 							.show-hide {
 								top: 5px !important;
@@ -277,6 +281,10 @@ export default {
 							}
 							.fields-list .phone {
 								border: none !important;
+							}
+							input[type="date"] {
+								font-family: Arial;
+   							opacity: 0.6;
 							}
 
 							.show-hide {

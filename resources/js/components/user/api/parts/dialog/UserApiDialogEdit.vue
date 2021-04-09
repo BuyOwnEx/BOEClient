@@ -68,9 +68,9 @@
 </template>
 
 <script>
-import CommonDialog from '../../../../../common/CommonDialog';
+import CommonDialog from '../../../../common/CommonDialog';
 
-import loadingMixin from '../../../../../../mixins/common/loadingMixin';
+import loadingMixin from '../../../../../mixins/common/loadingMixin';
 
 export default {
 	name: 'UserApiDialogEdit',
