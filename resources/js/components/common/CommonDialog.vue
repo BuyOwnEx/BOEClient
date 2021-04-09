@@ -12,7 +12,9 @@
 					class="common-dialog__title"
 					:class="getBackgroundClassColor"
 				>
-					<slot name="title"></slot>
+					<slot name="title">
+						{{ $t('common.confirmation') }}
+					</slot>
 				</v-card-title>
 
 				<v-card-text class="common-dialog__content">
@@ -27,7 +29,7 @@
 
 						<slot name="close">
 							<v-btn small tile text plain @click="close">
-								Отмена
+								{{ $t('common.cancel') }}
 							</v-btn>
 						</slot>
 
