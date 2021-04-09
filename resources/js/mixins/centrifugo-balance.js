@@ -69,6 +69,10 @@ export default {
 					console.log(data.data.balance);
 					this.$store.commit('user/updateBalance', data.data.balance);
 					break;
+				case 'address_was_formed':
+					console.log(data.data.address);
+					this.$store.commit('user/setAddress', data.data.address);
+					break;
 			}
 		},
 		statePubHandler(data) {

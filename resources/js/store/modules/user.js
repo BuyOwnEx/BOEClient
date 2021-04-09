@@ -51,6 +51,13 @@ export default {
 				}
 			}
 		},
+		setAddress(state, data) {
+			if (state.balances !== null) {
+				if (data.currency in state.balances) {
+					state.balances[data.currency].address = data.address;
+				}
+			}
+		},
 		updateCurrencyState(state, data) {
 			if (state.balances !== null) {
 				if (data.currency.toUpperCase() in state.balances) {

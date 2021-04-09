@@ -113,5 +113,12 @@ export default {
 			this.$emit('closeMenu');
 		},
 	},
+	mounted() {
+		axios.get('/trader/ext/get_address',{
+			params: {currency:this.currencyObject.currency.toUpperCase()},
+		}).then(response => {
+			console.log(response);
+		});
+	}
 };
 </script>

@@ -62,7 +62,7 @@
 							@closeMenu="closeMenu(item)"
 						/>
 						<BalanceCommonDialogReplenish
-							:address="address"
+							:address="item.address"
 							:currency-object="item"
 							@closeMenu="closeMenu(item)"
 						/>
