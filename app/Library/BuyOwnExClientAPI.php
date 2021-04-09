@@ -486,6 +486,37 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function set_referral_type(int $user_id, int $ref_id)
+    {
+        $params = [
+            'trader' => $user_id,
+            'ref_id' => $ref_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/set_referral_type',$params);
+        return response()->json($response->json(),$response->status());
+    }
+    public function get_address(int $user_id, string $currency)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_address',[
+            'trader' => $user_id,
+            'currency' => $currency
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function validate_address(int $user_id, string $currency, string $address)
+    {
+        $params = [
+            'trader' => $user_id,
+            'currency' => $currency,
+            'address' => $address,
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/validate_address',$params);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function registerTrader($trader)
     {

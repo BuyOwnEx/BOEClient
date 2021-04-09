@@ -116,6 +116,9 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
         Route::post('set_referral_type', 'TraderController@setReferralType')->name('set_referral_type');
 
+        Route::get('get_address', 'TraderController@getAddress')->name('get_address');
+        Route::post('validate_address', 'TraderController@validateAddress')->name('validate_address');
+
         Route::get('sumsub_token', 'TraderController@getSumSubToken')->name('sumsub_token');
 
         Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');

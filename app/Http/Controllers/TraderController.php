@@ -531,12 +531,39 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function setReferralType(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->set_referral_type(Auth::id(),$request->id);
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getAddress(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->get_address(Auth::id(),$request->currency);
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function validateAddress(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->validate_address(Auth::id(), $request->currency, $request->address);
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
 
     public function getSumSubToken()
     {
         try {
             $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
-            return $api->getAccessToken(Auth::user()->name.'_1');
+            return $api->getAccessToken(Auth::user()->name);
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
