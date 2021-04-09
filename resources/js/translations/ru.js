@@ -10,6 +10,7 @@ export default {
 
 		title: 'Тема',
 		description: 'Описание',
+		confirmation: 'Подтверждение',
 
 		faq: 'Часто задаваемые вопросы',
 		contact: 'Связаться с нами',
@@ -2204,7 +2205,7 @@ export default {
 				delete_one: {
 					title: 'Удалить API',
 					description: 'Вы уверены, что хотите удалить API с именем',
-				}
+				},
 			},
 			headers: {
 				hash: 'API Key Hash (SHA 256)',
@@ -2242,9 +2243,14 @@ export default {
 		settings: {
 			headers: {
 				managing_email_notifications: 'Управление почтовыми оповещениями',
+				ref_settings: 'Настройки реферальной программы',
 				system_settings: 'Настрйоки системы',
-				security_settings: 'Настрйоки безопасности'
-			}
+				security_settings: 'Настрйоки безопасности',
+			},
+			dialog: {
+				ref_description:
+					'Вы уверены, что хотите изменить реферальную программу?',
+			},
 		},
 	},
 

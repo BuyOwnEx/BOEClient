@@ -10,6 +10,7 @@ export default {
 
 		title: 'Title',
 		description: 'Description',
+		confirmation: 'Confirmation',
 
 		faq: 'FAQ',
 		contact: 'Contact Us',
@@ -2233,9 +2234,13 @@ export default {
 		settings: {
 			headers: {
 				managing_email_notifications: 'Managing email notifications',
+				ref_settings: 'Referral program settings',
 				system_settings: 'System settings',
 				security_settings: 'Security settings',
 			},
+			dialog: {
+				ref_description: 'Are you sure you want to change the referral program?'
+			}
 		},
 	},
 
