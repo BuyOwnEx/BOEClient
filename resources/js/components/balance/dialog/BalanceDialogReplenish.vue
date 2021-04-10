@@ -1,8 +1,10 @@
 <template>
 	<v-dialog v-model="dialog" width="500">
 		<template v-slot:activator="{ on, attrs }">
-			<v-list-item v-bind="attrs" v-on="on">
-				<span>{{ $t('common.replenish') }}</span>
+			<v-list-item dense v-bind="attrs" v-on="on">
+				<v-list-item-title>
+					{{ $t('common.replenish') }}
+				</v-list-item-title>
 			</v-list-item>
 		</template>
 
@@ -63,13 +65,12 @@
 
 <script>
 import QrCode from '@chenfengyuan/vue-qrcode';
-import CommonDialog from '../../common/CommonDialog';
 import CommonLoading from '../../common/CommonLoading';
 
 export default {
-	name: 'BalanceCommonDialogReplenish',
+	name: 'BalanceDialogReplenish',
 
-	components: { CommonLoading, CommonDialog, QrCode },
+	components: { CommonLoading, QrCode },
 
 	props: {
 		address: {
@@ -91,20 +92,17 @@ export default {
 
 	watch: {
 		dialog(val) {
-			if (val) this.$emit('closeMenu');
+			if (val) this.closeMenu();
 		},
 	},
 
 	methods: {
-		confirm() {
-			console.log('confirm');
-		},
 		close() {
 			this.dialog = false;
 		},
 
 		closeMenu() {
-			this.$emit('closeMenu');
+			this.$emit('close-menu');
 		},
 	},
 

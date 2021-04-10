@@ -30,11 +30,11 @@
 					</template>
 
 					<v-list dense>
-						<crypto-deposit
-							v-if="menuItemExist('cancel_withdraw')"
-							:withdrawObj="item"
-							v-on:closeMenu="closeMenu(item)"
-						/>
+<!--						<crypto-deposit-->
+<!--							v-if="menuItemExist('cancel_withdraw')"-->
+<!--							:withdrawObj="item"-->
+<!--							v-on:closeMenu="closeMenu(item)"-->
+<!--						/>-->
 					</v-list>
 				</v-menu>
 			</template>
@@ -69,14 +69,12 @@ import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import WithdrawCancel from '../dialogs/balance/withdraw/WithdrawCancel';
-import CryptoDeposit from '../dialogs/balance/crypto/CryptoDeposit';
 
 export default {
 	name: 'OwnWithdrawalList',
 
 	components: {
 		WithdrawCancel,
-		CryptoDeposit,
 	},
 
 	data() {

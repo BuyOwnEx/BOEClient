@@ -28,10 +28,10 @@
 
 			<template v-slot:item.action="{ item }">
 				<v-menu
-					close-on-click
-					offset-y
 					v-model="item.menu"
 					transition="slide-y-transition"
+					close-on-click
+					offset-y
 					bottom
 				>
 					<template v-slot:activator="{ on }">
@@ -40,31 +40,26 @@
 							<v-icon right>mdi-chevron-down</v-icon>
 						</v-btn>
 					</template>
+
 					<v-list dense>
-						<crypto-deposit
-							v-if="menuItemExist('deposit')"
-							:cryptoObj="item"
-							@closeMenu="closeMenu(item)"
-						/>
-						<crypto-withdraw
-							v-if="menuItemExist('withdraw')"
-							:cryptoObj="item"
-							@closeMenu="closeMenu(item)"
-						/>
-						<crypto-transfer-trade
-							v-if="menuItemExist('transfer_to_trade')"
-							:cryptoObj="item"
-							@closeMenu="closeMenu(item)"
-						/>
-						<crypto-transfer-safe
-							v-if="menuItemExist('transfer_to_safe')"
-							:cryptoObj="item"
-							@closeMenu="closeMenu(item)"
-						/>
-						<BalanceCommonDialogReplenish
+						<BalanceDialogReplenish
+							v-if="isReplenish(item.state)"
 							:address="item.address"
 							:currency-object="item"
-							@closeMenu="closeMenu(item)"
+							@close-menu="closeMenu(item)"
+						/>
+						<BalanceDialogWithdraw
+							v-if="isWithdraw(item.state)"
+							:crypto-obj="item"
+							@close-menu="closeMenu(item)"
+						/>
+						<BalanceDialogTrade
+							:crypto-obj="item"
+							@close-menu="closeMenu(item)"
+						/>
+						<BalanceDialogSafe
+							:crypto-obj="item"
+							@close-menu="closeMenu(item)"
 						/>
 					</v-list>
 				</v-menu>
@@ -119,8 +114,28 @@
 				{{ BigNumber(item.blocked).toString() }}
 			</template>
 
-			<template v-slot:item.state="{ item }">
-				<span>{{ item.state }}</span>
+			<template v-slot:item.replenishment="{ item }">
+				<CommonTooltip>
+					<v-icon :color="getStateIconColor(item.state, 'replenishment')">
+						{{ getStateIconName(item.state, 'replenishment') }}
+					</v-icon>
+
+					<template #text>
+						{{ getStateTitle(item.state) }}
+					</template>
+				</CommonTooltip>
+			</template>
+
+			<template v-slot:item.withdrawal="{ item }">
+				<CommonTooltip>
+					<v-icon :color="getStateIconColor(item.state, 'withdrawal')">
+						{{ getStateIconName(item.state, 'withdrawal') }}
+					</v-icon>
+
+					<template #text>
+						{{ getStateTitle(item.state) }}
+					</template>
+				</CommonTooltip>
 			</template>
 		</v-data-table>
 	</v-card>
@@ -134,26 +149,23 @@ export default {
 	name: 'OwnCryptoBalanceList',
 
 	components: {
-		CryptoDeposit: () =>
-			import(
-				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoDeposit'
-			),
-		CryptoWithdraw: () =>
-			import(
-				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoWithdraw'
-			),
-		CryptoTransferTrade: () =>
-			import(
-				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoTransferTrade'
-			),
-		CryptoTransferSafe: () =>
-			import(
-				/* webpackPrefetch: true */ '../dialogs/balance/crypto/CryptoTransferSafe'
-			),
-		BalanceCommonDialogReplenish: () =>
-			import(
-				/* webpackPrefetch: true */ './common/BalanceCommonDialogReplenish'
-			),
+		BalanceDialogReplenish: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceDialogReplenish'),
+		BalanceDialogWithdraw: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceDialogWithdraw'),
+		BalanceDialogTrade: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceDialogTrade'),
+		BalanceDialogSafe: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceDialogSafe'),
+		CommonTooltip: () =>
+			import(/* webpackPrefetch: true */ '../common/CommonTooltip'),
+	},
+
+	props: {
+		stateTypes: {
+			type: Array,
+			required: true,
+		},
 	},
 
 	data() {
@@ -183,8 +195,12 @@ export default {
 					value: 'blocked',
 				},
 				{
-					text: this.$t('balance.state'),
-					value: 'state',
+					text: this.$t('common.replenishment'),
+					value: 'replenishment',
+				},
+				{
+					text: this.$t('common.withdrawal'),
+					value: 'withdrawal',
 				},
 				{
 					text: this.$t('balance.actions'),
@@ -241,11 +257,33 @@ export default {
 	},
 
 	methods: {
+		isReplenish(state) {
+			const everythingIsOk = state === 1;
+			const onlyReplenish = state === 3;
+			return everythingIsOk || onlyReplenish;
+		},
+		isWithdraw(state) {
+			const everythingIsOk = state === 1;
+			const onlyWithdraw = state === 2;
+			return everythingIsOk || onlyWithdraw;
+		},
+		getStateIconName(state, type) {
+			const status = this.stateTypes.find(t => t.id === state);
+			const iconType = `${type}Icon`;
+			return status[iconType].name;
+		},
+		getStateIconColor(state, type) {
+			const status = this.stateTypes.find(t => t.id === state);
+			const iconType = `${type}Icon`;
+			return status[iconType].color;
+		},
+		getStateTitle(state) {
+			const status = this.stateTypes.find(t => t.id === state);
+			return status.title;
+		},
+
 		BigNumber(item) {
 			return BigNumber(item);
-		},
-		menuItemExist(func) {
-			return _.findIndex(this.actions, action => action.name === func) !== -1;
 		},
 		closeMenu(item) {
 			item.menu = false;

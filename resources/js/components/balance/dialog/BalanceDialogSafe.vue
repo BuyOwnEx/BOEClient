@@ -15,7 +15,7 @@
 						<v-row>
 							<v-col cols='12' md='12'>
 								<label>{{ $t('trading.order.available') }}</label>
-								<span class='available_balance' @click='setAmount()'>{{ this.safe_balance.toString() }}</span>
+								<span class='available_balance' @click='setAmount()'>{{ this.trade_balance.toString() }}</span>
 								{{ cryptoObj.currency.toUpperCase() }}
 								<v-text-field
 									v-model='form.amount'
@@ -49,15 +49,22 @@ import BigNumber from 'bignumber.js';
 
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 export default {
-	name: 'CryptoTransferTrade',
-	props: ['cryptoObj'],
+	name: 'BalanceDialogSave',
+
+	props: {
+		cryptoObj: {
+			type: Object,
+			required: true
+		}
+	},
+
 	data() {
 		return {
 			dialog: false,
 			valid: true,
 			loading: false,
-			formTitle: 'Transfer funds to trade wallet',
-			menuTitle: this.$t('balance.transfer_to_trade'),
+			formTitle: 'Transfer funds to safe wallet',
+			menuTitle: this.$t('balance.transfer_to_safe'),
 			actionTitle: 'Transfer',
 			cancelTitle: 'Close',
 			rules: {
@@ -77,33 +84,36 @@ export default {
 			},
 		};
 	},
+
 	computed: {
 		isAuth() {
-			return this.$store.getters["app/isLogged"];
+			return this.$store.getters.isLogged;
 		},
 		balances() {
 			return this.$store.state.user.balances;
 		},
-		safe_balance() {
+		trade_balance() {
 			if (this.isAuth) {
 				let scale = 8;
 				let amount = _.get(this.balances, this.cryptoObj.currency.toUpperCase(), 0);
-				if (amount.safe !== undefined) {
-					return BigNumber(amount.safe).dp(scale, 1);
+				if (amount.available !== undefined) {
+					return BigNumber(amount.available).dp(scale, 1);
 				}
 				return BigNumber(0).dp(scale, 1);
 			} else return BigNumber(0);
 		},
 	},
+
 	watch: {
 		dialog(val) {
-			if (val) this.$emit('closeMenu');
+			if (val) this.$emit('close-menu');
 			else this.close();
 		},
 	},
+
 	methods: {
 		setAmount() {
-			this.form.amount = this.safe_balance.toString();
+			this.form.amount = this.trade_balance.toString();
 		},
 		reset() {
 			this.$refs.form.reset();
@@ -115,7 +125,7 @@ export default {
 		apply() {
 			let self = this;
 			this.loading = true;
-			axios.post('/trader/ext/transfer/trade', this.form)
+			axios.post('/trader/ext/transfer/safe', this.form)
 				.then((response) => {
 					if (response.data.success === true) {
 						self.close();

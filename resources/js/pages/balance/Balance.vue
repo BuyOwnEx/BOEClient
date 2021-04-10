@@ -18,11 +18,11 @@
 
 		<v-tabs-items v-model="selectedTab">
 			<v-tab-item :key="1">
-				<OwnCryptoBalanceList />
+				<OwnCryptoBalanceList :state-types="stateTypes" />
 			</v-tab-item>
 
 			<v-tab-item :key="2">
-				<OwnFiatBalanceList />
+				<OwnFiatBalanceList :state-types="stateTypes" />
 			</v-tab-item>
 
 			<v-tab-item :key="3">
@@ -60,6 +60,64 @@ export default {
 	},
 
 	computed: {
+		stateTypes() {
+			const workIcon = {
+				name: 'mdi-toggle-switch',
+				color: 'success',
+			};
+			const notWorkIcon = {
+				name: 'mdi-toggle-switch-off',
+				color: 'error',
+			};
+			const syncIcon = {
+				name: 'mdi-sync-alert',
+				color: 'warning',
+			};
+			const maintenanceIcon = {
+				name: 'mdi-tools',
+				color: 'v-error-darken3',
+			};
+
+			return [
+				{
+					id: 1,
+					title: this.$t('balance.state_type.deposit_and_withdrawal'),
+					replenishmentIcon: workIcon,
+					withdrawalIcon: workIcon,
+				},
+				{
+					id: 2,
+					title: this.$t('balance.state_type.only_withdrawal'),
+					replenishmentIcon: notWorkIcon,
+					withdrawalIcon: workIcon,
+				},
+				{
+					id: 3,
+					title: this.$t('balance.state_type.only_deposit'),
+					replenishmentIcon: workIcon,
+					withdrawalIcon: notWorkIcon,
+				},
+				{
+					id: 4,
+					title: this.$t('balance.state_type.no_deposit_and_withdrawal'),
+					replenishmentIcon: notWorkIcon,
+					withdrawalIcon: notWorkIcon,
+				},
+				{
+					id: 5,
+					title: this.$t('balance.state_type.sync'),
+					replenishmentIcon: syncIcon,
+					withdrawalIcon: syncIcon,
+				},
+				{
+					id: 6,
+					title: this.$t('balance.state_type.maintenance'),
+					replenishmentIcon: maintenanceIcon,
+					withdrawalIcon: maintenanceIcon,
+				},
+			];
+		},
+
 		isLogged() {
 			return this.$store.getters.isLogged;
 		},
