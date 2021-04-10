@@ -77,3 +77,25 @@ input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
 }
+
+// Изменение яркого цвета бордера у инпутов
+.v-input__slot:before {
+	border-color: rgb(136 136 136 / 42%) !important;
+}
+.theme--dark .v-input__slot::before {
+	border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+// stepper <10.04.21>
+.v-stepper {
+	background: var(--light-background-color) !important;
+	&__header {
+		box-shadow: none !important;
+	}
+	&__content {
+		padding-top: 4px !important;
+	}
+}
+.theme--dark .v-stepper {
+	background-color: var(--dark-background-color) !important;
+}
