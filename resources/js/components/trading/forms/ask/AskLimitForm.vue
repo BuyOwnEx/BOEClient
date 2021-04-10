@@ -116,7 +116,7 @@
 			</div>
 
 			<div v-if="!useMargin" class="alf__params">
-				<TradingFormsInfoTooltip>
+				<CommonTooltip>
 					<v-text-field
 						v-model="form.sl_rate"
 						ref="bid_limit_sl_rate"
@@ -137,9 +137,9 @@
 					<template #text>
 						{{ $t('trading.forms.stop_loss_info') }}
 					</template>
-				</TradingFormsInfoTooltip>
+				</CommonTooltip>
 
-				<TradingFormsInfoTooltip>
+				<CommonTooltip>
 					<v-text-field
 						v-model="form.tp_rate"
 						style="margin-top: 6px"
@@ -161,9 +161,9 @@
 					<template #text>
 						{{ $t('trading.forms.take_profit_info') }}
 					</template>
-				</TradingFormsInfoTooltip>
+				</CommonTooltip>
 
-				<TradingFormsInfoTooltip>
+				<CommonTooltip>
 					<v-text-field
 						v-model="form.ts_offset"
 						style="margin-top: 6px"
@@ -185,7 +185,7 @@
 					<template #text>
 						{{ $t('trading.forms.trailing_stop_info') }}
 					</template>
-				</TradingFormsInfoTooltip>
+				</CommonTooltip>
 			</div>
 		</div>
 
@@ -247,7 +247,7 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import TradingFormsInfoTooltip from '../common/TradingFormsInfoTooltip';
+import CommonTooltip from '../../../common/CommonTooltip';
 import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
 import formatWithScaleInAllCurrencies from '../../../../mixins/format/formatWithScaleInAllCurrencies';
@@ -256,7 +256,7 @@ import errorNotificationMixin from '../../../../mixins/common/errorNotificationM
 export default {
 	name: 'AskLimitForm',
 
-	components: { TradingFormsInfoTooltip, TradingFormsConfirmDialog },
+	components: { CommonTooltip, TradingFormsConfirmDialog },
 
 	mixins: [formatWithScaleInAllCurrencies, errorNotificationMixin],
 

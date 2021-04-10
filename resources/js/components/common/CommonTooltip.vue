@@ -1,9 +1,9 @@
 <template>
 	<v-tooltip max-width="300" top>
 		<template v-slot:activator="{ on, attrs }">
-			<div v-bind="attrs" v-on="on">
+			<span v-bind="attrs" v-on="on">
 				<slot></slot>
-			</div>
+			</span>
 		</template>
 
 		<span>
@@ -14,6 +14,6 @@
 
 <script>
 export default {
-	name: 'TradingFormsInfoTooltip',
+	name: 'CommonTooltip',
 };
 </script>
