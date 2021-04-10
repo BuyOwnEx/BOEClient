@@ -76,7 +76,7 @@
 			<div v-show="token">
 				<v-card-text>
 					<div>
-						{{ $t('user.api.dialog.copy_tokens_description') }}
+						{{ $t('user.api.dialog.create.copy_tokens_description') }}
 					</div>
 					<div class="pt-2">
 						<span class="user-api-dialog-create__token-name">
