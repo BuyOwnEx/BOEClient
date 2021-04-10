@@ -18,10 +18,8 @@
 }
 
 .theme--light {
-	.v-picker {
-		&__body {
-			background: var(--light-background-color) !important;
-		}
+	.v-picker__body {
+		background: var(--light-background-color) !important;
 		.v-time-picker-clock {
 			background: #f5f5f5 !important;
 		}
@@ -29,7 +27,8 @@
 }
 .theme--dark {
 	.v-menu__content .v-list,
-	.v-picker__body {
+	.v-picker__body,
+	.v-picker__actions {
 		background: var(--dark-popups-background-color) !important;
 	}
 	.v-picker {
