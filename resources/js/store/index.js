@@ -12,6 +12,7 @@ import tickers from './modules/tickers';
 import ordersTooltip from './modules/ordersTooltip';
 import chat from './modules/chat';
 
+import balance from './modules/balance';
 import support from './modules/support';
 import notifications from './modules/notifications';
 
@@ -24,16 +25,17 @@ const store = new Vuex.Store({
 	modules: {
 		app: AppModule,
 
-		trading: trading,
-		tickers: tickers,
+		trading,
+		tickers,
 		tooltip: ordersTooltip,
-		chat: chat,
+		chat,
 
-		support: support,
-		notifications: notifications,
+		balance,
+		support,
+		notifications,
+		user,
 
-		user: user,
-		snackbar: snackbar,
+		snackbar,
 
 		'board-app': BoardModule,
 		'email-app': EmailModule,

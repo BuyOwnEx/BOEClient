@@ -31,12 +31,12 @@ export default {
 		},
 
 		isUserFiat(state) {
-			if (!state.balances) return;
+			if (!state.balances) return false;
 
-			// return state.balances.some(item => item.type === 'fiat');
 			for (const key in state.balances) {
 				if (state.balances[key].type === 'fiat') return true;
 			}
+			return false;
 		},
 	},
 
