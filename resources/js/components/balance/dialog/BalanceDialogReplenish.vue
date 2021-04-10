@@ -10,10 +10,10 @@
 
 		<v-card>
 			<v-card-title class="common-dialog__title">
-				{{ $t('balance.replenishment') }}
+				{{ $t('common.replenishment_funds') }}
 			</v-card-title>
 
-			<CommonLoading v-if="!address" class="mb-6" />
+			<CommonLoading v-if="!currencyObject.address" class="mb-6" />
 			<v-card-text v-else class="common-dialog__content">
 				<div>
 					<div>
@@ -38,10 +38,10 @@
 				/>
 
 				<div class="text-center">
-					<QrCode :value="address" :options="{ width: 200 }" />
+					<QrCode :value="currencyObject.address" :options="{ width: 200 }" />
 				</div>
 
-				<div class="text-center pt-1">{{ address }}</div>
+				<div class="text-center pt-1">{{ currencyObject.address }}</div>
 			</v-card-text>
 
 			<v-divider />
@@ -73,10 +73,6 @@ export default {
 	components: { CommonLoading, QrCode },
 
 	props: {
-		address: {
-			type: String,
-			default: '',
-		},
 		currencyObject: {
 			type: Object,
 			required: true,

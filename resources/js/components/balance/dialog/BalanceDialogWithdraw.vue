@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog" width="500">
+	<v-dialog v-model="dialog" width="1200">
 		<template v-slot:activator="{ on, attrs }">
 			<v-list-item dense v-bind="attrs" v-on="on">
 				<v-list-item-title>
@@ -10,40 +10,117 @@
 
 		<v-card>
 			<v-card-title class="common-dialog__title">
-				{{ $t('common.withdraw') }}
+				{{ $t('common.withdrawal_funds') }}
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content">
-				вывод
+				<v-stepper v-model="e1">
+					<v-stepper-header>
+						<v-stepper-step :complete="e1 > 1" step="1">
+							{{ $t('balance.stepper.address_validation.title') }}
+						</v-stepper-step>
+
+						<v-divider />
+
+						<v-stepper-step :complete="e1 > 2" step="2">
+							{{ $t('balance.stepper.withdrawal_params.title') }}
+						</v-stepper-step>
+
+						<v-divider />
+
+						<v-stepper-step step="3">
+							{{ $t('balance.stepper.confirmation.title') }}
+						</v-stepper-step>
+					</v-stepper-header>
+
+					<v-stepper-items>
+						<v-stepper-content step="1">
+							<div class="mb-6">
+								<div>
+									{{ $t('balance.stepper.address_validation.description') }}
+								</div>
+
+								<v-text-field
+									v-model="address"
+									:hint="$t('balance.stepper.address_validation.address_hint')"
+									persistent-hint
+								/>
+							</div>
+
+							<div class="d-flex">
+								<v-spacer />
+								<v-btn text>{{ $t('common.cancel') }}</v-btn>
+								<v-spacer />
+								<v-btn
+									:loading="addressLoading"
+									color="primary"
+									@click="validateAddress"
+								>
+									{{ $t('common.continue') }}
+								</v-btn>
+								<v-spacer />
+							</div>
+						</v-stepper-content>
+
+						<v-stepper-content step="2">
+							<v-card
+								class=" mb-6"
+								color="grey lighten-1"
+								height="200px"
+							></v-card>
+
+							<v-btn color="primary" @click="e1 = 3">
+								{{ $t('common.continue') }}
+							</v-btn>
+
+							<v-btn text>{{ $t('common.cancel') }}</v-btn>
+						</v-stepper-content>
+
+						<v-stepper-content step="3">
+							<v-card
+								class=" mb-6"
+								color="grey lighten-1"
+								height="200px"
+							></v-card>
+
+							<v-btn color="primary" @click="e1 = 1">
+								{{ $t('common.continue') }}
+							</v-btn>
+
+							<v-btn text>{{ $t('common.cancel') }}</v-btn>
+						</v-stepper-content>
+					</v-stepper-items>
+				</v-stepper>
 			</v-card-text>
-
-			<v-divider />
-
-			<v-card-actions class="common-dialog__actions">
-				<v-btn
-					class="text-uppercase"
-					small
-					tile
-					text
-					plain
-					block
-					@click="close"
-				>
-					{{ $t('common.close') }}
-				</v-btn>
-			</v-card-actions>
 		</v-card>
 	</v-dialog>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
 	name: 'BalanceDialogWithdraw',
 
+	props: {
+		currencyObject: {
+			type: Object,
+			required: true,
+		},
+	},
+
 	data() {
 		return {
+			address: '',
+			addressLoading: false,
+
 			dialog: false,
+			e1: 1,
 		};
+	},
+
+	computed: {
+		...mapState('balance', ['isAddressValidated']),
 	},
 
 	watch: {
@@ -53,6 +130,19 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			validateAddressStore: 'balance/validateAddress',
+		}),
+
+		async validateAddress() {
+			this.addressLoading = true;
+			const payload = {
+				currency: this.currencyObject.currency,
+				address: this.address,
+			};
+			await this.validateAddressStore(payload);
+		},
+
 		confirm() {
 			console.log('confirm');
 		},
