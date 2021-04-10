@@ -23,7 +23,7 @@
 
 					<div>
 						{{ $t('balance.replenish_fee') }}:
-						<b>{{ currencyObject.fee }} {{ currencyObject.currency }}</b>
+						<b>0 {{ currencyObject.currency }}</b>
 					</div>
 				</div>
 
@@ -39,29 +39,23 @@
 					<QrCode :value="address" :options="{ width: 200 }" />
 				</div>
 
-				<div class="text-center">{{ address }}</div>
+				<div class="text-center pt-1">{{ address }}</div>
 			</v-card-text>
 
 			<v-divider />
 
 			<v-card-actions class="common-dialog__actions">
-				<v-spacer />
-				<v-btn small tile text plain @click="close">
-					{{ $t('common.cancel') }}
-				</v-btn>
-				<v-spacer />
 				<v-btn
 					class="text-uppercase"
-					color="primary"
 					small
 					tile
 					text
 					plain
-					@click="confirm"
+					block
+					@click="close"
 				>
-					{{ $t('common.replenish') }}
+					{{ $t('common.close') }}
 				</v-btn>
-				<v-spacer />
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
@@ -113,12 +107,15 @@ export default {
 			this.$emit('closeMenu');
 		},
 	},
-	mounted() {
-		axios.get('/trader/ext/get_address',{
-			params: {currency:this.currencyObject.currency.toUpperCase()},
-		}).then(response => {
-			console.log(response);
-		});
-	}
+
+	created() {
+		axios
+			.get('/trader/ext/get_address', {
+				params: { currency: this.currencyObject.currency.toUpperCase() },
+			})
+			.then(response => {
+				console.log(response);
+			});
+	},
 };
 </script>

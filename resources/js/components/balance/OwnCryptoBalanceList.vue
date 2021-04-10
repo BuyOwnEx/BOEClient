@@ -158,8 +158,6 @@ export default {
 
 	data() {
 		return {
-			address: 'mock',
-
 			showOnlyNotNullBalances: false,
 			componentTitle: this.$t('balance.headers.own_crypto_balance_list'),
 			itemsPerPage: 10,
@@ -242,15 +240,7 @@ export default {
 		},
 	},
 
-	created() {
-		this.getAddress();
-	},
-
 	methods: {
-		getAddress() {
-			// axios.get('/trader/ext/get_address');
-		},
-
 		BigNumber(item) {
 			return BigNumber(item);
 		},
