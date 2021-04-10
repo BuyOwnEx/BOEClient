@@ -8,7 +8,9 @@ export default {
 		cancel: 'Cancel',
 		close: 'Close',
 		replenish: 'Replenish',
+		withdraw: 'Withdraw',
 		send: 'Send',
+		continue: 'Continue',
 
 		title: 'Title',
 		description: 'Description',
@@ -350,6 +352,7 @@ export default {
 			sync: 'Node in sync',
 			maintenance: 'Node is under maintenance',
 		},
+
 	},
 
 	docs: {
