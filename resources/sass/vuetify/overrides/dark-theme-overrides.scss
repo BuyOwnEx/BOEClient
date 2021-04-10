@@ -1,0 +1,41 @@
+// Navigation drawer
+.theme--dark .v-navigation-drawer__content {
+	background: none;
+}
+
+// Buttons
+.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+	background-color: #273743;
+}
+
+// Remove button background dark theme <20.02.21>
+.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+	background: none;
+}
+
+// Overlay
+.theme--dark .v-overlay__scrim {
+	background-color: rgb(70, 70, 70) !important;
+}
+
+// Изменение яркого белого цвета бордера у инпутов
+.theme--dark .v-input__slot::before {
+	border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+// более размытая тень для тёмной темы
+.theme--dark {
+	.v-sheet.v-card {
+		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
+			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
+	}
+	.v-menu__content {
+		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
+			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
+		border: 1px solid #4b4b4b3b;
+	}
+	.v-btn {
+		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
+			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
+	}
+}

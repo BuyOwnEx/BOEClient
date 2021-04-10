@@ -11,65 +11,16 @@
 @import 'overrides/components/scrollbar-overrides';
 @import 'overrides/components/switch-overrides';
 @import 'overrides/components/popups-overrides';
+@import 'overrides/components/list-overrides';
+@import 'overrides/components/table-overrides';
+@import 'overrides/components/tabs-overrides';
+
+@import 'overrides/dark-theme-overrides';
+@import 'overrides/text-overrides';
 
 // Flex min-width: 0
 .v-application .d-flex {
 	min-width: 0;
-}
-
-// Text Overrides
-.v-application p {
-	margin-bottom: 20px;
-}
-
-.v-application .text-number {
-	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
-		sans-serif, Apple Color Emoji, Segoe UI Emoji !important;
-}
-
-// List Component
-.v-list-item__title {
-	font-size: 0.975rem;
-	font-weight: 600;
-}
-
-.v-list-item__action:first-child,
-.v-list-item__icon:first-child {
-	margin-right: 14px !important;
-}
-
-.v-application--is-rtl {
-	.v-list-item__action:first-child,
-	.v-list-item__icon:first-child {
-		margin-right: 0 !important;
-		margin-left: 14px !important;
-	}
-}
-
-.v-list-item__action:first-child,
-.v-list-item__icon:first-child {
-	margin-right: 14px !important;
-}
-
-.v-list-group__header__append-icon .v-icon {
-	font-size: 1rem;
-}
-
-.v-list-group__header .v-list-item__icon.v-list-group__header__append-icon {
-	min-width: 0 !important;
-}
-
-.v-list-item__icon {
-	margin: auto;
-	justify-content: center;
-}
-
-.v-list-group--sub-group .v-list-group__header {
-	padding-left: $spacer !important;
-}
-
-.v-list-group__items {
-	margin-bottom: $spacer;
 }
 
 // Navigation Drawer
@@ -78,48 +29,6 @@
 	overflow-y: auto;
 	min-height: 0;
 	padding: 8px 0;
-}
-
-.theme--dark .v-navigation-drawer__content {
-	background: none;
-}
-
-// Tables
-.v-data-table {
-	table {
-		padding: 4px;
-		padding-bottom: 8px;
-
-		th {
-			text-transform: uppercase;
-			white-space: nowrap;
-		}
-
-		td {
-			border-bottom: 0 !important;
-		}
-
-		tbody {
-			tr {
-				transition: box-shadow 0.2s, transform 0.2s;
-
-				&:not(.v-data-table__selected):hover {
-					box-shadow: 0 3px 15px -2px rgba(0, 0, 0, 0.12);
-					transform: translateY(-4px);
-				}
-			}
-		}
-	}
-}
-
-// Tabs
-.v-tabs-items {
-	background-color: transparent !important;
-}
-
-// Buttons
-.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-	background-color: #273743;
 }
 
 // Rows
@@ -132,17 +41,6 @@
 .v-sheet.v-app-bar.v-toolbar:not(.v-sheet--outlined) {
 	box-shadow: 0 2px 6px -1px rgba(85, 85, 85, 0.08),
 		0 4px 6px 0 rgba(85, 85, 85, 0.06), 0 1px 6px 0 rgba(85, 85, 85, 0.03);
-}
-
-// Remove hover effect exp. list <19.02.21>
-.v-data-table table tbody tr:not(.v-data-table__selected):hover {
-	box-shadow: none;
-	transform: none;
-}
-
-// Remove button background dark theme <20.02.21>
-.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-	background: none;
 }
 
 // Only menu with select list
@@ -158,9 +56,6 @@
 }
 
 // Dialog <06.03.21>
-.theme--dark .v-overlay__scrim {
-	background-color: rgb(70, 70, 70) !important;
-}
 .v-dialog {
 	border-radius: 0 !important;
 	.v-card {
@@ -168,144 +63,10 @@
 	}
 }
 
-// Change table title style <07.03.21>
-.v-data-table caption {
-	text-transform: uppercase !important;
-	font-weight: 600 !important;
-	font-size: 16px;
-}
-
-// Data table divider fix
-tr:not(:last-child).v-data-table__mobile-table-row {
-	> td:last-child {
-		border-bottom: thin solid rgba(137, 137, 137, 0.61) !important;
-	}
-}
-
-// Google Chrome remove td border-radius
-td {
-	border-radius: 0 !important;
-}
-
-// Styles for similar pages
-.transfers,
-.transactions,
-.fiat-transactions,
-.ref-payments,
-.orders,
-.deals {
-	display: flex;
-	flex-grow: 1;
-	.v-data-table {
-		display: flex;
-		flex-flow: column;
-	}
-	.v-data-table__wrapper {
-		padding: 0 8px !important;
-		min-height: inherit !important;
-		flex-grow: 1 !important;
-	}
-	.v-data-footer {
-		margin: 0 12px !important;
-	}
-	table {
-		padding: 0 !important;
-	}
-	th {
-		padding: 0 !important;
-	}
-	td {
-		padding: 0 !important;
-	}
-	caption {
-		text-align: start;
-	}
-}
-
-// Изменение яркого белого цвета бордера у инпутов
-.theme--dark .v-input__slot::before {
-	border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.overview .market-overview .v-data-table table thead tr {
-	th:nth-child(1) {
-		width: 5% !important;
-	}
-	th:nth-child(2) {
-		width: 15% !important;
-	}
-	th:nth-child(3) {
-		width: 15% !important;
-	}
-	th:nth-child(4) {
-		width: 15% !important;
-	}
-	th:nth-child(5) {
-		width: 5% !important;
-	}
-	th:nth-child(6) {
-		width: 15% !important;
-	}
-	th:nth-child(7) {
-		width: 15% !important;
-	}
-	th:nth-child(8) {
-		width: 15% !important;
-	}
-}
-
-// Custom tabs height
-.own-lists-tabs-wrapper,
-.balance,
-.fees-page {
-	.v-tabs {
-		height: 35px;
-	}
-	.v-tab {
-		font-size: 11px;
-		height: 35px;
-	}
-	.v-tabs-bar {
-		height: 35px;
-	}
-	.v-tabs-bar__content {
-		height: 35px;
-	}
-}
-
-// более размытая тень для тёмной темы
-.theme--dark {
-	.v-sheet.v-card {
-		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
-			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
-	}
-	.v-menu__content {
-		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
-			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
-		border: 1px solid #4b4b4b3b;
-	}
-	.v-btn {
-		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
-			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
-	}
-}
-
-// изменение чипов таблицы
-.v-data-table-header-mobile__wrapper {
-	.v-chip {
-		font-size: 11px !important;
-		border-radius: 0 !important;
-	}
-	.v-select__slot label {
-		font-size: 0.8rem;
-	}
-}
-
 // input counter size
 .v-counter {
 	font-size: 9px !important;
 }
-
 // input number arrows
 input[type='number'] {
 	-moz-appearance: textfield;
