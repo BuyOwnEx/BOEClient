@@ -7,7 +7,7 @@
 				{{ $t('balance.headers.own_crypto_balance_list') }}
 			</v-tab>
 
-			<v-tab :key="2">
+			<v-tab v-if="isUserFiat" :key="2">
 				{{ $t('balance.headers.own_fiat_balance_list') }}
 			</v-tab>
 
@@ -21,7 +21,7 @@
 				<OwnCryptoBalanceList :state-types="stateTypes" />
 			</v-tab-item>
 
-			<v-tab-item :key="2">
+			<v-tab-item v-if="isUserFiat" :key="2">
 				<OwnFiatBalanceList :state-types="stateTypes" />
 			</v-tab-item>
 
@@ -35,7 +35,6 @@
 <script>
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 
-import OwnFiatBalanceList from '../../components/balance/OwnFiatBalanceList';
 import OwnCryptoBalanceList from '../../components/balance/OwnCryptoBalanceList';
 import OwnWithdrawalList from '../../components/balance/OwnWithdrawalList';
 
@@ -48,9 +47,12 @@ export default {
 
 	components: {
 		CommonPageTitle,
-		OwnFiatBalanceList,
 		OwnCryptoBalanceList,
 		OwnWithdrawalList,
+		OwnFiatBalanceList: () =>
+			import(
+				/* webpackPrefetch: true */ '../../components/balance/OwnFiatBalanceList'
+			),
 	},
 
 	data() {
@@ -118,8 +120,8 @@ export default {
 			];
 		},
 
-		isLogged() {
-			return this.$store.getters.isLogged;
+		isUserFiat() {
+			return this.$store.getters['user/isUserFiat'];
 		},
 	},
 };

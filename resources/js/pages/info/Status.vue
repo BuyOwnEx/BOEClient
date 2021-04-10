@@ -2,7 +2,7 @@
 	<v-card class="info-page status-page flex-grow-1">
 		<CommonPageTitle>Состояние системы</CommonPageTitle>
 
-		<StatusSupportCurrencyText />
+		<StatusSupportCurrencyText :user-fiat='isUserFiat'/>
 		<v-divider />
 
 		<v-card-text>
@@ -11,6 +11,7 @@
 			<StatusTables
 				:fiat-data="fiatCurrencies"
 				:crypto-data="cryptoCurrencies"
+				:user-fiat='isUserFiat'
 			/>
 		</v-card-text>
 	</v-card>
@@ -141,6 +142,12 @@ export default {
 			],
 		};
 	},
+
+	computed: {
+		isUserFiat() {
+			return this.$store.getters['user/isUserFiat'];
+		},
+	}
 };
 </script>
 

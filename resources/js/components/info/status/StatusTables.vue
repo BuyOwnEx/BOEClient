@@ -1,6 +1,6 @@
 <template>
 	<div class="status-page__tables-wrapper">
-		<div class="status-page__fiat-table">
+		<div v-if="userFiat" class="status-page__fiat-table">
 			<div class="component-title py-1">
 				Состояние системы по фиатным валютам
 			</div>
@@ -32,13 +32,22 @@
 						<tr v-for="item in fiatData" :key="item.currency">
 							<td>{{ item.currency }}</td>
 							<td>{{ item.name }}</td>
-							<td class='text-capitalize' :class="getStatusColor(item.depositStatus)">
+							<td
+								class="text-capitalize"
+								:class="getStatusColor(item.depositStatus)"
+							>
 								{{ item.depositStatus }}
 							</td>
-							<td class='text-capitalize' :class="getStatusColor(item.withdrawalStatus)">
+							<td
+								class="text-capitalize"
+								:class="getStatusColor(item.withdrawalStatus)"
+							>
 								{{ item.withdrawalStatus }}
 							</td>
-							<td class='text-capitalize' :class="getStatusColor(item.tradingStatus)">
+							<td
+								class="text-capitalize"
+								:class="getStatusColor(item.tradingStatus)"
+							>
 								{{ item.tradingStatus }}
 							</td>
 							<td>
@@ -181,18 +190,6 @@
 export default {
 	name: 'StatusTables',
 
-	data() {
-		return {};
-	},
-
-	methods: {
-		getStatusColor(status) {
-			if (status === 'active') return 'status-page__active-back';
-			else if (status === 'maintenance') return 'status-page__maintenance-back';
-			else return 'status-page__offline-back';
-		},
-	},
-
 	props: {
 		fiatData: {
 			type: Array,
@@ -201,6 +198,18 @@ export default {
 		cryptoData: {
 			type: Array,
 			required: true,
+		},
+		userFiat: {
+			type: Boolean,
+			required: true
+		}
+	},
+
+	methods: {
+		getStatusColor(status) {
+			if (status === 'active') return 'status-page__active-back';
+			else if (status === 'maintenance') return 'status-page__maintenance-back';
+			else return 'status-page__offline-back';
 		},
 	},
 };

@@ -5,8 +5,6 @@
 			v-model="drawer"
 			class="elevation-1"
 			:right="$vuetify.rtl"
-			:light="menuTheme === 'light'"
-			:dark="menuTheme === 'dark'"
 			app
 			floating
 			expand-on-hover
@@ -28,7 +26,7 @@
 				<v-divider />
 			</template>
 
-			<MainMenu :menu="navigation.menu" />
+			<MainMenu :user-fiat='isUserFiat'/>
 		</v-navigation-drawer>
 
 		<v-app-bar
@@ -154,8 +152,6 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import config from '../configs';
-
 import MainMenu from '../components/navigation/MainMenu';
 import ToolbarUser from '../components/toolbar/ToolbarUser';
 import ToolbarApps from '../components/toolbar/ToolbarApps';
@@ -191,11 +187,10 @@ export default {
 			'isToolbarDetached',
 			'trader',
 		]),
-		...mapGetters('app', ['isLogged']),
-
-		navigation() {
-			return this.isLogged ? config.navigation : config.guest_navigation;
-		},
+		...mapGetters({
+			isLogged: 'app/isLogged',
+			isUserFiat: 'user/isUserFiat'
+		}),
 
 		calculateFooterHeight() {
 			const width = this.$vuetify.breakpoint.width;

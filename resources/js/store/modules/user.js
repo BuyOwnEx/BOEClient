@@ -7,6 +7,7 @@ import sprites from '@dicebear/avatars-avataaars-sprites';
 
 export default {
 	namespaced: true,
+
 	state: {
 		balances: null,
 		orders: null,
@@ -27,6 +28,15 @@ export default {
 
 			if (!seed) return avatars.create(user.name);
 			else return avatars.create(seed);
+		},
+
+		isUserFiat(state) {
+			if (!state.balances) return;
+
+			// return state.balances.some(item => item.type === 'fiat');
+			for (const key in state.balances) {
+				if (state.balances[key].type === 'fiat') return true;
+			}
 		},
 	},
 
