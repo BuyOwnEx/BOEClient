@@ -1,7 +1,7 @@
 <template>
 	<v-card class="own-active-position-list pa-1">
-		<v-card-title class="own-active-position-list__header pa-0">
-			<span class="component-title">
+		<v-card-title class="own-list__header pa-0">
+			<span class="own-list__title component-title">
 				{{ $t('trading.headers.own_active_position_list') }}
 			</span>
 
@@ -378,9 +378,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="sass">
-.own-active-position-list
-	&__header
-		margin-left: 4px
-</style>

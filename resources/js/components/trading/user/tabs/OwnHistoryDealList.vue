@@ -1,7 +1,7 @@
 <template>
 	<v-card class="own-history-deal-list pa-1">
-		<v-card-title class="own-history-deal-list__header pa-0">
-			<span class="component-title">
+		<v-card-title class="own-list__header pa-0">
+			<span class="own-list__title component-title">
 				{{ $t('trading.headers.own_history_deal_list') }}
 			</span>
 
@@ -152,9 +152,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="sass">
-.own-history-deal-list
-	&__header
-		margin-left: 4px
-</style>

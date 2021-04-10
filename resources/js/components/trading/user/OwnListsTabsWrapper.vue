@@ -63,4 +63,12 @@ export default {
 };
 </script>
 
-<style scoped lang="sass"></style>
+<style lang="sass">
+.own-lists-tabs-wrapper
+	.own-list
+		&__header
+			margin-left: 4px
+		@media screen and (max-width: 600px)
+			&__title
+				width: 100%
+</style>
