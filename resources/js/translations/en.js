@@ -7,55 +7,25 @@ export default {
 		delete: 'Delete',
 		cancel: 'Cancel',
 		close: 'Close',
+		replenish: 'Replenish',
+		send: 'Send',
 
 		title: 'Title',
 		description: 'Description',
 		confirmation: 'Confirmation',
+		amount: 'Amount',
 
 		faq: 'FAQ',
 		contact: 'Contact Us',
 
-		trading: 'Trading',
-		withdraw: 'Withdraw',
+		replenishment_funds: 'Replenishment of funds',
+		withdrawal_funds: 'Withdraw of funds',
+		replenishment: 'Replenishment',
+		withdrawal: 'Withdrawal',
 	},
-	board: {
-		titlePlaceholder: 'Enter a title for this card',
-		deleteDescription: 'Are you sure you want to delete this card?',
-		editCard: 'Edit Card',
-		deleteCard: 'Delete Card',
-		state: {
-			TODO: 'TO DO',
-			INPROGRESS: 'INPROGRESS',
-			TESTING: 'TESTING',
-			DONE: 'DONE',
-		},
-	},
-	chat: {
-		online: 'Users Online ({count})',
-		addChannel: 'Add Channel',
-		channel: 'Channel | Channels',
-		message: 'Message',
-	},
-	email: {
-		compose: 'Compose Email',
-		send: 'Send',
-		subject: 'Subject',
-		labels: 'Labels',
-		emptyList: 'Empty email list',
-		inbox: 'Inbox',
-		sent: 'Sent',
-		drafts: 'Drafts',
-		starred: 'Starred',
-		trash: 'Trash',
-		work: 'Work',
-		invoice: 'Invoice',
-	},
-	todo: {
-		addTask: 'Add Task',
-		tasks: 'Tasks',
-		completed: 'Completed',
-		labels: 'Labels',
-	},
+
+	table_header: {},
+
 	dashboard: {
 		activity: 'Activity',
 		weeklySales: 'Weekly Sales',
@@ -368,6 +338,18 @@ export default {
 		date: 'Date',
 		amount: 'Amount',
 		show_only_not_null_balances: 'Show only not null balances',
+
+		min_replenish_amount: 'Min. replenish amount',
+		replenish_fee: 'Replenish fee',
+
+		state_type: {
+			deposit_and_withdrawal: 'Deposit and withdrawal works',
+			only_withdrawal: 'Only withdrawal of funds works',
+			only_deposit: 'Only funds deposit works',
+			no_deposit_and_withdrawal: 'Deposit and withdrawal not works',
+			sync: 'Node in sync',
+			maintenance: 'Node is under maintenance',
+		},
 	},
 
 	docs: {
@@ -2239,8 +2221,9 @@ export default {
 				security_settings: 'Security settings',
 			},
 			dialog: {
-				ref_description: 'Are you sure you want to change the referral program?'
-			}
+				ref_description:
+					'Are you sure you want to change the referral program?',
+			},
 		},
 	},
 

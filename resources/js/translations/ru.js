@@ -7,54 +7,21 @@ export default {
 		cancel: 'Отменить',
 		delete: 'Удалить',
 		close: 'Закрыть',
+		replenish: 'Пополнить',
+		send: 'Отправить',
 
 		title: 'Тема',
 		description: 'Описание',
 		confirmation: 'Подтверждение',
+		amount: 'Количество',
 
 		faq: 'Часто задаваемые вопросы',
 		contact: 'Связаться с нами',
 
-		trading: 'Торговля',
-		withdraw: 'Вывод средств',
-	},
-	board: {
-		titlePlaceholder: 'Введите название для этой карты',
-		deleteDescription: 'Вы уверены, что хотите удалить эту карту?',
-		editCard: 'Изменить карту',
-		deleteCard: 'Удалить карту',
-		state: {
-			TODO: 'ДЕЛАТЬ',
-			INPROGRESS: 'В ХОДЕ ВЫПОЛНЕНИЯ',
-			TESTING: 'ТЕСТИРОВАНИЕ',
-			DONE: 'СДЕЛАННЫЙ',
-		},
-	},
-	chat: {
-		online: 'Пользователи в сети ({count})',
-		addChannel: 'Добавить канал',
-		channel: 'Канал | каналы',
-		message: 'Сообщение',
-	},
-	email: {
-		compose: 'Написать письмо',
-		send: 'Отправить',
-		subject: 'Тема',
-		labels: 'Этикетки',
-		emptyList: 'Пустой список рассылки',
-		inbox: 'Входящие',
-		sent: 'Отправлено',
-		drafts: 'Черновики',
-		starred: 'Помечено',
-		trash: 'Мусор',
-		work: 'Работа',
-		invoice: 'Выставленный счет',
-	},
-	todo: {
-		addTask: 'Добавить задачу',
-		tasks: 'Задания',
-		completed: 'Завершено',
-		labels: 'Этикетки',
+		replenishment_funds: 'Пополение средств',
+		withdrawal_funds: 'Вывод средств',
+		replenishment: 'Пополение',
+		withdrawal: 'Вывод',
 	},
 	dashboard: {
 		activity: 'Деятельность',
@@ -355,22 +322,36 @@ export default {
 
 	balance: {
 		title: 'Баланс',
+
 		headers: {
 			own_fiat_balance_list: 'Own Fiat Balance List',
 			own_crypto_balance_list: 'Own Crypto Balance List',
 			own_active_withdraw_list: 'Own Active Withdraw List',
 		},
-		currency: 'Currency',
-		name: 'Name',
+
+		currency: 'Валюта',
+		name: 'Название',
 		safe: 'Safe',
 		trade: 'Trade',
-		withdraw: 'Withdraw',
-		blocked: 'Blocked',
-		state: 'State',
-		actions: 'Actions',
-		date: 'Date',
-		amount: 'Amount',
-		show_only_not_null_balances: 'Show only not null balances',
+		withdraw: 'Вывод',
+		blocked: 'Блокировка',
+		state: 'Состояние',
+		actions: 'Действия',
+		date: 'Дата',
+		amount: 'Количество',
+		show_only_not_null_balances: 'Показывать только ненулевой баланс',
+
+		min_replenish_amount: 'Минимальная сумма пополнения',
+		replenish_fee: 'Комиссия по пополнению',
+
+		state_type: {
+			deposit_and_withdrawal: 'Ввод и вывод работают',
+			only_withdrawal: 'Работает только вывод средств',
+			only_deposit: 'Работает только ввод средств',
+			no_deposit_and_withdrawal: 'Ввод и вывод не работают',
+			sync: 'Нода в процессе синхронизации',
+			maintenance: 'Нода на тех. обслуживании',
+		},
 	},
 
 	docs: {
