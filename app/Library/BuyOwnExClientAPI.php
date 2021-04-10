@@ -510,7 +510,7 @@ class BuyOwnExClientAPI
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
-            'address' => $address,
+            'address' => $address
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
