@@ -34,7 +34,7 @@
 						<v-checkbox
 							v-model="form.abilities"
 							:ripple="false"
-							:label="$t('common.trading')"
+							:label="$t('menu.trading')"
 							value="trading"
 							hide-details
 							dense
@@ -42,7 +42,7 @@
 						<v-checkbox
 							v-model="form.abilities"
 							:ripple="false"
-							:label="$t('common.withdraw')"
+							:label="$t('common.withdrawal_funds')"
 							value="withdraw"
 							hide-details
 							dense

@@ -47,7 +47,7 @@
 					<v-checkbox
 						v-model="tradingItemValue"
 						class="mt-0"
-						:label="$t('common.trading')"
+						:label="$t('menu.trading')"
 						hide-details
 						dense
 						disabled
@@ -55,7 +55,7 @@
 					<v-checkbox
 						v-model="withdrawItemValue"
 						class="mt-0"
-						:label="$t('common.withdraw')"
+						:label="$t('common.withdrawal_funds')"
 						hide-details
 						dense
 						disabled

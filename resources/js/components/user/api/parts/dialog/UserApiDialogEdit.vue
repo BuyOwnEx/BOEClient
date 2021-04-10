@@ -24,14 +24,14 @@
 					<v-checkbox
 						v-model="form.trading"
 						:ripple="false"
-						:label="$t('common.trading')"
+						:label="$t('menu.trading')"
 						hide-details
 						dense
 					/>
 					<v-checkbox
 						v-model="form.withdraw"
 						:ripple="false"
-						:label="$t('common.withdraw')"
+						:label="$t('common.withdrawal_funds')"
 						hide-details
 						dense
 					/>

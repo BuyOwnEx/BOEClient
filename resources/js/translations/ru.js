@@ -334,7 +334,7 @@ export default {
 		safe: 'Safe',
 		trade: 'Trade',
 		withdraw: 'Вывод',
-		blocked: 'Блокировка',
+		blocked: 'Заблокировано',
 		state: 'Состояние',
 		actions: 'Действия',
 		date: 'Дата',

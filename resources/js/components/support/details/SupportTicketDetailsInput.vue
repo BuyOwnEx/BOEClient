@@ -132,7 +132,7 @@
 
 		<div class="d-flex align-center pa-2">
 			<v-btn :loading="loading" color="primary" @click="addComment">
-				{{ $t('email.send') }}
+				{{ $t('common.send') }}
 			</v-btn>
 
 			<v-file-input
