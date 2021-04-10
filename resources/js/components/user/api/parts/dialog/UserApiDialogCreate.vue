@@ -18,7 +18,7 @@
 				{{ $t('user.api.dialog.create.title') }}
 			</v-card-title>
 
-			<div v-if="!token">
+			<div v-show="!token">
 				<v-card-text class="pt-1">
 					<v-form v-model="valid" ref="form">
 						<v-text-field
@@ -140,11 +140,11 @@ export default {
 	watch: {
 		dialog(value) {
 			if (value === true) {
-				this.$nextTick(() => {
-					this.form.name = '';
-					this.form.abilities = [];
-					this.$refs.form.resetValidation();
-				});
+				this.form.name = '';
+				this.form.abilities = [];
+				this.token = null;
+				this.secretToken = null;
+				this.$refs.form.resetValidation();
 			}
 		},
 	},
@@ -176,10 +176,6 @@ export default {
 
 		close() {
 			this.dialog = false;
-			setTimeout(() => {
-				this.token = null;
-				this.secretToken = null;
-			}, 200);
 		},
 	},
 };
