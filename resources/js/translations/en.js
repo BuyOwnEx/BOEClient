@@ -2227,6 +2227,7 @@ export default {
 				ref_description:
 					'Are you sure you want to change the referral program?',
 			},
+			days: 'days',
 		},
 	},
 

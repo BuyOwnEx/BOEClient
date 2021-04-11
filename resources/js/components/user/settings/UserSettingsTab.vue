@@ -116,6 +116,13 @@ export default {
 
 	components: { CommonDialog, CommonLoading },
 
+	props: {
+		userRefProgramId: {
+			type: Number,
+			required: true,
+		}
+	},
+
 	data() {
 		return {
 			selectedRefTypeID: 1,
@@ -140,13 +147,22 @@ export default {
 
 	created() {
 		this.fetchRefTypes();
-		this.selectedRefTypeID = this.$store.state.app.trader.refProgram || 1;
+		this.setUserRefProgram();
 	},
 
 	methods: {
 		async fetchRefTypes() {
 			const { data } = await axios.get('/trader/ext/all_referral_types');
+			data.data.forEach(item => {
+				item.name = `${item.percent}% - ${item.days} ${this.$t(
+					'user.settings.days'
+				)}`;
+			});
+
 			this.allRefTypes = data.data;
+		},
+		setUserRefProgram() {
+			this.selectedRefTypeID = this.userRefProgramId;
 		},
 
 		async saveNotificationsSetting() {
@@ -160,7 +176,7 @@ export default {
 			try {
 				this.saveRefLoading = true;
 				await axios.post('/trader/ext/set_referral_type', {
-					id: this.selectedRefTypeID
+					id: this.selectedRefTypeID,
 				});
 			} finally {
 				this.saveRefLoading = false;
@@ -182,32 +198,9 @@ export default {
 		},
 
 		getRefText(id) {
-			const types = [
-				{
-					id: 1,
-					name: '10% - 365 дней',
-				},
-				{
-					id: 2,
-					name: '15% - 180 дней',
-				},
-				{
-					id: 3,
-					name: '20% - 90 дней',
-				},
-				{
-					id: 4,
-					name: '30% - 60 дней',
-				},
-				{
-					id: 5,
-					name: '50% - 30 дней',
-				},
-				{
-					id: 6,
-					name: '60% - 30 дней',
-				},
-			];
+			const types = this.allRefTypes;
+			if (!types) return '';
+
 			return types.find(t => t.id === id).name;
 		},
 	},

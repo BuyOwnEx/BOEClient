@@ -30,7 +30,7 @@
 			</v-tab-item>
 
 			<v-tab-item :key="5">
-				<UserSettingsTab :user="trader" />
+				<UserSettingsTab :user-ref-program-id="trader.refProgram || 1" />
 			</v-tab-item>
 		</v-tabs-items>
 	</div>
