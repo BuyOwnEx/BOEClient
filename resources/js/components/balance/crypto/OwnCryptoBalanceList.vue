@@ -42,21 +42,21 @@
 					</template>
 
 					<v-list dense>
-						<BalanceDialogReplenish
+						<BalanceCryptoDialogReplenish
 							v-if="isReplenish(item.state)"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 						<!--						v-if="isWithdraw(item.state)"-->
-						<BalanceDialogWithdraw
+						<BalanceCryptoDialogWithdraw
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceDialogTrade
+						<BalanceCryptoDialogTrade
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceDialogSafe
+						<BalanceCryptoDialogSafe
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
@@ -148,16 +148,20 @@ export default {
 	name: 'OwnCryptoBalanceList',
 
 	components: {
-		BalanceDialogReplenish: () =>
-			import(/* webpackPrefetch: true */ './dialog/BalanceDialogReplenish'),
-		BalanceDialogWithdraw: () =>
-			import(/* webpackPrefetch: true */ './dialog/BalanceDialogWithdraw'),
-		BalanceDialogTrade: () =>
-			import(/* webpackPrefetch: true */ './dialog/BalanceDialogTrade'),
-		BalanceDialogSafe: () =>
-			import(/* webpackPrefetch: true */ './dialog/BalanceDialogSafe'),
+		CryptoBalanceDialogReplenish: () =>
+			import(
+				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogReplenish'
+			),
+		CryptoBalanceDialogWithdraw: () =>
+			import(
+				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogWithdraw'
+			),
+		CryptoBalanceDialogTrade: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogTrade'),
+		CryptoBalanceDialogSafe: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogSafe'),
 		CommonTooltip: () =>
-			import(/* webpackPrefetch: true */ '../common/CommonTooltip'),
+			import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
 	},
 
 	props: {

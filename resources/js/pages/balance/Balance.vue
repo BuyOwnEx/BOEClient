@@ -35,7 +35,7 @@
 <script>
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 
-import OwnCryptoBalanceList from '../../components/balance/OwnCryptoBalanceList';
+import OwnCryptoBalanceList from '../../components/balance/crypto/OwnCryptoBalanceList';
 import OwnWithdrawalList from '../../components/balance/OwnWithdrawalList';
 
 import CentrifugeBalanceMixin from '../../mixins/centrifugo-balance';
@@ -51,7 +51,7 @@ export default {
 		OwnWithdrawalList,
 		OwnFiatBalanceList: () =>
 			import(
-				/* webpackPrefetch: true */ '../../components/balance/OwnFiatBalanceList'
+				/* webpackPrefetch: true */ '../../components/balance/fiat/OwnFiatBalanceList'
 			),
 	},
 

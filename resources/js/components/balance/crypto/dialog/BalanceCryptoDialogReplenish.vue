@@ -65,10 +65,10 @@
 
 <script>
 import QrCode from '@chenfengyuan/vue-qrcode';
-import CommonLoading from '../../common/CommonLoading';
+import CommonLoading from '../../../common/CommonLoading';
 
 export default {
-	name: 'BalanceDialogReplenish',
+	name: 'BalanceCryptoDialogReplenish',
 
 	components: { CommonLoading, QrCode },
 

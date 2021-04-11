@@ -104,10 +104,10 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import FiatDeposit from '../dialogs/balance/fiat/FiatDeposit';
-import FiatWithdraw from '../dialogs/balance/fiat/FiatWithdraw';
-import FiatTransferTrade from '../dialogs/balance/fiat/FiatTransferTrade';
-import FiatTransferSafe from '../dialogs/balance/fiat/FiatTransferSafe';
+import FiatDeposit from './dialog/FiatDeposit';
+import FiatWithdraw from './dialog/FiatWithdraw';
+import FiatTransferTrade from './dialog/FiatTransferTrade';
+import FiatTransferSafe from './dialog/FiatTransferSafe';
 
 export default {
 	name: 'OwnFiatBalanceList',
