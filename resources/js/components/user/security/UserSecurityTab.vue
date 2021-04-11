@@ -38,12 +38,12 @@
 						</code>
 					</div>
 
-					<v-form @submit.prevent="disable2FA">
+					<v-form v-model="valid" @submit.prevent="disable2FA">
 						<v-text-field
 							v-model="totp"
 							:placeholder="$t('user.security.auth_code')"
 							:disabled="loading"
-							:rules="[rules.numbers, rules.counter]"
+							:rules="[rules.numbers, rules.max6char]"
 							counter
 							maxlength="6"
 							dense
@@ -86,12 +86,12 @@
 						</code>
 					</div>
 
-					<v-form @submit.prevent="enable2FA">
+					<v-form v-model="valid" @submit.prevent="enable2FA">
 						<v-text-field
 							v-model="totp"
 							:placeholder="$t('user.security.auth_code')"
 							:disabled="loading"
-							:rules="[rules.numbers, rules.counter]"
+							:rules="[rules.numbers, rules.max6char]"
 							counter
 							maxlength="6"
 							dense
@@ -117,11 +117,13 @@
 
 <script>
 import loadingMixin from '../../../mixins/common/loadingMixin';
+import formValidationRules from '../../../mixins/common/formValidationRules';
+import errorNotificationMixin from '../../../mixins/common/errorNotificationMixin';
 
 export default {
 	name: 'UserSecurityTab',
 
-	mixins: [loadingMixin],
+	mixins: [loadingMixin, formValidationRules, errorNotificationMixin],
 
 	props: {
 		g2fa: {
@@ -135,12 +137,7 @@ export default {
 			secret: null,
 			image: null,
 			totp: '',
-			rules: {
-				counter: value => value.length <= 6 || 'Max 6 numbers',
-				numbers: value =>
-					/^\d{0,6}$/i.test(value) ||
-					'Unsupported characters. Must be only digits',
-			},
+			valid: false,
 		};
 	},
 
@@ -155,6 +152,11 @@ export default {
 
 	methods: {
 		enable2FA() {
+			if (!this.valid) {
+				this.pushErrorNotification(this.$t('forms_validation.incorrect_data'));
+				return;
+			}
+
 			try {
 				this.startLoading();
 				let self = this;
@@ -179,6 +181,11 @@ export default {
 			}
 		},
 		disable2FA() {
+			if (!this.valid) {
+				this.pushErrorNotification(this.$t('forms_validation.incorrect_data'));
+				return;
+			}
+
 			try {
 				this.startLoading();
 				let self = this;
