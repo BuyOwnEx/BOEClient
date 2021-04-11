@@ -2,6 +2,7 @@ import Centrifuge from 'centrifuge';
 
 export default {
 	name: 'CentrifugeTrading',
+
 	data() {
 		return {
 			sub_state: null,
@@ -9,27 +10,32 @@ export default {
 			connected: false,
 		};
 	},
-	computed: {
 
-	},
 	methods: {
 		initWSConnection() {
-			this.centrifuge = new Centrifuge('ws://188.127.235.78:7000/connection/websocket', {
-				debug: true,
-				subscribeEndpoint: '/trader/ext/private',
-				subscribeHeaders: {
-					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-				},
-				refreshEndpoint: '/trader/ext/refresh',
-				refreshHeaders: {
-					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-				},
-				refreshAttempts: 3,
-				onRefreshFailed: () => {
-					window.location.href = '/';
-				},
-			});
-			if (this.$store.getters["app/isLogged"]) {
+			this.centrifuge = new Centrifuge(
+				'ws://188.127.235.78:7000/connection/websocket',
+				{
+					debug: true,
+					subscribeEndpoint: '/trader/ext/private',
+					subscribeHeaders: {
+						'X-CSRF-TOKEN': document
+							.querySelector('meta[name="csrf-token"]')
+							.getAttribute('content'),
+					},
+					refreshEndpoint: '/trader/ext/refresh',
+					refreshHeaders: {
+						'X-CSRF-TOKEN': document
+							.querySelector('meta[name="csrf-token"]')
+							.getAttribute('content'),
+					},
+					refreshAttempts: 3,
+					onRefreshFailed: () => {
+						window.location.href = '/';
+					},
+				}
+			);
+			if (this.$store.getters['app/isLogged']) {
 				this.getInitTraderData();
 				this.subscribePublic();
 				this.$store.dispatch('user/getTraderTokenFromServer').then(resp => {
@@ -73,6 +79,12 @@ export default {
 					console.log(data.data.address);
 					this.$store.commit('user/setAddress', data.data.address);
 					break;
+				case 'address_was_validated':
+					this.$store.commit(
+						'balance/SET_ADDRESS_VALIDATION_STATUS',
+						data.data.validation.address
+					);
+					break;
 			}
 		},
 		statePubHandler(data) {
@@ -92,6 +104,7 @@ export default {
 			console.log(err);
 		},
 	},
+
 	mounted() {
 		this.$eventHub.$on('set-user', this.initWSConnection);
 	},

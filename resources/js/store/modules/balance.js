@@ -6,8 +6,8 @@ export default {
 	}),
 
 	mutations: {
-		VALIDATE_ADDRESS(state) {
-			state.isAddressValidated = true
+		SET_ADDRESS_VALIDATION_STATUS(state, status) {
+			state.isAddressValidated = status
 		}
 	},
 
