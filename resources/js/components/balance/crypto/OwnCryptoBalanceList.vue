@@ -47,8 +47,8 @@
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<!--						v-if="isWithdraw(item.state)"-->
 						<BalanceCryptoDialogWithdraw
+							v-if="isWithdraw(item.state)"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
@@ -148,17 +148,17 @@ export default {
 	name: 'OwnCryptoBalanceList',
 
 	components: {
-		CryptoBalanceDialogReplenish: () =>
+		BalanceCryptoDialogReplenish: () =>
 			import(
 				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogReplenish'
 			),
-		CryptoBalanceDialogWithdraw: () =>
+		BalanceCryptoDialogWithdraw: () =>
 			import(
 				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogWithdraw'
 			),
-		CryptoBalanceDialogTrade: () =>
+		BalanceCryptoDialogTrade: () =>
 			import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogTrade'),
-		CryptoBalanceDialogSafe: () =>
+		BalanceCryptoDialogSafe: () =>
 			import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogSafe'),
 		CommonTooltip: () =>
 			import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
