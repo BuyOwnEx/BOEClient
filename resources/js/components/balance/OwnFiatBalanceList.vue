@@ -9,8 +9,8 @@
 			dense
 		>
 			<template v-slot:top>
-				<v-toolbar class="component-title" flat dense>
-					<div>{{ componentTitle }}</div>
+				<v-toolbar flat dense>
+					<div class="component-title">{{ componentTitle }}</div>
 
 					<v-spacer />
 
@@ -28,10 +28,10 @@
 
 			<template v-slot:item.action="{ item }">
 				<v-menu
-					close-on-click
-					offset-y
 					v-model="item.menu"
 					transition="slide-y-transition"
+					close-on-click
+					offset-y
 					bottom
 				>
 					<template v-slot:activator="{ on }">
@@ -42,36 +42,26 @@
 					</template>
 
 					<v-list dense>
-						<fiat-deposit
-							v-if="menuItemExist('deposit')"
-							:fiatObj="item"
-							v-on:closeMenu="closeMenu(item)"
-						/>
+						<fiat-deposit :fiat-obj="item" @close-menu="closeMenu(item)" />
 
-						<fiat-withdraw
-							v-if="menuItemExist('withdraw')"
-							:fiat_id="item"
-							v-on:closeMenu="closeMenu(item)"
-						/>
+						<fiat-withdraw :fiat-id="item.id" @close-menu="closeMenu(item)" />
 
 						<fiat-transfer-trade
-							v-if="menuItemExist('transfer_to_trade')"
-							:fiat_id="item"
-							v-on:closeMenu="closeMenu(item)"
+							:fiat-id="item.id"
+							@close-menu="closeMenu(item)"
 						/>
 
 						<fiat-transfer-safe
-							v-if="menuItemExist('transfer_to_safe')"
-							:fiat_id="item"
-							v-on:closeMenu="closeMenu(item)"
+							:fiat-id="item.id"
+							@close-menu="closeMenu(item)"
 						/>
 					</v-list>
 				</v-menu>
 			</template>
 
 			<template v-slot:item.currency="{ item }">
-				<v-avatar :color="item.color" size="22" v-if="!item.logo">
-					<v-img v-if="item.logo" class="elevation-6" :src="item.logo"></v-img>
+				<v-avatar v-if="!item.logo" :color="item.color" size="22">
+					<v-img v-if="item.logo" class="elevation-6" :src="item.logo" />
 					<span v-else class="white--text subtitle-2">
 						{{ item.currency.charAt(0) }}
 					</span>
@@ -170,25 +160,6 @@ export default {
 				'items-per-page-options': [5, 10, 30, 100, 500],
 				'items-per-page-all-text': '500',
 			},
-			closeOnContentClick: true,
-			actions: [
-				{
-					title: this.$t('balance.action.deposit'),
-					name: 'deposit',
-				},
-				{
-					title: this.$t('balance.action.withdraw'),
-					name: 'withdraw',
-				},
-				{
-					title: this.$t('balance.action.transfer_to_trade'),
-					name: 'transfer_to_trade',
-				},
-				{
-					title: this.$t('balance.action.transfer_to_safe'),
-					name: 'transfer_to_safe',
-				},
-			],
 		};
 	},
 
@@ -198,7 +169,7 @@ export default {
 		},
 		fiatBalances() {
 			return this.showOnlyNotNullBalances
-				? _.filter(this.balances, function(item) {
+				? _.filter(this.balances, item => {
 						return (
 							item.type === 'fiat' &&
 							(!BigNumber(item.safe).isZero() ||
@@ -214,9 +185,6 @@ export default {
 	methods: {
 		BigNumber(item) {
 			return BigNumber(item);
-		},
-		menuItemExist(func) {
-			return _.findIndex(this.actions, action => action.name === func) !== -1;
 		},
 		closeMenu(item) {
 			item.menu = false;
