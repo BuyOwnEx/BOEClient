@@ -16,7 +16,7 @@
 			<v-card-text class="common-dialog__content">
 				<v-stepper v-model="e1">
 					<v-stepper-header>
-						<v-stepper-step :complete="e1 > 1" step="1">
+						<v-stepper-step :complete="isAddressValidated" step="1">
 							{{ $t('balance.stepper.address_validation.title') }}
 						</v-stepper-step>
 
@@ -49,11 +49,12 @@
 
 							<div class="d-flex">
 								<v-spacer />
-								<v-btn text>{{ $t('common.cancel') }}</v-btn>
+								<v-btn plain tile text>{{ $t('common.cancel') }}</v-btn>
 								<v-spacer />
 								<v-btn
 									:loading="addressLoading"
 									color="primary"
+									tile
 									@click="validateAddress"
 								>
 									{{ $t('common.continue') }}
@@ -125,7 +126,10 @@ export default {
 
 	watch: {
 		dialog(val) {
-			if (val) this.closeMenu();
+			if (val) {
+				this.closeMenu();
+				this.address = '';
+			}
 		},
 	},
 
@@ -143,13 +147,9 @@ export default {
 			await this.validateAddressStore(payload);
 		},
 
-		confirm() {
-			console.log('confirm');
-		},
 		close() {
 			this.dialog = false;
 		},
-
 		closeMenu() {
 			this.$emit('close-menu');
 		},
