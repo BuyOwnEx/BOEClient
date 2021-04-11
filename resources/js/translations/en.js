@@ -11,6 +11,8 @@ export default {
 		withdraw: 'Withdraw',
 		send: 'Send',
 		continue: 'Continue',
+		back: 'Back',
+		finish: 'Finish',
 
 		title: 'Title',
 		description: 'Description',
@@ -353,6 +355,37 @@ export default {
 			maintenance: 'Node is under maintenance',
 		},
 
+		stepper: {
+			address: 'Address',
+			sum: 'Sum',
+
+			address_validation: {
+				title: 'Checking address',
+				description:
+					'описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание',
+				address_hint: 'Enter your withdrawal address',
+			},
+			withdrawal_params: {
+				title: 'Withdrawal options',
+				description:
+					'описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание',
+				min_withdraw: 'Min. withdrawal amount',
+				day_limit: 'Daily limit',
+				fee_withdraw: 'Withdrawal fee',
+				available_amount: 'Available for withdrawal',
+				less_min: 'Less than the minimum possible amount',
+				more_max: 'More than the maximum possible amount',
+			},
+			confirmation: {
+				title: 'Confirmation',
+				description:
+					'описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание',
+				code: 'Code',
+				code_hint: 'Enter code from the email',
+				two_fa_code: '2FA code',
+				two_fa_code_hint: 'Enter 2FA code',
+			},
+		},
 	},
 
 	docs: {
