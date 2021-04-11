@@ -13,19 +13,19 @@
 				{{ $t('common.replenishment_funds') }}
 			</v-card-title>
 
-			<CommonLoading v-if="!currencyObject.address" class="mb-6" />
+			<CommonLoading v-if="!currencyObj.address" class="mb-6" />
 			<v-card-text v-else class="common-dialog__content">
 				<div>
 					<div>
 						{{ $t('balance.min_replenish_amount') }}:
 						<b>
-							{{ currencyObject.minReplenish }} {{ currencyObject.currency }}
+							{{ currencyObj.minReplenish }} {{ currencyObj.currency }}
 						</b>
 					</div>
 
 					<div>
 						{{ $t('balance.replenish_fee') }}:
-						<b>0 {{ currencyObject.currency }}</b>
+						<b>0 {{ currencyObj.currency }}</b>
 					</div>
 				</div>
 
@@ -33,15 +33,15 @@
 					v-model="amount"
 					class="my-1"
 					:placeholder="$t('common.amount')"
-					:suffix="currencyObject.currency"
+					:suffix="currencyObj.currency"
 					dense
 				/>
 
 				<div class="text-center">
-					<QrCode :value="currencyObject.address" :options="{ width: 200 }" />
+					<QrCode :value="currencyObj.address" :options="{ width: 200 }" />
 				</div>
 
-				<div class="text-center pt-1">{{ currencyObject.address }}</div>
+				<div class="text-center pt-1">{{ currencyObj.address }}</div>
 			</v-card-text>
 
 			<v-divider />
@@ -73,7 +73,7 @@ export default {
 	components: { CommonLoading, QrCode },
 
 	props: {
-		currencyObject: {
+		currencyObj: {
 			type: Object,
 			required: true,
 		},
@@ -105,7 +105,7 @@ export default {
 	created() {
 		axios
 			.get('/trader/ext/get_address', {
-				params: { currency: this.currencyObject.currency.toUpperCase() },
+				params: { currency: this.currencyObj.currency.toUpperCase() },
 			})
 			.then(response => {
 				console.log(response);

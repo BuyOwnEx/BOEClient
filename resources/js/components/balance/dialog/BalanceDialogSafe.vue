@@ -16,7 +16,7 @@
 							<v-col cols='12' md='12'>
 								<label>{{ $t('trading.order.available') }}</label>
 								<span class='available_balance' @click='setAmount()'>{{ this.trade_balance.toString() }}</span>
-								{{ cryptoObj.currency.toUpperCase() }}
+								{{ currencyObj.currency.toUpperCase() }}
 								<v-text-field
 									v-model='form.amount'
 									label='Amount*'
@@ -52,7 +52,7 @@ export default {
 	name: 'BalanceDialogSave',
 
 	props: {
-		cryptoObj: {
+		currencyObj: {
 			type: Object,
 			required: true
 		}
@@ -79,7 +79,7 @@ export default {
 				amount: [],
 			},
 			form: {
-				currency: this.cryptoObj.currency.toUpperCase(),
+				currency: this.currencyObj.currency.toUpperCase(),
 				amount: '',
 			},
 		};
@@ -95,7 +95,7 @@ export default {
 		trade_balance() {
 			if (this.isAuth) {
 				let scale = 8;
-				let amount = _.get(this.balances, this.cryptoObj.currency.toUpperCase(), 0);
+				let amount = _.get(this.balances, this.currencyObj.currency.toUpperCase(), 0);
 				if (amount.available !== undefined) {
 					return BigNumber(amount.available).dp(scale, 1);
 				}

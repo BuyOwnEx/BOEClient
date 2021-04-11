@@ -20,7 +20,7 @@
 								<span class="available_balance" @click="setAmount()">{{
 									this.safe_balance.toString()
 								}}</span>
-								{{ cryptoObj.currency.toUpperCase() }}
+								{{ currencyObj.currency.toUpperCase() }}
 								<v-text-field
 									v-model="form.amount"
 									label="Amount*"
@@ -66,7 +66,7 @@ export default {
 	name: 'BalanceDialogTrade',
 
 	props: {
-		cryptoObj: {
+		currencyObj: {
 			type: Object,
 			required: true,
 		},
@@ -95,7 +95,7 @@ export default {
 				amount: [],
 			},
 			form: {
-				currency: this.cryptoObj.currency.toUpperCase(),
+				currency: this.currencyObj.currency.toUpperCase(),
 				amount: '',
 			},
 		};
@@ -113,7 +113,7 @@ export default {
 				let scale = 8;
 				let amount = _.get(
 					this.balances,
-					this.cryptoObj.currency.toUpperCase(),
+					this.currencyObj.currency.toUpperCase(),
 					0
 				);
 				if (amount.safe !== undefined) {

@@ -104,7 +104,7 @@ export default {
 	name: 'BalanceDialogWithdraw',
 
 	props: {
-		currencyObject: {
+		currencyObj: {
 			type: Object,
 			required: true,
 		},
@@ -141,7 +141,7 @@ export default {
 		async validateAddress() {
 			this.addressLoading = true;
 			const payload = {
-				currency: this.currencyObject.currency,
+				currency: this.currencyObj.currency,
 				address: this.address,
 			};
 			await this.validateAddressStore(payload);

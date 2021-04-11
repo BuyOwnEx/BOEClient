@@ -44,20 +44,20 @@
 					<v-list dense>
 						<BalanceDialogReplenish
 							v-if="isReplenish(item.state)"
-							:currency-object="item"
+							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 						<!--						v-if="isWithdraw(item.state)"-->
 						<BalanceDialogWithdraw
-							:currency-object="item"
+							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 						<BalanceDialogTrade
-							:crypto-obj="item"
+							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 						<BalanceDialogSafe
-							:crypto-obj="item"
+							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 					</v-list>
