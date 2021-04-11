@@ -43,6 +43,9 @@
 								<v-text-field
 									v-model="address"
 									:hint="$t('balance.stepper.address_validation.address_hint')"
+									:placeholder="
+										$t('balance.stepper.address_validation.address')
+									"
 									persistent-hint
 								/>
 							</div>
