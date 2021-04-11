@@ -14,15 +14,15 @@
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content">
-				<v-stepper v-model="e1">
+				<v-stepper v-model="step">
 					<v-stepper-header>
-						<v-stepper-step :complete="isAddressValidated" step="1">
+						<v-stepper-step :complete="step > 1 && isAddressValidated" step="1">
 							{{ $t('balance.stepper.address_validation.title') }}
 						</v-stepper-step>
 
 						<v-divider />
 
-						<v-stepper-step :complete="e1 > 2" step="2">
+						<v-stepper-step :complete="step > 2" step="2">
 							{{ $t('balance.stepper.withdrawal_params.title') }}
 						</v-stepper-step>
 
@@ -43,19 +43,21 @@
 								<v-text-field
 									v-model="address"
 									:hint="$t('balance.stepper.address_validation.address_hint')"
-									:placeholder="
-										$t('balance.stepper.address_validation.address')
-									"
+									:placeholder="$t('balance.stepper.address')"
 									persistent-hint
+									autofocus
 								/>
 							</div>
 
 							<div class="d-flex">
 								<v-spacer />
-								<v-btn plain tile text>{{ $t('common.cancel') }}</v-btn>
+								<v-btn plain tile text @click="close">
+									{{ $t('common.cancel') }}
+								</v-btn>
 								<v-spacer />
 								<v-btn
-									:loading="addressLoading"
+									:loading="loading"
+									:disabled="!address.trim()"
 									color="primary"
 									tile
 									@click="validateAddress"
@@ -67,31 +69,119 @@
 						</v-stepper-content>
 
 						<v-stepper-content step="2">
-							<v-card
-								class=" mb-6"
-								color="grey lighten-1"
-								height="200px"
-							></v-card>
+							<div class="mb-6">
+								<div>
+									{{ $t('balance.stepper.withdrawal_params.description') }}
+								</div>
 
-							<v-btn color="primary" @click="e1 = 3">
-								{{ $t('common.continue') }}
-							</v-btn>
+								<div class="subtitle-1 py-1">
+									{{ $t('balance.stepper.address') }} — {{ address }}
+								</div>
 
-							<v-btn text>{{ $t('common.cancel') }}</v-btn>
+								<div>
+									{{ $t('balance.stepper.withdrawal_params.min_withdraw') }}:
+									<b class="px-1">
+										{{ currencyObj.minWithdraw }}
+										{{ currencyObj.currency.toUpperCase() }}
+									</b>
+								</div>
+								<div>
+									{{ $t('balance.stepper.withdrawal_params.day_limit') }}:
+									<b class="px-1">
+										{{ currencyObj.maxWithdraw }}
+										{{ currencyObj.currency.toUpperCase() }}
+									</b>
+								</div>
+								<div>
+									{{ $t('balance.stepper.withdrawal_params.fee_withdraw') }}:
+									<b class="px-1">
+										{{ currencyObj.fee }}
+										{{ currencyObj.currency.toUpperCase() }}
+									</b>
+								</div>
+								<div>
+									{{
+										$t('balance.stepper.withdrawal_params.available_amount')
+									}}:
+									<b class="px-1">
+										{{ currencyObj.safe }}
+										{{ currencyObj.currency.toUpperCase() }}
+									</b>
+								</div>
+
+								<v-form v-model="amountFormValid">
+									<v-text-field
+										v-model="amount"
+										:rules="amountRules"
+										type="number"
+										:placeholder="$t('balance.stepper.sum')"
+										autofocus
+										@keydown="passNumbers"
+									/>
+								</v-form>
+							</div>
+
+							<div class="d-flex">
+								<v-spacer />
+								<v-btn plain tile text @click="back">
+									{{ $t('common.back') }}
+								</v-btn>
+								<v-spacer />
+								<v-btn
+									:disabled="!amount || !amountFormValid"
+									:loading="loading"
+									color="primary"
+									tile
+									@click="step++"
+								>
+									{{ $t('common.continue') }}
+								</v-btn>
+								<v-spacer />
+							</div>
 						</v-stepper-content>
 
 						<v-stepper-content step="3">
-							<v-card
-								class=" mb-6"
-								color="grey lighten-1"
-								height="200px"
-							></v-card>
+							<div class="mb-6">
+								<div>
+									{{ $t('balance.stepper.confirmation.description') }}
+								</div>
 
-							<v-btn color="primary" @click="e1 = 1">
-								{{ $t('common.continue') }}
-							</v-btn>
+								<v-text-field
+									v-model="emailCode"
+									:hint="$t('balance.stepper.confirmation.code_hint')"
+									:placeholder="$t('balance.stepper.confirmation.code')"
+									type="number"
+									max-length="100"
+									persistent-hint
+								/>
+								<v-text-field
+									v-if="user2FA"
+									v-model="twoFACode"
+									:hint="$t('balance.stepper.confirmation.two_fa_code_hint')"
+									:placeholder="$t('balance.stepper.confirmation.two_fa_code')"
+									type="number"
+									max-length="100"
+									persistent-hint
+								/>
+							</div>
 
-							<v-btn text>{{ $t('common.cancel') }}</v-btn>
+							<div class="d-flex">
+								<v-spacer />
+								<v-btn plain tile text @click="back">
+									{{ $t('common.back') }}
+								</v-btn>
+								<v-spacer />
+								<v-btn
+									:disabled="!emailCode || (user2FA && !twoFACode)"
+									:loading="loading"
+									color="primary"
+									tile
+									@click="finish"
+								>
+									{{ $t('common.finish') }}
+								</v-btn>
+								<v-spacer />
+							</div>
 						</v-stepper-content>
 					</v-stepper-items>
 				</v-stepper>
@@ -103,8 +193,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import loadingMixin from '../../../../mixins/common/loadingMixin';
+import errorNotificationMixin from '../../../../mixins/common/errorNotificationMixin';
+import passNumberMixin from '../../../../mixins/common/passNumberMixin';
+
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
+
+	mixins: [loadingMixin, errorNotificationMixin, passNumberMixin],
 
 	props: {
 		currencyObj: {
@@ -116,15 +212,40 @@ export default {
 	data() {
 		return {
 			address: '',
-			addressLoading: false,
+
+			amount: '',
+			amountFormValid: false,
+			amountRules: [
+				v =>
+					!v ||
+					v >= this.minWithdraw ||
+					this.$t('balance.stepper.withdrawal_params.less_min'),
+				v =>
+					!v ||
+					v <= this.maxWithdraw ||
+					this.$t('balance.stepper.withdrawal_params.more_max'),
+			],
+
+			emailCode: '',
+			twoFACode: '',
 
 			dialog: false,
-			e1: 1,
+			step: 1,
 		};
 	},
 
 	computed: {
 		...mapState('balance', ['isAddressValidated']),
+
+		minWithdraw() {
+			return this.currencyObj.minWithdraw;
+		},
+		maxWithdraw() {
+			return Math.min(this.currencyObj.maxWithdraw, this.currencyObj.available);
+		},
+		user2FA() {
+			return this.$store.state.app.trader.g2fa;
+		},
 	},
 
 	watch: {
@@ -136,22 +257,54 @@ export default {
 		},
 	},
 
+	mounted() {
+		this.$store.subscribe(mutation => {
+			const type = mutation.type;
+			const status = mutation.payload;
+			const addressValidation =
+				type === 'balance/SET_ADDRESS_VALIDATION_STATUS';
+
+			if (addressValidation) {
+				if (status) {
+					this.step = 2;
+					this.stopLoading();
+				} else {
+					this.stopLoading();
+					this.pushErrorNotification(
+						this.$t('forms_validation.incorrect_data')
+					);
+				}
+			}
+		});
+	},
+
 	methods: {
 		...mapActions({
 			validateAddressStore: 'balance/validateAddress',
 		}),
 
 		async validateAddress() {
-			this.addressLoading = true;
+			if (this.address.trim() === '') {
+				this.pushErrorNotification();
+				return;
+			}
+
+			this.startLoading();
 			const payload = {
 				currency: this.currencyObj.currency,
 				address: this.address,
 			};
 			await this.validateAddressStore(payload);
 		},
+		async finish() {
+			this.startLoading();
+		},
 
 		close() {
 			this.dialog = false;
+		},
+		back() {
+			this.step--;
 		},
 		closeMenu() {
 			this.$emit('close-menu');
