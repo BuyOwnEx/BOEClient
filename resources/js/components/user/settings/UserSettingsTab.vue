@@ -140,7 +140,7 @@ export default {
 
 	created() {
 		this.fetchRefTypes();
-		this.selectedRefType = this.$store.state.app.trader.refProgram;
+		this.selectedRefTypeID = this.$store.state.app.trader.refProgram || 1;
 	},
 
 	methods: {
