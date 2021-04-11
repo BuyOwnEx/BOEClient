@@ -186,27 +186,27 @@ export default {
 			const types = [
 				{
 					id: 1,
-					name: 'type1',
+					name: '10% - 365 дней',
 				},
 				{
 					id: 2,
-					name: 'type2',
+					name: '15% - 180 дней',
 				},
 				{
 					id: 3,
-					name: 'type3',
+					name: '20% - 90 дней',
 				},
 				{
 					id: 4,
-					name: 'type4',
+					name: '30% - 60 дней',
 				},
 				{
 					id: 5,
-					name: 'type5',
+					name: '50% - 30 дней',
 				},
 				{
 					id: 6,
-					name: 'type6',
+					name: '60% - 30 дней',
 				},
 			];
 			return types.find(t => t.id === id).name;
