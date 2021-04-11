@@ -159,10 +159,9 @@ export default {
 		async saveRefSettings() {
 			try {
 				this.saveRefLoading = true;
-				await axios.post(
-					'/trader/ext/set_referral_type',
-					this.selectedRefTypeID
-				);
+				await axios.post('/trader/ext/set_referral_type', {
+					id: this.selectedRefTypeID
+				});
 			} finally {
 				this.saveRefLoading = false;
 			}
