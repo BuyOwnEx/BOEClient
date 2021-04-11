@@ -77,7 +77,7 @@ export default {
 			};
 			const maintenanceIcon = {
 				name: 'mdi-tools',
-				color: 'v-error-darken3',
+				color: 'error darken-3',
 			};
 
 			return [
