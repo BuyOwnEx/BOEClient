@@ -1,92 +1,92 @@
 // Tables
 .v-data-table {
-  table {
-    padding: 4px;
-    padding-bottom: 8px;
+	table {
+		padding: 4px;
+		padding-bottom: 8px;
 
-    th {
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
+		th {
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
 
-    td {
-      border-bottom: 0 !important;
-    }
+		td {
+			border-bottom: 0 !important;
+		}
 
-    tbody {
-      tr {
-        transition: box-shadow 0.2s, transform 0.2s;
+		tbody {
+			tr {
+				transition: box-shadow 0.2s, transform 0.2s;
 
-        &:not(.v-data-table__selected):hover {
-          box-shadow: 0 3px 15px -2px rgba(0, 0, 0, 0.12);
-          transform: translateY(-4px);
-        }
-      }
-    }
-  }
+				&:not(.v-data-table__selected):hover {
+					box-shadow: 0 3px 15px -2px rgba(0, 0, 0, 0.12);
+					transform: translateY(-4px);
+				}
+			}
+		}
+	}
 }
 
 // Remove hover effect exp. list <19.02.21>
 .v-data-table table tbody tr:not(.v-data-table__selected):hover {
-  box-shadow: none;
-  transform: none;
+	box-shadow: none;
+	transform: none;
 }
 
 // Change table title style <07.03.21>
 .v-data-table caption {
-  text-transform: uppercase !important;
-  font-weight: 600 !important;
-  font-size: 16px;
+	text-transform: uppercase !important;
+	font-weight: 600 !important;
+	font-size: 16px;
 }
 
 // Data table divider fix
 tr:not(:last-child).v-data-table__mobile-table-row {
-  > td:last-child {
-    border-bottom: thin solid rgba(137, 137, 137, 0.61) !important;
-  }
+	> td:last-child {
+		border-bottom: thin solid rgba(137, 137, 137, 0.61) !important;
+	}
 }
 
 // Google Chrome remove td border-radius
 td {
-  border-radius: 0 !important;
+	border-radius: 0 !important;
 }
 
 // изменение чипов таблицы
 .v-data-table-header-mobile__wrapper {
-  .v-chip {
-    font-size: 11px !important;
-    border-radius: 0 !important;
-  }
-  .v-select__slot label {
-    font-size: 0.8rem;
-  }
+	.v-chip {
+		font-size: 11px !important;
+		border-radius: 0 !important;
+	}
+	.v-select__slot label {
+		font-size: 0.8rem;
+	}
 }
 
 .overview .market-overview .v-data-table table thead tr {
-  th:nth-child(1) {
-    width: 5% !important;
-  }
-  th:nth-child(2) {
-    width: 15% !important;
-  }
-  th:nth-child(3) {
-    width: 15% !important;
-  }
-  th:nth-child(4) {
-    width: 15% !important;
-  }
-  th:nth-child(5) {
-    width: 5% !important;
-  }
-  th:nth-child(6) {
-    width: 15% !important;
-  }
-  th:nth-child(7) {
-    width: 15% !important;
-  }
-  th:nth-child(8) {
-    width: 15% !important;
-  }
+	th:nth-child(1) {
+		width: 5% !important;
+	}
+	th:nth-child(2) {
+		width: 15% !important;
+	}
+	th:nth-child(3) {
+		width: 15% !important;
+	}
+	th:nth-child(4) {
+		width: 15% !important;
+	}
+	th:nth-child(5) {
+		width: 5% !important;
+	}
+	th:nth-child(6) {
+		width: 15% !important;
+	}
+	th:nth-child(7) {
+		width: 15% !important;
+	}
+	th:nth-child(8) {
+		width: 15% !important;
+	}
 }
 
 // Styles for similar pages
@@ -96,29 +96,30 @@ td {
 .ref-payments,
 .orders,
 .deals {
-  display: flex;
-  flex-grow: 1;
-  .v-data-table {
-    display: flex;
-    flex-flow: column;
-  }
-  .v-data-table__wrapper {
-    padding: 0 8px !important;
-    flex-grow: 1 !important;
-  }
-  .v-data-footer {
-    margin: 0 12px !important;
-  }
-  table {
-    padding: 0 !important;
-  }
-  th {
-    padding: 0 !important;
-  }
-  td {
-    padding: 0 !important;
-  }
-  caption {
-    text-align: start;
-  }
+	display: flex;
+	flex-grow: 1;
+	.v-data-table {
+		display: flex;
+		flex-flow: column;
+	}
+	.v-data-table__wrapper {
+		padding: 0 8px !important;
+		flex-grow: 1 !important;
+	}
+	.v-data-footer {
+		margin: 0 12px !important;
+	}
+	table {
+		padding: 0 !important;
+	}
+	th {
+		padding: 0 !important;
+	}
+	td {
+		padding: 0 !important;
+		padding-right: 8px !important;
+	}
+	caption {
+		text-align: start;
+	}
 }
