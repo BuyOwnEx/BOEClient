@@ -54,22 +54,24 @@ export default {
 			state.positions = positions;
 		},
 		updateBalance(state, data) {
-			if (state.balances !== null) {
+			if (state.balances) {
 				if (data.currency in state.balances) {
 					state.balances[data.currency].available = data.balance;
 					state.balances[data.currency].blocked = data.blocked;
 				}
 			}
 		},
+
 		setAddress(state, data) {
-			if (state.balances !== null) {
+			if (state.balances) {
 				if (data.currency in state.balances) {
 					state.balances[data.currency].address = data.address;
 				}
 			}
 		},
+
 		updateCurrencyState(state, data) {
-			if (state.balances !== null) {
+			if (state.balances) {
 				if (data.currency.toUpperCase() in state.balances) {
 					state.balances[data.currency.toUpperCase()].state = data.state;
 				}

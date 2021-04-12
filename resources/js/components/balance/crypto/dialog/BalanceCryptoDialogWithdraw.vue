@@ -16,7 +16,7 @@
 			<v-card-text class="common-dialog__content">
 				<v-stepper v-model="step">
 					<v-stepper-header>
-						<v-stepper-step :complete="step > 1 && isAddressValidated" step="1">
+						<v-stepper-step :complete="step > 1" step="1">
 							{{ $t('balance.stepper.address_validation.title') }}
 						</v-stepper-step>
 
@@ -191,7 +191,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import errorNotificationMixin from '../../../../mixins/common/errorNotificationMixin';
@@ -235,8 +235,6 @@ export default {
 	},
 
 	computed: {
-		...mapState('balance', ['isAddressValidated']),
-
 		minWithdraw() {
 			return this.currencyObj.minWithdraw;
 		},
@@ -252,7 +250,7 @@ export default {
 		dialog(val) {
 			if (val) {
 				this.closeMenu();
-				this.address = '';
+				this.resetData();
 			}
 		},
 	},
@@ -260,15 +258,14 @@ export default {
 	mounted() {
 		this.$store.subscribe(mutation => {
 			const type = mutation.type;
-			const status = mutation.payload;
-			const addressValidation =
-				type === 'balance/SET_ADDRESS_VALIDATION_STATUS';
+			const { address, currency } = mutation.payload;
+			const setAddress = type === 'user/setAddress';
 
-			if (addressValidation) {
-				if (status) {
+			if (setAddress && currency === this.currencyObj.currency) {
+				if (address === true) {
 					this.step = 2;
 					this.stopLoading();
-				} else {
+				} else if (address === false) {
 					this.stopLoading();
 					this.pushErrorNotification(
 						this.$t('forms_validation.incorrect_data')
@@ -294,12 +291,28 @@ export default {
 				currency: this.currencyObj.currency,
 				address: this.address,
 			};
+
 			await this.validateAddressStore(payload);
 		},
 		async finish() {
-			this.startLoading();
+			try {
+				this.startLoading();
+
+				// await axios.post()
+
+				this.close();
+			} finally {
+				this.stopLoading();
+			}
 		},
 
+		resetData() {
+			this.address = '';
+			this.amount = '';
+			this.emailCode = '';
+			this.twoFACode = '';
+			this.step = 1;
+		},
 		close() {
 			this.dialog = false;
 		},

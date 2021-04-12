@@ -216,25 +216,6 @@ export default {
 				'items-per-page-options': [5, 10, 30, 100, 500],
 				'items-per-page-all-text': '500',
 			},
-			closeOnContentClick: true,
-			actions: [
-				{
-					title: this.$t('balance.action.deposit'),
-					name: 'deposit',
-				},
-				{
-					title: this.$t('balance.action.withdraw'),
-					name: 'withdraw',
-				},
-				{
-					title: this.$t('balance.action.transfer_to_trade'),
-					name: 'transfer_to_trade',
-				},
-				{
-					title: this.$t('balance.action.transfer_to_safe'),
-					name: 'transfer_to_safe',
-				},
-			],
 		};
 	},
 
