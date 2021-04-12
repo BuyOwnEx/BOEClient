@@ -80,32 +80,41 @@
 
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.min_withdraw') }}:
-									<b class="px-1">
+									<b
+										class="clickable non-selectable px-1"
+										@click="setMinPossibleAmount"
+									>
 										{{ currencyObj.minWithdraw }}
-										{{ currencyObj.currency.toUpperCase() }}
+										{{ currency }}
 									</b>
 								</div>
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.day_limit') }}:
-									<b class="px-1">
+									<b
+										class="clickable non-selectable px-1"
+										@click="setMaxPossibleAmount"
+									>
 										{{ currencyObj.maxWithdraw }}
-										{{ currencyObj.currency.toUpperCase() }}
+										{{ currency }}
 									</b>
 								</div>
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.fee_withdraw') }}:
 									<b class="px-1">
 										{{ currencyObj.fee }}
-										{{ currencyObj.currency.toUpperCase() }}
+										{{ currency }}
 									</b>
 								</div>
 								<div>
 									{{
 										$t('balance.stepper.withdrawal_params.available_amount')
 									}}:
-									<b class="px-1">
-										{{ currencyObj.safe }}
-										{{ currencyObj.currency.toUpperCase() }}
+									<b
+										class="clickable non-selectable px-1"
+										@click="setSafeAmount"
+									>
+										{{ safe }}
+										{{ currency }}
 									</b>
 								</div>
 
@@ -151,7 +160,7 @@
 									:hint="$t('balance.stepper.confirmation.code_hint')"
 									:placeholder="$t('balance.stepper.confirmation.code')"
 									type="number"
-									max-length="100"
+									max-length="6"
 									persistent-hint
 								/>
 								<v-text-field
@@ -160,7 +169,7 @@
 									:hint="$t('balance.stepper.confirmation.two_fa_code_hint')"
 									:placeholder="$t('balance.stepper.confirmation.two_fa_code')"
 									type="number"
-									max-length="100"
+									max-length="6"
 									persistent-hint
 								/>
 							</div>
@@ -191,6 +200,9 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
+BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
 import { mapActions } from 'vuex';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
@@ -235,11 +247,29 @@ export default {
 	},
 
 	computed: {
+		safe() {
+			const item = this.currencyObj;
+			const scale = item.scale || 2;
+
+			if (item.safe) {
+				return BigNumber(item.safe)
+					.dp(scale, 1)
+					.toString();
+			} else {
+				return BigNumber(0)
+					.dp(0)
+					.toString();
+			}
+		},
+
 		minWithdraw() {
 			return this.currencyObj.minWithdraw;
 		},
 		maxWithdraw() {
 			return Math.min(this.currencyObj.maxWithdraw, this.currencyObj.available);
+		},
+		currency() {
+			return this.currencyObj.currency.toUpperCase();
 		},
 		user2FA() {
 			return this.$store.state.app.trader.g2fa;
@@ -304,6 +334,16 @@ export default {
 			} finally {
 				this.stopLoading();
 			}
+		},
+
+		setMinPossibleAmount() {
+			this.amount = this.currencyObj.minWithdraw;
+		},
+		setMaxPossibleAmount() {
+			this.amount = this.currencyObj.maxWithdraw;
+		},
+		setSafeAmount() {
+			this.amount = this.safe;
 		},
 
 		resetData() {
