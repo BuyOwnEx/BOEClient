@@ -10,7 +10,7 @@
 
 		<v-card>
 			<v-card-title class="common-dialog__title">
-				{{ $t('common.withdrawal_funds') }}
+				{{ $t('common.withdrawal_funds') }} {{ currencyObj.currency }}
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content">

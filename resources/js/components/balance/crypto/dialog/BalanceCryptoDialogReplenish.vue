@@ -10,7 +10,7 @@
 
 		<v-card>
 			<v-card-title class="common-dialog__title">
-				{{ $t('common.replenishment_funds') }}
+				{{ $t('common.replenishment_funds') }} {{ currencyObj.currency }}
 			</v-card-title>
 
 			<CommonLoading v-if="!currencyObj.address" class="mb-6" />
@@ -18,9 +18,7 @@
 				<div>
 					<div>
 						{{ $t('balance.min_replenish_amount') }}:
-						<b>
-							{{ currencyObj.minReplenish }} {{ currencyObj.currency }}
-						</b>
+						<b> {{ currencyObj.minReplenish }} {{ currencyObj.currency }} </b>
 					</div>
 
 					<div>
