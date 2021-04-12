@@ -347,10 +347,10 @@ export default {
 		replenish_fee: 'Replenish fee',
 
 		state_type: {
-			deposit_and_withdrawal: 'Deposit and withdrawal works',
-			only_withdrawal: 'Only withdrawal of funds works',
-			only_deposit: 'Only funds deposit works',
-			no_deposit_and_withdrawal: 'Deposit and withdrawal not works',
+			replenishment: 'Funds deposit works',
+			withdrawal: 'Withdrawal of funds works',
+			not_replenishment: "Funds deposit doesn't works",
+			not_withdrawal: "Withdrawal of funds doesn't works",
 			sync: 'Node in sync',
 			maintenance: 'Node is under maintenance',
 		},

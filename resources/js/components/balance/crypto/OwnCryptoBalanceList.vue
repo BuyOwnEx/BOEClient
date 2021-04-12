@@ -120,7 +120,7 @@
 					</v-icon>
 
 					<template #text>
-						{{ getStateTitle(item.state) }}
+						{{ getStateTextStatus(item.state, 'replenishment') }}
 					</template>
 				</CommonTooltip>
 			</template>
@@ -132,7 +132,7 @@
 					</v-icon>
 
 					<template #text>
-						{{ getStateTitle(item.state) }}
+						{{ getStateTextStatus(item.state, 'withdrawal') }}
 					</template>
 				</CommonTooltip>
 			</template>
@@ -280,9 +280,9 @@ export default {
 			const iconType = `${type}Icon`;
 			return status[iconType].color;
 		},
-		getStateTitle(state) {
+		getStateTextStatus(state, type) {
 			const status = this.stateTypes.find(t => t.id === state);
-			return status.title;
+			return status[type];
 		},
 
 		BigNumber(item) {

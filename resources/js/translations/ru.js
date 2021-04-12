@@ -349,10 +349,10 @@ export default {
 		replenish_fee: 'Комиссия по пополнению',
 
 		state_type: {
-			deposit_and_withdrawal: 'Ввод и вывод работают',
-			only_withdrawal: 'Работает только вывод средств',
-			only_deposit: 'Работает только ввод средств',
-			no_deposit_and_withdrawal: 'Ввод и вывод не работают',
+			replenishment: 'Ввод работает',
+			withdrawal: 'Вывод работает',
+			not_replenishment: 'Ввод не работает',
+			not_withdrawal: 'Вывод не работает',
 			sync: 'Нода в процессе синхронизации',
 			maintenance: 'Нода на тех. обслуживании',
 		},
