@@ -26,7 +26,7 @@
 				<v-divider />
 			</template>
 
-			<MainMenu :user-fiat='isUserFiat'/>
+			<MainMenu :user-fiat="isUserFiat" />
 		</v-navigation-drawer>
 
 		<v-app-bar
@@ -146,6 +146,11 @@
 		</v-footer>
 
 		<CommonNotification />
+		<VueNotifications
+			animation-type="velocity"
+			position="bottom right"
+			max="3"
+		/>
 	</div>
 </template>
 
@@ -189,7 +194,7 @@ export default {
 		]),
 		...mapGetters({
 			isLogged: 'app/isLogged',
-			isUserFiat: 'user/isUserFiat'
+			isUserFiat: 'user/isUserFiat',
 		}),
 
 		calculateFooterHeight() {
@@ -204,6 +209,10 @@ export default {
 		isWidthMore400px() {
 			return this.$vuetify.breakpoint.width >= 400;
 		},
+	},
+
+	mounted() {
+		this.$notify({ text: 'hello!', group: 'trading' });
 	},
 };
 </script>
