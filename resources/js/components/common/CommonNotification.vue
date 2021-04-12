@@ -45,7 +45,6 @@ export default {
 			}
 		},
 		initNotificationRefresh() {
-			console.log(this.notifications);
 			let id = _.get(this.notifications[0], 'id', null);
 			if (id !== this.notificationIdInRemoveQueue && id !== null) {
 				this.notificationIdInRemoveQueue = id;
@@ -124,7 +123,7 @@ export default {
 	bottom: 36px;
 	right: 16px;
 	max-width: 40vw;
-	z-index: 2;
+	z-index: 1000;
 	&__item {
 		color: white;
 		font-size: 13px;
