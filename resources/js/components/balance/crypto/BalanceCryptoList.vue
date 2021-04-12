@@ -229,7 +229,7 @@ export default {
 		},
 		cryptoBalances() {
 			return this.showOnlyNotNullBalances
-				? _.filter(this.balances, function(item) {
+				? _.filter(this.balances, item => {
 						return (
 							(item.type === 'coin' || item.type === 'token') &&
 							(!BigNumber(item.safe).isZero() ||
@@ -238,7 +238,7 @@ export default {
 								!BigNumber(item.withdraw).isZero())
 						);
 				  })
-				: _.filter(this.balances, function(item) {
+				: _.filter(this.balances, item => {
 						return item.type === 'coin' || item.type === 'token';
 				  });
 		},

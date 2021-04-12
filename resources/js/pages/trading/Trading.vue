@@ -39,7 +39,7 @@
 				:market="selectedMarket"
 			/>
 
-			<MarketActivity
+			<TradingMarketActivity
 				v-if="!isMediumBreakpoint"
 				class="trading__desktop__market-activity"
 			/>
@@ -161,13 +161,13 @@
 <script>
 import CentrifugeTradingMixin from '../../mixins/centrifugo-trading';
 
-import TickersList from '../../components/trading/tickers/TickersList';
+import TickersList from '../../components/trading/tickers/TradingTickersList';
 import TradingChartWrapper from '../../components/trading/chart/TradingChartWrapper';
 import HistoryDealList from '../../components/trading/history/HistoryDealList';
 
 import TradingChat from '../../components/trading/chat/TradingChat';
 import AskList from '../../components/trading/orders/ask/AskList';
-import MarketActivity from '../../components/trading/market/MarketActivity';
+import TradingMarketActivity from '../../components/trading/market/TradingMarketActivity';
 import BidList from '../../components/trading/orders/bid/BidList';
 
 import TradingFormsWrapper from '../../components/trading/forms/TradingFormsWrapper';
@@ -183,7 +183,7 @@ export default {
 		TradingChartWrapper,
 		HistoryDealList,
 		TradingChat,
-		MarketActivity,
+		TradingMarketActivity,
 		AskList,
 		AskBidLastPrice: () =>
 			import(

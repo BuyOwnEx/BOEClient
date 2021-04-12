@@ -149,7 +149,7 @@
 		<VueNotifications
 			animation-type="velocity"
 			position="bottom right"
-			max="3"
+			:max="3"
 		/>
 	</div>
 </template>
@@ -157,13 +157,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import MainMenu from '../components/navigation/MainMenu';
-import ToolbarUser from '../components/toolbar/ToolbarUser';
-import ToolbarApps from '../components/toolbar/ToolbarApps';
-import ToolbarLanguage from '../components/toolbar/ToolbarLanguage';
-import ToolbarCurrency from '../components/toolbar/ToolbarCurrency';
-import ToolbarNotifications from '../components/toolbar/ToolbarNotifications';
-import ToolbarThemeChanger from '../components/toolbar/ToolbarThemeChanger';
+import MainMenu from '../components/layout/navigation/MainMenu';
+import ToolbarUser from '../components/layout/toolbar/ToolbarUser';
+import ToolbarApps from '../components/layout/toolbar/ToolbarApps';
+import ToolbarLanguage from '../components/layout/toolbar/ToolbarLanguage';
+import ToolbarCurrency from '../components/layout/toolbar/ToolbarCurrency';
+import ToolbarNotifications from '../components/layout/toolbar/ToolbarNotifications';
+import ToolbarThemeChanger from '../components/layout/toolbar/ToolbarThemeChanger';
 import CommonNotification from '../components/common/CommonNotification';
 
 export default {

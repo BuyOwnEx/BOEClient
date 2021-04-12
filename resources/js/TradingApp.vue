@@ -14,24 +14,25 @@ import config from './configs';
 import defaultLayout from './layouts/DefaultLayout';
 import Trading from './pages/trading/Trading';
 
-import CustomizationMenu from './components/demo/CustomizationMenu';
-
 export default {
 	name: 'TradingApp',
+
 	components: {
 		Trading,
-		CustomizationMenu,
 		defaultLayout,
 	},
+
 	data: () => ({
 		currentLayout: 'defaultLayout',
 	}),
+
 	head: {
 		link: [
 			// adds config/icons into the html head tag
 			...config.icons.map(href => ({ rel: 'stylesheet', href })),
 		],
 	},
+
 	mounted() {
 		this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 	},

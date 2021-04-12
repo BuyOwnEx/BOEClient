@@ -94,7 +94,6 @@ export default {
 		close() {
 			this.dialog = false;
 		},
-
 		closeMenu() {
 			this.$emit('close-menu');
 		},

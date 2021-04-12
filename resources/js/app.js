@@ -2,10 +2,8 @@ import './bootstrap';
 import Vue from 'vue';
 import App from './App.vue';
 
-// VUEX - https://vuex.vuejs.org/
 import store from './store';
 
-// VUE-ROUTER - https://router.vuejs.org/
 //import router from './router'
 
 // PLUGINS
@@ -29,13 +27,11 @@ import './filters/formatCurrency';
 import './filters/formatDate';
 
 // STYLES
-// Main Theme SCSS
 import '../sass/theme.scss';
 
 // Animation library - https://animate.style/
 import 'animate.css/animate.min.css';
 
-// Set this to false to prevent the production tip on Vue startup.
 Vue.config.productionTip = false;
 
 Vue.prototype.$eventHub = new Vue();
@@ -48,16 +44,6 @@ import HighchartsVue from 'highcharts-vue';
 
 Vue.use(HighchartsVue);
 
-/*
-|---------------------------------------------------------------------
-| Main Vue Instance
-|---------------------------------------------------------------------
-|
-| Render the vue application on the <div id="app"></div> in index.html
-|
-| https://vuejs.org/v2/guide/instance.html
-|
-*/
 export default new Vue({
 	i18n,
 	vuetify,

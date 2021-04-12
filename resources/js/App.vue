@@ -5,36 +5,21 @@
 				<router-view />
 			</transition>
 		</component>
-
-		<!-- Demo customization menu -->
-		<customization-menu />
 	</v-app>
 </template>
 
 <script>
-// Demo Menu
-import CustomizationMenu from './components/demo/CustomizationMenu';
 
 import config from './configs';
 
-// Layouts
 import defaultLayout from './layouts/DefaultLayout';
 import landingLayout from './layouts/LandingLayout';
 import simpleLayout from './layouts/SimpleLayout';
 import authLayout from './layouts/AuthLayout';
 import errorLayout from './layouts/ErrorLayout';
 
-/*
-|---------------------------------------------------------------------
-| Main Application Component
-|---------------------------------------------------------------------
-|
-| In charge of choosing the layout according to the router metadata
-|
-*/
 export default {
 	components: {
-		CustomizationMenu,
 		defaultLayout,
 		landingLayout,
 		simpleLayout,
@@ -60,9 +45,6 @@ export default {
 </script>
 
 <style scoped>
-/**
- * Transition animation between pages
- */
 .fade-enter-active,
 .fade-leave-active {
 	transition-duration: 0.2s;

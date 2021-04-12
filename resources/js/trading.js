@@ -2,8 +2,6 @@ import './bootstrap';
 
 import Vue from 'vue';
 import App from './TradingApp.vue';
-
-// VUEX - https://vuex.vuejs.org/
 import store from './store';
 
 // PLUGINS
@@ -27,13 +25,11 @@ import './filters/formatCurrency';
 import './filters/formatDate';
 
 // STYLES
-// Main Theme SCSS
 import '../sass/theme.scss';
 
 // Animation library - https://animate.style/
 import 'animate.css/animate.min.css';
 
-// Set this to false to prevent the production tip on Vue startup.
 Vue.config.productionTip = false;
 
 Vue.prototype.$eventHub = new Vue();

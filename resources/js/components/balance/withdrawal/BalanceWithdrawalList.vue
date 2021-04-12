@@ -68,7 +68,7 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import WithdrawCancel from '../../dialogs/balance/withdraw/WithdrawCancel';
+import WithdrawCancel from './WithdrawCancel';
 
 export default {
 	name: 'OwnWithdrawalList',

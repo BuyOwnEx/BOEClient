@@ -49,15 +49,15 @@
 						/>
 						<BalanceFiatDialogWithdraw
 							v-if="isWithdraw(item.state)"
-							:fiat-id="item.id"
+							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 						<BalanceFiatDialogTransferTrade
-							:fiat-id="item.id"
+							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 						<BalanceFiatDialogTransferSafe
-							:fiat-id="item.id"
+							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 					</v-list>

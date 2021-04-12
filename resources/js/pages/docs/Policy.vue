@@ -19,7 +19,7 @@
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 
 import DocsNavigation from '../../components/docs/DocsNavigation';
-import DocsContent from '../../components/docs/DocsContent';
+import DocsContent from '../../components/docs/content/DocsContent';
 import DocsFooter from '../../components/docs/DocsFooter';
 
 export default {

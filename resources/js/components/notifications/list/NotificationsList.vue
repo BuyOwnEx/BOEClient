@@ -87,7 +87,7 @@
 			{{ $t('notifications.no_notifications') }}
 		</div>
 
-		<NotificationCommonModal
+		<NotificationsCommonModal
 			v-if="showDetails"
 			:show="showDetails"
 			:notification="selectedNotificationDetails"
@@ -104,8 +104,8 @@ export default {
 	name: 'NotificationsList',
 
 	components: {
-		NotificationCommonModal: () =>
-			import(/* webpackPrefetch: true */ '../common/NotificationCommonModal'),
+		NotificationsCommonModal: () =>
+			import(/* webpackPrefetch: true */ '../common/NotificationsCommonModal'),
 	},
 
 	mixins: [formatDate],

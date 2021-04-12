@@ -73,8 +73,8 @@
 <script>
 import { mapState } from 'vuex';
 
-import ToolbarThemeChanger from '../components/toolbar/ToolbarThemeChanger';
-import ToolbarLanguage from '../components/toolbar/ToolbarLanguage';
+import ToolbarThemeChanger from '../components/layout/toolbar/ToolbarThemeChanger';
+import ToolbarLanguage from '../components/layout/toolbar/ToolbarLanguage';
 
 export default {
 	components: { ToolbarThemeChanger, ToolbarLanguage },

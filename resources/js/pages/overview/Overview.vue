@@ -2,15 +2,16 @@
 	<v-container class="overview" fluid>
 		<v-row align="start" justify="center">
 			<v-col cols="12" class="overview__col overview__col--graph text-center">
-				<market-depth-graph
+				<OverviewDepthGraph
 					:currency="selectedCurrency"
 					:market="selectedMarket"
 				/>
 			</v-col>
 		</v-row>
+
 		<v-row align="start" justify="center">
 			<v-col cols="12" class="overview__col text-center">
-				<market-overview />
+				<OverviewTable />
 			</v-col>
 		</v-row>
 	</v-container>
@@ -18,8 +19,8 @@
 
 <script>
 import CentrifugeOverviewMixin from '../../mixins/centrifugo-overview';
-import MarketOverview from '../../components/overview/MarketOverview';
-import MarketDepthGraph from '../../components/overview/MarketDepthGraph';
+import OverviewTable from '../../components/overview/OverviewTable';
+import OverviewDepthGraph from '../../components/overview/OverviewDepthGraph';
 
 export default {
 	name: 'Overview',
@@ -27,8 +28,8 @@ export default {
 	mixins: [CentrifugeOverviewMixin],
 
 	components: {
-		MarketOverview,
-		MarketDepthGraph,
+		OverviewTable,
+		OverviewDepthGraph,
 	},
 
 	computed: {

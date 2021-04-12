@@ -2,8 +2,6 @@ import './bootstrap';
 
 import Vue from 'vue';
 import App from './AuthApp.vue';
-
-// VUEX - https://vuex.vuejs.org/
 import store from './store';
 
 // PLUGINS
@@ -12,10 +10,8 @@ import i18n from './plugins/vue-i18n';
 import './plugins/vue-head';
 
 // STYLES
-// Main Theme SCSS
 import '../sass/theme.scss';
 
-// Set this to false to prevent the production tip on Vue startup.
 Vue.config.productionTip = false;
 
 Vue.prototype.$eventHub = new Vue();

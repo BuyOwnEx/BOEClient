@@ -180,14 +180,12 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import positionClose from '../../../dialogs/trading/PositionClose';
 import positionAddFunds from '../../../dialogs/trading/PositionAddFunds';
 
 export default {
 	name: 'OwnActivePositionList',
 
 	components: {
-		positionClose,
 		positionAddFunds,
 		OwnListConfirmDialog: () =>
 			import(/* webpackPrefetch: true */ '../common/OwnListConfirmDialog'),
