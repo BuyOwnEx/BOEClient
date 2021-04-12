@@ -25,6 +25,13 @@
 	color: #a8a8a8;
 }
 
+.clickable {
+	cursor: pointer;
+}
+.non-selectable {
+	user-select: none;
+}
+
 .component-title {
 	font-size: 1.16rem !important;
 	font-weight: 600 !important;
