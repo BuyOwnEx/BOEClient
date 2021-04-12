@@ -57,7 +57,7 @@
 			<v-tabs-items
 				v-model="selectedTab"
 				class="trading__mobile__tab-pages"
-				:touchless="isChartTab"
+				:touchless="tabsTouchless"
 			>
 				<v-tab-item :key="1">
 					<TradingChartWrapper
@@ -234,9 +234,10 @@ export default {
 		isMobile() {
 			return this.$vuetify.breakpoint.smAndDown;
 		},
-		isChartTab() {
+		tabsTouchless() {
 			const chartTabIndex = 0;
-			return this.selectedTab === chartTabIndex;
+			const ownListsTabIndex = 6
+			return this.selectedTab === chartTabIndex || this.selectedTab === ownListsTabIndex;
 		},
 		isMediumBreakpoint() {
 			return this.$vuetify.breakpoint.width < 1382;

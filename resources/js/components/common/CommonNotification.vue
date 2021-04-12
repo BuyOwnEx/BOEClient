@@ -1,6 +1,7 @@
 <template>
 	<transition-group
 		class="notification"
+		:class="{ 'notification--trading': isTradingPage }"
 		name="scroll-y-reverse-transition"
 		tag="ul"
 	>
@@ -33,6 +34,9 @@ export default {
 		},
 		notificationsForDisplay() {
 			return this.notifications.slice(0, this.displayLimit);
+		},
+		isTradingPage() {
+			return window.location.pathname.split('/')[1] === 'trading';
 		},
 	},
 
@@ -133,7 +137,10 @@ export default {
 		transition: transform 0.3s;
 	}
 	@media screen and (max-width: 960px) {
-		bottom: 120px;
+		bottom: 72px;
+		&--trading {
+			bottom: 120px;
+		}
 	}
 }
 

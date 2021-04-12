@@ -16,7 +16,7 @@
 			</v-tab>
 		</v-tabs>
 
-		<v-tabs-items v-model="selectedTab">
+		<v-tabs-items v-model="selectedTab" touchless>
 			<v-tab-item :key="1">
 				<OwnCryptoBalanceList :state-types="stateTypes" />
 			</v-tab-item>
