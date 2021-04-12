@@ -63,19 +63,25 @@
 				</div>
 
 				<div class="user-api-item__created-key-wrapper">
-					<div class="user-api-item__header">{{ $t('user.api.headers.created') }}</div>
+					<div class="user-api-item__header">
+						{{ $t('user.api.headers.created') }}
+					</div>
 					<div class="user-api-item__created">
 						{{ formatDate(api.created_at) }}
 					</div>
 				</div>
 				<div class="user-api-item__updated-key-wrapper">
-					<div class="user-api-item__header">{{ $t('user.api.headers.updated') }}</div>
+					<div class="user-api-item__header">
+						{{ $t('user.api.headers.updated') }}
+					</div>
 					<div class="user-api-item__updated">
 						{{ formatDate(api.updated_at) }}
 					</div>
 				</div>
 				<div class="user-api-item__used-key-wrapper">
-					<div class="user-api-item__header">{{ $t('user.api.headers.abilities') }}</div>
+					<div class="user-api-item__header">
+						{{ $t('user.api.headers.last_usage') }}
+					</div>
 					<div class="user-api-item__used">
 						{{ formatDate(api.last_used_at) }}
 					</div>
