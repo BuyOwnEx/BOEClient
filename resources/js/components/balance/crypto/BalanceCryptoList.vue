@@ -144,8 +144,10 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import balanceStateMethodsMixin from '../../../mixins/balance/balanceStateMethodsMixin';
+
 export default {
-	name: 'OwnCryptoBalanceList',
+	name: 'BalanceCryptoList',
 
 	components: {
 		BalanceCryptoDialogReplenish: () =>
@@ -163,6 +165,8 @@ export default {
 		CommonTooltip: () =>
 			import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
 	},
+
+	mixins: [balanceStateMethodsMixin],
 
 	props: {
 		stateTypes: {
@@ -241,31 +245,6 @@ export default {
 	},
 
 	methods: {
-		isReplenish(state) {
-			const everythingIsOk = state === 1;
-			const onlyReplenish = state === 3;
-			return everythingIsOk || onlyReplenish;
-		},
-		isWithdraw(state) {
-			const everythingIsOk = state === 1;
-			const onlyWithdraw = state === 2;
-			return everythingIsOk || onlyWithdraw;
-		},
-		getStateIconName(state, type) {
-			const status = this.stateTypes.find(t => t.id === state);
-			const iconType = `${type}Icon`;
-			return status[iconType].name;
-		},
-		getStateIconColor(state, type) {
-			const status = this.stateTypes.find(t => t.id === state);
-			const iconType = `${type}Icon`;
-			return status[iconType].color;
-		},
-		getStateTextStatus(state, type) {
-			const status = this.stateTypes.find(t => t.id === state);
-			return status[type];
-		},
-
 		BigNumber(item) {
 			return BigNumber(item);
 		},

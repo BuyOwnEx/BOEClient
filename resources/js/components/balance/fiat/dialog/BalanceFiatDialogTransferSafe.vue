@@ -4,6 +4,6 @@
 
 <script>
 export default {
-	name: 'FiatDeposit',
+	name: 'BalanceFiatDialogTransferSafe',
 };
 </script>

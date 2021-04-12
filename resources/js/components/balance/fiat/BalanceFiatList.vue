@@ -42,16 +42,21 @@
 					</template>
 
 					<v-list dense>
-						<fiat-deposit :fiat-obj="item" @close-menu="closeMenu(item)" />
-
-						<fiat-withdraw :fiat-id="item.id" @close-menu="closeMenu(item)" />
-
-						<fiat-transfer-trade
+						<BalanceFiatDialogReplenish
+							v-if="isReplenish(item.state)"
+							:currency-obj="item"
+							@close-menu="closeMenu(item)"
+						/>
+						<BalanceFiatDialogWithdraw
+							v-if="isWithdraw(item.state)"
 							:fiat-id="item.id"
 							@close-menu="closeMenu(item)"
 						/>
-
-						<fiat-transfer-safe
+						<BalanceFiatDialogTransferTrade
+							:fiat-id="item.id"
+							@close-menu="closeMenu(item)"
+						/>
+						<BalanceFiatDialogTransferSafe
 							:fiat-id="item.id"
 							@close-menu="closeMenu(item)"
 						/>
@@ -93,8 +98,28 @@
 				{{ BigNumber(item.blocked).toString() }}
 			</template>
 
-			<template v-slot:item.state="{ item }">
-				<span>{{ item.state }}</span>
+			<template v-slot:item.replenishment="{ item }">
+				<CommonTooltip>
+					<v-icon :color="getStateIconColor(item.state, 'replenishment')">
+						{{ getStateIconName(item.state, 'replenishment') }}
+					</v-icon>
+
+					<template #text>
+						{{ getStateTextStatus(item.state, 'replenishment') }}
+					</template>
+				</CommonTooltip>
+			</template>
+
+			<template v-slot:item.withdrawal="{ item }">
+				<CommonTooltip>
+					<v-icon :color="getStateIconColor(item.state, 'withdrawal')">
+						{{ getStateIconName(item.state, 'withdrawal') }}
+					</v-icon>
+
+					<template #text>
+						{{ getStateTextStatus(item.state, 'withdrawal') }}
+					</template>
+				</CommonTooltip>
 			</template>
 		</v-data-table>
 	</v-card>
@@ -104,19 +129,35 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import FiatDeposit from './dialog/FiatDeposit';
-import FiatWithdraw from './dialog/FiatWithdraw';
-import FiatTransferTrade from './dialog/FiatTransferTrade';
-import FiatTransferSafe from './dialog/FiatTransferSafe';
+import balanceStateMethodsMixin from '../../../mixins/balance/balanceStateMethodsMixin';
 
 export default {
-	name: 'OwnFiatBalanceList',
+	name: 'BalanceFiatList',
 
 	components: {
-		FiatDeposit,
-		FiatWithdraw,
-		FiatTransferTrade,
-		FiatTransferSafe,
+		BalanceFiatDialogReplenish: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceFiatDialogReplenish'),
+		BalanceFiatDialogWithdraw: () =>
+			import(/* webpackPrefetch: true */ './dialog/BalanceFiatDialogWithdraw'),
+		BalanceFiatDialogTransferTrade: () =>
+			import(
+				/* webpackPrefetch: true */ './dialog/BalanceFiatDialogTransferTrade'
+			),
+		BalanceFiatDialogTransferSafe: () =>
+			import(
+				/* webpackPrefetch: true */ './dialog/BalanceFiatDialogTransferSafe'
+			),
+		CommonTooltip: () =>
+			import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
+	},
+
+	mixins: [balanceStateMethodsMixin],
+
+	props: {
+		stateTypes: {
+			type: Array,
+			required: true,
+		},
 	},
 
 	data() {
@@ -146,8 +187,12 @@ export default {
 					value: 'blocked',
 				},
 				{
-					text: this.$t('balance.state'),
-					value: 'state',
+					text: this.$t('common.replenishment'),
+					value: 'replenishment',
+				},
+				{
+					text: this.$t('common.withdrawal'),
+					value: 'withdrawal',
 				},
 				{
 					text: this.$t('balance.actions'),

@@ -18,15 +18,15 @@
 
 		<v-tabs-items v-model="selectedTab" touchless>
 			<v-tab-item :key="1">
-				<OwnCryptoBalanceList :state-types="stateTypes" />
+				<BalanceCryptoList :state-types="stateTypes" />
 			</v-tab-item>
 
 			<v-tab-item v-if="isUserFiat" :key="2">
-				<OwnFiatBalanceList :state-types="stateTypes" />
+				<BalanceFiatList :state-types="stateTypes" />
 			</v-tab-item>
 
 			<v-tab-item :key="3">
-				<OwnWithdrawalList />
+				<BalanceWithdrawalList />
 			</v-tab-item>
 		</v-tabs-items>
 	</v-card>
@@ -35,8 +35,8 @@
 <script>
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 
-import OwnCryptoBalanceList from '../../components/balance/crypto/OwnCryptoBalanceList';
-import OwnWithdrawalList from '../../components/balance/OwnWithdrawalList';
+import BalanceCryptoList from '../../components/balance/crypto/BalanceCryptoList';
+import BalanceWithdrawalList from '../../components/balance/withdrawal/BalanceWithdrawalList';
 
 import CentrifugeBalanceMixin from '../../mixins/centrifugo-balance';
 
@@ -47,11 +47,11 @@ export default {
 
 	components: {
 		CommonPageTitle,
-		OwnCryptoBalanceList,
-		OwnWithdrawalList,
-		OwnFiatBalanceList: () =>
+		BalanceCryptoList,
+		BalanceWithdrawalList,
+		BalanceFiatList: () =>
 			import(
-				/* webpackPrefetch: true */ '../../components/balance/fiat/OwnFiatBalanceList'
+				/* webpackPrefetch: true */ '../../components/balance/fiat/BalanceFiatList'
 			),
 	},
 

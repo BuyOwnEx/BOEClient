@@ -4,6 +4,6 @@
 
 <script>
 export default {
-	name: 'FiatWithdraw',
+	name: 'BalanceFiatDialogReplenish',
 };
 </script>
