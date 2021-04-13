@@ -106,9 +106,6 @@ td {
 		padding: 0 8px !important;
 		flex-grow: 1 !important;
 	}
-	.v-data-footer {
-		margin: 0 12px !important;
-	}
 	table {
 		padding: 0 !important;
 	}
@@ -118,6 +115,7 @@ td {
 	td {
 		padding: 0 !important;
 		padding-right: 8px !important;
+		word-break: break-word !important;
 	}
 	caption {
 		text-align: start;
