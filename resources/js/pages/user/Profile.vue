@@ -18,11 +18,11 @@
 			</v-tab-item>
 
 			<v-tab-item :key="2">
-				<UserVerificationTab :user="trader" />
+				<UserVerificationTab />
 			</v-tab-item>
 
 			<v-tab-item :key="3">
-				<UserApiTab :user="trader" />
+				<UserApiTab />
 			</v-tab-item>
 
 			<v-tab-item :key="4">
@@ -30,7 +30,7 @@
 			</v-tab-item>
 
 			<v-tab-item :key="5">
-				<UserSettingsTab :user-ref-program-id="trader.refProgram || 1" />
+				<UserSettingsTab :user="trader" />
 			</v-tab-item>
 		</v-tabs-items>
 	</div>
