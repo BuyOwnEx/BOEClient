@@ -1,101 +1,19 @@
-/**
- * Vuetify Styles Overrides
- */
-
 @import 'overrides/pages/trading-overrides';
 @import 'overrides/pages/auth-overrides';
 @import 'overrides/pages/balance-overrides';
 @import 'overrides/pages/docs-overrides';
 @import 'overrides/pages/info-overrides';
 
-@import 'overrides/components/scrollbar-overrides';
-@import 'overrides/components/switch-overrides';
-@import 'overrides/components/popups-overrides';
+@import 'overrides/components/dialog-overrides';
+@import 'overrides/components/input-overrides';
+@import 'overrides/components/layout-overrides';
 @import 'overrides/components/list-overrides';
+@import 'overrides/components/popups-overrides';
+@import 'overrides/components/scrollbar-overrides';
+@import 'overrides/components/stepper-overrides';
+@import 'overrides/components/switch-overrides';
 @import 'overrides/components/table-overrides';
 @import 'overrides/components/tabs-overrides';
 
 @import 'overrides/dark-theme-overrides';
 @import 'overrides/text-overrides';
-
-// Flex min-width: 0
-.v-application .d-flex {
-	min-width: 0;
-}
-
-// Navigation Drawer
-.v-navigation-drawer__content {
-	flex: 1 1 auto;
-	overflow-y: auto;
-	min-height: 0;
-	padding: 8px 0;
-}
-
-// Rows
-.row {
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
-}
-
-// Header <17.02.21>
-.v-sheet.v-app-bar.v-toolbar:not(.v-sheet--outlined) {
-	box-shadow: 0 2px 6px -1px rgba(85, 85, 85, 0.08),
-		0 4px 6px 0 rgba(85, 85, 85, 0.06), 0 1px 6px 0 rgba(85, 85, 85, 0.03);
-}
-
-// Only menu with select list
-.v-menu__content .v-select-list {
-	.v-list-item {
-		min-height: 15px !important;
-		&__title {
-			font-weight: normal !important;
-			font-size: 11px !important;
-			letter-spacing: 0.0071428571em !important;
-		}
-	}
-}
-
-// Dialog <06.03.21>
-.v-dialog {
-	border-radius: 0 !important;
-	.v-card {
-		border-radius: 0 !important;
-	}
-}
-
-// input counter size
-.v-counter {
-	font-size: 9px !important;
-}
-// input number arrows
-input[type='number'] {
-	-moz-appearance: textfield;
-	-moz-default-appearance: textfield;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-// Изменение яркого цвета бордера у инпутов
-.v-input__slot:before {
-	border-color: rgb(136 136 136 / 42%) !important;
-}
-.theme--dark .v-input__slot::before {
-	border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-// stepper <10.04.21>
-.v-stepper {
-	background: var(--light-background-color) !important;
-	&__header {
-		box-shadow: none !important;
-	}
-	&__content {
-		padding-top: 4px !important;
-	}
-}
-.theme--dark .v-stepper {
-	background-color: var(--dark-background-color) !important;
-}

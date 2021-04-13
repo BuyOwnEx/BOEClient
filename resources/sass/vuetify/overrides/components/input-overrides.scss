@@ -1,0 +1,22 @@
+// input counter size
+.v-counter {
+  font-size: 9px !important;
+}
+// input number arrows
+input[type='number'] {
+  -moz-appearance: textfield;
+  -moz-default-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// Изменение яркого цвета бордера у инпутов
+.v-input__slot:before {
+  border-color: rgb(136 136 136 / 42%) !important;
+}
+.theme--dark .v-input__slot::before {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}

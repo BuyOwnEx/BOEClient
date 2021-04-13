@@ -1,0 +1,12 @@
+// Dialog
+.v-dialog {
+  border-radius: 0 !important;
+  .v-card {
+    border-radius: 0 !important;
+  }
+}
+
+// Overlay
+.theme--dark .v-overlay__scrim {
+  background-color: rgb(70, 70, 70) !important;
+}

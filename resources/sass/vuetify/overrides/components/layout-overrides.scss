@@ -1,0 +1,24 @@
+// Flex min-width: 0
+.v-application .d-flex {
+	min-width: 0;
+}
+
+// Navigation Drawer
+.v-navigation-drawer__content {
+	flex: 1 1 auto;
+	overflow-y: auto;
+	min-height: 0;
+	padding: 8px 0;
+}
+
+// Rows
+.row {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+// Header
+.v-sheet.v-app-bar.v-toolbar:not(.v-sheet--outlined) {
+	box-shadow: 0 2px 6px -1px rgba(85, 85, 85, 0.08),
+		0 4px 6px 0 rgba(85, 85, 85, 0.06), 0 1px 6px 0 rgba(85, 85, 85, 0.03);
+}

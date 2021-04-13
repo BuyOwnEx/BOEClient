@@ -1,0 +1,13 @@
+// Stepper <10.04.21>
+.v-stepper {
+  background: var(--light-background-color) !important;
+  &__header {
+    box-shadow: none !important;
+  }
+  &__content {
+    padding-top: 4px !important;
+  }
+}
+.theme--dark .v-stepper {
+  background-color: var(--dark-background-color) !important;
+}

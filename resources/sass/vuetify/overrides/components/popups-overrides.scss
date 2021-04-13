@@ -1,3 +1,4 @@
+// Change padding and font
 .v-picker {
 	.v-time-picker-clock {
 		&__item {
@@ -17,6 +18,7 @@
 	}
 }
 
+// Change background
 .theme--light {
 	.v-picker__body {
 		background: var(--light-background-color) !important;
@@ -34,6 +36,18 @@
 	.v-picker {
 		.v-time-picker-clock {
 			background: #424242 !important;
+		}
+	}
+}
+
+// Fix menu with select list
+.v-menu__content .v-select-list {
+	.v-list-item {
+		min-height: 15px !important;
+		&__title {
+			font-weight: normal !important;
+			font-size: 11px !important;
+			letter-spacing: 0.0071428571em !important;
 		}
 	}
 }

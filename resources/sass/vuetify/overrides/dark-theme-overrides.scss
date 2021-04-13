@@ -1,25 +1,20 @@
-// Navigation drawer
-.theme--dark .v-navigation-drawer__content {
-	background: none;
-}
-
-// Buttons
-.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-	background-color: #273743;
-}
-
-// Remove button background dark theme <20.02.21>
-.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-	background: none;
-}
-
-// Overlay
-.theme--dark .v-overlay__scrim {
-	background-color: rgb(70, 70, 70) !important;
-}
-
-// более размытая тень для тёмной темы
 .theme--dark {
+	// Navigation drawer
+	.v-navigation-drawer__content {
+		background: none;
+	}
+
+	// Buttons
+	.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+		background-color: #273743;
+	}
+
+	// Remove button background dark theme
+	.theme--dark.v-btn:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
+		background: none;
+	}
+
+	// более размытая тень
 	.v-sheet.v-card {
 		box-shadow: 0 0 3px 0 rgba(85, 85, 85, 0.08),
 			0 0 3px 0 rgba(85, 85, 85, 0.06), 0 0 3px 0 rgba(85, 85, 85, 0.03) !important;
