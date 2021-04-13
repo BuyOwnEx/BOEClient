@@ -29,7 +29,7 @@
 					<div class="user-api-item__header">
 						{{ $t('user.api.headers.hash') }}
 					</div>
-					<CopyLabel :text="api.token" />
+					<CommonCopyLabel :text="api.token" />
 				</div>
 
 				<div class="user-api-item__secret-key-wrapper">
@@ -97,14 +97,14 @@ import sprites from '@dicebear/avatars-jdenticon-sprites';
 
 import UserApiDialogEdit from './dialog/UserApiDialogEdit';
 import UserApiDialogDeleteOne from './dialog/UserApiDialogDeleteOne';
-import CopyLabel from '../../../common/CopyLabel';
+import CommonCopyLabel from '../../../common/CommonCopyLabel';
 
 import formatDate from '../../../../mixins/format/formatDate';
 
 export default {
 	name: 'UserApiItem',
 
-	components: { UserApiDialogEdit, UserApiDialogDeleteOne, CopyLabel },
+	components: { UserApiDialogEdit, UserApiDialogDeleteOne, CommonCopyLabel },
 
 	mixins: [formatDate],
 
@@ -186,7 +186,7 @@ export default {
 	&__api-key-wrapper
 		.user-api-item__header
 			padding-top: 0
-	::v-deep.copylabel
+	::v-deep.CommonCopyLabel
 		font-size: 1rem
 
 	&__secret-key

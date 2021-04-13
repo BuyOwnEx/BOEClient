@@ -83,7 +83,7 @@
 							{{ $t('user.api.dialog.create.api_key') }}:
 						</span>
 						<div class="user-api-dialog-create__token">
-							<CopyLabel :text="token" />
+							<CommonCopyLabel :text="token" />
 						</div>
 					</div>
 					<div class="pt-1">
@@ -91,7 +91,7 @@
 							{{ $t('user.api.dialog.create.secret_key') }}:
 						</span>
 						<div class="user-api-dialog-create__token">
-							<CopyLabel :text="secretToken" />
+							<CommonCopyLabel :text="secretToken" />
 						</div>
 					</div>
 				</v-card-text>
@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import CopyLabel from '../../../../common/CopyLabel';
+import CommonCopyLabel from '../../../../common/CommonCopyLabel';
 
 import formValidationRules from '../../../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../../../mixins/common/loadingMixin';
@@ -118,7 +118,7 @@ import errorNotificationMixin from '../../../../../mixins/common/errorNotificati
 export default {
 	name: 'UserApiDialogCreate',
 
-	components: { CopyLabel },
+	components: { CommonCopyLabel },
 
 	mixins: [formValidationRules, loadingMixin, errorNotificationMixin],
 

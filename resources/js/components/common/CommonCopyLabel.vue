@@ -2,8 +2,8 @@
 	<v-tooltip bottom>
 		<template v-slot:activator="{ on }">
 			<div
-				ref="copylabel"
-				class="copylabel animate__faster"
+				ref="copy-label"
+				class="copy-label"
 				v-on="on"
 				@click.stop.prevent="copy"
 			>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-	name: 'CopyLabel',
+	name: 'CommonCopyLabel',
 
 	props: {
 		text: {
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style scoped>
-.copylabel {
+.copy-label {
 	cursor: pointer;
 	display: inline-block;
 	border-bottom: 1px dashed;

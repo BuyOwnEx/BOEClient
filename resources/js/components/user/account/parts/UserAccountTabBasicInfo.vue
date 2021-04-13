@@ -39,7 +39,7 @@
 
 					<div class="mt-1 mb-2">
 						<div>{{ $t('user.info.ref_link') }}</div>
-						<CopyLabel :text="refLink" />
+						<CommonCopyLabel :text="refLink" />
 					</div>
 
 					<div class="d-flex flex-column">
@@ -78,12 +78,12 @@
 </template>
 
 <script>
-import CopyLabel from '../../../common/CopyLabel';
+import CommonCopyLabel from '../../../common/CommonCopyLabel';
 
 export default {
 	name: 'UserAccountTabBasicInfo',
 
-	components: { CopyLabel },
+	components: { CommonCopyLabel },
 
 	props: {
 		user: {
