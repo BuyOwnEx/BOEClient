@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-// Routes
-import AppsRoutes from './apps.routes';
 import PagesRoutes from './pages.routes';
 import LandingRoutes from './landing.routes';
 
@@ -14,7 +12,6 @@ export const routes = [
 		name: 'trading',
 		component: () => import(/* webpackChunkName: "blank" */ '@/pages/trading/Trading.vue'),
 	},
-	...AppsRoutes,
 	...PagesRoutes,
 	...LandingRoutes,
 	{

@@ -1,11 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import AppModule from './app';
-
-import BoardModule from '../apps/board/store';
-import EmailModule from '../apps/email/store';
-import TodoModule from '../apps/todo/store';
+import app from './app';
 
 import trading from './modules/trading';
 import tickers from './modules/tickers';
@@ -23,7 +19,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	modules: {
-		app: AppModule,
+		app,
 
 		trading,
 		tickers,
@@ -36,10 +32,6 @@ const store = new Vuex.Store({
 		user,
 
 		snackbar,
-
-		'board-app': BoardModule,
-		'email-app': EmailModule,
-		'todo-app': TodoModule,
 	},
 });
 
