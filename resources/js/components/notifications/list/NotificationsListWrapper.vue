@@ -3,7 +3,7 @@
 		<CommonLoading v-if="!notificationsData" class="mt-6" />
 		<NotificationsList
 			v-else
-			:key="notificationsData.length"
+			:key="notificationsData[0]"
 			:notifications-prop="notificationsData"
 		/>
 	</v-card>
@@ -37,5 +37,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped></style>

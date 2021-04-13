@@ -3,7 +3,7 @@
 		<CommonLoading v-if="!ticketsData" class="mt-6" />
 		<SupportList
 			v-else
-			:key="ticketsData.length"
+			:key="ticketsData[0]"
 			:tickets-prop="ticketsData"
 			:tickets-status="statusToShow"
 			:is-priority="Boolean(priorityToShow)"
@@ -73,5 +73,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped></style>
