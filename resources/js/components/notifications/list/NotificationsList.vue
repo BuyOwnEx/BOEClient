@@ -2,12 +2,14 @@
 	<div class="notifications-list">
 		<div class="notifications-list__top px-2 d-flex align-center">
 			<v-checkbox
+				v-if="notifications.length"
 				:value="selectAll"
 				:indeterminate="selectAlmostAll"
+				:ripple="false"
 				@click.stop="onSelectAll(selectAll)"
 			/>
 
-			<div v-show="selected.length > 0">
+			<div v-if="selected.length">
 				<v-btn icon @click="readSelected">
 					<v-icon>mdi-eye</v-icon>
 				</v-btn>
@@ -38,8 +40,8 @@
 				v-for="item in paginatedNotifications"
 				:key="item.id"
 				:class="{
-					'grey lighten-4': item.isChecked && !$vuetify.theme.dark,
-					'grey darken-4': item.isChecked && $vuetify.theme.dark,
+					'grey lighten-4': item.read_at && !$vuetify.theme.dark,
+					'grey darken-4': item.read_at && $vuetify.theme.dark,
 					'v-list-item--active primary--text': selected.indexOf(item.id) !== -1,
 				}"
 				@click="readNotification(item)"
@@ -49,12 +51,9 @@
 				</v-list-item-action>
 
 				<v-list-item-content>
-					<v-list-item-title :class="{ 'font-weight-light': item.isChecked }">
-						{{ item.title }}
+					<v-list-item-title :class="{ 'font-weight-light': item.read_at }">
+						{{ getSubject(item.kind) }}
 					</v-list-item-title>
-					<v-list-item-subtitle>
-						{{ item.author }}
-					</v-list-item-subtitle>
 					<v-list-item-subtitle class="font-weight-light">
 						{{ item.text }}
 					</v-list-item-subtitle>
@@ -90,6 +89,7 @@
 		<NotificationsCommonModal
 			v-if="showDetails"
 			:show="showDetails"
+			:subject="getSubject(selectedNotificationDetails.kind)"
 			:notification="selectedNotificationDetails"
 			@close="showDetails = false"
 		/>
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import formatDate from '../../../mixins/format/formatDate';
 
 export default {
@@ -147,6 +147,10 @@ export default {
 	},
 
 	computed: {
+		...mapGetters({
+			getSubject: 'notifications/getNotificationKindSubject',
+		}),
+
 		pagesText() {
 			const firstVisibleElement =
 				this.currentPage * this.perPage - this.perPage + 1;
@@ -187,6 +191,7 @@ export default {
 			this.notifications = val;
 		},
 	},
+
 	methods: {
 		...mapActions({
 			readNotificationStore: 'notifications/readNotification',
@@ -219,6 +224,7 @@ export default {
 			this.selected = [];
 		},
 
+		getKindTitle(kindID) {},
 		getLabelColor(id) {
 			const label = this.labels.find(l => l.id === id);
 			return label ? label.color : '';

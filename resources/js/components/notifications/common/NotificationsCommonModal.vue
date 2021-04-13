@@ -10,7 +10,7 @@
 		<v-card>
 			<v-card-title class="common-dialog__title">
 				<span>
-					{{ notification.title }}
+					{{ subject }}
 				</span>
 				<v-spacer />
 				<v-btn icon @click="$emit('close')">
@@ -34,6 +34,10 @@ export default {
 	props: {
 		show: {
 			type: Boolean,
+			required: true,
+		},
+		subject: {
+			type: String,
 			required: true,
 		},
 		notification: {

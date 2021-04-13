@@ -28,67 +28,67 @@ export default {
 			{
 				id: 1,
 				key: 'login',
-				subject: 'subject',
+				subject: 'Новый вход в систему',
 				title: 'Уведомлять о входе в систему',
 			},
 			{
 				id: 2,
 				key: 'addMoney',
-				subject: 'subject',
+				subject: 'Пополнение средств',
 				title: 'Уведомлять о пополнении средств',
 			},
 			{
 				id: 3,
 				key: 'withdrawMoney',
-				subject: 'subject',
+				subject: 'Вывод средств',
 				title: 'Уведомлять о выводе средств ',
 			},
 			{
 				id: 4,
 				key: 'ref',
-				subject: 'subject',
+				subject: 'Начислены реферальные',
 				title: 'Уведомлять о начислении реферальных',
 			},
 			{
 				id: 5,
 				key: 'tradingBlock',
-				subject: 'subject',
+				subject: 'Блокировка торговых операций',
 				title: 'Уведомлять о блокировке по торговым операциям',
 			},
 			{
 				id: 6,
 				key: 'moneyBlock',
-				subject: 'subject',
+				subject: 'Блокировка ввода/вывода',
 				title: 'Уведомлять о блокировке по вводу/выводу средств',
 			},
 			{
 				id: 7,
 				key: 'systemBlock',
-				subject: 'subject',
+				subject: 'Системная блокировка',
 				title: 'Уведомлять о системной блокировке',
 			},
 			{
 				id: 8,
 				key: 'positionLiquidationWarn',
-				subject: 'subject',
+				subject: 'Скорая ликвидация средств',
 				title: 'Уведомлять о скорой ликвидации позиции',
 			},
 			{
 				id: 9,
 				key: 'positionLiquidation',
-				subject: 'subject',
+				subject: 'Ликвидация позиции',
 				title: 'Уведомлять о ликвидации позиции',
 			},
 			{
 				id: 10,
 				key: 'maintenance',
-				subject: 'subject',
+				subject: 'Тех. обслуживание',
 				title: 'Уведомлять о предстоящем тех. обслуживании биржи',
 			},
 			{
 				id: 11,
 				key: 'news',
-				subject: 'subject',
+				subject: 'Новости биржи',
 				title: 'Уведомлять о новостях',
 			},
 		],
@@ -103,7 +103,7 @@ export default {
 			const dataArray = getters.getNotificationsByType(type);
 			if (dataArray) {
 				const nonCheckedArray = dataArray.filter(
-					item => item.isChecked !== true
+					item => !item.read_at
 				);
 				return nonCheckedArray.length;
 			}
@@ -111,7 +111,7 @@ export default {
 
 		getUnreadNotifications(state) {
 			if (!state.notifications) return;
-			return state.notifications.filter(item => !item.isChecked);
+			return state.notifications.filter(item => !item.read_at);
 		},
 		getFirstFiveUnreadNotificationsForToolbar(_, getters) {
 			const dataArray = getters.getUnreadNotifications;
@@ -130,6 +130,9 @@ export default {
 			const typeItem = state.notificationTypes.find(item => item.type === type);
 			return typeItem.icon;
 		},
+		getNotificationKindSubject: state => kindID => {
+			return state.notificationsKinds.find(k => k.id === kindID).subject;
+		},
 	},
 
 	mutations: {
@@ -139,12 +142,12 @@ export default {
 
 		READ_NOTIFICATION(state, id) {
 			const itemIndex = state.notifications.findIndex(item => item.id === id);
-			state.notifications[itemIndex].isChecked = true;
+			state.notifications[itemIndex].read_at = Date.now();
 		},
 		READ_SELECTED(state, selectedArray) {
 			selectedArray.forEach(id => {
 				const itemIndex = state.notifications.findIndex(item => item.id === id);
-				state.notifications[itemIndex].isChecked = true;
+				state.notifications[itemIndex].read_at = Date.now();
 			});
 		},
 		REMOVE_SELECTED(state, selectedArray) {
