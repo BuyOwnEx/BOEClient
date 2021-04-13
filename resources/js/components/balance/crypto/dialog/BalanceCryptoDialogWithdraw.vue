@@ -266,7 +266,7 @@ export default {
 			return this.currencyObj.minWithdraw;
 		},
 		maxWithdraw() {
-			return Math.min(this.currencyObj.maxWithdraw, this.currencyObj.available);
+			return Math.min(this.currencyObj.maxWithdraw, this.currencyObj.safe);
 		},
 		currency() {
 			return this.currencyObj.currency.toUpperCase();
