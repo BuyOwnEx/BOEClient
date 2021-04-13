@@ -107,6 +107,13 @@ export default {
 								font-family: Arial;
    							opacity: 0.6;
 							}
+							.select-placeholder {
+								color: var(--primary-color) !important;
+								opacity: 0.6 !important;
+							}
+							.input-field:nth-child(10) .select-placeholder {
+								display: none;
+							}
 
 							.show-hide {
 								top: 5px !important;
@@ -178,12 +185,16 @@ export default {
   						  padding: 16px !important;
   						  border-radius: 0;
   						  box-shadow: none;
+  						  padding-top: 0 !important;
 							}
 							.transparent.desktop {
 								display: none;
 							}
 							.iframe2 {
 								margin: 0;
+							}.
+							.row {
+								margin-top: 0 !important;
 							}
 							`,
 		cssStringDark: `
@@ -234,7 +245,7 @@ export default {
 							::-webkit-calendar-picker-indicator {
 								color: gray;
 								opacity: 1;
-								background-image: url('data:image/svg+xml;charset=utf8,%3Csvg fill="gray" fill-opacity="1" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/%3E%3Cpath d="M0 0h24v24H0z" fill="none"/%3E%3C/svg%3E');
+								background-image: url('data:image/svg+xml;charset=utf8,%3Csvg fill="lightgray" fill-opacity="1" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/%3E%3Cpath d="M0 0h24v24H0z" fill="none"/%3E%3C/svg%3E');
 								cursor: pointer;
 								margin-right: -8px;
 							}
@@ -277,7 +288,7 @@ export default {
 								padding: 8px 12px !important;
 							}
 							.list li:hover {
-								background: #1e1e1e;
+								background: #383838 !important;
 							}
 							.fields-list .phone {
 								border: none !important;
@@ -285,6 +296,13 @@ export default {
 							input[type="date"] {
 								font-family: Arial;
    							opacity: 0.6;
+							}
+							.select-placeholder {
+								color: var(--primary-color) !important;
+								opacity: 0.6 !important;
+							}
+							.input-field:nth-child(10) .select-placeholder {
+								display: none;
 							}
 
 							.show-hide {
@@ -357,12 +375,16 @@ export default {
   						  padding: 16px !important;
   						  border-radius: 0;
   						  box-shadow: none;
+  						  padding-top: 0 !important;
 							}
 							.transparent.desktop {
 								display: none;
 							}
 							.iframe2 {
 								margin: 0;
+							}
+							.row {
+								margin-top: 0 !important;
 							}
 							`,
 		customCssLink: '',
