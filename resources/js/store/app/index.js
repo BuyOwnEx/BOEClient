@@ -8,15 +8,12 @@ const { product, time, theme, currencies } = configs;
 const { globalTheme, menuTheme, toolbarTheme, isToolbarDetached, isContentBoxed, isRTL } = theme;
 const { currency, availableCurrencies } = currencies;
 
-// state initial values
 const state = {
 	product,
 	time,
-	// currency
 	currency,
 	availableCurrencies,
 
-	// themes and layout configurations
 	globalTheme,
 	menuTheme,
 	toolbarTheme,
@@ -24,7 +21,6 @@ const state = {
 	isContentBoxed,
 	isRTL,
 
-	// authorization state
 	trader: null,
 };
 
