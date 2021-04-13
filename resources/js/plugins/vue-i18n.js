@@ -5,10 +5,6 @@ import config from '../configs';
 
 const { locale, availableLocales, fallbackLocale } = config.locales;
 
-/**
-	* Vue Translations
-	* https://kazupon.github.io/vue-i18n/
-	*/
 Vue.use(VueI18n);
 
 const messages = {};

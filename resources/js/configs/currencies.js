@@ -10,7 +10,7 @@ export default {
 		currencySymbolPosition: 'left',
 	},
 
-	// availabled currencies for user selection
+	// available currencies for user selection
 	availableCurrencies: [{
 		label: 'USD',
 		decimalDigits: 2,

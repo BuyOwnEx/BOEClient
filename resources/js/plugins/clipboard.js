@@ -1,10 +1,5 @@
 import Vue from 'vue';
 
-/**
- * Copy to clipboard the text passed
- * @param {String} text string to copy
- * @param {String} toastText message to appear on the toast notification
- */
 Vue.prototype.$clipboard = function(text, toastText = 'Copied to clipboard!') {
 	const el = document.createElement('textarea');
 
