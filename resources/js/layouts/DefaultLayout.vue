@@ -146,11 +146,6 @@
 		</v-footer>
 
 		<CommonNotification />
-		<VueNotifications
-			animation-type="velocity"
-			position="bottom right"
-			:max="3"
-		/>
 	</div>
 </template>
 
@@ -209,10 +204,6 @@ export default {
 		isWidthMore400px() {
 			return this.$vuetify.breakpoint.width >= 400;
 		},
-	},
-
-	mounted() {
-		this.$notify({ text: 'hello!', group: 'trading' });
 	},
 };
 </script>
