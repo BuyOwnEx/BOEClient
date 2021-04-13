@@ -13,15 +13,11 @@ import './plugins/vue-head';
 import './plugins/vue-gtag';
 import './plugins/apexcharts';
 import './plugins/echarts';
-import './plugins/animate';
 import './plugins/clipboard';
 import './plugins/moment';
 
 // STYLES
 import '../sass/theme.scss';
-
-// Animation library - https://animate.style/
-import 'animate.css/animate.min.css';
 
 Vue.config.productionTip = false;
 
@@ -31,7 +27,6 @@ Vue.prototype.$trading_market = window.trading_market;
 Vue.prototype.$user = window.user;
 
 import HighchartsVue from 'highcharts-vue';
-
 Vue.use(HighchartsVue);
 
 export default new Vue({

@@ -15,15 +15,11 @@ import './plugins/vue-head';
 import './plugins/vue-gtag';
 import './plugins/apexcharts';
 import './plugins/echarts';
-import './plugins/animate';
 import './plugins/clipboard';
 import './plugins/moment';
 
 // STYLES
 import '../sass/theme.scss';
-
-// Animation library - https://animate.style/
-import 'animate.css/animate.min.css';
 
 Vue.config.productionTip = false;
 
@@ -32,9 +28,7 @@ Vue.prototype.$currency = window.currency || 'BTC';
 Vue.prototype.$market = window.market || 'USDT';
 Vue.prototype.$user = window.user || null;
 
-
 import HighchartsVue from 'highcharts-vue';
-
 Vue.use(HighchartsVue);
 
 export default new Vue({
@@ -42,5 +36,5 @@ export default new Vue({
 	vuetify,
 	//router,
 	store,
-	render: (h) => h(App),
+	render: h => h(App),
 }).$mount('#app');
