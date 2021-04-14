@@ -37,7 +37,6 @@
 
 						<slot name="confirm">
 							<v-btn
-								class="text-uppercase"
 								:color="confirmColor"
 								small
 								tile
