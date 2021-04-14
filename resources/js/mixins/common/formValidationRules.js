@@ -24,6 +24,7 @@ export default {
 					!v ||
 					/^[0-9]+$/.test(v) ||
 					this.$t('forms_validation.unsupported_char_numbers'),
+				positive: v => !v || v > 0 || this.$t('forms_validation.positive'),
 
 				maxFileSize5MB: v =>
 					!v ||
