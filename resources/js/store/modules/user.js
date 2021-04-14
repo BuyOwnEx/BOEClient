@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -63,10 +64,8 @@ export default {
 		},
 
 		setAddress(state, data) {
-			if (state.balances) {
-				if (data.currency in state.balances) {
-					state.balances[data.currency].address = data.address;
-				}
+			if (state.balances && data.currency in state.balances) {
+				Vue.set(state.balances[data.currency], 'address', data.address);
 			}
 		},
 
