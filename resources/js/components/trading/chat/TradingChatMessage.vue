@@ -1,12 +1,14 @@
 <template>
-	<v-list-item class="tcm">
+	<v-list-item class="trading-chat-message">
 		<v-list-item-content class="pt-0">
-			<v-list-item-title class="tcm__title text--disabled">
-				<span class="tcm__title__author"> {{ message.login }}: </span>
-				<span class="tcm__title__date">{{ formatMessageDate() }}</span>
+			<v-list-item-title class="trading-chat-message__title text--disabled">
+				<span class="trading-chat-message__author"> {{ message.login }}: </span>
+				<span class="trading-chat-message__date">
+					{{ formatMessageDate() }}
+				</span>
 			</v-list-item-title>
 
-			<div class="tcm__text">
+			<div class="trading-chat-message__text">
 				{{ message.message }}
 			</div>
 		</v-list-item-content>
@@ -35,7 +37,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tcm {
+.trading-chat-message {
 	padding-left: 0 !important;
 	padding-right: 4px;
 
@@ -43,14 +45,15 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		font-size: 0.85rem;
-
-		&__date {
-			font-size: 0.65rem;
-		}
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
-
+	&__date {
+		font-size: 0.65rem;
+	}
 	&__text {
 		font-size: 0.85rem;
+		word-break: break-word;
 	}
 }
 </style>

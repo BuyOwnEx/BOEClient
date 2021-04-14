@@ -40,24 +40,22 @@ export default {
 
 <style scoped lang="scss">
 .trading-chat-content {
-	overflow-y: hidden;
 	position: absolute;
 	top: 38px;
 	left: 8px;
 	right: 8px;
 	bottom: 65px;
 	margin-right: 5px;
-	&:hover {
-		overflow-y: scroll;
-		margin-right: 0;
-	}
-}
-@-moz-document url-prefix() {
-	.trading-chat-content {
-		margin-right: 7px !important;
-		&:hover {
-			margin-right: 0 !important;
-		}
-	}
+
+	overflow-y: scroll;
+	mask-image: linear-gradient(to top, transparent, black),
+		linear-gradient(to left, transparent 6px, black 6px);
+	mask-size: 100% 20000px;
+	mask-position: left bottom;
+	-webkit-mask-image: linear-gradient(to top, transparent, black),
+		linear-gradient(to left, transparent 6px, black 6px);
+	-webkit-mask-size: 100% 20000px;
+	-webkit-mask-position: left bottom;
+	transition: mask-position 0.3s, -webkit-mask-position 0.3s;
 }
 </style>
