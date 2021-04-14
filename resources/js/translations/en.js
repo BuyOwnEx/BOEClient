@@ -13,6 +13,7 @@ export default {
 		continue: 'Continue',
 		back: 'Back',
 		finish: 'Finish',
+		transfer: 'Transfer',
 
 		title: 'Title',
 		description: 'Description',
@@ -385,6 +386,20 @@ export default {
 				two_fa_code: '2FA code',
 				two_fa_code_hint: 'Enter 2FA code',
 			},
+		},
+
+		dialog: {
+			safe: {
+				title: 'Transfer funds to safe wallet',
+				menu_title: 'Transfer to safe',
+				hint: 'Enter amount to transfer',
+			},
+			trade: {
+				title: 'Transfer funds to trade wallet',
+				menu_title: 'Transfer to trade',
+			},
+			hint: 'Enter the amount to transfer',
+			more_available_balance: 'More available balance',
 		},
 	},
 
@@ -2287,16 +2302,23 @@ export default {
 
 	forms_validation: {
 		required: 'Required field',
-		min_5char: 'Min. 5 characters',
-		min_8char: 'Min. 8 characters',
-		max_64char: 'Max. 64 characters',
-		passwords_not_match: "Passwords don't match",
 		email_invalid: 'Invalid E-mail',
-		unsupported_char_latinAndNumbers:
-			'Unsupported characters. Only [a-zA-Z0-9-_]',
+		passwords_not_match: "Passwords don't match",
 		max_filesize_5MB: 'Max. file size 5 MB',
 		fill_all_fields: 'Fill all fields',
 		incorrect_data: 'Incorrect data',
+
+		min_5char: 'Min. 5 characters',
+		min_8char: 'Min. 8 characters',
+		max_6char: 'Max. 6 characters',
+		max_64char: 'Max. 64 characters',
+
+		unsupported_char_latinAndNumbers:
+			'Unsupported characters. Only [a-zA-Z0-9-_]',
+		unsupported_char_numbers: 'Unsupported characters. Only numbers',
+		unsupported_char_numbers_precision_15:
+			'Unsupported characters. Only numbers with precision 15',
+		positive: 'Only positive numbers',
 	},
 
 	$vuetify: {

@@ -13,6 +13,7 @@ export default {
 		continue: 'Продолжить',
 		back: 'Назад',
 		finish: 'Завершить',
+		transfer: 'Перевести',
 
 		title: 'Тема',
 		description: 'Описание',
@@ -376,7 +377,7 @@ export default {
 				fee_withdraw: 'Комиссия на вывод',
 				available_amount: 'Доступно для вывода',
 				less_min: 'Меньше минимально возможной суммы',
-				more_max: 'Больше максимально возможной суммы'
+				more_max: 'Больше максимально возможной суммы',
 			},
 			confirmation: {
 				title: 'Подтверждение',
@@ -385,8 +386,21 @@ export default {
 				code: 'Код',
 				code_hint: 'Введите код с почты',
 				two_fa_code: '2FA код',
-				two_fa_code_hint: 'Введите 2FA код'
+				two_fa_code_hint: 'Введите 2FA код',
 			},
+		},
+
+		dialog: {
+			safe: {
+				title: 'Перевести средства в безопасный кошелек',
+				menu_title: 'Перевести в сейф',
+			},
+			trade: {
+				title: 'Перевести средства в торговый кошелек',
+				menu_title: 'Перевести в торговлю',
+			},
+			hint: 'Введите количество для перевода',
+			more_available_balance: 'Больше доступного баланса',
 		},
 	},
 
@@ -2308,7 +2322,10 @@ export default {
 
 		unsupported_char_latinAndNumbers:
 			'Неподдерживаемые символы. Только [a-zA-Z0-9-_]',
-		unsupported_char_numbers: 'Неподдерживаемые символы. Только цифры',
+		unsupported_char_numbers: 'Неподдерживаемые символы. Только числа',
+		unsupported_char_numbers_precision_15:
+			'Неподдерживаемые символы. Только числа с точностью до 15 знаков',
+		positive: 'Только положительные числа',
 	},
 
 	$vuetify: {
