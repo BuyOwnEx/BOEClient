@@ -39,7 +39,7 @@
 				</template>
 
 				<v-list dense>
-					<OwnListConfirmDialog
+					<CommonDialog
 						v-for="item in closeOptions"
 						:key="item.text"
 						@confirm="handleCloseConfirm(item)"
@@ -49,10 +49,15 @@
 								<v-list-item-title>{{ item.text }}</v-list-item-title>
 							</v-list-item>
 						</template>
-						<template #text>
+
+						<template #title>
+							Подтверждение отмены
+						</template>
+
+						<template #content>
 							Вы уверены, что хотите отменить все {{ item.type }} позиции?
 						</template>
-					</OwnListConfirmDialog>
+					</CommonDialog>
 				</v-list>
 			</v-menu>
 		</v-card-title>
@@ -75,9 +80,12 @@
 							</v-btn>
 						</template>
 						<v-list dense>
-							<position-close :id="item.id" v-on:closeMenu="closeMenu(item)" />
+							<TradingUserDialogPositionClose
+								:id="item.id"
+								v-on:closeMenu="closeMenu(item)"
+							/>
 
-							<position-add-funds
+							<TradingUserDialogPositionAdd
 								:id="item.id"
 								:currency="item.currency"
 								:market="item.market"
@@ -180,15 +188,20 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import positionAddFunds from '../../../dialogs/trading/PositionAddFunds';
-
 export default {
 	name: 'OwnActivePositionList',
 
 	components: {
-		positionAddFunds,
-		OwnListConfirmDialog: () =>
-			import(/* webpackPrefetch: true */ '../common/OwnListConfirmDialog'),
+		TradingUserDialogPositionAdd: () =>
+			import(
+				/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionAdd'
+			),
+		TradingUserDialogPositionClose: () =>
+			import(
+				/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionClose'
+			),
+		CommonDialog: () =>
+			import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
 	},
 
 	props: {

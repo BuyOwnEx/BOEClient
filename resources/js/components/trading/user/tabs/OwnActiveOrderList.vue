@@ -38,7 +38,7 @@
 				</template>
 
 				<v-list dense>
-					<OwnListConfirmDialog
+					<CommonDialog
 						v-for="item in cancelOptions"
 						:key="item.text"
 						@confirm="handleCancelConfirm(item)"
@@ -48,10 +48,15 @@
 								<v-list-item-title>{{ item.text }}</v-list-item-title>
 							</v-list-item>
 						</template>
-						<template #text>
+
+						<template #title>
+							Подтверждение отмены
+						</template>
+
+						<template #content>
 							Вы уверены, что хотите отменить все {{ item.type }} ордера?
 						</template>
-					</OwnListConfirmDialog>
+					</CommonDialog>
 				</v-list>
 			</v-menu>
 		</v-card-title>
@@ -180,8 +185,8 @@ export default {
 	name: 'OwnActiveOrderList',
 
 	components: {
-		OwnListConfirmDialog: () =>
-			import(/* webpackPrefetch: true */ '../common/OwnListConfirmDialog'),
+		CommonDialog: () =>
+			import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
 	},
 
 	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],
