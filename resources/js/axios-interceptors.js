@@ -20,32 +20,28 @@ window.axios.interceptors.response.use(
 
 			console.log(data);
 
-			let timeout = 1000;
-			let status = 'info';
-			if ('success' in data && data.success === false) {
-				status = 'danger';
-				timeout = 6000;
+			let color = 'info';
+			if ('success' in data && !data.success) {
+				color = 'danger';
 			}
-			if ('success' in data && data.success === true) {
-				status = 'success';
+			if ('success' in data && data.success) {
+				color = 'success';
 			}
 			if ('message' in data) {
 				let notification = {};
 				if (typeof data.message === 'object' && 'text' in data.message) {
 					notification = {
-						status: data.message.status,
+						color: data.message.status,
 						text: data.message.text,
-						timeout: _.get(data, 'message.timeout', timeout),
 					};
 				} else {
 					notification = {
 						text: data.message,
-						status,
-						timeout,
+						color,
 					};
 				}
 
-				store.commit('snackbar/addNotification', notification);
+				store.commit('snackbar/SHOW_MESSAGE', notification);
 				if (data.success === false) return Promise.reject(data);
 			}
 		} catch (e) {
@@ -59,25 +55,23 @@ window.axios.interceptors.response.use(
 		try {
 			if (error.response.status === 419) {
 				let message = _.get(error, 'response.data.message');
-				if (message !== undefined) {
-					let notification = {
-						status: 'danger',
+				if (message) {
+					const notification = {
 						text: error.response.data.message,
-						timeout,
+						color: 'error',
 					};
-					store.commit('snackbar/addNotification', notification);
+					store.commit('snackbar/SHOW_MESSAGE', notification);
 				}
 			} else if (error.response.status === 422) {
 				let errors = _.get(error, 'response.data');
 				if (errors !== undefined && _.size(errors) > 0) {
 					_.each(errors, type => {
 						_.each(type, message => {
-							let notification = {
-								status: 'danger',
+							const notification = {
+								color: 'error',
 								text: message,
-								timeout,
 							};
-							store.commit('snackbar/addNotification', notification);
+							store.commit('snackbar/SHOW_MESSAGE', notification);
 						});
 					});
 				}
@@ -99,11 +93,10 @@ window.axios.interceptors.response.use(
 					} else {
 						notification = {
 							text: error.response.data.message,
-							status: 'danger',
-							timeout,
+							color: 'error',
 						};
 					}
-					store.commit('snackbar/addNotification', notification);
+					store.commit('snackbar/SHOW_MESSAGE', notification);
 				}
 			}
 		} catch (e) {

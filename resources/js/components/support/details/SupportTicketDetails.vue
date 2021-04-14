@@ -82,7 +82,7 @@ import CommonLoading from '../../common/CommonLoading';
 
 import formatDate from '../../../mixins/format/formatDate';
 import loadingMixin from '../../../mixins/common/loadingMixin';
-import errorNotificationMixin from '../../../mixins/common/errorNotificationMixin';
+import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
 
 export default {
 	name: 'SupportTicketDetails',
@@ -93,7 +93,7 @@ export default {
 		CommonLoading,
 	},
 
-	mixins: [formatDate, loadingMixin, errorNotificationMixin],
+	mixins: [formatDate, loadingMixin, showNotificationMixin],
 
 	props: {
 		ticket: {

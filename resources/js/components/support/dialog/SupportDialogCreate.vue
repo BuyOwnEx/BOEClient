@@ -269,7 +269,7 @@ import {
 
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../mixins/common/loadingMixin';
-import errorNotificationMixin from '../../../mixins/common/errorNotificationMixin';
+import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
@@ -279,7 +279,7 @@ export default {
 		EditorMenuBar,
 	},
 
-	mixins: [formValidationRules, loadingMixin, errorNotificationMixin],
+	mixins: [formValidationRules, loadingMixin, showNotificationMixin],
 
 	data() {
 		return {
@@ -352,7 +352,7 @@ export default {
 		}),
 
 		async create() {
-			if (this.form.subject.trim() === '') {
+			if (!this.form.subject.trim()) {
 				this.pushErrorNotification();
 				return;
 			}

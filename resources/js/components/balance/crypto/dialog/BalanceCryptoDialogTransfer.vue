@@ -71,7 +71,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import formValidationRules from '../../../../mixins/common/formValidationRules';
-import errorNotificationMixin from '../../../../mixins/common/errorNotificationMixin';
+import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
 import passNumberMixin from '../../../../mixins/common/passNumberMixin';
 
 export default {
@@ -80,7 +80,7 @@ export default {
 	mixins: [
 		loadingMixin,
 		formValidationRules,
-		errorNotificationMixin,
+		showNotificationMixin,
 		passNumberMixin,
 	],
 

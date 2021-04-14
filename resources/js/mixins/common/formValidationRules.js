@@ -8,13 +8,14 @@ export default {
 					this.$t('forms_validation.email_invalid'),
 
 				min5char: v =>
-					(v && v.length >= 5) || this.$t('forms_validation.min_5char'),
+					!v || v.length >= 5 || this.$t('forms_validation.min_5char'),
 				min8char: v =>
-					(v && v.length >= 8) || this.$t('forms_validation.min_8char'),
+					!v || v.length >= 8 || this.$t('forms_validation.min_8char'),
 
-				max6char: v => v.length <= 6 || this.$t('forms_validation.max_6char'),
+				max6char: v =>
+					!v || v.length <= 6 || this.$t('forms_validation.max_6char'),
 				max64char: v =>
-					(v && v.length <= 64) || this.$t('forms_validation.max_64char'),
+					!v || v.length <= 64 || this.$t('forms_validation.max_64char'),
 
 				latinAndNumbers: v =>
 					!v ||

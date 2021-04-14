@@ -50,7 +50,7 @@ export default {
 
 	props: {
 		allRefTypes: {
-			type: Object,
+			type: Array,
 			required: true,
 		},
 		userRefProgramId: {

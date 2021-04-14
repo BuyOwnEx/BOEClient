@@ -223,13 +223,13 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import { mapActions } from 'vuex';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
-import errorNotificationMixin from '../../../../mixins/common/errorNotificationMixin';
+import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
 import passNumberMixin from '../../../../mixins/common/passNumberMixin';
 
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
 
-	mixins: [loadingMixin, errorNotificationMixin, passNumberMixin],
+	mixins: [loadingMixin, showNotificationMixin, passNumberMixin],
 
 	props: {
 		currencyObj: {
@@ -314,9 +314,7 @@ export default {
 					this.stopLoading();
 				} else if (address === false) {
 					this.stopLoading();
-					this.pushErrorNotification(
-						this.$t('forms_validation.incorrect_data')
-					);
+					this.pushErrorNotification(_, 'incorrect');
 				}
 			}
 		});
@@ -328,7 +326,7 @@ export default {
 		}),
 
 		async validateAddress() {
-			if (this.address.trim() === '') {
+			if (!this.address.trim()) {
 				this.pushErrorNotification();
 				return;
 			}

@@ -26,7 +26,7 @@
 							class="common-dialog__content"
 							counter="64"
 							:placeholder="$t('user.api.dialog.create.api_name')"
-							:rules="[rules.required, rules.max64char]"
+							:rules="[rules.max64char]"
 							dense
 							autofocus
 						/>
@@ -113,14 +113,14 @@ import CommonCopyLabel from '../../../../common/CommonCopyLabel';
 
 import formValidationRules from '../../../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../../../mixins/common/loadingMixin';
-import errorNotificationMixin from '../../../../../mixins/common/errorNotificationMixin';
+import showNotificationMixin from '../../../../../mixins/common/showNotificationMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
 
 	components: { CommonCopyLabel },
 
-	mixins: [formValidationRules, loadingMixin, errorNotificationMixin],
+	mixins: [formValidationRules, loadingMixin, showNotificationMixin],
 
 	data() {
 		return {
@@ -139,21 +139,20 @@ export default {
 
 	watch: {
 		dialog(value) {
-			if (value === true) {
+			if (value) {
 				this.form.name = '';
 				this.form.abilities = [];
 				this.token = null;
 				this.secretToken = null;
-				this.$refs.form.resetValidation();
 			}
 		},
 	},
 
 	methods: {
 		async create() {
-			if (this.form.name.trim() === '' || !this.valid) {
+			if (!this.form.name.trim() || !this.valid) {
 				this.close();
-				this.pushErrorNotification();
+				this.pushErrorNotification(_, 'incorrect');
 				return;
 			}
 

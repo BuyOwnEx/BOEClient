@@ -31,7 +31,7 @@ export default {
 
 	props: {
 		userTypes: {
-			type: Object,
+			type: Array,
 			required: true,
 		},
 	},

@@ -1,7 +1,6 @@
 <template>
 	<transition-group
 		class="notification"
-		:class="{ 'notification--trading': isTradingPage }"
 		name="scroll-y-reverse-transition"
 		tag="ul"
 	>
@@ -34,9 +33,6 @@ export default {
 		},
 		notificationsForDisplay() {
 			return this.notifications.slice(0, this.displayLimit);
-		},
-		isTradingPage() {
-			return window.location.pathname.split('/')[1] === 'trading';
 		},
 	},
 
@@ -97,11 +93,11 @@ export default {
 
 	watch: {
 		notifications(val) {
-			if (val.length === 0 && this.notificationsHandler !== null) {
+			if (!val.length && this.notificationsHandler) {
 				clearInterval(this.notificationsHandler);
 				this.notificationsHandler = null;
 			}
-			if (val.length > 0 && this.notificationsHandler === null) {
+			if (val.length && !this.notificationsHandler) {
 				this.initHandler();
 			}
 		},
@@ -114,7 +110,7 @@ export default {
 	},
 
 	beforeDestroy() {
-		if (this.notificationsHandler !== null) {
+		if (this.notificationsHandler) {
 			clearInterval(this.notificationsHandler);
 			this.notificationsHandler = null;
 		}
@@ -137,10 +133,7 @@ export default {
 		transition: transform 0.3s;
 	}
 	@media screen and (max-width: 960px) {
-		bottom: 72px;
-		&--trading {
-			bottom: 120px;
-		}
+		bottom: 120px;
 	}
 }
 

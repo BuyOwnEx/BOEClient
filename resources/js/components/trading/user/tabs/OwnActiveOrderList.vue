@@ -149,7 +149,7 @@
 				</template>
 
 				<template v-slot:item.action="{ item }">
-					<OwnListConfirmDialog @confirm="orderCancel(item)">
+					<CommonDialog @confirm="orderCancel(item)">
 						<v-btn
 							color="rgba(148, 148, 148, 0.14)"
 							elevation="0"
@@ -164,7 +164,7 @@
 								{{ $t('trading.cancel') }}
 							</span>
 						</v-btn>
-					</OwnListConfirmDialog>
+					</CommonDialog>
 				</template>
 			</v-data-table>
 		</v-card-text>

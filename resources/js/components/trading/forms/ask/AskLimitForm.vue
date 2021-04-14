@@ -251,14 +251,14 @@ import CommonTooltip from '../../../common/CommonTooltip';
 import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
 import formatWithScaleInAllCurrencies from '../../../../mixins/format/formatWithScaleInAllCurrencies';
-import errorNotificationMixin from '../../../../mixins/common/errorNotificationMixin';
+import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
 
 export default {
 	name: 'AskLimitForm',
 
 	components: { CommonTooltip, TradingFormsConfirmDialog },
 
-	mixins: [formatWithScaleInAllCurrencies, errorNotificationMixin],
+	mixins: [formatWithScaleInAllCurrencies, showNotificationMixin],
 
 	props: {
 		currency: {
@@ -449,7 +449,7 @@ export default {
 		},
 		sendAskLimit() {
 			if (!this.form.amount) {
-				this.pushErrorNotification(this.$t('forms_validation.incorrect_data'))
+				this.pushErrorNotification(_, 'incorrect');
 				return
 			}
 

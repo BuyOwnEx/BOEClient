@@ -38,16 +38,18 @@
 						</code>
 					</div>
 
-					<v-form v-model="valid" @submit.prevent="disable2FA">
+					<v-form @submit.prevent="disable2FA">
 						<v-text-field
 							v-model="totp"
+							type="number"
 							:placeholder="$t('user.security.auth_code')"
 							:disabled="loading"
-							:rules="[rules.numbers, rules.max6char]"
-							counter
 							maxlength="6"
+							counter
 							dense
 							@input="handleCodeInputDisable"
+							@keydown="passNumbers"
+							@paste.prevent
 						/>
 						<v-btn
 							type="submit"
@@ -86,16 +88,17 @@
 						</code>
 					</div>
 
-					<v-form v-model="valid" @submit.prevent="enable2FA">
+					<v-form @submit.prevent="enable2FA">
 						<v-text-field
 							v-model="totp"
 							:placeholder="$t('user.security.auth_code')"
 							:disabled="loading"
-							:rules="[rules.numbers, rules.max6char]"
-							counter
 							maxlength="6"
+							counter
 							dense
 							@input="handleCodeInputEnable"
+							@keydown="passNumbers"
+							@paste.prevent
 						/>
 						<v-btn
 							type="submit"
@@ -117,13 +120,13 @@
 
 <script>
 import loadingMixin from '../../../mixins/common/loadingMixin';
-import formValidationRules from '../../../mixins/common/formValidationRules';
-import errorNotificationMixin from '../../../mixins/common/errorNotificationMixin';
+import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
+import passNumberMixin from '../../../mixins/common/passNumberMixin';
 
 export default {
 	name: 'UserSecurityTab',
 
-	mixins: [loadingMixin, formValidationRules, errorNotificationMixin],
+	mixins: [loadingMixin, showNotificationMixin, passNumberMixin],
 
 	props: {
 		g2fa: {
@@ -137,7 +140,6 @@ export default {
 			secret: null,
 			image: null,
 			totp: '',
-			valid: false,
 		};
 	},
 
@@ -152,8 +154,8 @@ export default {
 
 	methods: {
 		enable2FA() {
-			if (!this.valid) {
-				this.pushErrorNotification(this.$t('forms_validation.incorrect_data'));
+			if (!this.totp.trim() || this.totp.length < 6) {
+				this.pushErrorNotification(_, 'incorrect');
 				return;
 			}
 
@@ -166,23 +168,17 @@ export default {
 						totp: this.totp,
 					})
 					.then(response => {
-						if (_.get(response, 'data.success') === true) {
-							this.$store.commit('app/setUser2FA', true);
-							this.totp = '';
-							this.get2FAStatus();
-						} else {
-							this.$store.commit('snackbar/addNotification', {
-								text: self.$t('error.occurred'),
-							});
-						}
+						this.$store.commit('app/setUser2FA', true);
+						this.totp = '';
+						this.get2FAStatus();
 					});
 			} finally {
 				this.stopLoading();
 			}
 		},
 		disable2FA() {
-			if (!this.valid) {
-				this.pushErrorNotification(this.$t('forms_validation.incorrect_data'));
+			if (!this.totp.trim() || this.totp.length < 6) {
+				this.pushErrorNotification(_, 'incorrect');
 				return;
 			}
 
@@ -194,15 +190,9 @@ export default {
 						totp: this.totp,
 					})
 					.then(response => {
-						if (_.get(response, 'data.success') === true) {
-							this.$store.commit('app/setUser2FA', false);
-							this.totp = '';
-							this.get2FAStatus();
-						} else {
-							this.$store.commit('snackbar/addNotification', {
-								text: self.$t('error.occurred'),
-							});
-						}
+						this.$store.commit('app/setUser2FA', false);
+						this.totp = '';
+						this.get2FAStatus();
 					});
 			} finally {
 				this.stopLoading();
@@ -220,7 +210,7 @@ export default {
 						this.image = response.data.image;
 					}
 				} else {
-					this.$store.commit('snackbar/addNotification', {
+					this.$store.commit('snackbar/SHOW_MESSAGE', {
 						text: _.get(response, 'data.message'),
 					});
 				}
