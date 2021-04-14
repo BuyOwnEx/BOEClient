@@ -68,6 +68,15 @@ export default {
 				Vue.set(state.balances[data.currency], 'address', data.address);
 			}
 		},
+		setAddressValidation(state, data) {
+			if (state.balances && data.currency in state.balances) {
+				Vue.set(
+					state.balances[data.currency],
+					'addressValidation',
+					data.address
+				);
+			}
+		},
 
 		updateCurrencyState(state, data) {
 			if (state.balances) {

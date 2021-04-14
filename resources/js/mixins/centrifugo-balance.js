@@ -80,7 +80,7 @@ export default {
 					this.$store.commit('user/setAddress', data.data.address);
 					break;
 				case 'address_was_validated':
-					this.$store.commit('user/setAddress', data.data.validation);
+					this.$store.commit('user/setAddressValidation', data.data.validation);
 					break;
 			}
 		},

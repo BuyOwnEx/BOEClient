@@ -306,9 +306,9 @@ export default {
 		this.$store.subscribe(mutation => {
 			const type = mutation.type;
 			const { address, currency } = mutation.payload;
-			const setAddress = type === 'user/setAddress';
+			const setAddressValidation = type === 'user/setAddressValidation';
 
-			if (setAddress && currency === this.currencyObj.currency) {
+			if (setAddressValidation && currency === this.currencyObj.currency) {
 				if (address === true) {
 					this.step = 2;
 					this.stopLoading();
