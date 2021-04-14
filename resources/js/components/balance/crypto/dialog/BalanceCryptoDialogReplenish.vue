@@ -57,8 +57,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import QrCode from '@chenfengyuan/vue-qrcode';
 import CommonLoading from '../../../common/CommonLoading';
+
 import passNumberMixin from '../../../../mixins/common/passNumberMixin';
 
 export default {
@@ -95,6 +98,10 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			getAddressStore: 'balance/getAddress',
+		}),
+
 		close() {
 			this.dialog = false;
 		},
@@ -104,13 +111,7 @@ export default {
 	},
 
 	created() {
-		axios
-			.get('/trader/ext/get_address', {
-				params: { currency: this.currencyObj.currency.toUpperCase() },
-			})
-			.then(response => {
-				console.log(response);
-			});
+		this.getAddressStore(this.currencyObj.currency);
 	},
 };
 </script>

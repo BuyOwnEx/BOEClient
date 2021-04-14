@@ -43,35 +43,39 @@
 </template>
 
 <script>
-export default {
-	name: 'BalanceFiatDialogReplenish',
+	export default {
+		name: 'BalanceFiatDialogTransfer',
 
-	props: {
-		currencyObj: {
-			type: Object,
-			required: true,
+		props: {
+			currencyObj: {
+				type: Object,
+				required: true,
+			},
 		},
-	},
 
-	data() {
-		return {
-			dialog: false,
-		};
-	},
+		data() {
+			return {
+				dialog: false,
+			};
+		},
 
-	watch: {
-		dialog(val) {
-			if (val) this.closeMenu();
+		watch: {
+			dialog(val) {
+				if (val) this.closeMenu();
+			},
 		},
-	},
 
-	methods: {
-		close() {
-			this.dialog = false;
+		methods: {
+			close() {
+				this.dialog = false;
+			},
+			closeMenu() {
+				this.$emit('close-menu');
+			},
 		},
-		closeMenu() {
-			this.$emit('close-menu');
-		},
-	},
-};
+	};
 </script>
+
+<style scoped>
+
+</style>

@@ -30,11 +30,11 @@
 					</template>
 
 					<v-list dense>
-<!--						<crypto-deposit-->
-<!--							v-if="menuItemExist('cancel_withdraw')"-->
-<!--							:withdrawObj="item"-->
-<!--							v-on:closeMenu="closeMenu(item)"-->
-<!--						/>-->
+						<!--						<crypto-deposit-->
+						<!--							v-if="menuItemExist('cancel_withdraw')"-->
+						<!--							:withdrawObj="item"-->
+						<!--							v-on:closeMenu="closeMenu(item)"-->
+						<!--						/>-->
 					</v-list>
 				</v-menu>
 			</template>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -109,34 +110,28 @@ export default {
 				'items-per-page-options': [5, 10, 30, 100, 500],
 				'items-per-page-all-text': '500',
 			},
-			closeOnContentClick: true,
-			actions: [
-				{
-					title: this.$t('balance.action.cancel_withdraw'),
-					name: 'cancel_withdraw',
-				},
-			],
 		};
 	},
 
 	methods: {
+		...mapActions({
+			fetchWithdrawalsStore: 'balance/fetchWithdrawals',
+		}),
+
+		async fetch() {
+			this.withdrawals = await this.fetchWithdrawalsStore();
+		},
+
 		BigNumber(item) {
 			return BigNumber(item);
-		},
-		menuItemExist(func) {
-			return _.findIndex(this.actions, action => action.name === func) !== -1;
 		},
 		closeMenu(item) {
 			item.menu = false;
 		},
 	},
 
-	mounted() {
-		axios.get('/trader/ext/balance/all-withdrawals').then(response => {
-			if (_.get(response, 'data.success') === true) {
-				this.withdrawals = response.data.withdrawals;
-			}
-		});
+	created() {
+		this.fetch();
 	},
 };
 </script>
