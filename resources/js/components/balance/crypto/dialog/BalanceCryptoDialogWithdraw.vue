@@ -13,7 +13,7 @@
 				{{ $t('common.withdrawal_funds') }} {{ currencyObj.currency }}
 			</v-card-title>
 
-			<v-card-text class="common-dialog__content">
+			<v-card-text class="common-dialog__content pb-1">
 				<v-stepper v-model="step">
 					<v-stepper-header>
 						<v-stepper-step :complete="step > 1" step="1">
@@ -34,7 +34,7 @@
 					</v-stepper-header>
 
 					<v-stepper-items>
-						<v-stepper-content step="1">
+						<v-stepper-content class="pb-0" step="1">
 							<div class="mb-6">
 								<div>
 									{{ $t('balance.stepper.address_validation.description') }}
@@ -49,9 +49,11 @@
 								/>
 							</div>
 
-							<div class="d-flex">
+							<v-divider />
+
+							<div class="common-dialog__actions d-flex pt-1">
 								<v-spacer />
-								<v-btn plain tile text @click="close">
+								<v-btn plain tile text small @click="close">
 									{{ $t('common.cancel') }}
 								</v-btn>
 								<v-spacer />
@@ -60,6 +62,9 @@
 									:disabled="!address.trim()"
 									color="primary"
 									tile
+									text
+									plain
+									small
 									@click="validateAddress"
 								>
 									{{ $t('common.continue') }}
@@ -121,18 +126,22 @@
 								<v-form v-model="amountFormValid">
 									<v-text-field
 										v-model="amount"
-										:rules="amountRules"
 										type="number"
+										:rules="amountRules"
 										:placeholder="$t('balance.stepper.sum')"
+										:suffix="currencyObj.currency"
 										autofocus
 										@keydown="passNumbers"
+										@paste.prevent
 									/>
 								</v-form>
 							</div>
 
-							<div class="d-flex">
+							<v-divider />
+
+							<div class="common-dialog__actions d-flex pt-1">
 								<v-spacer />
-								<v-btn plain tile text @click="back">
+								<v-btn plain tile text small @click="back">
 									{{ $t('common.back') }}
 								</v-btn>
 								<v-spacer />
@@ -141,6 +150,9 @@
 									:loading="loading"
 									color="primary"
 									tile
+									text
+									plain
+									small
 									@click="step++"
 								>
 									{{ $t('common.continue') }}
@@ -174,9 +186,11 @@
 								/>
 							</div>
 
-							<div class="d-flex">
+							<v-divider />
+
+							<div class="common-dialog__actions d-flex pt-1">
 								<v-spacer />
-								<v-btn plain tile text @click="back">
+								<v-btn plain tile text small @click="back">
 									{{ $t('common.back') }}
 								</v-btn>
 								<v-spacer />
@@ -185,6 +199,9 @@
 									:loading="loading"
 									color="primary"
 									tile
+									text
+									plain
+									small
 									@click="finish"
 								>
 									{{ $t('common.finish') }}

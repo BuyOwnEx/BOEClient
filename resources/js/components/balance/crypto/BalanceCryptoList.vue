@@ -52,11 +52,13 @@
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceCryptoDialogTrade
+						<BalanceCryptoDialogTransfer
+							type="trade"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceCryptoDialogSafe
+						<BalanceCryptoDialogTransfer
+							type="safe"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
@@ -158,10 +160,10 @@ export default {
 			import(
 				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogWithdraw'
 			),
-		BalanceCryptoDialogTrade: () =>
-			import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogTrade'),
-		BalanceCryptoDialogSafe: () =>
-			import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogSafe'),
+		BalanceCryptoDialogTransfer: () =>
+			import(
+				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogTransfer'
+			),
 		CommonTooltip: () =>
 			import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
 	},

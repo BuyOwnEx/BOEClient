@@ -29,31 +29,26 @@
 
 				<v-text-field
 					v-model="amount"
+					type="number"
 					class="my-1"
 					:placeholder="$t('common.amount')"
 					:suffix="currencyObj.currency"
 					dense
+					@keydown="passNumbers"
+					@paste.prevent
 				/>
 
 				<div class="text-center">
-					<QrCode :value="currencyObj.address" :options="{ width: 200 }" />
+					<QrCode :value="address" :options="{ width: 200 }" />
 				</div>
 
-				<div class="text-center pt-1">{{ currencyObj.address }}</div>
+				<div class="text-center pt-1">{{ address }}</div>
 			</v-card-text>
 
 			<v-divider />
 
 			<v-card-actions class="common-dialog__actions">
-				<v-btn
-					class="text-uppercase"
-					small
-					tile
-					text
-					plain
-					block
-					@click="close"
-				>
+				<v-btn small tile text plain block @click="close">
 					{{ $t('common.close') }}
 				</v-btn>
 			</v-card-actions>
@@ -64,11 +59,14 @@
 <script>
 import QrCode from '@chenfengyuan/vue-qrcode';
 import CommonLoading from '../../../common/CommonLoading';
+import passNumberMixin from '../../../../mixins/common/passNumberMixin';
 
 export default {
 	name: 'BalanceCryptoDialogReplenish',
 
 	components: { CommonLoading, QrCode },
+
+	mixins: [passNumberMixin],
 
 	props: {
 		currencyObj: {
@@ -82,6 +80,12 @@ export default {
 			amount: null,
 			dialog: false,
 		};
+	},
+
+	computed: {
+		address() {
+			return this.currencyObj.address;
+		},
 	},
 
 	watch: {
