@@ -27,22 +27,17 @@
 					</div>
 				</div>
 
-				<v-text-field
-					v-model="amount"
-					type="number"
-					class="my-1"
-					:placeholder="$t('common.amount')"
-					:suffix="currencyObj.currency"
-					dense
-					@keydown="passNumbers"
-					@paste.prevent
-				/>
+				<div class="py-2">
+					описание
+				</div>
 
 				<div class="text-center">
 					<QrCode :value="address" :options="{ width: 200 }" />
 				</div>
 
-				<div class="text-center pt-1">{{ address }}</div>
+				<div class="text-center pt-1">
+					<CommonCopyLabel :text="address" icon="mdi-content-copy" />
+				</div>
 			</v-card-text>
 
 			<v-divider />
@@ -61,15 +56,12 @@ import { mapActions } from 'vuex';
 
 import QrCode from '@chenfengyuan/vue-qrcode';
 import CommonLoading from '../../../common/CommonLoading';
-
-import passNumberMixin from '../../../../mixins/common/passNumberMixin';
+import CommonCopyLabel from '../../../common/CommonCopyLabel';
 
 export default {
 	name: 'BalanceCryptoDialogReplenish',
 
-	components: { CommonLoading, QrCode },
-
-	mixins: [passNumberMixin],
+	components: { CommonLoading, CommonCopyLabel, QrCode },
 
 	props: {
 		currencyObj: {
@@ -80,7 +72,6 @@ export default {
 
 	data() {
 		return {
-			amount: null,
 			dialog: false,
 		};
 	},
