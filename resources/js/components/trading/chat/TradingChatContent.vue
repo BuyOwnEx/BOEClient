@@ -57,5 +57,10 @@ export default {
 	-webkit-mask-size: 100% 20000px;
 	-webkit-mask-position: left bottom;
 	transition: mask-position 0.3s, -webkit-mask-position 0.3s;
+
+	&:hover {
+		mask-position: left top;
+		-webkit-mask-position: left top;
+	}
 }
 </style>
