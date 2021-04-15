@@ -1,6 +1,10 @@
 <template>
 	<v-tooltip bottom>
 		<template v-slot:activator="{ on }">
+			<v-icon v-if="icon" class="px-1" small>
+				{{ icon }}
+			</v-icon>
+
 			<div
 				ref="copy-label"
 				class="copy-label"
@@ -26,6 +30,10 @@ export default {
 		toastText: {
 			type: String,
 			default: 'Copied to clipboard!',
+		},
+		icon: {
+			type: String,
+			required: false,
 		},
 	},
 
