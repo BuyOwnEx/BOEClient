@@ -148,7 +148,7 @@
 										v-model="amount"
 										type="number"
 										:rules="amountRules"
-										:placeholder="$t('balance.sum')"
+										:placeholder="$t('balance.amount')"
 										:suffix="currency"
 										autofocus
 										@keydown="passNumbers"

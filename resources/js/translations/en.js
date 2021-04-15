@@ -18,7 +18,6 @@ export default {
 		title: 'Title',
 		description: 'Description',
 		confirmation: 'Confirmation',
-		amount: 'Amount',
 
 		faq: 'FAQ',
 		contact: 'Contact Us',
@@ -358,18 +357,17 @@ export default {
 
 		stepper: {
 			address: 'Address',
-			sum: 'Sum',
 
 			address_validation: {
 				title: 'Checking address',
 				description:
-					'описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание',
+					'At this step, the entered address will be validated. The address must exist on the {platform} network',
 				address_hint: 'Enter your withdrawal address',
 			},
 			withdrawal_params: {
 				title: 'Withdrawal options',
 				description:
-					'описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание',
+					'Withdrawal amount must not be less than the minimum, and also must not exceed the daily withdrawal limit',
 				min_withdraw: 'Min. withdrawal amount',
 				day_limit: 'Daily limit',
 				fee_withdraw: 'Withdrawal fee',
@@ -379,8 +377,10 @@ export default {
 			},
 			confirmation: {
 				title: 'Confirmation',
-				description:
-					'описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание описание',
+				enabled_2fa_description:
+					'For the final formation of a withdrawal request, enter the code from the letter sent to your email {email}, as well as the 2FA code',
+				disabled_2fa_description:
+					'For the final formation of a request for withdrawal of funds, enter the code from the letter sent to your email {email}',
 				code: 'Code',
 				code_hint: 'Enter code from the email',
 				two_fa_code: '2FA code',
@@ -392,13 +392,12 @@ export default {
 			safe: {
 				title: 'Transfer funds to safe wallet',
 				menu_title: 'Transfer to safe',
-				hint: 'Enter amount to transfer',
 			},
 			trade: {
 				title: 'Transfer funds to trade wallet',
 				menu_title: 'Transfer to trade',
 			},
-			hint: 'Enter the amount to transfer',
+			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
 		},
 	},

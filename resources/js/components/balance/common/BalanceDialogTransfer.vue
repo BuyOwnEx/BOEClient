@@ -28,7 +28,7 @@
 						v-model="form.amount"
 						type="number"
 						class="pt-0 mt-0"
-						:placeholder="$t('balance.sum')"
+						:placeholder="$t('balance.amount')"
 						:rules="[localRules.numberWithPrecision15, rules.positive]"
 						:hint="$t('balance.dialog.hint')"
 						:suffix="currencyObj.currency"
