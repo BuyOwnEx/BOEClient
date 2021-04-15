@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
 	name: 'TradingChatMessage',
 
@@ -30,7 +28,7 @@ export default {
 
 	methods: {
 		formatMessageDate() {
-			return moment.tz(moment.tz.guess()).format('HH:mm:ss');
+			return new Date(this.message.ts * 1000).toLocaleTimeString();
 		},
 	},
 };

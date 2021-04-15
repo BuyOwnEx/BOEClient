@@ -168,7 +168,7 @@ export default {
 			this.sub_chat.on('unsubscribe', this.channelUnsubscribeHandler);
 			let st = this.$store;
 			this.sub_chat.history().then(resp => {
-				if(resp.publications === null) {
+				if(!resp.publications) {
 					st.commit('chat/setHistoryMessages', []);
 				} else {
 					st.commit('chat/setHistoryMessages', resp.publications);
