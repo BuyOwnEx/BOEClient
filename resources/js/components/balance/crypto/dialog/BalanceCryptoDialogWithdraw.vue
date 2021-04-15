@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog" width="1200">
+	<v-dialog v-model="dialog" width="1200" :persistent="step === 3">
 		<template v-slot:activator="{ on, attrs }">
 			<v-list-item dense v-bind="attrs" v-on="on">
 				<v-list-item-title>
@@ -8,9 +8,10 @@
 			</v-list-item>
 		</template>
 
-		<v-card>
+		<v-card class="balance-crypto-dialog-withdraw">
 			<v-card-title class="common-dialog__title">
-				{{ $t('common.withdrawal_funds') }} {{ currencyObj.currency }}
+				{{ $t('common.withdrawal_funds') }}
+				{{ currency }}
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content pb-1">
@@ -34,10 +35,14 @@
 					</v-stepper-header>
 
 					<v-stepper-items>
-						<v-stepper-content class="pb-0" step="1">
+						<v-stepper-content step="1">
 							<div class="mb-6">
 								<div>
-									{{ $t('balance.stepper.address_validation.description') }}
+									{{
+										$t('balance.stepper.address_validation.description', {
+											platform: this.currencyObj.platform,
+										})
+									}}
 								</div>
 
 								<v-text-field
@@ -80,7 +85,16 @@
 								</div>
 
 								<div class="subtitle-1 py-1">
-									{{ $t('balance.stepper.address') }} — {{ address }}
+									<CommonTooltip>
+										<v-icon>
+											mdi-qrcode
+										</v-icon>
+
+										<template #text>
+											{{$t('balance.stepper.address')}}
+										</template>
+									</CommonTooltip>
+									{{ address }}
 								</div>
 
 								<div>
@@ -89,8 +103,10 @@
 										class="clickable non-selectable px-1"
 										@click="setMinPossibleAmount"
 									>
-										{{ currencyObj.minWithdraw }}
-										{{ currency }}
+										<span class="dashed">
+											{{ currencyObj.minWithdraw }}
+											{{ currency }}
+										</span>
 									</b>
 								</div>
 								<div>
@@ -99,14 +115,16 @@
 										class="clickable non-selectable px-1"
 										@click="setMaxPossibleAmount"
 									>
-										{{ currencyObj.maxWithdraw }}
-										{{ currency }}
+										<span class="dashed">
+											{{ currencyObj.maxWithdraw }}
+											{{ currency }}
+										</span>
 									</b>
 								</div>
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.fee_withdraw') }}:
 									<b class="px-1">
-										{{ currencyObj.fee }}
+										{{ currencyObj.feeWithdraw }}
 										{{ currency }}
 									</b>
 								</div>
@@ -118,8 +136,10 @@
 										class="clickable non-selectable px-1"
 										@click="setSafeAmount"
 									>
-										{{ safe }}
-										{{ currency }}
+										<span class="dashed">
+											{{ safe }}
+											{{ currency }}
+										</span>
 									</b>
 								</div>
 
@@ -128,8 +148,8 @@
 										v-model="amount"
 										type="number"
 										:rules="amountRules"
-										:placeholder="$t('balance.stepper.sum')"
-										:suffix="currencyObj.currency"
+										:placeholder="$t('balance.sum')"
+										:suffix="currency"
 										autofocus
 										@keydown="passNumbers"
 										@paste.prevent
@@ -164,7 +184,22 @@
 						<v-stepper-content step="3">
 							<div class="mb-6">
 								<div>
-									{{ $t('balance.stepper.confirmation.description') }}
+									<span v-if="user2FA">
+										{{
+											this.$t(
+												'balance.stepper.confirmation.enabled_2fa_description',
+												{ email: this.userEmail }
+											)
+										}}
+									</span>
+									<span v-else>
+										{{
+											this.$t(
+												'balance.stepper.confirmation.disabled_2fa_description',
+												{ email: this.userEmail }
+											)
+										}}
+									</span>
 								</div>
 
 								<v-text-field
@@ -190,10 +225,6 @@
 
 							<div class="common-dialog__actions d-flex pt-1">
 								<v-spacer />
-								<v-btn plain tile text small @click="back">
-									{{ $t('common.back') }}
-								</v-btn>
-								<v-spacer />
 								<v-btn
 									:disabled="!emailCode || (user2FA && !twoFACode)"
 									:loading="loading"
@@ -217,10 +248,11 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import { mapActions } from 'vuex';
+import CommonTooltip from '../../../common/CommonTooltip';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
@@ -228,6 +260,8 @@ import passNumberMixin from '../../../../mixins/common/passNumberMixin';
 
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
+
+	components: { CommonTooltip },
 
 	mixins: [loadingMixin, showNotificationMixin, passNumberMixin],
 
@@ -291,6 +325,13 @@ export default {
 		user2FA() {
 			return this.$store.state.app.trader.g2fa;
 		},
+		userEmail() {
+			const dividedEmail = this.$store.state.app.trader.email.split('@');
+			const encryptedName = dividedEmail[0].slice(0, 2) + '***';
+			const domain = dividedEmail[1];
+
+			return `${encryptedName}@${domain}`;
+		},
 	},
 
 	watch: {
@@ -308,7 +349,7 @@ export default {
 			const { address, currency } = mutation.payload;
 			const setAddressValidation = type === 'user/setAddressValidation';
 
-			if (setAddressValidation && currency === this.currencyObj.currency) {
+			if (setAddressValidation && currency === this.currency) {
 				if (address === true) {
 					this.step = 2;
 					this.stopLoading();
@@ -333,7 +374,7 @@ export default {
 
 			this.startLoading();
 			const payload = {
-				currency: this.currencyObj.currency,
+				currency: this.currency,
 				address: this.address,
 			};
 
@@ -380,3 +421,9 @@ export default {
 	},
 };
 </script>
+
+<style lang="sass" scoped>
+.balance-crypto-dialog-withdraw
+	::v-deep.v-stepper__content
+		padding-bottom: 0
+</style>
