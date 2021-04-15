@@ -52,13 +52,15 @@
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceFiatDialogTransfer
+						<BalanceDialogTransfer
 							type='trade'
+							wallet='fiat'
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceFiatDialogTransfer
+						<BalanceDialogTransfer
 							type='safe'
+							wallet='fiat'
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
@@ -141,9 +143,9 @@ export default {
 			import(/* webpackPrefetch: true */ './dialog/BalanceFiatDialogReplenish'),
 		BalanceFiatDialogWithdraw: () =>
 			import(/* webpackPrefetch: true */ './dialog/BalanceFiatDialogWithdraw'),
-		BalanceFiatDialogTransfer: () =>
+		BalanceDialogTransfer: () =>
 			import(
-				/* webpackPrefetch: true */ './dialog/BalanceFiatDialogTransfer'
+				/* webpackPrefetch: true */ '../common/BalanceDialogTransfer'
 			),
 		CommonTooltip: () =>
 			import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),

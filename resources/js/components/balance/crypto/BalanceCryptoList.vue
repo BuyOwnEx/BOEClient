@@ -52,13 +52,15 @@
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceCryptoDialogTransfer
+						<BalanceDialogTransfer
 							type="trade"
+							wallet='crypto'
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
-						<BalanceCryptoDialogTransfer
+						<BalanceDialogTransfer
 							type="safe"
+							wallet='crypto'
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
@@ -100,19 +102,35 @@
 			</template>
 
 			<template v-slot:item.safe="{ item }">
-				{{ BigNumber(item.safe).toString() }}
+				{{
+					BigNumber(item.safe)
+						.toFixed(item.scale, 1)
+						.toString()
+				}}
 			</template>
 
 			<template v-slot:item.trade="{ item }">
-				{{ BigNumber(item.available).toString() }}
+				{{
+					BigNumber(item.available)
+						.toFixed(item.scale, 1)
+						.toString()
+				}}
 			</template>
 
 			<template v-slot:item.withdraw="{ item }">
-				{{ BigNumber(item.withdraw).toString() }}
+				{{
+					BigNumber(item.withdraw)
+						.toFixed(item.scale, 1)
+						.toString()
+				}}
 			</template>
 
 			<template v-slot:item.blocked="{ item }">
-				{{ BigNumber(item.blocked).toString() }}
+				{{
+					BigNumber(item.blocked)
+						.toFixed(item.scale, 1)
+						.toString()
+				}}
 			</template>
 
 			<template v-slot:item.replenishment="{ item }">
@@ -160,9 +178,9 @@ export default {
 			import(
 				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogWithdraw'
 			),
-		BalanceCryptoDialogTransfer: () =>
+		BalanceDialogTransfer: () =>
 			import(
-				/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogTransfer'
+				/* webpackPrefetch: true */ '../common/BalanceDialogTransfer'
 			),
 		CommonTooltip: () =>
 			import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
