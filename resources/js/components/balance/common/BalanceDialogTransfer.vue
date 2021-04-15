@@ -126,7 +126,7 @@ export default {
 
 	computed: {
 		isAuth() {
-			return this.$store.getters.isLogged;
+			return this.$store.getters['app/isLogged'];
 		},
 		balances() {
 			return this.$store.state.user.balances;
@@ -138,11 +138,11 @@ export default {
 			const scale = this.currencyObj.scale;
 
 			if (this.type === 'safe') {
-				return BigNumber(this.currencyObj.safe).dp(scale, 1);
+				return BigNumber(this.currencyObj.safe).toFixed(scale, 1);
 			} else if (this.type === 'trade') {
-				return BigNumber(amount.trade).dp(scale, 1);
+				return BigNumber(this.currencyObj.available).toFixed(scale, 1);
 			} else {
-				return BigNumber(0).dp(scale, 1);
+				return BigNumber(0).toFixed(scale, 1);
 			}
 		},
 
