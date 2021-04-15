@@ -14,7 +14,7 @@
 				{{ currency }}
 			</v-card-title>
 
-			<v-card-text class="common-dialog__content pb-1">
+			<v-card-text class="common-dialog__content pb-1 pt-0">
 				<v-stepper v-model="step">
 					<v-stepper-header>
 						<v-stepper-step :complete="step > 1" step="1">
@@ -91,7 +91,7 @@
 										</v-icon>
 
 										<template #text>
-											{{$t('balance.stepper.address')}}
+											{{ $t('balance.stepper.address') }}
 										</template>
 									</CommonTooltip>
 									{{ address }}
@@ -421,9 +421,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="sass" scoped>
-.balance-crypto-dialog-withdraw
-	::v-deep.v-stepper__content
-		padding-bottom: 0
-</style>

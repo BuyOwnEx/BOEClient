@@ -169,7 +169,7 @@ export default {
 
 	methods: {
 		async apply() {
-			if (this.availableBalance < this.form.amount) {
+			if (this.availableBalance < Number(this.form.amount)) {
 				this.pushErrorNotification(
 					this.$t('balance.dialog.more_available_balance')
 				);
