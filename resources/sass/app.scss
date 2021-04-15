@@ -21,6 +21,9 @@
 .non-selectable {
 	user-select: none;
 }
+.dashed {
+	border-bottom: 1px dashed;
+}
 
 .component-title {
 	font-size: 1.16rem !important;
