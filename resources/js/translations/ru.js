@@ -27,18 +27,13 @@ export default {
 		replenishment: 'Пополение',
 		withdrawal: 'Вывод',
 	},
-	dashboard: {
-		activity: 'Деятельность',
-		weeklySales: 'Еженедельные продажи',
-		sales: 'Продажи',
-		recentOrders: 'Недавние заказы',
-		sources: 'Источники трафика',
-		lastweek: 'по сравнению с прошлой неделей',
-		orders: 'Заказы',
-		customers: 'Клиенты',
-		tickets: 'Тикеты поддержки',
-		viewReport: 'Посмотреть отчет',
+
+	copy: {
+		copy: 'Копировать',
+		copied: 'Скопировано',
+		copied_to_clipboard: 'Скопировано в буфер обмена!',
 	},
+
 	usermenu: {
 		profile: 'Профиль',
 		signin: 'Войти в систему',

@@ -28,20 +28,12 @@ export default {
 		withdrawal: 'Withdrawal',
 	},
 
-	table_header: {},
-
-	dashboard: {
-		activity: 'Activity',
-		weeklySales: 'Weekly Sales',
-		sales: 'Sales',
-		recentOrders: 'Recent Orders',
-		sources: 'Traffic Sources',
-		lastweek: 'vs last week',
-		orders: 'Orders',
-		customers: 'Customers',
-		tickets: 'Support Tickets',
-		viewReport: 'View Report',
+	copy: {
+		copy: 'Copy',
+		copied: 'Copied',
+		copied_to_clipboard: 'Copied to clipboard!',
 	},
+
 	usermenu: {
 		profile: 'Profile',
 		signin: 'Sign In',
