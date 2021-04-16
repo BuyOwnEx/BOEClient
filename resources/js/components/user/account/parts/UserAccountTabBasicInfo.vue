@@ -32,7 +32,7 @@
 					<v-text-field
 						class="mb-2"
 						v-model="user.rate_limit"
-						:label="$t('user.info.display_name')"
+						:label="$t('user.info.rate')"
 						hide-details
 						readonly
 					/>
