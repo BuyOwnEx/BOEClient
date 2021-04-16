@@ -9,9 +9,17 @@
 		</template>
 
 		<v-card class="balance-crypto-dialog-withdraw">
-			<v-card-title class="common-dialog__title">
-				{{ $t('common.withdrawal_funds') }}
-				{{ currency }}
+			<v-card-title class="common-dialog__title pb-0">
+				<span>
+					{{ $t('common.withdrawal_funds') }}
+					{{ currency }}
+				</span>
+
+				<v-spacer />
+
+				<v-btn icon @click="close">
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content pb-1 pt-0">
@@ -209,6 +217,7 @@
 									type="number"
 									max-length="6"
 									persistent-hint
+									@keydown="passNumbers"
 								/>
 								<v-text-field
 									v-if="user2FA"
@@ -218,6 +227,7 @@
 									type="number"
 									max-length="6"
 									persistent-hint
+									@keydown="passNumbers"
 								/>
 							</div>
 
@@ -279,14 +289,12 @@ export default {
 			amount: '',
 			amountFormValid: false,
 			amountRules: [
+				v => !v || v >= this.minWithdraw || this.$t('balance.less_min'),
+				v => !v || v <= this.maxWithdraw || this.$t('balance.more_max'),
 				v =>
 					!v ||
-					v >= this.minWithdraw ||
-					this.$t('balance.less_min'),
-				v =>
-					!v ||
-					v <= this.maxWithdraw ||
-					this.$t('balance.more_max'),
+					this.isCorrectPrecision(v) ||
+					this.$t('forms_validation.unsupported_precision'),
 			],
 
 			emailCode: '',
@@ -402,6 +410,12 @@ export default {
 			this.amount = this.safe;
 		},
 
+		isCorrectPrecision(v) {
+			return !new RegExp(
+				'\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}',
+				'i'
+			).test(v);
+		},
 		resetData() {
 			this.address = '';
 			this.amount = '';
