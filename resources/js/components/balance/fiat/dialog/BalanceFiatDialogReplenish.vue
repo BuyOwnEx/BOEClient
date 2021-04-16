@@ -57,12 +57,6 @@
 								</div>
 
 								<v-form>
-									<v-select
-										v-model="selectedCurrency"
-										:placeholder="$t('balance.currency')"
-										hide-details
-									/>
-
 									<v-text-field
 										v-model="amount"
 										type="number"
@@ -129,9 +123,7 @@ export default {
 	data() {
 		return {
 			selectedSystem: null,
-
 			amount: '',
-			selectedCurrency: this.currencyObj.currency,
 
 			dialog: false,
 			step: 1,
