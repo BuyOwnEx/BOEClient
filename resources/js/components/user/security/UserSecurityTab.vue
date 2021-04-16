@@ -107,7 +107,6 @@
 							color="success"
 							small
 							tile
-							:disabled="!valid"
 						>
 							{{ $t('user.security.enable') }}
 						</v-btn>
