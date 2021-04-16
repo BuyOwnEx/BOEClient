@@ -14,10 +14,13 @@
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content pt-0">
-				<div class="clickable non-selectable" @click="setAmount">
+				<div>
 					<span>{{ $t('trading.order.available') }}</span>
 
-					<b class="available_balance dashed">
+					<b
+						class="available_balance clickable non-selectable dashed"
+						@click="setAmount"
+					>
 						{{ this.availableBalance.toString() }}
 						{{ currencyObj.currency.toUpperCase() }}
 					</b>
@@ -176,13 +179,6 @@ export default {
 
 	methods: {
 		async apply() {
-			if (this.availableBalance < Number(this.form.amount)) {
-				this.pushErrorNotification(
-					this.$t('balance.dialog.more_available_balance')
-				);
-				return;
-			}
-
 			try {
 				this.startLoading();
 				await axios.post(`/trader/ext/transfer/${this.type}`, this.form);
