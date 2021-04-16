@@ -154,12 +154,11 @@
 								<v-form v-model="amountFormValid">
 									<v-text-field
 										v-model="amount"
-										type="number"
 										:rules="amountRules"
 										:placeholder="$t('balance.amount')"
 										:suffix="currency"
 										autofocus
-										@keydown="passNumbers"
+										@keydown="validateNumber"
 										@paste.prevent
 									/>
 								</v-form>
@@ -214,20 +213,16 @@
 									v-model="emailCode"
 									:hint="$t('balance.stepper.confirmation.code_hint')"
 									:placeholder="$t('balance.stepper.confirmation.code')"
-									type="number"
-									max-length="6"
 									persistent-hint
-									@keydown="passNumbers"
 								/>
 								<v-text-field
 									v-if="user2FA"
 									v-model="twoFACode"
 									:hint="$t('balance.stepper.confirmation.two_fa_code_hint')"
 									:placeholder="$t('balance.stepper.confirmation.two_fa_code')"
-									type="number"
 									max-length="6"
 									persistent-hint
-									@keydown="passNumbers"
+									@keydown="validate2FA"
 								/>
 							</div>
 
@@ -266,14 +261,14 @@ import CommonTooltip from '../../../common/CommonTooltip';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
-import passNumberMixin from '../../../../mixins/common/passNumberMixin';
+import validateInputMixin from '../../../../mixins/common/validateInputMixin';
 
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
 
 	components: { CommonTooltip },
 
-	mixins: [loadingMixin, showNotificationMixin, passNumberMixin],
+	mixins: [loadingMixin, showNotificationMixin, validateInputMixin],
 
 	props: {
 		currencyObj: {

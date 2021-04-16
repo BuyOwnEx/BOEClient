@@ -29,7 +29,6 @@
 				<v-form v-model="valid">
 					<v-text-field
 						v-model="form.amount"
-						type="number"
 						class="pt-0 mt-0"
 						:placeholder="$t('balance.amount')"
 						:rules="[
@@ -41,7 +40,7 @@
 						:suffix="currencyObj.currency"
 						persistent-hint
 						autofocus
-						@keydown="passNumbers"
+						@keydown="validateNumber"
 						@paste.prevent
 					/>
 				</v-form>
@@ -80,7 +79,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import loadingMixin from '../../../mixins/common/loadingMixin';
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
-import passNumberMixin from '../../../mixins/common/passNumberMixin';
+import validateInputMixin from '../../../mixins/common/validateInputMixin';
 
 export default {
 	name: 'BalanceDialogTransfer',
@@ -89,7 +88,7 @@ export default {
 		loadingMixin,
 		formValidationRules,
 		showNotificationMixin,
-		passNumberMixin,
+		validateInputMixin,
 	],
 
 	props: {
@@ -148,11 +147,11 @@ export default {
 			const scale = this.currencyObj.scale;
 
 			if (this.type === 'safe') {
-				return BigNumber(this.currencyObj.available).toFixed(scale, 1);
+				return BigNumber(this.currencyObj.available).dp(scale, 1);
 			} else if (this.type === 'trade') {
-				return BigNumber(this.currencyObj.safe).toFixed(scale, 1);
+				return BigNumber(this.currencyObj.safe).dp(scale, 1);
 			} else {
-				return BigNumber(0).toFixed(scale, 1);
+				return BigNumber(0).dp(scale, 1);
 			}
 		},
 
