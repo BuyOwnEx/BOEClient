@@ -17,7 +17,7 @@
 				<div class="clickable non-selectable" @click="setAmount">
 					<span>{{ $t('trading.order.available') }}</span>
 
-					<b class="available_balance">
+					<b class="available_balance dashed">
 						{{ this.availableBalance.toString() }}
 						{{ currencyObj.currency.toUpperCase() }}
 					</b>
@@ -29,10 +29,15 @@
 						type="number"
 						class="pt-0 mt-0"
 						:placeholder="$t('balance.amount')"
-						:rules="[localRules.numberWithPrecision15, rules.positive]"
+						:rules="[
+							localRules.numberWithScalePrecision,
+							localRules.lessAvailable,
+							rules.positive,
+						]"
 						:hint="$t('balance.dialog.hint')"
 						:suffix="currencyObj.currency"
 						persistent-hint
+						autofocus
 						@keydown="passNumbers"
 						@paste.prevent
 					/>
@@ -111,10 +116,12 @@ export default {
 			valid: false,
 
 			localRules: {
-				numberWithPrecision15: v =>
+				numberWithScalePrecision: v =>
 					!v ||
-					/^-?\d+\.?\d{0,15}$/i.test(v) ||
-					this.$t('forms_validation.unsupported_char_numbers_precision_15'),
+					this.isCorrectPrecision(v) ||
+					this.$t('forms_validation.unsupported_precision'),
+				lessAvailable: v =>
+					!v || v <= this.availableBalance || this.$t('balance.more_max'),
 			},
 
 			form: {
@@ -138,9 +145,9 @@ export default {
 			const scale = this.currencyObj.scale;
 
 			if (this.type === 'safe') {
-				return BigNumber(this.currencyObj.safe).toFixed(scale, 1);
-			} else if (this.type === 'trade') {
 				return BigNumber(this.currencyObj.available).toFixed(scale, 1);
+			} else if (this.type === 'trade') {
+				return BigNumber(this.currencyObj.safe).toFixed(scale, 1);
 			} else {
 				return BigNumber(0).toFixed(scale, 1);
 			}
@@ -186,6 +193,12 @@ export default {
 			}
 		},
 
+		isCorrectPrecision(v) {
+			return !new RegExp(
+				'\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}',
+				'i'
+			).test(v);
+		},
 		setAmount() {
 			this.form.amount = this.availableBalance.toString();
 		},
