@@ -1,19 +1,17 @@
 <template>
 	<v-tooltip bottom>
 		<template v-slot:activator="{ on }">
-			<v-icon v-if="icon" class="px-1" small>
-				{{ icon }}
-			</v-icon>
+			<div class="clickable" v-on="on" @click.stop.prevent="copy">
+				<v-icon v-if="icon" small>
+					{{ icon }}
+				</v-icon>
 
-			<div
-				ref="copy-label"
-				class="copy-label"
-				v-on="on"
-				@click.stop.prevent="copy"
-			>
-				{{ text }}
+				<div ref="copy-label" class="copy-label">
+					{{ text }}
+				</div>
 			</div>
 		</template>
+
 		<span>{{ tooltip }}</span>
 	</v-tooltip>
 </template>
@@ -27,10 +25,6 @@ export default {
 			type: String,
 			default: '',
 		},
-		toastText: {
-			type: String,
-			default: 'Copied to clipboard!',
-		},
 		icon: {
 			type: String,
 			required: false,
@@ -39,7 +33,9 @@ export default {
 
 	data() {
 		return {
-			tooltip: 'Copy',
+			tooltip: this.$t('copy.copy'),
+			snackText: this.$t('copy.copied_to_clipboard'),
+
 			timeout: null,
 		};
 	},
@@ -50,11 +46,12 @@ export default {
 
 	methods: {
 		copy() {
-			this.$clipboard(this.text, this.toastText);
-			this.tooltip = 'Copied!';
+			this.$clipboard(this.text, this.snackText);
+
+			this.tooltip = this.$t('copy.copied');
 
 			this.timeout = setTimeout(() => {
-				this.tooltip = 'Copy';
+				this.tooltip = this.$t('copy.copy');
 			}, 2000);
 		},
 	},
@@ -63,7 +60,6 @@ export default {
 
 <style scoped>
 .copy-label {
-	cursor: pointer;
 	display: inline-block;
 	border-bottom: 1px dashed;
 }

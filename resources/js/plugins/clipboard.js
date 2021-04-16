@@ -1,9 +1,11 @@
 import Vue from 'vue';
 
-Vue.prototype.$clipboard = function(text, toastText = 'Copied to clipboard!') {
+Vue.prototype.$clipboard = function(copyText, toastText) {
 	const el = document.createElement('textarea');
 
-	el.value = text;
+	console.log(copyText, toastText, el)
+
+	el.value = copyText;
 	document.body.appendChild(el);
 	el.select();
 	document.execCommand('copy');
