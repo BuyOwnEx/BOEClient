@@ -25,6 +25,12 @@ export default {
 		customCssDarkLink: 'https://buyownex.com/css/sumsubDark.css',
 	}),
 
+	computed: {
+		userLang() {
+			return this.$store.state.app.trader.language;
+		},
+	},
+
 	methods: {
 		async newSumSubToken() {
 			const token = await axios.get('/trader/ext/sumsub_token');
@@ -47,7 +53,7 @@ export default {
 					newSumSubTokenCallback(newSumSubToken);
 				})
 				.withConf({
-					lang: 'en',
+					lang: this.userLang,
 					email: applicantEmail,
 					phone: applicantPhone,
 					i18n: customI18nMessages,
