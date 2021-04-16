@@ -60,6 +60,7 @@
 					<v-spacer />
 					<v-btn
 						:loading="loading"
+						:disabled="emptyName"
 						color="primary"
 						small
 						tile
@@ -137,6 +138,12 @@ export default {
 		};
 	},
 
+	computed: {
+		emptyName() {
+			return !this.form.name.trim();
+		},
+	},
+
 	watch: {
 		dialog(value) {
 			if (value) {
@@ -150,7 +157,7 @@ export default {
 
 	methods: {
 		async create() {
-			if (!this.form.name.trim() || !this.valid) {
+			if (!this.valid) {
 				this.close();
 				this.pushErrorNotification(_, 'incorrect');
 				return;
