@@ -348,6 +348,9 @@ export default {
 		min_replenish_amount: 'Минимальная сумма пополнения',
 		replenish_fee: 'Комиссия по пополнению',
 
+		less_min: 'Меньше минимально возможной суммы',
+		more_max: 'Больше максимально возможной суммы',
+
 		state_type: {
 			replenishment: 'Ввод работает',
 			withdrawal: 'Вывод работает',
@@ -374,8 +377,6 @@ export default {
 				day_limit: 'Дневной лимит',
 				fee_withdraw: 'Комиссия на вывод',
 				available_amount: 'Доступно для вывода',
-				less_min: 'Меньше минимально возможной суммы',
-				more_max: 'Больше максимально возможной суммы',
 			},
 			confirmation: {
 				title: 'Подтверждение',
@@ -392,11 +393,11 @@ export default {
 
 		dialog: {
 			safe: {
-				title: 'Перевести {currency} в внешний кошелек',
+				title: 'Перевести {currency} на внешний счет',
 				menu_title: 'Перевести на внешний счет',
 			},
 			trade: {
-				title: 'Перевести {currency} в торговый кошелек',
+				title: 'Перевести {currency} на торговый счет',
 				menu_title: 'Перевести на торговый счет',
 			},
 			hint: 'Введите сумму для перевода',
@@ -2325,6 +2326,7 @@ export default {
 		unsupported_char_numbers: 'Неподдерживаемые символы. Только числа',
 		unsupported_char_numbers_precision_15:
 			'Неподдерживаемые символы. Только числа с точностью до 15 знаков',
+		unsupported_precision: 'Неподдерживаемое кол-во знаков после запятой',
 		positive: 'Только положительные числа',
 	},
 

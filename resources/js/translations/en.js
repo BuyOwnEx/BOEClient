@@ -346,6 +346,9 @@ export default {
 		min_replenish_amount: 'Min. replenish amount',
 		replenish_fee: 'Replenish fee',
 
+		less_min: 'Less than the minimum possible amount',
+		more_max: 'More than the maximum possible amount',
+
 		state_type: {
 			replenishment: 'Funds deposit works',
 			withdrawal: 'Withdrawal of funds works',
@@ -372,8 +375,6 @@ export default {
 				day_limit: 'Daily limit',
 				fee_withdraw: 'Withdrawal fee',
 				available_amount: 'Available for withdrawal',
-				less_min: 'Less than the minimum possible amount',
-				more_max: 'More than the maximum possible amount',
 			},
 			confirmation: {
 				title: 'Confirmation',
@@ -390,12 +391,12 @@ export default {
 
 		dialog: {
 			safe: {
-				title: 'Transfer funds to safe wallet',
-				menu_title: 'Transfer to safe',
+				title: 'Transfer {currency} to safe account',
+				menu_title: 'Transfer to safe account',
 			},
 			trade: {
-				title: 'Transfer funds to trade wallet',
-				menu_title: 'Transfer to trade',
+				title: 'Transfer {currency} to trade account',
+				menu_title: 'Transfer to trade account',
 			},
 			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
@@ -2317,6 +2318,7 @@ export default {
 		unsupported_char_numbers: 'Unsupported characters. Only numbers',
 		unsupported_char_numbers_precision_15:
 			'Unsupported characters. Only numbers with precision 15',
+		unsupported_precision: 'Unsupported number of decimal places',
 		positive: 'Only positive numbers',
 	},
 

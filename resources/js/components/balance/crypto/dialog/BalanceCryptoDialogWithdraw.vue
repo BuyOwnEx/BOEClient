@@ -282,11 +282,11 @@ export default {
 				v =>
 					!v ||
 					v >= this.minWithdraw ||
-					this.$t('balance.stepper.withdrawal_params.less_min'),
+					this.$t('balance.less_min'),
 				v =>
 					!v ||
 					v <= this.maxWithdraw ||
-					this.$t('balance.stepper.withdrawal_params.more_max'),
+					this.$t('balance.more_max'),
 			],
 
 			emailCode: '',
