@@ -340,6 +340,8 @@ export default {
 
 		less_min: 'Less than the minimum possible amount',
 		more_max: 'More than the maximum possible amount',
+		more_available: 'More than available amount',
+		more_withdraw_available: 'More than available amount for withdrawal',
 
 		state_type: {
 			replenishment: 'Funds deposit works',
@@ -366,7 +368,9 @@ export default {
 				min_withdraw: 'Min. withdrawal amount',
 				day_limit: 'Daily limit',
 				fee_withdraw: 'Withdrawal fee',
-				available_amount: 'Available for withdrawal',
+				available_amount: 'Available',
+				available_for_withdraw: 'Available for withdrawal',
+				used_day_limit: 'Used',
 			},
 			confirmation: {
 				title: 'Confirmation',

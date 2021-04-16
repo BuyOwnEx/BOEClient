@@ -345,6 +345,8 @@ export default {
 
 		less_min: 'Меньше минимально возможной суммы',
 		more_max: 'Больше максимально возможной суммы',
+		more_available: 'Сумма превышает размер доступных средств',
+		more_withdraw_available: 'Сумма превышает размер доступных средств для вывода',
 
 		state_type: {
 			replenishment: 'Ввод работает',
@@ -371,7 +373,9 @@ export default {
 				min_withdraw: 'Мин. сумма вывода',
 				day_limit: 'Дневной лимит',
 				fee_withdraw: 'Комиссия на вывод',
-				available_amount: 'Доступно для вывода',
+				available_amount: 'Доступно',
+				available_for_withdraw: 'Доступно для вывода',
+				used_day_limit: 'Использовано',
 			},
 			confirmation: {
 				title: 'Подтверждение',

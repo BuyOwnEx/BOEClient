@@ -163,14 +163,9 @@ export default {
 			phone: '',
 
 			amountRules: [
-				v =>
-					!v ||
-					v >= this.minWithdraw ||
-					this.$t('balance.less_min'),
-				v =>
-					!v ||
-					v <= this.maxWithdraw ||
-					this.$t('balance.more_max'),
+				v => !v || v >= this.minWithdraw || this.$t('balance.less_min'),
+				v => !v || v <= this.maxWithdraw || this.$t('balance.more_max'),
+				v => !v || v <= this.currencyObj.safe || this.$t('balance.more_available'),
 			],
 			valid: false,
 
@@ -190,7 +185,7 @@ export default {
 			return this.selectedSystem?.minWithdraw;
 		},
 		maxWithdraw() {
-			return Math.min(this.selectedSystem?.maxWithdraw, this.currencyObj.safe);
+			return this.selectedSystem?.maxWithdraw;
 		},
 		currency() {
 			return this.currencyObj.currency;

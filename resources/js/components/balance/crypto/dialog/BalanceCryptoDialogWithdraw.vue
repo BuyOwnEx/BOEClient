@@ -107,10 +107,7 @@
 
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.min_withdraw') }}:
-									<b
-										class="clickable non-selectable px-1"
-										@click="setMinPossibleAmount"
-									>
+									<b class="clickable non-selectable px-1" @click="setMinPossibleAmount">
 										<span class="dashed">
 											{{ currencyObj.minWithdraw }}
 											{{ currency }}
@@ -119,15 +116,11 @@
 								</div>
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.day_limit') }}:
-									<b
-										class="clickable non-selectable px-1"
-										@click="setMaxPossibleAmount"
-									>
-										<span class="dashed">
-											{{ currencyObj.maxWithdraw }}
-											{{ currency }}
-										</span>
+									<b class="px-1">
+										{{ currencyObj.maxWithdraw }}
+										{{ currency }}
 									</b>
+									<small>({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{currencyObj.daily}} {{ currency }})</small>
 								</div>
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.fee_withdraw') }}:
@@ -137,15 +130,17 @@
 									</b>
 								</div>
 								<div>
-									{{
-										$t('balance.stepper.withdrawal_params.available_amount')
-									}}:
-									<b
-										class="clickable non-selectable px-1"
-										@click="setSafeAmount"
-									>
+									{{ $t('balance.stepper.withdrawal_params.available_amount') }}:
+									<b class="px-1">
+										{{ safe.toString() }}
+										{{ currency }}
+									</b>
+								</div>
+								<div>
+									{{ $t('balance.stepper.withdrawal_params.available_for_withdraw') }}:
+									<b class="clickable non-selectable px-1" @click="setAvailableForWithdrawAmount">
 										<span class="dashed">
-											{{ safe }}
+											{{ availableForWithdraw.toString() }}
 											{{ currency }}
 										</span>
 									</b>
@@ -286,10 +281,8 @@ export default {
 			amountRules: [
 				v => !v || v >= this.minWithdraw || this.$t('balance.less_min'),
 				v => !v || v <= this.maxWithdraw || this.$t('balance.more_max'),
-				v =>
-					!v ||
-					this.isCorrectPrecision(v) ||
-					this.$t('forms_validation.unsupported_precision'),
+				v => !v || v <= this.availableForWithdraw || this.$t('balance.more_withdraw_available'),
+				v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
 			],
 
 			emailCode: '',
@@ -307,20 +300,22 @@ export default {
 
 			if (item.safe) {
 				return BigNumber(item.safe)
-					.dp(scale, 1)
-					.toString();
+					.dp(scale, 1);
 			} else {
 				return BigNumber(0)
-					.dp(0)
-					.toString();
+					.dp(0);
 			}
+		},
+
+		availableForWithdraw() {
+			return 	BigNumber.min(this.safe.minus(this.currencyObj.feeWithdraw).gt(0) ? this.safe.minus(this.currencyObj.feeWithdraw) : BigNumber(0), BigNumber(this.maxWithdraw).minus(this.currencyObj.daily))
 		},
 
 		minWithdraw() {
 			return this.currencyObj.minWithdraw;
 		},
 		maxWithdraw() {
-			return Math.min(this.currencyObj.maxWithdraw, this.currencyObj.safe);
+			return this.currencyObj.maxWithdraw;
 		},
 		currency() {
 			return this.currencyObj.currency.toUpperCase();
@@ -398,11 +393,8 @@ export default {
 		setMinPossibleAmount() {
 			this.amount = this.currencyObj.minWithdraw;
 		},
-		setMaxPossibleAmount() {
-			this.amount = this.currencyObj.maxWithdraw;
-		},
-		setSafeAmount() {
-			this.amount = this.safe;
+		setAvailableForWithdrawAmount() {
+			this.amount = this.availableForWithdraw.toString();
 		},
 
 		isCorrectPrecision(v) {
