@@ -210,7 +210,7 @@ const getPositionNotificationMessage = item => {
 	}
 };
 
-let defaultTimeout = 500000;
+const defaultTimeout = 5000;
 
 const transformTradingNotification = item => {
 	let result = {
