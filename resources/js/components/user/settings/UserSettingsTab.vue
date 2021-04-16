@@ -5,35 +5,29 @@
 		<CommonLoading v-if="!allRefTypes" />
 
 		<v-card-text v-else>
-			<UserSettingsEmailNotifications :user-types='user.emailNotifications || []'/>
-
 			<UserSettingsRef
 				:all-ref-types="allRefTypes"
 				:user-ref-program-id="user.refProgram || 1"
 			/>
-
-			<UserSettingsSystem />
-
-			<UserSettingsSecurity />
+			<UserSettingsEmailNotifications
+				:user-types="user.emailNotifications || []"
+			/>
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
-import UserSettingsEmailNotifications from './parts/UserSettingsEmailNotifications';
 import UserSettingsRef from './parts/UserSettingsRef';
-import UserSettingsSystem from './parts/UserSettingsSystem';
-import UserSettingsSecurity from './parts/UserSettingsSecurity';
+import UserSettingsEmailNotifications from './parts/UserSettingsEmailNotifications';
+
 import CommonLoading from '../../common/CommonLoading';
 
 export default {
 	name: 'UserSettingsTab',
 
 	components: {
-		UserSettingsEmailNotifications,
 		UserSettingsRef,
-		UserSettingsSystem,
-		UserSettingsSecurity,
+		UserSettingsEmailNotifications,
 		CommonLoading,
 	},
 
