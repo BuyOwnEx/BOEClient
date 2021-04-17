@@ -13,8 +13,10 @@
 						<v-list-item-avatar>
 							<v-icon color="primary" large>{{ item.icon }}</v-icon>
 						</v-list-item-avatar>
+
 						<v-list-item-content>
 							<v-list-item-title>{{ item.title }}</v-list-item-title>
+
 							<v-list-item-subtitle class="toolbar-apps__item-subtitle">
 								{{ item.subtitle }}
 							</v-list-item-subtitle>
@@ -27,16 +29,13 @@
 </template>
 
 <script>
-import config from '../../../configs';
-
 export default {
 	data() {
 		return {
-			apps: config.toolbar.apps,
 			items: [
 				{
-					title: 'Exchange',
-					subtitle: 'Торговля криптоактивами',
+					title: this.$t('apps.exchange.title'),
+					subtitle: this.$t('apps.exchange.subtitle'),
 					icon: 'mdi-apps',
 					to: '/',
 				},

@@ -3,7 +3,7 @@
 		<CommonLoading v-if="!notificationsData" class="mt-6" />
 		<NotificationsList
 			v-else
-			:key="notificationsData[0]"
+			:key="listKey"
 			:notifications-prop="notificationsData"
 		/>
 	</v-card>
@@ -33,6 +33,9 @@ export default {
 
 		notificationsData() {
 			return this.getNotificationsByType(this.typeToShow);
+		},
+		listKey() {
+			return this.notificationsData.length + Math.random();
 		},
 	},
 };

@@ -3,7 +3,7 @@
 		<CommonLoading v-if="!ticketsData" class="mt-6" />
 		<SupportList
 			v-else
-			:key="ticketsData[0]"
+			:key="listKey"
 			:tickets-prop="ticketsData"
 			:tickets-status="statusToShow"
 			:is-priority="Boolean(priorityToShow)"
@@ -63,6 +63,10 @@ export default {
 					this.priorityToShow,
 					this.statusToShow
 				);
+		},
+
+		listKey() {
+			return this.ticketsData.length + Math.random();
 		},
 	},
 

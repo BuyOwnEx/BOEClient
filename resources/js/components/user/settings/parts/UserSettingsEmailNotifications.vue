@@ -21,11 +21,12 @@
 				{{ $t('common.save') }}
 			</v-btn>
 		</v-form>
-		<v-divider class="my-4" />
 	</section>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
 	name: 'UserSettingsEmailNotifications',
 
@@ -50,12 +51,16 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			updateNotificationsSettings: 'user/updateNotificationsSettings'
+		}),
+
 		async saveNotificationsSettings() {
 			try {
 				this.saveNotificationsLoading = true;
 				const payload = this.selectedTypes.sort((a, b) => a - b);
 
-				// await axios.post('')
+				await this.updateNotificationsSettings()
 			} finally {
 				this.saveNotificationsLoading = false;
 			}
@@ -63,17 +68,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="sass" scoped>
-.user-settings-tab__notifications
-	::v-deep.v-input--checkbox
-		display: inline-flex
-		width: 25%
-		padding-right: 8px
-		@media screen and (max-width: 1264px)
-			width: 33%
-		@media screen and (max-width: 960px)
-			width: 50%
-		@media screen and (max-width: 600px)
-			width: 100%
-</style>

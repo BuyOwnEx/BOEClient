@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import UserAccountTab from '../../components/user/account/UserAccountTab';
 import UserVerificationTab from '../../components/user/verification/UserVerificationTab';
 import UserApiTab from '../../components/user/api/UserApiTab';
@@ -78,10 +78,6 @@ export default {
 	},
 
 	methods: {
-		...mapActions({
-			setProfileTab: 'user/setProfileTab',
-		}),
-
 		setHash(tabIndex) {
 			if (tabIndex === 0) history.replaceState(null, null, ' ');
 			else if (tabIndex === 1) window.location.hash = '#verification';

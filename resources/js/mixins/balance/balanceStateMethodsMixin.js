@@ -1,4 +1,10 @@
 export default {
+	computed: {
+		stateTypes() {
+			return this.$store.state.balance.stateTypes
+		}
+	},
+
 	methods: {
 		isReplenish(state) {
 			const everythingIsOk = state === 1;

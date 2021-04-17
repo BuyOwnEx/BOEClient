@@ -51,11 +51,11 @@
 						</template>
 
 						<template #title>
-							Подтверждение отмены
+							{{ $t('trading.order.cancel_title') }}
 						</template>
 
 						<template #content>
-							Вы уверены, что хотите отменить все {{ item.type }} позиции?
+							{{ $t('trading.order.cancel_many', { type: item.type }) }}
 						</template>
 					</CommonDialog>
 				</v-list>
@@ -64,6 +64,7 @@
 
 		<v-card-text class="own-active-position-list__content pa-0 pt-1">
 			<v-data-table
+				mobile-breakpoint="960"
 				:calculate-widths="true"
 				:headers="headers"
 				:items="ownPositionList"
@@ -299,7 +300,7 @@ export default {
 				},
 				{
 					text: this.$t('trading.position.close_long'),
-					type: this.$t('trading.position.close-long-type'),
+					type: this.$t('trading.position.long_type'),
 					link: '/trader/ext/position/close_all_long',
 					click: () => {
 						axios.post('/trader/ext/position/close_all_long', {
@@ -311,7 +312,7 @@ export default {
 				},
 				{
 					text: this.$t('trading.position.close_short'),
-					type: this.$t('trading.position.close-short-type'),
+					type: this.$t('trading.position.short_type'),
 					link: '/trader/ext/position/close_all_short',
 					click: () => {
 						axios.post('/trader/ext/position/close_all_short', {

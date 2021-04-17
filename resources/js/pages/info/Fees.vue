@@ -1,18 +1,18 @@
 <template>
 	<v-card class="info-page fees-page flex-grow-1">
-		<CommonPageTitle>Комиссии и лимиты</CommonPageTitle>
+		<CommonPageTitle>{{ $t('fees.title') }}</CommonPageTitle>
 
 		<v-tabs v-model="selectedTab" show-arrows>
 			<v-tab :key="1">
-				Торговая комиссия
+				{{ $t('fees.trading_fee') }}
 			</v-tab>
 
 			<v-tab :key="2">
-				Комиссия на ввод и вывод
+				{{ $t('fees.operations_fee') }}
 			</v-tab>
 
 			<v-tab :key="3">
-				Лимиты по вводу и выводу
+				{{ $t('fees.operations_limits') }}
 			</v-tab>
 		</v-tabs>
 

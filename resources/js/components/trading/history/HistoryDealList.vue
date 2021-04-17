@@ -1,10 +1,10 @@
 <template>
-	<v-card class="hdl pa-1">
-		<v-card-title class="hdl__header component-title pa-0">
+	<v-card class="history-deal-list pa-1">
+		<v-card-title class="history-deal-list__header component-title pa-0">
 			{{ $t('trading.headers.history_deal_list') }}
 		</v-card-title>
 
-		<v-card-text class="hdl__content pa-0">
+		<v-card-text class="history-deal-list__content pa-0">
 			<HistoryDealListTableWrapper
 				:currency="currency"
 				:historyData="historyDealList"
@@ -66,7 +66,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.hdl
+.history-deal-list
 	&__header
 		margin-left: 8px
 	&__content

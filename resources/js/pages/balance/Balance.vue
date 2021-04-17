@@ -18,11 +18,11 @@
 
 		<v-tabs-items v-model="selectedTab" touchless>
 			<v-tab-item :key="1">
-				<BalanceCryptoList :state-types="stateTypes" />
+				<BalanceCryptoList />
 			</v-tab-item>
 
 			<v-tab-item v-if="isUserFiat" :key="2">
-				<BalanceFiatList :state-types="stateTypes" />
+				<BalanceFiatList />
 			</v-tab-item>
 
 			<v-tab-item :key="3">
@@ -33,8 +33,9 @@
 </template>
 
 <script>
-import CommonPageTitle from '../../components/common/CommonPageTitle';
+import { mapGetters } from 'vuex';
 
+import CommonPageTitle from '../../components/common/CommonPageTitle';
 import BalanceCryptoList from '../../components/balance/crypto/BalanceCryptoList';
 import BalanceWithdrawalList from '../../components/balance/withdrawal/BalanceWithdrawalList';
 
@@ -62,73 +63,9 @@ export default {
 	},
 
 	computed: {
-		stateTypes() {
-			const workIcon = {
-				name: 'mdi-toggle-switch',
-				color: 'success',
-			};
-			const notWorkIcon = {
-				name: 'mdi-toggle-switch-off',
-				color: 'error',
-			};
-			const syncIcon = {
-				name: 'mdi-sync-alert',
-				color: 'warning',
-			};
-			const maintenanceIcon = {
-				name: 'mdi-tools',
-				color: 'error darken-3',
-			};
-
-			return [
-				{
-					id: 1,
-					replenishment: this.$t('balance.state_type.replenishment'),
-					withdrawal: this.$t('balance.state_type.withdrawal'),
-					replenishmentIcon: workIcon,
-					withdrawalIcon: workIcon,
-				},
-				{
-					id: 2,
-					replenishment: this.$t('balance.state_type.not_replenishment'),
-					withdrawal: this.$t('balance.state_type.withdrawal'),
-					replenishmentIcon: notWorkIcon,
-					withdrawalIcon: workIcon,
-				},
-				{
-					id: 3,
-					replenishment: this.$t('balance.state_type.replenishment'),
-					withdrawal: this.$t('balance.state_type.not_withdrawal'),
-					replenishmentIcon: workIcon,
-					withdrawalIcon: notWorkIcon,
-				},
-				{
-					id: 4,
-					replenishment: this.$t('balance.state_type.not_replenishment'),
-					withdrawal: this.$t('balance.state_type.not_withdrawal'),
-					replenishmentIcon: notWorkIcon,
-					withdrawalIcon: notWorkIcon,
-				},
-				{
-					id: 5,
-					replenishment: this.$t('balance.state_type.sync'),
-					withdrawal: this.$t('balance.state_type.sync'),
-					replenishmentIcon: syncIcon,
-					withdrawalIcon: syncIcon,
-				},
-				{
-					id: 6,
-					replenishment: this.$t('balance.state_type.maintenance'),
-					withdrawal: this.$t('balance.state_type.maintenance'),
-					replenishmentIcon: maintenanceIcon,
-					withdrawalIcon: maintenanceIcon,
-				},
-			];
-		},
-
-		isUserFiat() {
-			return this.$store.getters['user/isUserFiat'];
-		},
+		...mapGetters({
+			isUserFiat: 'user/isUserFiat',
+		}),
 	},
 };
 </script>

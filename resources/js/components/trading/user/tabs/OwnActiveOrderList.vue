@@ -50,11 +50,11 @@
 						</template>
 
 						<template #title>
-							Подтверждение отмены
+							{{ $t('trading.order.cancel_title') }}
 						</template>
 
 						<template #content>
-							Вы уверены, что хотите отменить все {{ item.type }} ордера?
+							{{ $t('trading.order.cancel_many', { type: item.type }) }}
 						</template>
 					</CommonDialog>
 				</v-list>
@@ -150,20 +150,30 @@
 
 				<template v-slot:item.action="{ item }">
 					<CommonDialog @confirm="orderCancel(item)">
-						<v-btn
-							color="rgba(148, 148, 148, 0.14)"
-							elevation="0"
-							tile
-							x-small
-							dense
-						>
-							<v-icon class="own-active-order-list__cancel-icon" x-small>
-								mdi-close
-							</v-icon>
-							<span class="own-active-order-list__cancel-text">
-								{{ $t('trading.cancel') }}
-							</span>
-						</v-btn>
+						<template #default>
+							<v-btn
+								color="rgba(148, 148, 148, 0.14)"
+								elevation="0"
+								tile
+								x-small
+								dense
+							>
+								<v-icon class="own-active-order-list__cancel-icon" x-small>
+									mdi-close
+								</v-icon>
+								<span class="own-active-order-list__cancel-text">
+									{{ $t('trading.cancel') }}
+								</span>
+							</v-btn>
+						</template>
+
+						<template #title>
+							{{ $t('trading.order.cancel_title') }}
+						</template>
+
+						<template #content>
+							{{ $t('trading.order.cancel_one') }}
+						</template>
 					</CommonDialog>
 				</template>
 			</v-data-table>
@@ -255,19 +265,19 @@ export default {
 					click: () => this.orderCancelAll(),
 				},
 				{
-					text: this.$t('trading.order.cancel_sl'),
+					text: this.$t('trading.order.cancel_by_type', { type: 'SL' }),
 					type: 'SL',
 					link: '/trader/ext/order/cancel_all_sl',
 					click: () => this.orderCancelAllSL(),
 				},
 				{
-					text: this.$t('trading.order.cancel_tp'),
+					text: this.$t('trading.order.cancel_by_type', { type: 'TP' }),
 					type: 'TP',
 					link: '/trader/ext/order/cancel_all_tp',
 					click: () => this.orderCancelAllTP(),
 				},
 				{
-					text: this.$t('trading.order.cancel_ts'),
+					text: this.$t('trading.order.cancel_by_type', { type: 'TS' }),
 					type: 'TS',
 					link: '/trader/ext/order/cancel_all_ts',
 					click: () => this.orderCancelAllTS(),

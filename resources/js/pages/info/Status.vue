@@ -1,24 +1,29 @@
 <template>
 	<v-card class="info-page status-page flex-grow-1">
-		<CommonPageTitle>Состояние системы</CommonPageTitle>
+		<CommonPageTitle>{{ $t('status.title') }}</CommonPageTitle>
 
-		<StatusSupportCurrencyText :user-fiat='isUserFiat'/>
+		<StatusSupportCurrencyText :user-fiat="isUserFiat" />
 		<v-divider />
 
 		<v-card-text>
 			<StatusDefinitionText />
 
+			<CommonLoading v-if="noTablesData" />
 			<StatusTables
-				:fiat-data="fiatCurrencies"
+				v-else
+				:fiat-data="fiatCurrencies || []"
 				:crypto-data="cryptoCurrencies"
-				:user-fiat='isUserFiat'
+				:user-fiat="isUserFiat"
 			/>
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import CommonPageTitle from '../../components/common/CommonPageTitle';
+import CommonLoading from '../../components/common/CommonLoading';
 
 import StatusSupportCurrencyText from '../../components/info/status/StatusSupportCurrencyText';
 import StatusDefinitionText from '../../components/info/status/StatusDefinitionText';
@@ -29,6 +34,7 @@ export default {
 
 	components: {
 		CommonPageTitle,
+		CommonLoading,
 		StatusSupportCurrencyText,
 		StatusDefinitionText,
 		StatusTables,
@@ -36,119 +42,41 @@ export default {
 
 	data() {
 		return {
-			fiatCurrencies: [
-				{
-					currency: 'USD',
-					name: 'US Dollar',
-					depositStatus: 'active',
-					withdrawalStatus: 'active',
-					tradingStatus: 'unavailable',
-					payment: [
-						{
-							name: 'Payeer',
-							minDeposit: 10,
-							minWithdraw: 1,
-							depositFee: 1,
-							withdrawFee: 2,
-							noVerifyDayLimit: 1000,
-							verifyDayLimit: 10000,
-						},
-					],
-				},
-				{
-					currency: 'EUR',
-					name: 'Euro',
-					depositStatus: 'unavailable',
-					withdrawalStatus: 'unavailable',
-					tradingStatus: 'unavailable',
-					payment: null,
-				},
-				{
-					currency: 'RUB',
-					name: 'Ruble',
-					depositStatus: 'active',
-					withdrawalStatus: 'active',
-					tradingStatus: 'active',
-					payment: [
-						{
-							name: 'Payeer',
-							minDeposit: 100,
-							minWithdraw: 100,
-							depositFee: 1,
-							withdrawFee: 2,
-							noVerifyDayLimit: 10000,
-							verifyDayLimit: 200000,
-						},
-					],
-				},
-			],
-			cryptoCurrencies: [
-				{
-					currency: 'BIP',
-					name: 'Minter',
-					type: 'coin',
-					depositStatus: 'maintenance',
-					withdrawalStatus: 'maintenance',
-					tradingStatus: 'active',
-					minDeposit: 10,
-					minWithdrawal: 0.1,
-					depositFee: 0,
-					withdrawalFee: 0.05,
-					noVerifyDayLimit: 1000,
-					verifyDayLimit: 10000,
-				},
-				{
-					currency: 'ETH',
-					name: 'Etherium',
-					type: 'coin',
-					depositStatus: 'maintenance',
-					withdrawalStatus: 'maintenance',
-					tradingStatus: 'active',
-					minDeposit: 0.008,
-					minWithdrawal: 0.01,
-					depositFee: 0,
-					withdrawalFee: 0.002,
-					noVerifyDayLimit: 1,
-					verifyDayLimit: 10,
-				},
-				{
-					currency: 'BTC',
-					name: 'Bitcoin',
-					type: 'coin',
-					depositStatus: 'maintenance',
-					withdrawalStatus: 'maintenance',
-					tradingStatus: 'active',
-					minDeposit: 0.001,
-					minWithdrawal: 0.005,
-					depositFee: 0,
-					withdrawalFee: 0.0003,
-					noVerifyDayLimit: 0.5,
-					verifyDayLimit: 1,
-				},
-				{
-					currency: 'USDT',
-					name: 'Tether',
-					type: 'token',
-					depositStatus: 'offline',
-					withdrawalStatus: 'offline',
-					tradingStatus: 'active',
-					minDeposit: 1,
-					minWithdrawal: 1,
-					depositFee: 0,
-					withdrawalFee: 0.1,
-					noVerifyDayLimit: 100,
-					verifyDayLimit: 1000,
-				},
-			],
+			fiatCurrencies: null,
+			cryptoCurrencies: null,
 		};
 	},
 
 	computed: {
-		isUserFiat() {
-			return this.$store.getters['user/isUserFiat'];
+		...mapGetters({
+			isUserFiat: 'user/isUserFiat',
+		}),
+
+		noTablesData() {
+			const fiatAndCrypto = this.fiatCurrencies && this.cryptoCurrencies;
+			const onlyCrypto = this.cryptoCurrencies;
+			return this.isUserFiat ? !fiatAndCrypto : !onlyCrypto;
 		},
-	}
+	},
+
+	created() {
+		this.fetch();
+	},
+
+	methods: {
+		fetch() {
+			this.fetchCryptoData();
+			if (this.isUserFiat) this.fetchFiatData();
+		},
+
+		async fetchCryptoData() {
+			const { data } = await axios.get('/trader/ext/crypto_currencies');
+			this.cryptoCurrencies = data.data;
+		},
+		async fetchFiatData() {
+			const { data } = await axios.get('/trader/ext/fiat_currencies');
+			this.fiatCurrencies = data.data;
+		},
+	},
 };
 </script>
-
-<style scoped lang="sass"></style>

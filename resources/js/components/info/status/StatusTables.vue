@@ -2,29 +2,29 @@
 	<div class="status-page__tables-wrapper">
 		<div v-if="userFiat" class="status-page__fiat-table">
 			<div class="component-title py-1">
-				Состояние системы по фиатным валютам
+				{{ $t('status.fiat_status') }}
 			</div>
 			<v-simple-table dense>
 				<template #default>
 					<thead>
 						<tr>
 							<th>
-								Валюта
+								{{ $t('table_header.currency') }}
 							</th>
 							<th>
-								Наименование
+								{{ $t('table_header.name') }}
 							</th>
 							<th>
-								Ввод средств
+								{{ $t('common.replenishment_funds') }}
 							</th>
 							<th>
-								Вывод средств
+								{{ $t('common.withdrawal_funds') }}
 							</th>
 							<th>
-								Торги
+								{{ $t('menu.trading') }}
 							</th>
 							<th>
-								Доступные платежные системы
+								{{ $t('status.available_payment_systems') }}
 							</th>
 						</tr>
 					</thead>
@@ -56,23 +56,24 @@
 										<thead>
 											<tr>
 												<th>
-													Наименование
+													{{ $t('table_header.name') }}
 												</th>
 												<th>
-													Мин. сумма пополнения
+													{{ $t('table_header.min_replenish_amount') }}
 												</th>
 												<th>
-													Мин. сумма вывода
+													{{ $t('table_header.min_withdrawal_amount') }}
 												</th>
 												<th>
-													Комиссия по пополнению
+													{{ $t('table_header.replenishment_fee') }}
 												</th>
 												<th>
-													Комиссия по выводу
+													{{ $t('table_header.withdrawal_fee') }}
 												</th>
 												<th colspan="2">
-													Дневной лимит по выводу (Не прошедшие/Прошедшие
-													верификацию)
+													{{
+														$t('table_header.daily_withdrawal_limit_connected')
+													}}
 												</th>
 											</tr>
 										</thead>
@@ -94,7 +95,9 @@
 
 										<tbody v-else>
 											<tr>
-												<td class="text-center" colspan="6">No Data</td>
+												<td class="text-center" colspan="6">
+													{{ $t('common.no_data') }}
+												</td>
 											</tr>
 										</tbody>
 									</template>
@@ -108,44 +111,44 @@
 
 		<div class="status-page__crypto-table pt-2">
 			<div class="component-title py-1">
-				Состояние системы по криптовалютам
+				{{ $t('status.crypto_status') }}
 			</div>
 			<v-simple-table dense>
 				<template #default>
 					<thead>
 						<tr>
 							<th>
-								Валюта
+								{{ $t('table_header.currency') }}
 							</th>
 							<th>
-								Наименование
+								{{ $t('table_header.name') }}
 							</th>
 							<th>
-								Тип
+								{{ $t('table_header.type') }}
 							</th>
 							<th>
-								Ввод средств
+								{{ $t('common.replenishment_funds') }}
 							</th>
 							<th>
-								Вывод средств
+								{{ $t('common.withdrawal_funds') }}
 							</th>
 							<th>
-								Торги
+								{{ $t('menu.trading') }}
 							</th>
 							<th>
-								Мин. сумма пополнения
+								{{ $t('table_header.min_replenish_amount') }}
 							</th>
 							<th>
-								Мин. сумма вывода
+								{{ $t('table_header.min_withdrawal_amount') }}
 							</th>
 							<th>
-								Комиссия по пополнению
+								{{ $t('table_header.replenishment_fee') }}
 							</th>
 							<th>
-								Комиссия по выводу
+								{{ $t('table_header.withdrawal_fee') }}
 							</th>
 							<th colspan="2">
-								Дневной лимит по выводу (Не прошедшие/Прошедшие верификацию)
+								{{ $t('table_header.daily_withdrawal_limit_connected') }}
 							</th>
 						</tr>
 					</thead>
@@ -154,17 +157,27 @@
 							<td>{{ item.currency }}</td>
 							<td>{{ item.name }}</td>
 							<td class="text-capitalize">{{ item.type }}</td>
-							<td
-								class="text-capitalize"
-								:class="getStatusColor(item.depositStatus)"
-							>
-								{{ item.depositStatus }}
+							<td>
+								<CommonTooltip>
+									<v-icon :color="getStateIconColor(item.state, 'withdrawal')">
+										{{ getStateIconName(item.state, 'withdrawal') }}
+									</v-icon>
+
+									<template #text>
+										{{ getStateTextStatus(item.state, 'withdrawal') }}
+									</template>
+								</CommonTooltip>
 							</td>
-							<td
-								class="text-capitalize"
-								:class="getStatusColor(item.withdrawalStatus)"
-							>
-								{{ item.withdrawalStatus }}
+							<td>
+								<CommonTooltip>
+									<v-icon :color="getStateIconColor(item.state, 'withdrawal')">
+										{{ getStateIconName(item.state, 'withdrawal') }}
+									</v-icon>
+
+									<template #text>
+										{{ getStateTextStatus(item.state, 'withdrawal') }}
+									</template>
+								</CommonTooltip>
 							</td>
 							<td
 								class="text-capitalize"
@@ -172,12 +185,12 @@
 							>
 								{{ item.tradingStatus }}
 							</td>
-							<td>{{ item.minDeposit }} {{ item.currency }}</td>
-							<td>{{ item.minWithdrawal }} {{ item.currency }}</td>
-							<td>{{ item.depositFee }} {{ item.currency }}</td>
-							<td>{{ item.withdrawalFee }} {{ item.currency }}</td>
-							<td>{{ item.noVerifyDayLimit }} {{ item.currency }}</td>
-							<td>{{ item.verifyDayLimit }} {{ item.currency }}</td>
+							<td>{{ item.minReplenish }} {{ item.currency }}</td>
+							<td>{{ item.minWithdraw }} {{ item.currency }}</td>
+							<td>{{ item.feeReplenish || 0 }} {{ item.currency }}</td>
+							<td>{{ item.feeWithdraw }} {{ item.currency }}</td>
+							<td>{{ item.maxWithdraw }} {{ item.currency }}</td>
+							<td>{{ item.maxVerifyWithdraw }} {{ item.currency }}</td>
 						</tr>
 					</tbody>
 				</template>
@@ -187,8 +200,15 @@
 </template>
 
 <script>
+import CommonTooltip from '../../common/CommonTooltip';
+import balanceStateMethodsMixin from '../../../mixins/balance/balanceStateMethodsMixin';
+
 export default {
 	name: 'StatusTables',
+
+	components: { CommonTooltip },
+
+	mixins: [balanceStateMethodsMixin],
 
 	props: {
 		fiatData: {
@@ -201,8 +221,8 @@ export default {
 		},
 		userFiat: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 
 	methods: {
@@ -214,13 +234,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="sass">
-.status-page
-	&__active-back
-		background: rgba(177, 255, 171, 0.45)
-	&__offline-back
-		background: rgba(255, 177, 171, 0.45)
-	&__maintenance-back
-		background: rgba(255, 235, 171, 0.45)
-</style>

@@ -1,15 +1,7 @@
 <template>
 	<v-card-text class="pb-0">
-		<p>
-			Поддерживаются
-			<b>12</b> валют:
-			<b>9</b>
-			криптовалют (монет/токенов)
-			<span v-if="userFiat">
-				и
-				<b>3</b> фиатных валют
-			</span>
-		</p>
+		<p v-if="userFiat" v-html="userCryptoAndFiatText" />
+		<p v-else v-html="userOnlyCryptoText" />
 	</v-card-text>
 </template>
 
@@ -22,6 +14,15 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+
+	data() {
+		return {
+			userCryptoAndFiatText: this.$t(
+				'status.support_currencies_fiat_and_crypto'
+			),
+			userOnlyCryptoText: this.$t('status.support_currencies_only_crypto'),
+		};
 	},
 };
 </script>

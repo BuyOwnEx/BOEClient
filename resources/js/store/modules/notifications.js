@@ -1,3 +1,5 @@
+import VueI18n from '../../plugins/vue-i18n';
+
 export default {
 	namespaced: true,
 
@@ -6,19 +8,19 @@ export default {
 
 		notificationTypes: [
 			{
-				name: 'Системные',
+				name: VueI18n.t('notifications.types.system'),
 				type: 'system',
 				icon: 'mdi-email-outline',
 				color: 'primary',
 			},
 			{
-				name: 'Новости',
+				name: VueI18n.t('notifications.types.news'),
 				type: 'news',
 				icon: 'mdi-newspaper-variant-outline',
 				color: 'green',
 			},
 			{
-				name: 'Финансы',
+				name: VueI18n.t('notifications.types.finance'),
 				type: 'finance',
 				icon: 'mdi-currency-usd',
 				color: 'purple',
@@ -28,68 +30,68 @@ export default {
 			{
 				id: 1,
 				key: 'login',
-				subject: 'Новый вход в систему',
-				title: 'Уведомлять о входе в систему',
+				subject: VueI18n.t('notifications.kinds.login.subject'),
+				title: VueI18n.t('notifications.kinds.login.title'),
 			},
 			{
 				id: 2,
 				key: 'addMoney',
-				subject: 'Пополнение средств',
-				title: 'Уведомлять о пополнении средств',
+				subject: VueI18n.t('notifications.kinds.add_money.subject'),
+				title: VueI18n.t('notifications.kinds.add_money.title'),
 			},
 			{
 				id: 3,
 				key: 'withdrawMoney',
-				subject: 'Вывод средств',
-				title: 'Уведомлять о выводе средств ',
+				subject: VueI18n.t('notifications.kinds.withdraw_money.subject'),
+				title: VueI18n.t('notifications.kinds.withdraw_money.title'),
 			},
 			{
 				id: 4,
 				key: 'ref',
-				subject: 'Начислены реферальные',
-				title: 'Уведомлять о начислении реферальных',
+				subject: VueI18n.t('notifications.kinds.ref.subject'),
+				title: VueI18n.t('notifications.kinds.ref.title'),
 			},
 			{
 				id: 5,
 				key: 'tradingBlock',
-				subject: 'Блокировка торговых операций',
-				title: 'Уведомлять о блокировке по торговым операциям',
+				subject: VueI18n.t('notifications.kinds.trading_block.subject'),
+				title: VueI18n.t('notifications.kinds.trading_block.title'),
 			},
 			{
 				id: 6,
 				key: 'moneyBlock',
-				subject: 'Блокировка ввода/вывода',
-				title: 'Уведомлять о блокировке по вводу/выводу средств',
+				subject: VueI18n.t('notifications.kinds.money_block.subject'),
+				title: VueI18n.t('notifications.kinds.money_block.title'),
 			},
 			{
 				id: 7,
 				key: 'systemBlock',
-				subject: 'Системная блокировка',
-				title: 'Уведомлять о системной блокировке',
+				subject: VueI18n.t('notifications.kinds.system_block.subject'),
+				title: VueI18n.t('notifications.kinds.system_block.title'),
 			},
 			{
 				id: 8,
 				key: 'positionLiquidationWarn',
-				subject: 'Скорая ликвидация средств',
-				title: 'Уведомлять о скорой ликвидации позиции',
+				subject: VueI18n.t('notifications.kinds.position_liquidation_warn.subject'),
+				title: VueI18n.t('notifications.kinds.position_liquidation_warn.title'),
 			},
 			{
 				id: 9,
 				key: 'positionLiquidation',
-				subject: 'Ликвидация позиции',
-				title: 'Уведомлять о ликвидации позиции',
+				subject: VueI18n.t('notifications.kinds.position_liquidation.subject'),
+				title: VueI18n.t('notifications.kinds.position_liquidation.title'),
 			},
 			{
 				id: 10,
 				key: 'maintenance',
-				subject: 'Тех. обслуживание',
-				title: 'Уведомлять о предстоящем тех. обслуживании биржи',
+				subject: VueI18n.t('notifications.kinds.maintenance.subject'),
+				title: VueI18n.t('notifications.kinds.maintenance.title'),
 			},
 			{
 				id: 11,
 				key: 'news',
-				subject: 'Новости биржи',
-				title: 'Уведомлять о новостях',
+				subject: VueI18n.t('notifications.kinds.news.subject'),
+				title: VueI18n.t('notifications.kinds.news.title'),
 			},
 		],
 	},
@@ -102,9 +104,7 @@ export default {
 		getNotificationsUnreadQuantityByType: (_, getters) => type => {
 			const dataArray = getters.getNotificationsByType(type);
 			if (dataArray) {
-				const nonCheckedArray = dataArray.filter(
-					item => !item.read_at
-				);
+				const nonCheckedArray = dataArray.filter(item => !item.read_at);
 				return nonCheckedArray.length;
 			}
 		},

@@ -44,7 +44,7 @@
 								plain
 								@click="confirm"
 							>
-								{{ confirmText }}
+								{{ confirmText || defaultConfirmText }}
 							</v-btn>
 						</slot>
 
@@ -64,7 +64,6 @@ export default {
 		confirmText: {
 			type: String,
 			required: false,
-			default: 'Подтвердить',
 		},
 		confirmColor: {
 			type: String,
@@ -90,6 +89,9 @@ export default {
 				return 'common-dialog__title--success';
 			else if (this.headerColor === 'error')
 				return 'common-dialog__title--error';
+		},
+		defaultConfirmText() {
+			return this.$t('common.confirm');
 		},
 	},
 

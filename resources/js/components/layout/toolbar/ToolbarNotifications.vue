@@ -63,7 +63,7 @@
 				</div>
 
 				<div v-else class="text-center overline pa-2 pb-0">
-					Новых уведомлений нет
+					{{ $t('notifications.no_notifications') }}
 				</div>
 
 				<div class="text-center mx-1 mx-sm-0 py-2">
@@ -72,7 +72,7 @@
 						small
 						@click="navigateToNotificationsPage"
 					>
-						See all
+						{{$t('common.see_all')}}
 					</v-btn>
 				</div>
 			</v-card>

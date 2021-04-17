@@ -29,7 +29,7 @@
 
 			<v-divider class="my-1" />
 
-			<v-list-item link @click="sendLogout">
+			<v-list-item link @click="logout">
 				<v-list-item-icon>
 					<v-icon small>mdi-logout-variant</v-icon>
 				</v-list-item-icon>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from 'vuex';
+
 export default {
 	name: 'ToolbarUser',
 
@@ -89,21 +91,18 @@ export default {
 	},
 
 	methods: {
-		sendLogout(event) {
-			axios.post('/logout').then(response => {
-				window.location.reload();
-			});
-		},
+		...mapMutations({
+			setProfileTab: 'user/SET_PROFILE_TAB',
+		}),
+		...mapActions({
+			logout: 'user/logout'
+		}),
 
 		navigatePage(item) {
 			const isProfilePage = window.location.pathname === '/profile';
 
-			if (isProfilePage) this.setActiveTab(item.tabIndex);
+			if (isProfilePage) this.setProfileTab(item.tabIndex);
 			else window.location = item.link;
-		},
-
-		setActiveTab(tabIndex) {
-			this.$store.dispatch('user/setProfileTab', tabIndex);
 		},
 	},
 };

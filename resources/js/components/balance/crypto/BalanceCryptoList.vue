@@ -188,13 +188,6 @@ export default {
 
 	mixins: [balanceStateMethodsMixin],
 
-	props: {
-		stateTypes: {
-			type: Array,
-			required: true,
-		},
-	},
-
 	data() {
 		return {
 			showOnlyNotNullBalances: false,

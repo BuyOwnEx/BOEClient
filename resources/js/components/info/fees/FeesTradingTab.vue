@@ -1,20 +1,15 @@
 <template>
 	<div class="fees-trading-tab">
-		<v-data-table
-			:headers="headers"
-			:items="pairs"
-			:search="search"
-			dense
-		>
+		<v-data-table :headers="headers" :items="pairs" :search="search" dense>
 			<template #top>
 				<v-toolbar flat dense>
-					<div class="component-title">Торговая комиссия</div>
+					<div class="component-title">{{ $t('fees.trading_fee') }}</div>
 
 					<v-text-field
-						class="fees-page__search"
 						v-model="search"
+						class="fees-page__search"
+						:label="$t('trading.search')"
 						append-icon="mdi-magnify"
-						label="Поиск"
 						single-line
 						hide-details
 					/>
@@ -32,35 +27,35 @@ export default {
 		return {
 			headers: [
 				{
-					text: 'Пара',
+					text: this.$t('table_header.pair'),
 					align: 'center',
 					sortable: true,
 					filterable: true,
 					value: 'pair',
 				},
 				{
-					text: 'Комиссия по сделке, Maker',
+					text: this.$t('table_header.deal_fee_maker'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'makerFee',
 				},
 				{
-					text: 'Комиссия по сделке, Taker',
+					text: this.$t('table_header.deal_fee_taker'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'takerFee',
 				},
 				{
-					text: 'Минимальный размер ордера',
+					text: this.$t('table_header.min_order_size'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'minAmount',
 				},
 				{
-					text: 'Минимальный объём ордера',
+					text: this.$t('table_header.min_order_volume'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
@@ -77,8 +72,8 @@ export default {
 		},
 		pairs() {
 			let result = [];
-			_.forEach(this.markets, function(value, key) {
-				_.forEach(value, function(item, key2) {
+			_.forEach(this.markets, value => {
+				_.forEach(value, item => {
 					result.push({
 						id: item.id,
 						currency: item.currency,

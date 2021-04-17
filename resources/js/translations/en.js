@@ -14,6 +14,7 @@ export default {
 		back: 'Back',
 		finish: 'Finish',
 		transfer: 'Transfer',
+		confirm: 'Confirm',
 
 		title: 'Title',
 		description: 'Description',
@@ -26,6 +27,16 @@ export default {
 		withdrawal_funds: 'Withdraw of funds',
 		replenishment: 'Replenishment',
 		withdrawal: 'Withdrawal',
+
+		no_data: 'No data',
+		see_all: 'See all',
+	},
+
+	apps: {
+		exсhange: {
+			title: 'Exchange',
+			subtitle: 'Crypto-asset trading',
+		},
 	},
 
 	copy: {
@@ -34,12 +45,6 @@ export default {
 		copied_to_clipboard: 'Copied to clipboard!',
 	},
 
-	usermenu: {
-		profile: 'Profile',
-		signin: 'Sign In',
-		dashboard: 'Dashboard',
-		signout: 'Sign Out',
-	},
 	error: {
 		notfound: 'Page Not Found',
 		other: 'An Error Ocurred',
@@ -47,39 +52,39 @@ export default {
 	utility: {
 		maintenance: 'In Maintenance',
 	},
-	faq: {
-		call: 'Have other questions? Please reach out ',
+
+	table_header: {
+		currency: 'Currency',
+		name: 'Name',
+		safe: 'Safe',
+		trade: 'Trade',
+		withdraw: 'Withdraw',
+		blocked: 'Blocked',
+		state: 'State',
+		actions: 'Actions',
+		date: 'Date',
+		type: 'Type',
+		pair: 'Pair',
+		code: 'Code',
+
+		deal_fee_maker: 'Transaction commission, Maker',
+		deal_fee_taker: 'Transaction commission, Taker',
+		min_order_size: 'Min. order size',
+		min_order_volume: 'Min. order volume',
+
+		min_replenish_amount: 'Min. replenish amount',
+		min_withdrawal_amount: 'Min. withdrawal amount',
+		replenishment_fee: 'Replenishment fee',
+		withdrawal_fee: 'Withdrawal fee',
+		daily_withdrawal_limit_connected:
+			'Daily withdrawal limit (Not passed / Passed verification)',
+		daily_withdrawal_limit: 'Withdrawal limit (per day)',
+		daily_withdrawal_limit_verify:
+			'Withdrawal limit who passed verification (per day)',
+		available_payment_systems: 'Available payment systems',
+		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
-	ecommerce: {
-		products: 'Products',
-		filters: 'Filters',
-		collections: 'Collections',
-		priceRange: 'Price Range',
-		customerReviews: 'Customer Reviews',
-		up: 'and up',
-		brand: 'Brand',
-		search: 'Search for product',
-		results: 'Results ( {0} of {1} )',
-		orders: 'Orders',
-		shipping: 'Shipping',
-		freeShipping: 'Free Shipping',
-		inStock: 'In Stock',
-		quantity: 'Quantity',
-		addToCart: 'Add To Cart',
-		buyNow: 'Buy Now',
-		price: 'Price',
-		about: 'About this item',
-		description: 'Description',
-		reviews: 'Reviews',
-		details: 'Product Details',
-		cart: 'Cart',
-		summary: 'Order Summary',
-		total: 'Total',
-		discount: 'Discount',
-		subtotal: 'Subtotal',
-		continue: 'Continue Shopping',
-		checkout: 'Checkout',
-	},
+
 	menu: {
 		trading: 'Trading',
 		overview: 'Market overview',
@@ -187,10 +192,13 @@ export default {
 			use_margin: 'Use Leverage',
 			use_additional_params: 'Apply additional settings',
 			available: 'Available:',
+
 			cancel_all: 'Cancel all orders',
-			cancel_tp: 'Cancel all TP orders',
-			cancel_sl: 'Cancel all SL orders',
-			cancel_ts: 'Cancel all TS orders',
+			cancel_by_type: 'Cancel all {type} orders',
+
+			cancel_title: 'Cancellation confirmation',
+			cancel_one: 'Are you sure you want to cancel the order?',
+			cancel_many: 'Are you sure you want to cancel all {type} orders?',
 		},
 		position: {
 			close_all: 'Close all positions',
@@ -201,6 +209,8 @@ export default {
 				partiallyFilled: 'Partially filled',
 				filled: 'Filled',
 			},
+			short_type: 'short',
+			long_type: 'long',
 		},
 		dialogs: {
 			descriptions: {
@@ -2170,6 +2180,29 @@ export default {
 		},
 	},
 
+	status: {
+		title: 'System status',
+		description: `System status is a monitoring tool that provides
+information on the availability of deposit, withdrawal and trading in real
+time, as well as applicable fees and limits. It is developing
+a tool that will include more information about the system, aiming
+make our system processes as transparent as possible.`,
+		see_state_of_market:
+			'You can get acquainted with the state of the market on the page',
+		fiat_status: 'System status for fiat currencies',
+		crypto_status: 'System status for cryptocurrencies',
+		support_currencies_only_crypto:
+			'<b>9</b> cryptocurrencies (coins / tokens) supported',
+		support_currencies_fiat_and_crypto:
+			'<b>12</b> currencies are supported: <b>9</b> cryptocurrencies (coins / tokens) and <b>3</b> fiat currencies',
+	},
+	fees: {
+		title: 'Fees and limits',
+		trading_fee: 'Trading fee',
+		operations_fee: 'Replenish and withdrawal fee',
+		operations_limits: 'Replenish and withdrawal limits',
+	},
+
 	user: {
 		title: {
 			profile: 'Profile',
@@ -2268,13 +2301,66 @@ export default {
 					'Are you sure you want to change the referral program?',
 			},
 			days: 'days',
+			system_select_hint:
+				'Receiving <b>{percent}</b> % of referral transactions within <b>{days}</b> days',
 		},
 	},
 
 	notifications: {
 		title: 'Notifications',
+		no_notifications: 'No new notifications',
 		notifications_types: 'Notifications types',
-		no_notifications: 'No notifications',
+		types: {
+			system: 'Системные',
+			news: 'Новости',
+			finance: 'Финансы',
+		},
+		kinds: {
+			login: {
+				title: 'Notify on login',
+				subject: 'New login',
+			},
+			add_money: {
+				title: 'Notify about replenishment',
+				subject: 'Replenishment of funds',
+			},
+			withdraw_money: {
+				title: 'Notify about withdrawal of funds',
+				subject: 'Withdrawal funds',
+			},
+			ref: {
+				title: 'Notify about the accrual of referral',
+				subject: 'Referral accrued',
+			},
+			trading_block: {
+				title: 'Notify about blocking on a trading operations',
+				subject: 'Blocking trading operations',
+			},
+			money_block: {
+				title: 'Notify about blocking on replenishment / withdrawal of funds',
+				subject: 'Blocking replenishment/withdrawal',
+			},
+			system_block: {
+				title: 'System block',
+				subject: 'Notify about system block',
+			},
+			position_liquidation_warn: {
+				title: 'Notify about the imminent liquidation of a position',
+				subject: 'Soon liquidation of funds',
+			},
+			position_liquidation: {
+				title: 'Notify about liquidation of a position',
+				subject: 'Liquidation of a position',
+			},
+			maintenance: {
+				title: 'Notify about upcoming maintenance of the exchange',
+				subject: 'Maintenance',
+			},
+			news: {
+				title: 'Notify about news',
+				subject: 'News',
+			},
+		},
 	},
 
 	support: {
@@ -2285,11 +2371,27 @@ export default {
 		},
 		no_tickets: 'No tickets',
 		close_ticket: 'Close ticket',
-		attachments: 'Attachements',
+		attachments: 'Attachments',
 		attach_file: 'Attach file',
 		file_hint:
 			'Image formats are allowed: .png, .jpg, .bmp and .zip archive. Maximum upload file size: 5 Mb',
 		create_ticket: 'Create ticket',
+		status: {
+			all: 'All tickets',
+			new: 'New',
+			open: 'Open',
+			pending: 'Pending',
+			hold: 'Hold',
+			solved: 'Solved',
+			closed: 'Closed',
+		},
+		priority: {
+			all: 'All',
+			low: 'Low',
+			medium: 'Medium',
+			high: 'High',
+			urgent: 'Urgent',
+		},
 	},
 
 	forms_validation: {

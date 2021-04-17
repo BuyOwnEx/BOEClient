@@ -3,13 +3,13 @@
 		<v-data-table :headers="headers" :items="crypto" :search="search" dense>
 			<template #top>
 				<v-toolbar flat dense>
-					<div class="component-title">Лимиты по вводу и выводу</div>
+					<div class="component-title">{{ $t('fees.operations_limits') }}</div>
 
 					<v-text-field
-						class="fees-page__search"
 						v-model="search"
+						class="fees-page__search"
+						:label="$t('trading.search')"
 						append-icon="mdi-magnify"
-						label="Поиск"
 						single-line
 						hide-details
 					/>
@@ -40,42 +40,42 @@ export default {
 			currencies: [],
 			headers: [
 				{
-					text: 'Код',
+					text: this.$t('table_header.code'),
 					align: 'center',
 					sortable: true,
 					filterable: true,
 					value: 'currency',
 				},
 				{
-					text: 'Наименование',
+					text: this.$t('table_header.name'),
 					align: 'center',
 					sortable: true,
 					filterable: true,
 					value: 'name',
 				},
 				{
-					text: 'Минимальная сумма пополнения',
+					text: this.$t('table_header.min_replenish_amount'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'minReplenish',
 				},
 				{
-					text: 'Минимальная сумма вывода',
+					text: this.$t('table_header.min_withdrawal_amount'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'minWithdraw',
 				},
 				{
-					text: 'Лимит вывода (в день)',
+					text: this.$t('table_header.daily_withdrawal_limit'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'maxWithdraw',
 				},
 				{
-					text: 'Лимит вывода для прошедших верификацию (в день)',
+					text: this.$t('table_header.daily_withdrawal_limit_verify'),
 					align: 'center',
 					sortable: true,
 					filterable: false,

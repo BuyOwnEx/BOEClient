@@ -1,6 +1,6 @@
 <template>
 	<div class="history-deal-list-absolute-wrapper">
-		<v-simple-table class="hdl__content__table" dense fixed-header>
+		<v-simple-table dense fixed-header>
 			<template v-slot:default>
 				<HistoryDealListTableHeader :currency="currency" :market="market" />
 
@@ -74,7 +74,7 @@ export default {
 		bottom: -1306px
 @media screen and (min-width: 960px) and (max-width: 1382px)
 	.history-deal-list-absolute-wrapper
-		bottom: -482px
+		bottom: -468px
 @media screen and (max-width: 960px)
 	.history-deal-list-absolute-wrapper
 		bottom: -1020px

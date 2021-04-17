@@ -1,22 +1,22 @@
 <template>
-	<thead class="hdl__content__table__head">
+	<thead class="history-deal-list-table-header">
 		<tr>
 			<th>
-				<div class="hdl__content__table__head__item--rate">
+				<div class="history-deal-list-table-header__item--rate">
 					<span>{{ $t('trading.rate') }}</span>
 					<span>({{ market }})</span>
 				</div>
 			</th>
 
 			<th>
-				<div class="hdl__content__table__head__item--amount">
+				<div class="history-deal-list-table-header__item--amount">
 					<span>{{ $t('trading.amount') }}</span>
 					<span>({{ currency }})</span>
 				</div>
 			</th>
 
 			<th>
-				<div class="hdl__content__table__head__item--date">
+				<div class="history-deal-list-table-header__item--date">
 					{{ $t('trading.date') }}
 				</div>
 			</th>
@@ -42,11 +42,8 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.hdl
-	&__content
-		&__table
-			&__head
-				&__item
-					&--date
-						text-align: end
+.history-deal-list-table-header
+	&__item
+		&--date
+			text-align: end
 </style>

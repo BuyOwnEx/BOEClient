@@ -1,20 +1,15 @@
 <template>
 	<div class="fees-deposit-and-withdrawal-tab">
-		<v-data-table
-			:headers="headers"
-			:items="crypto"
-			:search="search"
-			dense
-		>
+		<v-data-table :headers="headers" :items="crypto" :search="search" dense>
 			<template #top>
 				<v-toolbar flat dense>
-					<div class="component-title">Комиссия на ввод и вывод</div>
+					<div class="component-title">{{ $t('fees.operations_fee') }}</div>
 
 					<v-text-field
-						class="fees-page__search"
 						v-model="search"
+						class="fees-page__search"
+						:label="$t('trading.search')"
 						append-icon="mdi-magnify"
-						label="Поиск"
 						single-line
 						hide-details
 					/>
@@ -33,35 +28,35 @@ export default {
 			currencies: [],
 			headers: [
 				{
-					text: 'Код',
+					text: this.$t('table_header.code'),
 					align: 'center',
 					sortable: true,
 					filterable: true,
 					value: 'currency',
 				},
 				{
-					text: 'Наименование',
+					text: this.$t('table_header.name'),
 					align: 'center',
 					sortable: true,
 					filterable: true,
 					value: 'name',
 				},
 				{
-					text: 'Комиссия при пополнении',
+					text: this.$t('table_header.replenishment_fee'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'feeReplenish',
 				},
 				{
-					text: 'Комиссия при выводе',
+					text: this.$t('table_header.withdrawal_fee'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
 					value: 'feeWithdraw',
 				},
 				{
-					text: 'Мин. кол-во подтверждений сети',
+					text: this.$t('table_header.min_number_of_network_confirmation'),
 					align: 'center',
 					sortable: true,
 					filterable: false,
@@ -75,7 +70,7 @@ export default {
 	computed: {
 		crypto() {
 			let result = [];
-			_.forEach(this.currencies, function(value, key) {
+			_.forEach(this.currencies, value => {
 				result.push({
 					id: value.id,
 					currency: value.currency,

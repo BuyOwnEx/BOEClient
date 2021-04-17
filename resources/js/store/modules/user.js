@@ -259,8 +259,12 @@ export default {
 			});
 		},
 
-		setProfileTab({ commit }, tabIndex) {
-			commit('SET_PROFILE_TAB', tabIndex);
+		async logout() {
+			await axios.post('/logout');
+			window.location.pathname = 'login'
+		},
+		async updateNotificationsSettings(_, payload) {
+			//return await axios.post()
 		},
 	},
 };

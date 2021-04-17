@@ -19,11 +19,11 @@
 					{{ getRefText(item.id) }}
 				</template>
 			</v-select>
-			<div class="user-settings-tab__system-select-hint">
-				Получение <b>{{ selectedRefType.percent }}</b>
-				% от сделок рефералов на протяжении
-				<b>{{ selectedRefType.days }}</b> дней
-			</div>
+
+			<div
+				class="user-settings-tab__system-select-hint"
+				v-html="systemSelectHint"
+			/>
 
 			<CommonDialog @confirm="saveRefSettings">
 				<template #default>
@@ -73,6 +73,12 @@ export default {
 		},
 		selectedRefType() {
 			return this.activeRefTypes.find(t => t.id === this.selectedRefTypeID);
+		},
+		systemSelectHint() {
+			return this.$t('user.settings.system_select_hint', {
+				percent: this.selectedRefType.percent,
+				days: this.selectedRefType.days,
+			});
 		},
 	},
 

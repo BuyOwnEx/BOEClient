@@ -236,8 +236,11 @@ export default {
 		},
 		tabsTouchless() {
 			const chartTabIndex = 0;
-			const ownListsTabIndex = 6
-			return this.selectedTab === chartTabIndex || this.selectedTab === ownListsTabIndex;
+			const ownListsTabIndex = 6;
+			return (
+				this.selectedTab === chartTabIndex ||
+				this.selectedTab === ownListsTabIndex
+			);
 		},
 		isMediumBreakpoint() {
 			return this.$vuetify.breakpoint.width < 1382;

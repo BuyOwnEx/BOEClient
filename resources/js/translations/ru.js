@@ -14,6 +14,7 @@ export default {
 		back: 'Назад',
 		finish: 'Завершить',
 		transfer: 'Перевести',
+		confirm: 'Подтвердить',
 
 		title: 'Тема',
 		description: 'Описание',
@@ -26,6 +27,16 @@ export default {
 		withdrawal_funds: 'Вывод средств',
 		replenishment: 'Пополение',
 		withdrawal: 'Вывод',
+
+		no_data: 'Данных нет',
+		see_all: 'Увидеть все',
+	},
+
+	apps: {
+		exсhange: {
+			title: 'Обмен',
+			subtitle: 'Торговля криптоактивами'
+		}
 	},
 
 	copy: {
@@ -34,12 +45,6 @@ export default {
 		copied_to_clipboard: 'Скопировано в буфер обмена!',
 	},
 
-	usermenu: {
-		profile: 'Профиль',
-		signin: 'Войти в систему',
-		dashboard: 'Приборная доска',
-		signout: 'Выход',
-	},
 	error: {
 		notfound: 'Страница не найдена',
 		other: 'Произошла ошибка',
@@ -47,39 +52,39 @@ export default {
 	utility: {
 		maintenance: 'В обслуживании',
 	},
-	faq: {
-		call: 'Остались вопросы? Пожалуйста, протяни руку',
+
+	table_header: {
+		currency: 'Валюта',
+		name: 'Название',
+		safe: 'Safe',
+		trade: 'Trade',
+		withdraw: 'Вывод',
+		blocked: 'Заблокировано',
+		state: 'Состояние',
+		actions: 'Действия',
+		date: 'Дата',
+		type: 'Тип',
+		pair: 'Пара',
+		code: 'Код',
+
+		deal_fee_maker: 'Комиссия по сделке, Maker',
+		deal_fee_taker: 'Комиссия по сделке, Taker',
+		min_order_size: 'Минимальный размер ордера',
+		min_order_volume: 'Минимальный объём ордера',
+
+		min_replenish_amount: 'Мин. сумма пополнения',
+		min_withdrawal_amount: 'Мин. сумма вывода',
+		replenishment_fee: 'Комиссия по пополнению',
+		withdrawal_fee: 'Комиссия по выводу',
+		daily_withdrawal_limit_connected:
+			'Дневной лимит вывода (Не прошедшие/Прошедшие верификацию)',
+		daily_withdrawal_limit: 'Лимит вывода (в день)',
+		daily_withdrawal_limit_verify:
+			'Лимит вывода для прошедших верификацию (в день)',
+		available_payment_systems: 'Доступные платежные системы',
+		min_number_of_network_confirmation: 'Мин. кол-во подтверждений сети',
 	},
-	ecommerce: {
-		products: 'Продукты',
-		filters: 'Фильтры',
-		collections: 'Коллекции',
-		priceRange: 'Ценовой диапазон',
-		customerReviews: 'Отзывы клиентов',
-		up: 'и вверх',
-		brand: 'Марка',
-		search: 'Искать продукт',
-		results: 'Результаты ({0} из {1})',
-		orders: 'Заказы',
-		shipping: 'Перевозка',
-		freeShipping: 'Бесплатная доставка',
-		inStock: 'В наличии',
-		quantity: 'Количество',
-		addToCart: 'Добавить в корзину',
-		buyNow: 'купить сейчас',
-		price: 'Цена',
-		about: 'Об этом товаре',
-		description: 'Описание',
-		reviews: 'Отзывы',
-		details: 'информация о продукте',
-		cart: 'Корзина',
-		summary: 'итог заказа',
-		total: 'Всего',
-		discount: 'Скидка',
-		subtotal: 'Промежуточный итог',
-		continue: 'Продолжить покупки',
-		checkout: 'Проверять, выписываться',
-	},
+
 	menu: {
 		trading: 'Торговля',
 		overview: 'Обзор рынка',
@@ -187,10 +192,13 @@ export default {
 			use_margin: 'Использовать плечо',
 			use_additional_params: 'Дополнительные параметры',
 			available: 'Доступно:',
+
 			cancel_all: 'Отменить все ордера',
-			cancel_tp: 'Отменить все TP ордера',
-			cancel_sl: 'Отменить все SL ордера',
-			cancel_ts: 'Отменить все TS ордера',
+			cancel_by_type: 'Отменить все {type} ордера',
+
+			cancel_title: 'Подтверждение отмены',
+			cancel_one: 'Вы действительно хотите отменить ордер?',
+			cancel_many: 'Вы уверены, что хотите отменить все {type} ордера?',
 		},
 		position: {
 			close_all: 'Закрыть все позиции',
@@ -201,6 +209,8 @@ export default {
 				partiallyFilled: 'Частично исполнена',
 				filled: 'Исполнена полностью',
 			},
+			short_type: 'короткие',
+			long_type: 'длинные',
 		},
 		dialogs: {
 			descriptions: {
@@ -328,15 +338,6 @@ export default {
 			own_active_withdraw_list: 'Own Active Withdraw List',
 		},
 
-		currency: 'Валюта',
-		name: 'Название',
-		safe: 'Safe',
-		trade: 'Trade',
-		withdraw: 'Вывод',
-		blocked: 'Заблокировано',
-		state: 'Состояние',
-		actions: 'Действия',
-		date: 'Дата',
 		amount: 'Сумма',
 		show_only_not_null_balances: 'Показывать только ненулевой баланс',
 
@@ -2181,6 +2182,28 @@ export default {
 		},
 	},
 
+	status: {
+		title: 'Состояние системы',
+		description: `Состояние системы - это инструмент мониторинга, который предоставляет
+			информацию о доступности ввода, вывода и торгам в режиме реального
+			времени, а также применяемые комиссии и лимиты. Это развивающийся
+			инструмент, который будет включать больше информации о системе, стремясь
+			сделать наши системные процессы максимально прозрачными.`,
+		see_state_of_market: 'Ознакомиться c состоянием рынка можно на странице',
+		fiat_status: 'Состояние системы по фиатным валютам',
+		crypto_status: 'Состояние системы по криптовалютам',
+		support_currencies_only_crypto:
+			'Поддерживаются <b>9</b> криптовалют (монет/токенов)',
+		support_currencies_fiat_and_crypto:
+			'Поддерживаются <b>12</b> валют: <b>9</b> криптовалют (монет/токенов) и <b>3</b> фиатных валют',
+	},
+	fees: {
+		title: 'Комиссии и лимиты',
+		trading_fee: 'Торговая комиссия',
+		operations_fee: 'Комиссия на ввод и вывод',
+		operations_limits: 'Лимиты по вводу и выводу',
+	},
+
 	user: {
 		title: {
 			profile: 'Профиль',
@@ -2201,22 +2224,22 @@ export default {
 		},
 
 		info: {
-			display_name: 'Display name',
-			email: 'Email',
+			display_name: 'Отображаемое имя',
+			email: 'Почта',
 			rate: 'Rate API limit',
 			ref_link: 'Реферальная ссылка',
-			email_verified: 'Email Verified',
-			protected: '2FA protected',
-			kyc_status: 'KYC Status',
+			email_verified: 'Почта подтверждена',
+			protected: 'Двухфакторная защита',
+			kyc_status: 'KYC статус',
 		},
 
 		api: {
 			title: 'API ключи',
-			api_empty: 'API list is empty',
+			api_empty: 'API лист пуст',
 			dialog: {
 				create: {
 					title: 'Создать API',
-					api_name: 'API name',
+					api_name: 'Имя API',
 					copy_tokens_description:
 						'Скопируйте данные АПИ ключи, поскольку при закрытии диалогового окна API Key будет отображен как SHA 256 хэш, а Secret Key будет скрыт',
 					api_key: 'API ключ',
@@ -2235,8 +2258,8 @@ export default {
 				},
 			},
 			headers: {
-				hash: 'API Key Hash (SHA 256)',
-				secret_key: 'Secret Key (Hidden)',
+				hash: 'Хэш API ключа (SHA 256)',
+				secret_key: 'Секретный ключ (Скрыт)',
 				abilities: 'Разрешения API',
 				created: 'Создан',
 				updated: 'Обновлён',
@@ -2279,13 +2302,66 @@ export default {
 					'Вы уверены, что хотите изменить реферальную программу?',
 			},
 			days: 'дней',
+			system_select_hint:
+				'Получение <b>{percent}</b> % от сделок рефералов на протяжении <b>{days}</b> дней',
 		},
 	},
 
 	notifications: {
 		title: 'Уведомления',
+		no_notifications: 'Новых уведомлений нет',
 		notifications_types: 'Типы уведомлений',
-		no_notifications: 'Уведомлений нет',
+		types: {
+			system: 'Системные',
+			news: 'Новости',
+			finance: 'Финансы',
+		},
+		kinds: {
+			login: {
+				title: 'Уведомлять о входе в систему',
+				subject: 'Новый вход в систему',
+			},
+			add_money: {
+				title: 'Уведомлять о пополнении средств',
+				subject: 'Пополнение средств',
+			},
+			withdraw_money: {
+				title: 'Уведомлять о выводе средств',
+				subject: 'Вывод средств',
+			},
+			ref: {
+				title: 'Уведомлять о начислении реферальных',
+				subject: 'Начислены реферальные',
+			},
+			trading_block: {
+				title: 'Уведомлять о блокировке по торговым операциям',
+				subject: 'Блокировка торговых операций',
+			},
+			money_block: {
+				title: 'Уведомлять о блокировке по вводу/выводу средств',
+				subject: 'Блокировка ввода/вывода',
+			},
+			system_block: {
+				title: 'Системная блокировка',
+				subject: 'Уведомлять о системной блокировке',
+			},
+			position_liquidation_warn: {
+				title: 'Уведомлять о скорой ликвидации позиции',
+				subject: 'Скорая ликвидация средств',
+			},
+			position_liquidation: {
+				title: 'Уведомлять о ликвидации позиции',
+				subject: 'Ликвидация позиции',
+			},
+			maintenance: {
+				title: 'Уведомлять о предстоящем тех. обслуживании биржи',
+				subject: 'Тех. обслуживание',
+			},
+			news: {
+				title: 'Уведомлять о новостях',
+				subject: 'Новости',
+			},
+		},
 	},
 
 	support: {
@@ -2301,6 +2377,22 @@ export default {
 		file_hint:
 			'Допускаются изображения форматов: .png, .jpg, .bmp и архив формата .zip. Максимальный размер загружаемого файла: 5 Mb',
 		create_ticket: 'Создать тикет',
+		status: {
+			all: 'Все тикеты',
+			new: 'Новые',
+			open: 'Открытые',
+			pending: 'Ожидающие',
+			hold: 'На удержании',
+			solved: 'Выполненные',
+			closed: 'Закрытые',
+		},
+		priority: {
+			all: 'Все',
+			low: 'Низкий',
+			medium: 'Средний',
+			high: 'Высокий',
+			urgent: 'Срочный',
+		},
 	},
 
 	forms_validation: {

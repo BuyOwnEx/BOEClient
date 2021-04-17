@@ -10,7 +10,7 @@
 			expand-on-hover
 		>
 			<template v-slot:prepend>
-				<v-list-item style="padding: 0 4px;">
+				<v-list-item class="sidebar-header">
 					<v-list-item-avatar height="48" min-width="48" width="48">
 						<v-img src="/images/logo.png"></v-img>
 					</v-list-item-avatar>
@@ -111,31 +111,31 @@
 		<v-footer class="footer overline" :height="calculateFooterHeight" inset app>
 			<span>
 				<a class="footer__link" href="/status">
-					Состояние системы
+					{{ $t('status.title') }}
 				</a>
 
 				<a class="footer__link" href="/fees">
-					Комиссии и лимиты
+					{{ $t('fees.title') }}
 				</a>
 
 				<a v-if="isWidthMore400px" class="footer__link" href="/contacts">
-					Контакты
+					{{ $t('menu.contacts') }}
 				</a>
 
 				<a class="footer__link" href="/overview">
-					Обзор рынка
+					{{ $t('menu.overview') }}
 				</a>
 
 				<a v-if="isWidthMore400px" class="footer__link" href="/api">
-					API
+					{{ $t('menu.api') }}
 				</a>
 
 				<a v-if="isWidthMore400px" class="footer__link" href="/terms">
-					Правила системы
+					{{ $t('docs.terms.title') }}
 				</a>
 
 				<a v-if="isWidthMore400px" class="footer__link" href="/policy">
-					Политика конфиденциальности
+					{{ $t('docs.policy.title') }}
 				</a>
 			</span>
 
@@ -212,13 +212,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.buy-button {
-	box-shadow: 1px 1px 18px #ee44aa;
-}
 .container {
 	padding: 5px;
 }
 
+.sidebar-header {
+	padding: 0 4px;
+}
 .footer {
 	display: flex;
 	justify-content: space-between;

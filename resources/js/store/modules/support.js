@@ -1,46 +1,48 @@
+import VueI18n from '../../plugins/vue-i18n';
+
 export default {
 	namespaced: true,
 
 	state: {
 		supportStatuses: [
 			{
-				name: 'Все тикеты',
+				name: VueI18n.t('support.status.all'),
 				key: 'all',
 				icon: 'mdi-dots-horizontal',
 				color: 'primary',
 			},
 			{
-				name: 'Новые',
+				name: VueI18n.t('support.status.new'),
 				key: 'new',
 				icon: 'mdi-new-box',
 				color: 'primary',
 			},
 			{
-				name: 'Открытые',
+				name: VueI18n.t('support.status.open'),
 				key: 'open',
 				icon: 'mdi-book-open-outline',
 				color: 'primary',
 			},
 			{
-				name: 'Ожидающие',
+				name: VueI18n.t('support.status.pending'),
 				key: 'pending',
 				icon: 'mdi-circle-slice-2',
 				color: 'yellow',
 			},
 			{
-				name: 'На удержании',
+				name: VueI18n.t('support.status.hold'),
 				key: 'hold',
 				icon: 'mdi-circle-slice-6',
 				color: 'orange',
 			},
 			{
-				name: 'Выполненные',
+				name: VueI18n.t('support.status.solved'),
 				key: 'solved',
 				icon: 'mdi-check',
 				color: 'green',
 			},
 			{
-				name: 'Закрытые',
+				name: VueI18n.t('support.status.closed'),
 				key: 'closed',
 				icon: 'mdi-close',
 				color: 'red',
@@ -49,31 +51,31 @@ export default {
 		priorityList: [
 			{
 				id: 1,
-				name: 'Все',
+				name: VueI18n.t('support.priority.all'),
 				key: 'all',
 				color: 'primary',
 			},
 			{
 				id: 2,
-				name: 'Низкий',
+				name: VueI18n.t('support.priority.low'),
 				key: 'low',
 				color: 'warning',
 			},
 			{
 				id: 3,
-				name: 'Средний',
+				name: VueI18n.t('support.priority.medium'),
 				key: 'normal',
 				color: 'orange',
 			},
 			{
 				id: 4,
-				name: 'Высокий',
+				name: VueI18n.t('support.priority.high'),
 				key: 'high',
 				color: 'error',
 			},
 			{
 				id: 5,
-				name: 'Срочный',
+				name: VueI18n.t('support.priority.urgent'),
 				key: 'urgent',
 				color: 'pink',
 			},
