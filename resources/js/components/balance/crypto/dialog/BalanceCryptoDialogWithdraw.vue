@@ -92,9 +92,9 @@
 									{{ $t('balance.stepper.withdrawal_params.description') }}
 								</div>
 
-								<div class="subtitle-1 py-1">
+								<div class="balance-crypto-dialog-withdraw__address-wrapper subtitle-1 py-1 d-flex align-center">
 									<CommonTooltip>
-										<v-icon>
+										<v-icon class="d-flex align-center">
 											mdi-qrcode
 										</v-icon>
 
@@ -122,10 +122,10 @@
 										{{ currencyObj.maxWithdraw }}
 										{{ currency }}
 									</b>
-									<small
-										>({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{ currencyObj.daily }}
-										{{ currency }})</small
-									>
+									<small>
+										({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{ currencyObj.daily }}
+										{{ currency }})
+									</small>
 								</div>
 
 								<div>
@@ -305,7 +305,7 @@ export default {
 			return this.safe.minus(this.fee).gt(0) ? this.safe.minus(this.fee) : BigNumber(0);
 		},
 		maxAvailable() {
-			return 	BigNumber(this.maxWithdraw).minus(this.daily);
+			return BigNumber(this.maxWithdraw).minus(this.daily);
 		},
 		availableForWithdraw() {
 			return BigNumber.min(this.availableForUser, this.maxAvailable);
@@ -418,3 +418,8 @@ export default {
 	},
 };
 </script>
+
+<style lang="sass" scoped>
+.balance-crypto-dialog-withdraw__address-wrapper
+	gap: 4px
+</style>
