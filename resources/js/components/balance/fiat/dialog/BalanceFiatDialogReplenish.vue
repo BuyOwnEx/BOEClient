@@ -59,11 +59,10 @@
 								<v-form>
 									<v-text-field
 										v-model="amount"
-										type="number"
 										:placeholder="$t('balance.amount')"
 										:suffix="currency"
 										autofocus
-										@keydown="passNumbers"
+										@keydown="validateNumber"
 										@paste.prevent
 									/>
 								</v-form>
@@ -104,14 +103,14 @@ import BalanceFiatDialogSelectSystem from './parts/BalanceFiatDialogSelectSystem
 import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
-import passNumberMixin from '../../../../mixins/common/passNumberMixin';
+import validateInputMixin from '../../../../mixins/common/validateInputMixin';
 
 export default {
 	name: 'BalanceFiatDialogReplenish',
 
 	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert },
 
-	mixins: [loadingMixin, passNumberMixin],
+	mixins: [loadingMixin, validateInputMixin],
 
 	props: {
 		currencyObj: {

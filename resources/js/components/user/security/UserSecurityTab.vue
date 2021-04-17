@@ -41,14 +41,13 @@
 					<v-form @submit.prevent="disable2FA">
 						<v-text-field
 							v-model="totp"
-							type="number"
 							:placeholder="$t('user.security.auth_code')"
 							:disabled="loading"
 							maxlength="6"
 							counter
 							dense
 							@input="handleCodeInputDisable"
-							@keydown="passNumbers"
+							@keydown="validate2FA"
 							@paste.prevent
 						/>
 						<v-btn
@@ -97,7 +96,7 @@
 							counter
 							dense
 							@input="handleCodeInputEnable"
-							@keydown="passNumbers"
+							@keydown="validate2FA"
 							@paste.prevent
 						/>
 						<v-btn
@@ -120,12 +119,12 @@
 <script>
 import loadingMixin from '../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
-import passNumberMixin from '../../../mixins/common/passNumberMixin';
+import validateInputMixin from '../../../mixins/common/validateInputMixin';
 
 export default {
 	name: 'UserSecurityTab',
 
-	mixins: [loadingMixin, showNotificationMixin, passNumberMixin],
+	mixins: [loadingMixin, showNotificationMixin, validateInputMixin],
 
 	props: {
 		g2fa: {
