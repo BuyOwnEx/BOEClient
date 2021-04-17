@@ -138,17 +138,21 @@ export default {
 		},
 
 		availableBalance() {
-			if (!this.isAuth) return BigNumber(0);
+			if (!this.isAuth) return 0;
 
 			const scale = this.currencyObj.scale;
 
-			if (this.type === 'safe') {
-				return BigNumber(this.currencyObj.available).dp(scale, 1);
-			} else if (this.type === 'trade') {
-				return BigNumber(this.currencyObj.safe).dp(scale, 1);
-			} else {
-				return BigNumber(0).dp(scale, 1);
-			}
+			const isCrypto = this.wallet === 'crypto';
+			const safeAvailable = isCrypto
+				? BigNumber(this.currencyObj.available).dp(scale, 1)
+				: BigNumber(this.currencyObj.available);
+			const tradeAvailable = isCrypto
+				? BigNumber(this.currencyObj.safe).dp(scale, 1)
+				: BigNumber(this.currencyObj.safe);
+
+			if (this.type === 'safe') return safeAvailable;
+			else if (this.type === 'trade') return tradeAvailable;
+			else return 0;
 		},
 
 		menuTitle() {
