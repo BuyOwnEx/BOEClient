@@ -15,6 +15,7 @@ export default {
 		finish: 'Finish',
 		transfer: 'Transfer',
 		confirm: 'Confirm',
+		select: 'Select',
 
 		title: 'Title',
 		description: 'Description',
@@ -33,7 +34,7 @@ export default {
 	},
 
 	apps: {
-		exсhange: {
+		exchange: {
 			title: 'Exchange',
 			subtitle: 'Crypto-asset trading',
 		},
@@ -346,6 +347,12 @@ export default {
 		amount: 'Amount',
 		show_only_not_null_balances: 'Show only not null balances',
 
+		current_balance: 'Current balance',
+		min_amount: 'Min. amount',
+		max_amount: 'Max. amount',
+		fee: 'Fee',
+		you_get: "You'll get",
+		status: 'Статус',
 		min_replenish_amount: 'Min. replenish amount',
 		replenish_fee: 'Replenish fee',
 
@@ -405,6 +412,20 @@ export default {
 				title: 'Transfer {currency} to trade account',
 				menu_title: 'Transfer to trade account',
 			},
+
+			fiat_replenishment_alert:
+				'Only payments made through the Deposit form on the exchange are accepted and processed.\n' +
+				'There is no other way to Deposit, payments sent not through our Deposit form, but in any other way, will not be credited and processed. They will be lost, claims in this case are not accepted.\n' +
+				'By clicking the Pay button, you agree to these terms ',
+			fiat_replenishment_description:
+				'Specify the amount you want to Deposit. You will then be redirected to the {payment} website.\n' +
+				'You must make this payment from your internal {payment} account. No other payments can be credited. ',
+			fiat_withdrawal_alert:
+				'Attention!\n' +
+				"If the recipient's wallet has restrictions on the amount of the accepted amount, and the payment is rejected for this reason, we will not be able to credit it back. By clicking the Send button, you confirm that you have made sure that the recipient's wallet in this system is able to accept the payment being sent. ",
+			fiat_withdrawal_description:
+				'To withdraw funds, specify the amount you want to withdraw and the available method. Please note: it is necessary to specify your details, otherwise the transfer will not be credited.',
+
 			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
 		},

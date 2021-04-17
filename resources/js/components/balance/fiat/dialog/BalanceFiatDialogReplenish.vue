@@ -38,22 +38,18 @@
 						<v-stepper-content step="2">
 							<div class="mb-6">
 								<BalanceFiatDialogAlert>
-									alert alert alert alert alert
+									{{ $t('balance.dialog.fiat_replenishment_alert') }}
 								</BalanceFiatDialogAlert>
-
-								<div class="py-2">
-									для вывода средств... для вывода средств... для вывода
-									средств... для вывода средств...
-								</div>
 
 								<div
 									v-if="selectedSystem"
-									class="balance-fiat-dialog-replenish__replenish-info"
+									class="balance-fiat-dialog-replenish__replenish-info pt-2"
 								>
-									<div>укажите сумму и будете.. {{ selectedSystem.name }}</div>
-									<div>
-										вы обязяны.. {{ selectedSystem.name }}. никакие другие...
-									</div>
+									{{
+										$t('balance.dialog.fiat_replenishment_description', {
+											payment: selectedSystem.name,
+										})
+									}}
 								</div>
 
 								<v-form>

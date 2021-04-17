@@ -38,36 +38,39 @@
 						<v-stepper-content step="2">
 							<div class="mb-6">
 								<BalanceFiatDialogAlert>
-									alert alert alert alert alert
+									{{ $t('balance.dialog.fiat_withdrawal_alert') }}
 								</BalanceFiatDialogAlert>
-
-								<div class="py-2">
-									для вывода средств... для вывода средств... для вывода
-									средств... для вывода средств...
-								</div>
 
 								<div
 									v-if="selectedSystem"
 									class="balance-fiat-dialog-withdraw__withdraw-info"
 								>
+									<div class="py-2">
+										{{
+											$t('balance.dialog.fiat_withdrawal_description', {
+												payment: selectedSystem.name,
+											})
+										}}
+									</div>
+
 									<div>
-										Текущий баланс:
+										{{ $t('balance.current_balance') }}:
 										<b>{{ currencyObj.safe }} {{ currency }}</b>
 									</div>
 									<div>
-										Мин. сумма:
+										{{ $t('balance.min_amount') }}:
 										<b>{{ selectedSystem.minWithdraw }} {{ currency }}</b>
 									</div>
 									<div>
-										Макс. сумма:
+										{{ $t('balance.max_amount') }}:
 										<b>{{ selectedSystem.maxWithdraw }} {{ currency }}</b>
 									</div>
 									<div>
-										Комиссия:
+										{{ $t('balance.fee') }}:
 										<b>{{ selectedSystem.withdrawFee }} {{ currency }}</b>
 									</div>
 									<div>
-										Вы получите:
+										{{ $t('balance.you_get') }}:
 										<b>{{ totalAmount }} {{ currency }}</b>
 									</div>
 								</div>
@@ -165,7 +168,8 @@ export default {
 			amountRules: [
 				v => !v || v >= this.minWithdraw || this.$t('balance.less_min'),
 				v => !v || v <= this.maxWithdraw || this.$t('balance.more_max'),
-				v => !v || v <= this.currencyObj.safe || this.$t('balance.more_available'),
+				v =>
+					!v || v <= this.currencyObj.safe || this.$t('balance.more_available'),
 			],
 			valid: false,
 

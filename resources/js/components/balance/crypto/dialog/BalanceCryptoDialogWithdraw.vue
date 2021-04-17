@@ -298,17 +298,11 @@ export default {
 			const item = this.currencyObj;
 			const scale = item.scale || 2;
 
-			if (item.safe) {
-				return BigNumber(item.safe)
-					.dp(scale, 1);
-			} else {
-				return BigNumber(0)
-					.dp(0);
-			}
+			return item.safe ? BigNumber(item.safe).dp(scale, 1) : 0
 		},
 
 		availableForWithdraw() {
-			return 	BigNumber.min(this.safe.minus(this.currencyObj.feeWithdraw).gt(0) ? this.safe.minus(this.currencyObj.feeWithdraw) : BigNumber(0), BigNumber(this.maxWithdraw).minus(this.currencyObj.daily))
+			return BigNumber.min(this.safe.minus(this.currencyObj.feeWithdraw).gt(0) ? this.safe.minus(this.currencyObj.feeWithdraw) : BigNumber(0), BigNumber(this.maxWithdraw).minus(this.currencyObj.daily))
 		},
 
 		minWithdraw() {

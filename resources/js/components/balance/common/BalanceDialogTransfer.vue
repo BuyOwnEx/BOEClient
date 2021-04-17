@@ -13,7 +13,7 @@
 				{{ dialogTitle }}
 			</v-card-title>
 
-			<v-card-text class="common-dialog__content pt-0">
+			<v-card-text class="common-dialog__content">
 				<div>
 					<span>{{ $t('trading.order.available') }}</span>
 
@@ -56,7 +56,7 @@
 				<v-spacer />
 				<v-btn
 					:loading="loading"
-					:disabled="!valid"
+					:disabled="!valid || !form.amount"
 					color="primary"
 					tile
 					text
@@ -118,8 +118,12 @@ export default {
 			valid: false,
 
 			localRules: {
-				numberWithScalePrecision: v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-				lessAvailable: v => !v || v <= this.availableBalance || this.$t('balance.more_available'),
+				numberWithScalePrecision: v =>
+					!v ||
+					this.isCorrectPrecision(v) ||
+					this.$t('forms_validation.unsupported_precision'),
+				lessAvailable: v =>
+					!v || v <= this.availableBalance || this.$t('balance.more_available'),
 			},
 
 			form: {
@@ -150,8 +154,8 @@ export default {
 				? BigNumber(this.currencyObj.safe).dp(scale, 1)
 				: BigNumber(this.currencyObj.safe);
 
-			if (this.type === 'safe') return safeAvailable;
-			else if (this.type === 'trade') return tradeAvailable;
+			if (this.type === 'safe') return safeAvailable.toNumber();
+			else if (this.type === 'trade') return tradeAvailable.toNumber();
 			else return 0;
 		},
 

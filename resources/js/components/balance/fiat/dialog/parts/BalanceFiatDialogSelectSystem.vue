@@ -10,13 +10,15 @@
 			<div class="balance-fiat-dialog-select-system__item-img"></div>
 			<div class="balance-fiat-dialog-select-system__item-info">
 				<div>
-					Мин. сумма: <b>{{ getMinAmount(item) }} {{ item.currency }}</b>
+					{{ $t('balance.min_amount') }}:
+					<b>{{ getMinAmount(item) }} {{ item.currency }}</b>
 				</div>
 				<div>
-					Комиссия: <b>{{ getFee(item) }} {{ item.currency }}</b>
+					{{ $t('balance.fee') }}: <b>{{ getFee(item) }} {{ item.currency }}</b>
 				</div>
 				<div>
-					Статус: <b :class="getStatusColor(item.status)">{{ item.status }}</b>
+					{{ $t('balance.status') }}:
+					<b :class="getStatusColor(item.status)">{{ item.status }}</b>
 				</div>
 			</div>
 			<div class="balance-fiat-dialog-select-system__item-action">
@@ -27,7 +29,7 @@
 					small
 					@click="select(item)"
 				>
-					Выбрать
+					{{ $t('common.select') }}
 				</v-btn>
 			</div>
 		</div>
