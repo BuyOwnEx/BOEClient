@@ -1,14 +1,21 @@
 <template>
 	<div class="balance-fiat-dialog-select-system">
-		<div class="pb-1">Выберите платёжную систему</div>
+		<div class="pb-1">{{ $t('balance.select_payment_system') }}</div>
 
 		<div
 			class="balance-fiat-dialog-select-system__item"
 			v-for="item in systemsData"
 			:key="item.id"
 		>
-			<div class="balance-fiat-dialog-select-system__item-img"></div>
-			<div class="balance-fiat-dialog-select-system__item-info">
+			<img
+				class="balance-fiat-dialog-select-system__item-img"
+				:src="getSystemImage(item.name)"
+				:alt="item.name"
+				height="90"
+				width="90"
+			/>
+
+			<div class="balance-fiat-dialog-select-system__item-info pa-2">
 				<div>
 					{{ $t('balance.min_amount') }}:
 					<b>{{ getMinAmount(item) }} {{ item.currency }}</b>
@@ -21,7 +28,7 @@
 					<b :class="getStatusColor(item.status)">{{ item.status }}</b>
 				</div>
 			</div>
-			<div class="balance-fiat-dialog-select-system__item-action">
+			<div class="balance-fiat-dialog-select-system__item-action pa-2">
 				<v-btn
 					:disabled="item.status !== 'active'"
 					color="primary"
@@ -71,6 +78,10 @@ export default {
 			this.$emit('select', item);
 		},
 
+		getSystemImage(name) {
+			const filename = name.toLowerCase() + '.png';
+			return `/images/balance//${filename}`;
+		},
 		getMinAmount(item) {
 			return this.isReplenish ? item.minReplenish : item.minWithdraw;
 		},
@@ -91,7 +102,6 @@ export default {
 		display: flex
 		justify-content: space-between
 		border: 1px solid #a9a8a838
-		padding: 16px 12px
 		&:not(:first-child)
 			margin-top: 8px
 	&__item-action
