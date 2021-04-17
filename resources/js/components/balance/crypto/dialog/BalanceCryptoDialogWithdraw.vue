@@ -293,23 +293,23 @@ export default {
 
 	computed: {
 		safe() {
-			const item = this.currencyObj;
-			const scale = item.scale || 2;
-
-			return item.safe ? BigNumber(item.safe).dp(scale, 1) : 0;
+			return this.currencyObj.safe ? BigNumber(this.currencyObj.safe).dp(this.currencyObj.scale || 2, 1) : 0;
 		},
-
+		fee() {
+			return BigNumber(this.currencyObj.feeWithdraw);
+		},
+		daily() {
+			return BigNumber(this.currencyObj.daily);
+		},
+		availableForUser() {
+			return this.safe.minus(this.fee).gt(0) ? this.safe.minus(this.fee) : BigNumber(0);
+		},
+		maxAvailable() {
+			return 	BigNumber(this.maxWithdraw).minus(this.daily);
+		},
 		availableForWithdraw() {
-			const safe = BigNumber(this.currencyObj.safe);
-			const fee = BigNumber(this.currencyObj.feeWithdraw);
-			const daily = BigNumber(this.currencyObj.daily);
-
-			const availableForUser = safe.minus(fee).gt(0) ? safe.minus(fee) : BigNumber(0);
-			const maxAvailable = BigNumber(this.maxWithdraw).minus(daily);
-
-			return BigNumber.min(availableForUser, maxAvailable).toNumber();
+			return BigNumber.min(this.availableForUser, this.maxAvailable);
 		},
-
 		minWithdraw() {
 			return this.currencyObj.minWithdraw;
 		},
