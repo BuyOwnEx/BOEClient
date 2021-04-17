@@ -102,43 +102,51 @@
 											{{ $t('balance.stepper.address') }}
 										</template>
 									</CommonTooltip>
+
 									{{ address }}
 								</div>
 
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.min_withdraw') }}:
-									<b class="clickable non-selectable px-1" @click="setMinPossibleAmount">
+									<b class="clickable non-selectable" @click="setMinPossibleAmount">
 										<span class="dashed">
 											{{ currencyObj.minWithdraw }}
 											{{ currency }}
 										</span>
 									</b>
 								</div>
+
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.day_limit') }}:
-									<b class="px-1">
+									<b>
 										{{ currencyObj.maxWithdraw }}
 										{{ currency }}
 									</b>
-									<small>({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{currencyObj.daily}} {{ currency }})</small>
+									<small
+										>({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{ currencyObj.daily }}
+										{{ currency }})</small
+									>
 								</div>
+
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.fee_withdraw') }}:
-									<b class="px-1">
+									<b>
 										{{ currencyObj.feeWithdraw }}
 										{{ currency }}
 									</b>
 								</div>
+
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.available_amount') }}:
-									<b class="px-1">
+									<b>
 										{{ safe.toString() }}
 										{{ currency }}
 									</b>
 								</div>
+
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.available_for_withdraw') }}:
-									<b class="clickable non-selectable px-1" @click="setAvailableForWithdrawAmount">
+									<b class="clickable non-selectable" @click="setAvailableForWithdrawAmount">
 										<span class="dashed">
 											{{ availableForWithdraw.toString() }}
 											{{ currency }}
@@ -187,20 +195,10 @@
 							<div class="mb-6">
 								<div>
 									<span v-if="user2FA">
-										{{
-											this.$t(
-												'balance.stepper.confirmation.enabled_2fa_description',
-												{ email: this.userEmail }
-											)
-										}}
+										{{ this.$t('balance.stepper.confirmation.enabled_2fa_description', { email: this.userEmail }) }}
 									</span>
 									<span v-else>
-										{{
-											this.$t(
-												'balance.stepper.confirmation.disabled_2fa_description',
-												{ email: this.userEmail }
-											)
-										}}
+										{{ this.$t('balance.stepper.confirmation.disabled_2fa_description', { email: this.userEmail }) }}
 									</span>
 								</div>
 
@@ -298,11 +296,18 @@ export default {
 			const item = this.currencyObj;
 			const scale = item.scale || 2;
 
-			return item.safe ? BigNumber(item.safe).dp(scale, 1) : 0
+			return item.safe ? BigNumber(item.safe).dp(scale, 1) : 0;
 		},
 
 		availableForWithdraw() {
-			return BigNumber.min(this.safe.minus(this.currencyObj.feeWithdraw).gt(0) ? this.safe.minus(this.currencyObj.feeWithdraw) : BigNumber(0), BigNumber(this.maxWithdraw).minus(this.currencyObj.daily))
+			const safe = BigNumber(this.currencyObj.safe);
+			const fee = BigNumber(this.currencyObj.feeWithdraw);
+			const daily = BigNumber(this.currencyObj.daily);
+
+			const availableForUser = safe.minus(fee).gt(0) ? safe.minus(fee) : BigNumber(0);
+			const maxAvailable = BigNumber(this.maxWithdraw).minus(daily);
+
+			return BigNumber.min(availableForUser, maxAvailable).toNumber();
 		},
 
 		minWithdraw() {
@@ -385,17 +390,14 @@ export default {
 		},
 
 		setMinPossibleAmount() {
-			this.amount = this.currencyObj.minWithdraw;
+			this.amount = this.currencyObj.minWithdraw.toString();
 		},
 		setAvailableForWithdrawAmount() {
 			this.amount = this.availableForWithdraw.toString();
 		},
 
 		isCorrectPrecision(v) {
-			return !new RegExp(
-				'\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}',
-				'i'
-			).test(v);
+			return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
 		},
 		resetData() {
 			this.address = '';

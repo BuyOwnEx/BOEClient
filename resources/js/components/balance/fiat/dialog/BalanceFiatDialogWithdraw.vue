@@ -9,9 +9,7 @@
 		</template>
 
 		<v-card>
-			<v-card-title class="common-dialog__title">
-				{{ $t('common.withdrawal_funds') }} {{ currency }}
-			</v-card-title>
+			<v-card-title class="common-dialog__title"> {{ $t('common.withdrawal_funds') }} {{ currency }} </v-card-title>
 
 			<v-card-text class="common-dialog__content pb-1">
 				<v-stepper v-model="step">
@@ -41,10 +39,7 @@
 									{{ $t('balance.dialog.fiat_withdrawal_alert') }}
 								</BalanceFiatDialogAlert>
 
-								<div
-									v-if="selectedSystem"
-									class="balance-fiat-dialog-withdraw__withdraw-info"
-								>
+								<div v-if="selectedSystem" class="balance-fiat-dialog-withdraw__withdraw-info">
 									<div class="py-2">
 										{{
 											$t('balance.dialog.fiat_withdrawal_description', {
@@ -55,32 +50,46 @@
 
 									<div>
 										{{ $t('balance.current_balance') }}:
-										<b>{{ currencyObj.safe }} {{ currency }}</b>
+										<b class="clickable dashed non-selectable" @click="setCurrentBalance">
+											{{ currencyObj.safe }} {{ currency }}
+										</b>
 									</div>
+
 									<div>
 										{{ $t('balance.min_amount') }}:
 										<b>{{ selectedSystem.minWithdraw }} {{ currency }}</b>
 									</div>
+
 									<div>
 										{{ $t('balance.max_amount') }}:
 										<b>{{ selectedSystem.maxWithdraw }} {{ currency }}</b>
+										<small>
+											({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{ currencyObj.daily }}
+											{{ currency }})
+										</small>
 									</div>
+
 									<div>
 										{{ $t('balance.fee') }}:
 										<b>{{ selectedSystem.withdrawFee }} {{ currency }}</b>
 									</div>
+
 									<div>
 										{{ $t('balance.you_get') }}:
 										<b>{{ totalAmount }} {{ currency }}</b>
 									</div>
+
+									<div>
+										{{ $t('balance.stepper.withdrawal_params.available_for_withdraw') }}:
+										<b class="clickable non-selectable dashed" @click="setAvailableForWithdrawAmount">
+											{{ availableForWithdraw }}
+											{{ currency }}
+										</b>
+									</div>
 								</div>
 
 								<v-form v-model="valid">
-									<v-select
-										v-model="selectedCurrency"
-										:placeholder="$t('table_header.currency')"
-										hide-details
-									/>
+									<v-select v-model="selectedCurrency" :placeholder="$t('table_header.currency')" hide-details />
 
 									<v-text-field
 										v-model="amount"
@@ -92,16 +101,9 @@
 										@paste.prevent
 									/>
 
-									<v-select
-										v-model="selectedMethodID"
-										:placeholder="$t('balance.amount')"
-										hide-details
-									/>
+									<v-select v-model="selectedMethodID" :placeholder="$t('balance.amount')" hide-details />
 
-									<v-text-field
-										v-model="phone"
-										:placeholder="$t('balance.amount')"
-									/>
+									<v-text-field v-model="phone" :placeholder="$t('balance.amount')" />
 								</v-form>
 							</div>
 
@@ -136,6 +138,9 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js';
+BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
 import BalanceFiatDialogSelectSystem from './parts/BalanceFiatDialogSelectSystem';
 import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
 
@@ -168,8 +173,8 @@ export default {
 			amountRules: [
 				v => !v || v >= this.minWithdraw || this.$t('balance.less_min'),
 				v => !v || v <= this.maxWithdraw || this.$t('balance.more_max'),
-				v =>
-					!v || v <= this.currencyObj.safe || this.$t('balance.more_available'),
+				v => !v || v <= this.currencyObj.safe || this.$t('balance.more_available'),
+				v => !v || v <= this.availableForWithdraw || this.$t('balance.more_withdraw_available'),
 			],
 			valid: false,
 
@@ -183,6 +188,16 @@ export default {
 			const total = Number(this.amount) - this.selectedSystem?.withdrawFee;
 			if (!total || total < 0) return 0;
 			return total;
+		},
+		availableForWithdraw() {
+			const safe = BigNumber(this.currencyObj.safe);
+			const fee = BigNumber(this.selectedSystem.withdrawFee);
+			const daily = BigNumber(this.currencyObj.daily);
+
+			const availableForUser = safe.minus(fee).gt(0) ? safe.minus(fee) : BigNumber(0);
+			const maxAvailable = BigNumber(this.maxWithdraw).minus(daily);
+
+			return BigNumber.min(availableForUser, maxAvailable).toNumber();
 		},
 
 		minWithdraw() {
@@ -213,11 +228,18 @@ export default {
 				this.stopLoading();
 			}
 		},
+
+		setCurrentBalance() {
+			this.amount = this.currencyObj.safe.toString();
+		},
+		setAvailableForWithdrawAmount() {
+			this.amount = this.availableForWithdraw.toString();
+		},
+
 		selectPaymentSystem(system) {
 			this.selectedSystem = system;
 			this.step++;
 		},
-
 		back() {
 			this.step--;
 		},
