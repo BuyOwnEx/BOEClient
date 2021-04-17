@@ -433,7 +433,7 @@ export default {
 				title: 'Thanks for your interest',
 				content:
 					'<p>' +
-					'  This Agreement sets out the terms (“terms”) of the access offered to you to internal sections of the website {{product.url}}} (“Website”) and to its trading platform (“Platform”). Please read these terms carefully and do not use the Website or the Platform, if you do not accept them. The Platform managed by BuyOwnEx.com (“Service”), enables the buyers (“Buyer”) and sellers (“Seller”) to buy and sell goods online, known as “Cryptocurrency”.</p>' +
+					'  This Agreement sets out the terms (“terms”) of the access offered to you to internal sections of the website {{product.url}} (“Website”) and to its trading platform (“Platform”). Please read these terms carefully and do not use the Website or the Platform, if you do not accept them. The Platform managed by BuyOwnEx.com (“Service”), enables the buyers (“Buyer”) and sellers (“Seller”) to buy and sell goods online, known as “Cryptocurrency”.</p>' +
 					'<p>' +
 					'  By opening the account (“Account”), the User acknowledges and warrants that:' +
 					'  1. They accept these Terms' +
@@ -573,7 +573,7 @@ export default {
 					'  The Customer agrees not to utilize the Trading platform for any type of illegal activities, including, but not limited to laundering of money, financing of terrorism, or any kind of operations producing a negative effect on the Trading Platform functioning efficiency.' +
 					'</p>' +
 					'<p>' +
-					'  The Customer acknowledges that he (her) should independently monitor the BuyOwnEx.com news in order to get the latest update on the assets listing/disabling/de-listing, as well as on any other relevant information; in case the user fails to get a timely update, the user is not liable to lodge compensation claims against the {{product.url}}} for the losses incurred.' +
+					'  The Customer acknowledges that he (her) should independently monitor the BuyOwnEx.com news in order to get the latest update on the assets listing/disabling/de-listing, as well as on any other relevant information; in case the user fails to get a timely update, the user is not liable to lodge compensation claims against the {{product.url}} for the losses incurred.' +
 					'</p>' +
 					'<p>' +
 					'  The Customer agrees, that in case he (she) needs to keep a few thousand open orders at a time, he (she) is obligated to inform the Support service, specifying the reason for doing so.' +
@@ -686,7 +686,7 @@ export default {
 					'	BuyOwnEx.com ("us", "we", or "our") operates {{config(\'app.text_url\')}} (the "Site"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the Site. We are not responsible for the websites located on any other domains.' +
 					'</p>' +
 					'<p>' +
-					'	We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at {{product.url}}}.' +
+					'	We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at {{product.url}}.' +
 					'</p>',
 			},
 			collecting_data: {
