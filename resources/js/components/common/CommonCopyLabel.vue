@@ -1,15 +1,15 @@
 <template>
 	<v-tooltip bottom>
 		<template v-slot:activator="{ on }">
-			<div class="clickable" v-on="on" @click.stop.prevent="copy">
+			<span class="clickable" v-on="on" @click.stop.prevent="copy">
 				<v-icon v-if="icon" small>
 					{{ icon }}
 				</v-icon>
 
-				<div ref="copy-label" class="copy-label">
+				<span ref="copy-label" class="copy-label">
 					{{ text }}
-				</div>
-			</div>
+				</span>
+			</span>
 		</template>
 
 		<span>{{ tooltip }}</span>
