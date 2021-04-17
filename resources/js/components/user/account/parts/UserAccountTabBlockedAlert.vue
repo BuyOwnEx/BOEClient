@@ -15,6 +15,9 @@ export default {
 
 <style lang="sass" scoped>
 .user-account-tab-blocked-alert
+	color: white !important
 	margin-bottom: 5px
 	background: #ff7365d6
+	::v-deep.v-card__subtitle
+		color: white !important
 </style>

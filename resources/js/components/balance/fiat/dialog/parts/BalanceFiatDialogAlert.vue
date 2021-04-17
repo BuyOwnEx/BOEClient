@@ -12,6 +12,7 @@ export default {
 
 <style lang="sass" scoped>
 .balance-fiat-dialog-alert
+	color: white
 	background-color: #ff7365d6
 	padding: 8px 16px
 </style>
