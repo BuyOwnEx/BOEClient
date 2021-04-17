@@ -89,8 +89,6 @@
 								</div>
 
 								<v-form v-model="valid">
-									<v-select v-model="selectedCurrency" :placeholder="$t('table_header.currency')" hide-details />
-
 									<v-text-field
 										v-model="amount"
 										:rules="amountRules"
@@ -166,7 +164,6 @@ export default {
 			selectedSystem: null,
 
 			amount: '',
-			selectedCurrency: this.currencyObj.currency,
 			selectedMethodID: 1,
 			phone: '',
 
@@ -190,14 +187,7 @@ export default {
 			return total;
 		},
 		availableForWithdraw() {
-			const safe = BigNumber(this.currencyObj.safe);
-			const fee = BigNumber(this.selectedSystem.withdrawFee);
-			const daily = BigNumber(this.currencyObj.daily);
-
-			const availableForUser = safe.minus(fee).gt(0) ? safe.minus(fee) : BigNumber(0);
-			const maxAvailable = BigNumber(this.maxWithdraw).minus(daily);
-
-			return BigNumber.min(availableForUser, maxAvailable).toNumber();
+			return BigNumber.min(this.availableForUser, this.maxAvailable);
 		},
 
 		minWithdraw() {
@@ -208,6 +198,21 @@ export default {
 		},
 		currency() {
 			return this.currencyObj.currency;
+		},
+		safe() {
+			return BigNumber(this.currencyObj.safe || 0);
+		},
+		fee() {
+			return BigNumber(this.currencyObj.feeWithdraw);
+		},
+		daily() {
+			return BigNumber(this.currencyObj.daily);
+		},
+		availableForUser() {
+			return this.safe.minus(this.fee).gt(0) ? this.safe.minus(this.fee) : BigNumber(0);
+		},
+		maxAvailable() {
+			return BigNumber(this.maxWithdraw).minus(this.daily);
 		},
 	},
 
