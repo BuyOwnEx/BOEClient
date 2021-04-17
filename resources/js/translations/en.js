@@ -330,29 +330,23 @@ export default {
 	},
 	balance: {
 		title: 'Balance',
+
 		headers: {
 			own_fiat_balance_list: 'Own Fiat Balance List',
 			own_crypto_balance_list: 'Own Crypto Balance List',
 			own_active_withdraw_list: 'Own Active Withdraw List',
 		},
-		currency: 'Currency',
-		name: 'Name',
-		safe: 'Safe',
-		trade: 'Trade',
-		withdraw: 'Withdraw',
-		blocked: 'Blocked',
-		state: 'State',
-		actions: 'Actions',
-		date: 'Date',
+
 		amount: 'Amount',
 		show_only_not_null_balances: 'Show only not null balances',
+		select_payment_system: 'Select payment system',
 
 		current_balance: 'Current balance',
 		min_amount: 'Min. amount',
 		max_amount: 'Max. amount',
 		fee: 'Fee',
 		you_get: "You'll get",
-		status: 'Статус',
+		status: 'Status',
 		min_replenish_amount: 'Min. replenish amount',
 		replenish_fee: 'Replenish fee',
 
@@ -2337,9 +2331,9 @@ make our system processes as transparent as possible.`,
 		no_notifications: 'No new notifications',
 		notifications_types: 'Notifications types',
 		types: {
-			system: 'Системные',
-			news: 'Новости',
-			finance: 'Финансы',
+			system: 'System',
+			news: 'News',
+			finance: 'Finance',
 		},
 		kinds: {
 			login: {

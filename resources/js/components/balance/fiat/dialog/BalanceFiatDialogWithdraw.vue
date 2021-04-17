@@ -78,7 +78,7 @@
 								<v-form v-model="valid">
 									<v-select
 										v-model="selectedCurrency"
-										:placeholder="$t('balance.currency')"
+										:placeholder="$t('table_header.currency')"
 										hide-details
 									/>
 

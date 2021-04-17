@@ -342,6 +342,7 @@ export default {
 
 		amount: 'Сумма',
 		show_only_not_null_balances: 'Показывать только ненулевой баланс',
+		select_payment_system: 'Выберите платёжную систему',
 
 		current_balance: 'Текущий баланс',
 		min_amount: 'Мин. сумма',
