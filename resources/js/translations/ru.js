@@ -66,6 +66,7 @@ export default {
 		type: 'Тип',
 		pair: 'Пара',
 		code: 'Код',
+		amount: 'Количество',
 
 		deal_fee_maker: 'Комиссия по сделке, Maker',
 		deal_fee_taker: 'Комиссия по сделке, Taker',

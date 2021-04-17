@@ -160,23 +160,23 @@ export default {
 			itemsPerPage: 10,
 			headers: [
 				{
-					text: this.$t('balance.currency'),
+					text: this.$t('table_header.currency'),
 					align: 'start',
 					sortable: true,
 					value: 'currency',
 				},
-				{ text: this.$t('balance.name'), value: 'name' },
-				{ text: this.$t('balance.safe'), value: 'safe' },
+				{ text: this.$t('table_header.name'), value: 'name' },
+				{ text: this.$t('table_header.safe'), value: 'safe' },
 				{
-					text: this.$t('balance.trade'),
+					text: this.$t('table_header.trade'),
 					value: 'trade',
 				},
 				{
-					text: this.$t('balance.withdraw'),
+					text: this.$t('table_header.withdraw'),
 					value: 'withdraw',
 				},
 				{
-					text: this.$t('balance.blocked'),
+					text: this.$t('table_header.blocked'),
 					value: 'blocked',
 				},
 				{
@@ -188,7 +188,7 @@ export default {
 					value: 'withdrawal',
 				},
 				{
-					text: this.$t('balance.actions'),
+					text: this.$t('table_header.actions'),
 					value: 'action',
 					sortable: false,
 					align: 'center',

@@ -66,6 +66,7 @@ export default {
 		type: 'Type',
 		pair: 'Pair',
 		code: 'Code',
+		amount: 'Amount',
 
 		deal_fee_maker: 'Transaction commission, Maker',
 		deal_fee_taker: 'Transaction commission, Taker',
