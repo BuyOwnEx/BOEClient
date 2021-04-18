@@ -46,10 +46,29 @@ export default {
 
 	methods: {
 		copy() {
-			this.$clipboard(this.text, this.snackText);
+			this.createTextareaAndCopy();
 
+			this.showSnackbar();
+
+			this.showTooltip();
+		},
+
+		createTextareaAndCopy() {
+			const el = document.createElement('textarea');
+			el.value = this.text;
+			document.body.appendChild(el);
+			el.select();
+			document.execCommand('copy');
+			document.body.removeChild(el);
+		},
+		showSnackbar() {
+			this.$store.commit('snackbar/SHOW_MESSAGE', {
+				text: this.snackText,
+				timeout: 1000,
+			});
+		},
+		showTooltip() {
 			this.tooltip = this.$t('copy.copied');
-
 			this.timeout = setTimeout(() => {
 				this.tooltip = this.$t('copy.copy');
 			}, 2000);

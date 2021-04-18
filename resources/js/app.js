@@ -15,7 +15,6 @@ import './plugins/vue-head';
 import './plugins/vue-gtag';
 import './plugins/apexcharts';
 import './plugins/echarts';
-import './plugins/clipboard';
 import './plugins/moment';
 
 // STYLES
