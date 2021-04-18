@@ -430,7 +430,7 @@ export default {
 				title: 'Thanks for your interest',
 				content:
 					'<p>' +
-					'  This Agreement sets out the terms (“terms”) of the access offered to you to internal sections of the website {{product.url}}} (“Website”) and to its trading platform (“Platform”). Please read these terms carefully and do not use the Website or the Platform, if you do not accept them. The Platform managed by BuyOwnEx.com (“Service”), enables the buyers (“Buyer”) and sellers (“Seller”) to buy and sell goods online, known as “Cryptocurrency”.</p>' +
+					'  This Agreement sets out the terms (“terms”) of the access offered to you to internal sections of the website {url}} (“Website”) and to its trading platform (“Platform”). Please read these terms carefully and do not use the Website or the Platform, if you do not accept them. The Platform managed by {productName} (“Service”), enables the buyers (“Buyer”) and sellers (“Seller”) to buy and sell goods online, known as “Cryptocurrency”.</p>' +
 					'<p>' +
 					'  By opening the account (“Account”), the User acknowledges and warrants that:' +
 					'  1. They accept these Terms' +
@@ -477,7 +477,7 @@ export default {
 					'  “Commission” is the amount payable to the Service for transactions, including payment of a fee to the commission agent.' +
 					'</p>' +
 					'<p>' +
-					'  “Arbitrage“ is an array of buy/sale operations carried out in a short time within the BuyOwnEx.com Exchange.' +
+					'  “Arbitrage“ is an array of buy/sale operations carried out in a short time within the {productName} Exchange.' +
 					'</p>',
 			},
 			account: {
@@ -570,7 +570,7 @@ export default {
 					'  The Customer agrees not to utilize the Trading platform for any type of illegal activities, including, but not limited to laundering of money, financing of terrorism, or any kind of operations producing a negative effect on the Trading Platform functioning efficiency.' +
 					'</p>' +
 					'<p>' +
-					'  The Customer acknowledges that he (her) should independently monitor the BuyOwnEx.com news in order to get the latest update on the assets listing/disabling/de-listing, as well as on any other relevant information; in case the user fails to get a timely update, the user is not liable to lodge compensation claims against the {{product.url}}} for the losses incurred.' +
+					'  The Customer acknowledges that he (her) should independently monitor the {productName} news in order to get the latest update on the assets listing/disabling/de-listing, as well as on any other relevant information; in case the user fails to get a timely update, the user is not liable to lodge compensation claims against the {url}} for the losses incurred.' +
 					'</p>' +
 					'<p>' +
 					'  The Customer agrees, that in case he (she) needs to keep a few thousand open orders at a time, he (she) is obligated to inform the Support service, specifying the reason for doing so.' +
@@ -680,10 +680,10 @@ export default {
 				title: 'Thanks for your interest',
 				content:
 					'<p>' +
-					'	BuyOwnEx.com ("us", "we", or "our") operates {{config(\'app.text_url\')}} (the "Site"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the Site. We are not responsible for the websites located on any other domains.' +
+					'	{productName} ("us", "we", or "our") operates {url} (the "Site"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the Site. We are not responsible for the websites located on any other domains.' +
 					'</p>' +
 					'<p>' +
-					'	We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at {{product.url}}}.' +
+					'	We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at {url}}.' +
 					'</p>',
 			},
 			collecting_data: {
@@ -724,14 +724,14 @@ export default {
 					"	Our Site may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit." +
 					'</p>' +
 					'<p>' +
-					'	BuyOwnEx.com has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party sites or services.' +
+					'	{productName} has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party sites or services.' +
 					'</p>',
 			},
 			changes: {
 				title: 'Changes To This Privacy Policy',
 				content:
 					'<p>' +
-					'	BuyOwnEx.com may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on the Site. You are advised to review this Privacy Policy periodically for any changes.' +
+					'	{productName} may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on the Site. You are advised to review this Privacy Policy periodically for any changes.' +
 					'</p>',
 			},
 			contact: {
@@ -784,7 +784,7 @@ export default {
 					'                            <u><i>Address and request type:</i></u>\n' +
 					'                        </p>\n' +
 					'                        <p>\n' +
-					'                            <strong>POST</strong> request to <strong>{{product.url}}/api/v1/login</strong>\n' +
+					'                            <strong>POST</strong> request to <strong>{url}/api/v1/login</strong>\n' +
 					'                        </p>\n' +
 					'                        <p>\n' +
 					'                            <u><i>Headers:</i></u>\n' +
@@ -993,7 +993,7 @@ export default {
 						'                            All APIs in this section do not require an X-Api-Key, but there is a limit of 60 requests per minute\n' +
 						'                        </p>' +
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/summary\n' +
+						'                            GET request at {url}/api/v1/summary\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1009,7 +1009,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/summary</i>\n' +
+						'                            <i>{url}/api/v1/summary</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1158,7 +1158,7 @@ export default {
 					title: 'Assets info',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/assets\n' +
+						'                            GET request at {url}/api/v1/assets\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1174,7 +1174,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/assets</i>\n' +
+						'                            <i>{url}/api/v1/assets</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1308,7 +1308,7 @@ export default {
 					title: 'Ticker',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/ticker\n' +
+						'                            GET request at {url}/api/v1/ticker\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1324,7 +1324,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/ticker</i>\n' +
+						'                            <i>{url}/api/v1/ticker</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1390,7 +1390,7 @@ export default {
 					title: 'Order book',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/orderbook/{pair}?depth=&lt;depth&gt;\n' +
+						'                            GET request at {url}/api/v1/orderbook/{pair}?depth=&lt;depth&gt;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1413,7 +1413,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/orderbook/BTC_USDT?depth=5</i>\n' +
+						'                            <i>{url}/api/v1/orderbook/BTC_USDT?depth=5</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1464,7 +1464,7 @@ export default {
 					title: 'Trades list',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/trades/{pair}?&limit=&lt;limit&gt;&type=&lt;type&gt;\n' +
+						'                            GET request at {url}/api/v1/trades/{pair}?&limit=&lt;limit&gt;&type=&lt;type&gt;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1488,7 +1488,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/trades/BTC_USDT?limit=5&type=sell</i>\n' +
+						'                            <i>{url}/api/v1/trades/BTC_USDT?limit=5&type=sell</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1564,7 +1564,7 @@ export default {
 						'                            All of the following API requests in this section require personal token in the header "X-Api-Key"\n' +
 						'                        </p>' +
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/deals/{pair}?&limit=&lt;limit&gt;&type=&lt;type&gt;\n' +
+						'                            GET request at {url}/api/v1/deals/{pair}?&limit=&lt;limit&gt;&type=&lt;type&gt;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                        <u>Headers:</u>\n' +
@@ -1589,7 +1589,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/deals/BTC_USDT?limit=5&type=sell</i>\n' +
+						'                            <i>{url}/api/v1/deals/BTC_USDT?limit=5&type=sell</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1659,7 +1659,7 @@ export default {
 					title: 'Orders list',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/orders/{pair}\n' +
+						'                            GET request at {url}/api/v1/orders/{pair}\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1682,7 +1682,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/orders/BTC_USDT</i>\n' +
+						'                            <i>{url}/api/v1/orders/BTC_USDT</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1754,7 +1754,7 @@ export default {
 					title: 'Order info',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/order_info?order={order}\n' +
+						'                            GET request at {url}/api/v1/order_info?order={order}\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1777,7 +1777,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/order_info?order=344325</i>\n' +
+						'                            <i>{url}/api/v1/order_info?order=344325</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1829,7 +1829,7 @@ export default {
 					title: 'Balance',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/balance?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/balance?currency={currency}\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1852,7 +1852,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/balance?currency=BTC</i>\n' +
+						'                            <i>{url}/api/v1/balance?currency=BTC</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1883,7 +1883,7 @@ export default {
 					title: 'Transactions list',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/transactions?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/transactions?currency={currency}\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1906,7 +1906,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/transactions?currency=BTC</i>\n' +
+						'                            <i>{url}/api/v1/transactions?currency=BTC</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -1955,7 +1955,7 @@ export default {
 					title: 'Transfers list',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/transfers?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/transfers?currency={currency}\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1978,7 +1978,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/transfers?currency=BTC</i>\n' +
+						'                            <i>{url}/api/v1/transfers?currency=BTC</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -2024,7 +2024,7 @@ export default {
 					title: 'Current fee info',
 					content:
 						'<p>\n' +
-						'                            GET request at {{product.url}}/api/v1/fee?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/fee?currency={currency}\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -2047,7 +2047,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{{product.url}}/api/v1/fee?currency=BTC</i>\n' +
+						'                            <i>{url}/api/v1/fee?currency=BTC</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
@@ -2072,7 +2072,7 @@ export default {
 					title: 'Place order',
 					content:
 						'<p>\n' +
-						'                            POST request at {{product.url}}/api/v1/makeOrder\n' +
+						'                            POST request at {url}/api/v1/makeOrder\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -2134,7 +2134,7 @@ export default {
 					title: 'Cancel order',
 					content:
 						'<p>\n' +
-						'                            POST request at {{product.url}}/api/v1/cancelOrder\n' +
+						'                            POST request at {url}/api/v1/cancelOrder\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +

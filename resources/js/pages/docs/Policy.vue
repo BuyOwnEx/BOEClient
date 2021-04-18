@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import config from '../../configs';
+
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 
 import DocsNavigation from '../../components/docs/DocsNavigation';
@@ -27,51 +29,58 @@ export default {
 
 	components: { CommonPageTitle, DocsNavigation, DocsContent, DocsFooter },
 
-	data() {
-		return {
-			policy: [
+	computed: {
+		policy() {
+			return [
 				{
 					id: 'general',
 					title: this.$t('docs.policy.general.title'),
-					content: this.$t('docs.policy.general.content'),
+					content: this.$t('docs.policy.general.content', { url: this.url, productName: this.productName }),
 				},
 				{
 					id: 'collecting_data',
 					title: this.$t('docs.policy.collecting_data.title'),
-					content: this.$t('docs.policy.collecting_data.content'),
+					content: this.$t('docs.policy.collecting_data.content', { url: this.url, productName: this.productName }),
 				},
 				{
 					id: 'event_data',
 					title: this.$t('docs.policy.event_data.title'),
-					content: this.$t('docs.policy.event_data.content'),
+					content: this.$t('docs.policy.event_data.content', { url: this.url, productName: this.productName }),
 				},
 				{
 					id: 'cookie',
 					title: this.$t('docs.policy.cookie.title'),
-					content: this.$t('docs.policy.cookie.content'),
+					content: this.$t('docs.policy.cookie.content', { url: this.url, productName: this.productName }),
 				},
 				{
 					id: 'security',
 					title: this.$t('docs.policy.security.title'),
-					content: this.$t('docs.policy.security.content'),
+					content: this.$t('docs.policy.security.content', { url: this.url, productName: this.productName }),
 				},
 				{
 					id: 'links',
 					title: this.$t('docs.policy.links.title'),
-					content: this.$t('docs.policy.links.content'),
+					content: this.$t('docs.policy.links.content', { url: this.url, productName: this.productName }),
 				},
 				{
 					id: 'changes',
 					title: this.$t('docs.policy.changes.title'),
-					content: this.$t('docs.policy.changes.content'),
+					content: this.$t('docs.policy.changes.content', { url: this.url, productName: this.productName }),
 				},
 				{
 					id: 'contact',
 					title: this.$t('docs.policy.contact.title'),
-					content: this.$t('docs.policy.contact.content'),
+					content: this.$t('docs.policy.contact.content', { url: this.url, productName: this.productName }),
 				},
-			],
-		};
+			];
+		},
+
+		productName() {
+			return config.product.name;
+		},
+		url() {
+			return window.location.hostname;
+		},
 	},
 };
 </script>
