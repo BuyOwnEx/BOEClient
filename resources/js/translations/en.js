@@ -78,11 +78,9 @@ export default {
 		min_withdrawal_amount: 'Min. withdrawal amount',
 		replenishment_fee: 'Replenishment fee',
 		withdrawal_fee: 'Withdrawal fee',
-		daily_withdrawal_limit_connected:
-			'Daily withdrawal limit (Not passed / Passed verification)',
+		daily_withdrawal_limit_connected: 'Daily withdrawal limit (Not passed / Passed verification)',
 		daily_withdrawal_limit: 'Withdrawal limit (per day)',
-		daily_withdrawal_limit_verify:
-			'Withdrawal limit who passed verification (per day)',
+		daily_withdrawal_limit_verify: 'Withdrawal limit who passed verification (per day)',
 		available_payment_systems: 'Available payment systems',
 		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
@@ -186,14 +184,14 @@ export default {
 			pay_limit_sell: 'You get (inc. {0} % fee)',
 			pay_market_sell: 'You get approximately (inc. {0} % fee)',
 			offer: 'Credit offer',
-			offer_option:
-				'Percent (per day): {0} %; Max. period: {1} days; Avail.: {2} {3}',
+			offer_option: 'Percent (per day): {0} %; Max. period: {1} days; Avail.: {2} {3}',
 			sl_rate: 'Stop Loss',
 			tp_rate: 'Take Profit',
 			ts_offset: 'Trailing Stop',
 			use_margin: 'Use Leverage',
 			use_additional_params: 'Apply additional settings',
 			available: 'Available:',
+			only_one_conditional_orders_trigger: 'Only one of the conditional orders will be triggered',
 
 			cancel_all: 'Cancel all orders',
 			cancel_by_type: 'Cancel all {type} orders',
@@ -299,8 +297,7 @@ export default {
 		},
 		forgot: {
 			title: 'Forgot Password?',
-			subtitle:
-				'Enter your account email address and we will send you a link to reset your password.',
+			subtitle: 'Enter your account email address and we will send you a link to reset your password.',
 			email: 'Email',
 			button: 'Request Password Reset',
 			backtosign: 'Back to Sign In',
@@ -739,10 +736,7 @@ export default {
 			},
 			contact: {
 				title: 'Contact Us',
-				content:
-					'<p>' +
-					'	If you have any questions about this Privacy Policy, please contact us.' +
-					'</p>',
+				content: '<p>' + '	If you have any questions about this Privacy Policy, please contact us.' + '</p>',
 			},
 		},
 		api: {
@@ -2207,12 +2201,10 @@ information on the availability of deposit, withdrawal and trading in real
 time, as well as applicable fees and limits. It is developing
 a tool that will include more information about the system, aiming
 make our system processes as transparent as possible.`,
-		see_state_of_market:
-			'You can get acquainted with the state of the market on the page',
+		see_state_of_market: 'You can get acquainted with the state of the market on the page',
 		fiat_status: 'System status for fiat currencies',
 		crypto_status: 'System status for cryptocurrencies',
-		support_currencies_only_crypto:
-			'<b>9</b> cryptocurrencies (coins / tokens) supported',
+		support_currencies_only_crypto: '<b>9</b> cryptocurrencies (coins / tokens) supported',
 		support_currencies_fiat_and_crypto:
 			'<b>12</b> currencies are supported: <b>9</b> cryptocurrencies (coins / tokens) and <b>3</b> fiat currencies',
 	},
@@ -2238,8 +2230,7 @@ make our system processes as transparent as possible.`,
 
 		disabled_alert: {
 			title: 'User blocked',
-			content:
-				'You have been blocked by system administrator. Please, contact support team for reason',
+			content: 'You have been blocked by system administrator. Please, contact support team for reason',
 		},
 
 		info: {
@@ -2293,11 +2284,9 @@ make our system processes as transparent as possible.`,
 					'Two-factor authentication (2fa) greatly enhances safety, requesting not only the login and password, but a special authorization code.',
 				line_two:
 					'BuyOwnEx uses 2fa from Google Authenticator. To enable this feature, download Google Authenticator to your mobile phone and scan the QR code. ',
-				line_three:
-					'After installing the application, use the codes specified therein to work with BuyOwnEx.',
+				line_three: 'After installing the application, use the codes specified therein to work with BuyOwnEx.',
 			},
-			for_disable:
-				'To disable two-factor authentication, enter the current code in the Google Authenticator App',
+			for_disable: 'To disable two-factor authentication, enter the current code in the Google Authenticator App',
 			status: {
 				enabled: 'Enabled',
 				disabled: 'Disabled',
@@ -2317,12 +2306,10 @@ make our system processes as transparent as possible.`,
 				security_settings: 'Security settings',
 			},
 			dialog: {
-				ref_description:
-					'Are you sure you want to change the referral program?',
+				ref_description: 'Are you sure you want to change the referral program?',
 			},
 			days: 'days',
-			system_select_hint:
-				'Receiving <b>{percent}</b> % of referral transactions within <b>{days}</b> days',
+			system_select_hint: 'Receiving <b>{percent}</b> % of referral transactions within <b>{days}</b> days',
 		},
 	},
 
@@ -2393,8 +2380,7 @@ make our system processes as transparent as possible.`,
 		close_ticket: 'Close ticket',
 		attachments: 'Attachments',
 		attach_file: 'Attach file',
-		file_hint:
-			'Image formats are allowed: .png, .jpg, .bmp and .zip archive. Maximum upload file size: 5 Mb',
+		file_hint: 'Image formats are allowed: .png, .jpg, .bmp and .zip archive. Maximum upload file size: 5 Mb',
 		create_ticket: 'Create ticket',
 		status: {
 			all: 'All tickets',
@@ -2427,11 +2413,9 @@ make our system processes as transparent as possible.`,
 		max_6char: 'Max. 6 characters',
 		max_64char: 'Max. 64 characters',
 
-		unsupported_char_latinAndNumbers:
-			'Unsupported characters. Only [a-zA-Z0-9-_]',
+		unsupported_char_latinAndNumbers: 'Unsupported characters. Only [a-zA-Z0-9-_]',
 		unsupported_char_numbers: 'Unsupported characters. Only numbers',
-		unsupported_char_numbers_precision_15:
-			'Unsupported characters. Only numbers with precision 15',
+		unsupported_char_numbers_precision_15: 'Unsupported characters. Only numbers with precision 15',
 		unsupported_precision: 'Unsupported number of decimal places',
 		positive: 'Only positive numbers',
 	},

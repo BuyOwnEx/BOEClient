@@ -78,11 +78,9 @@ export default {
 		min_withdrawal_amount: 'Мин. сумма вывода',
 		replenishment_fee: 'Комиссия по пополнению',
 		withdrawal_fee: 'Комиссия по выводу',
-		daily_withdrawal_limit_connected:
-			'Дневной лимит вывода (Не прошедшие/Прошедшие верификацию)',
+		daily_withdrawal_limit_connected: 'Дневной лимит вывода (Не прошедшие/Прошедшие верификацию)',
 		daily_withdrawal_limit: 'Лимит вывода (в день)',
-		daily_withdrawal_limit_verify:
-			'Лимит вывода для прошедших верификацию (в день)',
+		daily_withdrawal_limit_verify: 'Лимит вывода для прошедших верификацию (в день)',
 		available_payment_systems: 'Доступные платежные системы',
 		min_number_of_network_confirmation: 'Мин. кол-во подтверждений сети',
 	},
@@ -186,14 +184,40 @@ export default {
 			pay_limit_sell: 'Вы получите (включая комиссию {0} %)',
 			pay_market_sell: 'Вы получите примерно (включая комиссию {0} %)',
 			offer: 'Предложение по кредиту',
-			offer_option:
-				'Процент (в день): {0} %; Макс. период: {1} дней; Доступно: {2} {3}',
+			offer_option: 'Процент (в день): {0} %; Макс. период: {1} дней; Доступно: {2} {3}',
 			sl_rate: 'Stop Loss',
 			tp_rate: 'Take Profit',
 			ts_offset: 'Trailing Stop',
 			use_margin: 'Использовать плечо',
 			use_additional_params: 'Дополнительные параметры',
 			available: 'Доступно:',
+
+			buy_limit_order: 'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b>',
+			buy_limit_order_with_params:
+				'Вы собираетесь купить <b>{amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
+			buy_market_order: 'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене',
+			buy_market_order_with_params:
+				'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
+			buy_stop_loss_text:
+				'Продать по рынку в случае, если Best Bid достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
+			buy_take_profit_text:
+				'Продать по рынку в случае, если Best Bid достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
+			buy_trailing_stop_text:
+				'Продать по рынку в случае, если цена актива упадёт одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
+
+			sell_limit_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b>',
+			sell_limit_order_with_params:
+				'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
+			sell_market_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене',
+			sell_market_order_with_params:
+				'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
+			sell_stop_loss_text:
+				'Купить по рынку в случае, если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
+			sell_take_profit_text:
+				'Купить по рынку в случае, если Best Ask достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
+			sell_trailing_stop_text:
+				'Купить по рынку в случае, если цена актива поднимется одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
+			only_one_conditional_orders_trigger: 'Сработает только один из условных ордеров',
 
 			cancel_all: 'Отменить все ордера',
 			cancel_by_type: 'Отменить все {type} ордера',
@@ -236,8 +260,7 @@ export default {
 				partiallyFilled: ' частично исполнена',
 				filled: ' исполнена полностью',
 				closed: ' успешно закрыта',
-				mc_liquidation:
-					' ликвидирована по причине недостаточности средств в обеспечении',
+				mc_liquidation: ' ликвидирована по причине недостаточности средств в обеспечении',
 				timeout_liquidation: ' ликвидирована по истечению срока позиции',
 				by_size: ' на сумму',
 			},
@@ -301,8 +324,7 @@ export default {
 		},
 		forgot: {
 			title: 'Забыли пароль?',
-			subtitle:
-				'Введите адрес электронной почты своей учетной записи, и мы отправим вам ссылку для сброса пароля.',
+			subtitle: 'Введите адрес электронной почты своей учетной записи, и мы отправим вам ссылку для сброса пароля.',
 			email: 'Эл. адрес',
 			button: 'Запросить сброс пароля',
 			backtosign: 'Вернуться к входу',
@@ -356,8 +378,7 @@ export default {
 		less_min: 'Меньше минимально возможной суммы',
 		more_max: 'Больше максимально возможной суммы',
 		more_available: 'Сумма превышает размер доступных средств',
-		more_withdraw_available:
-			'Сумма превышает размер доступных средств для вывода',
+		more_withdraw_available: 'Сумма превышает размер доступных средств для вывода',
 
 		state_type: {
 			replenishment: 'Ввод работает',
@@ -2220,8 +2241,7 @@ export default {
 		see_state_of_market: 'Ознакомиться c состоянием рынка можно на странице',
 		fiat_status: 'Состояние системы по фиатным валютам',
 		crypto_status: 'Состояние системы по криптовалютам',
-		support_currencies_only_crypto:
-			'Поддерживаются <b>9</b> криптовалют (монет/токенов)',
+		support_currencies_only_crypto: 'Поддерживаются <b>9</b> криптовалют (монет/токенов)',
 		support_currencies_fiat_and_crypto:
 			'Поддерживаются <b>12</b> валют: <b>9</b> криптовалют (монет/токенов) и <b>3</b> фиатных валют',
 	},
@@ -2247,8 +2267,7 @@ export default {
 
 		disabled_alert: {
 			title: 'Пользователь заблокирован',
-			content:
-				'Вы были заблокированы администратором. Пожалуйста, свяжитесь с командой поддержки для выяснения причин',
+			content: 'Вы были заблокированы администратором. Пожалуйста, свяжитесь с командой поддержки для выяснения причин',
 		},
 
 		info: {
@@ -2302,11 +2321,9 @@ export default {
 					'Двухфакторная авторизация (2fa) значительно увеличивает безопасность, запрашивая не только логин-пароль, но и специальный код авторизации.',
 				line_two:
 					'BuyOwnEx использует 2fa от утилиты Google Authenticator. Для включения такой возможности, скачайте Google Authenticator на свой мобильный телефон и просканируйте QR-код.',
-				line_three:
-					'После установки приложения, используйте указанные в нём коды для работы с BuyOwnEx.',
+				line_three: 'После установки приложения, используйте указанные в нём коды для работы с BuyOwnEx.',
 			},
-			for_disable:
-				'Для отключения двухфакторной авторизации введите текущий код в приложении Google Authenticator',
+			for_disable: 'Для отключения двухфакторной авторизации введите текущий код в приложении Google Authenticator',
 			status: {
 				enabled: 'Включена',
 				disabled: 'Отключена',
@@ -2326,12 +2343,10 @@ export default {
 				security_settings: 'Настрйоки безопасности',
 			},
 			dialog: {
-				ref_description:
-					'Вы уверены, что хотите изменить реферальную программу?',
+				ref_description: 'Вы уверены, что хотите изменить реферальную программу?',
 			},
 			days: 'дней',
-			system_select_hint:
-				'Получение <b>{percent}</b> % от сделок рефералов на протяжении <b>{days}</b> дней',
+			system_select_hint: 'Получение <b>{percent}</b> % от сделок рефералов на протяжении <b>{days}</b> дней',
 		},
 	},
 
@@ -2436,11 +2451,9 @@ export default {
 		max_6char: 'Макс. 6 символов',
 		max_64char: 'Макс. 64 символа',
 
-		unsupported_char_latinAndNumbers:
-			'Неподдерживаемые символы. Только [a-zA-Z0-9-_]',
+		unsupported_char_latinAndNumbers: 'Неподдерживаемые символы. Только [a-zA-Z0-9-_]',
 		unsupported_char_numbers: 'Неподдерживаемые символы. Только числа',
-		unsupported_char_numbers_precision_15:
-			'Неподдерживаемые символы. Только числа с точностью до 15 знаков',
+		unsupported_char_numbers_precision_15: 'Неподдерживаемые символы. Только числа с точностью до 15 знаков',
 		unsupported_precision: 'Неподдерживаемое кол-во знаков после запятой',
 		positive: 'Только положительные числа',
 	},

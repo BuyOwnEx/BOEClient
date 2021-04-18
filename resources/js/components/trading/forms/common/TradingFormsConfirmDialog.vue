@@ -1,9 +1,5 @@
 <template>
-	<CommonDialog
-		:confirm-color="getTypeColor"
-		:header-color="getTypeColor"
-		@confirm="confirm"
-	>
+	<CommonDialog :confirm-color="getTypeColor" :header-color="getTypeColor" @confirm="confirm">
 		<template #default>
 			<slot></slot>
 		</template>
@@ -14,128 +10,29 @@
 
 		<template #content>
 			<div>
-				<span>Вы собираетесь</span>
+				<div v-if="isBuy && isLimit" v-html="buyLimitText" />
+				<div v-else-if="isBuy && isMarket" v-html="buyMarketText" />
+				<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyLimitParamsText" />
+				<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyMarketParamsText" />
 
-				<span class="trading-forms-confirm-dialog__important">
-					<span v-if="isBuy">купить</span>
-					<span v-else-if="isSell">продать</span>
-					<span>{{ amount }} {{ currency.toUpperCase() }}</span>
-				</span>
+				<div v-if="isSell && isLimit" v-html="sellLimitText" />
+				<div v-else-if="isSell && isMarket" v-html="sellMarketText" />
+				<div v-else-if="isSell && isLimit && isAnyAdditionalParamExist" v-html="sellLimitParamsText" />
+				<div v-else-if="isSell && isMarket && isAnyAdditionalParamExist" v-html="sellMarketParamsText" />
 
-				<span v-if="isLimit">
-					<span>по цене</span>
-					<span class="trading-forms-confirm-dialog__important">
-						{{ price }} {{ market.toUpperCase() }}
-					</span>
-				</span>
-				<span v-else-if="isMarket">по рыночной цене</span>
+				<ul v-if="isAnyAdditionalParamExist" class="trading-forms-confirm-dialog__add-params-list">
+					<li v-if="isBuy && stopLoss" v-html="buyStopLossText" />
+					<li v-if="isBuy && takeProfit" v-html="buyTakeProfitText" />
+					<li v-if="isBuy && trailingStop" v-html="buyTrailingStopText" />
 
-				<span v-if="isAdditionalParams && isAnyAdditionalParamExist">
-					со следующими связанными условными ордерами:
-				</span>
-				<div v-if="isAdditionalParams && isAnyAdditionalParamExist">
-					<ul class="trading-forms-confirm-dialog__add-params-list">
-						<li v-if="stopLoss">
-							<span v-if="isBuy">Продажа</span>
-							<span v-else-if="isSell">Покупка</span>
-							<span>по рынку в случае, если</span>
+					<li v-if="isSell && stopLoss" v-html="sellStopLossText" />
+					<li v-if="isSell && takeProfit" v-html="sellTakeProfitText" />
+					<li v-if="isSell && trailingStop" v-html="sellTrailingStopText" />
+				</ul>
 
-							<span
-								v-if="isBuy"
-								class="trading-forms-confirm-dialog__important"
-							>
-								Best Bid
-							</span>
-							<span
-								v-else-if="isSell"
-								class="trading-forms-confirm-dialog__important"
-							>
-								Best Ask
-							</span>
-
-							достигнет значения
-							<span>
-								<span class="trading-forms-confirm-dialog__important">
-									{{ stopLoss }} {{ market.toUpperCase() }}
-								</span>
-								<span>
-									(
-									<span class="trading-forms-confirm-dialog__important">
-										SL
-									</span>
-									<span>{{ $t('trading.forms.dialog.order') }}</span>
-									)
-								</span>
-							</span>
-						</li>
-
-						<li v-if="takeProfit">
-							<span v-if="isBuy">Продажа</span>
-							<span v-else-if="isSell">Покупка</span>
-							<span>по рынку в случае, если</span>
-
-							<span
-								v-if="isBuy"
-								class="trading-forms-confirm-dialog__important"
-							>
-								Best Bid
-							</span>
-							<span
-								v-else-if="isSell"
-								class="trading-forms-confirm-dialog__important"
-							>
-								Best Ask
-							</span>
-
-							достигнет значения
-							<span>
-								<span class="trading-forms-confirm-dialog__important">
-									{{ takeProfit }} {{ market.toUpperCase() }}
-								</span>
-								<span>
-									(
-									<span class="trading-forms-confirm-dialog__important">
-										TP
-									</span>
-									<span>{{ $t('trading.forms.dialog.order') }}</span>
-									)
-								</span>
-							</span>
-						</li>
-
-						<li v-if="trailingStop">
-							<span v-if="isBuy">Продажа</span>
-							<span v-else-if="isSell">Покупка</span>
-							<span>по рынку в случае, если</span>
-							<span>цена актива</span>
-
-							<span v-if="isBuy">упадет</span>
-							<span v-else-if="isSell">поднимается</span>
-
-							<span>одномоментно на</span>
-							<span class="trading-forms-confirm-dialog__important">
-								{{ trailingStop }}
-							</span>
-							<span>пунктов</span>
-
-							<span>
-								(
-								<span class="trading-forms-confirm-dialog__important">
-									TS
-								</span>
-								<span>{{ $t('trading.forms.dialog.order') }}</span>
-								)
-							</span>
-						</li>
-					</ul>
-
-					<div
-						v-if="isMultiplyAdditionalParams"
-						class="trading-forms-confirm-dialog__small-text pt-1"
-					>
-						* Сработает только один из условных ордеров
-					</div>
-				</div>
+				<small v-if="isMultiplyAdditionalParams" class="text--secondary pt-1">
+					* {{ $t('trading.order.only_one_conditional_orders_trigger') }}
+				</small>
 			</div>
 		</template>
 	</CommonDialog>
@@ -228,6 +125,106 @@ export default {
 			if (this.isBuy) return 'success';
 			else return 'error';
 		},
+
+		buyLimitText() {
+			return this.$t('trading.order.buy_limit_order', {
+				amount: this.amount,
+				price: this.price,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+		buyMarketText() {
+			return this.$t('trading.order.buy_market_order', {
+				amount: this.amount,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+		buyLimitParamsText() {
+			return this.$t('trading.order.buy_limit_order_with_params', {
+				amount: this.amount,
+				price: this.price,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+		buyMarketParamsText() {
+			return this.$t('trading.order.buy_market_order_with_params', {
+				amount: this.amount,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+
+		buyStopLossText() {
+			return this.$t('trading.order.buy_stop_loss_text', {
+				stopLoss: this.stopLoss,
+				market: this.market.toUpperCase(),
+			});
+		},
+		buyTakeProfitText() {
+			return this.$t('trading.order.buy_take_profit_text', {
+				takeProfit: this.takeProfit,
+				market: this.market.toUpperCase(),
+			});
+		},
+		buyTrailingStopText() {
+			return this.$t('trading.order.buy_trailing_stop_text', {
+				trailingStop: this.trailingStop,
+				market: this.market.toUpperCase(),
+			});
+		},
+
+		sellLimitText() {
+			return this.$t('trading.order.sell_limit_order', {
+				amount: this.amount,
+				price: this.price,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+		sellMarketText() {
+			return this.$t('trading.order.sell_market_order', {
+				amount: this.amount,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+		sellLimitParamsText() {
+			return this.$t('trading.order.sell_limit_order_with_params', {
+				amount: this.amount,
+				price: this.price,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+		sellMarketParamsText() {
+			return this.$t('trading.order.sell_market_order_with_params', {
+				amount: this.amount,
+				currency: this.currency.toUpperCase(),
+				market: this.market.toUpperCase(),
+			});
+		},
+
+		sellStopLossText() {
+			return this.$t('trading.order.sell_stop_loss_text', {
+				stopLoss: this.stopLoss,
+				market: this.market.toUpperCase(),
+			});
+		},
+		sellTakeProfitText() {
+			return this.$t('trading.order.sell_take_profit_text', {
+				takeProfit: this.takeProfit,
+				market: this.market.toUpperCase(),
+			});
+		},
+		sellTrailingStopText() {
+			return this.$t('trading.order.sell_trailing_stop_text', {
+				trailingStop: this.trailingStop,
+				market: this.market.toUpperCase(),
+			});
+		},
 	},
 
 	methods: {
@@ -243,9 +240,6 @@ export default {
 	&__add-params-list
 		padding-top: 8px
 		padding-left: 16px !important
-	&__small-text
-		font-size: 11px
-		opacity: 0.7
 	&__important
 		font-weight: 800
 		font-size: 14px
