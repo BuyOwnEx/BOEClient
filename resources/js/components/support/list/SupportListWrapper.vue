@@ -35,8 +35,9 @@ export default {
 	},
 
 	computed: {
-		...mapState('support', ['supportStatuses', 'priorityList']),
 		...mapGetters({
+			supportStatuses: 'support/supportStatuses',
+			priorityList: 'support/priorityList',
 			getTicketsByStatus: 'support/getTicketsByStatus',
 			getTicketsByPriority: 'support/getTicketsByPriority',
 			getTicketsByPriorityAndStatus: 'support/getTicketsByPriorityAndStatus',

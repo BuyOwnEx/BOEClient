@@ -33,48 +33,23 @@
 					<div class="editor">
 						<editor-menu-bar v-slot="{ commands, isActive }" :editor="editor">
 							<div class="pa-1">
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.bold() }"
-									@click="commands.bold"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
 									<v-icon>mdi-format-bold</v-icon>
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.italic() }"
-									@click="commands.italic"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.italic() }" @click="commands.italic">
 									<v-icon>mdi-format-italic</v-icon>
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.strike() }"
-									@click="commands.strike"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.strike() }" @click="commands.strike">
 									<v-icon>mdi-format-strikethrough</v-icon>
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.underline() }"
-									@click="commands.underline"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.underline() }" @click="commands.underline">
 									<v-icon>mdi-format-underline</v-icon>
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.paragraph() }"
-									@click="commands.paragraph"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.paragraph() }" @click="commands.paragraph">
 									<v-icon>mdi-format-paragraph</v-icon>
 								</v-btn>
 
@@ -105,39 +80,19 @@
 									H3
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.bullet_list() }"
-									@click="commands.bullet_list"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list">
 									<v-icon>mdi-format-list-bulleted</v-icon>
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.ordered_list() }"
-									@click="commands.ordered_list"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list">
 									<v-icon>mdi-format-list-numbered</v-icon>
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.blockquote() }"
-									@click="commands.blockquote"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote">
 									<v-icon>mdi-format-quote-close</v-icon>
 								</v-btn>
 
-								<v-btn
-									icon
-									tile
-									:class="{ 'is-active': isActive.code_block() }"
-									@click="commands.code_block"
-								>
+								<v-btn icon tile :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block">
 									<v-icon>mdi-code-tags</v-icon>
 								</v-btn>
 
@@ -155,10 +110,7 @@
 							</div>
 						</editor-menu-bar>
 						<v-divider />
-						<editor-content
-							class="editor__content ticket-editor-content py-2"
-							:editor="editor"
-						/>
+						<editor-content class="editor__content ticket-editor-content py-2" :editor="editor" />
 						<v-divider />
 					</div>
 
@@ -174,19 +126,13 @@
 						flat
 					>
 						<template v-slot:selection="{ attrs, item, parent, selected }">
-							<span
-								class="font-weight-bold pr-2"
-								:class="[`${item.color}--text`]"
-							>
+							<span class="font-weight-bold pr-2" :class="[`${item.color}--text`]">
 								{{ item.name }}
 							</span>
 						</template>
 
 						<template v-slot:item="{ item }">
-							<span
-								class="font-weight-bold my-1"
-								:class="[`${item.color}--text`]"
-							>
+							<span class="font-weight-bold my-1" :class="[`${item.color}--text`]">
 								{{ item.name }}
 							</span>
 						</template>
@@ -244,7 +190,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
@@ -321,7 +267,10 @@ export default {
 	},
 
 	computed: {
-		...mapState('support', ['priorityList']),
+		...mapGetters({
+			supportStatuses: 'support/supportStatuses',
+			priorityList: 'support/priorityList',
+		}),
 
 		priorityListToShow() {
 			return this.priorityList.filter(p => p.key !== 'all');

@@ -19,20 +19,14 @@
 			</v-list-item-content>
 
 			<v-list-item-action v-if="getTypeQuantity(item.type) > 0">
-				<v-badge
-					class="font-weight-bold"
-					:content="getTypeQuantity(item.type)"
-					:color="item.color"
-					inline
-				>
-				</v-badge>
+				<v-badge class="font-weight-bold" :content="getTypeQuantity(item.type)" :color="item.color" inline> </v-badge>
 			</v-list-item-action>
 		</v-list-item>
 	</v-list>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
 	name: 'NotificationsSidebarMenu',
@@ -44,8 +38,8 @@ export default {
 	},
 
 	computed: {
-		...mapState('notifications', ['notificationTypes']),
 		...mapGetters({
+			notificationTypes: 'notifications/notificationTypes',
 			getTypeQuantity: 'notifications/getNotificationsUnreadQuantityByType',
 		}),
 	},

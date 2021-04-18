@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 	name: 'UserSettingsEmailNotifications',
@@ -45,14 +45,14 @@ export default {
 	},
 
 	computed: {
-		notificationsKinds() {
-			return this.$store.state.notifications.notificationsKinds;
-		},
+		...mapGetters({
+			notificationsKinds: 'notifications/notificationsKinds',
+		}),
 	},
 
 	methods: {
 		...mapActions({
-			updateNotificationsSettings: 'user/updateNotificationsSettings'
+			updateNotificationsSettings: 'user/updateNotificationsSettings',
 		}),
 
 		async saveNotificationsSettings() {
@@ -60,7 +60,7 @@ export default {
 				this.saveNotificationsLoading = true;
 				const payload = this.selectedTypes.sort((a, b) => a - b);
 
-				await this.updateNotificationsSettings()
+				await this.updateNotificationsSettings(payload);
 			} finally {
 				this.saveNotificationsLoading = false;
 			}

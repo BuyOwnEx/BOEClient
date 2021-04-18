@@ -5,98 +5,102 @@ export default {
 
 	state: {
 		notifications: null,
-
-		notificationTypes: [
-			{
-				name: VueI18n.t('notifications.types.system'),
-				type: 'system',
-				icon: 'mdi-email-outline',
-				color: 'primary',
-			},
-			{
-				name: VueI18n.t('notifications.types.news'),
-				type: 'news',
-				icon: 'mdi-newspaper-variant-outline',
-				color: 'green',
-			},
-			{
-				name: VueI18n.t('notifications.types.finance'),
-				type: 'finance',
-				icon: 'mdi-currency-usd',
-				color: 'purple',
-			},
-		],
-		notificationsKinds: [
-			{
-				id: 1,
-				key: 'login',
-				subject: VueI18n.t('notifications.kinds.login.subject'),
-				title: VueI18n.t('notifications.kinds.login.title'),
-			},
-			{
-				id: 2,
-				key: 'addMoney',
-				subject: VueI18n.t('notifications.kinds.add_money.subject'),
-				title: VueI18n.t('notifications.kinds.add_money.title'),
-			},
-			{
-				id: 3,
-				key: 'withdrawMoney',
-				subject: VueI18n.t('notifications.kinds.withdraw_money.subject'),
-				title: VueI18n.t('notifications.kinds.withdraw_money.title'),
-			},
-			{
-				id: 4,
-				key: 'ref',
-				subject: VueI18n.t('notifications.kinds.ref.subject'),
-				title: VueI18n.t('notifications.kinds.ref.title'),
-			},
-			{
-				id: 5,
-				key: 'tradingBlock',
-				subject: VueI18n.t('notifications.kinds.trading_block.subject'),
-				title: VueI18n.t('notifications.kinds.trading_block.title'),
-			},
-			{
-				id: 6,
-				key: 'moneyBlock',
-				subject: VueI18n.t('notifications.kinds.money_block.subject'),
-				title: VueI18n.t('notifications.kinds.money_block.title'),
-			},
-			{
-				id: 7,
-				key: 'systemBlock',
-				subject: VueI18n.t('notifications.kinds.system_block.subject'),
-				title: VueI18n.t('notifications.kinds.system_block.title'),
-			},
-			{
-				id: 8,
-				key: 'positionLiquidationWarn',
-				subject: VueI18n.t('notifications.kinds.position_liquidation_warn.subject'),
-				title: VueI18n.t('notifications.kinds.position_liquidation_warn.title'),
-			},
-			{
-				id: 9,
-				key: 'positionLiquidation',
-				subject: VueI18n.t('notifications.kinds.position_liquidation.subject'),
-				title: VueI18n.t('notifications.kinds.position_liquidation.title'),
-			},
-			{
-				id: 10,
-				key: 'maintenance',
-				subject: VueI18n.t('notifications.kinds.maintenance.subject'),
-				title: VueI18n.t('notifications.kinds.maintenance.title'),
-			},
-			{
-				id: 11,
-				key: 'news',
-				subject: VueI18n.t('notifications.kinds.news.subject'),
-				title: VueI18n.t('notifications.kinds.news.title'),
-			},
-		],
 	},
 
 	getters: {
+		notificationTypes() {
+			return [
+				{
+					name: VueI18n.t('notifications.types.system'),
+					type: 'system',
+					icon: 'mdi-email-outline',
+					color: 'primary',
+				},
+				{
+					name: VueI18n.t('notifications.types.news'),
+					type: 'news',
+					icon: 'mdi-newspaper-variant-outline',
+					color: 'green',
+				},
+				{
+					name: VueI18n.t('notifications.types.finance'),
+					type: 'finance',
+					icon: 'mdi-currency-usd',
+					color: 'purple',
+				},
+			];
+		},
+		notificationsKinds() {
+			return [
+				{
+					id: 1,
+					key: 'login',
+					subject: VueI18n.t('notifications.kinds.login.subject'),
+					title: VueI18n.t('notifications.kinds.login.title'),
+				},
+				{
+					id: 2,
+					key: 'addMoney',
+					subject: VueI18n.t('notifications.kinds.add_money.subject'),
+					title: VueI18n.t('notifications.kinds.add_money.title'),
+				},
+				{
+					id: 3,
+					key: 'withdrawMoney',
+					subject: VueI18n.t('notifications.kinds.withdraw_money.subject'),
+					title: VueI18n.t('notifications.kinds.withdraw_money.title'),
+				},
+				{
+					id: 4,
+					key: 'ref',
+					subject: VueI18n.t('notifications.kinds.ref.subject'),
+					title: VueI18n.t('notifications.kinds.ref.title'),
+				},
+				{
+					id: 5,
+					key: 'tradingBlock',
+					subject: VueI18n.t('notifications.kinds.trading_block.subject'),
+					title: VueI18n.t('notifications.kinds.trading_block.title'),
+				},
+				{
+					id: 6,
+					key: 'moneyBlock',
+					subject: VueI18n.t('notifications.kinds.money_block.subject'),
+					title: VueI18n.t('notifications.kinds.money_block.title'),
+				},
+				{
+					id: 7,
+					key: 'systemBlock',
+					subject: VueI18n.t('notifications.kinds.system_block.subject'),
+					title: VueI18n.t('notifications.kinds.system_block.title'),
+				},
+				{
+					id: 8,
+					key: 'positionLiquidationWarn',
+					subject: VueI18n.t('notifications.kinds.position_liquidation_warn.subject'),
+					title: VueI18n.t('notifications.kinds.position_liquidation_warn.title'),
+				},
+				{
+					id: 9,
+					key: 'positionLiquidation',
+					subject: VueI18n.t('notifications.kinds.position_liquidation.subject'),
+					title: VueI18n.t('notifications.kinds.position_liquidation.title'),
+				},
+				{
+					id: 10,
+					key: 'maintenance',
+					subject: VueI18n.t('notifications.kinds.maintenance.subject'),
+					title: VueI18n.t('notifications.kinds.maintenance.title'),
+				},
+				{
+					id: 11,
+					key: 'news',
+					subject: VueI18n.t('notifications.kinds.news.subject'),
+					title: VueI18n.t('notifications.kinds.news.title'),
+				},
+			];
+		},
+
 		getNotificationsByType: state => type => {
 			if (!state.notifications) return;
 			return state.notifications.filter(item => item.type === type);
@@ -122,16 +126,16 @@ export default {
 			return dataArray ? dataArray.length : 0;
 		},
 
-		getNotificationColor: state => type => {
-			const typeItem = state.notificationTypes.find(item => item.type === type);
+		getNotificationColor: (_, getters) => type => {
+			const typeItem = getters.notificationTypes.find(item => item.type === type);
 			return typeItem.color;
 		},
-		getNotificationIcon: state => type => {
-			const typeItem = state.notificationTypes.find(item => item.type === type);
+		getNotificationIcon: (_, getters) => type => {
+			const typeItem = getters.notificationTypes.find(item => item.type === type);
 			return typeItem.icon;
 		},
-		getNotificationKindSubject: state => kindID => {
-			return state.notificationsKinds.find(k => k.id === kindID).subject;
+		getNotificationKindSubject: (_, getters) => kindID => {
+			return getters.notificationsKinds.find(k => k.id === kindID).subject;
 		},
 	},
 

@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import SupportDialogCreate from '../dialog/SupportDialogCreate';
 
@@ -81,9 +81,10 @@ export default {
 	},
 
 	computed: {
-		...mapState('support', ['supportStatuses', 'priorityList']),
 		...mapGetters({
 			getQuantity: 'support/getQuantityByStatus',
+			supportStatuses: 'support/supportStatuses',
+			priorityList: 'support/priorityList',
 		}),
 	},
 

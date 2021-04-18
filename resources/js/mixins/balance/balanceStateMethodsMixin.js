@@ -1,8 +1,8 @@
 export default {
 	computed: {
 		stateTypes() {
-			return this.$store.state.balance.stateTypes
-		}
+			return this.$store.getters['balance/stateTypes'];
+		},
 	},
 
 	methods: {
@@ -30,5 +30,5 @@ export default {
 			const status = this.stateTypes.find(t => t.id === state);
 			return status[type];
 		},
-	}
-}
+	},
+};

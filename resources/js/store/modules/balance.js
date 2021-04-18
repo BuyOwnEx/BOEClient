@@ -3,52 +3,56 @@ import VueI18n from '../../plugins/vue-i18n';
 export default {
 	namespaced: true,
 
-	state: () => ({
-		stateTypes: [
-			{
-				id: 1,
-				replenishment: VueI18n.t('balance.state_type.replenishment'),
-				withdrawal: VueI18n.t('balance.state_type.withdrawal'),
-				replenishmentIcon: workIcon,
-				withdrawalIcon: workIcon,
-			},
-			{
-				id: 2,
-				replenishment: VueI18n.t('balance.state_type.not_replenishment'),
-				withdrawal: VueI18n.t('balance.state_type.withdrawal'),
-				replenishmentIcon: notWorkIcon,
-				withdrawalIcon: workIcon,
-			},
-			{
-				id: 3,
-				replenishment: VueI18n.t('balance.state_type.replenishment'),
-				withdrawal: VueI18n.t('balance.state_type.not_withdrawal'),
-				replenishmentIcon: workIcon,
-				withdrawalIcon: notWorkIcon,
-			},
-			{
-				id: 4,
-				replenishment: VueI18n.t('balance.state_type.not_replenishment'),
-				withdrawal: VueI18n.t('balance.state_type.not_withdrawal'),
-				replenishmentIcon: notWorkIcon,
-				withdrawalIcon: notWorkIcon,
-			},
-			{
-				id: 5,
-				replenishment: VueI18n.t('balance.state_type.sync'),
-				withdrawal: VueI18n.t('balance.state_type.sync'),
-				replenishmentIcon: syncIcon,
-				withdrawalIcon: syncIcon,
-			},
-			{
-				id: 6,
-				replenishment: VueI18n.t('balance.state_type.maintenance'),
-				withdrawal: VueI18n.t('balance.state_type.maintenance'),
-				replenishmentIcon: maintenanceIcon,
-				withdrawalIcon: maintenanceIcon,
-			},
-		],
-	}),
+	state: () => ({}),
+
+	getters: {
+		stateTypes() {
+			return [
+				{
+					id: 1,
+					replenishment: VueI18n.t('balance.state_type.replenishment'),
+					withdrawal: VueI18n.t('balance.state_type.withdrawal'),
+					replenishmentIcon: workIcon,
+					withdrawalIcon: workIcon,
+				},
+				{
+					id: 2,
+					replenishment: VueI18n.t('balance.state_type.not_replenishment'),
+					withdrawal: VueI18n.t('balance.state_type.withdrawal'),
+					replenishmentIcon: notWorkIcon,
+					withdrawalIcon: workIcon,
+				},
+				{
+					id: 3,
+					replenishment: VueI18n.t('balance.state_type.replenishment'),
+					withdrawal: VueI18n.t('balance.state_type.not_withdrawal'),
+					replenishmentIcon: workIcon,
+					withdrawalIcon: notWorkIcon,
+				},
+				{
+					id: 4,
+					replenishment: VueI18n.t('balance.state_type.not_replenishment'),
+					withdrawal: VueI18n.t('balance.state_type.not_withdrawal'),
+					replenishmentIcon: notWorkIcon,
+					withdrawalIcon: notWorkIcon,
+				},
+				{
+					id: 5,
+					replenishment: VueI18n.t('balance.state_type.sync'),
+					withdrawal: VueI18n.t('balance.state_type.sync'),
+					replenishmentIcon: syncIcon,
+					withdrawalIcon: syncIcon,
+				},
+				{
+					id: 6,
+					replenishment: VueI18n.t('balance.state_type.maintenance'),
+					withdrawal: VueI18n.t('balance.state_type.maintenance'),
+					replenishmentIcon: maintenanceIcon,
+					withdrawalIcon: maintenanceIcon,
+				},
+			];
+		},
+	},
 
 	actions: {
 		async fetchWithdrawals() {

@@ -4,85 +4,7 @@ export default {
 	namespaced: true,
 
 	state: {
-		supportStatuses: [
-			{
-				name: VueI18n.t('support.status.all'),
-				key: 'all',
-				icon: 'mdi-dots-horizontal',
-				color: 'primary',
-			},
-			{
-				name: VueI18n.t('support.status.new'),
-				key: 'new',
-				icon: 'mdi-new-box',
-				color: 'primary',
-			},
-			{
-				name: VueI18n.t('support.status.open'),
-				key: 'open',
-				icon: 'mdi-book-open-outline',
-				color: 'primary',
-			},
-			{
-				name: VueI18n.t('support.status.pending'),
-				key: 'pending',
-				icon: 'mdi-circle-slice-2',
-				color: 'yellow',
-			},
-			{
-				name: VueI18n.t('support.status.hold'),
-				key: 'hold',
-				icon: 'mdi-circle-slice-6',
-				color: 'orange',
-			},
-			{
-				name: VueI18n.t('support.status.solved'),
-				key: 'solved',
-				icon: 'mdi-check',
-				color: 'green',
-			},
-			{
-				name: VueI18n.t('support.status.closed'),
-				key: 'closed',
-				icon: 'mdi-close',
-				color: 'red',
-			},
-		],
-		priorityList: [
-			{
-				id: 1,
-				name: VueI18n.t('support.priority.all'),
-				key: 'all',
-				color: 'primary',
-			},
-			{
-				id: 2,
-				name: VueI18n.t('support.priority.low'),
-				key: 'low',
-				color: 'warning',
-			},
-			{
-				id: 3,
-				name: VueI18n.t('support.priority.medium'),
-				key: 'normal',
-				color: 'orange',
-			},
-			{
-				id: 4,
-				name: VueI18n.t('support.priority.high'),
-				key: 'high',
-				color: 'error',
-			},
-			{
-				id: 5,
-				name: VueI18n.t('support.priority.urgent'),
-				key: 'urgent',
-				color: 'pink',
-			},
-		],
-
 		tickets: null,
-
 		totalTicketsCount: null,
 		perPage: 20,
 		prevPage: null,
@@ -90,6 +12,87 @@ export default {
 	},
 
 	getters: {
+		supportStatuses() {
+			return [
+				{
+					name: VueI18n.t('support.status.all'),
+					key: 'all',
+					icon: 'mdi-dots-horizontal',
+					color: 'primary',
+				},
+				{
+					name: VueI18n.t('support.status.new'),
+					key: 'new',
+					icon: 'mdi-new-box',
+					color: 'primary',
+				},
+				{
+					name: VueI18n.t('support.status.open'),
+					key: 'open',
+					icon: 'mdi-book-open-outline',
+					color: 'primary',
+				},
+				{
+					name: VueI18n.t('support.status.pending'),
+					key: 'pending',
+					icon: 'mdi-circle-slice-2',
+					color: 'yellow',
+				},
+				{
+					name: VueI18n.t('support.status.hold'),
+					key: 'hold',
+					icon: 'mdi-circle-slice-6',
+					color: 'orange',
+				},
+				{
+					name: VueI18n.t('support.status.solved'),
+					key: 'solved',
+					icon: 'mdi-check',
+					color: 'green',
+				},
+				{
+					name: VueI18n.t('support.status.closed'),
+					key: 'closed',
+					icon: 'mdi-close',
+					color: 'red',
+				},
+			];
+		},
+		priorityList() {
+			return [
+				{
+					id: 1,
+					name: VueI18n.t('support.priority.all'),
+					key: 'all',
+					color: 'primary',
+				},
+				{
+					id: 2,
+					name: VueI18n.t('support.priority.low'),
+					key: 'low',
+					color: 'warning',
+				},
+				{
+					id: 3,
+					name: VueI18n.t('support.priority.medium'),
+					key: 'normal',
+					color: 'orange',
+				},
+				{
+					id: 4,
+					name: VueI18n.t('support.priority.high'),
+					key: 'high',
+					color: 'error',
+				},
+				{
+					id: 5,
+					name: VueI18n.t('support.priority.urgent'),
+					key: 'urgent',
+					color: 'pink',
+				},
+			];
+		},
+
 		getTicketsByStatus: state => status => {
 			if (!state.tickets) return;
 			if (status === 'all') {
@@ -103,9 +106,7 @@ export default {
 		},
 		getTicketsByPriorityAndStatus: state => (priority, status) => {
 			if (!state.tickets) return;
-			return state.tickets.filter(
-				ticket => ticket.priority === priority && ticket.status === status
-			);
+			return state.tickets.filter(ticket => ticket.priority === priority && ticket.status === status);
 		},
 		getQuantityByStatus: (state, getters) => status => {
 			const dataArray = getters.getTicketsByStatus(status);
@@ -118,9 +119,7 @@ export default {
 			state.nextPage = tickets.next_page;
 			state.prevPage = tickets.prev_page;
 			state.totalTicketsCount = tickets.count;
-			state.tickets = tickets.results.sort(
-				(a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-			);
+			state.tickets = tickets.results.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 		},
 
 		ADD_TICKET(state, ticket) {
