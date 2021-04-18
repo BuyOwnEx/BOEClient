@@ -1,6 +1,6 @@
 <template>
 	<div class="profile-page flex-grow-1">
-		<v-tabs v-model="selectedTab" show-arrows>
+		<v-tabs v-model="selectedTab" :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">{{ $t('user.title.account') }}</v-tab>
 			<v-tab :key="2">{{ $t('user.title.verification') }}</v-tab>
 			<v-tab :key="3">{{ $t('user.title.api') }}</v-tab>
@@ -8,11 +8,7 @@
 			<v-tab :key="5">{{ $t('user.title.settings') }}</v-tab>
 		</v-tabs>
 
-		<v-tabs-items
-			v-if="trader"
-			v-model="selectedTab"
-			class="profile-page__tabs-items"
-		>
+		<v-tabs-items v-if="trader" v-model="selectedTab" class="profile-page__tabs-items">
 			<v-tab-item :key="1">
 				<UserAccountTab :user="trader" />
 			</v-tab-item>
