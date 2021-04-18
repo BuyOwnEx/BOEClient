@@ -6,8 +6,8 @@
 				:items="pairs"
 				item-text="name"
 				item-value="id"
-				label="Select pair"
-				hint="Select pair from available options"
+				label="$t('overview.select_pair')"
+				hint="$t('overview.select_pair_hint')"
 				persistent-hint
 				hide-details
 				@change="changePair"
@@ -29,6 +29,7 @@
 				</template>
 			</v-select>
 		</v-col>
+
 		<highcharts
 			class="overview-depth-graph__graph"
 			:options="options"
@@ -79,7 +80,7 @@ export default {
 					enabled: false,
 				},
 				title: {
-					text: 'Market depth',
+					text: this.$t('overview.graph_title'),
 				},
 				xAxis: [
 					{

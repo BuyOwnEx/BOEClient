@@ -140,6 +140,14 @@ export default {
 		landingPage: 'Landing Page',
 		pricingPage: 'Pricing Page',
 	},
+
+	overview: {
+		graph_title: 'Market depth',
+		table_title: 'Market overview',
+		select_pair: 'Select pair',
+		select_pair_hint: 'Select pair from available options',
+	},
+
 	trading: {
 		last_price: 'Last price',
 		daily_change: 'Daily change',

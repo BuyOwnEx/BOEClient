@@ -140,6 +140,14 @@ export default {
 		landingPage: 'Целевая страница',
 		pricingPage: 'Страница с ценами',
 	},
+
+	overview: {
+		graph_title: 'Глубина рынка',
+		table_title: 'Обзор рынка',
+		select_pair: 'Выберите пару',
+		select_pair_hint: 'Выберите пару из доступных вариантов',
+	},
+
 	trading: {
 		last_price: 'Последняя цена',
 		daily_change: 'Изменение за 24 часа',

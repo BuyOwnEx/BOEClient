@@ -2,7 +2,7 @@
 	<v-card class="overview-table">
 		<v-data-table
 			class="pa-0 py-2 pa-sm-2"
-			caption="Market overview"
+			:caption="tableTitle"
 			:calculate-widths="true"
 			:headers="headers"
 			:items="tickersList"
@@ -140,19 +140,12 @@ export default {
 					if (BigNumber(item.previous_day).isZero()) {
 						changePercent = 100;
 					} else {
-						changePercent = change
-							.multipliedBy(100)
-							.div(BigNumber(item.previous_day));
+						changePercent = change.multipliedBy(100).div(BigNumber(item.previous_day));
 					}
 				}
 				return {
-					pairName:
-						item.currency.toUpperCase() + '/' + item.market.toUpperCase(),
-					pairLink:
-						'/trading/' +
-						item.market.toUpperCase() +
-						'/' +
-						item.currency.toUpperCase(),
+					pairName: item.currency.toUpperCase() + '/' + item.market.toUpperCase(),
+					pairLink: '/trading/' + item.market.toUpperCase() + '/' + item.currency.toUpperCase(),
 					bid: item.bid,
 					ask: item.ask,
 					min: item.min,
@@ -166,6 +159,10 @@ export default {
 					changePercent: changePercent.toFixed(2),
 				};
 			});
+		},
+
+		tableTitle() {
+			return this.$t('overview.table_title');
 		},
 	},
 
