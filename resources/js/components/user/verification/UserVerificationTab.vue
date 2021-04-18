@@ -21,8 +21,8 @@ export default {
 		phone: null,
 		i18n: null,
 
-		customCssLink: 'https://buyownex.com/css/sumsub.css',
-		customCssDarkLink: 'https://buyownex.com/css/sumsubDark.css',
+		customCssLink: `https://${window.location.hostname}/css/sumsub.css`,
+		customCssDarkLink: `https://${window.location.hostname}/css/sumsubDark.css`,
 	}),
 
 	computed: {
