@@ -1,12 +1,12 @@
 <template>
 	<v-tooltip bottom>
 		<template v-slot:activator="{ on }">
-			<span class="clickable" v-on="on" @click.stop.prevent="copy">
+			<span class="clickable" v-on="on" @click="copy">
 				<v-icon v-if="icon" small>
 					{{ icon }}
 				</v-icon>
 
-				<span ref="copy-label" class="copy-label">
+				<span ref="copyLabel" class="copy-label">
 					{{ text }}
 				</span>
 			</span>
@@ -47,19 +47,11 @@ export default {
 	methods: {
 		copy() {
 			this.createTextareaAndCopy();
-
 			this.showSnackbar();
-
 			this.showTooltip();
 		},
-
 		createTextareaAndCopy() {
-			const el = document.createElement('textarea');
-			el.value = this.text;
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
+			this.$copyText(this.text,this.$refs.copyLabel);
 		},
 		showSnackbar() {
 			this.$store.commit('snackbar/SHOW_MESSAGE', {
