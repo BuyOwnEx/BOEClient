@@ -1,5 +1,5 @@
 <template>
-	<v-card class="fiat-transactions">
+	<v-card class="orders">
 		<v-data-table
 			class="pa-1 pa-sm-2"
 			:style="`width:100%`"
@@ -13,14 +13,13 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			caption="Fiat transactions"
+			caption="Orders"
 			dense
 		>
 			<template v-slot:top>
 				<filters
+					:all_sides="sides"
 					:all_types="types"
-					:all_payment_types="payments"
-					:all_currencies="currencies"
 					:all_statuses="statuses"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
@@ -30,46 +29,59 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template v-slot:item.currency="{ item }">
-				<v-avatar :color="item.color" size="22" v-if="!item.logo">
-					<v-img
-						v-if="item.logo"
-						class="elevation-6"
-						:src="getImage(item.logo)"
-					/>
-					<span v-else class="white--text subtitle-2">
-						{{ item.currency.charAt(0) }}
+			<template v-slot:item.pair="{ item }">
+				<v-avatar :color="item.color" size="22">
+					<span class="white--text subtitle-2">
+						{{ item.currency.charAt(0) + item.market.charAt(0) }}
 					</span>
 				</v-avatar>
-				<v-img
-					v-else
-					class="elevation-0 d-inline-flex"
-					style="vertical-align: middle"
-					:src="getImage(item.logo)"
-					max-height="22"
-					max-width="22"
-				/>
-				<span class="ml-1">{{ item.currency }}</span>
+				<span class="ml-1">{{ item.currency }}/{{ item.market }}</span>
 			</template>
 
 			<template v-slot:item.type="{ item }">
-				<span :class="item.type === true ? 'success--text' : 'error--text'">
-					{{ getTypeName(item.type) }}
-				</span>
+				<span>{{ getTypeName(item.type) }}</span>
 			</template>
 
 			<template v-slot:item.status="{ item }">
-				<span :class="getStatusColorClass(item.status)">
+				<span :class="getStatusClassColor(item.status)">
 					{{ getStatusName(item.status) }}
 				</span>
 			</template>
 
-			<template v-slot:item.created_at="{ item }">
-				<span>{{ getDate(item.created_at) }}</span>
+			<template v-slot:item.side="{ item }">
+				<span :class="item.side === false ? 'success--text' : 'error--text'">
+					{{ getSideName(item.side) }}
+				</span>
 			</template>
 
-			<template v-slot:item.amount="{ item }">
-				<span>{{ BigNumber(item.amount) }}</span>
+			<template v-slot:item.created_at="{ item }">
+				<span>{{ getDateFromTick(item.created_at) }}</span>
+			</template>
+
+			<template v-slot:item.size="{ item }">
+				<span>{{ BigNumber(item.size) + ' ' + item.currency }}</span>
+			</template>
+
+			<template v-slot:item.price="{ item }">
+				<span>{{ BigNumber(item.price) + ' ' + item.market }}</span>
+			</template>
+
+			<template v-slot:item.actual_size="{ item }">
+				<span>
+					{{ BigNumber(item.actual_size) + ' ' + item.currency }}
+				</span>
+			</template>
+
+			<template v-slot:item.volume="{ item }">
+				<span>
+					{{ getVolume(item.size, item.price) + ' ' + item.market }}
+				</span>
+			</template>
+
+			<template v-slot:item.actualVolume="{ item }">
+				<span>
+					{{ getVolume(item.actual_size, item.price) + ' ' + item.market }}
+				</span>
 			</template>
 		</v-data-table>
 	</v-card>
@@ -77,15 +89,19 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import moment from 'moment';
-import filters from '../components/filters/FiatTransactions';
 import randomColor from 'randomcolor';
+BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+
+import filters from '../../components/filters/Orders';
+
 export default {
-	name: 'FiatTransactions',
+	name: 'Orders',
+
 	components: {
 		filters,
 	},
+
 	data() {
 		return {
 			isFiltersShow: true,
@@ -99,31 +115,44 @@ export default {
 			headers: [
 				{ text: 'ID', value: 'id' },
 				{ text: 'Date', value: 'created_at' },
+				{ text: 'Pair', value: 'pair', sortable: false },
 				{ text: 'Type', value: 'type' },
-				{ text: 'Gateway', value: 'payment_type' },
-				{ text: 'Currency', value: 'currency' },
-				{ text: 'Amount', value: 'amount' },
-				{ text: 'Operation ID', value: 'txid' },
+				{ text: 'Size', value: 'size' },
+				{ text: 'Actual size', value: 'actual_size' },
+				{ text: 'Price', value: 'price' },
+				{ text: 'Volume', value: 'volume', sortable: false },
+				{ text: 'Actual volume', value: 'actualVolume', sortable: false },
 				{ text: 'Status', value: 'status' },
+				{ text: 'Side', value: 'side' },
 			],
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
 			},
-			statuses: [
-				{ value: 'done', name: 'Executed' },
-				{ value: 'wait', name: 'Pending' },
-				{ value: 'new', name: 'Waiting' },
-				{ value: 'accepted', name: 'Accepted' },
-				{ value: 'fail', name: 'Failed' },
-			],
 			types: [
-				{ value: false, name: 'Withdrawal' },
-				{ value: true, name: 'Replenish' },
+				{ value: 'LIMIT', name: 'Limit order' },
+				{ value: 'MARKET', name: 'Market order' },
+				{ value: 'STOPLOSS', name: 'Stop loss order' },
+				{ value: 'TAKEPROFIT', name: 'Take profit order' },
+				{ value: 'TRAILINGSTOP', name: 'Trailing stop order' },
 			],
-			payments: ['Payeer'],
-			currencies: [],
+			statuses: [
+				{ value: 'filled', name: 'Filled' },
+				{ value: 'partiallyFilled', name: 'Partially filled' },
+				{ value: 'accepted', name: 'Accepted' },
+				{ value: 'cancelled', name: 'Cancelled' },
+			],
+			sides: [
+				{ value: true, name: 'Sell' },
+				{ value: false, name: 'Buy' },
+			],
 		};
+	},
+
+	computed: {
+		pairs() {
+			return this.$store.state.tickers.markets;
+		},
 	},
 
 	watch: {
@@ -142,8 +171,23 @@ export default {
 		BigNumber(item) {
 			return BigNumber(item).toString();
 		},
-		getDate(date) {
-			return date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
+		getVolume(size, price) {
+			return BigNumber(size)
+				.multipliedBy(BigNumber(price))
+				.toString();
+		},
+		getDateFromTick(date) {
+			return date
+				? moment
+						.unix(
+							BigNumber(date)
+								.div(10000000)
+								.absoluteValue()
+								.minus(62135596800)
+								.toNumber()
+						)
+						.format('YYYY-MM-DD HH:mm:ss')
+				: '-';
 		},
 		getTypeName(type) {
 			let index = _.findIndex(this.types, item => item.value === type);
@@ -152,6 +196,10 @@ export default {
 		getStatusName(status) {
 			let index = _.findIndex(this.statuses, item => item.value === status);
 			return this.statuses[index].name;
+		},
+		getSideName(side) {
+			let index = _.findIndex(this.sides, item => item.value === side);
+			return this.sides[index].name;
 		},
 		getRandomColor: function() {
 			return randomColor({
@@ -219,37 +267,22 @@ export default {
 				};
 				_.assign(parameters, dates);
 			}
-			const response = await axios.get('/trader/ext/all_fiat_transactions', {
+			const response = await axios.get('/trader/ext/all_orders', {
 				params: parameters,
 			});
 			return response.data;
 		},
-		menuItemExist(func) {
-			return _.findIndex(this.actions, action => action.name === func) !== -1;
-		},
-		closeMenu(item) {
-			item.menu = false;
-		},
-		getImage(img) {
-			return '/' + img;
-		},
 
-		getStatusColorClass(status) {
-			if (status === 'done') return 'success--text';
-			else if (status === 'wait' || status === 'new') return 'warning--text';
-			else if (status === 'fail') return 'error--text';
+		getStatusClassColor(status) {
+			if (status === 'filled') return 'success--text';
+			else if (status === 'partiallyFilled') return 'warning--text';
+			else if (status === 'cancelled') return 'error--text';
 			else return '';
 		},
 
 		toggleFiltersShow() {
 			this.isFiltersShow = !this.isFiltersShow;
 		},
-	},
-
-	mounted() {
-		axios.get('/trader/ext/fiat_currencies').then(response => {
-			this.currencies = response.data.data;
-		});
 	},
 };
 </script>

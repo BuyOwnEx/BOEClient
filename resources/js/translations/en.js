@@ -17,6 +17,8 @@ export default {
 		transfer: 'Transfer',
 		confirm: 'Confirm',
 		select: 'Select',
+		apply: 'Apply',
+		reset: 'Reset',
 
 		title: 'Title',
 		description: 'Description',
@@ -2456,6 +2458,55 @@ make our system processes as transparent as possible.`,
 			high: 'High',
 			urgent: 'Urgent',
 		},
+	},
+
+	reports: {
+		filters: 'Filters',
+
+		date_from: 'Date from',
+		date_from_hint: 'Choose date from',
+		date_till: 'Date till',
+		date_till_hint: 'Choose date till',
+		time_from: 'Time from',
+		time_from_hint: 'Choose time from',
+		time_till: 'Time till',
+		time_till_hint: 'Choose time till',
+
+		deal_id: 'Deal ID',
+		deal_id_hint: 'Find deal by ID',
+
+		transaction_id: 'Transaction ID',
+		transaction_id_hint: 'Find transaction by ID',
+		transaction_hash: 'Transaction Hash',
+		transaction_hash_hint: 'Find by transaction hash',
+
+		order_id: 'Order ID',
+		order_id_hint: 'Find by order ID',
+
+		ref: 'Referral',
+		ref_hint: 'Start typing referral login to search',
+		date_range: 'Choose date range',
+		date_range_hint: 'Choose date range of referral payments',
+
+		transfer_id: 'Transfer ID',
+		transfer_id_hint: 'Find by transfer ID',
+
+		pair: 'Select pair',
+		pair_hint: 'Select pair from available options',
+		side: 'Select side',
+		side_hint: 'Select side from available options',
+		operation: 'Operation ID',
+		operation_hint: 'Find by external operation ID',
+		gateway: 'Gateway',
+		gateway_hint: 'Select gateway from available options',
+		currency: 'Currency',
+		currency_hint: 'Select currency from available options',
+		type: 'Select type',
+		type_hint: 'Select type from available options',
+		status: 'Select status',
+		status_hint: 'Select status from available options',
+		address: 'Address',
+		address_hint: 'Find by recipient address',
 	},
 
 	forms_validation: {

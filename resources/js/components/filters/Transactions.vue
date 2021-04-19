@@ -1,7 +1,7 @@
 <template>
 	<v-form>
 		<v-container class="pa-0" fluid>
-			<FiltersTitle :show='show'  @toggle-filters="show = !show" />
+			<FiltersTitle :show="show" @toggle-filters="show = !show" />
 
 			<v-row class="filter-main" v-if="show" no-gutters>
 				<v-col class="px-1" cols="12" sm="6" md="3">
@@ -18,10 +18,10 @@
 							<v-text-field
 								class="mt-1"
 								v-model="filters.start_date"
-								label="Date from"
-								hint="Choose date from"
-								persistent-hint
+								:label="$t('reports.date_from')"
+								:hint="$t('reports.date_from_hint')"
 								hide-details="auto"
+								persistent-hint
 								readonly
 								v-bind="attrs"
 								v-on="on"
@@ -29,7 +29,7 @@
 						</template>
 						<v-date-picker
 							v-model="filters.start_date"
-							color='primary'
+							color="primary"
 							no-title
 							scrollable
 							@change="
@@ -56,10 +56,10 @@
 							<v-text-field
 								class="mt-1"
 								v-model="filters.start_time"
-								label="Time from"
-								hint="Choose time from"
-								persistent-hint
+								:label="$t('reports.time_from')"
+								:hint="$t('reports.time_from_hint')"
 								hide-details="auto"
+								persistent-hint
 								readonly
 								v-bind="attrs"
 								v-on="on"
@@ -69,7 +69,7 @@
 							v-if="menu_start_time"
 							v-model="filters.start_time"
 							format="24hr"
-							color='primary'
+							color="primary"
 							use-seconds
 							no-title
 							@click:second="
@@ -90,17 +90,17 @@
 						:return-value.sync="filters.end_date"
 						transition="scale-transition"
 						min-width="290px"
-						color='primary'
+						color="primary"
 						offset-y
 					>
 						<template v-slot:activator="{ on, attrs }">
 							<v-text-field
 								class="mt-1"
 								v-model="filters.end_date"
-								label="Date till"
-								hint="Choose date till"
-								persistent-hint
+								:label="$t('reports.date_till')"
+								:hint="$t('reports.date_till_hint')"
 								hide-details="auto"
+								persistent-hint
 								readonly
 								v-bind="attrs"
 								v-on="on"
@@ -108,7 +108,7 @@
 						</template>
 						<v-date-picker
 							v-model="filters.end_date"
-							color='primary'
+							color="primary"
 							no-title
 							scrollable
 							@change="
@@ -135,10 +135,10 @@
 							<v-text-field
 								class="mt-1"
 								v-model="filters.end_time"
-								label="Time till"
-								hint="Choose time till"
-								persistent-hint
+								:label="$t('reports.time_till')"
+								:hint="$t('reports.time_till_hint')"
 								hide-details="auto"
+								persistent-hint
 								readonly
 								v-bind="attrs"
 								v-on="on"
@@ -148,7 +148,7 @@
 							v-if="menu_end_time"
 							v-model="filters.end_time"
 							format="24hr"
-							color='primary'
+							color="primary"
 							use-seconds
 							no-title
 							@click:second="
@@ -167,12 +167,12 @@
 					<v-text-field
 						class="mt-1"
 						v-model="filters.id"
-						@change="setEnabled"
-						label="Transaction ID"
-						hint="Search transaction by ID"
-						persistent-hint
+						:label="$t('reports.transaction_id')"
+						:hint="$t('reports.transaction_id_hint')"
 						hide-details="auto"
+						persistent-hint
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 
@@ -180,12 +180,12 @@
 					<v-text-field
 						class="mt-1"
 						v-model="filters.txid"
-						@change="setEnabled"
-						label="Transaction Hash"
-						hint="Search transaction by hash"
-						persistent-hint
+						:label="$t('reports.transaction_hash')"
+						:hint="$t('reports.transaction_hash_hint')"
 						hide-details="auto"
+						persistent-hint
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 
@@ -193,12 +193,12 @@
 					<v-text-field
 						class="mt-1"
 						v-model="filters.address"
-						@change="setEnabled"
-						label="Address"
-						hint="Search transaction by recipient address"
-						persistent-hint
+						:label="$t('reports.address')"
+						:hint="$t('reports.address_hint')"
 						hide-details="auto"
+						persistent-hint
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 
@@ -206,15 +206,15 @@
 					<v-select
 						class="mt-1"
 						v-model="filters.currency"
-						@change="setEnabled"
 						:items="all_currencies"
+						:label="$t('reports.currency')"
+						:hint="$t('reports.currency_hint')"
 						item-text="currency"
 						item-value="currency"
-						label="Currency"
-						hint="Select currency from available options"
-						persistent-hint
 						hide-details="auto"
+						persistent-hint
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 
@@ -222,15 +222,15 @@
 					<v-select
 						class="mt-1"
 						v-model="filters.type"
-						@change="setEnabled"
 						:items="all_types"
+						:label="$t('reports.type')"
+						:hint="$t('reports.type_hint')"
 						item-text="name"
 						item-value="value"
-						label="Select type"
-						hint="Select type from available options"
-						persistent-hint
 						hide-details="auto"
+						persistent-hint
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 
@@ -238,25 +238,20 @@
 					<v-select
 						class="mt-1"
 						v-model="filters.status"
-						@change="setEnabled"
 						:items="all_statuses"
+						:label="$t('reports.status')"
+						:hint="$t('reports.status_hint')"
 						item-text="name"
 						item-value="value"
-						label="Select status"
-						hint="Select status from available options"
-						persistent-hint
 						hide-details="auto"
+						persistent-hint
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 			</v-row>
 
-			<FiltersFooter
-				v-if="show"
-				:disabled="disabled"
-				@reset="resetFilter"
-				@set="setFilter"
-			/>
+			<FiltersFooter v-if="show" :disabled="disabled" @reset="resetFilter" @set="setFilter" />
 		</v-container>
 	</v-form>
 </template>
@@ -302,8 +297,8 @@ export default {
 
 	watch: {
 		show() {
-			this.$emit('toggleFiltersShow')
-		}
+			this.$emit('toggleFiltersShow');
+		},
 	},
 
 	computed: {

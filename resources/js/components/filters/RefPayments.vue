@@ -1,7 +1,7 @@
 <template>
 	<v-form>
 		<v-container class="pa-0" fluid>
-			<FiltersTitle :show='show'  @toggle-filters="show = !show" />
+			<FiltersTitle :show="show" @toggle-filters="show = !show" />
 
 			<v-row class="filter-main" v-if="show" no-gutters>
 				<v-col class="px-1" cols="12" sm="4" md="4">
@@ -17,8 +17,8 @@
 						<template v-slot:activator="{ on, attrs }">
 							<v-text-field
 								v-model="computedDateFormatted"
-								label="Choose date range"
-								hint="Choose date range of referral payments"
+								:label="$t('reports.date_range')"
+								:hint="$t('reports.date_range_hint')"
 								persistent-hint
 								hide-details="auto"
 								readonly
@@ -26,10 +26,10 @@
 								v-on="on"
 							/>
 						</template>
-						<v-date-picker v-model="filters.dates" color='primary' no-title scrollable range>
+						<v-date-picker v-model="filters.dates" color="primary" no-title scrollable range>
 							<v-spacer />
-							<v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-							<v-btn text color="primary" @click="setApplyEnable">OK</v-btn>
+							<v-btn text color="primary" @click="menu = false">{{ $t('common.cancel') }}</v-btn>
+							<v-btn text color="primary" @click="setApplyEnable">{{ $t('common.apply') }}</v-btn>
 						</v-date-picker>
 					</v-menu>
 				</v-col>
@@ -37,42 +37,37 @@
 				<v-col class="px-1" cols="12" sm="4" md="4">
 					<v-autocomplete
 						v-model="filters.follower"
-						@change="setEnabled"
 						:items="followers"
 						:loading="loadingFollowers"
 						:search-input.sync="searchFollowers"
-						hint="Start typing follower login to search follower"
-						persistent-hint
-						hide-no-data
+						:label="$t('reports.ref')"
+						:hint="$t('reports.ref_hint')"
 						item-text="name"
 						item-value="id"
-						label="Follower"
+						persistent-hint
+						hide-no-data
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 
 				<v-col class="px-1" cols="12" sm="4" md="4">
 					<v-select
 						v-model="filters.currency"
-						@change="setEnabled"
 						:items="all_currencies"
+						:label="$t('reports.currency')"
+						:hint="$t('reports.currency_hint')"
 						item-text="currency"
 						item-value="currency"
-						label="Currency"
-						hint="Select currency from available options"
-						persistent-hint
 						hide-details="auto"
+						persistent-hint
 						clearable
+						@change="setEnabled"
 					/>
 				</v-col>
 			</v-row>
 
-			<FiltersFooter
-				v-if="show"
-				:disabled="disabled"
-				@reset="resetFilter"
-				@set="setFilter"
-			/>
+			<FiltersFooter v-if="show" :disabled="disabled" @reset="resetFilter" @set="setFilter" />
 		</v-container>
 	</v-form>
 </template>
@@ -134,8 +129,8 @@ export default {
 			debounce(this.makeFollowerSearch, 300)(value, this);
 		},
 		show() {
-			this.$emit('toggleFiltersShow')
-		}
+			this.$emit('toggleFiltersShow');
+		},
 	},
 
 	methods: {
@@ -163,11 +158,7 @@ export default {
 		},
 		setApplyEnable() {
 			this.$refs.menu.save(this.filters.dates);
-			if (
-				this.filters.dates[0] !== undefined &&
-				this.filters.dates[1] !== undefined
-			)
-				this.disabled = false;
+			if (this.filters.dates[0] !== undefined && this.filters.dates[1] !== undefined) this.disabled = false;
 		},
 		formatDate(dates) {
 			if (!dates) return null;

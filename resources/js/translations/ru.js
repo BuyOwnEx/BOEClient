@@ -18,6 +18,8 @@ export default {
 		confirm: 'Подтвердить',
 		select: 'Выбрать',
 		set: 'Установить',
+		apply: 'Применить',
+		reset: 'Сбросить',
 
 		title: 'Тема',
 		description: 'Описание',
@@ -2463,6 +2465,56 @@ export default {
 			high: 'Высокий',
 			urgent: 'Срочный',
 		},
+	},
+
+	reports: {
+		filters: 'Фильтры',
+
+		date_from: 'Дата с',
+		date_from_hint: 'Выберите начало даты',
+		date_till: 'Дата до',
+		date_till_hint: 'Выберите конец даты',
+
+		time_from: 'Время с',
+		time_from_hint: 'Выберите начало времени',
+		time_till: 'Время до',
+		time_till_hint: 'Выберите конец времени',
+
+		deal_id: 'ID сделки',
+		deal_id_hint: 'Найти по ID сделки',
+
+		transaction_id: 'ID транзакции',
+		transaction_id_hint: 'Найти по ID транзакции',
+		transaction_hash: 'Хэш транзакции',
+		transaction_hash_hint: 'Найти по хэшу транзакции',
+
+		order_id: 'ID ордера',
+		order_id_hint: 'Найти по ID ордера',
+
+		ref: 'Реферал',
+		ref_hint: 'Начните вводить логин реферала для поиска',
+		date_range: 'Выберите диапазон дат',
+		date_range_hint: 'Выберите диапазон дат реферальных выплат',
+
+		transfer_id: 'ID перевода',
+		transfer_id_hint: 'Найти по ID перевода',
+
+		pair: 'Выберите пару',
+		pair_hint: 'Выберите пару из доступных вариантов',
+		side: 'Выберите сторону',
+		side_hint: 'Выберите сторону из доступных вариантов',
+		operation: 'ID операции',
+		operation_hint: 'Найти по внешнему ID операции',
+		gateway: 'Шлюз',
+		gateway_hint: 'Выберите шлюз из доступных вариантов',
+		currency: 'Валюта',
+		currency_hint: 'Выберите валюту из доступных вариантов',
+		type: 'Выберите тип',
+		type_hint: 'Выберите тип из доступных вариантов',
+		status: 'Выберите статус',
+		status_hint: 'Выберите статус из доступных вариантов',
+		address: 'Адрес',
+		address_hint: 'Найти по адресу получателя',
 	},
 
 	forms_validation: {
