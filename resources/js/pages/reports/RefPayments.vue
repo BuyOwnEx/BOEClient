@@ -90,7 +90,7 @@ export default {
 	},
 
 	computed: {
-		header() {
+		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
 				{ text: this.$t('table_header.date'), value: 'created_at' },
