@@ -51,12 +51,6 @@ export default {
 	methods: {
 		async fetchRefTypes() {
 			const { data } = await axios.get('/trader/ext/all_referral_types');
-			data.data.forEach(item => {
-				item.name = `${item.percent}% - ${item.days} ${this.$t(
-					'user.settings.days'
-				)}`;
-			});
-
 			this.allRefTypes = data.data;
 		},
 	},

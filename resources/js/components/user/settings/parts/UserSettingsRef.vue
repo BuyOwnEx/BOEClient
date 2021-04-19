@@ -89,7 +89,8 @@ export default {
 			const types = this.allRefTypes;
 			if (!types) return '';
 
-			return types.find(t => t.id === id).name;
+			const type = types.find(t => t.id === id);
+			return `${type.percent}% - ${type.days} ${this.$t('user.settings.days')}`;
 		},
 	},
 };
