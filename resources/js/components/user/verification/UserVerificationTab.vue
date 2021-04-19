@@ -21,8 +21,8 @@ export default {
 		phone: null,
 		i18n: null,
 
-		customCssLink: `https://${window.location.host}/css/sumsub.css`,
-		customCssDarkLink: `https://${window.location.host}/css/sumsubDark.css`,
+		customCssLink: `${window.location.protocol}//${window.location.host}/css/sumsub.css`,
+		customCssDarkLink: `${window.location.protocol}//${window.location.host}/css/sumsubDark.css`,
 	}),
 
 	computed: {
