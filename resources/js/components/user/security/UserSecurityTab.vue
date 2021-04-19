@@ -50,14 +50,7 @@
 							@keydown="validate2FA"
 							@paste.prevent
 						/>
-						<v-btn
-							type="submit"
-							:block="isXsBreakpoint"
-							:loading="loading"
-							color="error"
-							small
-							tile
-						>
+						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading" color="error" small tile>
 							{{ $t('user.security.disable') }}
 						</v-btn>
 					</v-form>
@@ -99,14 +92,7 @@
 							@keydown="validate2FA"
 							@paste.prevent
 						/>
-						<v-btn
-							type="submit"
-							:block="isXsBreakpoint"
-							:loading="loading"
-							color="success"
-							small
-							tile
-						>
+						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading" color="success" small tile>
 							{{ $t('user.security.enable') }}
 						</v-btn>
 					</v-form>
@@ -199,11 +185,7 @@ export default {
 		get2FAStatus() {
 			axios.get('/trader/2fa_generate').then(response => {
 				if (_.get(response, 'data.success') === true) {
-					if (
-						!this.g2faStatus &&
-						_.get(response, 'data.secret') &&
-						_.get(response, 'data.image')
-					) {
+					if (!this.g2faStatus && _.get(response, 'data.secret') && _.get(response, 'data.image')) {
 						this.secret = response.data.secret;
 						this.image = response.data.image;
 					}
@@ -242,6 +224,8 @@ export default {
 		grid-area: code
 	&__qr-code
 		height: 200px
+		width: 200px
+		background-color: white
 	&__form
 		grid-area: form
 
@@ -278,7 +262,7 @@ export default {
 		&__content
 			display: flex
 			flex-flow: column
-		&__qr-code
+		&__qr-code-wrapper
 			display: flex
 			justify-content: center
 			margin-bottom: 32px
