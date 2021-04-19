@@ -29,7 +29,7 @@ export default {
 		contact: 'Contact Us',
 
 		replenishment_funds: 'Replenishment of funds',
-		withdrawal_funds: 'Withdraw of funds',
+		withdrawal_funds: 'Withdrawal of funds',
 		replenishment: 'Replenishment',
 		withdrawal: 'Withdrawal',
 
