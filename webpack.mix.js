@@ -61,6 +61,7 @@ mix.js('resources/js/app.js', 'public/dist/js')
 	.sass('resources/sass/app.scss', 'public/dist/css')
 	.sass('resources/sass/highcharts.scss', 'public/dist/css')
 	.sass('resources/sass/sumsub.scss', 'public/dist/css')
+	.sass('resources/sass/sumsubDark.scss', 'public/dist/css')
 	.webpackConfig({
 		resolve: {
 			extensions: ['.js', '.vue', '.json'],
