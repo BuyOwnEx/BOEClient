@@ -38,6 +38,19 @@ export default {
 		see_all: 'Увидеть все',
 	},
 
+	headers: {
+		date: 'Дата',
+		pair: 'Пара',
+		type: 'Тип',
+		size: 'Размер',
+		actual_size: 'Текущий размер',
+		price: 'Цена',
+		volume: 'Объем',
+		actual_volume: 'Текущий объем',
+		status: 'Статус',
+		side: 'Направленность',
+	},
+
 	apps: {
 		exchange: {
 			title: 'Обмен',

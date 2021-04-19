@@ -37,6 +37,19 @@ export default {
 		see_all: 'See all',
 	},
 
+	headers: {
+		date: 'Date',
+		pair: 'Pair',
+		type: 'Type',
+		size: 'Size',
+		actual_size: 'Actual size',
+		price: 'Price',
+		volume: 'Volume',
+		actual_volume: 'Actual volume',
+		status: 'Status',
+		side: 'Side',
+	},
+
 	apps: {
 		exchange: {
 			title: 'Exchange',
