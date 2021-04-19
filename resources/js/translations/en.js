@@ -199,6 +199,27 @@ export default {
 			use_margin: 'Use Leverage',
 			use_additional_params: 'Apply additional settings',
 			available: 'Available:',
+
+			buy_limit_order: 'You are going to <b>buy {amount} {currency}</b> at price of <b>{price} {market}</b>',
+			buy_limit_order_with_params:
+				'You are going to <b>buy {amount} {currency}</b> at price of <b>{price} {market}</b> with the following associated conditional orders',
+			buy_market_order: 'You are going to <b> buy {amount} {currency}</b> at the market price',
+			buy_market_order_with_params:
+				'You are going to <b> buy {amount} {currency}</b> at the market price with the following associated conditional orders',
+			buy_stop_loss_text: 'Sell by market if Best Bid reaches <b>{stopLoss} {market}</b> (SL order)',
+			buy_take_profit_text: 'Sell by market if Best Bid reaches <b>{takeProfit} {market}</b> (TP order)',
+			buy_trailing_stop_text: 'Sell by market if the asset price drops by <b>{trailingStop}</b> points (TS order)',
+
+			sell_limit_order: 'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b>',
+			sell_limit_order_with_params:
+				'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b> with the following associated conditional orders',
+			sell_market_order: 'You are going to <b>sell {amount} {currency}</b> at the market price',
+			sell_market_order_with_params:
+				'You are going to <b>sell {amount} {currency}</b> at the market price with the following associated conditional orders',
+			sell_stop_loss_text: 'Buy by market if Best Ask reaches the value <b>{stopLoss} {market}</b> (SL order)',
+			sell_take_profit_text: 'Buy by market if Best Ask reaches the value <b>{takeProfit} {market}</b> (TP order)',
+			sell_trailing_stop_text:
+				'Buy by market if the price of an asset rises by <b>{trailingStop}</b> points (TS order)',
 			only_one_conditional_orders_trigger: 'Only one of the conditional orders will be triggered',
 
 			cancel_all: 'Cancel all orders',
