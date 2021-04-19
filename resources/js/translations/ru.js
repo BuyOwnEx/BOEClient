@@ -832,23 +832,13 @@ export default {
 					'                        <p>\n' +
 					'                            <u><i>При успешном выполнении приходит ответ типа:</i></u>\n' +
 					'                        </p>\n' +
-					'                        <code class="code text-success">\n' +
-					'                            {\n' +
-					'                                "success": true,\n' +
-					'                                "code": 200,\n' +
-					'                                &lt;...&gt;\n' +
-					'                            }\n' +
-					'                        </code>\n' +
+					'                        <code class="success--text">&#123;"success": true,"code": 200,...&#125;</code>\n' +
 					'                        <p>\n' +
 					'                            <u><i>Ответ при ошибке:</i></u>\n' +
 					'                        </p>\n' +
-					'                        <code class="code">\n' +
-					'                            {"success": false, "code": &lt;код ошибки&gt;, "errors": [&lt;массив ошибок&gt;]}\n' +
-					'                        </code>\n' +
+					'                        <code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "errors": [&lt;массив ошибок&gt;]&#125;</code>\n' +
 					'                        или\n' +
-					'                        <code class="code">\n' +
-					'                            {"success": false, "code": &lt;код ошибки&gt;, "message": &lt;описание ошибки&gt;}\n' +
-					'                        </code>\n' +
+					'                        <code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "message": &lt;описание ошибки&gt;&#125;</code>\n' +
 					'                        <ul>\n' +
 					'                            <li><strong>errors</strong> – представляет из себя описание ошибок при поступлении запроса с не валидными входными параметрами</li>\n' +
 					'                            <li><strong>code</strong> – представляет из себя целочисленный код ошибки. Все коды возможных ошибок и их описание представлено ниже</li>\n' +
@@ -891,9 +881,7 @@ export default {
 					'                        <p>\n' +
 					'                            При удачном ответе вернется строка в JSON формате\n' +
 					'                        </p>\n' +
-					'                        <code class="code text-success">\n' +
-					'                            {"success": true,"token": "&lt;token&gt;"}\n' +
-					'                        </code>\n' +
+					'                        <code class="success--text">&#123;"success": true,"token": "&lt;token&gt;"&#125;</code>\n' +
 					'                        <p>\n' +
 					'                            где\n' +
 					'                            <br>\n' +
