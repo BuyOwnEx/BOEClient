@@ -96,16 +96,6 @@ export default {
 			itemsPerPage: 30,
 			sortBy: 'id',
 			sortDesc: true,
-			headers: [
-				{ text: 'ID', value: 'id' },
-				{ text: 'Date', value: 'created_at' },
-				{ text: 'Type', value: 'type' },
-				{ text: 'Gateway', value: 'payment_type' },
-				{ text: 'Currency', value: 'currency' },
-				{ text: 'Amount', value: 'amount' },
-				{ text: 'Operation ID', value: 'txid' },
-				{ text: 'Status', value: 'status' },
-			],
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
@@ -124,6 +114,21 @@ export default {
 			payments: ['Payeer'],
 			currencies: [],
 		};
+	},
+
+	computed: {
+		headers() {
+			return [
+				{ text: 'ID', value: 'id' },
+				{ text: this.$t('table_header.date'), value: 'created_at' },
+				{ text: this.$t('table_header.type'), value: 'type' },
+				{ text: this.$t('table_header.gateway'), value: 'payment_type' },
+				{ text: this.$t('table_header.currency'), value: 'currency' },
+				{ text: this.$t('table_header.amount'), value: 'amount' },
+				{ text: this.$t('table_header.operation_id'), value: 'txid' },
+				{ text: this.$t('table_header.status'), value: 'status' },
+			]
+		}
 	},
 
 	watch: {

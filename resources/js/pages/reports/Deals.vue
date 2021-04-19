@@ -95,17 +95,6 @@ export default {
 			itemsPerPage: 30,
 			sortBy: 'id',
 			sortDesc: true,
-			headers: [
-				{ text: 'ID', value: 'id' },
-				{ text: 'Date', value: 'created_at' },
-				{ text: 'Pair', value: 'pair', sortable: false },
-				{ text: 'Order', value: 'orderId', sortable: false },
-				{ text: 'Fee', value: 'fee' },
-				{ text: 'Size', value: 'size' },
-				{ text: 'Price', value: 'price' },
-				{ text: 'Volume', value: 'volume', sortable: false },
-				{ text: 'Side', value: 'side' },
-			],
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
@@ -118,6 +107,19 @@ export default {
 	},
 
 	computed: {
+		headers() {
+			return [
+				{ text: 'ID', value: 'id' },
+				{ text: this.$t('table_header.date'), value: 'created_at' },
+				{ text: this.$t('table_header.pair'), value: 'pair', sortable: false },
+				{ text: this.$t('table_header.order'), value: 'orderId', sortable: false },
+				{ text: this.$t('table_header.fee'), value: 'fee' },
+				{ text: this.$t('table_header.size'), value: 'size' },
+				{ text: this.$t('table_header.price'), value: 'price' },
+				{ text: this.$t('table_header.volume'), value: 'volume', sortable: false },
+				{ text: this.$t('table_header.side'), value: 'side' },
+			];
+		},
 		pairs() {
 			return this.$store.state.tickers.markets;
 		},

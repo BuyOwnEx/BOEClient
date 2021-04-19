@@ -88,9 +88,9 @@ export default {
 
 	mixins: [formatWithScaleInAllCurrencies],
 
-	data() {
-		return {
-			headers: [
+	computed: {
+		headers() {
+			return [
 				{ text: this.$t('trading.pair'), value: 'pair' },
 				{
 					text: this.$t('trading.forms.best_bid'),
@@ -120,11 +120,9 @@ export default {
 					text: this.$t('trading.daily_volume'),
 					value: 'volume24',
 				},
-			],
-		};
-	},
+			];
+		},
 
-	computed: {
 		tickersFromStorage() {
 			return this.$store.state.tickers.tickersList;
 		},

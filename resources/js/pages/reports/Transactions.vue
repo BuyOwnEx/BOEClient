@@ -31,11 +31,7 @@
 
 			<template v-slot:item.currency="{ item }">
 				<v-avatar :color="item.color" size="22" v-if="!item.logo">
-					<v-img
-						v-if="item.logo"
-						class="elevation-6"
-						:src="getImage(item.logo)"
-					/>
+					<v-img v-if="item.logo" class="elevation-6" :src="getImage(item.logo)" />
 					<span v-else class="white--text subtitle-2">
 						{{ item.currency.charAt(0) }}
 					</span>
@@ -99,17 +95,6 @@ export default {
 			itemsPerPage: 30,
 			sortBy: 'id',
 			sortDesc: true,
-			headers: [
-				{ text: 'ID', value: 'id' },
-				{ text: 'Date', value: 'created_at' },
-				{ text: 'Type', value: 'type' },
-				{ text: 'Currency', value: 'currency' },
-				{ text: 'Amount', value: 'amount' },
-				{ text: 'Address', value: 'address' },
-				{ text: 'Trx Hash', value: 'txid' },
-				{ text: 'Approves', value: 'confirmations' },
-				{ text: 'Status', value: 'status' },
-			],
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
@@ -125,6 +110,22 @@ export default {
 			],
 			currencies: [],
 		};
+	},
+
+	computed: {
+		headers() {
+			return [
+				{ text: 'ID', value: 'id' },
+				{ text: this.$t('table_header.date'), value: 'created_at' },
+				{ text: this.$t('table_header.type'), value: 'type' },
+				{ text: this.$t('table_header.currency'), value: 'currency' },
+				{ text: this.$t('table_header.amount'), value: 'amount' },
+				{ text: this.$t('table_header.address'), value: 'address' },
+				{ text: this.$t('table_header.trx_hash'), value: 'txid' },
+				{ text: this.$t('table_header.approves'), value: 'confirmations' },
+				{ text: this.$t('table_header.status'), value: 'status' },
+			];
+		},
 	},
 
 	watch: {

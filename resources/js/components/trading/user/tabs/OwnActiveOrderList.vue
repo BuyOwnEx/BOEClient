@@ -216,42 +216,6 @@ export default {
 		return {
 			showOtherPairs: false,
 			itemsPerPage: 10,
-			headers: [
-				{
-					text: this.$t('trading.date'),
-					align: 'start',
-					sortable: true,
-					value: 'date',
-				},
-				{
-					text: this.$t('trading.market'),
-					value: 'pair',
-				},
-				{ text: this.$t('trading.type'), value: 'side' },
-				{
-					text: this.$t('trading.amount'),
-					value: 'size',
-				},
-				{ text: this.$t('trading.rate'), value: 'price' },
-				{
-					text: this.$t('trading.volume'),
-					value: 'volume',
-					sortable: false,
-				},
-				{
-					text: this.$t('trading.filled'),
-					value: 'percent',
-				},
-				{
-					text: this.$t('trading.status'),
-					value: 'status',
-				},
-				{
-					text: this.$t('trading.actions'),
-					value: 'action',
-					sortable: false,
-				},
-			],
 			footerProps: {
 				'items-per-page-options': [5, 10, 15, 30, 50],
 				'items-per-page-all-text': '50',
@@ -288,6 +252,45 @@ export default {
 	},
 
 	computed: {
+		headers() {
+			return [
+				{
+					text: this.$t('trading.date'),
+					align: 'start',
+					sortable: true,
+					value: 'date',
+				},
+				{
+					text: this.$t('trading.market'),
+					value: 'pair',
+				},
+				{ text: this.$t('trading.type'), value: 'side' },
+				{
+					text: this.$t('trading.amount'),
+					value: 'size',
+				},
+				{ text: this.$t('trading.rate'), value: 'price' },
+				{
+					text: this.$t('trading.volume'),
+					value: 'volume',
+					sortable: false,
+				},
+				{
+					text: this.$t('trading.filled'),
+					value: 'percent',
+				},
+				{
+					text: this.$t('trading.status'),
+					value: 'status',
+				},
+				{
+					text: this.$t('trading.actions'),
+					value: 'action',
+					sortable: false,
+				},
+			]
+		},
+
 		ownOrderList() {
 			return this.showOtherPairs
 				? this.$store.state.user.orders

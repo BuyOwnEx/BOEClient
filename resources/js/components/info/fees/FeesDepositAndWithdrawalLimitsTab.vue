@@ -16,18 +16,10 @@
 				</v-toolbar>
 			</template>
 
-			<template #item.minReplenish="{item}">
-				{{ item.minReplenish }} {{ item.currency }}
-			</template>
-			<template #item.minWithdraw="{item}">
-				{{ item.minWithdraw }} {{ item.currency }}
-			</template>
-			<template #item.maxWithdraw="{item}">
-				{{ item.maxWithdraw }} {{ item.currency }}
-			</template>
-			<template #item.maxVerifyWithdraw="{item}">
-				{{ item.maxVerifyWithdraw }} {{ item.currency }}
-			</template>
+			<template #item.minReplenish="{item}"> {{ item.minReplenish }} {{ item.currency }} </template>
+			<template #item.minWithdraw="{item}"> {{ item.minWithdraw }} {{ item.currency }} </template>
+			<template #item.maxWithdraw="{item}"> {{ item.maxWithdraw }} {{ item.currency }} </template>
+			<template #item.maxVerifyWithdraw="{item}"> {{ item.maxVerifyWithdraw }} {{ item.currency }} </template>
 		</v-data-table>
 	</div>
 </template>
@@ -38,7 +30,12 @@ export default {
 	data() {
 		return {
 			currencies: [],
-			headers: [
+			search: '',
+		};
+	},
+	computed: {
+		headers() {
+			return [
 				{
 					text: this.$t('table_header.code'),
 					align: 'center',
@@ -81,11 +78,9 @@ export default {
 					filterable: false,
 					value: 'maxVerifyWithdraw',
 				},
-			],
-			search: '',
-		};
-	},
-	computed: {
+			];
+		},
+
 		crypto() {
 			let result = [];
 			_.forEach(this.currencies, function(value, key) {

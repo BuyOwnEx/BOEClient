@@ -30,11 +30,7 @@
 
 			<template v-slot:item.currency="{ item }">
 				<v-avatar :color="item.color" size="22" v-if="!item.logo">
-					<v-img
-						v-if="item.logo"
-						class="elevation-6"
-						:src="getImage(item.logo)"
-					/>
+					<v-img v-if="item.logo" class="elevation-6" :src="getImage(item.logo)" />
 					<span v-else class="white--text subtitle-2">
 						{{ item.currency.charAt(0) }}
 					</span>
@@ -90,13 +86,6 @@ export default {
 			itemsPerPage: 30,
 			sortBy: 'id',
 			sortDesc: true,
-			headers: [
-				{ text: 'ID', value: 'id' },
-				{ text: 'Date', value: 'created_at' },
-				{ text: 'Direction', value: 'side' },
-				{ text: 'Currency', value: 'currency' },
-				{ text: 'Amount', value: 'amount' },
-			],
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
@@ -107,6 +96,18 @@ export default {
 			],
 			currencies: [],
 		};
+	},
+
+	computed: {
+		headers() {
+			return [
+				{ text: 'ID', value: 'id' },
+				{ text: this.$t('table_header.date'), value: 'created_at' },
+				{ text: this.$t('table_header.side'), value: 'side' },
+				{ text: this.$t('table_header.currency'), value: 'currency' },
+				{ text: this.$t('table_header.amount'), value: 'amount' },
+			];
+		},
 	},
 
 	watch: {

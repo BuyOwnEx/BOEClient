@@ -112,19 +112,6 @@ export default {
 			itemsPerPage: 30,
 			sortBy: 'id',
 			sortDesc: true,
-			/*headers: [
-				{ text: 'ID', value: 'id' },
-				{ text: this.$t('headers.date'), value: 'created_at' },
-				{ text: this.$t('headers.pair'), value: 'pair', sortable: false },
-				{ text: this.$t('headers.type'), value: 'type' },
-				{ text: this.$t('headers.size'), value: 'size' },
-				{ text: this.$t('headers.actual_size'), value: 'actual_size' },
-				{ text: this.$t('headers.price'), value: 'price' },
-				{ text: this.$t('headers.volume'), value: 'volume', sortable: false },
-				{ text: this.$t('headers.actual_volume'), value: 'actualVolume', sortable: false },
-				{ text: this.$t('headers.status'), value: 'status' },
-				{ text: this.$t('headers.side'), value: 'side' },
-			],*/
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
@@ -156,16 +143,16 @@ export default {
 		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
-				{ text: this.$t('headers.date'), value: 'created_at' },
-				{ text: this.$t('headers.pair'), value: 'pair', sortable: false },
-				{ text: this.$t('headers.type'), value: 'type' },
-				{ text: this.$t('headers.size'), value: 'size' },
-				{ text: this.$t('headers.actual_size'), value: 'actual_size' },
-				{ text: this.$t('headers.price'), value: 'price' },
-				{ text: this.$t('headers.volume'), value: 'volume', sortable: false },
-				{ text: this.$t('headers.actual_volume'), value: 'actualVolume', sortable: false },
-				{ text: this.$t('headers.status'), value: 'status' },
-				{ text: this.$t('headers.side'), value: 'side' }
+				{ text: this.$t('table_header.date'), value: 'created_at' },
+				{ text: this.$t('table_header.pair'), value: 'pair', sortable: false },
+				{ text: this.$t('table_header.type'), value: 'type' },
+				{ text: this.$t('table_header.size'), value: 'size' },
+				{ text: this.$t('table_header.actual_size'), value: 'actual_size' },
+				{ text: this.$t('table_header.price'), value: 'price' },
+				{ text: this.$t('table_header.volume'), value: 'volume', sortable: false },
+				{ text: this.$t('table_header.actual_volume'), value: 'actualVolume', sortable: false },
+				{ text: this.$t('table_header.status'), value: 'status' },
+				{ text: this.$t('table_header.side'), value: 'side' }
 			]
 		}
 	},

@@ -76,7 +76,7 @@ export default {
 					enabled: false,
 				},
 				title: {
-					text: this.$t('overview.graph_title'),
+					text: this.graphTitle(),
 				},
 				xAxis: [
 					{

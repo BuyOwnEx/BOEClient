@@ -37,19 +37,6 @@ export default {
 		see_all: 'See all',
 	},
 
-	headers: {
-		date: 'Date',
-		pair: 'Pair',
-		type: 'Type',
-		size: 'Size',
-		actual_size: 'Actual size',
-		price: 'Price',
-		volume: 'Volume',
-		actual_volume: 'Actual volume',
-		status: 'Status',
-		side: 'Side',
-	},
-
 	apps: {
 		exchange: {
 			title: 'Exchange',
@@ -85,6 +72,22 @@ export default {
 		pair: 'Pair',
 		code: 'Code',
 		amount: 'Amount',
+		size: 'Size',
+		actual_size: 'Actual size',
+		price: 'Price',
+		volume: 'Volume',
+		actual_volume: 'Actual volume',
+		status: 'Status',
+		side: 'Side',
+		gateway: 'Gateway',
+		operation_id: 'Operation ID',
+		follower: 'Follower',
+		percent: 'Percent, %',
+		address: 'Address',
+		trx_hash: 'Transaction Hash',
+		approves: 'Approves',
+		order: 'Order',
+		fee: 'Fee',
 
 		deal_fee_maker: 'Transaction commission, Maker',
 		deal_fee_taker: 'Transaction commission, Taker',

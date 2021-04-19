@@ -25,7 +25,13 @@ export default {
 
 	data() {
 		return {
-			headers: [
+			search: '',
+		};
+	},
+
+	computed: {
+		headers() {
+			return [
 				{
 					text: this.$t('table_header.pair'),
 					align: 'center',
@@ -61,12 +67,9 @@ export default {
 					filterable: false,
 					value: 'minReverseAmount',
 				},
-			],
-			search: '',
-		};
-	},
+			]
+		},
 
-	computed: {
 		markets() {
 			return this.$store.state.tickers.markets;
 		},

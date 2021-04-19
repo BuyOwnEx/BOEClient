@@ -34,34 +34,22 @@
 				</template>
 
 				<template v-slot:item.pair="{ item }">
-					<span>
-						{{ item.currency.toUpperCase() }}/{{ item.market.toUpperCase() }}
-					</span>
+					<span> {{ item.currency.toUpperCase() }}/{{ item.market.toUpperCase() }} </span>
 				</template>
 
 				<template v-slot:item.side="{ item }">
-					<strong
-						:class="{ 'text-success': item.side, 'text-danger': !item.side }"
-					>
-						{{
-							item.side
-								? $t('trading.order.direction.buy')
-								: $t('trading.order.direction.sell')
-						}}
+					<strong :class="{ 'text-success': item.side, 'text-danger': !item.side }">
+						{{ item.side ? $t('trading.order.direction.buy') : $t('trading.order.direction.sell') }}
 					</strong>
 				</template>
 
 				<template v-slot:item.size="{ item }">
-					{{
-						formatSize(item.size, findScale(market, currency, 'amountScale'))
-					}}
+					{{ formatSize(item.size, findScale(market, currency, 'amountScale')) }}
 					{{ item.currency.toUpperCase() }}
 				</template>
 
 				<template v-slot:item.price="{ item }">
-					{{
-						formatPrice(item.price, findScale(market, currency, 'rateScale'))
-					}}
+					{{ formatPrice(item.price, findScale(market, currency, 'rateScale')) }}
 					{{ item.market.toUpperCase() }}
 				</template>
 
@@ -87,13 +75,7 @@ import findScale from '../../../../mixins/trading/findScale';
 export default {
 	name: 'OwnHistoryDealList',
 
-	mixins: [
-		formatDate,
-		formatSize,
-		formatPrice,
-		calculateVolume,
-		findScale,
-	],
+	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],
 
 	props: {
 		currency: {
@@ -110,7 +92,16 @@ export default {
 		return {
 			showOtherPairs: false,
 			itemsPerPage: 10,
-			headers: [
+			footerProps: {
+				'items-per-page-options': [5, 10, 15, 30, 50],
+				'items-per-page-all-text': '50',
+			},
+		};
+	},
+
+	computed: {
+		headers() {
+			return [
 				{
 					text: this.$t('trading.date'),
 					align: 'start',
@@ -132,15 +123,9 @@ export default {
 					value: 'volume',
 					sortable: false,
 				},
-			],
-			footerProps: {
-				'items-per-page-options': [5, 10, 15, 30, 50],
-				'items-per-page-all-text': '50',
-			},
-		};
-	},
+			];
+		},
 
-	computed: {
 		ownDealList() {
 			return this.showOtherPairs
 				? this.$store.state.user.deals

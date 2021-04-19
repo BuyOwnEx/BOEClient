@@ -38,19 +38,6 @@ export default {
 		see_all: 'Увидеть все',
 	},
 
-	headers: {
-		date: 'Дата',
-		pair: 'Пара',
-		type: 'Тип',
-		size: 'Размер',
-		actual_size: 'Текущий размер',
-		price: 'Цена',
-		volume: 'Объем',
-		actual_volume: 'Текущий объем',
-		status: 'Статус',
-		side: 'Направленность',
-	},
-
 	apps: {
 		exchange: {
 			title: 'Обмен',
@@ -86,6 +73,22 @@ export default {
 		pair: 'Пара',
 		code: 'Код',
 		amount: 'Количество',
+		size: 'Размер',
+		actual_size: 'Текущий размер',
+		price: 'Цена',
+		volume: 'Объем',
+		actual_volume: 'Текущий объем',
+		status: 'Статус',
+		side: 'Направленность',
+		gateway: 'Шлюз',
+		operation_id: 'ID операции',
+		follower: 'Подписчик',
+		percent: 'Процент, %',
+		address: 'Адрес',
+		trx_hash: 'Хэш транзакции',
+		approves: 'Одобрено',
+		order: 'Ордер',
+		fee: 'Комиссия',
 
 		deal_fee_maker: 'Комиссия по сделке, Maker',
 		deal_fee_taker: 'Комиссия по сделке, Taker',
@@ -2525,8 +2528,8 @@ export default {
 
 		pair: 'Выберите пару',
 		pair_hint: 'Выберите пару из доступных вариантов',
-		side: 'Выберите сторону',
-		side_hint: 'Выберите сторону из доступных вариантов',
+		side: 'Выберите направленность',
+		side_hint: 'Выберите направленность из доступных вариантов',
 		operation: 'ID операции',
 		operation_hint: 'Найти по внешнему ID операции',
 		gateway: 'Шлюз',

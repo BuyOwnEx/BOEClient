@@ -17,33 +17,16 @@
 				inset
 			/>
 
-			<v-menu
-				v-model="isCloseMenu"
-				transition="slide-y-transition"
-				content-class="small-text-menu"
-				bottom
-			>
+			<v-menu v-model="isCloseMenu" transition="slide-y-transition" content-class="small-text-menu" bottom>
 				<template v-slot:activator="{ on, attrs }">
-					<v-btn
-						class="mr-1"
-						color="#A6A6A6"
-						v-bind="attrs"
-						v-on="on"
-						text
-						tile
-						small
-					>
+					<v-btn class="mr-1" color="#A6A6A6" v-bind="attrs" v-on="on" text tile small>
 						{{ $t('trading.close') }}
 						<v-icon right>mdi-chevron-down</v-icon>
 					</v-btn>
 				</template>
 
 				<v-list dense>
-					<CommonDialog
-						v-for="item in closeOptions"
-						:key="item.text"
-						@confirm="handleCloseConfirm(item)"
-					>
+					<CommonDialog v-for="item in closeOptions" :key="item.text" @confirm="handleCloseConfirm(item)">
 						<template #default>
 							<v-list-item @click="closeCancelMenu">
 								<v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -81,10 +64,7 @@
 							</v-btn>
 						</template>
 						<v-list dense>
-							<TradingUserDialogPositionClose
-								:id="item.id"
-								v-on:closeMenu="closeMenu(item)"
-							/>
+							<TradingUserDialogPositionClose :id="item.id" v-on:closeMenu="closeMenu(item)" />
 
 							<TradingUserDialogPositionAdd
 								:id="item.id"
@@ -116,9 +96,7 @@
 				</template>
 
 				<template v-slot:item.filled="{ item }">
-					{{ BigNumber(item.actualSize).toString() }}/{{
-						BigNumber(item.size).toString()
-					}}
+					{{ BigNumber(item.actualSize).toString() }}/{{ BigNumber(item.size).toString() }}
 					{{ item.currency.toUpperCase() }} ({{ percent(item) }} %)
 				</template>
 
@@ -170,10 +148,7 @@
 					<span class="text-muted" v-if="item.status === 'accepted'">
 						{{ $t('trading.position.status.accepted') }}
 					</span>
-					<span
-						class="text-warning"
-						v-else-if="item.status === 'partiallyFilled'"
-					>
+					<span class="text-warning" v-else-if="item.status === 'partiallyFilled'">
 						{{ $t('trading.position.status.partiallyFilled') }}
 					</span>
 					<span class="text-success" v-else>
@@ -193,16 +168,10 @@ export default {
 	name: 'OwnActivePositionList',
 
 	components: {
-		TradingUserDialogPositionAdd: () =>
-			import(
-				/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionAdd'
-			),
+		TradingUserDialogPositionAdd: () => import(/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionAdd'),
 		TradingUserDialogPositionClose: () =>
-			import(
-				/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionClose'
-			),
-		CommonDialog: () =>
-			import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
+			import(/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionClose'),
+		CommonDialog: () => import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
 	},
 
 	props: {
@@ -222,7 +191,55 @@ export default {
 			showOtherPairs: false,
 			marginCallValue: 0.14,
 			itemsPerPage: 10,
-			headers: [
+			footer_props: {
+				'items-per-page-options': [5, 10, 15, 30, 50],
+				'items-per-page-all-text': '50',
+			},
+			closeOnContentClick: true,
+			closeOptions: [
+				{
+					text: this.$t('trading.position.close_all'),
+					type: '',
+					link: '/trader/ext/position/close_all',
+					click: () => {
+						axios.post('/trader/ext/position/close_all', {
+							market: this.market.toUpperCase(),
+							currency: this.currency.toUpperCase(),
+							all_pairs: this.showOtherPairs,
+						});
+					},
+				},
+				{
+					text: this.$t('trading.position.close_long'),
+					type: this.$t('trading.position.long_type'),
+					link: '/trader/ext/position/close_all_long',
+					click: () => {
+						axios.post('/trader/ext/position/close_all_long', {
+							market: this.market.toUpperCase(),
+							currency: this.currency.toUpperCase(),
+							all_pairs: this.showOtherPairs,
+						});
+					},
+				},
+				{
+					text: this.$t('trading.position.close_short'),
+					type: this.$t('trading.position.short_type'),
+					link: '/trader/ext/position/close_all_short',
+					click: () => {
+						axios.post('/trader/ext/position/close_all_short', {
+							market: this.market.toUpperCase(),
+							currency: this.currency.toUpperCase(),
+							all_pairs: this.showOtherPairs,
+						});
+					},
+				},
+			],
+		};
+	},
+
+	computed: {
+		headers() {
+			return [
 				{
 					text: this.$t('trading.date'),
 					align: 'start',
@@ -279,54 +296,9 @@ export default {
 					value: 'action',
 					sortable: false,
 				},
-			],
-			footer_props: {
-				'items-per-page-options': [5, 10, 15, 30, 50],
-				'items-per-page-all-text': '50',
-			},
-			closeOnContentClick: true,
-			closeOptions: [
-				{
-					text: this.$t('trading.position.close_all'),
-					type: '',
-					link: '/trader/ext/position/close_all',
-					click: () => {
-						axios.post('/trader/ext/position/close_all', {
-							market: this.market.toUpperCase(),
-							currency: this.currency.toUpperCase(),
-							all_pairs: this.showOtherPairs,
-						});
-					},
-				},
-				{
-					text: this.$t('trading.position.close_long'),
-					type: this.$t('trading.position.long_type'),
-					link: '/trader/ext/position/close_all_long',
-					click: () => {
-						axios.post('/trader/ext/position/close_all_long', {
-							market: this.market.toUpperCase(),
-							currency: this.currency.toUpperCase(),
-							all_pairs: this.showOtherPairs,
-						});
-					},
-				},
-				{
-					text: this.$t('trading.position.close_short'),
-					type: this.$t('trading.position.short_type'),
-					link: '/trader/ext/position/close_all_short',
-					click: () => {
-						axios.post('/trader/ext/position/close_all_short', {
-							market: this.market.toUpperCase(),
-							currency: this.currency.toUpperCase(),
-							all_pairs: this.showOtherPairs,
-						});
-					},
-				},
-			],
-		};
-	},
+			];
+		},
 
-	computed: {
 		ownPositionList() {
 			return this.showOtherPairs
 				? this.$store.state.user.positions
@@ -355,9 +327,7 @@ export default {
 			let marginLevel = this.marginLevel(item);
 			return {
 				'text-success': BigNumber(marginLevel).gte(1),
-				'text-warning':
-					BigNumber(marginLevel).gt(this.marginCallValue) &&
-					BigNumber(marginLevel).lt(1),
+				'text-warning': BigNumber(marginLevel).gt(this.marginCallValue) && BigNumber(marginLevel).lt(1),
 				'text-danger': BigNumber(marginLevel).lte(this.marginCallValue),
 			};
 		},

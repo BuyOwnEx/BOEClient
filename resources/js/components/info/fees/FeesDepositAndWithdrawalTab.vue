@@ -26,7 +26,13 @@ export default {
 	data() {
 		return {
 			currencies: [],
-			headers: [
+			search: '',
+		};
+	},
+
+	computed: {
+		headers() {
+			return [
 				{
 					text: this.$t('table_header.code'),
 					align: 'center',
@@ -62,12 +68,9 @@ export default {
 					filterable: false,
 					value: 'confirmations',
 				},
-			],
-			search: '',
-		};
-	},
+			]
+		},
 
-	computed: {
 		crypto() {
 			let result = [];
 			_.forEach(this.currencies, value => {
