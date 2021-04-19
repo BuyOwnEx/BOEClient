@@ -76,10 +76,6 @@ export default {
 			type: Object,
 			required: true,
 		},
-		enableLoading: {
-			type: Boolean,
-			required: true,
-		},
 	},
 
 	data() {
@@ -89,16 +85,6 @@ export default {
 	},
 
 	methods: {
-		enableUser() {
-			this.$emit('enable');
-		},
-		openBlockDialog() {
-			this.$emit('open-block-dialog');
-		},
-		openDeleteDialog() {
-			this.$emit('open-delete-dialog');
-		},
-
 		resetPassword() {
 			this.$emit('reset-password');
 		},

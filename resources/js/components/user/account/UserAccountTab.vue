@@ -6,23 +6,9 @@
 
 		<UserAccountTabPanels
 			:user="userData"
-			:enable-loading="enableUserLoading"
-			@enable="enableUser"
-			@open-block-dialog="openBlockDialog"
-			@open-delete-dialog="openDeleteDialog"
 			@reset-password="resetPassword"
 		/>
 
-		<UserAccountDialogsWrapper
-			v-if="blockDialog || deleteDialog"
-			:block-dialog="blockDialog"
-			:delete-dialog="deleteDialog"
-			:dialog-loading="dialogLoading"
-			@close-block-dialog="closeBlockDialog"
-			@close-delete-dialog="closeDeleteDialog"
-			@block="blockUser"
-			@delete="deleteUser"
-		/>
 	</div>
 </template>
 
@@ -39,8 +25,6 @@ export default {
 		UserAccountTabPanels,
 		UserAccountTabBlockedAlert: () =>
 			import(/* webpackPrefetch: true */ './parts/UserAccountTabBlockedAlert'),
-		UserAccountDialogsWrapper: () =>
-			import(/* webpackPrefetch: true */ './parts/UserAccountDialogsWrapper'),
 	},
 
 	props: {
@@ -52,64 +36,15 @@ export default {
 
 	data() {
 		return {
-			deleteDialog: false,
-			blockDialog: false,
-			dialogLoading: false,
-			enableUserLoading: false,
 			userData: this.user,
 		};
 	},
 
 	methods: {
 		...mapActions({
-			enableUserStore: 'user/enableUser',
-			blockUserStore: 'user/blockUser',
-			deleteUserStore: 'user/deleteUser',
 		}),
 
 		async resetPassword() {},
-
-		async enableUser() {
-			try {
-				this.enableUserLoading = true;
-				await this.enableUserStore(user.id);
-				this.userData.blocked = false;
-			} finally {
-				this.enableUserLoading = false;
-			}
-		},
-		async blockUser() {
-			try {
-				this.dialogLoading = true;
-				await this.blockUserStore(user.id);
-				this.userData.blocked = true;
-				this.closeBlockDialog();
-			} finally {
-				this.dialogLoading = false;
-			}
-		},
-		async deleteUser() {
-			try {
-				this.dialogLoading = true;
-				await this.deleteUserStore(user.id);
-				this.closeDeleteDialog();
-			} finally {
-				this.dialogLoading = false;
-			}
-		},
-
-		openBlockDialog() {
-			this.blockDialog = true;
-		},
-		openDeleteDialog() {
-			this.deleteDialog = true;
-		},
-		closeBlockDialog() {
-			this.blockDialog = false;
-		},
-		closeDeleteDialog() {
-			this.deleteDialog = false;
-		},
 	},
 };
 </script>
