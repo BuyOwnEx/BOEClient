@@ -1,5 +1,5 @@
 <template>
-	<v-card class="transfers">
+	<v-card class="deals">
 		<v-data-table
 			class="pa-1 pa-sm-2"
 			:style="`width:100%`"
@@ -13,13 +13,12 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			caption="Internal transfers"
+			caption="Deals"
 			dense
 		>
 			<template v-slot:top>
 				<filters
 					:all_sides="sides"
-					:all_currencies="currencies"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
 					@table-filter="onUseFilter"
@@ -28,38 +27,44 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template v-slot:item.currency="{ item }">
-				<v-avatar :color="item.color" size="22" v-if="!item.logo">
-					<v-img
-						v-if="item.logo"
-						class="elevation-6"
-						:src="getImage(item.logo)"
-					/>
-					<span v-else class="white--text subtitle-2">
-						{{ item.currency.charAt(0) }}
+			<template v-slot:item.pair="{ item }">
+				<v-avatar :color="item.color" size="22">
+					<span class="white--text subtitle-2">
+						{{ item.currency.charAt(0) + item.market.charAt(0) }}
 					</span>
 				</v-avatar>
-				<v-img
-					v-else
-					class="elevation-0 d-inline-flex"
-					style="vertical-align: middle"
-					:src="getImage(item.logo)"
-					max-height="22"
-					max-width="22"
-				/>
-				<span class="ml-1">{{ item.currency }}</span>
+				<span class="ml-1">{{ item.currency }}/{{ item.market }}</span>
 			</template>
 
 			<template v-slot:item.side="{ item }">
-				<span>{{ getSideName(item.side) }}</span>
+				<span :class="item.side === false ? 'success--text' : 'error--text'">
+					{{ getSideName(item.side) }}
+				</span>
 			</template>
 
 			<template v-slot:item.created_at="{ item }">
-				<span>{{ getDate(item.created_at) }}</span>
+				<span>{{ getDateFromTick(item.created_at) }}</span>
 			</template>
 
-			<template v-slot:item.amount="{ item }">
-				<span>{{ BigNumber(item.amount) }}</span>
+			<template v-slot:item.size="{ item }">
+				<span>{{ BigNumber(item.size) + ' ' + item.currency }}</span>
+			</template>
+
+			<template v-slot:item.price="{ item }">
+				<span>{{ BigNumber(item.price) + ' ' + item.market }}</span>
+			</template>
+
+			<template v-slot:item.volume="{ item }">
+				<span>
+					{{ getVolume(item.size, item.price) + ' ' + item.market }}
+				</span>
+			</template>
+
+			<template v-slot:item.fee="{ item }">
+				<span v-if="item.side">
+					{{ BigNumber(item.fee) + ' ' + item.market }}
+				</span>
+				<span v-else>{{ BigNumber(item.fee) + ' ' + item.currency }}</span>
 			</template>
 		</v-data-table>
 	</v-card>
@@ -71,10 +76,10 @@ import moment from 'moment';
 import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import filters from '../components/filters/Transfers';
+import filters from '../../components/filters/Deals';
 
 export default {
-	name: 'Transfers',
+	name: 'Deals',
 
 	components: {
 		filters,
@@ -93,20 +98,29 @@ export default {
 			headers: [
 				{ text: 'ID', value: 'id' },
 				{ text: 'Date', value: 'created_at' },
-				{ text: 'Direction', value: 'side' },
-				{ text: 'Currency', value: 'currency' },
-				{ text: 'Amount', value: 'amount' },
+				{ text: 'Pair', value: 'pair', sortable: false },
+				{ text: 'Order', value: 'orderId', sortable: false },
+				{ text: 'Fee', value: 'fee' },
+				{ text: 'Size', value: 'size' },
+				{ text: 'Price', value: 'price' },
+				{ text: 'Volume', value: 'volume', sortable: false },
+				{ text: 'Side', value: 'side' },
 			],
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
 			},
 			sides: [
-				{ value: false, name: 'From safe to trade wallet' },
-				{ value: true, name: 'From trade to safe wallet' },
+				{ value: true, name: 'Sell' },
+				{ value: false, name: 'Buy' },
 			],
-			currencies: [],
 		};
+	},
+
+	computed: {
+		pairs() {
+			return this.$store.state.tickers.markets;
+		},
 	},
 
 	watch: {
@@ -122,17 +136,32 @@ export default {
 	},
 
 	methods: {
-		BigNumber: function(item) {
+		BigNumber(item) {
 			return BigNumber(item).toString();
 		},
-		getDate(date) {
-			return date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
+		getVolume(size, price) {
+			return BigNumber(size)
+				.multipliedBy(BigNumber(price))
+				.toString();
+		},
+		getDateFromTick(date) {
+			return date
+				? moment
+						.unix(
+							BigNumber(date)
+								.div(10000000)
+								.absoluteValue()
+								.minus(62135596800)
+								.toNumber()
+						)
+						.format('YYYY-MM-DD HH:mm:ss')
+				: '-';
 		},
 		getSideName(side) {
 			let index = _.findIndex(this.sides, item => item.value === side);
 			return this.sides[index].name;
 		},
-		getRandomColor: function() {
+		getRandomColor() {
 			return randomColor({
 				luminosity: 'dark',
 				format: 'rgba',
@@ -198,30 +227,15 @@ export default {
 				};
 				_.assign(parameters, dates);
 			}
-			const response = await axios.get('/trader/ext/all_transfers', {
+			const response = await axios.get('/trader/ext/all_deals', {
 				params: parameters,
 			});
 			return response.data;
-		},
-		menuItemExist(func) {
-			return _.findIndex(this.actions, action => action.name === func) !== -1;
-		},
-		closeMenu(item) {
-			item.menu = false;
-		},
-		getImage(img) {
-			return '/' + img;
 		},
 
 		toggleFiltersShow() {
 			this.isFiltersShow = !this.isFiltersShow;
 		},
-	},
-
-	mounted() {
-		axios.get('/trader/ext/all_currencies').then(response => {
-			this.currencies = response.data.data;
-		});
 	},
 };
 </script>

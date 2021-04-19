@@ -1,5 +1,5 @@
 <template>
-	<v-card class="ref-payments">
+	<v-card class="transactions">
 		<v-data-table
 			class="pa-1 pa-sm-2"
 			:style="`width:100%`"
@@ -13,11 +13,13 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			caption="Referral payments"
+			caption="Crypto transactions"
 			dense
 		>
 			<template v-slot:top>
 				<filters
+					:all_types="types"
+					:all_statuses="statuses"
 					:all_currencies="currencies"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
@@ -49,6 +51,18 @@
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
+			<template v-slot:item.type="{ item }">
+				<span :class="item.type === true ? 'success--text' : 'error--text'">
+					{{ getTypeName(item.type) }}
+				</span>
+			</template>
+
+			<template v-slot:item.status="{ item }">
+				<span :class="getStatusColorClass(item.status)">
+					{{ getStatusName(item.status) }}
+				</span>
+			</template>
+
 			<template v-slot:item.created_at="{ item }">
 				<span>{{ getDate(item.created_at) }}</span>
 			</template>
@@ -66,10 +80,10 @@ import moment from 'moment';
 import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import filters from '../components/filters/RefPayments';
+import filters from '../../components/filters/Transactions';
 
 export default {
-	name: 'RefPayments',
+	name: 'Transactions',
 
 	components: {
 		filters,
@@ -88,15 +102,27 @@ export default {
 			headers: [
 				{ text: 'ID', value: 'id' },
 				{ text: 'Date', value: 'created_at' },
-				{ text: 'Follower', value: 'name' },
-				{ text: 'Percent, %', value: 'percent' },
+				{ text: 'Type', value: 'type' },
 				{ text: 'Currency', value: 'currency' },
 				{ text: 'Amount', value: 'amount' },
+				{ text: 'Address', value: 'address' },
+				{ text: 'Trx Hash', value: 'txid' },
+				{ text: 'Approves', value: 'confirmations' },
+				{ text: 'Status', value: 'status' },
 			],
 			footer_props: {
 				'items-per-page-options': [30, 50, 100, 500],
 				'items-per-page-all-text': '500',
 			},
+			statuses: [
+				{ value: 'done', name: 'Executed' },
+				{ value: 'wait', name: 'Pending' },
+				{ value: 'accepted', name: 'Accepted' },
+			],
+			types: [
+				{ value: false, name: 'Withdrawal' },
+				{ value: true, name: 'Replenish' },
+			],
 			currencies: [],
 		};
 	},
@@ -119,6 +145,14 @@ export default {
 		},
 		getDate(date) {
 			return date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
+		},
+		getTypeName(type) {
+			let index = _.findIndex(this.types, item => item.value === type);
+			return this.types[index].name;
+		},
+		getStatusName(status) {
+			let index = _.findIndex(this.statuses, item => item.value === status);
+			return this.statuses[index].name;
 		},
 		getRandomColor() {
 			return randomColor({
@@ -175,15 +209,18 @@ export default {
 			if (opts.filters === undefined) {
 				let dates = {
 					filters: {
-						start: moment()
-							.startOf('month')
-							.format('YYYY-MM-DD'),
-						end: moment().format('YYYY-MM-DD'),
+						start:
+							moment()
+								.startOf('month')
+								.format('YYYY-MM-DD') +
+							' ' +
+							'00:00:00',
+						end: moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
 					},
 				};
 				_.assign(parameters, dates);
 			}
-			const response = await axios.get('/trader/ext/all_ref_payments', {
+			const response = await axios.get('/trader/ext/all_transactions', {
 				params: parameters,
 			});
 			return response.data;
@@ -201,10 +238,16 @@ export default {
 		toggleFiltersShow() {
 			this.isFiltersShow = !this.isFiltersShow;
 		},
+
+		getStatusColorClass(status) {
+			if (status === 'done') return 'success--text';
+			else if (status === 'wait') return 'warning--text';
+			else return '';
+		},
 	},
 
 	mounted() {
-		axios.get('/trader/ext/all_currencies').then(response => {
+		axios.get('/trader/ext/crypto_currencies').then(response => {
 			this.currencies = response.data.data;
 		});
 	},

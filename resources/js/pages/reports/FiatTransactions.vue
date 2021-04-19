@@ -1,5 +1,5 @@
 <template>
-	<v-card class="transactions">
+	<v-card class="fiat-transactions">
 		<v-data-table
 			class="pa-1 pa-sm-2"
 			:style="`width:100%`"
@@ -13,14 +13,15 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			caption="Crypto transactions"
+			caption="Fiat transactions"
 			dense
 		>
 			<template v-slot:top>
 				<filters
 					:all_types="types"
-					:all_statuses="statuses"
+					:all_payment_types="payments"
 					:all_currencies="currencies"
+					:all_statuses="statuses"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
 					@table-filter="onUseFilter"
@@ -76,19 +77,15 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-import moment from 'moment';
-import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
-
-import filters from '../components/filters/Transactions';
-
+import moment from 'moment';
+import filters from '../../components/filters/FiatTransactions';
+import randomColor from 'randomcolor';
 export default {
-	name: 'Transactions',
-
+	name: 'FiatTransactions',
 	components: {
 		filters,
 	},
-
 	data() {
 		return {
 			isFiltersShow: true,
@@ -103,11 +100,10 @@ export default {
 				{ text: 'ID', value: 'id' },
 				{ text: 'Date', value: 'created_at' },
 				{ text: 'Type', value: 'type' },
+				{ text: 'Gateway', value: 'payment_type' },
 				{ text: 'Currency', value: 'currency' },
 				{ text: 'Amount', value: 'amount' },
-				{ text: 'Address', value: 'address' },
-				{ text: 'Trx Hash', value: 'txid' },
-				{ text: 'Approves', value: 'confirmations' },
+				{ text: 'Operation ID', value: 'txid' },
 				{ text: 'Status', value: 'status' },
 			],
 			footer_props: {
@@ -117,12 +113,15 @@ export default {
 			statuses: [
 				{ value: 'done', name: 'Executed' },
 				{ value: 'wait', name: 'Pending' },
+				{ value: 'new', name: 'Waiting' },
 				{ value: 'accepted', name: 'Accepted' },
+				{ value: 'fail', name: 'Failed' },
 			],
 			types: [
 				{ value: false, name: 'Withdrawal' },
 				{ value: true, name: 'Replenish' },
 			],
+			payments: ['Payeer'],
 			currencies: [],
 		};
 	},
@@ -154,7 +153,7 @@ export default {
 			let index = _.findIndex(this.statuses, item => item.value === status);
 			return this.statuses[index].name;
 		},
-		getRandomColor() {
+		getRandomColor: function() {
 			return randomColor({
 				luminosity: 'dark',
 				format: 'rgba',
@@ -220,7 +219,7 @@ export default {
 				};
 				_.assign(parameters, dates);
 			}
-			const response = await axios.get('/trader/ext/all_transactions', {
+			const response = await axios.get('/trader/ext/all_fiat_transactions', {
 				params: parameters,
 			});
 			return response.data;
@@ -235,19 +234,20 @@ export default {
 			return '/' + img;
 		},
 
-		toggleFiltersShow() {
-			this.isFiltersShow = !this.isFiltersShow;
-		},
-
 		getStatusColorClass(status) {
 			if (status === 'done') return 'success--text';
-			else if (status === 'wait') return 'warning--text';
+			else if (status === 'wait' || status === 'new') return 'warning--text';
+			else if (status === 'fail') return 'error--text';
 			else return '';
+		},
+
+		toggleFiltersShow() {
+			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 
 	mounted() {
-		axios.get('/trader/ext/crypto_currencies').then(response => {
+		axios.get('/trader/ext/fiat_currencies').then(response => {
 			this.currencies = response.data.data;
 		});
 	},

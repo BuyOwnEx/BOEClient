@@ -1,7 +1,7 @@
 <template>
 	<v-row class="filter-top px-1" align="center" no-gutters>
 		<span class="filter-top__title text-overline">
-			Filters
+			{{ $t('reports.filters') }}
 		</span>
 
 		<v-btn icon @click="toggleFilters">
@@ -19,7 +19,7 @@ export default {
 		show: {
 			type: Boolean,
 			required: true,
-		}
+		},
 	},
 
 	methods: {

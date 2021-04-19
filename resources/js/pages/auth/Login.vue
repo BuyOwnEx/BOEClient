@@ -3,12 +3,12 @@
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
-					{{ formTitle }}
+					{{ $t('auth.login.title') }}
 				</span>
 			</v-card-title>
 
 			<v-card-subtitle>
-				<span>{{ formSubTitle }}</span>
+				<span>{{ $t('auth.login.fill_all_to_login') }}</span>
 			</v-card-subtitle>
 
 			<v-card-text>
@@ -70,7 +70,7 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn color="primary" :loading="loading" :disabled="!valid" tile block @click="login">
-					{{ applyButton }}
+					{{ $t('auth.signin') }}
 				</v-btn>
 			</v-card-actions>
 
@@ -112,11 +112,6 @@ export default {
 	data() {
 		return {
 			valid: true,
-
-			formTitle: this.$t('auth.login.title'),
-			formSubTitle: this.$t('auth.login.fill_all_to_login'),
-			applyButton: this.$t('auth.signin'),
-
 			show: false,
 			user: {
 				email: '',

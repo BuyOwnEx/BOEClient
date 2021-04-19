@@ -3,12 +3,12 @@
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
-					{{ formTitle }}
+					{{ $t('auth.verify.title') }}
 				</span>
 			</v-card-title>
 
 			<v-card-subtitle>
-				<span>{{ formSubTitle }}</span>
+				<span>{{ $t('auth.verify.subtitle') }}</span>
 			</v-card-subtitle>
 
 			<v-card-text>
@@ -26,7 +26,7 @@
 								required
 							>
 								<template #label>
-									Email <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.email') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -39,15 +39,8 @@
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn
-					color="primary"
-					:loading="loading"
-					:disabled="!valid || loading"
-					block
-					tile
-					@click="resend"
-				>
-					{{ applyButton }}
+				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="resend">
+					{{ $t('common.resend') }}
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -69,22 +62,18 @@
 </template>
 
 <script>
+import formValidationRules from '../../mixins/common/formValidationRules';
+import loadingMixin from '../../mixins/common/loadingMixin';
 
 export default {
 	name: 'Verify',
+
+	mixins: [formValidationRules, loadingMixin],
 
 	data() {
 		return {
 			valid: true,
 			loading: false,
-			formTitle: 'Activation',
-			formSubTitle:
-				'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
-			applyButton: 'Resend',
-			rules: {
-				required: v => !!v || 'The field is required',
-				email: v => (v && /.+@.+\..+/.test(v)) || 'E-mail must be valid',
-			},
 			user: {
 				email: window.activation.email,
 			},
@@ -97,8 +86,7 @@ export default {
 
 	methods: {
 		resend() {
-			let self = this;
-			this.loading = true;
+			this.startLoading();
 			axios
 				.post('/email/resend', this.user)
 				.then(response => {
@@ -112,7 +100,7 @@ export default {
 						if (errors) {
 							for (let field in errors) {
 								if (errors.hasOwnProperty(field)) {
-									self.errors[field] = errors[field];
+									this.errors[field] = errors[field];
 								}
 							}
 						}
@@ -120,8 +108,8 @@ export default {
 						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
-				.finally(function() {
-					self.loading = false;
+				.finally(() => {
+					this.stopLoading();
 				});
 		},
 	},

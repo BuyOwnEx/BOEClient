@@ -7,11 +7,11 @@
 			:disabled="disabled"
 			@click="setFilter"
 		>
-			Apply
+			{{$t('common.apply')}}
 		</v-btn>
 
 		<v-btn class="ma-2" tile outlined color="grey" @click="resetFilter">
-			Reset
+			{{$t('common.reset')}}
 		</v-btn>
 	</v-row>
 </template>

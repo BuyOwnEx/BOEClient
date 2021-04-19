@@ -5,7 +5,7 @@
 				{{ $t('user.settings.headers.ref_settings') }}
 			</div>
 
-			<v-select v-model="selectedRefTypeID" :items="activeRefTypes" :key="$i18n.locale" item-value="id" hide-details hide-selected>
+			<v-select v-model="selectedRefTypeID" :items="activeRefTypes" item-value="id" hide-details hide-selected>
 				<template #item="{item}">
 					{{ getRefText(item.id) }}
 				</template>

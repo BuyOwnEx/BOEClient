@@ -3,12 +3,12 @@
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
-					{{ formTitle }}
+					{{ $t('auth.check.title') }}
 				</span>
 			</v-card-title>
 
 			<v-card-subtitle>
-				<span>{{ formSubTitle }}</span>
+				<span>{{ $t('auth.forgot.safe_password_alert') }}</span>
 			</v-card-subtitle>
 
 			<v-card-text>
@@ -75,7 +75,7 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn color="primary" :loading="loading" :disabled="!valid || loading" block tile @click="set">
-					{{ applyButton }}
+					{{ $t('common.set') }}
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -99,10 +99,6 @@ export default {
 		return {
 			valid: true,
 			loading: false,
-
-			formTitle: this.$t('auth.check.title'),
-			formSubTitle: this.$t('auth.forgot.safe_password_alert'),
-			applyButton: this.$t('common.set'),
 
 			show: false,
 			show_confirm: false,
@@ -147,7 +143,7 @@ export default {
 					}
 				})
 				.finally(() => {
-					this.loading = false;
+					this.stopLoading()
 				});
 		},
 	},

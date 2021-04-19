@@ -10,12 +10,15 @@ export default {
 		replenish: 'Replenish',
 		withdraw: 'Withdraw',
 		send: 'Send',
+		resend: 'Resend',
 		continue: 'Continue',
 		back: 'Back',
 		finish: 'Finish',
 		transfer: 'Transfer',
 		confirm: 'Confirm',
 		select: 'Select',
+		apply: 'Apply',
+		reset: 'Reset',
 
 		title: 'Title',
 		description: 'Description',
@@ -341,6 +344,11 @@ export default {
 			passwords_not_match: 'Passwords mismatch',
 			safe_password_alert: 'Please keep your password in a safe place and do not pass it on to others.',
 		},
+		verify: {
+			title: 'Activation',
+			subtitle:
+				'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
+		},
 		login: {
 			title: 'Sign In',
 			email: 'Email',
@@ -358,6 +366,7 @@ export default {
 		},
 		register: {
 			title: 'Create Account',
+			subtitle: 'Fill the below fields to register as a trader',
 			name: 'Full name',
 			email: 'Email',
 			password: 'Password',
@@ -368,6 +377,12 @@ export default {
 			signin: 'Sign In',
 			register_action: 'Register now',
 			username_rules: 'Min. characters: 5. Available: [a-zA-Z0-9-_]',
+		},
+		g2fa: {
+			title: '2FA Verification',
+			subtitle: 'Please, enter your 6 digit code from Google Authenticator application',
+			code: 'Code',
+			verify: 'Verify',
 		},
 	},
 	balance: {
@@ -2443,6 +2458,55 @@ make our system processes as transparent as possible.`,
 			high: 'High',
 			urgent: 'Urgent',
 		},
+	},
+
+	reports: {
+		filters: 'Filters',
+
+		date_from: 'Date from',
+		date_from_hint: 'Choose date from',
+		date_till: 'Date till',
+		date_till_hint: 'Choose date till',
+		time_from: 'Time from',
+		time_from_hint: 'Choose time from',
+		time_till: 'Time till',
+		time_till_hint: 'Choose time till',
+
+		deal_id: 'Deal ID',
+		deal_id_hint: 'Find deal by ID',
+
+		transaction_id: 'Transaction ID',
+		transaction_id_hint: 'Find transaction by ID',
+		transaction_hash: 'Transaction Hash',
+		transaction_hash_hint: 'Find by transaction hash',
+
+		order_id: 'Order ID',
+		order_id_hint: 'Find by order ID',
+
+		ref: 'Referral',
+		ref_hint: 'Start typing referral login to search',
+		date_range: 'Choose date range',
+		date_range_hint: 'Choose date range of referral payments',
+
+		transfer_id: 'Transfer ID',
+		transfer_id_hint: 'Find by transfer ID',
+
+		pair: 'Select pair',
+		pair_hint: 'Select pair from available options',
+		side: 'Select side',
+		side_hint: 'Select side from available options',
+		operation: 'Operation ID',
+		operation_hint: 'Find by external operation ID',
+		gateway: 'Gateway',
+		gateway_hint: 'Select gateway from available options',
+		currency: 'Currency',
+		currency_hint: 'Select currency from available options',
+		type: 'Select type',
+		type_hint: 'Select type from available options',
+		status: 'Select status',
+		status_hint: 'Select status from available options',
+		address: 'Address',
+		address_hint: 'Find by recipient address',
 	},
 
 	forms_validation: {
