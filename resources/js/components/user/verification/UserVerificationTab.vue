@@ -37,7 +37,6 @@ export default {
 			this.SumSubToken = token.data.token;
 			return token.data.token;
 		},
-
 		launchWebSdk(
 			apiUrl,
 			flowName,
