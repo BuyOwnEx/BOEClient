@@ -76,7 +76,7 @@ export default {
 					enabled: false,
 				},
 				title: {
-					text: this.graphTitle(),
+					text: this.$t('overview.graph_title'),
 				},
 				xAxis: [
 					{
@@ -185,7 +185,7 @@ export default {
 				result.push({ divider: true });
 			});
 			return result;
-		},
+		}
 	},
 
 	methods: {
