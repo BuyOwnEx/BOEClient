@@ -21,8 +21,8 @@ export default {
 		phone: null,
 		i18n: null,
 
-		customCssLink: `${window.location.protocol}//${window.location.host}/dist/css/sumsub.css`,
-		customCssDarkLink: `${window.location.protocol}//${window.location.host}/dist/css/sumsubDark.css`,
+		customCssLink: `${window.location.protocol}//${window.location.host}/css/sumsub.css`,
+		customCssDarkLink: `${window.location.protocol}//${window.location.host}/css/sumsubDark.css`,
 	}),
 
 	computed: {
@@ -37,7 +37,6 @@ export default {
 			this.SumSubToken = token.data.token;
 			return token.data.token;
 		},
-
 		launchWebSdk(
 			apiUrl,
 			flowName,
