@@ -314,6 +314,12 @@ export default {
 		pair: 'Pair',
 	},
 	auth: {
+		signin: 'Login',
+		username: 'Username',
+		email: 'Email',
+		password: 'Password',
+		indicates_required_fields: 'indicated required fields',
+
 		check: {
 			title: 'Set New Password',
 			backtosign: 'Back to Sign In',
@@ -330,6 +336,10 @@ export default {
 			email: 'Email',
 			button: 'Request Password Reset',
 			backtosign: 'Back to Sign In',
+			repeat_pass: 'Repeat password',
+			confirm_pass: 'Confirm password',
+			passwords_not_match: 'Passwords mismatch',
+			safe_password_alert: 'Please keep your password in a safe place and do not pass it on to others.',
 		},
 		login: {
 			title: 'Sign In',
@@ -341,6 +351,10 @@ export default {
 			noaccount: "Don't have an account?",
 			create: 'Create one here',
 			error: 'The email / password combination is invalid',
+			enter_your_email: 'Enter your email',
+			enter_your_password: 'Enter your password',
+			remember: 'Remember',
+			fill_all_to_login: 'Fill in all fields to enter',
 		},
 		register: {
 			title: 'Create Account',
@@ -352,6 +366,8 @@ export default {
 			agree: 'By signing up, you agree to the',
 			account: 'Already have an account?',
 			signin: 'Sign In',
+			register_action: 'Register now',
+			username_rules: 'Min. characters: 5. Available: [a-zA-Z0-9-_]',
 		},
 	},
 	balance: {
@@ -2438,7 +2454,9 @@ make our system processes as transparent as possible.`,
 		incorrect_data: 'Incorrect data',
 
 		min_5char: 'Min. 5 characters',
+		min_6char: 'Min. 6 characters',
 		min_8char: 'Min. 8 characters',
+
 		max_6char: 'Max. 6 characters',
 		max_64char: 'Max. 64 characters',
 

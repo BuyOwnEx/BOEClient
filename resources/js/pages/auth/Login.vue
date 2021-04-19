@@ -19,15 +19,15 @@
 								v-model="user.email"
 								append-icon="mdi-email-outline"
 								:rules="[rules.required, rules.email]"
-								hint="Enter your email"
+								:hint="$t('auth.login.enter_your_email')"
 								:error-messages="errors.email"
-								@input="errors.email = []"
 								persistent-hint
 								clearable
 								required
+								@input="errors.email = []"
 							>
 								<template #label>
-									Email <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.email') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -36,22 +36,22 @@
 							<v-text-field
 								v-model="user.password"
 								:append-icon="show ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-								:rules="[rules.required, rules.min]"
+								:rules="[rules.required, rules.min6char]"
 								:type="show ? 'text' : 'password'"
-								hint="Enter your password"
-								persistent-hint
+								:hint="$t('auth.password')"
 								:error-messages="errors.password"
+								persistent-hint
+								required
 								@input="errors.password = []"
 								@click:append="show = !show"
-								required
 							>
 								<template #label>
-									Password <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.password') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="12" class="pt-0 pb-0">
-							<v-checkbox v-model="user.remember" label="Remember me" />
+							<v-checkbox v-model="user.remember" :label="$t('auth.login.remember')" />
 						</v-col>
 					</v-row>
 				</v-container>
@@ -60,35 +60,22 @@
 			<div class="text-left pl-6 pr-6">
 				<small>
 					<span class="red--text">
-						<strong>*</strong>
+						<b>*</b>
 					</span>
 					<span class="grey--text text--lighten-1">
-						indicates required field
+						{{ $t('auth.indicates_required_fields') }}
 					</span>
 				</small>
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn
-					color="primary"
-					:loading="loading"
-					:disabled="!valid || loading"
-					tile
-					block
-					@click="login"
-				>
+				<v-btn color="primary" :loading="loading" :disabled="!valid" tile block @click="login">
 					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
 
 			<div class="caption grey--text darken-4 pb-4 pl-6 pr-6">
-				<v-btn
-					class="text-decoration-underline"
-					color="primary"
-					href="/password/reset"
-					small
-					plain
-				>
+				<v-btn class="text-decoration-underline" color="primary" href="/password/reset" small plain>
 					{{ $t('auth.login.forgot') }}
 				</v-btn>
 			</div>
@@ -114,22 +101,23 @@
 </template>
 
 <script>
+import formValidationRules from '../../mixins/common/formValidationRules';
+import loadingMixin from '../../mixins/common/loadingMixin';
+
 export default {
 	name: 'Login',
+
+	mixins: [formValidationRules, loadingMixin],
 
 	data() {
 		return {
 			valid: true,
-			loading: false,
-			formTitle: 'Login',
-			formSubTitle: 'Fill in the fields to log in',
-			applyButton: 'Login',
+
+			formTitle: this.$t('auth.login.title'),
+			formSubTitle: this.$t('auth.login.fill_all_to_login'),
+			applyButton: this.$t('auth.signin'),
+
 			show: false,
-			rules: {
-				required: v => !!v || 'The field is required',
-				min: v => (v && v.length >= 6) || 'Min 6 characters',
-				email: v => (v && /.+@.+\..+/.test(v)) || 'E-mail must be valid',
-			},
 			user: {
 				email: '',
 				password: '',
@@ -140,6 +128,7 @@ export default {
 				password: [],
 				remember: [],
 			},
+
 			verify_block: window.verified,
 			verify_error: window.v_error,
 		};
@@ -147,15 +136,11 @@ export default {
 
 	methods: {
 		login() {
-			let self = this;
-			this.loading = true;
-			let form = this.user.remember
-				? this.user
-				: _.omit(this.user, ['remember']);
+			this.startLoading();
+			const form = this.user.remember ? this.user : _.omit(this.user, ['remember']);
 			axios
 				.post('/login', form)
 				.then(response => {
-					console.log(response);
 					if (response.data.auth) window.location.href = response.data.intended;
 					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
 				})
@@ -165,7 +150,7 @@ export default {
 						if (errors) {
 							for (let field in errors) {
 								if (errors.hasOwnProperty(field)) {
-									self.errors[field] = errors[field];
+									this.errors[field] = errors[field];
 								}
 							}
 						}
@@ -173,8 +158,8 @@ export default {
 						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
-				.finally(function() {
-					self.loading = false;
+				.finally(() => {
+					this.stopLoading();
 				});
 		},
 	},

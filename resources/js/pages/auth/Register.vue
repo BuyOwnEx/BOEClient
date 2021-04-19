@@ -17,18 +17,18 @@
 						<v-col cols="12" md="12" class="pt-0 pb-0">
 							<v-text-field
 								v-model="user.name"
-								append-icon="mdi-account-outline"
-								:rules="rules.nameRules"
-								counter="128"
-								hint="Min. characters: 5. Available: [a-zA-Z0-9-_]"
+								:rules="[rules.min5char, rules.required, rules.latinAndNumbers]"
+								:hint="$t('auth.register.username_rules')"
 								:error-messages="errors.name"
-								@input="errors.name = []"
+								append-icon="mdi-account-outline"
+								counter="128"
 								persistent-hint
 								clearable
 								required
+								@input="errors.name = []"
 							>
 								<template #label>
-									Login <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.username') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -36,17 +36,17 @@
 							<v-text-field
 								v-model="user.email"
 								append-icon="mdi-email-outline"
-								:rules="[rules.required, rules.email]"
 								counter="255"
-								hint="Enter your email"
+								:rules="[rules.required, rules.email]"
+								:hint="$t('auth.login.enter_your_email')"
 								:error-messages="errors.email"
-								@input="errors.email = []"
 								persistent-hint
 								clearable
 								required
+								@input="errors.email = []"
 							>
 								<template #label>
-									Email <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.email') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -54,10 +54,10 @@
 							<v-text-field
 								v-model="user.password"
 								:append-icon="show ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-								:rules="[rules.required, rules.min]"
+								:rules="[rules.required, rules.min8char]"
 								:type="show ? 'text' : 'password'"
 								counter="255"
-								hint="At least 8 characters"
+								:hint="$t('forms_validation.min8char')"
 								persistent-hint
 								:error-messages="errors.password"
 								@input="errors.password = []"
@@ -65,20 +65,18 @@
 								required
 							>
 								<template #label>
-									Password <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.password') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="12" class="pt-0 pb-0">
 							<v-text-field
 								v-model="user.password_confirmation"
-								:append-icon="
-									show_confirm ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
-								"
-								:rules="[rules.required, rules.min, rules.confirm]"
+								:append-icon="show_confirm ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+								:rules="[rules.required, rules.min8char, rules.confirm]"
 								:type="show_confirm ? 'text' : 'password'"
 								counter="255"
-								hint="Repeat password"
+								:hint="$t('auth.forgot.repeat_pass')"
 								persistent-hint
 								:error-messages="errors.password_confirmation"
 								@input="errors.password_confirmation = []"
@@ -86,8 +84,8 @@
 								required
 							>
 								<template #label>
-									Confirm password
-									<span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.forgot.confirm_pass') }}
+									<span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -98,23 +96,16 @@
 			<div class="text-left pl-6 pr-6">
 				<small>
 					<span class="red--text">
-						<strong>*</strong>
+						<b>*</b>
 					</span>
 					<span class="grey--text text--lighten-1">
-						indicates required field
+						{{ $t('auth.indicated_required_fields') }}
 					</span>
 				</small>
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6">
-				<v-btn
-					color="primary"
-					:loading="loading"
-					:disabled="!valid || loading"
-					block
-					tile
-					@click="register"
-				>
+				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="register">
 					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
@@ -134,22 +125,24 @@
 			</div>
 		</v-card>
 
-		<!--<snackbar position="relative"></snackbar>-->
-
 		<div class="text-center mt-6" style="position: relative; z-index: 2">
 			<div class="caption grey--text darken-4">
 				{{ $t('auth.register.account') }}
 			</div>
 			<v-btn block small text tile href="/login" color="primary darken-1">
-				{{ $t('auth.register.signin') }}
+				{{ $t('auth.signin') }}
 			</v-btn>
 		</div>
 	</div>
 </template>
 
 <script>
+import formValidationRules from '../../mixins/common/formValidationRules';
+
 export default {
 	name: 'Register',
+
+	mixins: [formValidationRules],
 
 	data() {
 		return {
@@ -165,25 +158,14 @@ export default {
 			],
 			valid: true,
 			loading: false,
+
 			formTitle: this.$t('auth.register.title'),
 			formSubTitle: 'Fill the below fields to register as a trader',
-			applyButton: 'Register',
+			applyButton: this.$t('auth.register.register_action'),
+
 			show: false,
 			show_confirm: false,
-			rules: {
-				required: v => !!v || 'The field is required',
-				min: v => (v && v.length >= 8) || 'Min 8 characters',
-				confirm: v =>
-					(v && v === this.user.password) || 'Passwords do not match',
-				email: v => (v && /.+@.+\..+/.test(v)) || 'E-mail must be valid',
-				nameRules: [
-					v => !!v || 'The field is required',
-					v => (v && v.length >= 5) || 'Min 5 characters',
-					v =>
-						(v && /^[a-zA-Z0-9-_]+$/g.test(v)) ||
-						'Unsupported characters. Must be in range [a-zA-Z0-9-_]',
-				],
-			},
+
 			user: {
 				name: '',
 				email: '',
@@ -206,8 +188,7 @@ export default {
 			axios
 				.post('/register', this.user)
 				.then(response => {
-					if (response.data.registered)
-						window.location.href = response.data.intended;
+					if (response.data.registered) window.location.href = response.data.intended;
 					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
 				})
 				.catch(error => {

@@ -26,48 +26,46 @@
 								required
 							>
 								<template #label>
-									Email <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.email') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="12" class="pt-0 pb-0">
 							<v-text-field
 								v-model="user.password"
-								:append-icon="show ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-								:rules="[rules.required, rules.min]"
 								:type="show ? 'text' : 'password'"
-								counter="255"
-								hint="At least 8 characters"
-								persistent-hint
+								:append-icon="show ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+								:rules="[rules.required, rules.min8char]"
+								:hint="$t('forms_validation.min8char')"
 								:error-messages="errors.password"
+								counter="255"
+								persistent-hint
+								required
 								@input="errors.password = []"
 								@click:append="show = !show"
-								required
 							>
 								<template #label>
-									Password <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.password') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
 						<v-col cols="12" md="12" class="pt-0 pb-0">
 							<v-text-field
 								v-model="user.password_confirmation"
-								:append-icon="
-									show_confirm ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
-								"
-								:rules="[rules.required, rules.min, rules.confirm]"
+								:append-icon="show_confirm ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+								:rules="[rules.required, rules.min8char, rules.passMatch]"
 								:type="show_confirm ? 'text' : 'password'"
-								counter="255"
-								hint="Repeat password"
-								persistent-hint
+								:hint="$t('auth.forgot.repeat_pass')"
 								:error-messages="errors.password_confirmation"
+								counter="255"
+								persistent-hint
+								required
 								@input="errors.password_confirmation = []"
 								@click:append="show_confirm = !show_confirm"
-								required
 							>
 								<template #label>
-									Confirm password
-									<span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.forgot.confirm_pass') }}
+									<span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -76,14 +74,7 @@
 			</v-card-text>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn
-					color="primary"
-					:loading="loading"
-					:disabled="!valid || loading"
-					block
-					tile
-					@click="set"
-				>
+				<v-btn color="primary" :loading="loading" :disabled="!valid || loading" block tile @click="set">
 					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
@@ -96,28 +87,26 @@
 </template>
 
 <script>
+import formValidationRules from '../../mixins/common/formValidationRules';
+import loadingMixin from '../../mixins/common/loadingMixin';
+
 export default {
 	name: 'Reset',
 
-	//components: {Snackbar},
+	mixins: [formValidationRules, loadingMixin],
 
 	data() {
 		return {
 			valid: true,
 			loading: false,
+
 			formTitle: this.$t('auth.check.title'),
-			formSubTitle:
-				'Please, store your password in a safe place and do not give it to other persons',
-			applyButton: 'Set',
+			formSubTitle: this.$t('auth.forgot.safe_password_alert'),
+			applyButton: this.$t('common.set'),
+
 			show: false,
 			show_confirm: false,
-			rules: {
-				required: v => !!v || 'The field is required',
-				min: v => (v && v.length >= 8) || 'Min 8 characters',
-				confirm: v =>
-					(v && v === this.user.password) || 'Passwords do not match',
-				email: v => (v && /.+@.+\..+/.test(v)) || 'E-mail must be valid',
-			},
+
 			user: {
 				email: window.reset.email,
 				token: window.reset.token,
@@ -135,8 +124,7 @@ export default {
 
 	methods: {
 		set() {
-			let self = this;
-			this.loading = true;
+			this.startLoading();
 			axios
 				.post('/password/reset', this.user)
 				.then(response => {
@@ -150,7 +138,7 @@ export default {
 						if (errors) {
 							for (let field in errors) {
 								if (errors.hasOwnProperty(field)) {
-									self.errors[field] = errors[field];
+									this.errors[field] = errors[field];
 								}
 							}
 						}
@@ -158,8 +146,8 @@ export default {
 						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
-				.finally(function() {
-					self.loading = false;
+				.finally(() => {
+					this.loading = false;
 				});
 		},
 	},
