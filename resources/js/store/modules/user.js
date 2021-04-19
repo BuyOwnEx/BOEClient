@@ -70,11 +70,7 @@ export default {
 		},
 		setAddressValidation(state, data) {
 			if (state.balances && data.currency in state.balances) {
-				Vue.set(
-					state.balances[data.currency],
-					'addressValidation',
-					data.address
-				);
+				Vue.set(state.balances[data.currency], 'addressValidation', data.address);
 			}
 		},
 
@@ -259,9 +255,12 @@ export default {
 			});
 		},
 
+		async resetPassword() {},
+		async changeEmail() {},
+
 		async logout() {
 			await axios.post('/logout');
-			window.location.pathname = 'login'
+			window.location.pathname = 'login';
 		},
 		async updateNotificationsSettings(_, payload) {
 			//return await axios.post()

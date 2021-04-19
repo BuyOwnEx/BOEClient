@@ -11,7 +11,7 @@
 					<div class="subtitle mb-2">
 						{{ $t('user.info.reset_pass_subtitle') }}
 					</div>
-					<v-btn class="mb-2" @click="resetPassword">
+					<v-btn class="mb-2" :loading="resetPassLoading" @click="resetPassword">
 						<v-icon left small>mdi-email</v-icon>
 						{{ $t('common.send') }}
 					</v-btn>
@@ -24,7 +24,7 @@
 					<div class="subtitle mb-2">
 						{{ $t('user.info.change_email_subtitle') }}
 					</div>
-					<v-btn class="mb-2">
+					<v-btn class="mb-2" :loading="changeEmailLoading" @click="changeEmail">
 						<v-icon left small>mdi-email</v-icon>
 						{{ $t('common.change') }}
 					</v-btn>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import formatDate from '../../../../mixins/format/formatDate';
 
 export default {
@@ -81,12 +83,34 @@ export default {
 	data() {
 		return {
 			panel: [0, 1],
+
+			resetPassLoading: false,
+			changeEmailLoading: false,
 		};
 	},
 
 	methods: {
-		resetPassword() {
-			this.$emit('reset-password');
+		...mapActions({
+			resetPasswordStore: 'user/resetPassword',
+			changeEmailStore: 'user/changeEmail',
+		}),
+
+		async resetPassword() {
+			try {
+				this.resetPassLoading = true;
+				await this.resetPasswordStore();
+			} finally {
+				this.resetPassLoading = false;
+			}
+		},
+
+		async changeEmail() {
+			try {
+				this.changeEmailLoading = true;
+				await this.changeEmailStore();
+			} finally {
+				this.changeEmailLoading = false;
+			}
 		},
 	},
 };
@@ -94,15 +118,14 @@ export default {
 
 <style lang="sass" scoped>
 .user-account-tab-panels
-	padding-top: 5px
-
-	::v-deep.v-expansion-panel--active:not(:first-child)
+	::v-deep.v-expansion-panel--active
 		margin-top: 5px
 		+ .v-expansion-panel
 			margin-top: 5px
 
 	&__actions
-		cursor: default !important
+		::v-deep.v-expansion-panel-header
+			cursor: default !important
 		::v-deep.v-expansion-panel-header__icon
 			display: none
 </style>

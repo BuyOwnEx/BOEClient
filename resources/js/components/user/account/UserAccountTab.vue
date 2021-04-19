@@ -4,16 +4,11 @@
 
 		<UserAccountTabBasicInfo :user="userData" />
 
-		<UserAccountTabPanels
-			:user="userData"
-			@reset-password="resetPassword"
-		/>
-
+		<UserAccountTabPanels :user="userData" />
 	</div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import UserAccountTabBasicInfo from './parts/UserAccountTabBasicInfo';
 import UserAccountTabPanels from './parts/UserAccountTabPanels';
 
@@ -23,8 +18,7 @@ export default {
 	components: {
 		UserAccountTabBasicInfo,
 		UserAccountTabPanels,
-		UserAccountTabBlockedAlert: () =>
-			import(/* webpackPrefetch: true */ './parts/UserAccountTabBlockedAlert'),
+		UserAccountTabBlockedAlert: () => import(/* webpackPrefetch: true */ './parts/UserAccountTabBlockedAlert'),
 	},
 
 	props: {
@@ -38,13 +32,6 @@ export default {
 		return {
 			userData: this.user,
 		};
-	},
-
-	methods: {
-		...mapActions({
-		}),
-
-		async resetPassword() {},
 	},
 };
 </script>
