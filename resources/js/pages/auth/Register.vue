@@ -3,12 +3,12 @@
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
-					{{ formTitle }}
+					{{ $t('auth.register.title') }}
 				</span>
 			</v-card-title>
 
 			<v-card-subtitle>
-				<span>{{ formSubTitle }}</span>
+				<span>{{ $t('auth.register.subtitle') }}</span>
 			</v-card-subtitle>
 
 			<v-card-text>
@@ -106,7 +106,7 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6">
 				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="register">
-					{{ applyButton }}
+					{{ $t('auth.register.register_action') }}
 				</v-btn>
 			</v-card-actions>
 
@@ -138,11 +138,12 @@
 
 <script>
 import formValidationRules from '../../mixins/common/formValidationRules';
+import loadingMixin from '../../mixins/common/loadingMixin';
 
 export default {
 	name: 'Register',
 
-	mixins: [formValidationRules],
+	mixins: [formValidationRules, loadingMixin],
 
 	data() {
 		return {
@@ -156,12 +157,9 @@ export default {
 					link: '/policy',
 				},
 			],
+
 			valid: true,
 			loading: false,
-
-			formTitle: this.$t('auth.register.title'),
-			formSubTitle: this.$t('auth.register.subtitle'),
-			applyButton: this.$t('auth.register.register_action'),
 
 			show: false,
 			show_confirm: false,
@@ -183,8 +181,7 @@ export default {
 
 	methods: {
 		register() {
-			let self = this;
-			this.loading = true;
+			this.startLoading()
 			axios
 				.post('/register', this.user)
 				.then(response => {
@@ -197,7 +194,7 @@ export default {
 						if (errors) {
 							for (let field in errors) {
 								if (errors.hasOwnProperty(field)) {
-									self.errors[field] = errors[field];
+									this.errors[field] = errors[field];
 								}
 							}
 						}
@@ -205,8 +202,8 @@ export default {
 						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
-				.finally(function() {
-					self.loading = false;
+				.finally(() => {
+					this.stopLoading()
 				});
 		},
 	},

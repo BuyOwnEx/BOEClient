@@ -48,11 +48,12 @@
 
 <script>
 import formValidationRules from '../../mixins/common/formValidationRules';
+import loadingMixin from '../../mixins/common/loadingMixin';
 
 export default {
 	name: 'Email',
 
-	mixins: [formValidationRules],
+	mixins: [formValidationRules, loadingMixin],
 
 	data() {
 		return {
@@ -73,8 +74,7 @@ export default {
 
 	methods: {
 		resend() {
-			let self = this;
-			this.loading = true;
+			this.startLoading()
 			axios
 				.post('/password/email', this.user)
 				.then(response => {
@@ -88,7 +88,7 @@ export default {
 						if (errors) {
 							for (let field in errors) {
 								if (errors.hasOwnProperty(field)) {
-									self.errors[field] = errors[field];
+									this.errors[field] = errors[field];
 								}
 							}
 						}
@@ -96,8 +96,8 @@ export default {
 						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
-				.finally(function() {
-					self.loading = false;
+				.finally(() => {
+					this.startLoading();
 				});
 		},
 	},

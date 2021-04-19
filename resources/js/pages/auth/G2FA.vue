@@ -3,12 +3,12 @@
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
-					{{ formTitle }}
+					{{ $t('auth.g2fa.title') }}
 				</span>
 			</v-card-title>
 
 			<v-card-subtitle>
-				<span>{{ formSubTitle }}</span>
+				<span>{{ $t('auth.g2fa.subtitle') }}</span>
 			</v-card-subtitle>
 
 			<v-card-text>
@@ -38,7 +38,7 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="verify">
-					{{ applyButton }}
+					{{ $t('auth.g2fa.verify') }}
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -57,19 +57,16 @@
 
 <script>
 import formValidationRules from '../../mixins/common/formValidationRules';
+import loadingMixin from '../../mixins/common/loadingMixin';
 
 export default {
 	name: 'G2FA',
 
-	mixins: [formValidationRules],
+	mixins: [formValidationRules, loadingMixin],
 
 	data() {
 		return {
 			valid: true,
-			loading: false,
-			formTitle: this.$t('auth.g2fa.title'),
-			formSubTitle: this.$t('auth.g2fa.subtitle'),
-			applyButton: this.$t('auth.g2fa.verify'),
 			form: {
 				totp: '',
 			},
@@ -81,12 +78,10 @@ export default {
 
 	methods: {
 		verify() {
-			let self = this;
-			this.loading = true;
+			this.startLoading()
 			axios
 				.post('/2fa_validate', this.form)
 				.then(response => {
-					console.log(response.data);
 					if (response.data.auth) window.location.href = response.data.intended;
 					else this.$store.commit('snackbars/showSnackbar', { text: response.data.message, success: false });
 				})
@@ -96,7 +91,7 @@ export default {
 						if (errors) {
 							for (let field in errors) {
 								if (errors.hasOwnProperty(field)) {
-									self.errors[field] = errors[field];
+									this.errors[field] = errors[field];
 								}
 							}
 						}
@@ -104,8 +99,8 @@ export default {
 						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
-				.finally(function() {
-					self.loading = false;
+				.finally(() => {
+					this.stopLoading()
 				});
 		},
 	},
