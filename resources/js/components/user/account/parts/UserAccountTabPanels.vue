@@ -7,26 +7,26 @@
 
 			<v-expansion-panel-content>
 				<div class="mb-2">
-					<div class="title">Reset User Password</div>
+					<div class="title">{{ $t('user.info.reset_pass') }}</div>
 					<div class="subtitle mb-2">
-						Sends a reset password email to the user.
+						{{ $t('user.info.reset_pass_subtitle') }}
 					</div>
 					<v-btn class="mb-2" @click="resetPassword">
 						<v-icon left small>mdi-email</v-icon>
-						Send Reset Password Email
+						{{ $t('common.send') }}
 					</v-btn>
 				</div>
 
 				<v-divider />
 
 				<div class="my-2">
-					<div class="title">Change Email</div>
+					<div class="title">{{ $t('user.info.change_email') }}</div>
 					<div class="subtitle mb-2">
-						Sends a change email request to the user
+						{{ $t('user.info.change_email_subtitle') }}
 					</div>
 					<v-btn class="mb-2">
 						<v-icon left small>mdi-email</v-icon>
-						Change Email Request
+						{{ $t('common.change') }}
 					</v-btn>
 				</div>
 			</v-expansion-panel-content>
@@ -39,23 +39,23 @@
 
 			<v-expansion-panel-content class="body-2">
 				<div>
-					<span class="font-weight-bold">Created: </span>
+					<span class="font-weight-bold">{{ $t('user.info.created') }}: </span>
 					{{ formatDate(user.created_at) }}
 				</div>
 				<div>
-					<span class="font-weight-bold">Last Sign In: </span>
+					<span class="font-weight-bold">{{ $t('user.info.last_sign_in') }}: </span>
 					{{ formatDate(user.lastLoginAt) }}
 				</div>
 				<div>
-					<span class="font-weight-bold">Last Browser: </span>
+					<span class="font-weight-bold">{{ $t('user.info.last_browser') }}: </span>
 					{{ user.lastBrowser }}
 				</div>
 				<div>
-					<span class="font-weight-bold">Last Device: </span>
+					<span class="font-weight-bold">{{ $t('user.info.last_device') }}: </span>
 					{{ user.lastDevice }}
 				</div>
 				<div>
-					<span class="font-weight-bold">Last OS: </span>
+					<span class="font-weight-bold">{{ $t('user.info.last_os') }}: </span>
 					{{ user.lastOS }}
 				</div>
 			</v-expansion-panel-content>

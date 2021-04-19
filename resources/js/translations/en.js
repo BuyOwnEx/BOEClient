@@ -19,6 +19,7 @@ export default {
 		select: 'Select',
 		apply: 'Apply',
 		reset: 'Reset',
+		change: 'Change',
 
 		title: 'Title',
 		description: 'Description',
@@ -2301,6 +2302,16 @@ make our system processes as transparent as possible.`,
 			email_verified: 'Email Verified',
 			protected: '2FA protected',
 			kyc_status: 'KYC Status',
+
+			reset_pass: 'Reset Password',
+			reset_pass_subtitle: 'Send reset password email',
+			change_email: 'Change Email',
+			change_email_subtitle: 'Send email change request',
+			created: 'Created',
+			last_sign_in: 'Last Sign In',
+			last_browser: 'Last Browser',
+			last_device: 'Last Device',
+			last_os: 'Last OS',
 		},
 
 		api: {

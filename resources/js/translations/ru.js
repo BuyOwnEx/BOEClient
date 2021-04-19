@@ -20,6 +20,7 @@ export default {
 		set: 'Установить',
 		apply: 'Применить',
 		reset: 'Сбросить',
+		change: 'Изменить',
 
 		title: 'Тема',
 		description: 'Описание',
@@ -2307,6 +2308,16 @@ export default {
 			email_verified: 'Почта подтверждена',
 			protected: 'Двухфакторная защита',
 			kyc_status: 'KYC статус',
+
+			reset_pass: 'Сбросить пароль',
+			reset_pass_subtitle: 'Отправить электронное письмо для сброса пароля',
+			change_email: 'Изменить email',
+			change_email_subtitle: 'Отправить запрос на изменение адреса электронной почты',
+			created: 'Создан',
+			last_sign_in: 'Последний Вход',
+			last_browser: 'Последний Бразуер',
+			last_device: 'Последнее Устройство',
+			last_os: 'Последняя ОС',
 		},
 
 		api: {
