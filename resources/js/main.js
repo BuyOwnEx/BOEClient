@@ -34,6 +34,7 @@ Vue.component('terms', require('./pages/docs/Terms.vue').default);
 Vue.component('api', require('./pages/docs/Api.vue').default);
 Vue.component('fees', require('./pages/info/Fees.vue').default);
 Vue.component('status', require('./pages/info/Status.vue').default);
+Vue.component('contacts', require('./pages/info/Contacts.vue').default);
 
 export default new Vue({
 	i18n,

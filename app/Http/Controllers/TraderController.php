@@ -90,6 +90,10 @@ class TraderController extends Controller
     {
         return view('status', ['user' => Auth::user()]);
     }
+    public function getContactsView(Request $request)
+    {
+        return view('contacts', ['user' => Auth::user()]);
+    }
 
 
     public function getTickers()

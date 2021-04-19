@@ -37,6 +37,7 @@ Route::get('terms', 'TraderController@getTermsView')->name('terms_view');
 Route::get('api', 'TraderController@getApiView')->name('api_view');
 Route::get('fees', 'TraderController@getFeesView')->name('fees_view');
 Route::get('status', 'TraderController@getStatusView')->name('status_view');
+Route::get('contacts', 'TraderController@getContactsView')->name('contacts_view');
 
 Route::get('2fa', 'Auth\LoginController@getValidateToken');
 Route::post('2fa_validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
