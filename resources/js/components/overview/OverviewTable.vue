@@ -3,7 +3,6 @@
 		<v-data-table
 			class="pa-0 py-2 pa-sm-2"
 			:caption="tableTitle"
-			:calculate-widths="true"
 			:headers="headers"
 			:items="tickersList"
 			:disable-pagination="true"
@@ -184,4 +183,7 @@ export default {
 			text-decoration: none
 			font-weight: bold
 			color: unset
+
+	::v-deep.v-data-table table
+		table-layout: fixed !important
 </style>

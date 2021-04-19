@@ -4,10 +4,10 @@
 			<v-select
 				v-model="sp"
 				:items="pairs"
+				:label="$t('overview.select_pair')"
+				:hint="$t('overview.select_pair_hint')"
 				item-text="name"
 				item-value="id"
-				label="$t('overview.select_pair')"
-				hint="$t('overview.select_pair_hint')"
 				persistent-hint
 				hide-details
 				@change="changePair"
@@ -30,11 +30,7 @@
 			</v-select>
 		</v-col>
 
-		<highcharts
-			class="overview-depth-graph__graph"
-			:options="options"
-			ref="depth_chart"
-		/>
+		<highcharts class="overview-depth-graph__graph" :options="options" ref="depth_chart" />
 	</v-card>
 </template>
 
@@ -195,9 +191,7 @@ export default {
 	methods: {
 		changePair(data) {
 			console.log(data);
-			const market = this.pairs
-				? _.find(this.pairs, item => item.id === data)
-				: null;
+			const market = this.pairs ? _.find(this.pairs, item => item.id === data) : null;
 			if (!market) {
 				const pair = market.name.split('/');
 				this.$store.commit('trading/setPair', {
