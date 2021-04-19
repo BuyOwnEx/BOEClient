@@ -57,7 +57,7 @@
 								:rules="[rules.required, rules.min8char]"
 								:type="show ? 'text' : 'password'"
 								counter="255"
-								:hint="$t('forms_validation.min8char')"
+								:hint="$t('forms_validation.min_8char')"
 								persistent-hint
 								:error-messages="errors.password"
 								@input="errors.password = []"
@@ -99,7 +99,7 @@
 						<b>*</b>
 					</span>
 					<span class="grey--text text--lighten-1">
-						{{ $t('auth.indicated_required_fields') }}
+						{{ $t('auth.indicates_required_fields') }}
 					</span>
 				</small>
 			</div>
@@ -160,7 +160,7 @@ export default {
 			loading: false,
 
 			formTitle: this.$t('auth.register.title'),
-			formSubTitle: 'Fill the below fields to register as a trader',
+			formSubTitle: this.$t('auth.register.subtitle'),
 			applyButton: this.$t('auth.register.register_action'),
 
 			show: false,

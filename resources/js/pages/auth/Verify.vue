@@ -26,7 +26,7 @@
 								required
 							>
 								<template #label>
-									Email <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.email') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -39,14 +39,7 @@
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn
-					color="primary"
-					:loading="loading"
-					:disabled="!valid || loading"
-					block
-					tile
-					@click="resend"
-				>
+				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="resend">
 					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
@@ -69,22 +62,20 @@
 </template>
 
 <script>
+import formValidationRules from '../../mixins/common/formValidationRules';
 
 export default {
 	name: 'Verify',
+
+	mixins: [formValidationRules],
 
 	data() {
 		return {
 			valid: true,
 			loading: false,
-			formTitle: 'Activation',
-			formSubTitle:
-				'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
-			applyButton: 'Resend',
-			rules: {
-				required: v => !!v || 'The field is required',
-				email: v => (v && /.+@.+\..+/.test(v)) || 'E-mail must be valid',
-			},
+			formTitle: this.$t('auth.verify.title'),
+			formSubTitle: this.$t('auth.verify.subtitle'),
+			applyButton: this.$t('common.resend'),
 			user: {
 				email: window.activation.email,
 			},

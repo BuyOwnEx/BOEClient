@@ -25,7 +25,7 @@
 								required
 							>
 								<template #label>
-									Email <span class="red--text"><strong>*</strong></span>
+									{{ $t('auth.email') }} <span class="red--text"><b>*</b></span>
 								</template>
 							</v-text-field>
 						</v-col>
@@ -34,14 +34,7 @@
 			</v-card-text>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn
-					color="primary"
-					:loading="loading"
-					:disabled="!valid || loading"
-					block
-					tile
-					@click="resend"
-				>
+				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="resend">
 					{{ applyButton }}
 				</v-btn>
 			</v-card-actions>
@@ -54,21 +47,20 @@
 </template>
 
 <script>
+import formValidationRules from '../../mixins/common/formValidationRules';
+
 export default {
 	name: 'Email',
+
+	mixins: [formValidationRules],
 
 	data() {
 		return {
 			valid: true,
 			loading: false,
 			formTitle: this.$t('auth.forgot.title'),
-			formSubTitle:
-				this.$t('auth.forgot.subtitle'),
-			applyButton: 'Send',
-			rules: {
-				required: v => !!v || 'The field is required',
-				email: v => (v && /.+@.+\..+/.test(v)) || 'E-mail must be valid',
-			},
+			formSubTitle: this.$t('auth.forgot.subtitle'),
+			applyButton: this.$t('common.send'),
 			user: {
 				email: '',
 			},

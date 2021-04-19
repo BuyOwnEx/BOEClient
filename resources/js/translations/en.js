@@ -10,6 +10,7 @@ export default {
 		replenish: 'Replenish',
 		withdraw: 'Withdraw',
 		send: 'Send',
+		resend: 'Resend',
 		continue: 'Continue',
 		back: 'Back',
 		finish: 'Finish',
@@ -341,6 +342,11 @@ export default {
 			passwords_not_match: 'Passwords mismatch',
 			safe_password_alert: 'Please keep your password in a safe place and do not pass it on to others.',
 		},
+		verify: {
+			title: 'Activation',
+			subtitle:
+				'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
+		},
 		login: {
 			title: 'Sign In',
 			email: 'Email',
@@ -358,6 +364,7 @@ export default {
 		},
 		register: {
 			title: 'Create Account',
+			subtitle: 'Fill the below fields to register as a trader',
 			name: 'Full name',
 			email: 'Email',
 			password: 'Password',
@@ -368,6 +375,12 @@ export default {
 			signin: 'Sign In',
 			register_action: 'Register now',
 			username_rules: 'Min. characters: 5. Available: [a-zA-Z0-9-_]',
+		},
+		g2fa: {
+			title: '2FA Verification',
+			subtitle: 'Please, enter your 6 digit code from Google Authenticator application',
+			code: 'Code',
+			verify: 'Verify',
 		},
 	},
 	balance: {
