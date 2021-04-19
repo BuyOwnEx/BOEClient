@@ -30,17 +30,17 @@
 
 <script>
 export default {
-	data() {
-		return {
-			items: [
+	computed: {
+		items() {
+			return [
 				{
 					title: this.$t('apps.exchange.title'),
 					subtitle: this.$t('apps.exchange.subtitle'),
 					icon: 'mdi-apps',
 					to: '/',
 				},
-			],
-		};
+			];
+		},
 	},
 };
 </script>
