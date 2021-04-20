@@ -15,7 +15,7 @@ class TraderExists implements Rule
      */
     public function __construct()
     {
-        $this->api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));;
+        $this->api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
     }
 
     /**
