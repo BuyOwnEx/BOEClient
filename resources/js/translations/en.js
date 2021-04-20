@@ -363,8 +363,10 @@ export default {
 		},
 		verify: {
 			title: 'Activation',
-			subtitle:
-				'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
+			subtitle: 'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
+			no_letter: 'Do not receive e-mail with activation link? Press Resend button',
+			already_activated: 'Already activated?',
+			resend_activation_link_text: 'Activation link was sent to your email repeatedly. If you do not receive email, check yor spam folder',
 		},
 		login: {
 			title: 'Sign In',

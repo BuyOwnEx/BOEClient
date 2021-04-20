@@ -95,8 +95,6 @@ class VerificationController extends Controller
         try
         {
             DB::beginTransaction();
-            $user->email_verified_at = Date::now();
-            $user->save();
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             $res = $api->registerTrader($user);
             Log::info($res->status());
@@ -121,6 +119,8 @@ class VerificationController extends Controller
                 }
                 else
                 {
+                    $user->email_verified_at = Date::now();
+                    $user->save();
                     event(new Verified($user));
                     if ($response = $this->verified($request)) {
                         DB::commit();

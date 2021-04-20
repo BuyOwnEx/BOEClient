@@ -35,7 +35,7 @@
 			</v-card-text>
 
 			<div class="caption grey--text darken-4 pl-6 pr-6">
-				<small>{{ $t('auth.no_letter') }}</small>
+				<small>{{ $t('auth.verify.no_letter') }}</small>
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
@@ -46,16 +46,16 @@
 		</v-card>
 
 		<v-alert v-if="resend_alert" dense text type="warning" class="mt-4">
-			{{ $t('auth.resend_activation_link_text') }}
+			{{ $t('auth.verify.resend_activation_link_text') }}
 		</v-alert>
 
 		<div class="text-center mt-6" style="position: relative; z-index: 2">
 			<div class="caption grey--text darken-4">
-				{{ $t('auth.already_activated') }}
+				{{ $t('auth.verify.already_activated') }}
 			</div>
 
 			<v-btn block small text tile href="/login" color="primary darken-1">
-				{{ $t('auth.login_btn_text') }}
+				{{ $t('auth.signin') }}
 			</v-btn>
 		</div>
 	</div>
