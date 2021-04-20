@@ -527,7 +527,7 @@ class BuyOwnExClientAPI
             'email' => $trader->email,
             'ref' => $trader->inviteCode,
         ];
-        $response = Http::withToken($this->api_key)
+        $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/register_trader',$params);
         return response()->json($response->json(),$response->status());
@@ -538,7 +538,7 @@ class BuyOwnExClientAPI
         $params = [
             'name' => $name
         ];
-        $response = Http::withToken($this->api_key)
+        $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/check_trader_name',$params);
         return response()->json($response->json(),$response->status());
