@@ -3,12 +3,12 @@
 		<v-card>
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
-					{{ formTitle }}
+					{{ this.$t('auth.forgot.title') }}
 				</span>
 			</v-card-title>
 
 			<v-card-subtitle>
-				<span>{{ formSubTitle }}</span>
+				<span>{{ this.$t('auth.forgot.subtitle') }}</span>
 			</v-card-subtitle>
 
 			<v-card-text>
@@ -35,7 +35,7 @@
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="resend">
-					{{ applyButton }}
+					{{  this.$t('common.send') }}
 				</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -59,9 +59,7 @@ export default {
 		return {
 			valid: true,
 			loading: false,
-			formTitle: this.$t('auth.forgot.title'),
-			formSubTitle: this.$t('auth.forgot.subtitle'),
-			applyButton: this.$t('common.send'),
+
 			user: {
 				email: '',
 			},

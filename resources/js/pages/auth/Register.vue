@@ -147,17 +147,6 @@ export default {
 
 	data() {
 		return {
-			links: [
-				{
-					title: this.$t('auth.register_terms_link'),
-					link: '/terms',
-				},
-				{
-					title: this.$t('auth.register_policy_link'),
-					link: '/policy',
-				},
-			],
-
 			valid: true,
 			loading: false,
 
@@ -179,9 +168,24 @@ export default {
 		};
 	},
 
+	computed: {
+		links() {
+			return [
+				{
+					title: this.$t('auth.register_terms_link'),
+					link: '/terms',
+				},
+				{
+					title: this.$t('auth.register_policy_link'),
+					link: '/policy',
+				},
+			];
+		},
+	},
+
 	methods: {
 		register() {
-			this.startLoading()
+			this.startLoading();
 			axios
 				.post('/register', this.user)
 				.then(response => {
@@ -203,7 +207,7 @@ export default {
 					}
 				})
 				.finally(() => {
-					this.stopLoading()
+					this.stopLoading();
 				});
 		},
 	},
