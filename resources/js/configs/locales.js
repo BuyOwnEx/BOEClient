@@ -31,13 +31,10 @@ try {
 }
 
 export default {
-	// current locale
 	locale,
 
-	// when translation is not available fallback to that locale
 	fallbackLocale: 'en',
 
-	// availabled locales for user selection
 	availableLocales: [{
 		code: 'en',
 		flag: 'us',
@@ -76,7 +73,7 @@ export default {
 	}, {
 		code: 'ru',
 		flag: 'ru',
-		label: 'русский',
+		label: 'Русский',
 		messages: ru,
 	}, {
 		code: 'zh',
