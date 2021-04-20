@@ -193,6 +193,12 @@ export default {
 			ask_orders: 'Ордера на продажу',
 			bid_orders: 'Ордера на покупку',
 			chat: 'Чат',
+			chart: 'График',
+			tickers: 'Тикеры',
+			history: 'История',
+			orders: 'Ордера',
+			forms: 'Формы',
+			lists: 'Списки'
 		},
 		order: {
 			direction: {

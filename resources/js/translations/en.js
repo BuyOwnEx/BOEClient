@@ -192,6 +192,12 @@ export default {
 			ask_orders: 'Ask Orders',
 			bid_orders: 'Bid Orders',
 			chat: 'Chat',
+			chart: 'Chart',
+			tickers: 'Tickers',
+			history: 'History',
+			orders: 'Orders',
+			forms: 'Forms',
+			lists: 'Lists'
 		},
 		order: {
 			direction: {

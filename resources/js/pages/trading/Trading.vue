@@ -1,48 +1,21 @@
 <template>
 	<div class="trading">
 		<div v-if="!isMobile" class="trading__desktop">
-			<TickersList
-				class="trading__desktop__tickers"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
-			/>
+			<TickersList class="trading__desktop__tickers" :currency="selectedCurrency" :market="selectedMarket" />
 
-			<TradingChartWrapper
-				class="trading__desktop__chart"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
-			/>
+			<TradingChartWrapper class="trading__desktop__chart" :currency="selectedCurrency" :market="selectedMarket" />
 
-			<HistoryDealList
-				class="trading__desktop__history"
-				:market="selectedMarket"
-				:currency="selectedCurrency"
-			/>
+			<HistoryDealList class="trading__desktop__history" :market="selectedMarket" :currency="selectedCurrency" />
 
 			<TradingChat v-if="!isMediumBreakpoint" class="trading__desktop__chat" />
 
-			<AskList
-				class="trading__desktop__ask-list"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
-			/>
+			<AskList class="trading__desktop__ask-list" :currency="selectedCurrency" :market="selectedMarket" />
 
-			<TradingFormsWrapper
-				class="trading__desktop__forms"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
-			/>
+			<TradingFormsWrapper class="trading__desktop__forms" :currency="selectedCurrency" :market="selectedMarket" />
 
-			<BidList
-				class="trading__desktop__bid-list"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
-			/>
+			<BidList class="trading__desktop__bid-list" :currency="selectedCurrency" :market="selectedMarket" />
 
-			<TradingMarketActivity
-				v-if="!isMediumBreakpoint"
-				class="trading__desktop__market-activity"
-			/>
+			<TradingMarketActivity v-if="!isMediumBreakpoint" class="trading__desktop__market-activity" />
 
 			<OwnListsTabsWrapper
 				v-if="isLogged"
@@ -54,106 +27,85 @@
 		</div>
 
 		<div v-if="isMobile" class="trading__mobile">
-			<v-tabs-items
-				v-model="selectedTab"
-				class="trading__mobile__tab-pages"
-				:touchless="tabsTouchless"
-			>
-				<v-tab-item :key="1">
-					<TradingChartWrapper
-						class="trading__mobile__chart"
-						:currency="selectedCurrency"
-						:market="selectedMarket"
-					/>
-				</v-tab-item>
+			<v-bottom-navigation v-model="selectedTab" shift grow app>
+				<v-btn>
+					<span>{{ $t('trading.headers.chart') }}</span>
+					<v-icon>mdi-chart-bar</v-icon>
+				</v-btn>
 
-				<v-tab-item :key="2">
-					<TickersList
-						class="trading__mobile__tickers"
-						:currency="selectedCurrency"
-						:market="selectedMarket"
-					/>
-				</v-tab-item>
+				<v-btn>
+					<span>{{ $t('trading.headers.tickers') }}</span>
+					<v-icon>mdi-table</v-icon>
+				</v-btn>
 
-				<v-tab-item :key="3">
-					<HistoryDealList
-						class="trading__mobile__history"
-						:market="selectedMarket"
-						:currency="selectedCurrency"
-					/>
-				</v-tab-item>
+				<v-btn>
+					<span>{{ $t('trading.headers.history') }}</span>
+					<v-icon>mdi-book</v-icon>
+				</v-btn>
 
-				<v-tab-item :key="4">
-					<TradingChat class="trading__mobile__chat" />
-				</v-tab-item>
+				<v-btn>
+					<span>{{ $t('trading.headers.chat') }}</span>
+					<v-icon>mdi-forum</v-icon>
+				</v-btn>
 
-				<v-tab-item class="trading__mobile__orders" :key="5">
-					<BidList
-						class="trading__mobile__orders__bid"
-						:currency="selectedCurrency"
-						:market="selectedMarket"
-					/>
-					<AskBidLastPrice
-						class="trading__mobile__orders__last-price"
-						id="last-price"
-						ref="askBidLastPrice"
-						:market="selectedMarket"
-						@mounted="moveToOrdersLastPrice"
-					/>
-					<AskList
-						class="trading__mobile__orders__ask"
-						:currency="selectedCurrency"
-						:market="selectedMarket"
-					/>
-				</v-tab-item>
+				<v-btn>
+					<span>{{ $t('trading.headers.forms') }}</span>
+					<v-icon>mdi-form-select</v-icon>
+				</v-btn>
 
-				<v-tab-item :key="6">
-					<TradingFormsWrapper
-						class="trading__mobile__forms"
-						:currency="selectedCurrency"
-						:market="selectedMarket"
-					/>
-				</v-tab-item>
+				<v-btn>
+					<span>{{ $t('trading.headers.lists') }}</span>
+					<v-icon>mdi-view-list</v-icon>
+				</v-btn>
+			</v-bottom-navigation>
 
-				<v-tab-item :key="7" v-if="isLogged">
-					<OwnListsTabsWrapper
-						class="trading__mobile__own-lists-tabs-wrapper"
-						:is-margin="isMargin"
-						:currency="selectedCurrency"
-						:market="selectedMarket"
-					/>
-				</v-tab-item>
-			</v-tabs-items>
+			<TradingChartWrapper
+				v-if="selectedTab === 0"
+				class="trading__mobile__chart"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
+			/>
+			<TickersList
+				v-if="selectedTab === 1"
+				class="trading__mobile__tickers"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
+			/>
 
-			<v-tabs
-				v-if="isMobile"
-				v-model="selectedTab"
-				class="trading__mobile__tabs"
-				fixed-tabs
-				show-arrows
-			>
-				<v-tab :key="1">
-					Chart
-				</v-tab>
-				<v-tab :key="2">
-					Tickers
-				</v-tab>
-				<v-tab :key="3">
-					History
-				</v-tab>
-				<v-tab :key="4">
-					Chat
-				</v-tab>
-				<v-tab :key="5">
-					Orders
-				</v-tab>
-				<v-tab :key="6">
-					Forms
-				</v-tab>
-				<v-tab :key="7" v-if="isLogged">
-					Own Lists
-				</v-tab>
-			</v-tabs>
+			<HistoryDealList
+				v-if="selectedTab === 2"
+				class="trading__mobile__history"
+				:market="selectedMarket"
+				:currency="selectedCurrency"
+			/>
+
+			<TradingChat v-if="selectedTab === 3" class="trading__mobile__chat" />
+
+			<div v-if="selectedTab === 4">
+				<BidList class="trading__mobile__orders__bid" :currency="selectedCurrency" :market="selectedMarket" />
+				<AskBidLastPrice
+					class="trading__mobile__orders__last-price"
+					id="last-price"
+					ref="askBidLastPrice"
+					:market="selectedMarket"
+					@mounted="moveToOrdersLastPrice"
+				/>
+				<AskList class="trading__mobile__orders__ask" :currency="selectedCurrency" :market="selectedMarket" />
+			</div>
+
+			<TradingFormsWrapper
+				v-if="selectedTab === 5"
+				class="trading__mobile__forms"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
+			/>
+			<OwnListsTabsWrapper
+				v-if="selectedTab === 6"
+				class="trading__mobile__own-lists-tabs-wrapper"
+				:is-margin="isMargin"
+				:currency="selectedCurrency"
+				:market="selectedMarket"
+			/>
 		</div>
 	</div>
 </template>
@@ -185,10 +137,7 @@ export default {
 		TradingChat,
 		TradingMarketActivity,
 		AskList,
-		AskBidLastPrice: () =>
-			import(
-				/* webpackPrefetch: true */ '../../components/trading/orders/mobile/AskBidLastPrice'
-			),
+		AskBidLastPrice: () => import(/* webpackPrefetch: true */ '../../components/trading/orders/mobile/AskBidLastPrice'),
 		BidList,
 		TradingFormsWrapper,
 		OwnListsTabsWrapper,
@@ -209,21 +158,12 @@ export default {
 			return this.$store.getters['trading/selectedPair'];
 		},
 		markets() {
-			return _.get(
-				this.$store.state.tickers.markets,
-				this.selectedMarket.toUpperCase(),
-				null
-			);
+			return _.get(this.$store.state.tickers.markets, this.selectedMarket.toUpperCase(), null);
 		},
 
 		isMargin() {
 			let market = this.markets
-				? _.find(
-						this.markets,
-						item =>
-							item.currency.toUpperCase() ===
-							this.selectedCurrency.toUpperCase()
-				  )
+				? _.find(this.markets, item => item.currency.toUpperCase() === this.selectedCurrency.toUpperCase())
 				: null;
 			return market === null ? false : market.margin;
 		},
@@ -233,14 +173,6 @@ export default {
 
 		isMobile() {
 			return this.$vuetify.breakpoint.smAndDown;
-		},
-		tabsTouchless() {
-			const chartTabIndex = 0;
-			const ownListsTabIndex = 6;
-			return (
-				this.selectedTab === chartTabIndex ||
-				this.selectedTab === ownListsTabIndex
-			);
 		},
 		isMediumBreakpoint() {
 			return this.$vuetify.breakpoint.width < 1382;
@@ -252,33 +184,24 @@ export default {
 			if ('history' in window) {
 				window.history.pushState(
 					null,
-					this.selectedMarket.toUpperCase() +
-						'/' +
-						this.selectedCurrency.toUpperCase(),
-					'/trading/' +
-						this.selectedMarket.toUpperCase() +
-						'/' +
-						this.selectedCurrency.toUpperCase()
+					this.selectedMarket.toUpperCase() + '/' + this.selectedCurrency.toUpperCase(),
+					'/trading/' + this.selectedMarket.toUpperCase() + '/' + this.selectedCurrency.toUpperCase()
 				);
 			}
 		},
 
-		// TODO: нифига не работает. точнее работает, но после нескольких сотен мс возвращается обратно.
 		moveToOrdersLastPrice() {
-			this.$nextTick(() => {
-				const element = this.$refs.askBidLastPrice.$el;
-				element.scrollIntoView({
-					block: 'center',
-				});
+			const ordersTab = 4;
+			if (this.selectedTab !== ordersTab) return;
+			const element = this.$refs.askBidLastPrice.$el;
+			element.scrollIntoView({
+				block: 'center',
 			});
 		},
 	},
 
 	created() {
-		if (
-			this.$store.state.trading.selectedMarket === null ||
-			this.$store.state.trading.selectedCurrency === null
-		) {
+		if (this.$store.state.trading.selectedMarket === null || this.$store.state.trading.selectedCurrency === null) {
 			console.log('currency: ' + this.$trading_currency);
 			console.log('market: ' + this.$trading_market);
 			this.$store.commit('trading/setPair', {
@@ -357,28 +280,23 @@ export default {
 		display: flex;
 		flex-grow: 1;
 		flex-flow: column;
-		padding-bottom: 47px;
 
 		&__tickers {
 			flex-grow: 1;
-			min-height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
 		&__chart {
-			height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
 		&__history {
 			flex-grow: 1;
-			min-height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
 		&__chat {
 			flex-grow: 1;
-			min-height: calc(100vh - 171px);
 			overflow: auto;
 		}
 
@@ -395,39 +313,10 @@ export default {
 		}
 
 		&__own-lists-tabs-wrapper {
-			min-height: calc(100vh - 171px);
 			overflow: auto;
 			flex-grow: 1;
 		}
-
-		&__tabs {
-			position: fixed;
-			left: 0;
-			right: 0;
-			bottom: 58px !important;
-			z-index: 5;
-			box-shadow: 0 -25px 20px 0 rgb(85 85 85 / 4%);
-			-webkit-transform: translateZ(0);
-		}
 	}
-}
-
-.trading .v-window {
-	display: flex;
-	flex-grow: 1;
-	flex-flow: column;
-}
-
-.trading .v-tabs-items .v-window__container {
-	display: flex;
-	flex-grow: 1;
-	flex-flow: column;
-}
-
-.trading .v-tabs-items .v-window-item {
-	display: flex;
-	flex-grow: 1;
-	flex-flow: column;
 }
 
 @media screen and (min-width: 1382px) and (max-width: 1768px) {

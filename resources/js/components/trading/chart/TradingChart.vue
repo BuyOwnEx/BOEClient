@@ -1,10 +1,5 @@
 <template>
-	<highcharts
-		:constructor-type="'stockChart'"
-		:options="options"
-		:highcharts="hcInstance"
-		ref="candle"
-	/>
+	<highcharts :constructor-type="'stockChart'" :options="options" :highcharts="hcInstance" ref="candle" />
 </template>
 
 <script>
@@ -67,9 +62,7 @@ export default {
 						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},
-					height: this.$vuetify.breakpoint.smAndDown
-						? this.calculateGraphHeight()
-						: 400,
+					height: this.$vuetify.breakpoint.smAndDown ? this.calculateGraphHeight() : 400,
 					spacing: [10, 10, 10, 10],
 					events: {
 						load() {
@@ -348,44 +341,21 @@ export default {
 			const header = 56;
 			const marketInfo = 53;
 			const pageContainerPaddings = 10;
-			const tabs = 48;
+			const tabs = 56;
 			const footer = 58;
 
-			return (
-				deviceHeight -
-				header -
-				marketInfo -
-				pageContainerPaddings -
-				tabs -
-				footer
-			);
+			return deviceHeight - header - marketInfo - pageContainerPaddings - tabs - footer;
 		},
 		monitoringFullMode() {
 			if (document.addEventListener) {
-				document.addEventListener(
-					'webkitfullscreenchange',
-					this.exitHandler,
-					false
-				);
-				document.addEventListener(
-					'mozfullscreenchange',
-					this.exitHandler,
-					false
-				);
+				document.addEventListener('webkitfullscreenchange', this.exitHandler, false);
+				document.addEventListener('mozfullscreenchange', this.exitHandler, false);
 				document.addEventListener('fullscreenchange', this.exitHandler, false);
-				document.addEventListener(
-					'MSFullscreenChange',
-					this.exitHandler,
-					false
-				);
+				document.addEventListener('MSFullscreenChange', this.exitHandler, false);
 			}
 		},
 		exitHandler() {
-			if (
-				!document.webkitIsFullScreen &&
-				!document.mozFullScreen &&
-				!document.msFullscreenElement
-			) {
+			if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
 				this.chartInFullscreen = false;
 			} else {
 				this.chartInFullscreen = true;
@@ -410,8 +380,7 @@ export default {
 		},
 		addPointHandler(data) {
 			const candle = this.$refs.candle;
-			const shift =
-				candle.chart.series[0].options.data.length >= this.maxCandles;
+			const shift = candle.chart.series[0].options.data.length >= this.maxCandles;
 			candle.chart.series[0].addPoint(
 				{
 					x: parseInt(data.point.x),
@@ -514,12 +483,9 @@ export default {
 		if ('localStorage' in window) {
 			const candlePeriod = window.localStorage.getItem('tradingCandlePeriod');
 			if (candlePeriod) {
-				const candlePeriodObject = _.find(
-					this.options.rangeSelector.buttons,
-					item => {
-						return item.text.toLowerCase() === candlePeriod.toLowerCase();
-					}
-				);
+				const candlePeriodObject = _.find(this.options.rangeSelector.buttons, item => {
+					return item.text.toLowerCase() === candlePeriod.toLowerCase();
+				});
 				if (!candlePeriodObject) {
 					this.candle_period = '1m';
 					this.options.rangeSelector.selected = 0;
