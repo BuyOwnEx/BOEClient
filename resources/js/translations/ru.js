@@ -373,7 +373,8 @@ export default {
 				'Пожалуйста, активируйте свою учетную запись, проверив ссылку активации в своем электронном письме. Ссылка для активации действительна 1 час.',
 			no_letter: 'Не получили письма с ссылкой для активации? Нажмите кнопку "Отправить повторно"',
 			already_activated: 'Уже активировали?',
-			resend_activation_link_text : 'Письмо с ссылкой для активации аккаунта было направлено вам на email повторно. Если вы не получилили письмо, проверьте папку Спам',
+			resend_activation_link_text:
+				'Письмо с ссылкой для активации аккаунта было направлено вам на email повторно. Если вы не получилили письмо, проверьте папку Спам',
 		},
 		login: {
 			title: 'Войти в систему',
@@ -835,13 +836,13 @@ export default {
 					'                        <p>\n' +
 					'                            <u><i>При успешном выполнении приходит ответ типа:</i></u>\n' +
 					'                        </p>\n' +
-					'                        <code class="success--text">&#123;"success": true,"code": 200,...&#125;</code>\n' +
+					'                        <code class="success--text">&#123;"success": true,"code": 200,...&#125;;</code>\n' +
 					'                        <p>\n' +
 					'                            <u><i>Ответ при ошибке:</i></u>\n' +
 					'                        </p>\n' +
-					'                        <code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "errors": [&lt;массив ошибок&gt;]&#125;</code>\n' +
+					'                        <code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "errors": [&lt;массив ошибок&gt;]&#125;;</code>\n' +
 					'                        или\n' +
-					'                        <code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "message": &lt;описание ошибки&gt;&#125;</code>\n' +
+					'                        <code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "message": &lt;описание ошибки&gt;&#125;;</code>\n' +
 					'                        <ul>\n' +
 					'                            <li><strong>errors</strong> – представляет из себя описание ошибок при поступлении запроса с не валидными входными параметрами</li>\n' +
 					'                            <li><strong>code</strong> – представляет из себя целочисленный код ошибки. Все коды возможных ошибок и их описание представлено ниже</li>\n' +
@@ -884,7 +885,7 @@ export default {
 					'                        <p>\n' +
 					'                            При удачном ответе вернется строка в JSON формате\n' +
 					'                        </p>\n' +
-					'                        <code class="success--text">&#123;"success": true,"token": "&lt;token&gt;"&#125;</code>\n' +
+					'                        <code class="success--text">&#123;"success": true,"token": "&lt;token&gt;"&#125;;</code>\n' +
 					'                        <p>\n' +
 					'                            где\n' +
 					'                            <br>\n' +
@@ -1089,13 +1090,13 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "ticker":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 1,\n' +
 						'            "last_price": "7234.45",\n' +
 						'            "quote_volume": "891096.87103846",\n' +
@@ -1109,7 +1110,7 @@ export default {
 						'            "margin": 0\n' +
 						'        },\n' +
 						'        "LTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 2,\n' +
 						'            "last_price": "43.98",\n' +
 						'            "quote_volume": "770823.5363825",\n' +
@@ -1121,12 +1122,12 @@ export default {
 						'            "low24hr": "43.6",\n' +
 						'            "percentChange": "-0.91",\n' +
 						'            "margin": 0\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    },\n' +
 						'    "coins":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 2,\n' +
 						'            "type": "coin",\n' +
 						'            "name": "Bitcoin",\n' +
@@ -1141,7 +1142,7 @@ export default {
 						'            "max_kyc_day_withdraw": "10"\n' +
 						'        },\n' +
 						'        "USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 1,\n' +
 						'            "type": "token",\n' +
 						'            "name": "Tether",\n' +
@@ -1154,18 +1155,18 @@ export default {
 						'            "fee_withdraw": "1.2",\n' +
 						'            "max_day_withdraw": "10000",\n' +
 						'            "max_kyc_day_withdraw": "100000"\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    },\n' +
 						'    "fiats":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "USD":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 2,\n' +
 						'            "name": "U.S. Dollar",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "withdraw": "On",\n' +
 						'                    "deposit": "On",\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1174,17 +1175,17 @@ export default {
 						'                    "fee_withdraw": "1",\n' +
 						'                    "max_day_withdraw": "500",\n' +
 						'                    "max_kyc_day_withdraw": "3000"\n' +
-						'                }\n' +
-						'            }\n' +
+						'                &#125;\n' +
+						'            &#125;\n' +
 						'        },\n' +
 						'        "EUR":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 3,\n' +
 						'            "name": "European Euro",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "withdraw": "On",\n' +
 						'                    "deposit": "On",\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1193,11 +1194,11 @@ export default {
 						'                    "fee_withdraw": "1",\n' +
 						'                    "max_day_withdraw": "500",\n' +
 						'                    "max_kyc_day_withdraw": "3000"\n' +
-						'                }\n' +
-						'            }\n' +
-						'        }\n' +
-						'    }\n' +
-						'}\n' +
+						'                &#125;\n' +
+						'            &#125;\n' +
+						'        &#125;\n' +
+						'    &#125;\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1254,13 +1255,13 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "assets":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "Bitcoin",\n' +
 						'            "unified_cryptoasset_id": 1,\n' +
 						'            "type": "coin",\n' +
@@ -1277,7 +1278,7 @@ export default {
 						'            "taker_fee": "0.2"\n' +
 						'        },\n' +
 						'        "ETH":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "Ethereum",\n' +
 						'            "unified_cryptoasset_id": 1027,\n' +
 						'            "type": "coin",\n' +
@@ -1294,7 +1295,7 @@ export default {
 						'            "taker_fee": "0.2"\n' +
 						'        },\n' +
 						'        "USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "Tether",\n' +
 						'            "unified_cryptoasset_id": 825,\n' +
 						'            "type": "token",\n' +
@@ -1311,16 +1312,16 @@ export default {
 						'            "taker_fee": "0.2"\n' +
 						'        },\n' +
 						'        "USD":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "U.S. Dollar",\n' +
 						'            "unified_cryptoasset_id": null,\n' +
 						'            "type": "fiat",\n' +
 						'            "maker_fee": "0.2",\n' +
 						'            "taker_fee": "0.2",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "can_withdraw": true,\n' +
 						'                    "can_deposit": true,\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1329,20 +1330,20 @@ export default {
 						'                    "max_kyc_withdraw": "3000"\n' +
 						'                    "fee_replenish": "0.5",\n' +
 						'                    "fee_withdraw": "1"\n' +
-						'                }\n' +
-						'            }\n' +
+						'                &#125;\n' +
+						'            &#125;\n' +
 						'        },\n' +
 						'        "EUR":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "European Euro",\n' +
 						'            "unified_cryptoasset_id": null,\n' +
 						'            "type": "fiat",\n' +
 						'            "maker_fee": "0.2",\n' +
 						'            "taker_fee": "0.2",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "can_withdraw": true,\n' +
 						'                    "can_deposit": true,\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1351,11 +1352,11 @@ export default {
 						'                    "max_kyc_withdraw": "3000"\n' +
 						'                    "fee_replenish": "0.5",\n' +
 						'                    "fee_withdraw": "1"\n' +
-						'                }\n' +
-						'            }\n' +
-						'        }\n' +
-						'    }\n' +
-						'}\n' +
+						'                &#125;\n' +
+						'            &#125;\n' +
+						'        &#125;\n' +
+						'    &#125;\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1404,13 +1405,13 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "ticker":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "base_id": 1,\n' +
 						'            "quote_id": 825,\n' +
 						'            "last_price": "7234.45",\n' +
@@ -1425,7 +1426,7 @@ export default {
 						'            "margin": 0\n' +
 						'        },\n' +
 						'        "LTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "base_id": 2,\n' +
 						'            "quote_id": 825,\n' +
 						'            "last_price": "43.98",\n' +
@@ -1438,9 +1439,9 @@ export default {
 						'            "low24hr": "43.6",\n' +
 						'            "percentChange": "-0.91",\n' +
 						'            "margin": 0\n' +
-						'        }\n' +
-						'    }\n' +
-						'}\n' +
+						'        &#125;\n' +
+						'    &#125;\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1493,7 +1494,7 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "timestamp": 1576080362,\n' +
@@ -1517,7 +1518,7 @@ export default {
 						'    "asks_amount":1.346869,\n' +
 						'    "bids_num":7,\n' +
 						'    "asks_num":6\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1568,11 +1569,11 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "trades": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id": 5627122,\n' +
 						'            "price":"7206.25",\n' +
 						'            "base_volume":"0.017624",\n' +
@@ -1580,7 +1581,7 @@ export default {
 						'            "trade_timestamp":1576083062,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627108,\n' +
 						'            "price":"7207.14",\n' +
 						'            "base_volume":"0.019604",\n' +
@@ -1588,7 +1589,7 @@ export default {
 						'            "trade_timestamp":1576083058,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627079,\n' +
 						'            "price":"7207.42",\n' +
 						'            "base_volume":"0.01802",\n' +
@@ -1596,7 +1597,7 @@ export default {
 						'            "trade_timestamp":1576083037,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627062,\n' +
 						'            "price":"7207.74",\n' +
 						'            "base_volume":"0.014654",\n' +
@@ -1604,16 +1605,16 @@ export default {
 						'            "trade_timestamp":1576083002,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627051,\n' +
 						'            "price":"7208",\n' +
 						'            "base_volume":"0.00614",\n' +
 						'            "quote_volume":"44.25712",\n' +
 						'            "trade_timestamp":1576082998,\n' +
 						'            "type":"sell"\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1669,11 +1670,11 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "trades": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id": 5627122,\n' +
 						'            "price":"7206.25",\n' +
 						'            "base_volume":"0.017624",\n' +
@@ -1681,7 +1682,7 @@ export default {
 						'            "trade_timestamp":1576083062,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627108,\n' +
 						'            "price":"7207.14",\n' +
 						'            "base_volume":"0.019604",\n' +
@@ -1689,7 +1690,7 @@ export default {
 						'            "trade_timestamp":1576083058,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627079,\n' +
 						'            "price":"7207.42",\n' +
 						'            "base_volume":"0.01802",\n' +
@@ -1697,7 +1698,7 @@ export default {
 						'            "trade_timestamp":1576083037,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627062,\n' +
 						'            "price":"7207.74",\n' +
 						'            "base_volume":"0.014654",\n' +
@@ -1705,16 +1706,16 @@ export default {
 						'            "trade_timestamp":1576083002,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627051,\n' +
 						'            "price":"7208",\n' +
 						'            "base_volume":"0.00614",\n' +
 						'            "quote_volume":"44.25712",\n' +
 						'            "trade_timestamp":1576082998,\n' +
 						'            "type":"sell"\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1733,7 +1734,7 @@ export default {
 					title: 'Список ордеров',
 					content:
 						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/orders/{pair}\n' +
+						'                            GET запрос по адресу {url}/api/v1/orders/{pair&#125;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
@@ -1762,40 +1763,40 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "buy_limit": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344322,\n' +
 						'            "originalAmount": "0.5",\n' +
 						'            "actualAmount": "0.2",\n' +
 						'            "price": "7207.14",\n' +
 						'            "time": 1576083062,\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344323,\n' +
 						'            "originalAmount": "0.2",\n' +
 						'            "actualAmount": "0.11",\n' +
 						'            "price": "7205.22",\n' +
 						'            "time": 1576084077,\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    ],\n' +
 						'    "sell_limit": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344324,\n' +
 						'            "originalAmount": "0.5",\n' +
 						'            "actualAmount": "0.2",\n' +
 						'            "price": "7217.14",\n' +
 						'            "time": 1576085062,\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344325,\n' +
 						'            "originalAmount": "0.2",\n' +
 						'            "actualAmount": "0.11",\n' +
 						'            "price": "7215.22",\n' +
 						'            "time": 1576085077,\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    ],\n' +
 						'    "buy_sl": [],\n' +
 						'    "sell_sl": [],\n' +
@@ -1803,7 +1804,7 @@ export default {
 						'    "sell_tp": [],\n' +
 						'    "buy_ts": [],\n' +
 						'    "sell_ts": []\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1828,7 +1829,7 @@ export default {
 					title: 'Информация по ордеру',
 					content:
 						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/order_info?order={order}\n' +
+						'                            GET запрос по адресу {url}/api/v1/order_info?order={order&#125;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
@@ -1857,7 +1858,7 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "id": 344325,\n' +
@@ -1869,20 +1870,20 @@ export default {
 						'    "size": "0.2",\n' +
 						'    "actualSize": "0.11",\n' +
 						'    "trades": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 5627162,\n' +
 						'            "size": "0.02",\n' +
 						'            "price": "7215.22",\n' +
 						'            "time": 1576084062\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 5627173,\n' +
 						'            "size": "0.07",\n' +
 						'            "price": "7215.22",\n' +
 						'            "time": 1576089055\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1903,7 +1904,7 @@ export default {
 					title: 'Баланс',
 					content:
 						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/balance?currency={currency}\n' +
+						'                            GET запрос по адресу {url}/api/v1/balance?currency={currency&#125;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
@@ -1932,7 +1933,7 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
@@ -1940,7 +1941,7 @@ export default {
 						'    "withdraw": "1.2",\n' +
 						'    "trade": "3.7455",\n' +
 						'    "blocked": "2.7",\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -1957,7 +1958,7 @@ export default {
 					title: 'Список транзакций',
 					content:
 						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/transactions?currency={currency}\n' +
+						'                            GET запрос по адресу {url}/api/v1/transactions?currency=&#123;currency&#125;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
@@ -1986,13 +1987,13 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
 						'    "count": 2,\n' +
 						'    "transactions": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 16625,\n' +
 						'            "amount": "0.2",\n' +
 						'            "currency": "BTC",\n' +
@@ -2000,16 +2001,16 @@ export default {
 						'            "status": "done",\n' +
 						'            "time": 1576091055\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 16634,\n' +
 						'            "amount": "0.11",\n' +
 						'            "currency": "BTC",\n' +
 						'            "type": false,\n' +
 						'            "status": "wait",\n' +
 						'            "time": 1576091055\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -2029,7 +2030,7 @@ export default {
 					title: 'Список переводов',
 					content:
 						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/transfers?currency={currency}\n' +
+						'                            GET запрос по адресу {url}/api/v1/transfers?currency={currency&#125;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
@@ -2058,28 +2059,28 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
 						'    "count": 2,\n' +
 						'    "transfers": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 36123,\n' +
 						'            "amount": "0.2",\n' +
 						'            "currency": "BTC",\n' +
 						'            "side": true,\n' +
 						'            "time": 1576091055\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 36222,\n' +
 						'            "amount": "0.11",\n' +
 						'            "currency": "BTC",\n' +
 						'            "side": false,\n' +
 						'            "time": 1576091055\n' +
-						'        }\n' +
+						'        &#125;\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -2098,7 +2099,7 @@ export default {
 					title: 'Информация о текущей комиссии',
 					content:
 						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/fee?currency={currency}\n' +
+						'                            GET запрос по адресу {url}/api/v1/fee?currency={currency&#125;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
@@ -2127,12 +2128,12 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
 						'    "fee": "0.2"\n' +
-						'}\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -2184,14 +2185,14 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
-						'    "orders": {\n' +
+						'    "orders": &#123;\n' +
 						'        "order_id": 344711,\n' +
 						'        "tp_order_id": 344712\n' +
-						'    }\n' +
-						'}\n' +
+						'    &#125;\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +
@@ -2244,14 +2245,14 @@ export default {
 						'                            При удачном ответе вернется строка в JSON формате\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
-						'    "orders": {\n' +
+						'    "orders": &#123;\n' +
 						'        "order_id": 344711,\n' +
 						'        "tp_order_id": 344712\n' +
-						'    }\n' +
-						'}\n' +
+						'    &#125;\n' +
+						'&#125;\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            где\n' +

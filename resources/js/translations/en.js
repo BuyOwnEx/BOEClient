@@ -363,10 +363,12 @@ export default {
 		},
 		verify: {
 			title: 'Activation',
-			subtitle: 'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
+			subtitle:
+				'Please, activate your account by checking activation link in your email. Activation link is valid for 1 hour',
 			no_letter: 'Do not receive e-mail with activation link? Press Resend button',
 			already_activated: 'Already activated?',
-			resend_activation_link_text: 'Activation link was sent to your email repeatedly. If you do not receive email, check yor spam folder',
+			resend_activation_link_text:
+				'Activation link was sent to your email repeatedly. If you do not receive email, check yor spam folder',
 		},
 		login: {
 			title: 'Sign In',
@@ -828,23 +830,13 @@ export default {
 					'                        <p>\n' +
 					'                            <u><i>Successful response:</i></u>\n' +
 					'                        </p>\n' +
-					'                        <code class="code text-success">\n' +
-					'                            {\n' +
-					'                                "success": true,\n' +
-					'                                "code": 200,\n' +
-					'                                &lt;...&gt;\n' +
-					'                            }\n' +
-					'                        </code>\n' +
+					'                        <code class="success--text">&#123;"success": true,"code": 200,...&#125;</code>\n' +
 					'                        <p>\n' +
 					'                            <u><i>Error response:</i></u>\n' +
 					'                        </p>\n' +
-					'                        <code class="code">\n' +
-					'                            {"success": false, "code": &lt;error code&gt;, "errors": [&lt;error message array&gt;]}\n' +
-					'                        </code>\n' +
+					'                        <code class="error--text">&#123;"success": false, "code": &lt;error code&gt;, "errors": [&lt;error message array&gt;]&#125;</code>\n' +
 					'                        or\n' +
-					'                        <code class="code">\n' +
-					'                            {"success": false, "code": &lt;error code&gt;, "message": &lt;error description&gt;}\n' +
-					'                        </code>\n' +
+					'                        <code class="error--text">&#123;"success": false, "code": &lt;error code&gt;, "message": &lt;error description&gt;&#125;</code>\n' +
 					'                        <ul>\n' +
 					'                            <li><strong>errors</strong> – description of errors when a request with non-valid input parameters is received</li>\n' +
 					'                            <li><strong>code</strong> – integer error code. All possible error codes and their description are presented below</li>\n' +
@@ -888,7 +880,7 @@ export default {
 					'                            If the answer is successful the string in JSON format will be returned\n' +
 					'                        </p>\n' +
 					'                        <code class="code text-success">\n' +
-					'                            {"success": true,"token": "&lt;token&gt;"}\n' +
+					'                            {"success": true,"token": "&lt;token&gt;"&#125\n' +
 					'                        </code>\n' +
 					'                        <p>\n' +
 					'                            where\n' +
@@ -1094,13 +1086,13 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "ticker":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 1,\n' +
 						'            "last_price": "7234.45",\n' +
 						'            "quote_volume": "891096.87103846",\n' +
@@ -1114,7 +1106,7 @@ export default {
 						'            "margin": 0\n' +
 						'        },\n' +
 						'        "LTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 2,\n' +
 						'            "last_price": "43.98",\n' +
 						'            "quote_volume": "770823.5363825",\n' +
@@ -1126,12 +1118,12 @@ export default {
 						'            "low24hr": \t"43.6",\n' +
 						'            "percentChange": "-0.91",\n' +
 						'            "margin": 0\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    },\n' +
 						'    "coins":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 2,\n' +
 						'            "type": "coin",\n' +
 						'            "name": "Bitcoin",\n' +
@@ -1146,7 +1138,7 @@ export default {
 						'            "max_kyc_day_withdraw": "10"\n' +
 						'        },\n' +
 						'        "USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 1,\n' +
 						'            "type": "token",\n' +
 						'            "name": "Tether",\n' +
@@ -1159,18 +1151,18 @@ export default {
 						'            "fee_withdraw": "1.2",\n' +
 						'            "max_day_withdraw": "10000",\n' +
 						'            "max_kyc_day_withdraw": "100000"\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    },\n' +
 						'    "fiats":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "USD":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 2,\n' +
 						'            "name": "U.S. Dollar",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "withdraw": "On",\n' +
 						'                    "deposit": "On",\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1179,17 +1171,17 @@ export default {
 						'                    "fee_withdraw": "1",\n' +
 						'                    "max_day_withdraw": "500",\n' +
 						'                    "max_kyc_day_withdraw": "3000"\n' +
-						'                }\n' +
-						'            }\n' +
+						'                &#125\n' +
+						'            &#125\n' +
 						'        },\n' +
 						'        "EUR":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 3,\n' +
 						'            "name": "European Euro",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "withdraw": "On",\n' +
 						'                    "deposit": "On",\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1198,11 +1190,11 @@ export default {
 						'                    "fee_withdraw": "1",\n' +
 						'                    "max_day_withdraw": "500",\n' +
 						'                    "max_kyc_day_withdraw": "3000"\n' +
-						'                }\n' +
-						'            }\n' +
-						'        }\n' +
-						'    }\n' +
-						'}\n' +
+						'                &#125\n' +
+						'            &#125\n' +
+						'        &#125\n' +
+						'    &#125\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1259,13 +1251,13 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "assets":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "Bitcoin",\n' +
 						'            "unified_cryptoasset_id": 1,\n' +
 						'            "type": "coin",\n' +
@@ -1282,7 +1274,7 @@ export default {
 						'            "taker_fee": "0.2"\n' +
 						'        },\n' +
 						'        "ETH":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "Ethereum",\n' +
 						'            "unified_cryptoasset_id": 1027,\n' +
 						'            "type": "coin",\n' +
@@ -1299,7 +1291,7 @@ export default {
 						'            "taker_fee": "0.2"\n' +
 						'        },\n' +
 						'        "USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "Tether",\n' +
 						'            "unified_cryptoasset_id": 825,\n' +
 						'            "type": "token",\n' +
@@ -1316,16 +1308,16 @@ export default {
 						'            "taker_fee": "0.2"\n' +
 						'        },\n' +
 						'        "USD":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "U.S. Dollar",\n' +
 						'            "unified_cryptoasset_id": null,\n' +
 						'            "type": "fiat",\n' +
 						'            "maker_fee": "0.2",\n' +
 						'            "taker_fee": "0.2",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "can_withdraw": true,\n' +
 						'                    "can_deposit": true,\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1334,20 +1326,20 @@ export default {
 						'                    "max_kyc_withdraw": "3000"\n' +
 						'                    "fee_replenish": "0.5",\n' +
 						'                    "fee_withdraw": "1"\n' +
-						'                }\n' +
-						'            }\n' +
+						'                &#125\n' +
+						'            &#125\n' +
 						'        },\n' +
 						'        "EUR":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "name": "European Euro",\n' +
 						'            "unified_cryptoasset_id": null,\n' +
 						'            "type": "fiat",\n' +
 						'            "maker_fee": "0.2",\n' +
 						'            "taker_fee": "0.2",\n' +
 						'            "platforms":\n' +
-						'            {\n' +
+						'            &#123;\n' +
 						'                "Payeer":\n' +
-						'                {\n' +
+						'                &#123;\n' +
 						'                    "can_withdraw": true,\n' +
 						'                    "can_deposit": true,\n' +
 						'                    "min_replenish": "10",\n' +
@@ -1356,11 +1348,11 @@ export default {
 						'                    "max_kyc_withdraw": "3000"\n' +
 						'                    "fee_replenish": "0.5",\n' +
 						'                    "fee_withdraw": "1"\n' +
-						'                }\n' +
-						'            }\n' +
-						'        }\n' +
-						'    }\n' +
-						'}\n' +
+						'                &#125\n' +
+						'            &#125\n' +
+						'        &#125\n' +
+						'    &#125\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1409,13 +1401,13 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "ticker":\n' +
-						'    {\n' +
+						'    &#123;\n' +
 						'        "BTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "base_id": 1,\n' +
 						'            "quote_id": 825,\n' +
 						'            "last_price": "7234.45",\n' +
@@ -1430,7 +1422,7 @@ export default {
 						'            "margin": 0\n' +
 						'        },\n' +
 						'        "LTC_USDT":\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "base_id": 2,\n' +
 						'            "quote_id": 825,\n' +
 						'            "last_price": "43.98",\n' +
@@ -1443,9 +1435,9 @@ export default {
 						'            "low24hr": \t"43.6",\n' +
 						'            "percentChange": "-0.91",\n' +
 						'            "margin": 0\n' +
-						'        }\n' +
-						'    }\n' +
-						'}\n' +
+						'        &#125\n' +
+						'    &#125\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1498,7 +1490,7 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success": true,\n' +
 						'    "code": 200,\n' +
 						'    "timestamp": 1576080362,\n' +
@@ -1522,7 +1514,7 @@ export default {
 						'    "asks_amount":1.346869,\n' +
 						'    "bids_num":7,\n' +
 						'    "asks_num":6\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1573,11 +1565,11 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "trades": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id": 5627122,\n' +
 						'            "price":"7206.25",\n' +
 						'            "base_volume":"0.017624",\n' +
@@ -1585,7 +1577,7 @@ export default {
 						'            "trade_timestamp":1576083062,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627108,\n' +
 						'            "price":"7207.14",\n' +
 						'            "base_volume":"0.019604",\n' +
@@ -1593,7 +1585,7 @@ export default {
 						'            "trade_timestamp":1576083058,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627079,\n' +
 						'            "price":"7207.42",\n' +
 						'            "base_volume":"0.01802",\n' +
@@ -1601,7 +1593,7 @@ export default {
 						'            "trade_timestamp":1576083037,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627062,\n' +
 						'            "price":"7207.74",\n' +
 						'            "base_volume":"0.014654",\n' +
@@ -1609,16 +1601,16 @@ export default {
 						'            "trade_timestamp":1576083002,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627051,\n' +
 						'            "price":"7208",\n' +
 						'            "base_volume":"0.00614",\n' +
 						'            "quote_volume":"44.25712",\n' +
 						'            "trade_timestamp":1576082998,\n' +
 						'            "type":"sell"\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1674,11 +1666,11 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "trades": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id": 5627122,\n' +
 						'            "price":"7206.25",\n' +
 						'            "base_volume":"0.017624",\n' +
@@ -1686,7 +1678,7 @@ export default {
 						'            "trade_timestamp":1576083062,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627108,\n' +
 						'            "price":"7207.14",\n' +
 						'            "base_volume":"0.019604",\n' +
@@ -1694,7 +1686,7 @@ export default {
 						'            "trade_timestamp":1576083058,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627079,\n' +
 						'            "price":"7207.42",\n' +
 						'            "base_volume":"0.01802",\n' +
@@ -1702,7 +1694,7 @@ export default {
 						'            "trade_timestamp":1576083037,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627062,\n' +
 						'            "price":"7207.74",\n' +
 						'            "base_volume":"0.014654",\n' +
@@ -1710,16 +1702,16 @@ export default {
 						'            "trade_timestamp":1576083002,\n' +
 						'            "type":"sell"\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "trade_id":5627051,\n' +
 						'            "price":"7208",\n' +
 						'            "base_volume":"0.00614",\n' +
 						'            "quote_volume":"44.25712",\n' +
 						'            "trade_timestamp":1576082998,\n' +
 						'            "type":"sell"\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1738,7 +1730,7 @@ export default {
 					title: 'Orders list',
 					content:
 						'<p>\n' +
-						'                            GET request at {url}/api/v1/orders/{pair}\n' +
+						'                            GET request at {url}/api/v1/orders/{pair&#125\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1767,40 +1759,40 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "buy_limit": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344322,\n' +
 						'            "originalAmount": "0.5",\n' +
 						'            "actualAmount": "0.2",\n' +
 						'            "price": "7207.14",\n' +
 						'            "time": 1576083062,\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344323,\n' +
 						'            "originalAmount": "0.2",\n' +
 						'            "actualAmount": "0.11",\n' +
 						'            "price": "7205.22",\n' +
 						'            "time": 1576084077,\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    ],\n' +
 						'    "sell_limit": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344324,\n' +
 						'            "originalAmount": "0.5",\n' +
 						'            "actualAmount": "0.2",\n' +
 						'            "price": "7217.14",\n' +
 						'            "time": 1576085062,\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 344325,\n' +
 						'            "originalAmount": "0.2",\n' +
 						'            "actualAmount": "0.11",\n' +
 						'            "price": "7215.22",\n' +
 						'            "time": 1576085077,\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    ],\n' +
 						'    "buy_sl": [],\n' +
 						'    "sell_sl": [],\n' +
@@ -1808,7 +1800,7 @@ export default {
 						'    "sell_tp": [],\n' +
 						'    "buy_ts": [],\n' +
 						'    "sell_ts": []\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1833,7 +1825,7 @@ export default {
 					title: 'Order info',
 					content:
 						'<p>\n' +
-						'                            GET request at {url}/api/v1/order_info?order={order}\n' +
+						'                            GET request at {url}/api/v1/order_info?order={order&#125\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1862,7 +1854,7 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "id": 344325,\n' +
@@ -1874,20 +1866,20 @@ export default {
 						'    "size": "0.2",\n' +
 						'    "actualSize": "0.11",\n' +
 						'    "trades": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 5627162,\n' +
 						'            "size": "0.02",\n' +
 						'            "price": "7215.22",\n' +
 						'            "time": 1576084062\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 5627173,\n' +
 						'            "size": "0.07",\n' +
 						'            "price": "7215.22",\n' +
 						'            "time": 1576089055\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1908,7 +1900,7 @@ export default {
 					title: 'Balance',
 					content:
 						'<p>\n' +
-						'                            GET request at {url}/api/v1/balance?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/balance?currency={currency&#125\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1937,7 +1929,7 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
@@ -1945,7 +1937,7 @@ export default {
 						'    "withdraw": "1.2",\n' +
 						'    "trade": "3.7455",\n' +
 						'    "blocked": "2.7",\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -1962,7 +1954,7 @@ export default {
 					title: 'Transactions list',
 					content:
 						'<p>\n' +
-						'                            GET request at {url}/api/v1/transactions?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/transactions?currency={currency&#125\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1991,13 +1983,13 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
 						'    "count": 2,\n' +
 						'    "transactions": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 16625,\n' +
 						'            "amount": "0.2",\n' +
 						'            "currency": "BTC",\n' +
@@ -2005,16 +1997,16 @@ export default {
 						'            "status": "done",\n' +
 						'            "time": 1576091055\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 16634,\n' +
 						'            "amount": "0.11",\n' +
 						'            "currency": "BTC",\n' +
 						'            "type": false,\n' +
 						'            "status": "wait",\n' +
 						'            "time": 1576091055\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -2034,7 +2026,7 @@ export default {
 					title: 'Transfers list',
 					content:
 						'<p>\n' +
-						'                            GET request at {url}/api/v1/transfers?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/transfers?currency={currency&#125\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -2063,28 +2055,28 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
 						'    "count": 2,\n' +
 						'    "transfers": [\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 36123,\n' +
 						'            "amount": "0.2",\n' +
 						'            "currency": "BTC",\n' +
 						'            "side": true,\n' +
 						'            "time": 1576091055\n' +
 						'        },\n' +
-						'        {\n' +
+						'        &#123;\n' +
 						'            "id": 36222,\n' +
 						'            "amount": "0.11",\n' +
 						'            "currency": "BTC",\n' +
 						'            "side": false,\n' +
 						'            "time": 1576091055\n' +
-						'        }\n' +
+						'        &#125\n' +
 						'    ]\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -2103,7 +2095,7 @@ export default {
 					title: 'Current fee info',
 					content:
 						'<p>\n' +
-						'                            GET request at {url}/api/v1/fee?currency={currency}\n' +
+						'                            GET request at {url}/api/v1/fee?currency=&#123;currency&#125;\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -2132,12 +2124,12 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
 						'    "currency": "BTC",\n' +
 						'    "fee": "0.2"\n' +
-						'}\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -2189,14 +2181,14 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
-						'    "orders": {\n' +
+						'    "orders": &#123;\n' +
 						'        "order_id": 344711,\n' +
 						'        "tp_order_id": 344712\n' +
-						'    }\n' +
-						'}\n' +
+						'    &#125\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
@@ -2249,14 +2241,14 @@ export default {
 						'                            If the answer is successful the string in JSON format will be returned\n' +
 						'                        </p>\n' +
 						'                        <pre>\n' +
-						'{\n' +
+						'&#123;\n' +
 						'    "success":true,\n' +
 						'    "code":200,\n' +
-						'    "orders": {\n' +
+						'    "orders": &#123;\n' +
 						'        "order_id": 344711,\n' +
 						'        "tp_order_id": 344712\n' +
-						'    }\n' +
-						'}\n' +
+						'    &#125\n' +
+						'&#125\n' +
 						'                </pre>\n' +
 						'                        <p>\n' +
 						'                            where\n' +
