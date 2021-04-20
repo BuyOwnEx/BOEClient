@@ -28,6 +28,7 @@ export default {
 
 		faq: 'Часто задаваемые вопросы',
 		contact: 'Связаться с нами',
+		have_questions: 'Остались вопросы?',
 
 		replenishment_funds: 'Пополение средств',
 		withdrawal_funds: 'Вывод средств',
@@ -2311,7 +2312,7 @@ export default {
 		info: {
 			display_name: 'Отображаемое имя',
 			email: 'Почта',
-			rate: 'Rate API limit',
+			rate: 'Ограничения рейта API',
 			ref_link: 'Реферальная ссылка',
 			email_verified: 'Почта подтверждена',
 			protected: 'Двухфакторная защита',

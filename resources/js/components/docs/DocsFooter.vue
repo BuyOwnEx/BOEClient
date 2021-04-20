@@ -3,7 +3,7 @@
 		<!--		-->
 
 		<slot>
-			<span>{{ $t('faq.call') }}</span>
+			<span>{{ $t('common.have_questions') }}</span>
 			<a href="/contacts">{{ $t('common.contact') }}</a>
 		</slot>
 

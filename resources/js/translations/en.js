@@ -27,6 +27,7 @@ export default {
 
 		faq: 'FAQ',
 		contact: 'Contact Us',
+		have_questions: 'Have questions?',
 
 		replenishment_funds: 'Replenishment of funds',
 		withdrawal_funds: 'Withdrawal of funds',
