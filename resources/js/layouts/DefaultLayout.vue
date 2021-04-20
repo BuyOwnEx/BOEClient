@@ -44,10 +44,7 @@
 			>
 				<div class="d-flex flex-grow-1 align-center">
 					<div class="d-flex flex-grow-1 align-center">
-						<v-app-bar-nav-icon
-							v-if="isLogged"
-							@click.stop="drawer = !drawer"
-						/>
+						<v-app-bar-nav-icon v-if="isLogged" @click.stop="drawer = !drawer" />
 						<v-list-item v-if="!isLogged" style="padding: 0 4px;">
 							<v-list-item-avatar height="48" min-width="48" width="48">
 								<v-img src="/images/logo.png" />
@@ -85,7 +82,7 @@
 						</div>
 
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged">
-							<v-btn depressed :href="'/login'">Login</v-btn>
+							<v-btn href="/login" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
 
 						<div v-if="isLogged">
@@ -93,7 +90,7 @@
 						</div>
 
 						<div v-else>
-							<v-btn tile color="primary" dark>Register</v-btn>
+							<v-btn color="primary" href="/register" tile dark>{{ $t('menu.register') }}</v-btn>
 						</div>
 					</div>
 				</div>
@@ -139,10 +136,7 @@
 				</a>
 			</span>
 
-			<span>
-				Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All
-				rights reserved
-			</span>
+			<span> Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All rights reserved </span>
 		</v-footer>
 
 		<CommonNotification />
@@ -182,14 +176,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('app', [
-			'product',
-			'isContentBoxed',
-			'menuTheme',
-			'toolbarTheme',
-			'isToolbarDetached',
-			'trader',
-		]),
+		...mapState('app', ['product', 'isContentBoxed', 'menuTheme', 'toolbarTheme', 'isToolbarDetached', 'trader']),
 		...mapGetters({
 			isLogged: 'app/isLogged',
 			isUserFiat: 'user/isUserFiat',
