@@ -13,7 +13,7 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			caption="Internal transfers"
+			:caption="$t('reports.transfers_title')"
 			dense
 		>
 			<template v-slot:top>

@@ -13,7 +13,7 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			caption="Deals"
+			:caption="$t('reports.deals_title')"
 			dense
 		>
 			<template v-slot:top>

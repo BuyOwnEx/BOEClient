@@ -2534,6 +2534,13 @@ export default {
 		status_hint: 'Выберите статус из списка',
 		address: 'Адрес',
 		address_hint: 'Найти по адресу получателя',
+
+		deals_title: 'Сделки',
+		fiat_transactions_title: 'Фиатные транзакции',
+		orders_title: 'Ордера',
+		ref_payments_title: 'Реферальные платежи',
+		crypto_transactions_title: 'Крипто транзакции',
+		transfers_title: 'Внутренние переводы',
 	},
 
 	forms_validation: {

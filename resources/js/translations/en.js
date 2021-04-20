@@ -2528,6 +2528,13 @@ make our system processes as transparent as possible.`,
 		status_hint: 'Select status from available options',
 		address: 'Address',
 		address_hint: 'Find by recipient address',
+
+		deals_title: 'Deals',
+		fiat_transactions_title: 'Fiat transactions',
+		orders_title: 'Orders',
+		ref_payments_title: 'Referral payments',
+		crypto_transactions_title: 'Crypto transactions',
+		transfers_title: 'Internal transfers',
 	},
 
 	forms_validation: {

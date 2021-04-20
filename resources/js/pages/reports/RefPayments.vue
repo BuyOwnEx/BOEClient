@@ -13,7 +13,7 @@
 			:server-items-length="totalItems"
 			:footer-props="footer_props"
 			:loading="loading"
-			caption="Referral payments"
+			:caption="$t('reports.ref_payments_title')"
 			dense
 		>
 			<template v-slot:top>
