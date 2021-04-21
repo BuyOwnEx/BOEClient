@@ -49,11 +49,16 @@
 				</v-btn>
 
 				<v-btn>
+					<span>{{ $t('trading.headers.orders') }}</span>
+					<v-icon>mdi-chart-box</v-icon>
+				</v-btn>
+
+				<v-btn>
 					<span>{{ $t('trading.headers.forms') }}</span>
 					<v-icon>mdi-form-select</v-icon>
 				</v-btn>
 
-				<v-btn>
+				<v-btn v-if="isLogged">
 					<span>{{ $t('trading.headers.lists') }}</span>
 					<v-icon>mdi-view-list</v-icon>
 				</v-btn>
@@ -99,8 +104,9 @@
 				:currency="selectedCurrency"
 				:market="selectedMarket"
 			/>
+
 			<OwnListsTabsWrapper
-				v-if="selectedTab === 6"
+				v-if="selectedTab === 6 && isLogged"
 				class="trading__mobile__own-lists-tabs-wrapper"
 				:is-margin="isMargin"
 				:currency="selectedCurrency"
