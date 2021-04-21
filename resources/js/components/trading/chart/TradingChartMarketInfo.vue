@@ -104,9 +104,7 @@ export default {
 			if (this.ticker === null) {
 				return BigNumber(0);
 			}
-			return BigNumber(this.ticker.latest).minus(
-				BigNumber(this.ticker.previous_day)
-			);
+			return BigNumber(this.ticker.latest).minus(BigNumber(this.ticker.previous_day));
 		},
 		dailyChangeAbsolute() {
 			if (this.ticker === null) {
@@ -210,7 +208,7 @@ export default {
 		&__item
 			padding-right: 16px
 
-@media screen and (max-width: 960px)
+@media screen and (max-width: 959px)
 	.market-info
 		line-height: 15px
 
@@ -249,7 +247,7 @@ export default {
 		@media screen and (min-width: 960px) and (max-width: 1382px)
 			padding-left: 16px
 			padding-right: 0
-		@media screen and (max-width: 960px)
+		@media screen and (max-width: 959px)
 			padding-left: 8px
 			padding-right: 0
 		@media screen and (max-width: 700px)

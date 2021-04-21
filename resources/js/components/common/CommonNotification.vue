@@ -132,7 +132,7 @@ export default {
 		cursor: pointer;
 		transition: transform 0.3s;
 	}
-	@media screen and (max-width: 960px) {
+	@media screen and (max-width: 959px) {
 		bottom: 120px;
 	}
 }

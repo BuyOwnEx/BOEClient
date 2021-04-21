@@ -255,10 +255,10 @@ export default {
 		width: 25%
 		@media screen and (max-width: 1264px)
 			width: 50%
-		@media screen and (max-width: 960px)
+		@media screen and (max-width: 959px)
 			width: 100%
 
-	@media screen and (max-width: 600px)
+	@media screen and (max-width: 599px)
 		&__content
 			display: flex
 			flex-flow: column

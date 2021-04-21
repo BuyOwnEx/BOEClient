@@ -225,7 +225,7 @@ export default {
 	}
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 599px) {
 	.footer {
 		font-size: 8px !important;
 	}

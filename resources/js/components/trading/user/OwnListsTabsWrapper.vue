@@ -68,7 +68,7 @@ export default {
 	.own-list
 		&__header
 			margin-left: 4px
-		@media screen and (max-width: 600px)
+		@media screen and (max-width: 599px)
 			&__title
 				width: 100%
 </style>

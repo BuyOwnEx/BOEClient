@@ -193,7 +193,7 @@ export default {
 		font-size: 1.1rem
 		font-weight: bold
 
-	@media screen and (max-width: 600px)
+	@media screen and (max-width: 599px)
 		&__content
 			display: flex
 			flex-flow: column

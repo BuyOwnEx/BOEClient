@@ -111,7 +111,7 @@ export default {
 	.trading-forms
 		min-height: 528px
 
-@media screen and (max-width: 960px)
+@media screen and (max-width: 959px)
 	.trading-forms
 		&__sell
 			padding-top: 2rem

@@ -66,7 +66,7 @@ export default {
 	@media screen and (max-width: 1300px)
 		&__search
 			max-width: 25%
-	@media screen and (max-width: 960px)
+	@media screen and (max-width: 959px)
 		&__search
 			max-width: 100%
 			padding-left: 16px

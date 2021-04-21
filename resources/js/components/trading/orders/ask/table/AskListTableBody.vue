@@ -186,7 +186,7 @@ export default {
 .orders-active-row
 	background: rgba(255, 220, 215, 0.35)
 
-@media screen and (max-width: 960px)
+@media screen and (max-width: 959px)
 	.ask-list-table-body td
 		width: 33.3% !important
 </style>

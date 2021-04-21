@@ -43,7 +43,7 @@ export default {
 @media screen and (max-width: 1764px)
 	.trading-chart-wrapper__chart
 		margin-top: 20px
-@media screen and (max-width: 960px)
+@media screen and (max-width: 959px)
 	.trading-chart-wrapper__chart
 		overflow: auto !important
 </style>

@@ -119,7 +119,7 @@ export default {
 		&--ask
 			background: #724a4a !important
 
-@media screen and (max-width: 960px)
+@media screen and (max-width: 959px)
 	.orders-tooltip
 		top: calc(27px - 25px)
 		left: 0 !important
