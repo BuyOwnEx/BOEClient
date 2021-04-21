@@ -32,7 +32,7 @@
 			</div>
 		</v-sheet>
 
-		<div class="pa-2 pa-md-4 flex-grow-1 align-center justify-center d-flex flex-column">
+		<div class="pa-2 pa-md-4 pt-9 pt-md-12 flex-grow-1 align-center justify-center d-flex flex-column">
 			<div class="layout-content ma-auto w-full">
 				<slot></slot>
 			</div>
@@ -135,7 +135,7 @@ export default {
 	}
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 959px) {
 	.auth-layout {
 		&__header {
 			top: 16px;
