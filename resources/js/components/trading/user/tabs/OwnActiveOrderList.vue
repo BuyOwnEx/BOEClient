@@ -9,22 +9,19 @@
 
 			<v-switch
 				v-model="showOtherPairs"
-				class="small-label-table-switch mr-3"
+				class="small-label-table-switch"
+				:class="[$vuetify.rtl ? 'ml-3' : 'mr-3']"
 				:label="$t('trading.show_other_pairs')"
 				hide-details
 				dense
 				left
 				inset
 			/>
-			<v-menu
-				v-model="isCancelMenu"
-				transition="slide-y-transition"
-				content-class="small-text-menu"
-				bottom
-			>
+
+			<v-menu v-model="isCancelMenu" transition="slide-y-transition" content-class="small-text-menu" bottom>
 				<template v-slot:activator="{ on, attrs }">
 					<v-btn
-						class="mr-1"
+						:class="[$vuetify.rtl ? 'mr-auto' : 'ml-auto']"
 						color="#A6A6A6"
 						v-bind="attrs"
 						v-on="on"
@@ -38,11 +35,7 @@
 				</template>
 
 				<v-list dense>
-					<CommonDialog
-						v-for="item in cancelOptions"
-						:key="item.text"
-						@confirm="handleCancelConfirm(item)"
-					>
+					<CommonDialog v-for="item in cancelOptions" :key="item.text" @confirm="handleCancelConfirm(item)">
 						<template #default>
 							<v-list-item @click="closeCancelMenu">
 								<v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -68,6 +61,7 @@
 				:items="ownOrderList"
 				:items-per-page="itemsPerPage"
 				:footer-props="footerProps"
+				mobile-breakpoint="700"
 				dense
 			>
 				<template v-slot:item.date="{ item }">
@@ -77,9 +71,7 @@
 				</template>
 
 				<template v-slot:item.pair="{ item }">
-					<span>
-						{{ item.currency.toUpperCase() }}/{{ item.market.toUpperCase() }}
-					</span>
+					<span> {{ item.currency.toUpperCase() }}/{{ item.market.toUpperCase() }} </span>
 				</template>
 
 				<template v-slot:item.side="{ item }">
@@ -94,39 +86,26 @@
 						</strong>
 					</span>
 
-					<span
-						v-if="item.type === 'STOPLOSS'"
-						class="own-active-order-list__type own-active-order-list__type--sl"
-					>
+					<span v-if="item.type === 'STOPLOSS'" class="own-active-order-list__type own-active-order-list__type--sl">
 						SL
 					</span>
 
-					<span
-						v-if="item.type === 'TAKEPROFIT'"
-						class="own-active-order-list own-active-order-list__type--tp"
-					>
+					<span v-if="item.type === 'TAKEPROFIT'" class="own-active-order-list own-active-order-list__type--tp">
 						TP
 					</span>
 
-					<span
-						v-if="item.type === 'TRAILINGSTOP'"
-						class="own-active-order-list own-active-order-list__type--ts"
-					>
+					<span v-if="item.type === 'TRAILINGSTOP'" class="own-active-order-list own-active-order-list__type--ts">
 						TS
 					</span>
 				</template>
 
 				<template v-slot:item.size="{ item }">
-					{{
-						formatSize(item.size, findScale(market, currency, 'amountScale'))
-					}}
+					{{ formatSize(item.size, findScale(market, currency, 'amountScale')) }}
 					{{ item.currency.toUpperCase() }}
 				</template>
 
 				<template v-slot:item.price="{ item }">
-					{{
-						formatPrice(item.price, findScale(market, currency, 'rateScale'))
-					}}
+					{{ formatPrice(item.price, findScale(market, currency, 'rateScale')) }}
 					{{ item.market.toUpperCase() }}
 				</template>
 
@@ -135,9 +114,7 @@
 					{{ item.market.toUpperCase() }}
 				</template>
 
-				<template v-slot:item.percent="{ item }">
-					{{ percent(item) }}%
-				</template>
+				<template v-slot:item.percent="{ item }"> {{ percent(item) }}% </template>
 
 				<template v-slot:item.status="{ item }">
 					<span class="text-success" v-if="item.status === 'accepted'">
@@ -151,13 +128,7 @@
 				<template v-slot:item.action="{ item }">
 					<CommonDialog @confirm="orderCancel(item)">
 						<template #default>
-							<v-btn
-								color="rgba(148, 148, 148, 0.14)"
-								elevation="0"
-								tile
-								x-small
-								dense
-							>
+							<v-btn color="rgba(148, 148, 148, 0.14)" elevation="0" tile x-small dense>
 								<v-icon class="own-active-order-list__cancel-icon" x-small>
 									mdi-close
 								</v-icon>
@@ -195,8 +166,7 @@ export default {
 	name: 'OwnActiveOrderList',
 
 	components: {
-		CommonDialog: () =>
-			import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
+		CommonDialog: () => import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
 	},
 
 	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],
@@ -286,9 +256,10 @@ export default {
 				{
 					text: this.$t('trading.actions'),
 					value: 'action',
+					align: 'center',
 					sortable: false,
 				},
-			]
+			];
 		},
 
 		ownOrderList() {

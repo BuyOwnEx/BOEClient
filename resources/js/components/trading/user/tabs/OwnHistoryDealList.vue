@@ -9,7 +9,7 @@
 
 			<v-switch
 				v-model="showOtherPairs"
-				class="small-label-table-switch mr-1"
+				class="small-label-table-switch"
 				:label="$t('trading.show_other_pairs')"
 				hide-details
 				dense

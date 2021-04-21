@@ -9,7 +9,8 @@
 
 			<v-switch
 				v-model="showOtherPairs"
-				class="small-label-table-switch mr-3"
+				class="small-label-table-switch"
+				:class="[$vuetify.rtl ? 'ml-3' : 'mr-3']"
 				:label="$t('trading.show_other_pairs')"
 				hide-details
 				left
@@ -19,7 +20,15 @@
 
 			<v-menu v-model="isCloseMenu" transition="slide-y-transition" content-class="small-text-menu" bottom>
 				<template v-slot:activator="{ on, attrs }">
-					<v-btn class="mr-1" color="#A6A6A6" v-bind="attrs" v-on="on" text tile small>
+					<v-btn
+						:class="[$vuetify.rtl ? 'mr-auto' : 'ml-auto']"
+						color="#A6A6A6"
+						v-bind="attrs"
+						v-on="on"
+						text
+						tile
+						small
+					>
 						{{ $t('trading.close') }}
 						<v-icon right>mdi-chevron-down</v-icon>
 					</v-btn>
@@ -294,6 +303,7 @@ export default {
 				{
 					text: this.$t('trading.actions'),
 					value: 'action',
+					align: 'center',
 					sortable: false,
 				},
 			];
