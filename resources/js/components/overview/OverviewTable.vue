@@ -182,6 +182,7 @@ export default {
 			font-weight: bold
 			color: unset
 
-	::v-deep.v-data-table table
-		table-layout: fixed !important
+	@media screen and (min-width: 600px)
+		::v-deep.v-data-table table
+			table-layout: fixed !important
 </style>
