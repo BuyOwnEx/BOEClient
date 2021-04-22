@@ -339,6 +339,8 @@ export default {
 			},
 		},
 		pair: 'Pair',
+
+		your_message: 'Your message...',
 	},
 	auth: {
 		signin: 'Login',

@@ -1,11 +1,7 @@
 <template>
 	<v-list ref="chatContent" class="trading-chat-content" flat>
 		<v-list-item-group class="trading-chat-content__group">
-			<TradingChatMessage
-				v-for="msg in messagesData"
-				:key="msg.data.ts"
-				:message="msg.data"
-			/>
+			<TradingChatMessage v-for="msg in messagesData" :key="msg.data.ts" :message="msg.data" />
 		</v-list-item-group>
 	</v-list>
 </template>
@@ -48,12 +44,10 @@ export default {
 	margin-right: 5px;
 
 	overflow-y: scroll;
-	mask-image: linear-gradient(to top, transparent, black),
-		linear-gradient(to left, transparent 6px, black 6px);
+	mask-image: linear-gradient(to top, transparent, black), linear-gradient(to left, transparent 6px, black 6px);
 	mask-size: 100% 20000px;
 	mask-position: left bottom;
-	-webkit-mask-image: linear-gradient(to top, transparent, black),
-		linear-gradient(to left, transparent 6px, black 6px);
+	-webkit-mask-image: linear-gradient(to top, transparent, black), linear-gradient(to left, transparent 6px, black 6px);
 	-webkit-mask-size: 100% 20000px;
 	-webkit-mask-position: left bottom;
 	transition: mask-position 0.3s, -webkit-mask-position 0.3s;
@@ -62,5 +56,12 @@ export default {
 		mask-position: left top;
 		-webkit-mask-position: left top;
 	}
+}
+
+.v-application--is-rtl .trading-chat-content {
+	margin-right: 0;
+	margin-left: 5px;
+	-webkit-mask-image: linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 6px, black 6px);
+	mask-image: linear-gradient(to top, transparent, black), linear-gradient(to right, transparent 6px, black 6px);
 }
 </style>

@@ -54,4 +54,8 @@ export default {
 		word-break: break-word;
 	}
 }
+.v-application--is-rtl .trading-chat-message {
+	padding-left: 4px !important;
+	padding-right: 0 !important;
+}
 </style>

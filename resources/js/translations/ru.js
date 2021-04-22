@@ -198,7 +198,7 @@ export default {
 			history: 'История',
 			orders: 'Ордера',
 			forms: 'Формы',
-			lists: 'Списки'
+			lists: 'Списки',
 		},
 		order: {
 			direction: {
@@ -345,6 +345,8 @@ export default {
 			},
 		},
 		pair: 'Пара',
+
+		your_message: 'Ваше сообщение...',
 	},
 
 	auth: {

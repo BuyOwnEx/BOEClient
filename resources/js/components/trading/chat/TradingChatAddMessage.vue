@@ -4,7 +4,7 @@
 		<v-text-field
 			v-model="messageText"
 			class="trading-chat-add-message__field pr-1"
-			placeholder="Your message..."
+			:placeholder="$t('trading.your_message')"
 			maxlength="512"
 			counter="512"
 			autocomplete="off"
