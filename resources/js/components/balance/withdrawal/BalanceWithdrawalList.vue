@@ -10,7 +10,7 @@
 		>
 			<template v-slot:top>
 				<v-toolbar flat dense>
-					<div class="component-title">{{ componentTitle }}</div>
+					<div class="component-title">{{ $t('balance.headers.own_active_withdraw_list') }}</div>
 				</v-toolbar>
 			</template>
 
@@ -24,13 +24,13 @@
 					</template>
 
 					<v-list dense>
-						<!--						<crypto-deposit-->
-						<!--							v-if="menuItemExist('cancel_withdraw')"-->
-						<!--							:withdrawObj="item"-->
-						<!--							v-on:closeMenu="closeMenu(item)"-->
-						<!--						/>-->
+						<WithdrawCancel :withdrawObj="item" @closeMenu="closeMenu(item)" />
 					</v-list>
 				</v-menu>
+			</template>
+
+			<template #item.date="{item}">
+				{{ formatDate(item.date) }}
 			</template>
 
 			<template v-slot:item.currency="{ item }">
@@ -63,19 +63,26 @@ import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import WithdrawCancel from './WithdrawCancel';
+import formatDate from '../../../mixins/format/formatDate';
 
 export default {
 	name: 'OwnWithdrawalList',
 
 	components: {
-		WithdrawCancel,
+		WithdrawCancel: () => import(/* webpackPrefetch: true */ './WithdrawCancel'),
+	},
+	mixins: [formatDate],
+
+	props: {
+		list: {
+			type: Array,
+			required: true,
+		},
 	},
 
 	data() {
 		return {
-			withdrawals: [],
-			componentTitle: this.$t('balance.headers.own_active_withdraw_list'),
+			withdrawals: this.list,
 			itemsPerPage: 5,
 			footer_props: {
 				'items-per-page-options': [5, 10, 30, 100, 500],
@@ -112,25 +119,19 @@ export default {
 		},
 	},
 
-	methods: {
-		...mapActions({
-			fetchWithdrawalsStore: 'balance/fetchWithdrawals',
-		}),
-
-		async fetch() {
-			this.withdrawals = await this.fetchWithdrawalsStore();
+	watch: {
+		list(val) {
+			this.withdrawals = val;
 		},
+	},
 
+	methods: {
 		BigNumber(item) {
 			return BigNumber(item);
 		},
 		closeMenu(item) {
 			item.menu = false;
 		},
-	},
-
-	created() {
-		this.fetch();
 	},
 };
 </script>

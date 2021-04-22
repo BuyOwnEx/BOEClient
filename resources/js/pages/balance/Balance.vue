@@ -26,14 +26,14 @@
 			</v-tab-item>
 
 			<v-tab-item :key="3">
-				<BalanceWithdrawalList />
+				<BalanceWithdrawalList :list="withdrawalList || []" />
 			</v-tab-item>
 		</v-tabs-items>
 	</v-card>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 import BalanceCryptoList from '../../components/balance/crypto/BalanceCryptoList';
@@ -50,15 +50,13 @@ export default {
 		CommonPageTitle,
 		BalanceCryptoList,
 		BalanceWithdrawalList,
-		BalanceFiatList: () =>
-			import(
-				/* webpackPrefetch: true */ '../../components/balance/fiat/BalanceFiatList'
-			),
+		BalanceFiatList: () => import(/* webpackPrefetch: true */ '../../components/balance/fiat/BalanceFiatList'),
 	},
 
 	data() {
 		return {
 			selectedTab: 0,
+			withdrawalList: null,
 		};
 	},
 
@@ -66,6 +64,20 @@ export default {
 		...mapGetters({
 			isUserFiat: 'user/isUserFiat',
 		}),
+	},
+
+	created() {
+		this.fetch();
+	},
+
+	methods: {
+		...mapActions({
+			fetchWithdrawalsStore: 'balance/fetchWithdrawals',
+		}),
+
+		async fetch() {
+			this.withdrawalList = await this.fetchWithdrawalsStore();
+		},
 	},
 };
 </script>

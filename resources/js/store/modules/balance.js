@@ -57,7 +57,7 @@ export default {
 	actions: {
 		async fetchWithdrawals() {
 			const { data } = await axios.get('/trader/ext/balance/all-withdrawals');
-			return data.withdrawals;
+			return data.data;
 		},
 
 		async validateAddress(_, payload) {

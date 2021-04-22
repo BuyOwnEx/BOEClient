@@ -197,7 +197,7 @@ export default {
 			history: 'History',
 			orders: 'Orders',
 			forms: 'Forms',
-			lists: 'Lists'
+			lists: 'Lists',
 		},
 		order: {
 			direction: {
@@ -507,6 +507,8 @@ export default {
 
 			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
+
+			cancel_withdrawal_description: 'description',
 		},
 	},
 

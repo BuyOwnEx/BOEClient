@@ -509,6 +509,8 @@ export default {
 
 			hint: 'Введите сумму для перевода',
 			more_available_balance: 'Больше доступного баланса',
+
+			cancel_withdrawal_description: 'description',
 		},
 	},
 
