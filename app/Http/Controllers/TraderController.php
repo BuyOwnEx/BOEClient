@@ -456,6 +456,8 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->withdrawCryptoRequest(
                 Auth::id(),
+                Auth::user()->name,
+                Auth::user()->email,
                 $request->currency,
                 $request->amount,
                 $request->address

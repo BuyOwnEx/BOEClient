@@ -3,8 +3,10 @@
 namespace App\Library;
 
 use App\Exceptions\ExceptionBuyOwnExAPI;
+use App\Mail\WithdrawRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class BuyOwnExClientAPI
 {
@@ -358,7 +360,7 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/transfer_safe',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address)
+    public function withdrawCryptoRequest(int $user_id, string $name, string $email, string $currency, $amount, string $address)
     {
         $params = [
             'trader' => $user_id,
@@ -371,6 +373,7 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/withdraw_crypto_request',$params);
         if($response->json()['success'] && $response->json()['code'])
         {
+            Mail::to($email)->queue(new WithdrawRequest($response->json()['code']));
             return response()->json(['success' => true],$response->status());
         }
         else {
