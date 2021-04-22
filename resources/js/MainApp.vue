@@ -14,25 +14,32 @@ import defaultLayout from './layouts/DefaultLayout';
 
 export default {
 	name: 'MainApp',
+
 	components: {
 		defaultLayout,
 	},
+
 	data: () => ({
 		currentLayout: 'defaultLayout',
 		component: null,
 	}),
+
 	head: {
 		link: [
 			// adds config/icons into the html head tag
 			...config.icons.map(href => ({ rel: 'stylesheet', href })),
 		],
 	},
+
 	created() {
 		this.component = this.$component;
 		this.lang = this.$lang;
 	},
+
 	mounted() {
 		this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+
+		this.$vuetify.rtl = ['ar'].includes(this.$i18n.locale);
 	},
 };
 </script>

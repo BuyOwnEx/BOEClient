@@ -1,8 +1,8 @@
 <template>
 	<v-app>
-		<component :is='currentLayout'>
-			<transition name='fade' mode='out-in'>
-				<component v-bind:is='component'></component>
+		<component :is="currentLayout">
+			<transition name="fade" mode="out-in">
+				<component v-bind:is="component"></component>
 			</transition>
 		</component>
 	</v-app>
@@ -14,22 +14,29 @@ import authLayout from './layouts/AuthLayout';
 
 export default {
 	name: 'AuthApp',
+
 	components: {
 		authLayout,
 	},
+
 	data: () => ({
 		currentLayout: 'authLayout',
 		component: null,
 	}),
+
 	head: {
 		link: [
 			// adds config/icons into the html head tag
-			...config.icons.map((href) => ({ rel: 'stylesheet', href })),
+			...config.icons.map(href => ({ rel: 'stylesheet', href })),
 		],
 	},
-	created: function() {
+
+	created() {
 		this.component = this.$component;
 		this.lang = this.$lang;
+	},
+	mounted() {
+		this.$vuetify.rtl = ['ar'].includes(this.$i18n.locale);
 	},
 };
 </script>
