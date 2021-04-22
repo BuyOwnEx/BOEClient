@@ -8,10 +8,7 @@
 			left: calculateLeft,
 		}"
 	>
-		<div
-			v-if="activeTooltipType === 'bid' && type === 'bid'"
-			class="orders-tooltip--bid"
-		>
+		<div v-if="activeTooltipType === 'bid' && type === 'bid'" class="orders-tooltip--bid">
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
 				<b class="orders-tooltip__value">{{ averagePrice }}</b>
@@ -26,10 +23,7 @@
 			</div>
 		</div>
 
-		<div
-			v-if="activeTooltipType === 'ask' && type === 'ask'"
-			class="orders-tooltip--ask"
-		>
+		<div v-if="activeTooltipType === 'ask' && type === 'ask'" class="orders-tooltip--ask">
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
 				<b class="orders-tooltip__value">{{ averagePrice }}</b>
@@ -61,13 +55,7 @@ export default {
 	},
 
 	computed: {
-		...mapState('tooltip', [
-			'selectedRowIndex',
-			'averagePrice',
-			'sumSize',
-			'sumVolume',
-			'activeTooltipType',
-		]),
+		...mapState('tooltip', ['selectedRowIndex', 'averagePrice', 'sumSize', 'sumVolume', 'activeTooltipType']),
 
 		calculateMargin() {
 			const rowHeight = 25;
@@ -121,7 +109,9 @@ export default {
 
 @media screen and (max-width: 959px)
 	.orders-tooltip
-		top: calc(27px - 25px)
+		/* table header padding */
+		top: 2px
+
 		left: 0 !important
 		right: 0 !important
 		margin-left: auto

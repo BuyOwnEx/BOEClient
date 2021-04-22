@@ -1,6 +1,6 @@
 <template>
 	<v-card class="trading-forms pa-1">
-		<v-row no-gutters>
+		<v-row v-if="isDesktop" no-gutters>
 			<v-col class="trading-forms__buy" cols="12" md="6">
 				<v-card-title class="trading-forms__header component-title pa-0">
 					<span>
@@ -33,6 +33,27 @@
 				</v-card-text>
 			</v-col>
 		</v-row>
+
+		<!--	mobile version	-->
+		<div v-else>
+			<v-tabs v-model="selectedTab">
+				<v-tab :key="1">
+					{{ $t('trading.order.direction.buy') }}
+				</v-tab>
+				<v-tab :key="2">
+					{{ $t('trading.order.direction.sell') }}
+				</v-tab>
+			</v-tabs>
+
+			<v-tabs-items v-model="selectedTab" class="pt-1" touchless>
+				<v-tab-item :key="1">
+					<TradingFormBuyWrapper :currency="currency" :market="market" />
+				</v-tab-item>
+				<v-tab-item :key="2">
+					<TradingFormSellWrapper :currency="currency" :market="market" />
+				</v-tab-item>
+			</v-tabs-items>
+		</div>
 	</v-card>
 </template>
 
@@ -58,11 +79,18 @@ export default {
 		},
 	},
 
-	computed: {
-		...mapState('trading', ['best_ask', 'best_bid']),
+	data() {
+		return {
+			selectedTab: 0,
+		};
 	},
 
-	mounted() {},
+	computed: {
+		...mapState('trading', ['best_ask', 'best_bid']),
+		isDesktop() {
+			return this.$vuetify.breakpoint.mdAndUp;
+		},
+	},
 };
 </script>
 
@@ -115,4 +143,7 @@ export default {
 	.trading-forms
 		&__sell
 			padding-top: 2rem
+		::v-deep.v-tabs
+			margin-left: -8px
+			margin-top: -8px
 </style>

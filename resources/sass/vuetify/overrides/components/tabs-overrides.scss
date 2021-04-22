@@ -1,23 +1,24 @@
 // Tabs
 .v-tabs-items {
-  background-color: transparent !important;
+	background-color: transparent !important;
 }
 
 // Custom tabs height
 .own-lists-tabs-wrapper,
 .balance,
-.fees-page {
-  .v-tabs {
-    height: 35px;
-  }
-  .v-tab {
-    font-size: 11px;
-    height: 35px;
-  }
-  .v-tabs-bar {
-    height: 35px;
-  }
-  .v-tabs-bar__content {
-    height: 35px;
-  }
+.fees-page,
+.trading-forms {
+	.v-tabs {
+		height: 35px;
+	}
+	.v-tab {
+		font-size: 11px;
+		height: 35px;
+	}
+	.v-tabs-bar {
+		height: 35px;
+	}
+	.v-tabs-bar__content {
+		height: 35px;
+	}
 }

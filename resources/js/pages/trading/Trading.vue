@@ -53,7 +53,7 @@
 					<v-icon>mdi-chart-box</v-icon>
 				</v-btn>
 
-				<v-btn>
+				<v-btn @click="moveToTop">
 					<span>{{ $t('trading.headers.forms') }}</span>
 					<v-icon>mdi-form-select</v-icon>
 				</v-btn>
@@ -198,11 +198,15 @@ export default {
 
 		moveToOrdersLastPrice() {
 			const ordersTab = 4;
-			if (this.selectedTab !== ordersTab) return;
-			const element = this.$refs.askBidLastPrice.$el;
-			element.scrollIntoView({
-				block: 'center',
-			});
+			if (this.selectedTab === ordersTab) {
+				const element = this.$refs.askBidLastPrice.$el;
+				element.scrollIntoView({
+					block: 'center',
+				});
+			}
+		},
+		moveToTop() {
+			window.scrollTo(0, 0);
 		},
 	},
 
