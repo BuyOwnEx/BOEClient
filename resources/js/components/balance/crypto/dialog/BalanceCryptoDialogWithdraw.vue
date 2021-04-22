@@ -183,7 +183,7 @@
 									text
 									plain
 									small
-									@click="step++"
+									@click="formWithdrawRequest"
 								>
 									{{ $t('common.continue') }}
 								</v-btn>
@@ -377,6 +377,22 @@ export default {
 
 			await this.validateAddressStore(payload);
 		},
+
+		async formWithdrawRequest() {
+			this.startLoading();
+			let res = await axios.post('/trader/ext/withdraw/crypto/request', {
+				currency: this.currency.toUpperCase(),
+				amount: this.amount,
+				address: this.address,
+			});
+			console.log(res);
+			if(res.data.success)
+			{
+				this.step++;
+			}
+			this.stopLoading();
+		},
+
 		async finish() {
 			try {
 				this.startLoading();

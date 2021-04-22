@@ -59,15 +59,12 @@ Route::group(['prefix' => 'trader'], function () {
     Route::post('ticket/create', 'TicketController@createTicket');
     Route::post('ticket/comment/add', 'TicketController@addComment');
     Route::post('ticket/close', 'TicketController@closeTicket');
-
     Route::get('notifications', 'NotificationController@getAllNotifications');
-
 
     Route::group(['prefix' => 'ext'], function () {
         Route::get('token', 'JWTController@getOwnToken')->name('token');
         Route::post('private', 'JWTController@getPrivateToken')->name('private');
         Route::post('refresh', 'JWTController@refreshOwnToken')->name('refresh');
-
 
         Route::get('tickers', 'TraderController@getTickers')->name('tickers');
         Route::get('market_data', 'TraderController@getMarketData')->name('market_data');
@@ -102,6 +99,9 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('balance/all-withdrawals', 'TraderController@getWithdrawalList')->name('withdrawal_list');
         Route::post('transfer/trade', 'TraderController@transferToTradeWallet')->name('transfer_to_trade');
         Route::post('transfer/safe', 'TraderController@transferToSafeWallet')->name('transfer_to_safe');
+        Route::post('withdraw/crypto/request', 'TraderController@withdrawCryptoRequest')->name('withdraw_crypto_request');
+        Route::post('withdraw/crypto/confirm', 'TraderController@withdrawCryptoConfirm')->name('withdraw_crypto_confirm');
+
 
         Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
 
@@ -112,7 +112,6 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('all_transfers', 'TraderController@getAllTransfers')->name('all_transfers');
         Route::get('all_ref_payments', 'TraderController@getAllRefPayments')->name('all_ref_payments');
         Route::get('all_followers', 'TraderController@getAllFollowers')->name('all_followers');
-
 
         Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
         Route::post('set_referral_type', 'TraderController@setReferralType')->name('set_referral_type');

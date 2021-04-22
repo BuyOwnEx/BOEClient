@@ -450,6 +450,26 @@ class TraderController extends Controller
         }
     }
 
+    public function withdrawCryptoRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->withdrawCryptoRequest(
+                Auth::id(),
+                $request->currency,
+                $request->amount,
+                $request->address
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function withdrawCryptoConfirm(Request $request)
+    {
+
+    }
+
     public function sendMessage(Request $request)
     {
         try {
