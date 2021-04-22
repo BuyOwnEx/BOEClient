@@ -1,22 +1,37 @@
 // input counter size
 .v-counter {
-  font-size: 9px !important;
+	font-size: 9px !important;
 }
 // input number arrows
 input[type='number'] {
-  -moz-appearance: textfield;
-  -moz-default-appearance: textfield;
+	-moz-appearance: textfield;
+	-moz-default-appearance: textfield;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-// Изменение яркого цвета бордера у инпутов
+// change bright color of input border
 .v-input__slot:before {
-  border-color: rgb(136 136 136 / 42%) !important;
+	border-color: rgb(136 136 136 / 42%) !important;
 }
 .theme--dark .v-input__slot::before {
-  border-color: rgba(255, 255, 255, 0.2) !important;
+	border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+// remove autofill color (filter - firefox, webkit-autofill - google, opera, etc)
+input {
+	filter: none;
+}
+input:-webkit-autofill {
+	-webkit-box-shadow: inset 0 0 0 50px var(--light-background-color) !important;
+	-webkit-text-fill-color: rgba(0, 0, 0, 0.87) !important;
+	color: rgba(0, 0, 0, 0.87) !important;
+}
+.theme--dark input:-webkit-autofill {
+	-webkit-box-shadow: inset 0 0 0 50px var(--dark-background-color) !important;
+	-webkit-text-fill-color: #edf0f2 !important;
+	color: #edf0f2 !important;
 }
