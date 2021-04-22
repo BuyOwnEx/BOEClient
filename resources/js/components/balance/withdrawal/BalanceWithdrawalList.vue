@@ -30,24 +30,22 @@
 			</template>
 
 			<template #item.date="{item}">
-				{{ formatDate(item.date) }}
+				{{ formatDate(item.date, 'dateOnly') + ' ' + formatDate(item.date, 'timeOnly') }}
 			</template>
 
 			<template v-slot:item.currency="{ item }">
-				<v-avatar :color="item.color" size="22" v-if="!item.logo">
-					<v-img v-if="item.logo" class="elevation-6" :src="item.logo"></v-img>
-					<span v-else class="white--text subtitle-2">
-						{{ item.currency.charAt(0) }}
-					</span>
-				</v-avatar>
 				<v-img
-					v-else
-					class="elevation-0 d-inline-flex"
-					style="vertical-align: middle"
-					:src="item.logo"
+					v-if="getImage(item.currency)"
+					class="elevation-0 d-inline-flex vertical-middle"
+					:src="getImage(item.currency)"
 					max-height="22"
 					max-width="22"
 				/>
+
+				<v-avatar class="white--text subtitle-2" :color="getCurrencyColor(item.currency)" size="22" v-else>
+					{{ item.currency.charAt(0) }}
+				</v-avatar>
+
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
@@ -66,7 +64,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import formatDate from '../../../mixins/format/formatDate';
 
 export default {
-	name: 'OwnWithdrawalList',
+	name: 'BalanceWithdrawalList',
 
 	components: {
 		WithdrawCancel: () => import(/* webpackPrefetch: true */ './WithdrawCancel'),
@@ -117,6 +115,9 @@ export default {
 				},
 			];
 		},
+		userBalances() {
+			return this.$store.state.user.balances;
+		},
 	},
 
 	watch: {
@@ -126,6 +127,13 @@ export default {
 	},
 
 	methods: {
+		getImage(currency) {
+			return this.userBalances[currency].logo;
+		},
+		getCurrencyColor(currency) {
+			return this.userBalances[currency].color;
+		},
+
 		BigNumber(item) {
 			return BigNumber(item);
 		},

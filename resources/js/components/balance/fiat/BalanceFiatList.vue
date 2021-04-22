@@ -53,20 +53,18 @@
 			</template>
 
 			<template v-slot:item.currency="{ item }">
-				<v-avatar v-if="!item.logo" :color="item.color" size="22">
-					<v-img v-if="item.logo" class="elevation-6" :src="item.logo" />
-					<span v-else class="white--text subtitle-2">
-						{{ item.currency.charAt(0) }}
-					</span>
-				</v-avatar>
 				<v-img
-					v-else
-					class="elevation-0 d-inline-flex"
-					style="vertical-align: middle"
+					v-if="item.logo"
+					class="elevation-0 d-inline-flex vertical-middle"
 					:src="item.logo"
 					max-height="22"
 					max-width="22"
 				/>
+
+				<v-avatar class="white--text subtitle-2" :color="item.color" size="22" v-else>
+					{{ item.currency.charAt(0) }}
+				</v-avatar>
+
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
