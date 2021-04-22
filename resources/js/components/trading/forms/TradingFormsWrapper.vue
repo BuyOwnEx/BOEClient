@@ -36,7 +36,7 @@
 
 		<!--	mobile version	-->
 		<div v-else>
-			<v-tabs v-model="selectedTab">
+			<v-tabs v-model="selectedTab" grow>
 				<v-tab :key="1">
 					{{ $t('trading.order.direction.buy') }}
 				</v-tab>
