@@ -1,7 +1,7 @@
 // Override only for trading page <15.01.21>
 .trading {
 	// No scroll history table <20.02.21>
-	.hdl .v-data-table__wrapper {
+	.history-deal-list .v-data-table__wrapper {
 		overflow: hidden !important;
 	}
 
@@ -40,7 +40,7 @@
 
 	// Text Field small size <18.02.21>
 	.trading-forms .v-input,
-	.tickers-list .v-input {
+	.trading-tickers-list .v-input {
 		.v-input__control {
 			border-radius: 0 !important;
 		}
@@ -105,7 +105,7 @@
 	}
 
 	// Market Activity Component
-	.market-activity {
+	.trading-market-activity {
 		table {
 			padding: 0 !important;
 		}
@@ -116,7 +116,7 @@
 .theme--dark {
 	.trading {
 		.trading-forms,
-		.tickers-list {
+		.trading-tickers-list {
 			.v-input fieldset {
 				color: rgba(255, 255, 255, 0.12) !important;
 			}

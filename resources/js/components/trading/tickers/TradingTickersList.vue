@@ -18,13 +18,7 @@
 			</div>
 
 			<div v-if="isSearch" class="trading-tickers-list__header__search">
-				<v-text-field
-					v-model="tickersSearchQuery"
-					:label="$t('trading.search')"
-					hide-details
-					outlined
-					dense
-				>
+				<v-text-field v-model="tickersSearchQuery" :label="$t('trading.search')" hide-details outlined dense>
 				</v-text-field>
 			</div>
 
@@ -49,33 +43,17 @@
 				<template v-slot:default>
 					<thead class="trading-tickers-list__content__header">
 						<tr>
-							<th
-								class="trading-tickers-list__content__header__item--favorite"
-								@click="switchFavoriteSorting"
-							>
-								<span
-									class="trading-tickers-list__content__header__item--favorite__wrapper"
-								>
-									<v-icon
-										v-if="selectedMarket !== 'favorites'"
-										color="#b0b29c"
-										small
-									>
+							<th class="trading-tickers-list__content__header__item--favorite" @click="switchFavoriteSorting">
+								<span class="trading-tickers-list__content__header__item--favorite__wrapper">
+									<v-icon v-if="selectedMarket !== 'favorites'" color="#b0b29c" small>
 										mdi-star
 									</v-icon>
-									<v-icon
-										v-if="selectedMarket === 'favorites'"
-										color="#FFE040"
-										small
-									>
+									<v-icon v-if="selectedMarket === 'favorites'" color="#FFE040" small>
 										mdi-star
 									</v-icon>
 								</span>
 							</th>
-							<th
-								class="trading-tickers-list__content__header__item--pair"
-								@click="setSorting('pair')"
-							>
+							<th class="trading-tickers-list__content__header__item--pair" @click="setSorting('pair')">
 								<span>
 									{{ $t('trading.market') }}
 								</span>
@@ -89,10 +67,7 @@
 							<th class="trading-tickers-list__content__header__item--rate">
 								{{ $t('trading.rate') }}
 							</th>
-							<th
-								class="trading-tickers-list__content__header__item--volume"
-								@click="setSorting('volume')"
-							>
+							<th class="trading-tickers-list__content__header__item--volume" @click="setSorting('volume')">
 								<span>
 									{{ $t('trading.sort.volume') }}
 								</span>
@@ -103,10 +78,7 @@
 									mdi-arrow-up
 								</v-icon>
 							</th>
-							<th
-								class="trading-tickers-list__content__header__item--change text-end"
-								@click="setSorting('change')"
-							>
+							<th class="trading-tickers-list__content__header__item--change text-end" @click="setSorting('change')">
 								<span>
 									{{ $t('trading.sort.change') }}
 								</span>
@@ -121,14 +93,9 @@
 					</thead>
 
 					<tbody class="trading-tickers-list__content__body">
-						<tr
-							v-for="item in tickersListFilteredAndSorted"
-							:key="item.pairName"
-						>
+						<tr v-for="item in tickersListFilteredAndSorted" :key="item.pairName">
 							<td class="trading-tickers-list__content__body__item--favorite">
-								<div
-									class="trading-tickers-list__content__body__item--favorite__wrapper"
-								>
+								<div class="trading-tickers-list__content__body__item--favorite__wrapper">
 									<v-icon
 										v-if="isPairFavorite(item.pairName)"
 										color="#FFE040"
@@ -152,13 +119,9 @@
 								<a
 									href="#"
 									class="trading-tickers-list__content__body__item--pair__link"
-									@click.prevent="
-										selectMarketAndCurrency(item.market, item.currency)
-									"
+									@click.prevent="selectMarketAndCurrency(item.market, item.currency)"
 								>
-									<strong
-										class="trading-tickers-list__content__body__item--pair__currency"
-									>
+									<strong class="trading-tickers-list__content__body__item--pair__currency">
 										{{ item.currency }}
 									</strong>
 								</a>
@@ -183,10 +146,7 @@
 					</tbody>
 				</template>
 			</v-simple-table>
-			<div
-				v-else-if="tickersList && tickersListFilteredAndSorted.length === 0"
-				class="text-center mt-2"
-			>
+			<div v-else-if="tickersList && tickersListFilteredAndSorted.length === 0" class="text-center mt-4 overline">
 				{{ $t('trading.not_found') }}
 			</div>
 		</div>
@@ -245,10 +205,7 @@ export default {
 		},
 
 		tickersList() {
-			if (
-				this.tickersFromStorage === null ||
-				this.marketsFromStorage === null
-			) {
+			if (this.tickersFromStorage === null || this.marketsFromStorage === null) {
 				return null;
 			}
 
@@ -259,9 +216,7 @@ export default {
 					if (BigNumber(item.previous_day).isZero()) {
 						changePercent = 100;
 					} else {
-						changePercent = change
-							.multipliedBy(100)
-							.div(BigNumber(item.previous_day));
+						changePercent = change.multipliedBy(100).div(BigNumber(item.previous_day));
 					}
 				}
 
@@ -270,9 +225,7 @@ export default {
 				let currentMarket = this.marketsFromStorage[item.market.toUpperCase()];
 				if (currentMarket !== undefined) {
 					let currentPair = _.find(currentMarket, marketArray => {
-						return (
-							marketArray.currency.toLowerCase() === item.currency.toLowerCase()
-						);
+						return marketArray.currency.toLowerCase() === item.currency.toLowerCase();
 					});
 					if (currentPair !== undefined) {
 						amountScale = currentPair.amountScale;
@@ -280,8 +233,7 @@ export default {
 					}
 				}
 				return {
-					pairName:
-						item.currency.toUpperCase() + '/' + item.market.toUpperCase(),
+					pairName: item.currency.toUpperCase() + '/' + item.market.toUpperCase(),
 					market: item.market,
 					currency: item.currency,
 					margin: item.margin,
@@ -296,26 +248,15 @@ export default {
 			if (this.selectedMarket === null) {
 				return this.markets;
 			}
-			if (
-				this.tickersSearchQuery !== '' &&
-				this.selectedMarket !== 'favorites'
-			) {
+			if (this.tickersSearchQuery !== '' && this.selectedMarket !== 'favorites') {
 				return _.filter(this.tickersList, item => {
-					return (
-						item.pairName
-							.toLowerCase()
-							.indexOf(this.tickersSearchQuery.toLowerCase()) !== -1
-					);
+					return item.pairName.toLowerCase().indexOf(this.tickersSearchQuery.toLowerCase()) !== -1;
 				});
 			}
 			if (this.selectedMarket === 'favorites') {
 				if (this.tickersSearchQuery !== '') {
 					return _.filter(this.allFavorites, item => {
-						return (
-							item.pairName
-								.toLowerCase()
-								.indexOf(this.tickersSearchQuery.toLowerCase()) !== -1
-						);
+						return item.pairName.toLowerCase().indexOf(this.tickersSearchQuery.toLowerCase()) !== -1;
 					});
 				}
 				return this.allFavorites;
@@ -333,25 +274,15 @@ export default {
 					return _.orderBy(this.tickersListFiltered, ['pairName'], ['desc']);
 
 				case 'changeAsc':
-					return _.sortBy(this.tickersListFiltered, item =>
-						parseFloat(item.changePercent)
-					);
+					return _.sortBy(this.tickersListFiltered, item => parseFloat(item.changePercent));
 				case 'changeDesc':
-					return _.sortBy(
-						this.tickersListFiltered,
-						item => parseFloat(item.changePercent) * -1
-					);
+					return _.sortBy(this.tickersListFiltered, item => parseFloat(item.changePercent) * -1);
 
 				case 'volumeAsc':
-					return _.sortBy(this.tickersListFiltered, item =>
-						parseFloat(item.volume)
-					);
+					return _.sortBy(this.tickersListFiltered, item => parseFloat(item.volume));
 				case 'volumeDesc':
 				default:
-					return _.sortBy(
-						this.tickersListFiltered,
-						item => parseFloat(item.volume) * -1
-					);
+					return _.sortBy(this.tickersListFiltered, item => parseFloat(item.volume) * -1);
 			}
 		},
 		allFavorites() {
@@ -492,9 +423,7 @@ export default {
 	},
 
 	mounted() {
-		this.selectedMarket = this.selectedTradingMarket
-			? this.selectedTradingMarket.toUpperCase()
-			: this.market;
+		this.selectedMarket = this.selectedTradingMarket ? this.selectedTradingMarket.toUpperCase() : this.market;
 
 		if (typeof Storage !== 'undefined') {
 			let savedFavoriteTickers = localStorage.getItem('tickersFavorites');
