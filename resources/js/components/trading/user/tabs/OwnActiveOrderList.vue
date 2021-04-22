@@ -29,7 +29,7 @@
 						tile
 						small
 					>
-						{{ $t('trading.cancel') }}
+						{{ $t('common.cancel') }}
 						<v-icon right>mdi-chevron-down</v-icon>
 					</v-btn>
 				</template>
@@ -133,7 +133,7 @@
 									mdi-close
 								</v-icon>
 								<span class="own-active-order-list__cancel-text">
-									{{ $t('trading.cancel') }}
+									{{ $t('common.cancel') }}
 								</span>
 							</v-btn>
 						</template>
@@ -225,36 +225,36 @@ export default {
 		headers() {
 			return [
 				{
-					text: this.$t('trading.date'),
+					text: this.$t('table_header.date'),
 					align: 'start',
 					sortable: true,
 					value: 'date',
 				},
 				{
-					text: this.$t('trading.market'),
+					text: this.$t('table_header.market'),
 					value: 'pair',
 				},
-				{ text: this.$t('trading.type'), value: 'side' },
+				{ text: this.$t('table_header.type'), value: 'side' },
 				{
-					text: this.$t('trading.amount'),
+					text: this.$t('table_header.amount'),
 					value: 'size',
 				},
-				{ text: this.$t('trading.rate'), value: 'price' },
+				{ text: this.$t('table_header.rate'), value: 'price' },
 				{
-					text: this.$t('trading.volume'),
+					text: this.$t('table_header.volume'),
 					value: 'volume',
 					sortable: false,
 				},
 				{
-					text: this.$t('trading.filled'),
+					text: this.$t('table_header.filled'),
 					value: 'percent',
 				},
 				{
-					text: this.$t('trading.status'),
+					text: this.$t('table_header.status'),
 					value: 'status',
 				},
 				{
-					text: this.$t('trading.actions'),
+					text: this.$t('table_header.actions'),
 					value: 'action',
 					align: 'center',
 					sortable: false,

@@ -29,7 +29,7 @@
 						tile
 						small
 					>
-						{{ $t('trading.close') }}
+						{{ $t('common.close') }}
 						<v-icon right>mdi-chevron-down</v-icon>
 					</v-btn>
 				</template>
@@ -68,7 +68,7 @@
 					<v-menu close-on-click offset-y v-model="item.menu">
 						<template v-slot:activator="{ on }">
 							<v-btn tile outlined x-small color="#A6A6A6" v-on="on">
-								{{ $t('trading.actions') }}
+								{{ $t('table_header.actions') }}
 								<v-icon right>mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
@@ -250,18 +250,18 @@ export default {
 		headers() {
 			return [
 				{
-					text: this.$t('trading.date'),
+					text: this.$t('table_header.date'),
 					align: 'start',
 					sortable: true,
 					value: 'date',
 				},
 				{
-					text: this.$t('trading.market'),
+					text: this.$t('table_header.market'),
 					value: 'market',
 				},
-				{ text: this.$t('trading.type'), value: 'type' },
+				{ text: this.$t('table_header.type'), value: 'type' },
 				{
-					text: this.$t('trading.filled'),
+					text: this.$t('table_header.filled'),
 					value: 'filled',
 				},
 				{
@@ -297,11 +297,11 @@ export default {
 					value: 'validUntil',
 				},
 				{
-					text: this.$t('trading.status'),
+					text: this.$t('table_header.status'),
 					value: 'status',
 				},
 				{
-					text: this.$t('trading.actions'),
+					text: this.$t('table_header.actions'),
 					value: 'action',
 					align: 'center',
 					sortable: false,

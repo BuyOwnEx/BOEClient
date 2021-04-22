@@ -103,23 +103,23 @@ export default {
 		headers() {
 			return [
 				{
-					text: this.$t('trading.date'),
+					text: this.$t('table_header.date'),
 					align: 'start',
 					sortable: true,
 					value: 'date',
 				},
 				{
-					text: this.$t('trading.market'),
+					text: this.$t('table_header.pair'),
 					value: 'pair',
 				},
-				{ text: this.$t('trading.type'), value: 'side' },
+				{ text: this.$t('table_header.type'), value: 'side' },
 				{
-					text: this.$t('trading.amount'),
+					text: this.$t('table_header.amount'),
 					value: 'size',
 				},
-				{ text: this.$t('trading.rate'), value: 'price' },
+				{ text: this.$t('table_header.rate'), value: 'price' },
 				{
-					text: this.$t('trading.volume'),
+					text: this.$t('table_header.volume'),
 					value: 'volume',
 					sortable: false,
 				},

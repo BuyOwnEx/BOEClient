@@ -69,7 +69,7 @@
 				<v-text-field
 					v-model="volume"
 					ref="ask_market_volume"
-					:label="$t('trading.volume')"
+					:label="$t('table_header.volume')"
 					type="text"
 					outlined
 					dense

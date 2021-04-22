@@ -219,7 +219,7 @@ export default {
 							},
 						},
 						title: {
-							text: this.$t('trading.rate') + ', ' + this.market,
+							text: this.$t('table_header.rate') + ', ' + this.market,
 						},
 						height: '75%',
 						lineWidth: 1,
@@ -237,7 +237,7 @@ export default {
 							x: -3,
 						},
 						title: {
-							text: this.$t('trading.volume') + ', ' + this.currency,
+							text: this.$t('table_header.volume') + ', ' + this.currency,
 						},
 						top: '75%',
 						height: '25%',
@@ -253,7 +253,7 @@ export default {
 					{
 						type: 'candlestick',
 						id: 'main',
-						name: this.$t('trading.rate') + ', ' + this.market,
+						name: this.$t('table_header.rate') + ', ' + this.market,
 						data: [],
 						yAxis: 0,
 						xAxis: 0,
@@ -285,7 +285,7 @@ export default {
 						type: 'column',
 						id: 'volume',
 						linkedTo: 'main',
-						name: this.$t('trading.volume') + ', ' + this.currency,
+						name: this.$t('table_header.volume') + ', ' + this.currency,
 						data: [],
 						yAxis: 1,
 						xAxis: 0,
@@ -448,23 +448,23 @@ export default {
 				const id = _.get(item, 'options.id', undefined);
 				if (id === 'main') {
 					candle.chart.series[i].update({
-						name: this.$t('trading.rate') + ', ' + val[1],
+						name: this.$t('table_header.rate') + ', ' + val[1],
 					});
 				}
 				if (id === 'volume') {
 					candle.chart.series[i].update({
-						name: this.$t('trading.volume') + ', ' + val[0],
+						name: this.$t('table_header.volume') + ', ' + val[0],
 					});
 				}
 			});
 			candle.chart.yAxis[0].update({
 				title: {
-					text: this.$t('trading.rate') + ', ' + val[1],
+					text: this.$t('table_header.rate') + ', ' + val[1],
 				},
 			});
 			candle.chart.yAxis[1].update({
 				title: {
-					text: this.$t('trading.volume') + ', ' + val[0],
+					text: this.$t('table_header.volume') + ', ' + val[0],
 				},
 			});
 		},

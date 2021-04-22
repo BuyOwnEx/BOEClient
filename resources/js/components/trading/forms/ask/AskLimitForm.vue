@@ -67,7 +67,7 @@
 			<v-text-field
 				v-model="form.rate"
 				ref="ask_limit_rate"
-				:label="$t('trading.rate_per') + ' ' + currency.toUpperCase()"
+				:label="$t('table_header.rate_per') + ' ' + currency.toUpperCase()"
 				type="text"
 				outlined
 				dense
@@ -83,7 +83,7 @@
 				<v-text-field
 					v-model="volume"
 					ref="ask_limit_volume"
-					:label="$t('trading.volume')"
+					:label="$t('table_header.volume')"
 					type="text"
 					outlined
 					dense

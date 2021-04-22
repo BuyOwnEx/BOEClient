@@ -3,12 +3,12 @@
 		<tr v-if="$vuetify.breakpoint.mdAndUp">
 			<th>
 				<div class="ask-table-header__item--total">
-					{{ $t('trading.volume') }}
+					{{ $t('table_header.volume') }}
 				</div>
 			</th>
 			<th>
 				<div class="ask-table-header__item--amount">
-					<span>{{ $t('trading.amount') }}</span>
+					<span>{{ $t('table_header.amount') }}</span>
 					<span>({{ currency }})</span>
 				</div>
 			</th>
@@ -16,7 +16,7 @@
 				<div
 					class="ask-table-header__item--price text-end"
 				>
-					<span>{{ $t('trading.rate') }}</span>
+					<span>{{ $t('table_header.rate') }}</span>
 					<span>({{ market }})</span>
 				</div>
 			</th>
@@ -25,13 +25,13 @@
 		<tr v-else>
 			<th>
 				<div class="ask-table-header__item--price">
-					<span>{{ $t('trading.rate') }}</span>
+					<span>{{ $t('table_header.rate') }}</span>
 					<span>({{ market }})</span>
 				</div>
 			</th>
 			<th>
 				<div class="ask-table-header__item--amount">
-					<span>{{ $t('trading.amount') }}</span>
+					<span>{{ $t('table_header.amount') }}</span>
 					<span>({{ currency }})</span>
 				</div>
 			</th>
@@ -39,7 +39,7 @@
 				<div
 					class="ask-table-header__item--total text-end"
 				>
-					{{ $t('trading.volume') }}
+					{{ $t('table_header.volume') }}
 				</div>
 			</th>
 		</tr>

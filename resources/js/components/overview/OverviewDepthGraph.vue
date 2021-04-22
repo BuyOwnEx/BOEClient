@@ -82,7 +82,7 @@ export default {
 					{
 						type: 'logarithmic',
 						title: {
-							text: this.$t('trading.rate'),
+							text: this.$t('table_header.rate'),
 						},
 						width: '50%',
 						labels: {
@@ -94,7 +94,7 @@ export default {
 					{
 						type: 'logarithmic',
 						title: {
-							text: this.$t('trading.rate'),
+							text: this.$t('table_header.rate'),
 						},
 						labels: {
 							style: {
@@ -109,7 +109,7 @@ export default {
 				yAxis: {
 					gridLineWidth: 0,
 					title: {
-						text: this.$t('trading.volume'),
+						text: this.$t('table_header.volume'),
 					},
 				},
 				legend: {
@@ -136,9 +136,9 @@ export default {
 					headerFormat: '<table>',
 					pointFormat:
 						'<tr><td>' +
-						this.$t('trading.rate') +
+						this.$t('table_header.rate') +
 						':</td><td style="text-align: right;">{point.x}</td></tr><tr><td>' +
-						this.$t('trading.volume') +
+						this.$t('table_header.volume') +
 						':</td><td style="text-align: right;">{point.y}</td></tr>',
 					footerFormat: '</table>',
 					valueDecimals: 2,

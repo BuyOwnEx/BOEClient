@@ -91,7 +91,7 @@ export default {
 	computed: {
 		headers() {
 			return [
-				{ text: this.$t('trading.pair'), value: 'pair' },
+				{ text: this.$t('table_header.pair'), value: 'pair' },
 				{
 					text: this.$t('trading.forms.best_bid'),
 					value: 'best_bid',

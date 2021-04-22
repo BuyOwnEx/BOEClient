@@ -73,7 +73,6 @@ export default {
 		type: 'Тип',
 		pair: 'Пара',
 		code: 'Код',
-		amount: 'Количество',
 		size: 'Размер',
 		actual_size: 'Текущий размер',
 		price: 'Цена',
@@ -90,6 +89,11 @@ export default {
 		approves: 'Одобрено',
 		order: 'Ордер',
 		fee: 'Комиссия',
+		market: 'Рынок',
+		amount: 'Кол-во',
+		rate: 'Цена',
+		rate_per: 'Цена за 1',
+		filled: 'Завершено %',
 
 		deal_fee_maker: 'Комиссия по сделке, Maker',
 		deal_fee_taker: 'Комиссия по сделке, Taker',
@@ -177,10 +181,12 @@ export default {
 		daily_low: 'Мин. за 24 часа',
 		daily_volume: 'Объем за 24 часа',
 		search: 'Поиск',
+
 		sort: {
 			change: 'Изменение',
 			volume: 'Объем',
 		},
+
 		headers: {
 			history_deal_list: 'История торгов',
 			market_activity: 'Активность на рынке',
@@ -200,6 +206,7 @@ export default {
 			forms: 'Формы',
 			lists: 'Списки',
 		},
+
 		order: {
 			direction: {
 				buy: 'Покупка',
@@ -262,6 +269,7 @@ export default {
 			cancel_one: 'Вы действительно хотите отменить ордер?',
 			cancel_many: 'Вы уверены, что хотите отменить все {type} ордера?',
 		},
+
 		position: {
 			close_all: 'Закрыть все позиции',
 			close_long: 'Закрыть все длинные позиции',
@@ -274,11 +282,13 @@ export default {
 			short_type: 'короткие',
 			long_type: 'длинные',
 		},
+
 		dialogs: {
 			descriptions: {
 				close_position: 'Данное действие приведет к закрытию позиции',
 			},
 		},
+
 		notifications: {
 			order: {
 				text_sell: 'Ордер на продажу ',
@@ -301,20 +311,9 @@ export default {
 				by_size: ' на сумму',
 			},
 		},
+
 		no_deals: 'Сделок нет',
 		no_activity: 'Активности нет',
-		date: 'Дата',
-		market: 'Рынок',
-		type: 'Тип',
-		amount: 'Кол-во',
-		rate: 'Цена',
-		rate_per: 'Цена за 1',
-		volume: 'Объем',
-		filled: 'Завершено %',
-		status: 'Статус',
-		close: 'Закрыть',
-		actions: 'Действия',
-		cancel: 'Отменить',
 		realized: 'Реализовано',
 		credited: 'Кредит',
 		creditFee: '% по кредиту',
@@ -328,11 +327,13 @@ export default {
 		show_other_pairs: 'Показать все пары',
 		not_found: 'Ничего не найдено',
 		total: 'Всего',
+
 		orders_tooltip: {
 			avg_price: 'Средняя Цена',
 			total_size: 'Всего Кол-во',
 			total_volume: 'Всего Объёма',
 		},
+
 		forms: {
 			best_bid: 'Best Bid',
 			best_ask: 'Best Ask',
@@ -344,7 +345,6 @@ export default {
 				order: 'ордер',
 			},
 		},
-		pair: 'Пара',
 
 		your_message: 'Ваше сообщение...',
 	},

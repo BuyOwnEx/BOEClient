@@ -72,7 +72,6 @@ export default {
 		type: 'Type',
 		pair: 'Pair',
 		code: 'Code',
-		amount: 'Amount',
 		size: 'Size',
 		actual_size: 'Actual size',
 		price: 'Price',
@@ -89,6 +88,13 @@ export default {
 		approves: 'Approves',
 		order: 'Order',
 		fee: 'Fee',
+		market: 'Market',
+		amount: 'Amount',
+		rate: 'Price',
+		rate_per: 'Price per 1',
+		filled: 'Filled, %',
+		close: 'Close',
+		cancel: 'Cancel',
 
 		deal_fee_maker: 'Transaction commission, Maker',
 		deal_fee_taker: 'Transaction commission, Taker',
@@ -176,10 +182,12 @@ export default {
 		daily_low: 'Daily low',
 		daily_volume: 'Daily volume',
 		search: 'Search',
+
 		sort: {
 			change: 'Change',
 			volume: 'Volume',
 		},
+
 		headers: {
 			history_deal_list: 'Deals history',
 			market_activity: 'Market activity',
@@ -199,6 +207,7 @@ export default {
 			forms: 'Forms',
 			lists: 'Lists',
 		},
+
 		order: {
 			direction: {
 				buy: 'Buy',
@@ -256,6 +265,7 @@ export default {
 			cancel_one: 'Are you sure you want to cancel the order?',
 			cancel_many: 'Are you sure you want to cancel all {type} orders?',
 		},
+
 		position: {
 			close_all: 'Close all positions',
 			close_long: 'Close all long positions',
@@ -268,11 +278,13 @@ export default {
 			short_type: 'short',
 			long_type: 'long',
 		},
+
 		dialogs: {
 			descriptions: {
 				close_position: 'This action will close your position',
 			},
 		},
+
 		notifications: {
 			order: {
 				text_sell: 'Sell order ',
@@ -295,20 +307,9 @@ export default {
 				by_size: ' on size',
 			},
 		},
+
 		no_deals: 'No deals',
 		no_activity: 'No activity',
-		date: 'Date',
-		market: 'Market',
-		type: 'Type',
-		amount: 'Amount',
-		rate: 'Price',
-		rate_per: 'Price per 1',
-		volume: 'Volume',
-		filled: 'Filled, %',
-		status: 'Status',
-		close: 'Close',
-		actions: 'Actions',
-		cancel: 'Cancel',
 		realized: 'Realized',
 		credited: 'Credit',
 		creditFee: 'Credit %',
@@ -322,11 +323,13 @@ export default {
 		show_other_pairs: 'Show all pairs',
 		not_found: 'Not found',
 		total: 'Total',
+
 		orders_tooltip: {
 			avg_price: 'Average Price',
 			total_size: 'Total Size',
 			total_volume: 'Total Volume',
 		},
+
 		forms: {
 			best_bid: 'Best Bid',
 			best_ask: 'Best Ask',
@@ -338,7 +341,6 @@ export default {
 				order: 'order',
 			},
 		},
-		pair: 'Pair',
 
 		your_message: 'Your message...',
 	},
@@ -415,6 +417,7 @@ export default {
 			verify: 'Verify',
 		},
 	},
+
 	balance: {
 		title: 'Balance',
 

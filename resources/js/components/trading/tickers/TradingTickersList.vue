@@ -55,7 +55,7 @@
 							</th>
 							<th class="trading-tickers-list__content__header__item--pair" @click="setSorting('pair')">
 								<span>
-									{{ $t('trading.market') }}
+									{{ $t('table_header.market') }}
 								</span>
 								<v-icon v-if="tickersSorting === 'pairAsc'" small>
 									mdi-arrow-up
@@ -65,7 +65,7 @@
 								</v-icon>
 							</th>
 							<th class="trading-tickers-list__content__header__item--rate">
-								{{ $t('trading.rate') }}
+								{{ $t('table_header.rate') }}
 							</th>
 							<th class="trading-tickers-list__content__header__item--volume" @click="setSorting('volume')">
 								<span>

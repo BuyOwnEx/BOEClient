@@ -18,7 +18,7 @@
 				<v-menu close-on-click offset-y v-model="item.menu" transition="slide-y-transition" bottom>
 					<template v-slot:activator="{ on }">
 						<v-btn color="#A6A6A6" v-on="on" text tile small>
-							{{ $t('trading.actions') }}
+							{{ $t('table_header.actions') }}
 							<v-icon right>mdi-chevron-down</v-icon>
 						</v-btn>
 					</template>

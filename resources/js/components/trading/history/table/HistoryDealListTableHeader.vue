@@ -3,21 +3,21 @@
 		<tr>
 			<th>
 				<div class="history-deal-list-table-header__item--rate">
-					<span>{{ $t('trading.rate') }}</span>
+					<span>{{ $t('table_header.rate') }}</span>
 					<span>({{ market }})</span>
 				</div>
 			</th>
 
 			<th>
 				<div class="history-deal-list-table-header__item--amount">
-					<span>{{ $t('trading.amount') }}</span>
+					<span>{{ $t('table_header.amount') }}</span>
 					<span>({{ currency }})</span>
 				</div>
 			</th>
 
 			<th>
 				<div class="history-deal-list-table-header__item--date">
-					{{ $t('trading.date') }}
+					{{ $t('table_header.date') }}
 				</div>
 			</th>
 		</tr>
