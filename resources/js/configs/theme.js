@@ -1,3 +1,5 @@
+import locales from './locales';
+
 export default {
 	globalTheme: 'dark', // light | dark
 	menuTheme: 'global', // global | light | dark
@@ -5,7 +7,7 @@ export default {
 
 	isToolbarDetached: false,
 	isContentBoxed: false,
-	isRTL: false,
+	isRTL: isUserLangRtl(),
 
 	dark: {
 		background: '#05090c',
@@ -31,3 +33,11 @@ export default {
 		warning: '#ffd166',
 	},
 };
+
+function isUserLangRtl() {
+	const allLangs = locales.availableLocales
+	const userLangCode = locales.locale
+	const foundLocale = allLangs.find(l => l.code === userLangCode)
+
+	return foundLocale.isRtl;
+}

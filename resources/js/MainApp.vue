@@ -38,8 +38,6 @@ export default {
 
 	mounted() {
 		this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
-
-		this.$vuetify.rtl = ['ar'].includes(this.$i18n.locale);
 	},
 };
 </script>

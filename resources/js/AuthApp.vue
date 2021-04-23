@@ -35,8 +35,5 @@ export default {
 		this.component = this.$component;
 		this.lang = this.$lang;
 	},
-	mounted() {
-		this.$vuetify.rtl = ['ar'].includes(this.$i18n.locale);
-	},
 };
 </script>
