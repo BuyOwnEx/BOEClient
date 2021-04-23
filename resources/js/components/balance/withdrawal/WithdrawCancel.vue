@@ -17,13 +17,15 @@
 
 			<v-card-actions class="common-dialog__actions">
 				<v-spacer />
+
 				<v-btn plain tile text small @click="close">
 					{{ $t('common.close') }}
 				</v-btn>
 				<v-spacer />
-				<v-btn color="primary" plain tile text small @click="confirm">
+				<v-btn color="primary" :loading="loading" plain tile text small @click="confirm">
 					{{ $t('common.confirm') }}
 				</v-btn>
+
 				<v-spacer />
 			</v-card-actions>
 		</v-card>
@@ -31,8 +33,12 @@
 </template>
 
 <script>
+import loadingMixin from '../../../mixins/common/loadingMixin';
+
 export default {
 	name: 'WithdrawCancel',
+
+	mixins: [loadingMixin],
 
 	props: {
 		withdrawObj: {
@@ -56,6 +62,17 @@ export default {
 	},
 
 	methods: {
+		async confirm() {
+			try {
+				this.startLoading();
+				// await axios.post
+				this.$emit('cancel', this.withdrawObj.id);
+				this.close();
+			} finally {
+				this.stopLoading();
+			}
+		},
+
 		close() {
 			this.dialog = false;
 		},

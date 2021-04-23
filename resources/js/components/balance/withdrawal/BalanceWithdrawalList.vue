@@ -24,7 +24,7 @@
 					</template>
 
 					<v-list dense>
-						<WithdrawCancel :withdrawObj="item" @closeMenu="closeMenu(item)" />
+						<WithdrawCancel :withdrawObj="item" @close-menu="closeMenu(item)" />
 					</v-list>
 				</v-menu>
 			</template>
