@@ -1,6 +1,6 @@
 <template>
-	<v-card class="trading-forms pa-1">
-		<v-row v-if="isDesktop" no-gutters>
+	<v-card class="trading-forms ">
+		<v-row v-if="isDesktop" class="pa-1" no-gutters>
 			<v-col class="trading-forms__buy" cols="12" md="6">
 				<v-card-title class="trading-forms__header component-title pa-0">
 					<span>
@@ -143,7 +143,4 @@ export default {
 	.trading-forms
 		&__sell
 			padding-top: 2rem
-		::v-deep.v-tabs
-			margin-left: -8px
-			margin-top: -8px
 </style>
