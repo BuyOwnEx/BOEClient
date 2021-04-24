@@ -395,7 +395,7 @@ export default {
 
 		async finish() {
 			try {
-				this.startLoading();апрпар
+				this.startLoading();
 
 				let res = await axios.post('/trader/ext/withdraw/crypto/confirm', {
 					code: this.emailCode,
