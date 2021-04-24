@@ -397,9 +397,15 @@ export default {
 			try {
 				this.startLoading();
 
-				// await axios.post()
-
-				this.close();
+				let res = await axios.post('/trader/ext/withdraw/crypto/confirm', {
+					code: this.emailCode,
+					totp: this.user2FA ? this.twoFACode : null
+				});
+				console.log(res);
+				if(res.data.success)
+				{
+					this.close();
+				}
 			} finally {
 				this.stopLoading();
 			}

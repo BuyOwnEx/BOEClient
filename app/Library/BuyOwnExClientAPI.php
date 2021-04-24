@@ -360,7 +360,7 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/transfer_safe',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function withdrawCryptoRequest(int $user_id, string $name, string $email, string $currency, $amount, string $address)
+    public function withdrawCryptoRequest(int $user_id, string $email, string $currency, $amount, string $address)
     {
         $params = [
             'trader' => $user_id,
@@ -374,6 +374,23 @@ class BuyOwnExClientAPI
         if($response->json()['success'] && $response->json()['code'])
         {
             Mail::to($email)->queue(new WithdrawRequest($response->json()['code']));
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function withdrawCryptoConfirm(int $user_id, string $code)
+    {
+        $params = [
+            'trader' => $user_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/withdraw_crypto_confirm',$params);
+        if($response->json()['success'])
+        {
             return response()->json(['success' => true],$response->status());
         }
         else {

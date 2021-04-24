@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ConfirmWithdrawRequest;
 use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;
@@ -456,7 +457,6 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->withdrawCryptoRequest(
                 Auth::id(),
-                Auth::user()->name,
                 Auth::user()->email,
                 $request->currency,
                 $request->amount,
@@ -467,9 +467,17 @@ class TraderController extends Controller
         }
     }
 
-    public function withdrawCryptoConfirm(Request $request)
+    public function withdrawCryptoConfirm(ConfirmWithdrawRequest $request)
     {
-
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->withdrawCryptoConfirm(
+                Auth::id(),
+                $request->code
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
     }
 
     public function sendMessage(Request $request)
