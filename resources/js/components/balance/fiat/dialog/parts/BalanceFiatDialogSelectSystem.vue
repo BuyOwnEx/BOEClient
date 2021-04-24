@@ -80,7 +80,7 @@ export default {
 
 		getSystemImage(name) {
 			const filename = name.toLowerCase() + '.png';
-			return `/images/balance//${filename}`;
+			return `/storage/gateway/${filename}`;
 		},
 		getMinAmount(item) {
 			return this.isReplenish ? item.minReplenish : item.minWithdraw;
