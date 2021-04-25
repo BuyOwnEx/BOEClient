@@ -65,9 +65,14 @@ export default {
 		async confirm() {
 			try {
 				this.startLoading();
-				// await axios.post
-				this.$emit('cancel', this.withdrawObj.id);
-				this.close();
+				const res = await axios.post('/trader/ext/withdraw/crypto/cancel', {
+					id: this.withdrawObj.id
+				});
+				console.log(res);
+				if (res.data.success) {
+					this.$emit('cancel', this.withdrawObj.id);
+					this.close();
+				}
 			} finally {
 				this.stopLoading();
 			}
