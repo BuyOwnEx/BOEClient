@@ -1,7 +1,7 @@
 <template>
 	<v-card class="trading-tickers-list pa-1">
 		<div class="trading-tickers-list__header">
-			<div v-if="!isSearch" class="trading-tickers-list__header__markets">
+			<div v-if="!isSearch" class="trading-tickers-list__header-markets">
 				<v-btn
 					v-if="marketsFromStorage !== null"
 					v-for="market in markets"
@@ -17,13 +17,13 @@
 				</v-btn>
 			</div>
 
-			<div v-if="isSearch" class="trading-tickers-list__header__search">
+			<div v-if="isSearch" class="trading-tickers-list__header-search">
 				<v-text-field v-model="tickersSearchQuery" :label="$t('trading.search')" hide-details outlined dense>
 				</v-text-field>
 			</div>
 
-			<div class="trading-tickers-list__header__actions">
-				<span class="trading-tickers-list__header__actions__search ">
+			<div class="trading-tickers-list__header-actions">
+				<span class="trading-tickers-list__search-action">
 					<v-btn icon @click="switchSearchShowAndClearField">
 						<v-icon>mdi-magnify</v-icon>
 					</v-btn>
@@ -32,6 +32,7 @@
 		</div>
 
 		<CommonLoading v-if="!tickersList" />
+
 		<div v-else class="trading-tickers-list__content-wrapper">
 			<v-simple-table
 				v-if="tickersList && tickersListFilteredAndSorted.length > 0"
@@ -41,10 +42,10 @@
 				fixed-header
 			>
 				<template v-slot:default>
-					<thead class="trading-tickers-list__content__header">
+					<thead class="trading-tickers-list__table-header">
 						<tr>
-							<th class="trading-tickers-list__content__header__item--favorite" @click="switchFavoriteSorting">
-								<span class="trading-tickers-list__content__header__item--favorite__wrapper">
+							<th class="trading-tickers-list__header-item--favorite" @click="switchFavoriteSorting">
+								<span class="trading-tickers-list__header-favorite-wrapper">
 									<v-icon v-if="selectedMarket !== 'favorites'" color="#b0b29c" small>
 										mdi-star
 									</v-icon>
@@ -53,7 +54,7 @@
 									</v-icon>
 								</span>
 							</th>
-							<th class="trading-tickers-list__content__header__item--pair" @click="setSorting('pair')">
+							<th class="trading-tickers-list__header-item--pair" @click="setSorting('pair')">
 								<span>
 									{{ $t('table_header.market') }}
 								</span>
@@ -64,10 +65,10 @@
 									mdi-arrow-down
 								</v-icon>
 							</th>
-							<th class="trading-tickers-list__content__header__item--rate">
+							<th class="trading-tickers-list__header-item--rate">
 								{{ $t('table_header.rate') }}
 							</th>
-							<th class="trading-tickers-list__content__header__item--volume" @click="setSorting('volume')">
+							<th class="trading-tickers-list__header-item--volume" @click="setSorting('volume')">
 								<span>
 									{{ $t('trading.sort.volume') }}
 								</span>
@@ -78,7 +79,7 @@
 									mdi-arrow-up
 								</v-icon>
 							</th>
-							<th class="trading-tickers-list__content__header__item--change text-end" @click="setSorting('change')">
+							<th class="trading-tickers-list__header-item--change text-end" @click="setSorting('change')">
 								<span>
 									{{ $t('trading.sort.change') }}
 								</span>
@@ -92,10 +93,10 @@
 						</tr>
 					</thead>
 
-					<tbody class="trading-tickers-list__content__body">
+					<tbody class="trading-tickers-list__table-body">
 						<tr v-for="item in tickersListFilteredAndSorted" :key="item.pairName">
-							<td class="trading-tickers-list__content__body__item--favorite">
-								<div class="trading-tickers-list__content__body__item--favorite__wrapper">
+							<td class="trading-tickers-list__body-item--favorite">
+								<div class="trading-tickers-list__body-favorite-wrapper">
 									<v-icon
 										v-if="isPairFavorite(item.pairName)"
 										color="#FFE040"
@@ -115,28 +116,28 @@
 								</div>
 							</td>
 
-							<td class="trading-tickers-list__content__body__item--pair">
+							<td class="trading-tickers-list__body-item--pair">
 								<a
 									href="#"
-									class="trading-tickers-list__content__body__item--pair__link"
+									class="trading-tickers-list__pair-link"
 									@click.prevent="selectMarketAndCurrency(item.market, item.currency)"
 								>
-									<strong class="trading-tickers-list__content__body__item--pair__currency">
+									<strong class="trading-tickers-list__pair-currency">
 										{{ item.currency }}
 									</strong>
 								</a>
 							</td>
 
-							<td class="trading-tickers-list__content__body__item--cost">
+							<td class="trading-tickers-list__body-item--cost">
 								{{ BigNumber(item.latest).toString() }}
 							</td>
 
-							<td class="trading-tickers-list__content__body__item--volume">
+							<td class="trading-tickers-list__body-item--volume">
 								{{ formatWithScaleInAllCurrencies(item.volume, market) }}
 							</td>
 
 							<td
-								class="trading-tickers-list__content__body__item--change text-end"
+								class="trading-tickers-list__body-item--change text-end"
 								:class="[getPercentColorClass(item.changePercent)]"
 							>
 								<span>{{ item.changePercent }}</span>
@@ -146,6 +147,7 @@
 					</tbody>
 				</template>
 			</v-simple-table>
+
 			<div v-else-if="tickersList && tickersListFilteredAndSorted.length === 0" class="text-center mt-4 overline">
 				{{ $t('trading.not_found') }}
 			</div>
@@ -323,7 +325,7 @@ export default {
 			});
 		},
 		setSorting(type) {
-			let sort = this.tickersSorting;
+			const sort = this.tickersSorting;
 
 			switch (type) {
 				case 'pair':
@@ -365,15 +367,15 @@ export default {
 		},
 
 		addToFavorites(pairName) {
-			let exist = _.find(this.favoritePairs, item => {
+			const exist = _.find(this.favoritePairs, item => {
 				return item.toLowerCase() === pairName.toLowerCase();
 			});
-			if (exist === undefined) {
+			if (!exist) {
 				this.favoritePairs.push(pairName);
 			}
 		},
 		removeFromFavorites(pairName) {
-			let index = _.findIndex(this.favoritePairs, item => {
+			const index = _.findIndex(this.favoritePairs, item => {
 				return item.toLowerCase() === pairName.toLowerCase();
 			});
 			if (index !== -1) {
@@ -426,8 +428,8 @@ export default {
 		this.selectedMarket = this.selectedTradingMarket ? this.selectedTradingMarket.toUpperCase() : this.market;
 
 		if (typeof Storage !== 'undefined') {
-			let savedFavoriteTickers = localStorage.getItem('tickersFavorites');
-			if (savedFavoriteTickers !== null) {
+			const savedFavoriteTickers = localStorage.getItem('tickersFavorites');
+			if (savedFavoriteTickers) {
 				this.favoritePairs = JSON.parse(savedFavoriteTickers);
 			}
 
@@ -450,70 +452,63 @@ export default {
 		justify-content: space-between
 		align-items: center
 		height: 32px
-
 		.v-btn
 			z-index: 3 !important
 
-		&__search
-			width: 100%
-			padding-right: 8px
-			padding-top: 9px !important
+	&__header-search
+		width: 100%
+		padding-right: 8px
+		padding-top: 9px !important
 
-		&__actions
-			display: flex
-			align-items: center
+	&__header-actions
+		display: flex
+		align-items: center
 
 	&__content-wrapper
 		display: flex
 		flex-flow: column
 		flex-grow: 1
 
-	&__content
-		&__header
-			height: 35px
+	&__table-header
+		height: 35px
 
-			&__item
-				&--favorite
-					cursor: pointer
-					&__wrapper
-						display: flex
-						justify-content: center
-						align-items: center
-						i
-							padding-bottom: 2px
+	&__header-item--favorite
+		cursor: pointer
+	&__header-favorite-wrapper
+		display: flex
+		justify-content: center
+		align-items: center
+		i
+			padding-bottom: 2px
 
-				&--pair
-					cursor: pointer
-					&:hover
-						color: rgba(0, 0, 0, 0.87) !important
+	&__header-item--pair
+		cursor: pointer
+		&:hover
+			color: rgba(0, 0, 0, 0.87) !important
 
-				&--volume
-					cursor: pointer
-					&:hover
-						color: rgba(0, 0, 0, 0.87) !important
+	&__header-item--volume
+		cursor: pointer
+		&:hover
+			color: rgba(0, 0, 0, 0.87) !important
 
-				&--change
-					cursor: pointer
-					margin-right: 8px !important
-					&:hover
-						color: rgba(0, 0, 0, 0.87) !important
+	&__header-item--change
+		cursor: pointer
+		margin-right: 8px !important
+		&:hover
+			color: rgba(0, 0, 0, 0.87) !important
 
-		&__body
-			&__item
-				&--favorite
-					&__wrapper
-						display: flex
-						align-items: center
-						justify-content: center
+	&__body-favorite-wrapper
+		display: flex
+		align-items: center
+		justify-content: center
 
-				&--pair
-					&__link
-						padding-left: 4px
-						text-decoration: none
-						color: unset
+	&__pair-link
+		padding-left: 4px
+		text-decoration: none
+		color: unset
 
-				&--change
-					margin-right: 8px !important
+	&__body-item--change
+		margin-right: 8px !important
 
 	::v-deep .v-data-table__wrapper
 		padding-right: 8px
@@ -521,13 +516,10 @@ export default {
 
 .theme--dark
 	.trading-tickers-list
-		&__content
-			&__header
-				&__item
-					&--pair:hover
-						color: #edf0f2 !important
-					&--volume:hover
-						color: #edf0f2 !important
-					&--change:hover
-						color: #edf0f2 !important
+		&__header-item--pair:hover
+			color: #edf0f2 !important
+		&__header-item--volume:hover
+			color: #edf0f2 !important
+		&__header-item--change:hover
+			color: #edf0f2 !important
 </style>
