@@ -18,7 +18,7 @@
 
 		<v-tabs-items v-model="selectedTab" touchless>
 			<v-tab-item :key="1">
-				<BalanceCryptoList />
+				<BalanceCryptoList @refresh-withdrawals="fetchWithdrawals" />
 			</v-tab-item>
 
 			<v-tab-item v-if="isUserFiat" :key="2">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 import BalanceCryptoList from '../../components/balance/crypto/BalanceCryptoList';
@@ -56,18 +56,20 @@ export default {
 	data() {
 		return {
 			selectedTab: 0,
-			withdrawalList: null,
 		};
 	},
 
 	computed: {
+		...mapState({
+			withdrawalList: state => state.balance.withdrawals,
+		}),
 		...mapGetters({
 			isUserFiat: 'user/isUserFiat',
 		}),
 	},
 
 	created() {
-		this.fetch();
+		this.fetchWithdrawals();
 	},
 
 	methods: {
@@ -75,8 +77,8 @@ export default {
 			fetchWithdrawalsStore: 'balance/fetchWithdrawals',
 		}),
 
-		async fetch() {
-			this.withdrawalList = await this.fetchWithdrawalsStore();
+		async fetchWithdrawals() {
+			await this.fetchWithdrawalsStore();
 		},
 	},
 };

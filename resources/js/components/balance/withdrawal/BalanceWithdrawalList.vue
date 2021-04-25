@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -69,6 +69,7 @@ export default {
 	components: {
 		WithdrawCancel: () => import(/* webpackPrefetch: true */ './WithdrawCancel'),
 	},
+
 	mixins: [formatDate],
 
 	props: {
@@ -90,6 +91,10 @@ export default {
 	},
 
 	computed: {
+		...mapState({
+			userBalances: state => state.user.balances
+		}),
+
 		headers() {
 			return [
 				{
@@ -114,9 +119,6 @@ export default {
 					align: 'center',
 				},
 			];
-		},
-		userBalances() {
-			return this.$store.state.user.balances;
 		},
 	},
 

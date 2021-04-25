@@ -287,6 +287,7 @@ export default {
 			twoFACode: '',
 
 			dialog: false,
+			isSuccessWithdraw: false,
 			step: 1,
 		};
 	},
@@ -379,31 +380,33 @@ export default {
 		},
 
 		async formWithdrawRequest() {
-			this.startLoading();
-			let res = await axios.post('/trader/ext/withdraw/crypto/request', {
-				currency: this.currency.toUpperCase(),
-				amount: this.amount,
-				address: this.address,
-			});
-			console.log(res);
-			if(res.data.success)
-			{
-				this.step++;
+			try {
+				this.startLoading();
+				const res = await axios.post('/trader/ext/withdraw/crypto/request', {
+					currency: this.currency.toUpperCase(),
+					amount: this.amount,
+					address: this.address,
+				});
+				console.log(res);
+				if (res.data.success) {
+					this.step++;
+				}
+			} finally {
+				this.stopLoading();
 			}
-			this.stopLoading();
 		},
 
 		async finish() {
 			try {
 				this.startLoading();
 
-				let res = await axios.post('/trader/ext/withdraw/crypto/confirm', {
+				const res = await axios.post('/trader/ext/withdraw/crypto/confirm', {
 					code: this.emailCode,
-					totp: this.user2FA ? this.twoFACode : null
+					totp: this.user2FA ? this.twoFACode : null,
 				});
 				console.log(res);
-				if(res.data.success)
-				{
+				if (res.data.success) {
+					this.isSuccessWithdraw = true;
 					this.close();
 				}
 			} finally {
@@ -418,6 +421,15 @@ export default {
 			this.amount = this.availableForWithdraw.toString();
 		},
 
+		refreshWithdrawalDataIfConfirmCodeError() {
+			const confirmCodeStep = 3;
+			const neededStep = this.step === confirmCodeStep;
+			const unsuccessfulWithdraw = !this.isSuccessWithdraw;
+
+			if (neededStep && unsuccessfulWithdraw) {
+				this.$emit('refresh-withdrawals');
+			}
+		},
 		isCorrectPrecision(v) {
 			return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
 		},
@@ -427,9 +439,11 @@ export default {
 			this.emailCode = '';
 			this.twoFACode = '';
 			this.step = 1;
+			this.isSuccessWithdraw = false
 		},
 		close() {
 			this.dialog = false;
+			this.refreshWithdrawalDataIfConfirmCodeError();
 		},
 		back() {
 			this.step--;

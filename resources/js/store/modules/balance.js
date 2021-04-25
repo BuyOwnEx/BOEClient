@@ -3,7 +3,9 @@ import VueI18n from '../../plugins/vue-i18n';
 export default {
 	namespaced: true,
 
-	state: () => ({}),
+	state: () => ({
+		withdrawals: null,
+	}),
 
 	getters: {
 		stateTypes() {
@@ -54,10 +56,16 @@ export default {
 		},
 	},
 
+	mutations: {
+		SET_WITHDRAWALS(state, data) {
+			state.withdrawals = data;
+		},
+	},
+
 	actions: {
-		async fetchWithdrawals() {
+		async fetchWithdrawals({ commit }) {
 			const { data } = await axios.get('/trader/ext/balance/all-withdrawals');
-			return data.data;
+			commit('SET_WITHDRAWALS', data.data);
 		},
 
 		async validateAddress(_, payload) {
