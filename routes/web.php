@@ -101,6 +101,8 @@ Route::group(['prefix' => 'trader'], function () {
         Route::post('transfer/safe', 'TraderController@transferToSafeWallet')->name('transfer_to_safe');
         Route::post('withdraw/crypto/request', 'TraderController@withdrawCryptoRequest')->name('withdraw_crypto_request');
         Route::post('withdraw/crypto/confirm', 'TraderController@withdrawCryptoConfirm')->name('withdraw_crypto_confirm');
+        Route::post('withdraw/crypto/cancel', 'TraderController@withdrawCryptoCancel')->name('withdraw_crypto_cancel');
+        Route::post('withdraw/fiat/cancel', 'TraderController@withdrawFiatCancel')->name('withdraw_fiat_cancel');
 
 
         Route::post('message/send', 'TraderController@sendMessage')->name('send_message');

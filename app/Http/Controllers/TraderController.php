@@ -480,6 +480,32 @@ class TraderController extends Controller
         }
     }
 
+    public function withdrawCryptoCancel(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->withdrawCryptoCancel(
+                Auth::id(),
+                $request->id
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function withdrawFiatCancel(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->withdrawFiatCancel(
+                Auth::id(),
+                $request->id
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
     public function sendMessage(Request $request)
     {
         try {

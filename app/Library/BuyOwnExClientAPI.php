@@ -397,6 +397,40 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
+    public function withdrawCryptoCancel(int $user_id, int $withdraw_id)
+    {
+        $params = [
+            'trader' => $user_id,
+            'id' => $withdraw_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/cancel_withdraw_crypto_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function withdrawFiatCancel(int $user_id, int $withdraw_id)
+    {
+        $params = [
+            'trader' => $user_id,
+            'id' => $withdraw_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/cancel_withdraw_fiat_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
 
     public function sendMessage(int $user_id, string $message)
     {
