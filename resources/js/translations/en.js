@@ -893,7 +893,7 @@ export default {
 					'                        <p>\n' +
 					'                            If the answer is successful the string in JSON format will be returned\n' +
 					'                        </p>\n' +
-					'                        <code class="code text-success">\n' +
+					'                        <code class="code success--text">\n' +
 					'                            {"success": true,"token": "&lt;token&gt;"&#125\n' +
 					'                        </code>\n' +
 					'                        <p>\n' +

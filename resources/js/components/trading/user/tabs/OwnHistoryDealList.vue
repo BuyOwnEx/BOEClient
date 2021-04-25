@@ -38,7 +38,7 @@
 				</template>
 
 				<template v-slot:item.side="{ item }">
-					<strong :class="{ 'text-success': item.side, 'text-danger': !item.side }">
+					<strong :class="{ 'success--text': item.side, 'error--text': !item.side }">
 						{{ item.side ? $t('trading.order.direction.buy') : $t('trading.order.direction.sell') }}
 					</strong>
 				</template>

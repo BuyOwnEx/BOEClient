@@ -4,37 +4,29 @@
 			{{ $t('trading.headers.market_activity') }}
 		</v-card-title>
 
-		<CommonLoading v-if="isLoading || !tickersList" />
+		<CommonLoading v-if="!tickersList" />
 		<v-card-text v-else class="trading-market-activity__content pa-0">
 			<v-simple-table dense>
 				<template v-slot:default>
 					<tbody>
-						<tr v-for="item in activityList">
-							<td class="trading-market-activity__item--pair">
-								<span>{{ item.currency }}/{{ item.market }} </span>
-							</td>
+						<tr v-for="item in activityList" :key="item.id">
+							<td class="trading-market-activity__item--pair">{{ item.currency }}/{{ item.market }}</td>
 
 							<td
 								class="trading-market-activity__item--percent"
 								:class="{
-									'text-success': item.trend === 'positive',
-									'text-danger': item.trend === 'negative',
+									'success--text': item.trend === 'positive',
+									'error--text': item.trend === 'negative',
 								}"
 							>
-								<span style="font-weight: normal">
-									{{ item.changePercent }}%
-								</span>
+								<span> {{ item.changePercent }}% </span>
 							</td>
 
 							<td class="trading-market-activity__trend text-center">
 								<v-icon v-if="item.trend === 'positive'" color="success" small>
 									mdi-arrow-up
 								</v-icon>
-								<v-icon
-									v-else-if="item.trend === 'negative'"
-									color="error"
-									small
-								>
+								<v-icon v-else-if="item.trend === 'negative'" color="error" small>
 									mdi-arrow-down
 								</v-icon>
 								<span v-else>
@@ -67,24 +59,20 @@ export default {
 
 	components: { CommonLoading },
 
-	data() {
-		return {
-			isLoading: true,
-		};
-	},
-
 	computed: {
 		tickersFromStorage() {
 			return this.$store.state.tickers.tickersList;
 		},
 
 		tickersList() {
-			if (this.tickersFromStorage === null) {
+			if (!this.tickersFromStorage) {
 				return null;
 			}
+
 			return _.map(this.tickersFromStorage, item => {
-				let change = BigNumber(item.latest).minus(BigNumber(item.previous_day));
+				const change = BigNumber(item.latest).minus(BigNumber(item.previous_day));
 				let changePercent = 0;
+
 				if (!change.isZero()) {
 					if (BigNumber(item.previous_day).isZero()) {
 						changePercent = 100;
@@ -107,7 +95,7 @@ export default {
 		},
 
 		activityList() {
-			let positive = _.chain(this.tickersList)
+			const positive = _.chain(this.tickersList)
 				.filter(item => {
 					return item.trend === 'positive' || item.trend === 0;
 				})
@@ -120,7 +108,7 @@ export default {
 					return item;
 				})
 				.value();
-			let negative = _.chain(this.tickersList)
+			const negative = _.chain(this.tickersList)
 				.filter(item => {
 					return item.trend === 'negative';
 				})
@@ -135,10 +123,6 @@ export default {
 				.value();
 			return _.union(positive, negative);
 		},
-	},
-
-	mounted() {
-		this.isLoading = false;
 	},
 };
 </script>

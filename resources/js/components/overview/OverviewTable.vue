@@ -41,11 +41,11 @@
 			<template v-slot:item.change24="{ item }">
 				<span v-if="item.changePercent < 0">
 					<v-icon color="error" x-small>mdi-arrow-down</v-icon>
-					<span class="text-danger"> {{ item.changePercent }}%</span>
+					<span class="error--text"> {{ item.changePercent }}%</span>
 				</span>
 				<span v-else-if="item.changePercent > 0">
 					<v-icon color="success" x-small>mdi-arrow-up</v-icon>
-					<span class="text-success"> +{{ item.changePercent }}%</span>
+					<span class="success--text"> +{{ item.changePercent }}%</span>
 				</span>
 				<span v-else>
 					<v-icon class="text-secondary" x-small>mdi-minus</v-icon>

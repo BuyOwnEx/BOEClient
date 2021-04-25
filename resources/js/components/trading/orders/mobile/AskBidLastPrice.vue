@@ -3,8 +3,8 @@
 		<div
 			class="last_price"
 			:class="{
-				'text-success': lastChangeIsPositive,
-				'text-danger': lastChangeIsNegative,
+				'success--text': lastChangeIsPositive,
+				'error--text': lastChangeIsNegative,
 			}"
 		>
 			<span

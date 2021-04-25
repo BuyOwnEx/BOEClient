@@ -12,7 +12,7 @@
 		>
 			<td>
 				<div class="bid-list-table-body__item--price">
-					<strong class="text-success">
+					<strong class="success--text">
 						{{ formatPrice(item.price, getPriceScale) }}
 					</strong>
 				</div>

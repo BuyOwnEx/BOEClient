@@ -76,12 +76,12 @@
 
 				<template v-slot:item.side="{ item }">
 					<span v-if="item.side === false">
-						<strong class="text-success">
+						<strong class="success--text">
 							{{ $t('trading.order.direction.buy') }}
 						</strong>
 					</span>
 					<span v-else>
-						<strong class="text-danger">
+						<strong class="error--text">
 							{{ $t('trading.order.direction.sell') }}
 						</strong>
 					</span>
@@ -117,10 +117,10 @@
 				<template v-slot:item.percent="{ item }"> {{ percent(item) }}% </template>
 
 				<template v-slot:item.status="{ item }">
-					<span class="text-success" v-if="item.status === 'accepted'">
+					<span class="success--text" v-if="item.status === 'accepted'">
 						{{ $t('trading.order.status.accepted') }}
 					</span>
-					<span class="text-warning" v-else>
+					<span class="warning--text" v-else>
 						{{ $t('trading.order.status.partiallyFilled') }}
 					</span>
 				</template>

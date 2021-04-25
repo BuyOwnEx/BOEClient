@@ -43,7 +43,6 @@ export default {
 
 <style scoped lang="sass">
 .history-deal-list-table-header
-	&__item
-		&--date
-			text-align: end
+	&__item--date
+		text-align: end
 </style>

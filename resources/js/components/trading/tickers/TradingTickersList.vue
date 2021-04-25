@@ -393,8 +393,8 @@ export default {
 		},
 
 		getPercentColorClass(percent) {
-			if (percent > 0) return 'text-success';
-			else if (percent < 0) return 'text-danger';
+			if (percent > 0) return 'success--text';
+			else if (percent < 0) return 'error--text';
 			else return '';
 		},
 

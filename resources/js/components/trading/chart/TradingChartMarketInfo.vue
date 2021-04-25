@@ -14,8 +14,8 @@
 			<span
 				class="info-value"
 				:class="{
-					'text-success': dailyChange > 0,
-					'text-danger': dailyChange < 0,
+					'success--text': dailyChange > 0,
+					'error--text': dailyChange < 0,
 				}"
 			>
 				<span>{{ dailyChangePercent }}%</span>

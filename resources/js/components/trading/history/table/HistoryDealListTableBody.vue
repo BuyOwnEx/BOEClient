@@ -5,8 +5,8 @@
 				<div class="history-deal-list-table-body__item--price">
 					<strong
 						:class="{
-							'text-danger': item.side === true,
-							'text-success': item.side === false,
+							'error--text': item.side === true,
+							'success--text': item.side === false,
 						}"
 					>
 						{{ formatPrice(item.price, getPriceScale) }}
@@ -60,7 +60,6 @@ export default {
 
 <style scoped lang="sass">
 .history-deal-list-table-body
-	&__item
-		&--date
-			text-align: end
+	&__item--date
+		text-align: end
 </style>

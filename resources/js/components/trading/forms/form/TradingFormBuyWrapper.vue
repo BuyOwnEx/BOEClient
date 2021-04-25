@@ -25,7 +25,9 @@ import BidLimitForm from '../bid/BidLimitForm';
 
 export default {
 	name: 'TradingFormBuyWrapper',
+
 	components: { BidLimitForm, BidMarketForm },
+
 	props: {
 		currency: {
 			type: String,

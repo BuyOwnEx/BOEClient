@@ -240,7 +240,4 @@ export default {
 	&__add-params-list
 		padding-top: 8px
 		padding-left: 16px !important
-	&__important
-		font-weight: 800
-		font-size: 14px
 </style>

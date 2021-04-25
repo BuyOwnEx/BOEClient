@@ -98,10 +98,10 @@
 				</template>
 
 				<template v-slot:item.type="{ item }">
-					<strong v-if="item.type === 'LONG POSITION'" class="text-success">
+					<strong v-if="item.type === 'LONG POSITION'" class="success--text">
 						{{ item.type }}
 					</strong>
-					<strong v-else class="text-danger">{{ item.type }}</strong>
+					<strong v-else class="error--text">{{ item.type }}</strong>
 				</template>
 
 				<template v-slot:item.filled="{ item }">
@@ -154,13 +154,13 @@
 				</template>
 
 				<template v-slot:item.status="{ item }">
-					<span class="text-muted" v-if="item.status === 'accepted'">
+					<span class="text--secondary" v-if="item.status === 'accepted'">
 						{{ $t('trading.position.status.accepted') }}
 					</span>
-					<span class="text-warning" v-else-if="item.status === 'partiallyFilled'">
+					<span class="warning--text" v-else-if="item.status === 'partiallyFilled'">
 						{{ $t('trading.position.status.partiallyFilled') }}
 					</span>
-					<span class="text-success" v-else>
+					<span class="success--text" v-else>
 						{{ $t('trading.position.status.filled') }}
 					</span>
 				</template>
@@ -336,16 +336,16 @@ export default {
 		marginLevelClass(item) {
 			let marginLevel = this.marginLevel(item);
 			return {
-				'text-success': BigNumber(marginLevel).gte(1),
-				'text-warning': BigNumber(marginLevel).gt(this.marginCallValue) && BigNumber(marginLevel).lt(1),
-				'text-danger': BigNumber(marginLevel).lte(this.marginCallValue),
+				'success--text': BigNumber(marginLevel).gte(1),
+				'warning--text': BigNumber(marginLevel).gt(this.marginCallValue) && BigNumber(marginLevel).lt(1),
+				'error--text': BigNumber(marginLevel).lte(this.marginCallValue),
 			};
 		},
 		marginPositionClass(item) {
 			let marginPosition = this.marginPosition(item);
 			return {
-				'text-success': BigNumber(marginPosition).gt(0),
-				'text-danger': BigNumber(marginPosition).lt(0),
+				'success--text': BigNumber(marginPosition).gt(0),
+				'error--text': BigNumber(marginPosition).lt(0),
 				'text-default': BigNumber(marginPosition).eq(0),
 			};
 		},
