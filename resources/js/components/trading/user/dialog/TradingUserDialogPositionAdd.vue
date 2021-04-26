@@ -41,13 +41,7 @@
 						{{ cancelTitle }}
 					</v-btn>
 					<v-spacer />
-					<v-btn
-						:loading="loading"
-						:disabled="loading"
-						color="blue darken-1"
-						text
-						@click="apply"
-					>
+					<v-btn :loading="loading" :disabled="loading" color="blue darken-1" text @click="apply">
 						{{ actionTitle }}
 					</v-btn>
 					<v-spacer />
@@ -61,8 +55,13 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import loadingMixin from '../../../../mixins/common/loadingMixin';
+import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+
 export default {
 	name: 'TradingUserDialogPositionClose',
+
+	mixins: [loadingMixin, dialogMethodsMixin],
 
 	props: {
 		id: {
@@ -85,7 +84,6 @@ export default {
 
 	data() {
 		return {
-			dialog: false,
 			valid: true,
 			loading: false,
 			formTitle: 'Deposit funds for position',
@@ -97,8 +95,7 @@ export default {
 				numberRules: [
 					v => !!v || 'The field is required',
 					v =>
-						(v && /^-?\d+\.?\d{0,15}$/i.test(v)) ||
-						'Unsupported characters. Must be decimal number with precision 15',
+						(v && /^-?\d+\.?\d{0,15}$/i.test(v)) || 'Unsupported characters. Must be decimal number with precision 15',
 					v => (!!v && v > 0) || 'The field must be positive number',
 				],
 			},
@@ -140,39 +137,29 @@ export default {
 		},
 	},
 
-	watch: {
-		dialog(val) {
-			if (val) this.$emit('closeMenu');
-		},
-	},
-
 	methods: {
+		apply() {
+			this.startLoading();
+			axios
+				.post('/trader/ext/position/deposit', this.form)
+				.then(response => {
+					if (response.data.success === true) {
+						this.close();
+					}
+				})
+				.finally(() => {
+					this.stopLoading();
+				});
+		},
+
 		setCurrencyAmount() {
 			this.form.amount = this.currencyBalance.toString();
 		},
 		setMarketAmount() {
 			this.form.amount = this.marketBalance.toString();
 		},
-		reset() {
+		clearData() {
 			this.$refs.form.reset();
-		},
-		close() {
-			this.dialog = false;
-			this.reset();
-		},
-		apply() {
-			let self = this;
-			this.loading = true;
-			axios
-				.post('/trader/ext/position/deposit', this.form)
-				.then(response => {
-					if (response.data.success === true) {
-						self.close();
-					}
-				})
-				.finally(function() {
-					self.loading = false;
-				});
 		},
 	},
 };

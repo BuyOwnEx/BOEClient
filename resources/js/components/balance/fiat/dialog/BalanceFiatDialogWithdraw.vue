@@ -144,13 +144,14 @@ import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import validateInputMixin from '../../../../mixins/common/validateInputMixin';
+import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceFiatDialogWithdraw',
 
 	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert },
 
-	mixins: [loadingMixin, validateInputMixin],
+	mixins: [loadingMixin, validateInputMixin, dialogMethodsMixin],
 
 	props: {
 		currencyObj: {
@@ -174,8 +175,6 @@ export default {
 				v => !v || v <= this.availableForWithdraw || this.$t('balance.more_withdraw_available'),
 			],
 			valid: false,
-
-			dialog: false,
 			step: 1,
 		};
 	},
@@ -216,15 +215,6 @@ export default {
 		},
 	},
 
-	watch: {
-		dialog(val) {
-			if (val) {
-				this.closeMenu();
-				this.clearData();
-			}
-		},
-	},
-
 	methods: {
 		withdraw() {
 			try {
@@ -254,12 +244,6 @@ export default {
 			this.selectedMethodID = 1;
 			this.phone = '';
 			this.step = 1;
-		},
-		close() {
-			this.dialog = false;
-		},
-		closeMenu() {
-			this.$emit('close-menu');
 		},
 	},
 };

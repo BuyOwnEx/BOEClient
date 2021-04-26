@@ -17,10 +17,7 @@
 				<div>
 					<span>{{ $t('trading.order.available') }}</span>
 
-					<b
-						class="available_balance clickable non-selectable dashed"
-						@click="setAmount"
-					>
+					<b class="available_balance clickable non-selectable dashed" @click="setAmount">
 						{{ this.availableBalance.toString() }}
 						{{ currencyObj.currency.toUpperCase() }}
 					</b>
@@ -31,11 +28,7 @@
 						v-model="form.amount"
 						class="pt-0 mt-0"
 						:placeholder="$t('balance.amount')"
-						:rules="[
-							localRules.numberWithScalePrecision,
-							localRules.lessAvailable,
-							rules.positive,
-						]"
+						:rules="[localRules.numberWithScalePrecision, localRules.lessAvailable, rules.positive]"
 						:hint="$t('balance.dialog.hint')"
 						:suffix="currencyObj.currency"
 						persistent-hint
@@ -80,16 +73,12 @@ import loadingMixin from '../../../mixins/common/loadingMixin';
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
 import validateInputMixin from '../../../mixins/common/validateInputMixin';
+import dialogMethodsMixin from '../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceDialogTransfer',
 
-	mixins: [
-		loadingMixin,
-		formValidationRules,
-		showNotificationMixin,
-		validateInputMixin,
-	],
+	mixins: [loadingMixin, formValidationRules, showNotificationMixin, validateInputMixin, dialogMethodsMixin],
 
 	props: {
 		currencyObj: {
@@ -114,16 +103,12 @@ export default {
 
 	data() {
 		return {
-			dialog: false,
 			valid: false,
 
 			localRules: {
 				numberWithScalePrecision: v =>
-					!v ||
-					this.isCorrectPrecision(v) ||
-					this.$t('forms_validation.unsupported_precision'),
-				lessAvailable: v =>
-					!v || v <= this.availableBalance || this.$t('balance.more_available'),
+					!v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
+				lessAvailable: v => !v || v <= this.availableBalance || this.$t('balance.more_available'),
 			},
 
 			form: {
@@ -171,15 +156,6 @@ export default {
 		},
 	},
 
-	watch: {
-		dialog(val) {
-			if (val) {
-				this.$emit('close-menu');
-				this.amount = '';
-			}
-		},
-	},
-
 	methods: {
 		async apply() {
 			try {
@@ -195,16 +171,13 @@ export default {
 		},
 
 		isCorrectPrecision(v) {
-			return !new RegExp(
-				'\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}',
-				'i'
-			).test(v);
+			return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
 		},
 		setAmount() {
 			this.form.amount = this.availableBalance.toString();
 		},
-		close() {
-			this.dialog = false;
+		clearData() {
+			this.amount = '';
 		},
 	},
 };

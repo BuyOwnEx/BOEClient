@@ -100,13 +100,14 @@ import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import validateInputMixin from '../../../../mixins/common/validateInputMixin';
+import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceFiatDialogReplenish',
 
 	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert },
 
-	mixins: [loadingMixin, validateInputMixin],
+	mixins: [loadingMixin, validateInputMixin, dialogMethodsMixin],
 
 	props: {
 		currencyObj: {
@@ -120,7 +121,6 @@ export default {
 			selectedSystem: null,
 			amount: '',
 
-			dialog: false,
 			step: 1,
 		};
 	},
@@ -139,15 +139,6 @@ export default {
 		},
 		currency() {
 			return this.currencyObj.currency;
-		},
-	},
-
-	watch: {
-		dialog(val) {
-			if (val) {
-				this.closeMenu();
-				this.clearData();
-			}
 		},
 	},
 
@@ -171,12 +162,6 @@ export default {
 			this.amount = '';
 			this.selectedSystem = null;
 			this.step = 1;
-		},
-		close() {
-			this.dialog = false;
-		},
-		closeMenu() {
-			this.$emit('close-menu');
 		},
 	},
 };

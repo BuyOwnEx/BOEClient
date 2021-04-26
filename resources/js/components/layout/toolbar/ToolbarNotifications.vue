@@ -1,20 +1,8 @@
 <template>
 	<div class="toolbar-notifications">
-		<v-menu
-			transition="slide-y-transition"
-			:close-on-content-click="false"
-			min-width="400"
-			offset-y
-			left
-		>
+		<v-menu transition="slide-y-transition" :close-on-content-click="false" min-width="400" offset-y left>
 			<template v-slot:activator="{ on }">
-				<v-badge
-					:content="unreadQuantity"
-					:value="unreadQuantity"
-					offset-x="22"
-					offset-y="22"
-					bordered
-				>
+				<v-badge :content="unreadQuantity" :value="unreadQuantity" offset-x="22" offset-y="22" bordered>
 					<v-btn icon v-on="on">
 						<v-icon>mdi-bell-outline</v-icon>
 					</v-btn>
@@ -28,16 +16,10 @@
 							Notifications
 						</v-subheader>
 						<div v-for="(item, index) in toolbarNotifications" :key="item.id">
-							<v-divider
-								v-if="index > 0 && index < toolbarNotifications.length"
-								inset
-							/>
+							<v-divider v-if="index > 0 && index < toolbarNotifications.length" inset />
 
 							<v-list-item :ripple="false" @click="readNotification(item)">
-								<v-list-item-avatar
-									size="32"
-									:color="getNotificationColor(item.type)"
-								>
+								<v-list-item-avatar size="32" :color="getNotificationColor(item.type)">
 									<v-icon dark small>
 										{{ getNotificationIcon(item.type) }}
 									</v-icon>
@@ -67,12 +49,8 @@
 				</div>
 
 				<div class="text-center mx-1 mx-sm-0 py-2">
-					<v-btn
-						:block="isTabletOrMobile"
-						small
-						@click="navigateToNotificationsPage"
-					>
-						{{$t('common.see_all')}}
+					<v-btn :block="isTabletOrMobile" small @click="navigateToNotificationsPage">
+						{{ $t('common.see_all') }}
 					</v-btn>
 				</div>
 			</v-card>
@@ -80,7 +58,8 @@
 
 		<NotificationCommonModal
 			v-if="showDetails"
-			:show="showDetails"
+			:dialog-prop="showDetails"
+			:subject="getSubject(selectedNotificationDetails.kind)"
 			:notification="selectedNotificationDetails"
 			@close="showDetails = false"
 		/>
@@ -108,12 +87,13 @@ export default {
 
 	computed: {
 		...mapGetters({
-			toolbarNotifications:
-				'notifications/getFirstFiveUnreadNotificationsForToolbar',
+			toolbarNotifications: 'notifications/getFirstFiveUnreadNotificationsForToolbar',
 			unreadQuantity: 'notifications/getUnreadNotificationsQuantity',
 
 			getNotificationColor: 'notifications/getNotificationColor',
 			getNotificationIcon: 'notifications/getNotificationIcon',
+
+			getSubject: 'notifications/getNotificationKindSubject',
 		}),
 
 		isTabletOrMobile() {

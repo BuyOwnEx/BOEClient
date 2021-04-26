@@ -1,19 +1,19 @@
 <template>
 	<v-dialog
 		ref="dialog"
-		v-model="dialog"
+		v-model="dialogProp"
 		:fullscreen="$vuetify.breakpoint.mdAndDown"
 		no-click-animation
 		persistent
 		width="600"
 	>
 		<v-card>
-			<v-card-title class="common-dialog__title">
+			<v-card-title class="common-dialog__title d-flex flex-nowrap">
 				<span>
 					{{ subject }}
 				</span>
 				<v-spacer />
-				<v-btn icon @click="$emit('close')">
+				<v-btn class="mb-auto" icon @click="close">
 					<v-icon>mdi-close</v-icon>
 				</v-btn>
 			</v-card-title>
@@ -32,9 +32,10 @@ export default {
 	name: 'NotificationsCommonModal',
 
 	props: {
-		show: {
+		dialogProp: {
 			type: Boolean,
-			required: true,
+			required: false,
+			default: false,
 		},
 		subject: {
 			type: String,
@@ -53,18 +54,18 @@ export default {
 	},
 
 	watch: {
-		showCompose(val) {
-			this.dialog = val;
-		},
 		dialog() {
 			this.$nextTick(this.$refs.dialog.showScroll);
 		},
+		dialogProp(val) {
+			this.dialog = val;
+		},
 	},
 
-	mounted() {
-		this.dialog = this.show;
+	methods: {
+		close() {
+			this.$emit('close');
+		},
 	},
 };
 </script>
-
-<style lang="scss"></style>

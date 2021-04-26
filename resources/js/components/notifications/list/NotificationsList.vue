@@ -88,7 +88,7 @@
 
 		<NotificationsCommonModal
 			v-if="showDetails"
-			:show="showDetails"
+			:dialog-prop="showDetails"
 			:subject="getSubject(selectedNotificationDetails.kind)"
 			:notification="selectedNotificationDetails"
 			@close="showDetails = false"

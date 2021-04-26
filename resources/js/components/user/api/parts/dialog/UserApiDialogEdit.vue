@@ -71,13 +71,14 @@
 import CommonDialog from '../../../../common/CommonDialog';
 
 import loadingMixin from '../../../../../mixins/common/loadingMixin';
+import dialogMethodsMixin from '../../../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'UserApiDialogEdit',
 
 	components: { CommonDialog },
 
-	mixins: [loadingMixin],
+	mixins: [loadingMixin, dialogMethodsMixin],
 
 	props: {
 		apiItem: {
@@ -88,7 +89,6 @@ export default {
 
 	data() {
 		return {
-			dialog: false,
 			form: {
 				trading: false,
 				withdraw: false,
@@ -143,10 +143,6 @@ export default {
 			} finally {
 				this.stopLoading();
 			}
-		},
-
-		close() {
-			this.dialog = false;
 		},
 	},
 

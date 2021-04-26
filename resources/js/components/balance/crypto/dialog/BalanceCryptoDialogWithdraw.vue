@@ -255,13 +255,14 @@ import CommonTooltip from '../../../common/CommonTooltip';
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
 import validateInputMixin from '../../../../mixins/common/validateInputMixin';
+import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
 
 	components: { CommonTooltip },
 
-	mixins: [loadingMixin, showNotificationMixin, validateInputMixin],
+	mixins: [loadingMixin, showNotificationMixin, validateInputMixin, dialogMethodsMixin],
 
 	props: {
 		currencyObj: {
@@ -286,7 +287,6 @@ export default {
 			emailCode: '',
 			twoFACode: '',
 
-			dialog: false,
 			isSuccessWithdraw: false,
 			step: 1,
 		};
@@ -332,15 +332,6 @@ export default {
 		},
 	},
 
-	watch: {
-		dialog(val) {
-			if (val) {
-				this.closeMenu();
-				this.resetData();
-			}
-		},
-	},
-
 	mounted() {
 		this.$store.subscribe(mutation => {
 			const type = mutation.type;
@@ -363,7 +354,7 @@ export default {
 		...mapActions({
 			validateAddressStore: 'balance/validateAddress',
 			formCryptoWithdrawRequestStore: 'balance/formCryptoWithdrawRequest',
-			confirmCryptoWithdrawStore: 'balance/confirmCryptoWithdraw'
+			confirmCryptoWithdrawStore: 'balance/confirmCryptoWithdraw',
 		}),
 
 		async validateAddress() {
@@ -389,8 +380,8 @@ export default {
 					currency: this.currency.toUpperCase(),
 					amount: this.amount,
 					address: this.address,
-				}
-				const isSuccess = await this.formWithdrawRequest(payload)
+				};
+				const isSuccess = await this.formWithdrawRequest(payload);
 
 				if (isSuccess) {
 					this.step++;
@@ -407,8 +398,8 @@ export default {
 				const payload = {
 					code: this.emailCode,
 					totp: this.user2FA ? this.twoFACode : null,
-				}
-				const isSuccess = await this.confirmCryptoWithdrawStore(payload)
+				};
+				const isSuccess = await this.confirmCryptoWithdrawStore(payload);
 
 				if (isSuccess) {
 					this.isSuccessWithdraw = true;
@@ -444,7 +435,7 @@ export default {
 			this.emailCode = '';
 			this.twoFACode = '';
 			this.step = 1;
-			this.isSuccessWithdraw = false
+			this.isSuccessWithdraw = false;
 		},
 		close() {
 			this.dialog = false;
@@ -452,9 +443,6 @@ export default {
 		},
 		back() {
 			this.step--;
-		},
-		closeMenu() {
-			this.$emit('close-menu');
 		},
 	},
 };

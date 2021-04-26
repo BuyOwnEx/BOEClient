@@ -216,6 +216,7 @@ import {
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
+import dialogMethodsMixin from '../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
@@ -225,11 +226,10 @@ export default {
 		EditorMenuBar,
 	},
 
-	mixins: [formValidationRules, loadingMixin, showNotificationMixin],
+	mixins: [formValidationRules, loadingMixin, showNotificationMixin, dialogMethodsMixin],
 
 	data() {
 		return {
-			dialog: false,
 			valid: false,
 
 			form: {
@@ -277,20 +277,6 @@ export default {
 		},
 	},
 
-	watch: {
-		dialog(value) {
-			if (value === true) {
-				this.$nextTick(() => {
-					this.form.subject = '';
-					this.form.priority = null;
-					this.form.file = null;
-					this.editor.clearContent();
-					this.$refs.form.resetValidation();
-				});
-			}
-		},
-	},
-
 	beforeDestroy() {
 		this.editor.destroy();
 	},
@@ -321,8 +307,14 @@ export default {
 			}
 		},
 
-		close() {
-			this.dialog = false;
+		clearData() {
+			this.form.subject = '';
+			this.form.priority = null;
+			this.form.file = null;
+			this.editor.clearContent();
+			this.$nextTick(() => {
+				this.$refs.form.resetValidation();
+			});
 		},
 	},
 };

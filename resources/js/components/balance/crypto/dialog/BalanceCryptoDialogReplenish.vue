@@ -57,11 +57,14 @@ import { mapActions } from 'vuex';
 import QrCode from '@chenfengyuan/vue-qrcode';
 import CommonLoading from '../../../common/CommonLoading';
 import CommonCopyLabel from '../../../common/CommonCopyLabel';
+import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceCryptoDialogReplenish',
 
 	components: { CommonLoading, CommonCopyLabel, QrCode },
+
+	mixins: [dialogMethodsMixin],
 
 	props: {
 		currencyObj: {
@@ -70,21 +73,9 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			dialog: false,
-		};
-	},
-
 	computed: {
 		address() {
 			return this.currencyObj.address;
-		},
-	},
-
-	watch: {
-		dialog(val) {
-			if (val) this.closeMenu();
 		},
 	},
 
@@ -92,13 +83,6 @@ export default {
 		...mapActions({
 			getAddressStore: 'balance/getAddress',
 		}),
-
-		close() {
-			this.dialog = false;
-		},
-		closeMenu() {
-			this.$emit('close-menu');
-		},
 	},
 
 	created() {

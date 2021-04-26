@@ -22,13 +22,7 @@
 						{{ cancelTitle }}
 					</v-btn>
 					<v-spacer />
-					<v-btn
-						color="blue darken-1"
-						text
-						@click="apply"
-						:loading="loading"
-						:disabled="loading"
-					>
+					<v-btn color="blue darken-1" text @click="apply" :loading="loading" :disabled="loading">
 						{{ actionTitle }}</v-btn
 					>
 					<v-spacer />
@@ -39,8 +33,13 @@
 </template>
 
 <script>
+import loadingMixin from '../../../../mixins/common/loadingMixin';
+import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+
 export default {
 	name: 'TradingUserDialogPositionClose',
+
+	mixins: [loadingMixin, dialogMethodsMixin],
 
 	props: {
 		id: {
@@ -51,7 +50,6 @@ export default {
 
 	data() {
 		return {
-			dialog: false,
 			valid: true,
 			loading: false,
 			formTitle: 'Closing position',
@@ -64,35 +62,23 @@ export default {
 		};
 	},
 
-	watch: {
-		dialog(val) {
-			if (val) this.$emit('closeMenu');
-		},
-	},
-
 	methods: {
 		apply() {
-			let self = this;
-			this.loading = true;
+			this.startLoading();
 			axios
 				.post('/trader/ext/position/close', this.form)
 				.then(response => {
 					if (response.data.success === true) {
-						self.close();
+						this.close();
 					}
 				})
-				.finally(function() {
-					self.loading = false;
+				.finally(() => {
+					this.stopLoading();
 				});
 		},
 
-		reset() {
+		clearData() {
 			this.$refs.form.reset();
-		},
-
-		close() {
-			this.dialog = false;
-			this.reset();
 		},
 	},
 };

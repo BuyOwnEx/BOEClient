@@ -35,11 +35,12 @@
 <script>
 import { mapActions } from 'vuex';
 import loadingMixin from '../../../mixins/common/loadingMixin';
+import dialogMethodsMixin from '../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'WithdrawCancel',
 
-	mixins: [loadingMixin],
+	mixins: [loadingMixin, dialogMethodsMixin],
 
 	props: {
 		withdrawObj: {
@@ -49,20 +50,6 @@ export default {
 		isCrypto: {
 			type: Boolean,
 			required: true,
-		},
-	},
-
-	data() {
-		return {
-			dialog: false,
-		};
-	},
-
-	watch: {
-		dialog(val) {
-			if (val) {
-				this.closeMenu();
-			}
 		},
 	},
 
@@ -90,12 +77,6 @@ export default {
 
 		async cancelWithdrawal(ID) {
 			return this.isCrypto ? await this.cancelCryptoWithdrawalStore(ID) : await this.cancelFiatWithdrawalStore(ID);
-		},
-		close() {
-			this.dialog = false;
-		},
-		closeMenu() {
-			this.$emit('close-menu');
 		},
 	},
 };

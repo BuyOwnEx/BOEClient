@@ -115,17 +115,17 @@ import CommonCopyLabel from '../../../../common/CommonCopyLabel';
 import formValidationRules from '../../../../../mixins/common/formValidationRules';
 import loadingMixin from '../../../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../../../mixins/common/showNotificationMixin';
+import dialogMethodsMixin from '../../../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
 
 	components: { CommonCopyLabel },
 
-	mixins: [formValidationRules, loadingMixin, showNotificationMixin],
+	mixins: [formValidationRules, loadingMixin, showNotificationMixin, dialogMethodsMixin],
 
 	data() {
 		return {
-			dialog: false,
 			valid: false,
 
 			token: null,
@@ -141,17 +141,6 @@ export default {
 	computed: {
 		emptyName() {
 			return !this.form.name.trim();
-		},
-	},
-
-	watch: {
-		dialog(value) {
-			if (value) {
-				this.form.name = '';
-				this.form.abilities = [];
-				this.token = null;
-				this.secretToken = null;
-			}
 		},
 	},
 
@@ -180,9 +169,12 @@ export default {
 			}
 		},
 
-		close() {
-			this.dialog = false;
-		},
+		clearData() {
+			this.form.name = '';
+			this.form.abilities = [];
+			this.token = null;
+			this.secretToken = null;
+		}
 	},
 };
 </script>
