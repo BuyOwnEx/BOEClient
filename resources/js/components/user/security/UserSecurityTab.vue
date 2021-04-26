@@ -253,7 +253,7 @@ export default {
 			min-height: 30px !important
 	.v-form
 		width: 25%
-		@media screen and (max-width: 1264px)
+		@media screen and (max-width: 1263px)
 			width: 50%
 		@media screen and (max-width: 959px)
 			width: 100%

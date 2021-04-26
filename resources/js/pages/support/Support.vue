@@ -8,23 +8,16 @@
 			width="240"
 			floating
 		>
-			<SupportSidebarMenu
-				@update-status="updateStatus"
-				@update-priority="updatePriority"
-			/>
+			<SupportSidebarMenu @update-status="updateStatus" @update-priority="updatePriority" />
 		</v-navigation-drawer>
 
 		<div class="support-page__content-wrapper d-flex flex-grow-1 flex-column">
 			<v-toolbar class="support-page__toolbar flex-grow-0 hidden-lg-and-up">
 				<v-app-bar-nav-icon @click="drawer = !drawer" />
-				<div class="title font-weight-bold">{{$t('support.title')}}</div>
+				<div class="title font-weight-bold">{{ $t('support.title') }}</div>
 			</v-toolbar>
 
-			<SupportListWrapper
-				:status-to-show="status"
-				:priority-to-show="priority"
-				@refresh="fetch"
-			/>
+			<SupportListWrapper :status-to-show="status" :priority-to-show="priority" @refresh="fetch" />
 		</div>
 	</div>
 </template>
@@ -78,7 +71,7 @@ export default {
 .support-page
 	&__sidebar
 		margin-right: 5px
-		@media screen and (max-width: 959px)
+		@media screen and (max-width: 1263px)
 			border-radius: 0 !important
 	&__toolbar
 		margin-bottom: 5px

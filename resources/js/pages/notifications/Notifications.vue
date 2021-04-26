@@ -68,7 +68,7 @@ export default {
 .notifications
 	&__sidebar
 		margin-right: 5px
-		@media screen and (max-width: 960px)
+		@media screen and (max-width: 1263px)
 			border-radius: 0 !important
 	&__toolbar
 		margin-bottom: 5px
