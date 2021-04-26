@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import loadingMixin from '../../../mixins/common/loadingMixin';
 
 export default {
@@ -43,6 +44,10 @@ export default {
 	props: {
 		withdrawObj: {
 			type: Object,
+			required: true,
+		},
+		isCrypto: {
+			type: Boolean,
 			required: true,
 		},
 	},
@@ -62,15 +67,20 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			cancelCryptoWithdrawalStore: 'balance/cancelCryptoWithdrawal',
+			cancelFiatWithdrawalStore: 'balance/cancelFiatWithdrawal',
+		}),
+
 		async confirm() {
 			try {
 				this.startLoading();
-				const res = await axios.post('/trader/ext/withdraw/crypto/cancel', {
-					id: this.withdrawObj.id
-				});
-				console.log(res);
-				if (res.data.success) {
-					this.$emit('cancel', this.withdrawObj.id);
+
+				const ID = this.withdrawObj.id;
+				const isSuccess = await this.cancelWithdrawal(ID);
+
+				if (isSuccess) {
+					this.$emit('cancel', ID);
 					this.close();
 				}
 			} finally {
@@ -78,6 +88,9 @@ export default {
 			}
 		},
 
+		async cancelWithdrawal(ID) {
+			return this.isCrypto ? await this.cancelCryptoWithdrawalStore(ID) : await this.cancelFiatWithdrawalStore(ID);
+		},
 		close() {
 			this.dialog = false;
 		},

@@ -184,7 +184,9 @@ export default {
 		async apply() {
 			try {
 				this.startLoading();
+
 				await axios.post(`/trader/ext/transfer/${this.type}`, this.form);
+
 				this.close();
 				this.$store.dispatch('user/getBalancesFromServer');
 			} finally {

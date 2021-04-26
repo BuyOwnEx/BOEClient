@@ -362,6 +362,8 @@ export default {
 	methods: {
 		...mapActions({
 			validateAddressStore: 'balance/validateAddress',
+			formCryptoWithdrawRequestStore: 'balance/formCryptoWithdrawRequest',
+			confirmCryptoWithdrawStore: 'balance/confirmCryptoWithdraw'
 		}),
 
 		async validateAddress() {
@@ -382,13 +384,15 @@ export default {
 		async formWithdrawRequest() {
 			try {
 				this.startLoading();
-				const res = await axios.post('/trader/ext/withdraw/crypto/request', {
+
+				const payload = {
 					currency: this.currency.toUpperCase(),
 					amount: this.amount,
 					address: this.address,
-				});
-				console.log(res);
-				if (res.data.success) {
+				}
+				const isSuccess = await this.formWithdrawRequest(payload)
+
+				if (isSuccess) {
 					this.step++;
 				}
 			} finally {
@@ -400,12 +404,13 @@ export default {
 			try {
 				this.startLoading();
 
-				const res = await axios.post('/trader/ext/withdraw/crypto/confirm', {
+				const payload = {
 					code: this.emailCode,
 					totp: this.user2FA ? this.twoFACode : null,
-				});
-				console.log(res);
-				if (res.data.success) {
+				}
+				const isSuccess = await this.confirmCryptoWithdrawStore(payload)
+
+				if (isSuccess) {
 					this.isSuccessWithdraw = true;
 					this.close();
 				}

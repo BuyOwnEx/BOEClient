@@ -76,6 +76,28 @@ export default {
 				params: { currency },
 			});
 		},
+
+		async formCryptoWithdrawRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/withdraw/crypto/request', payload);
+			return data.success;
+		},
+		async confirmCryptoWithdraw(_, payload) {
+			const { data } = await axios.post('/trader/ext/withdraw/crypto/confirm', payload);
+			return data.success;
+		},
+
+		async cancelCryptoWithdrawal(_, id) {
+			const { data } = await axios.post('/trader/ext/withdraw/crypto/cancel', {
+				id,
+			});
+			return data.success;
+		},
+		async cancelFiatWithdrawal(_, id) {
+			const { data } = await axios.post('/trader/ext/withdraw/fiat/cancel', {
+				id,
+			});
+			return data.success;
+		},
 	},
 };
 

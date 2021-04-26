@@ -24,7 +24,12 @@
 					</template>
 
 					<v-list dense>
-						<WithdrawCancel :withdrawObj="item" @close-menu="closeMenu(item)" />
+						<WithdrawCancel
+							:withdrawObj="item"
+							:is-crypto="getIsCurrencyCryptoType(item.currency)"
+							@close-menu="closeMenu(item)"
+							@cancel="filterWithdrawalList"
+						/>
 					</v-list>
 				</v-menu>
 			</template>
@@ -92,7 +97,7 @@ export default {
 
 	computed: {
 		...mapState({
-			userBalances: state => state.user.balances
+			userBalances: state => state.user.balances,
 		}),
 
 		headers() {
@@ -129,11 +134,19 @@ export default {
 	},
 
 	methods: {
+		filterWithdrawalList(idToDelete) {
+			this.withdrawals = this.withdrawals.filter(item => item.id !== idToDelete);
+		},
+
 		getImage(currency) {
 			return this.userBalances[currency].logo;
 		},
 		getCurrencyColor(currency) {
 			return this.userBalances[currency].color;
+		},
+		getIsCurrencyCryptoType(currency) {
+			const type = this.userBalances[currency].type;
+			return type === 'coin';
 		},
 
 		BigNumber(item) {
