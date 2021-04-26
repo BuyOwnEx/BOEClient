@@ -95,8 +95,8 @@
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-jdenticon-sprites';
 
-import UserApiDialogEdit from './dialog/UserApiDialogEdit';
-import UserApiDialogDeleteOne from './dialog/UserApiDialogDeleteOne';
+import UserApiDialogEdit from '../dialog/UserApiDialogEdit';
+import UserApiDialogDeleteOne from '../dialog/UserApiDialogDeleteOne';
 import CommonCopyLabel from '../../../common/CommonCopyLabel';
 
 import formatDate from '../../../../mixins/format/formatDate';

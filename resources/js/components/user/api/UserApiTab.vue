@@ -28,8 +28,8 @@
 
 <script>
 import UserApiItem from './parts/UserApiItem';
-import UserApiDialogCreate from './parts/dialog/UserApiDialogCreate';
-import UserApiDialogDeleteAll from './parts/dialog/UserApiDialogDeleteAll';
+import UserApiDialogCreate from './dialog/UserApiDialogCreate';
+import UserApiDialogDeleteAll from './dialog/UserApiDialogDeleteAll';
 import CommonLoading from '../../common/CommonLoading';
 
 export default {

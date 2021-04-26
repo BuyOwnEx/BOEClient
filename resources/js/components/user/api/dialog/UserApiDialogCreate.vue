@@ -110,12 +110,12 @@
 </template>
 
 <script>
-import CommonCopyLabel from '../../../../common/CommonCopyLabel';
+import CommonCopyLabel from '../../../common/CommonCopyLabel';
 
-import formValidationRules from '../../../../../mixins/common/formValidationRules';
-import loadingMixin from '../../../../../mixins/common/loadingMixin';
-import showNotificationMixin from '../../../../../mixins/common/showNotificationMixin';
-import dialogMethodsMixin from '../../../../../mixins/common/dialogMethodsMixin';
+import formValidationRules from '../../../../mixins/common/formValidationRules';
+import loadingMixin from '../../../../mixins/common/loadingMixin';
+import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
+import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'UserApiDialogCreate',
