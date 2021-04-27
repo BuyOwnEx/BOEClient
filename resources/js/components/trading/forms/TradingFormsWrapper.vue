@@ -7,9 +7,7 @@
 						{{ $t('trading.order.direction.buy') }}
 						{{ currency }}
 					</span>
-					<span class="trading-forms__header-info" :key="best_ask">
-						{{ $t('trading.forms.best_ask') }}: {{ best_ask }}
-					</span>
+					<TradingFormsBest :best-ask="best_ask" />
 				</v-card-title>
 
 				<v-card-text class="trading-forms__content pa-0">
@@ -23,9 +21,7 @@
 						{{ $t('trading.order.direction.sell') }}
 						{{ currency }}
 					</span>
-					<span class="trading-forms__header-info" :key="best_bid">
-						{{ $t('trading.forms.best_bid') }}: {{ best_bid }}
-					</span>
+					<TradingFormsBest :best-bid="best_bid" />
 				</v-card-title>
 
 				<v-card-text class="trading-forms__content pa-0">
@@ -45,12 +41,12 @@
 				</v-tab>
 			</v-tabs>
 
-			<v-tabs-items v-model="selectedTab" class="pt-1" touchless>
+			<v-tabs-items v-model="selectedTab" class="py-1 px-1" touchless>
 				<v-tab-item :key="1">
-					<TradingFormBuyWrapper :currency="currency" :market="market" />
+					<TradingFormBuyWrapper :currency="currency" :market="market" :best-ask="best_ask" :best-bid="best_bid" />
 				</v-tab-item>
 				<v-tab-item :key="2">
-					<TradingFormSellWrapper :currency="currency" :market="market" />
+					<TradingFormSellWrapper :currency="currency" :market="market" :best-ask="best_ask" :best-bid="best_bid" />
 				</v-tab-item>
 			</v-tabs-items>
 		</div>
@@ -62,11 +58,11 @@ import { mapState } from 'vuex';
 
 import TradingFormBuyWrapper from './form/TradingFormBuyWrapper';
 import TradingFormSellWrapper from './form/TradingFormSellWrapper';
-
+import TradingFormsBest from './common/TradingFormsBest';
 export default {
 	name: 'TradingForms',
 
-	components: { TradingFormBuyWrapper, TradingFormSellWrapper },
+	components: { TradingFormBuyWrapper, TradingFormSellWrapper, TradingFormsBest },
 
 	props: {
 		currency: {
@@ -115,12 +111,21 @@ export default {
 		display: flex
 		justify-content: space-between
 		margin-left: 4px
-	&__header-info
+
+	::v-deep &__best
 		font-weight: normal
 		font-size: 12px
 		text-transform: none
 		opacity: 0.6
-
+	::v-deep &__best-wrapper
+		display: inline-flex
+		gap: 12px
+		float: right
+		padding-top: 8px
+		@media screen and (max-width: 599px)
+			display: inline-block
+			flex-flow: column
+			padding-top: 0
 	&__content
 		display: flex
 		flex-flow: column

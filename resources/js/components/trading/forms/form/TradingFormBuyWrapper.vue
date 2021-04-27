@@ -1,10 +1,15 @@
 <template>
 	<div class="trading-form-buy">
 		<div class="trading-form-buy__actions">
-			<v-radio-group v-model="type" hide-details mandatory dense row>
+			<v-radio-group v-model="type" class="d-inline-flex" hide-details mandatory dense row>
 				<v-radio label="Limit" value="limit" :ripple="false" />
 				<v-radio label="Market" value="market" :ripple="false" />
 			</v-radio-group>
+
+			<div v-if="isMobile" class="trading-forms__best-wrapper">
+				<TradingFormsBest :best-ask="bestAsk" />
+				<TradingFormsBest :best-bid="bestBid" />
+			</div>
 		</div>
 
 		<div class="trading-form-buy__content">
@@ -22,11 +27,12 @@
 <script>
 import BidMarketForm from '../bid/BidMarketForm';
 import BidLimitForm from '../bid/BidLimitForm';
+import TradingFormsBest from '../common/TradingFormsBest';
 
 export default {
 	name: 'TradingFormBuyWrapper',
 
-	components: { BidLimitForm, BidMarketForm },
+	components: { BidLimitForm, BidMarketForm, TradingFormsBest },
 
 	props: {
 		currency: {
@@ -37,12 +43,26 @@ export default {
 			type: String,
 			required: true,
 		},
+		bestBid: {
+			type: Number,
+			required: false,
+		},
+		bestAsk: {
+			type: Number,
+			required: false,
+		},
 	},
 
 	data() {
 		return {
 			type: 'limit',
 		};
+	},
+
+	computed: {
+		isMobile() {
+			return this.$vuetify.breakpoint.smAndDown;
+		},
 	},
 };
 </script>
