@@ -145,7 +145,6 @@ export default {
 
 			try {
 				this.startLoading();
-				let self = this;
 				axios
 					.post('/trader/2fa_enable', {
 						secret: this.secret,
@@ -168,7 +167,6 @@ export default {
 
 			try {
 				this.startLoading();
-				let self = this;
 				axios
 					.post('/trader/2fa_disable', {
 						totp: this.totp,
@@ -196,6 +194,7 @@ export default {
 				}
 			});
 		},
+
 		handleCodeInputEnable(data) {
 			if (data.length === 6) {
 				this.enable2FA();

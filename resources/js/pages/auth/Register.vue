@@ -148,8 +148,6 @@ export default {
 	data() {
 		return {
 			valid: true,
-			loading: false,
-
 			show: false,
 			show_confirm: false,
 

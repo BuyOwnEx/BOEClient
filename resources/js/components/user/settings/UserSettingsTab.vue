@@ -7,10 +7,10 @@
 		<v-card-text v-else>
 			<UserSettingsRef
 				:all-ref-types="allRefTypes"
-				:user-ref-program-id="user.refProgram || 1"
+				:user-ref-program-id="userRefProgram"
 			/>
 			<UserSettingsEmailNotifications
-				:user-types="user.emailNotifications || []"
+				:user-types="userEmailNotifications"
 			/>
 		</v-card-text>
 	</v-card>
@@ -32,10 +32,14 @@ export default {
 	},
 
 	props: {
-		user: {
-			type: Object,
+		userEmailNotifications: {
+			type: Array,
 			required: true,
 		},
+		userRefProgram: {
+			type: Number,
+			required: true
+		}
 	},
 
 	data() {

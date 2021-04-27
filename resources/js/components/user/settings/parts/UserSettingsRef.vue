@@ -22,11 +22,13 @@
 						{{ $t('common.save') }}
 					</v-btn>
 				</template>
+
 				<template #content>
 					{{ $t('user.settings.dialog.ref_description') }}
 				</template>
 			</CommonDialog>
 		</v-form>
+
 		<v-divider class="my-4" />
 	</section>
 </template>

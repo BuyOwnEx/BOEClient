@@ -85,7 +85,6 @@ export default {
 	data() {
 		return {
 			valid: true,
-			loading: false,
 			formTitle: 'Deposit funds for position',
 			menuTitle: this.$t('trading.deposit_margin'),
 			actionTitle: 'Apply',

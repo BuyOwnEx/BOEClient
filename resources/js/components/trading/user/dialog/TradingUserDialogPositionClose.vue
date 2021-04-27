@@ -51,7 +51,6 @@ export default {
 	data() {
 		return {
 			valid: true,
-			loading: false,
 			formTitle: 'Closing position',
 			menuTitle: this.$t('trading.close_position'),
 			cancelTitle: 'Cancel',

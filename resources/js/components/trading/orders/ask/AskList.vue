@@ -41,12 +41,6 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			isLoading: true,
-		};
-	},
-
 	computed: {
 		askList() {
 			return this.$store.state.trading.ask_list;
@@ -63,10 +57,6 @@ export default {
 		activeTooltipType() {
 			return this.$store.state.tooltip.activeTooltipType;
 		},
-	},
-
-	mounted() {
-		this.isLoading = false;
 	},
 };
 </script>
