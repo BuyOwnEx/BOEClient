@@ -66,16 +66,16 @@ export default {
 	top: 0
 	right: 0
 	left: 0
-	bottom: -907px
+	bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 37)
 	overflow: hidden
 
 @media screen and (min-width: 1382px) and (max-width: 1768px)
 	.history-deal-list-absolute-wrapper
-		bottom: -1306px
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 53)
 @media screen and (min-width: 960px) and (max-width: 1382px)
 	.history-deal-list-absolute-wrapper
-		bottom: -468px
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 19)
 @media screen and (max-width: 959px)
 	.history-deal-list-absolute-wrapper
-		bottom: -1020px
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 40)
 </style>

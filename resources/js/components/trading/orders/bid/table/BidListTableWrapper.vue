@@ -71,16 +71,16 @@ export default {
 	top: 0
 	right: 0
 	left: 0
-	bottom: -482px
+	bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 19)
 	overflow: hidden
 
 @media screen and (min-width: 1382px) and (max-width: 1768px)
 	.bid-list-table-absolute-wrapper
-		bottom: -332px
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 12)
 @media screen and (min-width: 960px) and (max-width: 1382px)
 	.bid-list-table-absolute-wrapper
-		bottom: -332px
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 12)
 @media screen and (max-width: 959px)
 	.bid-list-table-absolute-wrapper
-		bottom: -357px
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 13)
 </style>

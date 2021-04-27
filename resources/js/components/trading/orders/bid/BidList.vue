@@ -1,8 +1,5 @@
 <template>
-	<v-card
-		class="bid-list pa-1"
-		:class="{ 'bid-list--rotated': $vuetify.breakpoint.smAndDown }"
-	>
+	<v-card class="bid-list pa-1" :class="{ 'bid-list--rotated': $vuetify.breakpoint.smAndDown }">
 		<v-card-title class="bid-list__header component-title pa-0">
 			{{ $t('trading.headers.bid_orders') }}
 		</v-card-title>
@@ -17,10 +14,7 @@
 				:market="market"
 			/>
 
-			<OrdersTooltip
-				v-if="bidList && bidList.length && activeTooltipType === 'bid'"
-				type="bid"
-			/>
+			<OrdersTooltip v-if="bidList && bidList.length && activeTooltipType === 'bid'" type="bid" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -33,8 +27,7 @@ export default {
 
 	components: {
 		BidListTableWrapper,
-		OrdersTooltip: () =>
-			import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
+		OrdersTooltip: () => import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
 	},
 
 	props: {
@@ -108,5 +101,5 @@ export default {
 		height: 378px
 @media screen and (max-width: 959px)
 	.bid-list
-		min-height: 403px
+		min-height: 392px
 </style>

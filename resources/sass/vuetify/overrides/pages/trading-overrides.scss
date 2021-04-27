@@ -1,16 +1,13 @@
 // Override only for trading page <15.01.21>
 .trading {
-	// No scroll history table <20.02.21>
-	.history-deal-list .v-data-table__wrapper {
-		overflow: hidden !important;
-	}
+	--table-header-height: 32px;
+	--negative-table-header-height: -32px;
+	--table-row-height: 24px;
+	--table-row-height-big: 28px;
 
-	// No scroll orders tables <21.02.21>
+	.ask-list .v-data-table__wrapper,
 	.bid-list .v-data-table__wrapper {
-		overflow: hidden !important;
-	}
-	.ask-list .v-data-table__wrapper {
-		overflow: hidden !important;
+		overflow: hidden;
 	}
 
 	// Less table font size <20.02.21>
@@ -19,22 +16,25 @@
 	}
 
 	// Less padding in trading tables <19.02.21>
+	table {
+		padding: 0 !important;
+	}
 	td {
-		padding: 4px 4px 4px 4px !important;
+		padding: 4px !important;
 	}
 	th {
-		padding: 4px 4px 4px 4px !important;
+		padding: 4px !important;
 	}
 
 	// Less table cells height <20.02.21>
 	.v-data-table--dense .v-data-table__wrapper td {
-		height: 24px;
+		height: var(--table-row-height) !important;
 	}
 	.own-active-order-list,
 	.own-active-position-list,
 	.own-history-deal-list {
 		.v-data-table--dense td {
-			height: 28px !important;
+			height: var(--table-row-height-big) !important;
 		}
 	}
 
@@ -65,7 +65,7 @@
 			padding: 0 !important;
 		}
 		td {
-			height: 25px !important;
+			height: 24px !important;
 		}
 	}
 	.bid-list .v-data-table__wrapper {
@@ -73,7 +73,7 @@
 			padding: 0 !important;
 		}
 		td {
-			height: 25px !important;
+			height: 24px !important;
 		}
 	}
 
@@ -87,22 +87,12 @@
 	.own-active-order-list,
 	.own-history-deal-list,
 	.own-active-position-list {
-		.v-data-table__wrapper table {
-			padding: 0 !important;
-		}
 		.v-input--switch {
 			margin-top: 0;
 			padding-top: 0;
 		}
 		.v-data-footer__select .v-select {
 			margin-left: 8px !important;
-		}
-	}
-
-	// Market Activity Component
-	.trading-market-activity {
-		table {
-			padding: 0 !important;
 		}
 	}
 }

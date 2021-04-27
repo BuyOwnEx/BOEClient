@@ -2,6 +2,14 @@
 	--light-background-color: #f9f9f9;
 	--dark-background-color: #1e1e1e;
 	--dark-popups-background-color: #303030;
+
+	--app-header-height: 64px;
+	--app-header-height--mobile: 56px;
+
+	--app-footer-height: 29px;
+	--app-footer-height--medium: 40px;
+	--app-footer-large-medium-difference: 11px;
+	--app-footer-height--mobile: 58px;
 }
 
 .table-date {
@@ -41,11 +49,21 @@
 }
 
 .tab-fill-height {
-	min-height: calc(100vh - 64px - 29px - 48px - 15px);
+	--profile-tabs-height: 48px;
+	--profile-paddings: 15px;
+	min-height: calc(
+		100vh - var(--app-header-height) - var(--app-footer-height) - var(--profile-tabs-height) - var(--profile-paddings)
+	);
 	@media screen and (max-width: 1264px) {
-		min-height: calc(100vh - 64px - 40px - 48px - 15px);
+		min-height: calc(
+			100vh - var(--app-header-height) - var(--app-footer-height--medium) - var(--profile-tabs-height) -
+				var(--profile-paddings)
+		);
 	}
 	@media screen and (max-width: 960px) {
-		min-height: calc(100vh - 56px - 58px - 48px - 15px);
+		min-height: calc(
+			100vh - var(--app-header-height--mobile) - var(--app-footer-height--mobile) - var(--profile-tabs-height) -
+				var(--profile-paddings)
+		);
 	}
 }

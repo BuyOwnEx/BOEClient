@@ -8,7 +8,7 @@
 			left: calculateLeft,
 		}"
 	>
-		<div v-if="activeTooltipType === 'bid' && type === 'bid'" class="orders-tooltip--bid">
+		<div v-if="showBid">
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
 				<b class="orders-tooltip__value">{{ averagePrice }}</b>
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<div v-if="activeTooltipType === 'ask' && type === 'ask'" class="orders-tooltip--ask">
+		<div v-if="showAsk" class="orders-tooltip--ask">
 			<div class="d-flex">
 				<span>{{ $t('trading.orders_tooltip.avg_price') }}:</span>
 				<b class="orders-tooltip__value">{{ averagePrice }}</b>
@@ -58,7 +58,7 @@ export default {
 		...mapState('tooltip', ['selectedRowIndex', 'averagePrice', 'sumSize', 'sumVolume', 'activeTooltipType']),
 
 		calculateMargin() {
-			const rowHeight = 25;
+			const rowHeight = 24;
 			const lastRowSelectedIndex = this.selectedRowIndex;
 			const calculatedMargin = (lastRowSelectedIndex - 2) * rowHeight + 'px';
 
@@ -71,6 +71,17 @@ export default {
 		calculateRight() {
 			if (this.type === 'ask') return '100%';
 		},
+
+		showAsk() {
+			const activeNowAskTooltip = this.activeTooltipType === 'ask';
+			const typePropIsAsk = this.type === 'ask';
+			return activeNowAskTooltip && typePropIsAsk;
+		},
+		showBid() {
+			const activeNowBidTooltip = this.activeTooltipType === 'bid';
+			const typePropIsBid = this.type === 'bid';
+			return activeNowBidTooltip && typePropIsBid;
+		},
 	},
 };
 </script>
@@ -78,7 +89,7 @@ export default {
 <style scoped lang="sass">
 .orders-tooltip
 	position: absolute
-	top: 27px
+	top: 24px
 	width: 250px
 	height: 80px
 	z-index: 3
@@ -109,9 +120,6 @@ export default {
 
 @media screen and (max-width: 959px)
 	.orders-tooltip
-		/* table header padding */
-		top: 2px
-
 		left: 0 !important
 		right: 0 !important
 		margin-left: auto

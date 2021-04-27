@@ -14,10 +14,7 @@
 				:market="market"
 			/>
 
-			<OrdersTooltip
-				v-if="askList && askList.length && activeTooltipType === 'ask'"
-				type="ask"
-			/>
+			<OrdersTooltip v-if="askList && askList.length && activeTooltipType === 'ask'" type="ask" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -30,8 +27,7 @@ export default {
 
 	components: {
 		AskListTableWrapper,
-		OrdersTooltip: () =>
-			import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
+		OrdersTooltip: () => import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
 	},
 
 	props: {
@@ -90,5 +86,5 @@ export default {
 		height: 378px
 @media screen and (max-width: 959px)
 	.ask-list
-		min-height: 403px
+		min-height: 392px
 </style>

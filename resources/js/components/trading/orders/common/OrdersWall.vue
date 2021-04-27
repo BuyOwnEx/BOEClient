@@ -41,9 +41,9 @@ export default {
 
 	computed: {
 		calculateMargin() {
-			const rowHeight = 25;
-			const rowsSelected = this.itemIndex;
-			const calculatedMargin = rowsSelected * rowHeight + 'px';
+			const rowHeight = 24;
+			const rowIndex = this.itemIndex;
+			const calculatedMargin = rowIndex * rowHeight + 'px';
 
 			return `translateY(${calculatedMargin})`;
 		},
@@ -74,9 +74,9 @@ export default {
 <style scoped lang="sass">
 .orders-wall-main
 	position: absolute
-	top: 32px
+	top: var(--table-header-height)
 	bottom: 0
-	height: 25px
+	height: var(--table-row-height)
 
 .orders-wall--bid
 	@extend .orders-wall-main

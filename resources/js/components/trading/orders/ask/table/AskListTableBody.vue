@@ -10,24 +10,20 @@
 			@mouseout="clearSelectedRowIndex"
 			@click="emitPrice(item.price)"
 		>
-			<td v-if="!isMobile">
+			<td v-if="isDesktop">
 				<div class="ask-list-table-body__tooltip-volume-wrapper">
-					<OrdersWall
-						:item-index="itemIndex"
-						:volume="calculateVolume(item.price, item.actualSize)"
-						type="ask"
-					/>
+					<OrdersWall :item-index="itemIndex" :volume="calculateVolume(item.price, item.actualSize)" type="ask" />
 					<div class="ask-list-table-body__item--volume text-start">
 						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
 					</div>
 				</div>
 			</td>
-			<td v-if="!isMobile">
+			<td v-if="isDesktop">
 				<div class="ask-list-table-body__item--size">
 					{{ formatSize(item.actualSize, getAmountScale) }}
 				</div>
 			</td>
-			<td v-if="!isMobile">
+			<td v-if="isDesktop">
 				<div class="ask-list-table-body__item--price text-end">
 					<strong class="text-danger">
 						{{ formatPrice(item.price, getPriceScale) }}
@@ -80,13 +76,7 @@ import calculateVolume from '../../../../../mixins/trading/calculateVolume';
 export default {
 	name: 'AskListTableBody',
 
-	mixins: [
-		formatPrice,
-		formatSize,
-		getPriceScale,
-		getAmountScale,
-		calculateVolume,
-	],
+	mixins: [formatPrice, formatSize, getPriceScale, getAmountScale, calculateVolume],
 
 	components: { OrdersWall },
 
@@ -119,8 +109,7 @@ export default {
 
 	watch: {
 		ordersData() {
-			if (this.$store.state.tooltip.activeTooltipType === 'ask')
-				this.updateTooltipData();
+			if (this.$store.state.tooltip.activeTooltipType === 'ask') this.updateTooltipData();
 		},
 	},
 
@@ -130,6 +119,9 @@ export default {
 		}),
 		isMobile() {
 			return this.$vuetify.breakpoint.smAndDown;
+		},
+		isDesktop() {
+			return !this.isMobile;
 		},
 	},
 

@@ -71,4 +71,6 @@ export default {
 		margin-left: 8px
 	&__content
 		position: relative
+	::v-deep.v-data-table__wrapper
+		overflow: hidden
 </style>
