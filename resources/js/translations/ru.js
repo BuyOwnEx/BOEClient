@@ -235,33 +235,6 @@ export default {
 			use_additional_params: 'Дополнительные параметры',
 			available: 'Доступно:',
 
-			buy_limit_order: 'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b>',
-			buy_limit_order_with_params:
-				'Вы собираетесь купить <b>{amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
-			buy_market_order: 'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене',
-			buy_market_order_with_params:
-				'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
-			buy_stop_loss_text:
-				'Продать по рынку в случае, если Best Bid достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
-			buy_take_profit_text:
-				'Продать по рынку в случае, если Best Bid достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
-			buy_trailing_stop_text:
-				'Продать по рынку в случае, если цена актива упадёт одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
-
-			sell_limit_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b>',
-			sell_limit_order_with_params:
-				'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
-			sell_market_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене',
-			sell_market_order_with_params:
-				'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
-			sell_stop_loss_text:
-				'Купить по рынку в случае, если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
-			sell_take_profit_text:
-				'Купить по рынку в случае, если Best Ask достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
-			sell_trailing_stop_text:
-				'Купить по рынку в случае, если цена актива поднимется одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
-			only_one_conditional_orders_trigger: 'Сработает только один из условных ордеров',
-
 			cancel_all: 'Отменить все ордера',
 			cancel_by_type: 'Отменить все {type} ордера',
 
@@ -342,7 +315,32 @@ export default {
 			trailing_stop_info: 'Информация Trailing Stop',
 			dialog: {
 				title: 'Подтверждение ордера',
-				order: 'ордер',
+				buy_limit_order: 'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b>',
+				buy_limit_order_with_params:
+					'Вы собираетесь купить <b>{amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
+				buy_market_order: 'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене',
+				buy_market_order_with_params:
+					'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
+				buy_stop_loss_text:
+					'Продать по рынку в случае, если Best Bid достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
+				buy_take_profit_text:
+					'Продать по рынку в случае, если Best Bid достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
+				buy_trailing_stop_text:
+					'Продать по рынку в случае, если цена актива упадёт одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
+
+				sell_limit_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b>',
+				sell_limit_order_with_params:
+					'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
+				sell_market_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене',
+				sell_market_order_with_params:
+					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
+				sell_stop_loss_text:
+					'Купить по рынку в случае, если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
+				sell_take_profit_text:
+					'Купить по рынку в случае, если Best Ask достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
+				sell_trailing_stop_text:
+					'Купить по рынку в случае, если цена актива поднимется одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
+				only_one_conditional_orders_trigger: 'Сработает только один из условных ордеров',
 			},
 		},
 

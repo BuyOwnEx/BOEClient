@@ -31,7 +31,7 @@
 				</ul>
 
 				<small v-if="isMultiplyAdditionalParams" class="text--secondary pt-1">
-					* {{ $t('trading.order.only_one_conditional_orders_trigger') }}
+					* {{ $t('trading.forms.dialog.only_one_conditional_orders_trigger') }}
 				</small>
 			</div>
 		</template>
@@ -127,7 +127,7 @@ export default {
 		},
 
 		buyLimitText() {
-			return this.$t('trading.order.buy_limit_order', {
+			return this.$t('trading.forms.dialog.buy_limit_order', {
 				amount: this.amount,
 				price: this.price,
 				currency: this.currency.toUpperCase(),
@@ -135,14 +135,14 @@ export default {
 			});
 		},
 		buyMarketText() {
-			return this.$t('trading.order.buy_market_order', {
+			return this.$t('trading.forms.dialog.buy_market_order', {
 				amount: this.amount,
 				currency: this.currency.toUpperCase(),
 				market: this.market.toUpperCase(),
 			});
 		},
 		buyLimitParamsText() {
-			return this.$t('trading.order.buy_limit_order_with_params', {
+			return this.$t('trading.forms.dialog.buy_limit_order_with_params', {
 				amount: this.amount,
 				price: this.price,
 				currency: this.currency.toUpperCase(),
@@ -150,7 +150,7 @@ export default {
 			});
 		},
 		buyMarketParamsText() {
-			return this.$t('trading.order.buy_market_order_with_params', {
+			return this.$t('trading.forms.dialog.buy_market_order_with_params', {
 				amount: this.amount,
 				currency: this.currency.toUpperCase(),
 				market: this.market.toUpperCase(),
@@ -158,26 +158,26 @@ export default {
 		},
 
 		buyStopLossText() {
-			return this.$t('trading.order.buy_stop_loss_text', {
+			return this.$t('trading.forms.dialog.buy_stop_loss_text', {
 				stopLoss: this.stopLoss,
 				market: this.market.toUpperCase(),
 			});
 		},
 		buyTakeProfitText() {
-			return this.$t('trading.order.buy_take_profit_text', {
+			return this.$t('trading.forms.dialog.buy_take_profit_text', {
 				takeProfit: this.takeProfit,
 				market: this.market.toUpperCase(),
 			});
 		},
 		buyTrailingStopText() {
-			return this.$t('trading.order.buy_trailing_stop_text', {
+			return this.$t('trading.forms.dialog.buy_trailing_stop_text', {
 				trailingStop: this.trailingStop,
 				market: this.market.toUpperCase(),
 			});
 		},
 
 		sellLimitText() {
-			return this.$t('trading.order.sell_limit_order', {
+			return this.$t('trading.forms.dialog.sell_limit_order', {
 				amount: this.amount,
 				price: this.price,
 				currency: this.currency.toUpperCase(),
@@ -185,14 +185,14 @@ export default {
 			});
 		},
 		sellMarketText() {
-			return this.$t('trading.order.sell_market_order', {
+			return this.$t('trading.forms.dialog.sell_market_order', {
 				amount: this.amount,
 				currency: this.currency.toUpperCase(),
 				market: this.market.toUpperCase(),
 			});
 		},
 		sellLimitParamsText() {
-			return this.$t('trading.order.sell_limit_order_with_params', {
+			return this.$t('trading.forms.dialog.sell_limit_order_with_params', {
 				amount: this.amount,
 				price: this.price,
 				currency: this.currency.toUpperCase(),
@@ -200,7 +200,7 @@ export default {
 			});
 		},
 		sellMarketParamsText() {
-			return this.$t('trading.order.sell_market_order_with_params', {
+			return this.$t('trading.forms.dialog.sell_market_order_with_params', {
 				amount: this.amount,
 				currency: this.currency.toUpperCase(),
 				market: this.market.toUpperCase(),
@@ -208,19 +208,19 @@ export default {
 		},
 
 		sellStopLossText() {
-			return this.$t('trading.order.sell_stop_loss_text', {
+			return this.$t('trading.forms.dialog.sell_stop_loss_text', {
 				stopLoss: this.stopLoss,
 				market: this.market.toUpperCase(),
 			});
 		},
 		sellTakeProfitText() {
-			return this.$t('trading.order.sell_take_profit_text', {
+			return this.$t('trading.forms.dialog.sell_take_profit_text', {
 				takeProfit: this.takeProfit,
 				market: this.market.toUpperCase(),
 			});
 		},
 		sellTrailingStopText() {
-			return this.$t('trading.order.sell_trailing_stop_text', {
+			return this.$t('trading.forms.dialog.sell_trailing_stop_text', {
 				trailingStop: this.trailingStop,
 				market: this.market.toUpperCase(),
 			});
