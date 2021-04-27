@@ -18,7 +18,7 @@
 
 		<v-tabs-items v-model="selectedTab" touchless>
 			<v-tab-item :key="1">
-				<BalanceCryptoList @refresh-withdrawals="fetchWithdrawals" />
+				<BalanceCryptoList />
 			</v-tab-item>
 
 			<v-tab-item v-if="isUserFiat" :key="2">

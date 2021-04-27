@@ -355,6 +355,7 @@ export default {
 			validateAddressStore: 'balance/validateAddress',
 			formCryptoWithdrawRequestStore: 'balance/formCryptoWithdrawRequest',
 			confirmCryptoWithdrawStore: 'balance/confirmCryptoWithdraw',
+			fetchWithdrawalsStore: 'balance/fetchWithdrawals',
 		}),
 
 		async validateAddress() {
@@ -423,13 +424,13 @@ export default {
 			const unsuccessfulWithdraw = !this.isSuccessWithdraw;
 
 			if (neededStep && unsuccessfulWithdraw) {
-				this.$emit('refresh-withdrawals');
+				this.fetchWithdrawalsStore();
 			}
 		},
 		isCorrectPrecision(v) {
 			return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
 		},
-		resetData() {
+		clearData() {
 			this.address = '';
 			this.amount = '';
 			this.emailCode = '';

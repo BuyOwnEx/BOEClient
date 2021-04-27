@@ -171,6 +171,11 @@ export default {
 		SET_PROFILE_TAB(state, tabIndex) {
 			state.profileSelectedTab = tabIndex;
 		},
+		UPDATE_CURRENCY_AMOUNT(state, { currency, amount }) {
+			if (state.balances && currency in state.balances) {
+				state.balances[currency].withdraw += amount;
+			}
+		},
 	},
 
 	actions: {

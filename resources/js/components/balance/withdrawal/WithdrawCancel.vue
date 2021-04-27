@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 import loadingMixin from '../../../mixins/common/loadingMixin';
 import dialogMethodsMixin from '../../../mixins/common/dialogMethodsMixin';
 
@@ -54,6 +54,9 @@ export default {
 	},
 
 	methods: {
+		...mapMutations({
+			updateCurrencyAmountStore: 'user/UPDATE_CURRENCY_AMOUNT',
+		}),
 		...mapActions({
 			cancelCryptoWithdrawalStore: 'balance/cancelCryptoWithdrawal',
 			cancelFiatWithdrawalStore: 'balance/cancelFiatWithdrawal',
@@ -68,6 +71,7 @@ export default {
 
 				if (isSuccess) {
 					this.$emit('cancel', ID);
+					this.updateCurrencyAmountStore({ currency: this.withdrawObj.currency, amount: this.withdrawObj.amount });
 					this.close();
 				}
 			} finally {
