@@ -381,7 +381,7 @@ export default {
 					amount: this.amount,
 					address: this.address,
 				};
-				const isSuccess = await this.formWithdrawRequest(payload);
+				const isSuccess = await this.formCryptoWithdrawRequestStore(payload);
 
 				if (isSuccess) {
 					this.step++;
