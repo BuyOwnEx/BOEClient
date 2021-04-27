@@ -14,7 +14,7 @@
 					:market="market"
 				/>
 
-				<tbody v-else-if="ordersData && !ordersData.length"></tbody>
+				<tbody v-else-if="ordersData && !ordersData.length" />
 				<tbody v-else>
 					<tr>
 						<td colspan="3">
@@ -71,7 +71,7 @@ export default {
 	top: 0
 	right: 0
 	left: 0
-	bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 19)
+	bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 18)
 	overflow: hidden
 
 @media screen and (min-width: 1382px) and (max-width: 1768px)
@@ -82,5 +82,5 @@ export default {
 		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 12)
 @media screen and (max-width: 959px)
 	.ask-list-table-absolute-wrapper
-		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 13)
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 12)
 </style>

@@ -2,7 +2,7 @@
 .trading {
 	--table-header-height: 32px;
 	--negative-table-header-height: -32px;
-	--table-row-height: 24px;
+	--table-row-height: 25px;
 	--table-row-height-big: 28px;
 
 	.ask-list .v-data-table__wrapper,
@@ -27,7 +27,7 @@
 	}
 
 	// Less table cells height <20.02.21>
-	.v-data-table--dense .v-data-table__wrapper td {
+	.v-data-table--dense td {
 		height: var(--table-row-height) !important;
 	}
 	.own-active-order-list,
@@ -59,24 +59,6 @@
 		}
 	}
 
-	// Remove table padding
-	.ask-list .v-data-table__wrapper {
-		table {
-			padding: 0 !important;
-		}
-		td {
-			height: 24px !important;
-		}
-	}
-	.bid-list .v-data-table__wrapper {
-		table {
-			padding: 0 !important;
-		}
-		td {
-			height: 24px !important;
-		}
-	}
-
 	// Switch Margin
 	.trading-forms .v-input--switch {
 		margin-left: 4px !important;
@@ -98,13 +80,11 @@
 }
 
 // Dark style
-.theme--dark {
-	.trading {
-		.trading-forms,
-		.trading-tickers-list {
-			.v-input fieldset {
-				color: rgba(255, 255, 255, 0.12) !important;
-			}
+.theme--dark .trading {
+	.trading-forms,
+	.trading-tickers-list {
+		.v-input fieldset {
+			color: rgba(255, 255, 255, 0.12) !important;
 		}
 	}
 }

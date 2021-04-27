@@ -170,7 +170,6 @@ export default {
 .bid-list-table-body
 	&__row
 		cursor: default !important
-
 		&:hover
 			background: rgba(215, 255, 216, 0.35) !important
 

@@ -171,7 +171,6 @@ export default {
 .ask-list-table-body
 	&__row
 		cursor: default !important
-
 		&:hover
 			background: rgba(255, 220, 215, 0.35) !important
 

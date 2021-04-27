@@ -41,7 +41,7 @@ export default {
 
 	computed: {
 		calculateMargin() {
-			const rowHeight = 24;
+			const rowHeight = 25;
 			const rowIndex = this.itemIndex;
 			const calculatedMargin = rowIndex * rowHeight + 'px';
 

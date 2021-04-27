@@ -66,15 +66,15 @@ export default {
 	top: 0
 	right: 0
 	left: 0
-	bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 37)
+	bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 35)
 	overflow: hidden
 
 @media screen and (min-width: 1382px) and (max-width: 1768px)
 	.history-deal-list-absolute-wrapper
-		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 53)
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 51)
 @media screen and (min-width: 960px) and (max-width: 1382px)
 	.history-deal-list-absolute-wrapper
-		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 19)
+		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 18)
 @media screen and (max-width: 959px)
 	.history-deal-list-absolute-wrapper
 		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 40)
