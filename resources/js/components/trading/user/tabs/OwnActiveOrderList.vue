@@ -190,33 +190,6 @@ export default {
 				'items-per-page-options': [5, 10, 15, 30, 50],
 				'items-per-page-all-text': '50',
 			},
-			closeOnContentClick: true,
-			cancelOptions: [
-				{
-					text: this.$t('trading.order.cancel_all'),
-					type: '',
-					link: '/trader/ext/order/cancel_all',
-					click: () => this.orderCancelAll(),
-				},
-				{
-					text: this.$t('trading.order.cancel_by_type', { type: 'SL' }),
-					type: 'SL',
-					link: '/trader/ext/order/cancel_all_sl',
-					click: () => this.orderCancelAllSL(),
-				},
-				{
-					text: this.$t('trading.order.cancel_by_type', { type: 'TP' }),
-					type: 'TP',
-					link: '/trader/ext/order/cancel_all_tp',
-					click: () => this.orderCancelAllTP(),
-				},
-				{
-					text: this.$t('trading.order.cancel_by_type', { type: 'TS' }),
-					type: 'TS',
-					link: '/trader/ext/order/cancel_all_ts',
-					click: () => this.orderCancelAllTS(),
-				},
-			],
 			isCancelMenu: false,
 		};
 	},
@@ -262,6 +235,35 @@ export default {
 			];
 		},
 
+		cancelOptions() {
+			return [
+				{
+					text: this.$t('trading.order.cancel_all'),
+					type: '',
+					link: '/trader/ext/order/cancel_all',
+					click: () => this.orderCancelAll(),
+				},
+				{
+					text: this.$t('trading.order.cancel_by_type', { type: 'SL' }),
+					type: 'SL',
+					link: '/trader/ext/order/cancel_all_sl',
+					click: () => this.orderCancelAllSL(),
+				},
+				{
+					text: this.$t('trading.order.cancel_by_type', { type: 'TP' }),
+					type: 'TP',
+					link: '/trader/ext/order/cancel_all_tp',
+					click: () => this.orderCancelAllTP(),
+				},
+				{
+					text: this.$t('trading.order.cancel_by_type', { type: 'TS' }),
+					type: 'TS',
+					link: '/trader/ext/order/cancel_all_ts',
+					click: () => this.orderCancelAllTS(),
+				},
+			];
+		},
+
 		ownOrderList() {
 			return this.showOtherPairs
 				? this.$store.state.user.orders
@@ -270,9 +272,35 @@ export default {
 						market: this.market.toUpperCase(),
 				  });
 		},
+
+		closePositionPayload() {
+			return {
+				market: this.market.toUpperCase(),
+				currency: this.currency.toUpperCase(),
+				all_pairs: this.showOtherPairs,
+			};
+		},
 	},
 
 	methods: {
+		orderCancel(item) {
+			axios.post('/trader/ext/order/cancel', {
+				order: item.id,
+			});
+		},
+		orderCancelAll() {
+			axios.post('/trader/ext/order/cancel_all', this.closePositionPayload);
+		},
+		orderCancelAllSL() {
+			axios.post('/trader/ext/order/cancel_all_sl', this.closePositionPayload);
+		},
+		orderCancelAllTP() {
+			axios.post('/trader/ext/order/cancel_all_tp', this.closePositionPayload);
+		},
+		orderCancelAllTS() {
+			axios.post('/trader/ext/order/cancel_all_ts', this.closePositionPayload);
+		},
+
 		percent(item) {
 			if (item.status === 'partiallyFilled') {
 				if (item.size === 0) {
@@ -288,40 +316,6 @@ export default {
 		closeMenu(item) {
 			item.menu = false;
 		},
-		orderCancel(item) {
-			axios.post('/trader/ext/order/cancel', {
-				order: item.id,
-			});
-		},
-		orderCancelAll() {
-			axios.post('/trader/ext/order/cancel_all', {
-				market: this.market.toUpperCase(),
-				currency: this.currency.toUpperCase(),
-				all_pairs: this.showOtherPairs,
-			});
-		},
-		orderCancelAllSL() {
-			axios.post('/trader/ext/order/cancel_all_sl', {
-				market: this.market.toUpperCase(),
-				currency: this.currency.toUpperCase(),
-				all_pairs: this.showOtherPairs,
-			});
-		},
-		orderCancelAllTP() {
-			axios.post('/trader/ext/order/cancel_all_tp', {
-				market: this.market.toUpperCase(),
-				currency: this.currency.toUpperCase(),
-				all_pairs: this.showOtherPairs,
-			});
-		},
-		orderCancelAllTS() {
-			axios.post('/trader/ext/order/cancel_all_ts', {
-				market: this.market.toUpperCase(),
-				currency: this.currency.toUpperCase(),
-				all_pairs: this.showOtherPairs,
-			});
-		},
-
 		handleCancelConfirm(item) {
 			this.closeCancelMenu();
 			item.click();

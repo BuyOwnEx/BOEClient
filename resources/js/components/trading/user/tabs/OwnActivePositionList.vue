@@ -204,45 +204,6 @@ export default {
 				'items-per-page-options': [5, 10, 15, 30, 50],
 				'items-per-page-all-text': '50',
 			},
-			closeOnContentClick: true,
-			closeOptions: [
-				{
-					text: this.$t('trading.position.close_all'),
-					type: '',
-					link: '/trader/ext/position/close_all',
-					click: () => {
-						axios.post('/trader/ext/position/close_all', {
-							market: this.market.toUpperCase(),
-							currency: this.currency.toUpperCase(),
-							all_pairs: this.showOtherPairs,
-						});
-					},
-				},
-				{
-					text: this.$t('trading.position.close_long'),
-					type: this.$t('trading.position.long_type'),
-					link: '/trader/ext/position/close_all_long',
-					click: () => {
-						axios.post('/trader/ext/position/close_all_long', {
-							market: this.market.toUpperCase(),
-							currency: this.currency.toUpperCase(),
-							all_pairs: this.showOtherPairs,
-						});
-					},
-				},
-				{
-					text: this.$t('trading.position.close_short'),
-					type: this.$t('trading.position.short_type'),
-					link: '/trader/ext/position/close_all_short',
-					click: () => {
-						axios.post('/trader/ext/position/close_all_short', {
-							market: this.market.toUpperCase(),
-							currency: this.currency.toUpperCase(),
-							all_pairs: this.showOtherPairs,
-						});
-					},
-				},
-			],
 		};
 	},
 
@@ -309,6 +270,29 @@ export default {
 			];
 		},
 
+		closeOptions() {
+			return [
+				{
+					text: this.$t('trading.position.close_all'),
+					type: '',
+					link: '/trader/ext/position/close_all',
+					click: () => this.closeAllPositions(),
+				},
+				{
+					text: this.$t('trading.position.close_long'),
+					type: this.$t('trading.position.long_type'),
+					link: '/trader/ext/position/close_all_long',
+					click: () => this.closeAllLongPositions(),
+				},
+				{
+					text: this.$t('trading.position.close_short'),
+					type: this.$t('trading.position.short_type'),
+					link: '/trader/ext/position/close_all_short',
+					click: () => this.closeAllShortPositions(),
+				},
+			]
+		},
+
 		ownPositionList() {
 			return this.showOtherPairs
 				? this.$store.state.user.positions
@@ -317,9 +301,26 @@ export default {
 						market: this.market.toUpperCase(),
 				  });
 		},
+		closePositionPayload() {
+			return {
+				market: this.market.toUpperCase(),
+				currency: this.currency.toUpperCase(),
+				all_pairs: this.showOtherPairs,
+			};
+		},
 	},
 
 	methods: {
+		closeAllPositions() {
+			axios.post('/trader/ext/position/close_all', this.closePositionPayload);
+		},
+		closeAllLongPositions() {
+			axios.post('/trader/ext/position/close_all_long', this.closePositionPayload);
+		},
+		closeAllShortPositions() {
+			axios.post('/trader/ext/position/close_all_short', this.closePositionPayload);
+		},
+
 		BigNumber(item) {
 			return BigNumber(item);
 		},
