@@ -622,6 +622,11 @@
 	font-weight: 600 !important;
 }
 
+// Change label box color
+.highcharts-label-box {
+	fill: #e5e5e5;
+}
+
 @media screen and (max-width: 1768px) {
 	.highcharts-menu-wrapper {
 		height: calc(100% - 98px) !important;
