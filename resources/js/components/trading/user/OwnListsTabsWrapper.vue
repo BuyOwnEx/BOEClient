@@ -65,10 +65,35 @@ export default {
 
 <style lang="sass">
 .own-lists-tabs-wrapper
+	display: flex
+	flex-flow: column
+	flex-grow: 1
+	.v-tabs
+		flex-grow: 0
+
 	.own-list
 		&__header
 			margin-left: 4px
 		@media screen and (max-width: 599px)
 			&__title
 				width: 100%
+
+	.v-data-table
+		--page-paddings: 34px
+		--tabs-height: 35px
+		--title-height: 30px
+		--bottom-nav-height: 56px
+
+		min-height: calc(100vh - var(--app-header-height--mobile) - var(--app-footer-height--mobile) - var(--bottom-nav-height) - var(--title-height) - var(--tabs-height) - var(--page-paddings))
+		display: flex
+		flex-flow: column
+	.v-data-footer
+		margin-top: auto
+
+	/*.v-tabs-items, .v-window__container, .v-window-item, .v-card__text, .v-data-table, .own-list*/
+	/*	display: flex*/
+	/*	flex-flow: column*/
+	/*	flex-grow: 1*/
+	/*.v-data-footer*/
+	/*	margin-top: auto*/
 </style>

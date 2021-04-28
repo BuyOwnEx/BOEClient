@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import CentrifugeTradingMixin from '../../mixins/centrifugo-trading';
+import { mapState, mapGetters } from 'vuex';
 
 import TickersList from '../../components/trading/tickers/TradingTickersList';
 import TradingChartWrapper from '../../components/trading/chart/TradingChartWrapper';
@@ -130,6 +130,8 @@ import BidList from '../../components/trading/orders/bid/BidList';
 
 import TradingFormsWrapper from '../../components/trading/forms/TradingFormsWrapper';
 import OwnListsTabsWrapper from '../../components/trading/user/OwnListsTabsWrapper';
+
+import CentrifugeTradingMixin from '../../mixins/centrifugo-trading';
 
 export default {
 	name: 'Trading',
@@ -154,27 +156,26 @@ export default {
 	}),
 
 	computed: {
-		selectedMarket() {
-			return this.$store.state.trading.selectedMarket;
-		},
-		selectedCurrency() {
-			return this.$store.state.trading.selectedCurrency;
-		},
-		selectedPair() {
-			return this.$store.getters['trading/selectedPair'];
-		},
+		...mapState({
+			allMarkets: state => state.tickers.markets,
+			selectedMarket: state => state.trading.selectedMarket,
+			selectedCurrency: state => state.trading.selectedCurrency,
+		}),
+		...mapGetters({
+			selectedPair: 'trading/selectedPair',
+			isLogged: 'app/isLogged',
+		}),
+
 		markets() {
-			return _.get(this.$store.state.tickers.markets, this.selectedMarket.toUpperCase(), null);
+			const selectedMarket = this.selectedMarket.toUpperCase();
+			return _.get(this.allMarkets, selectedMarket, null);
 		},
 
 		isMargin() {
-			let market = this.markets
+			const market = this.markets
 				? _.find(this.markets, item => item.currency.toUpperCase() === this.selectedCurrency.toUpperCase())
 				: null;
 			return market === null ? false : market.margin;
-		},
-		isLogged() {
-			return this.$store.getters['app/isLogged'];
 		},
 
 		isMobile() {
@@ -197,13 +198,10 @@ export default {
 		},
 
 		moveToOrdersLastPrice() {
-			const ordersTab = 4;
-			if (this.selectedTab === ordersTab) {
-				const element = this.$refs.askBidLastPrice.$el;
-				element.scrollIntoView({
-					block: 'center',
-				});
-			}
+			const element = this.$refs.askBidLastPrice.$el;
+			element.scrollIntoView({
+				block: 'center',
+			});
 		},
 		moveToTop() {
 			window.scrollTo(0, 0);
@@ -211,9 +209,7 @@ export default {
 	},
 
 	created() {
-		if (this.$store.state.trading.selectedMarket === null || this.$store.state.trading.selectedCurrency === null) {
-			console.log('currency: ' + this.$trading_currency);
-			console.log('market: ' + this.$trading_market);
+		if (!this.$store.state.trading.selectedMarket || !this.$store.state.trading.selectedCurrency) {
 			this.$store.commit('trading/setPair', {
 				currency: this.$trading_currency,
 				market: this.$trading_market,
@@ -224,7 +220,6 @@ export default {
 	mounted() {
 		this.debouncedUpdateUrl = _.debounce(this.updateUrl, 300);
 		this.$watch('selectedPair', this.debouncedUpdateUrl);
-		console.log('user: ' + this.$user);
 	},
 };
 </script>
@@ -234,6 +229,7 @@ export default {
 	display: flex;
 	flex-grow: 1;
 	flex-flow: column;
+	max-width: 100%;
 
 	&__desktop {
 		display: grid;
@@ -291,40 +287,14 @@ export default {
 		flex-grow: 1;
 		flex-flow: column;
 
-		&__tickers {
-			flex-grow: 1;
-			overflow: auto;
-		}
-
-		&__chart {
-			overflow: auto;
-		}
-
+		// TODO: поглядеть и убрать
 		&__history {
 			flex-grow: 1;
 			overflow: auto;
 		}
 
-		&__chat {
-			flex-grow: 1;
-			overflow: auto;
-		}
-
-		&__orders {
-			overflow: auto;
-			&__last-price {
-				margin: 5px 0;
-			}
-		}
-
-		&__forms {
-			overflow: auto;
-			flex-grow: 1;
-		}
-
-		&__own-lists-tabs-wrapper {
-			overflow: auto;
-			flex-grow: 1;
+		&__orders__last-price {
+			margin: 5px 0;
 		}
 	}
 }

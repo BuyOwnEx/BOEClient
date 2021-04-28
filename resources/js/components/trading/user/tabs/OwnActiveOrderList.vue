@@ -1,5 +1,5 @@
 <template>
-	<v-card class="own-active-order-list pa-1">
+	<v-card class="own-active-order-list own-list pa-1" elevation='0'>
 		<v-card-title class="own-list__header pa-0">
 			<span class="own-list__title component-title">
 				{{ $t('trading.headers.own_active_order_list') }}
@@ -61,7 +61,7 @@
 				:items="ownOrderList"
 				:items-per-page="itemsPerPage"
 				:footer-props="footerProps"
-				mobile-breakpoint="700"
+				mobile-breakpoint="600"
 				dense
 			>
 				<template v-slot:item.date="{ item }">

@@ -445,7 +445,6 @@ export default {
 	display: flex
 	flex-flow: column
 	flex-grow: 1
-	padding: 16px
 
 	&__header
 		display: flex

@@ -1,5 +1,5 @@
 <template>
-	<v-card class="own-active-position-list pa-1">
+	<v-card class="own-active-position-list own-list pa-1" elevation="0">
 		<v-card-title class="own-list__header pa-0">
 			<span class="own-list__title component-title">
 				{{ $t('trading.headers.own_active_position_list') }}
@@ -290,7 +290,7 @@ export default {
 					link: '/trader/ext/position/close_all_short',
 					click: () => this.closeAllShortPositions(),
 				},
-			]
+			];
 		},
 
 		ownPositionList() {

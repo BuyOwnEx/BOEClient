@@ -1,5 +1,5 @@
 <template>
-	<v-card class="own-history-deal-list pa-1">
+	<v-card class="own-history-deal-list own-list pa-1"  elevation='0'>
 		<v-card-title class="own-list__header pa-0">
 			<span class="own-list__title component-title">
 				{{ $t('trading.headers.own_history_deal_list') }}
