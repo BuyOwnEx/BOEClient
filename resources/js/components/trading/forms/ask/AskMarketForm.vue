@@ -23,44 +23,16 @@
 			</v-text-field>
 
 			<div class="amf__percents">
-				<v-btn
-					:input-value="form.amount === '25'"
-					text
-					small
-					outlined
-					tile
-					@click="setAmount(25)"
-				>
+				<v-btn :input-value="form.amount === '25'" text small outlined tile @click="setAmount(25)">
 					<span>25 %</span>
 				</v-btn>
-				<v-btn
-					:input-value="form.amount === '50'"
-					text
-					small
-					outlined
-					tile
-					@click="setAmount(50)"
-				>
+				<v-btn :input-value="form.amount === '50'" text small outlined tile @click="setAmount(50)">
 					<span>50 %</span>
 				</v-btn>
-				<v-btn
-					:input-value="form.amount === '75'"
-					text
-					small
-					outlined
-					tile
-					@click="setAmount(75)"
-				>
+				<v-btn :input-value="form.amount === '75'" text small outlined tile @click="setAmount(75)">
 					<span>75 %</span>
 				</v-btn>
-				<v-btn
-					:input-value="form.amount === '100'"
-					text
-					small
-					outlined
-					tile
-					@click="setAmount(100)"
-				>
+				<v-btn :input-value="form.amount === '100'" text small outlined tile @click="setAmount(100)">
 					<span>100 %</span>
 				</v-btn>
 			</div>
@@ -81,11 +53,7 @@
 					</template>
 				</v-text-field>
 				<div class="amf__text-field-hint">
-					{{
-						$t('trading.order.pay_market_sell', [fee_visible]) +
-							' ' +
-							market.toUpperCase()
-					}}
+					{{ $t('trading.order.pay_market_sell', [fee_visible]) + ' ' + market.toUpperCase() }}
 				</div>
 			</div>
 
@@ -164,9 +132,7 @@
 						@keydown="validateNumber($event)"
 					>
 						<template v-slot:append>
-							<span class="button-currency-text">{{
-								market.toUpperCase()
-							}}</span>
+							<span class="button-currency-text">{{ market.toUpperCase() }}</span>
 						</template>
 					</v-text-field>
 					<template #text>
@@ -179,14 +145,7 @@
 		<div>
 			<div class="amf__switch">
 				<div v-if="marginTradingAvailable" class="d-flex justify-start">
-					<v-switch
-						v-model="useMargin"
-						:label="$t('trading.order.use_margin')"
-						hide-details
-						left
-						dense
-						inset
-					/>
+					<v-switch v-model="useMargin" :label="$t('trading.order.use_margin')" hide-details left dense inset />
 				</div>
 				<div v-if="!useMargin" class="d-flex justify-start">
 					<v-switch
@@ -287,7 +246,7 @@ export default {
 		},
 		offers_select() {
 			let self = this;
-			return _.map(this.offers, function(value) {
+			return _.map(this.offers, value => {
 				return {
 					id: value.id,
 					name: self.$t(
@@ -313,36 +272,23 @@ export default {
 			return ticker.bid;
 		},
 		markets() {
-			return _.get(
-				this.$store.state.tickers.markets,
-				this.market.toUpperCase(),
-				null
-			);
+			return _.get(this.$store.state.tickers.markets, this.market.toUpperCase(), null);
 		},
 		selectedMarket() {
 			if (this.markets === null) {
 				return null;
 			}
-			let market = _.find(
-				this.markets,
-				item => item.currency.toUpperCase() === this.currency.toUpperCase()
-			);
+			let market = _.find(this.markets, item => item.currency.toUpperCase() === this.currency.toUpperCase());
 			return market === undefined ? null : market;
 		},
 		amountScale() {
-			return this.selectedMarket === null
-				? 2
-				: parseInt(this.selectedMarket.amountScale);
+			return this.selectedMarket === null ? 2 : parseInt(this.selectedMarket.amountScale);
 		},
 		rateScale() {
-			return this.selectedMarket === null
-				? 2
-				: parseInt(this.selectedMarket.rateScale);
+			return this.selectedMarket === null ? 2 : parseInt(this.selectedMarket.rateScale);
 		},
 		minAmount() {
-			return this.selectedMarket === null
-				? 0
-				: parseInt(this.selectedMarket.minAmount);
+			return this.selectedMarket === null ? 0 : parseInt(this.selectedMarket.minAmount);
 		},
 		marginTradingAvailable() {
 			return this.selectedMarket === null ? false : this.selectedMarket.margin;
@@ -439,14 +385,13 @@ export default {
 				.toString();
 		},
 		getOffers() {
-			let queryParams = {
+			if (!this.marginTradingAvailable) return
+
+			const queryParams = {
 				params: {
 					currency: this.currency.toUpperCase(),
 					market: this.market.toUpperCase(),
-					amount:
-						this.form.amount === ''
-							? 0
-							: BigNumber(this.form.amount).toString(),
+					amount: this.form.amount === '' ? 0 : BigNumber(this.form.amount).toString(),
 					side: 1,
 					type: 'MARKET',
 				},
@@ -459,12 +404,10 @@ export default {
 		sendAskMarket() {
 			if (!this.form.amount) {
 				this.pushErrorNotification(_, 'incorrect');
-				return
+				return;
 			}
 
-			let form = this.additionalParamsEnabled
-				? this.form
-				: _.omit(this.form, ['sl_rate', 'tp_rate', 'ts_offset']);
+			let form = this.additionalParamsEnabled ? this.form : _.omit(this.form, ['sl_rate', 'tp_rate', 'ts_offset']);
 			if (this.marginTradingAvailable) {
 				form.margin = this.useMargin ? 1 : 0;
 			} else form.margin = 0;
@@ -493,41 +436,47 @@ export default {
 				return true;
 			}
 		},
+
+		resetForm() {
+			this.useMargin = false;
+			this.additionalParamsEnabled = false
+			this.rate = 0;
+			this.sl_rate = null;
+			this.tp_rate = null;
+			this.ts_offset = null;
+		},
 	},
 
 	watch: {
-		useMargin(val, oldVal) {
+		useMargin(val) {
 			if (val) {
 				this.getOffers();
 				this.additionalParamsEnabled = false;
 			}
 		},
-		currency(val, oldVal) {
+		currency(val) {
 			this.$set(this.form, 'currency', val.toUpperCase());
 			this.$set(this.form, 'amount', '');
+			this.resetForm()
 		},
-		market(val, oldVal) {
+		market(val) {
 			this.$set(this.form, 'market', val.toUpperCase());
 			this.$set(this.form, 'amount', '');
 		},
 		volume(newVolume, oldVolume) {
 			if (this.isNumeric(newVolume) || newVolume === '') {
-				let rl = new RegExp(
-					'\\d+\\.\\d{' + (this.amountScale + this.rateScale + 4) + ',}',
-					'i'
-				);
+				let rl = new RegExp('\\d+\\.\\d{' + (this.amountScale + this.rateScale + 4) + ',}', 'i');
 				if (rl.test(newVolume)) {
 					this.volume = oldVolume;
 					this.$refs.ask_market_volume.lazyValue = oldVolume;
 				} else {
-					if (this.bestBid !== 0 && this.volume !== '' && this.volume !== 0)
-						this.debouncedUpdateAmount();
+					if (this.bestBid !== 0 && this.volume !== '' && this.volume !== 0) this.debouncedUpdateAmount();
 				}
 			} else {
 				this.volume = 0;
 			}
 		},
-		'form.amount': function(newAmount, oldAmount) {
+		'form.amount'(newAmount, oldAmount) {
 			if (this.isNumeric(newAmount) || newAmount === '') {
 				let rl = new RegExp('\\d+\\.\\d{' + (this.amountScale + 1) + ',}', 'i');
 				if (rl.test(newAmount)) {
@@ -542,7 +491,7 @@ export default {
 			this.debouncedUpdateVolume();
 			this.debouncedUpdateOffers();
 		},
-		'form.sl_rate': function(newSlRate, oldSlRate) {
+		'form.sl_rate'(newSlRate, oldSlRate) {
 			if (this.isNumeric(newSlRate) || newSlRate === '') {
 				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
 				if (rl.test(newSlRate)) {
@@ -555,7 +504,7 @@ export default {
 				this.form.sl_rate = 0;
 			}
 		},
-		'form.tp_rate': function(newTpRate, oldTpRate) {
+		'form.tp_rate'(newTpRate, oldTpRate) {
 			if (this.isNumeric(newTpRate) || newTpRate === '') {
 				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
 				if (rl.test(newTpRate)) {
@@ -568,7 +517,7 @@ export default {
 				this.form.tp_rate = 0;
 			}
 		},
-		'form.ts_offset': function(newTsOffset, oldTsOffset) {
+		'form.ts_offset'(newTsOffset, oldTsOffset) {
 			if (this.isNumeric(newTsOffset) || newTsOffset === '') {
 				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
 				if (rl.test(newTsOffset)) {
@@ -583,7 +532,7 @@ export default {
 		},
 	},
 
-	mounted: function() {
+	mounted() {
 		this.debouncedUpdateAmount = _.debounce(this.updateAmount, 50);
 		this.debouncedUpdateVolume = _.debounce(this.updateVolume, 50);
 		this.debouncedUpdateOffers = _.debounce(this.updateOffers, 1000);
