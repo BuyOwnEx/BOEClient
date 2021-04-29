@@ -78,22 +78,15 @@ export default {
 			&__title
 				width: 100%
 
-	.v-data-table
-		--page-paddings: 34px
-		--tabs-height: 35px
-		--title-height: 30px
-		--bottom-nav-height: 56px
+	@media screen and (max-width: 959px)
+		.v-data-table
+			--page-paddings: 34px
+			--title-height: 30px
+			--bottom-nav-height: 56px
 
-		min-height: calc(100vh - var(--app-header-height--mobile) - var(--app-footer-height--mobile) - var(--bottom-nav-height) - var(--title-height) - var(--tabs-height) - var(--page-paddings))
-		display: flex
-		flex-flow: column
-	.v-data-footer
-		margin-top: auto
-
-	/*.v-tabs-items, .v-window__container, .v-window-item, .v-card__text, .v-data-table, .own-list*/
-	/*	display: flex*/
-	/*	flex-flow: column*/
-	/*	flex-grow: 1*/
-	/*.v-data-footer*/
-	/*	margin-top: auto*/
+			min-height: calc(100vh - var(--app-header-height--mobile) - var(--app-footer-height--mobile) - var(--bottom-nav-height) - var(--title-height) - var(--small-tabs-height) - var(--page-paddings))
+			display: flex
+			flex-flow: column
+		.v-data-footer
+			margin-top: auto
 </style>

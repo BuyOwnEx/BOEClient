@@ -1,19 +1,19 @@
 <template>
 	<div class="trading">
 		<div v-if="!isMobile" class="trading__desktop">
-			<TickersList class="trading__desktop__tickers" :currency="selectedCurrency" :market="selectedMarket" />
+			<TickersList class="trading__desktop__tickers" :currency="currency" :market="market" />
 
-			<TradingChartWrapper class="trading__desktop__chart" :currency="selectedCurrency" :market="selectedMarket" />
+			<TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
 
-			<HistoryDealList class="trading__desktop__history" :market="selectedMarket" :currency="selectedCurrency" />
+			<HistoryDealList class="trading__desktop__history" :market="market" :currency="currency" />
 
 			<TradingChat v-if="!isMediumBreakpoint" class="trading__desktop__chat" />
 
-			<AskList class="trading__desktop__ask-list" :currency="selectedCurrency" :market="selectedMarket" />
+			<AskList class="trading__desktop__ask-list" :currency="currency" :market="market" />
 
-			<TradingFormsWrapper class="trading__desktop__forms" :currency="selectedCurrency" :market="selectedMarket" />
+			<TradingFormsWrapper class="trading__desktop__forms" :currency="currency" :market="market" />
 
-			<BidList class="trading__desktop__bid-list" :currency="selectedCurrency" :market="selectedMarket" />
+			<BidList class="trading__desktop__bid-list" :currency="currency" :market="market" />
 
 			<TradingMarketActivity v-if="!isMediumBreakpoint" class="trading__desktop__market-activity" />
 
@@ -21,8 +21,8 @@
 				v-if="isLogged"
 				class="trading__desktop__own-lists-tabs-wrapper"
 				:is-margin="isMargin"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
+				:currency="currency"
+				:market="market"
 			/>
 		</div>
 
@@ -67,50 +67,45 @@
 			<TradingChartWrapper
 				v-if="selectedTab === 0"
 				class="trading__mobile__chart"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
+				:currency="currency"
+				:market="market"
 			/>
-			<TickersList
-				v-if="selectedTab === 1"
-				class="trading__mobile__tickers"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
-			/>
+			<TickersList v-if="selectedTab === 1" class="trading__mobile__tickers" :currency="currency" :market="market" />
 
 			<HistoryDealList
 				v-if="selectedTab === 2"
 				class="trading__mobile__history"
-				:market="selectedMarket"
-				:currency="selectedCurrency"
+				:market="market"
+				:currency="currency"
 			/>
 
 			<TradingChat v-if="selectedTab === 3" class="trading__mobile__chat" />
 
 			<div v-if="selectedTab === 4">
-				<BidList class="trading__mobile__orders__bid" :currency="selectedCurrency" :market="selectedMarket" />
+				<BidList class="trading__mobile__orders__bid" :currency="currency" :market="market" />
 				<AskBidLastPrice
 					class="trading__mobile__orders__last-price"
 					id="last-price"
 					ref="askBidLastPrice"
-					:market="selectedMarket"
+					:market="market"
 					@mounted="moveToOrdersLastPrice"
 				/>
-				<AskList class="trading__mobile__orders__ask" :currency="selectedCurrency" :market="selectedMarket" />
+				<AskList class="trading__mobile__orders__ask" :currency="currency" :market="market" />
 			</div>
 
 			<TradingFormsWrapper
 				v-if="selectedTab === 5"
 				class="trading__mobile__forms"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
+				:currency="currency"
+				:market="market"
 			/>
 
 			<OwnListsTabsWrapper
 				v-if="selectedTab === 6 && isLogged"
 				class="trading__mobile__own-lists-tabs-wrapper"
 				:is-margin="isMargin"
-				:currency="selectedCurrency"
-				:market="selectedMarket"
+				:currency="currency"
+				:market="market"
 			/>
 		</div>
 	</div>
@@ -184,6 +179,13 @@ export default {
 		isMediumBreakpoint() {
 			return this.$vuetify.breakpoint.width < 1382;
 		},
+
+		currency() {
+			return this.selectedCurrency.toUpperCase();
+		},
+		market() {
+			return this.selectedMarket.toUpperCase();
+		},
 	},
 
 	methods: {
@@ -191,8 +193,8 @@ export default {
 			if ('history' in window) {
 				window.history.pushState(
 					null,
-					this.selectedMarket.toUpperCase() + '/' + this.selectedCurrency.toUpperCase(),
-					'/trading/' + this.selectedMarket.toUpperCase() + '/' + this.selectedCurrency.toUpperCase()
+					this.market + '/' + this.currency,
+					'/trading/' + this.market + '/' + this.currency
 				);
 			}
 		},
