@@ -610,6 +610,10 @@ export default {
 		opacity: 0.6;
 	}
 
+	&__margin {
+		padding: 0 12px;
+	}
+
 	&__footer {
 		&__available {
 			font-size: 11px;

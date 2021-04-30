@@ -1,7 +1,7 @@
 <template>
 	<v-card class="trading-forms ">
 		<v-row v-if="isDesktop" class="pa-1" no-gutters>
-			<v-col class="trading-forms__buy" cols="12" md="6">
+			<v-col class="trading-forms__form trading-forms__form--buy" cols="12" md="6">
 				<v-card-title class="trading-forms__header component-title pa-0">
 					<span>
 						{{ $t('trading.order.direction.buy') }}
@@ -15,7 +15,7 @@
 				</v-card-text>
 			</v-col>
 
-			<v-col class="trading-forms__sell" cols="12" md="6">
+			<v-col class="trading-forms__form trading-forms__form--sell" cols="12" md="6">
 				<v-card-title class="trading-forms__header component-title pa-0">
 					<span>
 						{{ $t('trading.order.direction.sell') }}
@@ -96,16 +96,15 @@ export default {
 	flex-grow: 1
 	flex-flow: column
 
-	&__buy
+	&__form
 		display: flex
 		flex-flow: column
 		flex-grow: 1
-		padding-right: 8px
-	&__sell
-		display: flex
-		flex-flow: column
-		flex-grow: 1
-		padding-left: 8px
+		&--buy
+			padding-right: 8px
+		&--sell
+			padding-left: 8px
+
 
 	&__header
 		display: flex

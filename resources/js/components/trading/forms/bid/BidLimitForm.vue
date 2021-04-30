@@ -382,7 +382,7 @@ export default {
 			}
 		},
 		getOffers() {
-			if (!this.marginTradingAvailable) return
+			if (!this.marginTradingAvailable) return;
 
 			const queryParams = {
 				params: {
@@ -610,6 +610,10 @@ export default {
 		padding: 0 12px;
 		margin-top: -6px;
 		opacity: 0.6;
+	}
+
+	&__margin {
+		padding: 0 12px;
 	}
 
 	&__footer {

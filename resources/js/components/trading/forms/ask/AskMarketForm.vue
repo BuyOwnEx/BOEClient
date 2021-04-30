@@ -8,8 +8,8 @@
 
 		<div>
 			<v-text-field
-				v-model="form.amount"
 				ref="ask_market_amount"
+				v-model="form.amount"
 				:label="$t('trading.order.direction.sell')"
 				type="text"
 				outlined
@@ -39,8 +39,8 @@
 
 			<div class="amf__volume">
 				<v-text-field
-					v-model="volume"
 					ref="ask_market_volume"
+					v-model="volume"
 					:label="$t('table_header.volume')"
 					type="text"
 					outlined
@@ -73,8 +73,8 @@
 			<div v-if="!useMargin" class="amf__params">
 				<CommonTooltip>
 					<v-text-field
+						ref="ask_limit_sl_rate"
 						v-model="form.sl_rate"
-						ref="bid_limit_sl_rate"
 						:label="$t('trading.order.sl_rate')"
 						:disabled="!additionalParamsEnabled"
 						type="text"
@@ -96,9 +96,9 @@
 
 				<CommonTooltip>
 					<v-text-field
+						ref="ask_limit_tp_rate"
 						v-model="form.tp_rate"
 						style="margin-top: 6px"
-						ref="bid_limit_tp_rate"
 						:label="$t('trading.order.tp_rate')"
 						:disabled="!additionalParamsEnabled"
 						type="text"
@@ -120,9 +120,9 @@
 
 				<CommonTooltip>
 					<v-text-field
+						ref="ask_limit_ts_offset"
 						v-model="form.ts_offset"
 						style="margin-top: 6px"
-						ref="bid_limit_ts_offset"
 						:label="$t('trading.order.ts_offset')"
 						:disabled="!additionalParamsEnabled"
 						type="text"
@@ -385,7 +385,7 @@ export default {
 				.toString();
 		},
 		getOffers() {
-			if (!this.marginTradingAvailable) return
+			if (!this.marginTradingAvailable) return;
 
 			const queryParams = {
 				params: {
@@ -439,7 +439,7 @@ export default {
 
 		resetForm() {
 			this.useMargin = false;
-			this.additionalParamsEnabled = false
+			this.additionalParamsEnabled = false;
 			this.rate = 0;
 			this.sl_rate = null;
 			this.tp_rate = null;
@@ -457,7 +457,7 @@ export default {
 		currency(val) {
 			this.$set(this.form, 'currency', val.toUpperCase());
 			this.$set(this.form, 'amount', '');
-			this.resetForm()
+			this.resetForm();
 		},
 		market(val) {
 			this.$set(this.form, 'market', val.toUpperCase());
@@ -565,6 +565,10 @@ export default {
 		padding: 0 12px;
 		margin-top: -6px;
 		opacity: 0.6;
+	}
+
+	&__margin {
+		padding: 0 12px;
 	}
 
 	&__footer {
