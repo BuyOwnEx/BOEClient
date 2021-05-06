@@ -258,10 +258,9 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/cancel_all_ts_orders',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function getOffers(int $user_id, string $currency, $market, $amount, int $side, string $type)
+    public function getOffers(string $currency, $market, $amount, int $side, string $type)
     {
         $params = [
-            'trader' => $user_id,
             'currency' => $currency,
             'market' => $market,
             'amount' => $amount,

@@ -325,7 +325,6 @@ class TraderController extends Controller
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->getOffers(
-                Auth::id(),
                 $request->currency,
                 isset($request->market) ? $request->market : null,
                 $request->amount,
