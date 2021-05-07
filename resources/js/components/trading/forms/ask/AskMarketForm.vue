@@ -398,7 +398,7 @@ export default {
 			};
 			axios.get('/trader/ext/get_offer_list', queryParams).then(response => {
 				console.log(response.data);
-				this.offers = response.data;
+				this.offers = response.data.offers;
 			});
 		},
 		sendAskMarket() {
