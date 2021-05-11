@@ -188,18 +188,18 @@ export default {
 		},
 	},
 	mounted() {
-
+		this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	created() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 	activated() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	deactivated() {
-		this.$eventHub.$off('set-user', this.initWSConnection);
+		//this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 };

@@ -75,6 +75,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('crypto_currencies', 'TraderController@getCryptoCurrencies')->name('crypto_currencies');
         Route::get('fiat_currencies', 'TraderController@getFiatCurrencies')->name('fiat_currencies');
         Route::get('all_currencies', 'TraderController@getAllCurrencies')->name('all_currencies');
+        Route::get('health', 'TraderController@getHealth')->name('health');
 
         Route::get('balances', 'TraderController@getBalances')->name('balances');
         Route::get('orders', 'TraderController@getOrders')->name('orders');

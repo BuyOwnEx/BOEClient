@@ -64,6 +64,12 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function health()
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/health');
+        return response()->json($response->json(),$response->status());
+    }
+
     public function history_deals(string $currency, string $market)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/history_deals',[

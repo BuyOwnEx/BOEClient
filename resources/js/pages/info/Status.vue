@@ -70,8 +70,8 @@ export default {
 		},
 
 		async fetchCryptoData() {
-			const { data } = await axios.get('/trader/ext/crypto_currencies');
-			this.cryptoCurrencies = data.data;
+			const { data } = await axios.get('/trader/ext/health');
+			this.cryptoCurrencies = data.currencies;
 		},
 		async fetchFiatData() {
 			const { data } = await axios.get('/trader/ext/fiat_currencies');

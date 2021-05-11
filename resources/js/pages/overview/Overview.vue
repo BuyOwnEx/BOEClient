@@ -57,11 +57,7 @@ export default {
 				market: this.$trading_market,
 			});
 		}
-	},
-
-	mounted() {
-		this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
-	},
+	}
 };
 </script>
 
