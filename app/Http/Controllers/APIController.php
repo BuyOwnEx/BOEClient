@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Library\BuyOwnExClientAPI;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class APIController extends Controller
 {
@@ -133,40 +132,71 @@ class APIController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-    public function getFeeInfo(Request $request)
-    {
-
-    }
     public function makeOrder(Request $request)
     {
-        Log::info($request);
-        return ['success'=>true];
+        try {
+            if ($request->user()->tokenCan('trading')) {
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->makeOrder(
+                    $request->user()->id,
+                    $request->type,
+                    $request->currency,
+                    $request->market,
+                    $request->side,
+                    $request->amount,
+                    isset($request->rate) ? $request->rate : null,
+                    isset($request->base) ? $request->base : null,
+                    isset($request->sl_rate) ? $request->sl_rate : null,
+                    isset($request->tp_rate) ? $request->tp_rate : null,
+                    isset($request->ts_offset) ? $request->ts_offset : null,
+                    isset($request->margin) ? $request->margin : 0,
+                    isset($request->offer) ? $request->offer : 0
+                );
+            }
+            else {
+                return ['success'=>false, 'message'=>'Permission denied'];
+            }
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
     }
     public function cancelOrder(Request $request)
     {
+        try {
+            if ($request->user()->tokenCan('trading')) {
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->cancelOrder(
+                    $request->user()->id,
+                    $request->order
+                );
+            }
+            else {
+                return ['success'=>false, 'message'=>'Permission denied'];
+            }
 
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
     }
-
-    // Start CoinMarketCap API
-    public function getSummary(Request $request)
+    public function withdrawCrypto(Request $request)
     {
+        try {
+            if ($request->user()->tokenCan('withdraw')) {
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->withdrawCrypto(
+                    $request->user()->id,
+                    $request->user()->email,
+                    $request->currency,
+                    $request->amount,
+                    $request->address
+                );
+            }
+            else {
+                return ['success'=>false, 'message'=>'Permission denied'];
+            }
 
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
     }
-    public function getAssets(Request $request)
-    {
-
-    }
-    public function getTickers(Request $request)
-    {
-
-    }
-    public function getOrderBook(Request $request)
-    {
-
-    }
-    public function getTrades(Request $request)
-    {
-
-    }
-    // End CoinMarketCap API
 }
