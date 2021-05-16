@@ -54,6 +54,15 @@ export default {
 				},
 			];
 		},
+
+		getIcons() {
+			return {
+				work: workIcon,
+				notWork: notWorkIcon,
+				sync: syncIcon,
+				maintenance: maintenanceIcon,
+			};
+		},
 	},
 
 	mutations: {

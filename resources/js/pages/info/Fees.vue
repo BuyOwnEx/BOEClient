@@ -2,7 +2,7 @@
 	<v-card class="info-page fees-page flex-grow-1">
 		<CommonPageTitle>{{ $t('fees.title') }}</CommonPageTitle>
 
-		<v-tabs v-model="selectedTab" :key="$i18n.locale" show-arrows>
+		<v-tabs v-model="selectedTab" class='small-tabs' :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">
 				{{ $t('fees.trading_fee') }}
 			</v-tab>

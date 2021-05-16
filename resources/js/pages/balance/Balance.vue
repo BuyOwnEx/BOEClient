@@ -2,7 +2,7 @@
 	<v-card class="balance flex-grow-1">
 		<CommonPageTitle>{{ $t('balance.title') }}</CommonPageTitle>
 
-		<v-tabs v-model="selectedTab" :key="$i18n.locale" show-arrows>
+		<v-tabs v-model="selectedTab" class='small-tabs' :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">
 				{{ $t('balance.headers.own_crypto_balance_list') }}
 			</v-tab>
@@ -26,7 +26,7 @@
 			</v-tab-item>
 
 			<v-tab-item :key="3">
-				<BalanceWithdrawalList :list="withdrawalList || []" />
+				<BalanceWithdrawalList :list="withdrawalList" />
 			</v-tab-item>
 		</v-tabs-items>
 	</v-card>
@@ -61,7 +61,7 @@ export default {
 
 	computed: {
 		...mapState({
-			withdrawalList: state => state.balance.withdrawals,
+			withdrawalList: state => state.balance.withdrawals || [],
 		}),
 		...mapGetters({
 			isUserFiat: 'user/isUserFiat',

@@ -9,12 +9,7 @@
 			<StatusDefinitionText />
 
 			<CommonLoading v-if="noTablesData" />
-			<StatusTables
-				v-else
-				:fiat-data="fiatCurrencies || []"
-				:crypto-data="cryptoCurrencies"
-				:user-fiat="isUserFiat"
-			/>
+			<StatusTables v-else :fiat-data="fiatCurrencies" :crypto-data="cryptoCurrencies" :pairs-data='pairsData' :user-fiat="isUserFiat" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -44,6 +39,7 @@ export default {
 		return {
 			fiatCurrencies: null,
 			cryptoCurrencies: null,
+			pairsData: null
 		};
 	},
 
@@ -64,18 +60,11 @@ export default {
 	},
 
 	methods: {
-		fetch() {
-			this.fetchCryptoData();
-			if (this.isUserFiat) this.fetchFiatData();
-		},
-
-		async fetchCryptoData() {
+		async fetch() {
 			const { data } = await axios.get('/trader/ext/health');
 			this.cryptoCurrencies = data.currencies;
-		},
-		async fetchFiatData() {
-			const { data } = await axios.get('/trader/ext/fiat_currencies');
-			this.fiatCurrencies = data.data;
+			this.fiatCurrencies = data.fiats;
+			this.pairsData = data.pairs
 		},
 	},
 };
