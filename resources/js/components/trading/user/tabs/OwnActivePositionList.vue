@@ -19,7 +19,7 @@
 			/>
 
 			<v-menu v-model="isCloseMenu" transition="slide-y-transition" content-class="small-text-menu" bottom>
-				<template v-slot:activator="{ on, attrs }">
+				<template #activator="{ on, attrs }">
 					<v-btn
 						:class="[$vuetify.rtl ? 'mr-auto' : 'ml-auto']"
 						color="#A6A6A6"
@@ -64,14 +64,15 @@
 				:footer-props="footer_props"
 				dense
 			>
-				<template v-slot:item.action="{ item }">
+				<template #item.action="{ item }">
 					<v-menu close-on-click offset-y v-model="item.menu">
-						<template v-slot:activator="{ on }">
+						<template #activator="{ on }">
 							<v-btn tile outlined x-small color="#A6A6A6" v-on="on">
 								{{ $t('table_header.actions') }}
 								<v-icon right>mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
+
 						<v-list dense>
 							<TradingUserDialogPositionClose :id="item.id" v-on:closeMenu="closeMenu(item)" />
 
@@ -86,60 +87,65 @@
 					</v-menu>
 				</template>
 
-				<template v-slot:item.date="{ item }">
+				<template #item.date="{ item }">
 					<span class="table-date">
-						{{ item.createdAt }}
+						{{ formatDate(item.createdAt, 'trading') }}
+					</span>
+				</template>
+				<template #item.validUntil="{ item }">
+					<span class="table-date">
+						{{ formatDate(item.validUntil, 'trading') }}
 					</span>
 				</template>
 
-				<template v-slot:item.market="{ item }">
+				<template #item.market="{ item }">
 					<strong>{{ item.currency }}</strong>
 					<span class="market-name">/{{ item.market }}</span>
 				</template>
 
-				<template v-slot:item.type="{ item }">
+				<template #item.type="{ item }">
 					<strong v-if="item.type === 'LONG POSITION'" class="success--text">
 						{{ item.type }}
 					</strong>
 					<strong v-else class="error--text">{{ item.type }}</strong>
 				</template>
 
-				<template v-slot:item.filled="{ item }">
+				<template #item.filled="{ item }">
 					{{ BigNumber(item.actualSize).toString() }}/{{ BigNumber(item.size).toString() }}
 					{{ item.currency.toUpperCase() }} ({{ percent(item) }} %)
 				</template>
 
-				<template v-slot:item.realized="{ item }">
+				<template #item.realized="{ item }">
 					{{ BigNumber(item.realized).toString() }}
 					<span v-if="item.side">{{ item.market.toUpperCase() }}</span>
 					<span v-else>{{ item.currency.toUpperCase() }}</span>
 				</template>
 
-				<template v-slot:item.credited="{ item }">
+				<template #item.credited="{ item }">
 					{{ BigNumber(item.credited).toString() }}
 					<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template v-slot:item.creditFee="{ item }">
+				<template #item.creditFee="{ item }">
 					{{ BigNumber(item.creditFee).toString() }}
 					<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template v-slot:item.creditUsed="{ item }">
+				<template #item.creditUsed="{ item }">
 					{{ BigNumber(item.creditUsed).toString() }}
 					<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template v-slot:item.blockedFunds="{ item }">
+				<template #item.blockedFunds="{ item }">
 					{{ BigNumber(item.blockedFunds).toString() }}
 					<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template v-slot:item.marginPosition="{ item }">
+				<template #item.marginPosition="{ item }">
 					<strong :class="marginPositionClass(item)">
 						{{ BigNumber(item.marginPosition).toString() }}
 						<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
@@ -147,13 +153,13 @@
 					>
 				</template>
 
-				<template v-slot:item.marginLevel="{ item }">
+				<template #item.marginLevel="{ item }">
 					<strong :class="marginLevelClass(item)">
 						{{ marginLevel(item) }}
 					</strong>
 				</template>
 
-				<template v-slot:item.status="{ item }">
+				<template #item.status="{ item }">
 					<span class="text--secondary" v-if="item.status === 'accepted'">
 						{{ $t('trading.position.status.accepted') }}
 					</span>
@@ -173,6 +179,8 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import formatDate from '../../../../mixins/format/formatDate';
+
 export default {
 	name: 'OwnActivePositionList',
 
@@ -182,6 +190,8 @@ export default {
 			import(/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionClose'),
 		CommonDialog: () => import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
 	},
+
+	mixins: [formatDate],
 
 	props: {
 		currency: {
