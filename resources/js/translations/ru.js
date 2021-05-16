@@ -95,6 +95,10 @@ export default {
 		rate: 'Цена',
 		rate_per: 'Цена за 1',
 		filled: 'Завершено %',
+		amount_scale: 'Масштаб суммы',
+		rate_scale: 'Масштаб цены',
+		min_amount: 'Мин. сумма',
+		min_reverse_amount: 'Мин. обратная сумма',
 
 		deal_fee_maker: 'Комиссия по сделке, Maker',
 		deal_fee_taker: 'Комиссия по сделке, Taker',
@@ -2303,6 +2307,9 @@ export default {
 		support_currencies_only_crypto: 'Поддерживаются <b>9</b> криптовалют (монет/токенов)',
 		support_currencies_fiat_and_crypto:
 			'Поддерживаются <b>12</b> валют: <b>9</b> криптовалют (монет/токенов) и <b>3</b> фиатных валют',
+		fiat_tab: 'Фиатные валюты',
+		crypto_tab: 'Криптовалюты',
+		pairs_tab: 'Пары',
 	},
 	fees: {
 		title: 'Комиссии и лимиты',

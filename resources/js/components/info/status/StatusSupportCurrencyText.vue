@@ -1,7 +1,7 @@
 <template>
-	<v-card-text class="pb-0">
-		<p v-if="userFiat" v-html="userCryptoAndFiatText" />
-		<p v-else v-html="userOnlyCryptoText" />
+	<v-card-text>
+		<div v-if="userFiat" v-html="userCryptoAndFiatText" />
+		<div v-else v-html="userOnlyCryptoText" />
 	</v-card-text>
 </template>
 
@@ -16,13 +16,13 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			userCryptoAndFiatText: this.$t(
-				'status.support_currencies_fiat_and_crypto'
-			),
-			userOnlyCryptoText: this.$t('status.support_currencies_only_crypto'),
-		};
+	computed: {
+		userCryptoAndFiatText() {
+			return this.$t('status.support_currencies_fiat_and_crypto');
+		},
+		userOnlyCryptoText() {
+			return this.$t('status.support_currencies_only_crypto');
+		},
 	},
 };
 </script>

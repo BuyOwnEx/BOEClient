@@ -96,6 +96,10 @@ export default {
 		filled: 'Filled, %',
 		close: 'Close',
 		cancel: 'Cancel',
+		amount_scale: 'Amount scale',
+		rate_scale: 'Rate scale',
+		min_amount: 'Min. amount',
+		min_reverse_amount: 'Min. reverse amount',
 
 		deal_fee_maker: 'Transaction commission, Maker',
 		deal_fee_taker: 'Transaction commission, Taker',
@@ -2304,6 +2308,9 @@ make our system processes as transparent as possible.`,
 		support_currencies_only_crypto: '<b>9</b> cryptocurrencies (coins / tokens) supported',
 		support_currencies_fiat_and_crypto:
 			'<b>12</b> currencies are supported: <b>9</b> cryptocurrencies (coins / tokens) and <b>3</b> fiat currencies',
+		fiat_tab: 'Fiat currencies',
+		crypto_tab: 'Crypto currencies',
+		pairs_tab: 'Pairs',
 	},
 	fees: {
 		title: 'Fees and limits',
