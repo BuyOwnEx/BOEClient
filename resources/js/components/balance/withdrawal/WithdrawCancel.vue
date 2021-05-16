@@ -12,7 +12,12 @@
 			<v-card-title class="common-dialog__title"> {{ $t('common.confirmation') }} </v-card-title>
 
 			<v-card-text class="common-dialog__content">
-				{{ $t('balance.dialog.cancel_withdrawal_description') }}
+				{{
+					$t('balance.dialog.cancel_withdrawal_description', {
+						amount,
+						currency,
+					})
+				}}
 			</v-card-text>
 
 			<v-card-actions class="common-dialog__actions">
@@ -53,6 +58,15 @@ export default {
 		},
 	},
 
+	computed: {
+		currency() {
+			return this.withdrawObj.currency;
+		},
+		amount() {
+			return this.withdrawObj.amount;
+		},
+	},
+
 	methods: {
 		...mapMutations({
 			updateCurrencyAmountStore: 'user/UPDATE_CURRENCY_AMOUNT',
@@ -71,7 +85,7 @@ export default {
 
 				if (isSuccess) {
 					this.$emit('cancel', ID);
-					this.updateCurrencyAmountStore({ currency: this.withdrawObj.currency, amount: this.withdrawObj.amount });
+					this.updateCurrencyAmountStore({ currency: this.currency, amount: this.amount });
 					this.close();
 				}
 			} finally {

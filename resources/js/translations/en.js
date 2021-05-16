@@ -525,7 +525,7 @@ export default {
 			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
 
-			cancel_withdrawal_description: 'description',
+			cancel_withdrawal_description: 'Are you sure you want to cancel withdrawal of {amount} {currency}?',
 		},
 	},
 
