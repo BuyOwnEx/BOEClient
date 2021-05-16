@@ -7,7 +7,7 @@ export default {
 
 			switch (type) {
 				case 'trading':
-					const timestamp = date / 10000 - 62136892800000;
+					const timestamp = date / 10000 - 62135596800000;
 					return moment
 						.utc(timestamp)
 						.tz(moment.tz.guess())
