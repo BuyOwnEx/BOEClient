@@ -31,24 +31,18 @@
 			</template>
 
 			<template v-slot:item.currency="{ item }">
-				<v-avatar :color="item.color" size="22" v-if="!item.logo">
-					<v-img
-						v-if="item.logo"
-						class="elevation-6"
-						:src="getImage(item.logo)"
-					/>
-					<span v-else class="white--text subtitle-2">
-						{{ item.currency.charAt(0) }}
-					</span>
-				</v-avatar>
 				<v-img
-					v-else
-					class="elevation-0 d-inline-flex"
-					style="vertical-align: middle"
-					:src="getImage(item.logo)"
+					v-if="getCurrencyLogo(item.currency)"
+					class="elevation-0 d-inline-flex vertical-middle"
+					:src="getCurrencyLogo(item.currency)"
 					max-height="22"
 					max-width="22"
 				/>
+
+				<v-avatar class="white--text subtitle-2" :color="getCurrencyColor(item.currency)" size="22" v-else>
+					{{ item.currency.charAt(0) }}
+				</v-avatar>
+
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
@@ -81,11 +75,18 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import moment from 'moment';
 import filters from '../../components/filters/FiatTransactions';
 import randomColor from 'randomcolor';
+
+import getUserCurrencyPropertyMixin from '../../mixins/common/getUserCurrencyPropertyMixin';
+
 export default {
 	name: 'FiatTransactions',
+
 	components: {
 		filters,
 	},
+
+	mixins: [getUserCurrencyPropertyMixin],
+
 	data() {
 		return {
 			isFiltersShow: true,
@@ -127,8 +128,8 @@ export default {
 				{ text: this.$t('table_header.amount'), value: 'amount' },
 				{ text: this.$t('table_header.operation_id'), value: 'txid' },
 				{ text: this.$t('table_header.status'), value: 'status' },
-			]
-		}
+			];
+		},
 	},
 
 	watch: {

@@ -26,7 +26,7 @@
 					<v-list dense>
 						<WithdrawCancel
 							:withdrawObj="item"
-							:is-crypto="getIsCurrencyCryptoType(item.currency)"
+							:is-crypto="getCurrencyType(item.currency) === 'crypto'"
 							@close-menu="closeMenu(item)"
 							@cancel="filterWithdrawalList"
 						/>
@@ -40,9 +40,9 @@
 
 			<template v-slot:item.currency="{ item }">
 				<v-img
-					v-if="getImage(item.currency)"
+					v-if="getCurrencyImage(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
-					:src="getImage(item.currency)"
+					:src="getCurrencyImage(item.currency)"
 					max-height="22"
 					max-width="22"
 				/>
@@ -62,11 +62,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import formatDate from '../../../mixins/format/formatDate';
+import getUserCurrencyPropertyMixin from '../../../mixins/common/getUserCurrencyPropertyMixin';
 
 export default {
 	name: 'BalanceWithdrawalList',
@@ -75,7 +75,7 @@ export default {
 		WithdrawCancel: () => import(/* webpackPrefetch: true */ './WithdrawCancel'),
 	},
 
-	mixins: [formatDate],
+	mixins: [formatDate, getUserCurrencyPropertyMixin],
 
 	props: {
 		list: {
@@ -96,10 +96,6 @@ export default {
 	},
 
 	computed: {
-		...mapState({
-			userBalances: state => state.user.balances,
-		}),
-
 		headers() {
 			return [
 				{
@@ -136,17 +132,6 @@ export default {
 	methods: {
 		filterWithdrawalList(idToDelete) {
 			this.withdrawals = this.withdrawals.filter(item => item.id !== idToDelete);
-		},
-
-		getImage(currency) {
-			return this.userBalances[currency].logo;
-		},
-		getCurrencyColor(currency) {
-			return this.userBalances[currency].color;
-		},
-		getIsCurrencyCryptoType(currency) {
-			const type = this.userBalances[currency].type;
-			return type === 'coin';
 		},
 
 		BigNumber(item) {
