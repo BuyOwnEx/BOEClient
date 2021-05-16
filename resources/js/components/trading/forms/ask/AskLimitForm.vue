@@ -193,6 +193,8 @@
 					:stop-loss="form.sl_rate"
 					:take-profit="form.tp_rate"
 					:trailing-stop="form.ts_offset"
+					:is-leverage="useMargin"
+					:leverage-offer="form.offer"
 					@confirm="sendAskLimit"
 				>
 					<v-btn color="error" height="24" block>
@@ -252,7 +254,7 @@ export default {
 				sl_rate: null,
 				tp_rate: null,
 				ts_offset: null,
-				offer: 0,
+				offer: null,
 			},
 			additionalParamsEnabled: false,
 			volume: 0,

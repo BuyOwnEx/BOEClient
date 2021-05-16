@@ -321,21 +321,30 @@ export default {
 				buy_market_order: 'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене',
 				buy_market_order_with_params:
 					'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
-				buy_stop_loss_text:
+				buy_stop_loss:
 					'Продать по рынку в случае, если Best Bid достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
-				buy_take_profit_text:
+				buy_take_profit:
 					'Продать по рынку в случае, если Best Bid достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
-				buy_trailing_stop_text:
+				buy_trailing_stop:
 					'Продать по рынку в случае, если цена актива упадёт одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
+
+				buy_limit_leverage:
+					'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{offer.leverage}</b>. Размер ежедневной комиссии составит <b>{offer.fee}</b>. Срок действия позиции:  <b>{offer.days}</b> дней',
+				buy_market_leverage:
+					'Вы собираетесь <b>купить {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{offer.leverage}</b>. Размер ежедневной комиссии составит <b>{offer.fee}</b>. Срок действия позиции:  <b>{offer.days}</b> дней',
+				sell_limit_leverage:
+					'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{offer.leverage}</b>. Размер ежедневной комиссии составит <b>{offer.fee}</b>. Срок действия позиции:  <b>{offer.days}</b> дней',
+				sell_market_leverage:
+					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{offer.leverage}</b>. Размер ежедневной комиссии составит <b>{offer.fee}</b>. Срок действия позиции:  <b>{offer.days}</b> дней',
 
 				sell_limit_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b>',
 				sell_limit_order_with_params:
 					'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
-				sell_market_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене',
+				sell_market_order: ' <b>продать {amount} {currency}</b> по рыночной цене',
 				sell_market_order_with_params:
 					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
 				sell_stop_loss_text:
-					'Купить по рынку в случае, если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
+					'Купить по рынку в случае,Вы собираетесь если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
 				sell_take_profit_text:
 					'Купить по рынку в случае, если Best Ask достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
 				sell_trailing_stop_text:

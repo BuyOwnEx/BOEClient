@@ -10,15 +10,25 @@
 
 		<template #content>
 			<div>
-				<div v-if="isBuy && isLimit" v-html="buyLimitText" />
-				<div v-else-if="isBuy && isMarket" v-html="buyMarketText" />
-				<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyLimitParamsText" />
-				<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyMarketParamsText" />
+				<div v-if="!isLeverage">
+					<div v-if="isBuy && isLimit" v-html="buyLimitText" />
+					<div v-else-if="isBuy && isMarket" v-html="buyMarketText" />
+					<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyLimitParamsText" />
+					<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyMarketParamsText" />
 
-				<div v-if="isSell && isLimit" v-html="sellLimitText" />
-				<div v-else-if="isSell && isMarket" v-html="sellMarketText" />
-				<div v-else-if="isSell && isLimit && isAnyAdditionalParamExist" v-html="sellLimitParamsText" />
-				<div v-else-if="isSell && isMarket && isAnyAdditionalParamExist" v-html="sellMarketParamsText" />
+					<div v-if="isSell && isLimit" v-html="sellLimitText" />
+					<div v-else-if="isSell && isMarket" v-html="sellMarketText" />
+					<div v-else-if="isSell && isLimit && isAnyAdditionalParamExist" v-html="sellLimitParamsText" />
+					<div v-else-if="isSell && isMarket && isAnyAdditionalParamExist" v-html="sellMarketParamsText" />
+				</div>
+
+				<div v-else-if="isLeverage">
+					<div v-if="isBuy && isLimit" v-html="buyLimitLeverageText" />
+					<div v-if="isBuy && isMarket" v-html="buyMarketLeverageText" />
+
+					<div v-if="isSell && isLimit" v-html="sellLimitLeverageText" />
+					<div v-if="isSell && isMarket" v-html="sellMarketLeverageText" />
+				</div>
 
 				<ul v-if="isAnyAdditionalParamExist" class="trading-forms-confirm-dialog__add-params-list">
 					<li v-if="isBuy && stopLoss" v-html="buyStopLossText" />
@@ -67,6 +77,7 @@ export default {
 		price: {
 			type: [Number, String],
 			required: false,
+			default: 0,
 		},
 
 		currency: {
@@ -84,15 +95,26 @@ export default {
 		},
 		stopLoss: {
 			type: [Number, String],
-			required: false,
+			default: null,
 		},
 		takeProfit: {
 			type: [Number, String],
-			required: false,
+			default: null,
 		},
 		trailingStop: {
 			type: [Number, String],
+			default: null,
+		},
+
+		isLeverage: {
+			type: Boolean,
 			required: false,
+			default: false,
+		},
+		leverageOffer: {
+			type: Object,
+			required: false,
+			default: null,
 		},
 	},
 
@@ -130,49 +152,82 @@ export default {
 			return this.$t('trading.forms.dialog.buy_limit_order', {
 				amount: this.amount,
 				price: this.price,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 		buyMarketText() {
 			return this.$t('trading.forms.dialog.buy_market_order', {
 				amount: this.amount,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 		buyLimitParamsText() {
 			return this.$t('trading.forms.dialog.buy_limit_order_with_params', {
 				amount: this.amount,
 				price: this.price,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 		buyMarketParamsText() {
 			return this.$t('trading.forms.dialog.buy_market_order_with_params', {
 				amount: this.amount,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 
 		buyStopLossText() {
-			return this.$t('trading.forms.dialog.buy_stop_loss_text', {
+			return this.$t('trading.forms.dialog.buy_stop_loss', {
 				stopLoss: this.stopLoss,
-				market: this.market.toUpperCase(),
+				market: this.market,
 			});
 		},
 		buyTakeProfitText() {
-			return this.$t('trading.forms.dialog.buy_take_profit_text', {
+			return this.$t('trading.forms.dialog.buy_take_profit', {
 				takeProfit: this.takeProfit,
-				market: this.market.toUpperCase(),
+				market: this.market,
 			});
 		},
 		buyTrailingStopText() {
-			return this.$t('trading.forms.dialog.buy_trailing_stop_text', {
+			return this.$t('trading.forms.dialog.buy_trailing_stop', {
 				trailingStop: this.trailingStop,
-				market: this.market.toUpperCase(),
+				market: this.market,
+			});
+		},
+
+		buyLimitLeverageText() {
+			return this.$t('trading.forms.dialog.buy_limit_leverage', {
+				amount: this.amount,
+				price: this.price,
+				currency: this.currency,
+				market: this.market,
+				offer: this.leverageOffer,
+			});
+		},
+		buyMarketLeverageText() {
+			return this.$t('trading.forms.dialog.buy_market_leverage', {
+				amount: this.amount,
+				currency: this.currency,
+				offer: this.leverageOffer,
+			});
+		},
+		sellLimitLeverageText() {
+			return this.$t('trading.forms.dialog.sell_limit_leverage', {
+				amount: this.amount,
+				price: this.price,
+				currency: this.currency,
+				market: this.market,
+				offer: this.leverageOffer,
+			});
+		},
+		sellMarketLeverageText() {
+			return this.$t('trading.forms.dialog.sell_market_leverage', {
+				amount: this.amount,
+				currency: this.currency,
+				offer: this.leverageOffer,
 			});
 		},
 
@@ -180,49 +235,49 @@ export default {
 			return this.$t('trading.forms.dialog.sell_limit_order', {
 				amount: this.amount,
 				price: this.price,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 		sellMarketText() {
 			return this.$t('trading.forms.dialog.sell_market_order', {
 				amount: this.amount,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 		sellLimitParamsText() {
 			return this.$t('trading.forms.dialog.sell_limit_order_with_params', {
 				amount: this.amount,
 				price: this.price,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 		sellMarketParamsText() {
 			return this.$t('trading.forms.dialog.sell_market_order_with_params', {
 				amount: this.amount,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 			});
 		},
 
 		sellStopLossText() {
 			return this.$t('trading.forms.dialog.sell_stop_loss_text', {
 				stopLoss: this.stopLoss,
-				market: this.market.toUpperCase(),
+				market: this.market,
 			});
 		},
 		sellTakeProfitText() {
 			return this.$t('trading.forms.dialog.sell_take_profit_text', {
 				takeProfit: this.takeProfit,
-				market: this.market.toUpperCase(),
+				market: this.market,
 			});
 		},
 		sellTrailingStopText() {
 			return this.$t('trading.forms.dialog.sell_trailing_stop_text', {
 				trailingStop: this.trailingStop,
-				market: this.market.toUpperCase(),
+				market: this.market,
 			});
 		},
 	},
