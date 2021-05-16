@@ -2,7 +2,7 @@
 	<v-card class="balance flex-grow-1">
 		<CommonPageTitle>{{ $t('balance.title') }}</CommonPageTitle>
 
-		<v-tabs v-model="selectedTab" show-arrows>
+		<v-tabs v-model="selectedTab" :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">
 				{{ $t('balance.headers.own_crypto_balance_list') }}
 			</v-tab>

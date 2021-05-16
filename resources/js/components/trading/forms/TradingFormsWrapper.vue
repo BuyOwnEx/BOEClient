@@ -32,7 +32,7 @@
 
 		<!--	mobile version	-->
 		<div v-else>
-			<v-tabs v-model="selectedTab" grow>
+			<v-tabs v-model="selectedTab" :key="$i18n.locale" grow>
 				<v-tab :key="1">
 					{{ $t('trading.order.direction.buy') }}
 				</v-tab>
