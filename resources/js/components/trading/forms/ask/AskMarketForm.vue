@@ -330,6 +330,99 @@ export default {
 		},
 	},
 
+	watch: {
+		useMargin(val) {
+			if (val) {
+				this.getOffers();
+				this.additionalParamsEnabled = false;
+			}
+		},
+		currency(val) {
+			this.$set(this.form, 'currency', val.toUpperCase());
+			this.$set(this.form, 'amount', '');
+			this.resetForm();
+		},
+		market(val) {
+			this.$set(this.form, 'market', val.toUpperCase());
+			this.$set(this.form, 'amount', '');
+		},
+		volume(newVolume, oldVolume) {
+			if (this.isNumeric(newVolume) || newVolume === '') {
+				let rl = new RegExp('\\d+\\.\\d{' + (this.amountScale + this.rateScale + 4) + ',}', 'i');
+				if (rl.test(newVolume)) {
+					this.volume = oldVolume;
+					this.$refs.ask_market_volume.lazyValue = oldVolume;
+				} else {
+					if (this.bestBid !== 0 && this.volume !== '' && this.volume !== 0) this.debouncedUpdateAmount();
+				}
+			} else {
+				this.volume = 0;
+			}
+		},
+		'form.amount'(newAmount, oldAmount) {
+			if (!newAmount) this.useMargin = false
+
+			if (this.isNumeric(newAmount) || newAmount === '') {
+				let rl = new RegExp('\\d+\\.\\d{' + (this.amountScale + 1) + ',}', 'i');
+				if (rl.test(newAmount)) {
+					this.form.amount = oldAmount;
+					this.$refs.ask_market_amount.lazyValue = oldAmount;
+				} else if (newAmount === '' || newAmount === 0) {
+					this.form.amount = newAmount;
+				}
+			} else {
+				this.form.amount = 0;
+			}
+			this.debouncedUpdateVolume();
+			this.debouncedUpdateOffers();
+		},
+		'form.sl_rate'(newSlRate, oldSlRate) {
+			if (this.isNumeric(newSlRate) || newSlRate === '') {
+				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
+				if (rl.test(newSlRate)) {
+					this.form.sl_rate = oldSlRate;
+					this.$refs.ask_market_sl_rate.lazyValue = oldSlRate;
+				} else {
+					this.form.sl_rate = newSlRate;
+				}
+			} else {
+				this.form.sl_rate = 0;
+			}
+		},
+		'form.tp_rate'(newTpRate, oldTpRate) {
+			if (this.isNumeric(newTpRate) || newTpRate === '') {
+				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
+				if (rl.test(newTpRate)) {
+					this.form.tp_rate = oldTpRate;
+					this.$refs.ask_market_tp_rate.lazyValue = oldTpRate;
+				} else {
+					this.form.tp_rate = newTpRate;
+				}
+			} else {
+				this.form.tp_rate = 0;
+			}
+		},
+		'form.ts_offset'(newTsOffset, oldTsOffset) {
+			if (this.isNumeric(newTsOffset) || newTsOffset === '') {
+				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
+				if (rl.test(newTsOffset)) {
+					this.form.ts_offset = oldTsOffset;
+					this.$refs.ask_market_ts_offset.lazyValue = oldTsOffset;
+				} else {
+					this.form.ts_offset = newTsOffset;
+				}
+			} else {
+				this.form.ts_offset = 0;
+			}
+		},
+	},
+
+	mounted() {
+		this.debouncedUpdateAmount = _.debounce(this.updateAmount, 50);
+		this.debouncedUpdateVolume = _.debounce(this.updateVolume, 50);
+		this.debouncedUpdateOffers = _.debounce(this.updateOffers, 1000);
+	},
+
 	methods: {
 		BigNumber(item) {
 			return BigNumber(item).toString();
@@ -455,97 +548,6 @@ export default {
 			this.tp_rate = null;
 			this.ts_offset = null;
 		},
-	},
-
-	watch: {
-		useMargin(val) {
-			if (val) {
-				this.getOffers();
-				this.additionalParamsEnabled = false;
-			}
-		},
-		currency(val) {
-			this.$set(this.form, 'currency', val.toUpperCase());
-			this.$set(this.form, 'amount', '');
-			this.resetForm();
-		},
-		market(val) {
-			this.$set(this.form, 'market', val.toUpperCase());
-			this.$set(this.form, 'amount', '');
-		},
-		volume(newVolume, oldVolume) {
-			if (this.isNumeric(newVolume) || newVolume === '') {
-				let rl = new RegExp('\\d+\\.\\d{' + (this.amountScale + this.rateScale + 4) + ',}', 'i');
-				if (rl.test(newVolume)) {
-					this.volume = oldVolume;
-					this.$refs.ask_market_volume.lazyValue = oldVolume;
-				} else {
-					if (this.bestBid !== 0 && this.volume !== '' && this.volume !== 0) this.debouncedUpdateAmount();
-				}
-			} else {
-				this.volume = 0;
-			}
-		},
-		'form.amount'(newAmount, oldAmount) {
-			if (this.isNumeric(newAmount) || newAmount === '') {
-				let rl = new RegExp('\\d+\\.\\d{' + (this.amountScale + 1) + ',}', 'i');
-				if (rl.test(newAmount)) {
-					this.form.amount = oldAmount;
-					this.$refs.ask_market_amount.lazyValue = oldAmount;
-				} else if (newAmount === '' || newAmount === 0) {
-					this.form.amount = newAmount;
-				}
-			} else {
-				this.form.amount = 0;
-			}
-			this.debouncedUpdateVolume();
-			this.debouncedUpdateOffers();
-		},
-		'form.sl_rate'(newSlRate, oldSlRate) {
-			if (this.isNumeric(newSlRate) || newSlRate === '') {
-				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
-				if (rl.test(newSlRate)) {
-					this.form.sl_rate = oldSlRate;
-					this.$refs.ask_market_sl_rate.lazyValue = oldSlRate;
-				} else {
-					this.form.sl_rate = newSlRate;
-				}
-			} else {
-				this.form.sl_rate = 0;
-			}
-		},
-		'form.tp_rate'(newTpRate, oldTpRate) {
-			if (this.isNumeric(newTpRate) || newTpRate === '') {
-				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
-				if (rl.test(newTpRate)) {
-					this.form.tp_rate = oldTpRate;
-					this.$refs.ask_market_tp_rate.lazyValue = oldTpRate;
-				} else {
-					this.form.tp_rate = newTpRate;
-				}
-			} else {
-				this.form.tp_rate = 0;
-			}
-		},
-		'form.ts_offset'(newTsOffset, oldTsOffset) {
-			if (this.isNumeric(newTsOffset) || newTsOffset === '') {
-				let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
-				if (rl.test(newTsOffset)) {
-					this.form.ts_offset = oldTsOffset;
-					this.$refs.ask_market_ts_offset.lazyValue = oldTsOffset;
-				} else {
-					this.form.ts_offset = newTsOffset;
-				}
-			} else {
-				this.form.ts_offset = 0;
-			}
-		},
-	},
-
-	mounted() {
-		this.debouncedUpdateAmount = _.debounce(this.updateAmount, 50);
-		this.debouncedUpdateVolume = _.debounce(this.updateVolume, 50);
-		this.debouncedUpdateOffers = _.debounce(this.updateOffers, 1000);
 	},
 };
 </script>
