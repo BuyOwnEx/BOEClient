@@ -147,7 +147,15 @@
 		<div>
 			<div class="bmf__switch">
 				<div v-if="marginTradingAvailable" class="d-flex justify-start">
-					<v-switch v-model="useMargin" :label="$t('trading.order.use_margin')" hide-details left dense inset />
+					<v-switch
+						v-model="useMargin"
+						:label="$t('trading.order.use_margin')"
+						:disabled="!form.amount"
+						hide-details
+						left
+						dense
+						inset
+					/>
 				</div>
 				<div v-if="!useMargin" class="d-flex justify-start">
 					<v-switch
