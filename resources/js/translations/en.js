@@ -249,6 +249,7 @@ export default {
 			close_all: 'Close all positions',
 			close_long: 'Close all long positions',
 			close_short: 'Close all short positions',
+			close_position: 'Close position',
 
 			status: {
 				accepted: 'Accepted',
@@ -259,8 +260,9 @@ export default {
 			short_type: 'short',
 			long_type: 'long',
 
-			close_position: 'Close position',
-			close_position_description: 'This action will close your position',
+			close_title: 'Closing confirmation',
+			close_many: 'Are you sure you want to cancel all {type} positions?',
+			close_description: 'This action will close your position',
 
 			deposit_position: 'Deposit funds',
 			deposit_amount: 'Enter deposit amount',

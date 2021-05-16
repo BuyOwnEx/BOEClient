@@ -43,11 +43,11 @@
 						</template>
 
 						<template #title>
-							{{ $t('trading.order.cancel_title') }}
+							{{ $t('trading.position.close_title') }}
 						</template>
 
 						<template #content>
-							{{ $t('trading.order.cancel_many', { type: item.type }) }}
+							{{ $t('trading.position.close_many', { type: item.type }) }}
 						</template>
 					</CommonDialog>
 				</v-list>

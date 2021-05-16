@@ -248,6 +248,8 @@ export default {
 			close_all: 'Закрыть все позиции',
 			close_long: 'Закрыть все длинные позиции',
 			close_short: 'Закрыть все короткие позиции',
+			close_position: 'Закрыть позицию',
+
 			status: {
 				accepted: 'На исполнении',
 				partiallyFilled: 'Частично исполнена',
@@ -257,11 +259,12 @@ export default {
 			short_type: 'короткие',
 			long_type: 'длинные',
 
-			close_position: 'Закрыть позицию',
-			close_position_description: 'Данное действие приведет к закрытию позиции',
+			close_title: 'Подтверждение закрытия',
+			close_many: 'Вы уверены, что хотите отменить все {type} позиции?',
+			close_description: 'Данное действие приведет к закрытию позиции',
 
 			deposit_position: 'Внести средства',
-			deposit_amount: 'Введите сумму депозита'
+			deposit_amount: 'Введите сумму депозита',
 		},
 
 		notifications: {

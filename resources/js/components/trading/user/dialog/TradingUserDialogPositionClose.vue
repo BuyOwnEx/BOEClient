@@ -9,11 +9,11 @@
 
 			<v-card>
 				<v-card-title class="common-dialog__title">
-					{{ $t('trading.position.close_position') }}
+					{{ $t('trading.position.close_title') }}
 				</v-card-title>
 
 				<v-card-text class="common-dialog__content">
-					{{ $t('trading.position.close_position_description') }}
+					{{ $t('trading.position.close_description') }}
 				</v-card-text>
 
 				<v-card-actions class="common-dialog__actions">
