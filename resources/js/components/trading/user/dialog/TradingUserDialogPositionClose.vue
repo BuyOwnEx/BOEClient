@@ -1,30 +1,30 @@
 <template>
 	<v-form ref="form" v-model="valid">
 		<v-dialog v-model="dialog" max-width="500px">
-			<template v-slot:activator="{ on }">
+			<template #activator="{ on }">
 				<v-list-item dense v-on="on">
-					<v-list-item-title>{{ menuTitle }}</v-list-item-title>
+					<v-list-item-title>{{ $t('trading.position.close_position') }}</v-list-item-title>
 				</v-list-item>
 			</template>
 
 			<v-card>
 				<v-card-title class="common-dialog__title">
-					<span class="headline">{{ formTitle }}</span>
+					{{ $t('trading.position.close_position') }}
 				</v-card-title>
 
 				<v-card-text class="common-dialog__content">
-					{{ $t('trading.dialogs.descriptions.close_position') }}
+					{{ $t('trading.position.close_position_description') }}
 				</v-card-text>
 
 				<v-card-actions class="common-dialog__actions">
 					<v-spacer />
-					<v-btn color="blue darken-1" text @click="close">
-						{{ cancelTitle }}
+					<v-btn small tile text plain @click="close">
+						{{ $t('common.cancel') }}
 					</v-btn>
 					<v-spacer />
-					<v-btn color="blue darken-1" text @click="apply" :loading="loading" :disabled="loading">
-						{{ actionTitle }}</v-btn
-					>
+					<v-btn :loading="loading" :disabled="loading" color="primary" small tile text plain @click="apply">
+						{{ $t('common.close') }}
+					</v-btn>
 					<v-spacer />
 				</v-card-actions>
 			</v-card>
@@ -51,10 +51,6 @@ export default {
 	data() {
 		return {
 			valid: true,
-			formTitle: 'Closing position',
-			menuTitle: this.$t('trading.close_position'),
-			cancelTitle: 'Cancel',
-			actionTitle: 'Close',
 			form: {
 				position: this.id,
 			},

@@ -74,14 +74,14 @@
 						</template>
 
 						<v-list dense>
-							<TradingUserDialogPositionClose :id="item.id" v-on:closeMenu="closeMenu(item)" />
+							<TradingUserDialogPositionClose :id="item.id" @closeMenu="closeMenu(item)" />
 
 							<TradingUserDialogPositionAdd
 								:id="item.id"
 								:currency="item.currency"
 								:market="item.market"
 								:side="item.side"
-								v-on:closeMenu="closeMenu(item)"
+								@closeMenu="closeMenu(item)"
 							/>
 						</v-list>
 					</v-menu>

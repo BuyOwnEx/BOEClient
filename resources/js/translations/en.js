@@ -33,6 +33,7 @@ export default {
 		withdrawal_funds: 'Withdrawal of funds',
 		replenishment: 'Replenishment',
 		withdrawal: 'Withdrawal',
+		amount: 'Amount',
 
 		no_data: 'No data',
 		see_all: 'See all',
@@ -248,19 +249,21 @@ export default {
 			close_all: 'Close all positions',
 			close_long: 'Close all long positions',
 			close_short: 'Close all short positions',
+
 			status: {
 				accepted: 'Accepted',
 				partiallyFilled: 'Partially filled',
 				filled: 'Filled',
 			},
+
 			short_type: 'short',
 			long_type: 'long',
-		},
 
-		dialogs: {
-			descriptions: {
-				close_position: 'This action will close your position',
-			},
+			close_position: 'Close position',
+			close_position_description: 'This action will close your position',
+
+			deposit_position: 'Deposit funds',
+			deposit_amount: 'Enter deposit amount',
 		},
 
 		notifications: {

@@ -34,6 +34,7 @@ export default {
 		withdrawal_funds: 'Вывод средств',
 		replenishment: 'Пополение',
 		withdrawal: 'Вывод',
+		amount: 'Сумма',
 
 		no_data: 'Данных нет',
 		see_all: 'Увидеть все',
@@ -252,14 +253,15 @@ export default {
 				partiallyFilled: 'Частично исполнена',
 				filled: 'Исполнена полностью',
 			},
+
 			short_type: 'короткие',
 			long_type: 'длинные',
-		},
 
-		dialogs: {
-			descriptions: {
-				close_position: 'Данное действие приведет к закрытию позиции',
-			},
+			close_position: 'Закрыть позицию',
+			close_position_description: 'Данное действие приведет к закрытию позиции',
+
+			deposit_position: 'Внести средства',
+			deposit_amount: 'Введите сумму депозита'
 		},
 
 		notifications: {
@@ -295,8 +297,6 @@ export default {
 		marginPosition: 'Позиция',
 		marginLevel: 'Уровень маржи',
 		validUntil: 'Действует до',
-		close_position: 'Закрыть позицию',
-		deposit_margin: 'Внести обеспечение',
 		show_other_pairs: 'Показать все пары',
 		not_found: 'Ничего не найдено',
 		total: 'Всего',
