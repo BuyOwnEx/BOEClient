@@ -14,24 +14,17 @@
 
 				<v-card-text class="common-dialog__content">
 					<label>{{ $t('trading.order.available') }}</label>
-					<small v-if="side">
-						<span class="available_balance" @click="setCurrencyAmount()">
-							{{ this.currencyBalance.toString() }}
+					<small class="clickable">
+						<span class="available_balance" @click="setAmount">
+							{{ this.availableBalance }}
 						</span>
-						{{ currency.toUpperCase() }}
-					</small>
-
-					<small v-else>
-						<span class="available_balance" @click="setMarketAmount()">
-							{{ this.marketBalance.toString() }}
-						</span>
-						{{ market.toUpperCase() }}
+						{{ side ? currency : market }}
 					</small>
 
 					<v-text-field
 						v-model="form.amount"
 						class="pt-0 mt-0"
-						:rules="rules.numberRules"
+						:rules="[rules.required, rules.positive, localRules.lessAvailable, localRules.numberWithScalePrecision]"
 						:placeholder="$t('common.amount')"
 						:hint="$t('trading.position.deposit_amount')"
 						:suffix="currency"
@@ -45,7 +38,7 @@
 						{{ $t('common.cancel') }}
 					</v-btn>
 					<v-spacer />
-					<v-btn :loading="loading" :disabled="loading" color="primary" small tile text plain @click="apply">
+					<v-btn :loading="loading" :disabled="!valid" color="primary" small tile text plain @click="apply">
 						{{ $t('common.apply') }}
 					</v-btn>
 					<v-spacer />
@@ -61,82 +54,89 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+import formValidationRules from '../../../../mixins/common/formValidationRules';
 
 export default {
 	name: 'TradingUserDialogPositionClose',
 
-	mixins: [loadingMixin, dialogMethodsMixin],
+	mixins: [loadingMixin, dialogMethodsMixin, formValidationRules],
 
 	props: {
 		id: {
 			type: Number,
 			required: true,
-			default: 'mock',
 		},
 		currency: {
 			type: String,
 			required: true,
-			default: 'mock c',
 		},
 		market: {
 			type: String,
 			required: true,
-			default: 'mock m',
 		},
 		side: {
 			type: Boolean,
 			required: true,
-			default: 'mock',
 		},
 	},
 
 	data() {
 		return {
 			valid: true,
-			rules: {
-				required: v => !!v || 'The field is required',
-				numberRules: [
-					v => !!v || 'The field is required',
-					v =>
-						(v && /^-?\d+\.?\d{0,15}$/i.test(v)) || 'Unsupported characters. Must be decimal number with precision 15',
-					v => (!!v && v > 0) || 'The field must be positive number',
-				],
+			localRules: {
+				numberWithScalePrecision: v =>
+					!v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
+				lessAvailable: v => !v || v <= this.availableBalance || this.$t('balance.more_available'),
 			},
+
 			form: {
 				position: this.id,
-				currency: this.currency.toUpperCase(),
-				market: this.market.toUpperCase(),
+				currency: this.currency,
+				market: this.market,
 				amount: '',
 			},
 		};
 	},
 
 	computed: {
+		availableBalance() {
+			return this.side ? this.currencyBalance : this.marketBalance;
+		},
+
+		currencyBalance() {
+			if (this.isAuth) {
+				const scale = 8;
+				const amount = _.get(this.balances, this.currency, 0);
+				if (amount.available !== undefined) {
+					return BigNumber(amount.available)
+						.dp(scale, 1)
+						.toNumber();
+				}
+				return BigNumber(0)
+					.dp(scale, 1)
+					.toNumber();
+			} else return BigNumber(0).toNumber();
+		},
+		marketBalance() {
+			if (this.isAuth) {
+				const scale = 8;
+				const amount = _.get(this.balances, this.market, 0);
+				if (amount.available !== undefined) {
+					return BigNumber(amount.available)
+						.dp(scale, 1)
+						.toNumber();
+				}
+				return BigNumber(0)
+					.dp(scale, 1)
+					.toNumber();
+			} else return BigNumber(0).toNumber();
+		},
+
 		isAuth() {
 			return this.$store.getters['app/isLogged'];
 		},
 		balances() {
 			return this.$store.state.user.balances;
-		},
-		currencyBalance() {
-			if (this.isAuth) {
-				let scale = 8;
-				let amount = _.get(this.balances, this.currency.toUpperCase(), 0);
-				if (amount.available !== undefined) {
-					return BigNumber(amount.available).dp(scale, 1);
-				}
-				return BigNumber(0).dp(scale, 1);
-			} else return BigNumber(0);
-		},
-		marketBalance() {
-			if (this.isAuth) {
-				let scale = 8;
-				let amount = _.get(this.balances, this.market.toUpperCase(), 0);
-				if (amount.available !== undefined) {
-					return BigNumber(amount.available).dp(scale, 1);
-				}
-				return BigNumber(0).dp(scale, 1);
-			} else return BigNumber(0);
 		},
 	},
 
@@ -155,14 +155,14 @@ export default {
 				});
 		},
 
-		setCurrencyAmount() {
-			this.form.amount = this.currencyBalance.toString();
-		},
-		setMarketAmount() {
-			this.form.amount = this.marketBalance.toString();
+		setAmount() {
+			this.form.amount = this.availableBalance;
 		},
 		clearData() {
 			this.$refs.form.reset();
+		},
+		isCorrectPrecision(v) {
+			return !new RegExp('\\d+\\.\\d{' + (this.currency.scale + 1) + ',}', 'i').test(v);
 		},
 	},
 };

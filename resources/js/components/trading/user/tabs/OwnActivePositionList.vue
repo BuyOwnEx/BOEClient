@@ -78,8 +78,8 @@
 
 							<TradingUserDialogPositionAdd
 								:id="item.id"
-								:currency="item.currency"
-								:market="item.market"
+								:currency="item.currency.toUpperCase()"
+								:market="item.market.toUpperCase()"
 								:side="item.side"
 								@closeMenu="closeMenu(item)"
 							/>
