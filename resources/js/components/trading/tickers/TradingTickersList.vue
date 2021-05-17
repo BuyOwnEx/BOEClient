@@ -37,7 +37,6 @@
 			<v-simple-table
 				v-if="tickersList && tickersListFilteredAndSorted.length > 0"
 				class="trading-tickers-list__content"
-				:class="getTickersContentClasses"
 				:height="calculateTableHeight"
 				dense
 				fixed-header

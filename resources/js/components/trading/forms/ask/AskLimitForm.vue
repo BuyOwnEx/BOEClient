@@ -195,6 +195,7 @@
 					:trailing-stop="form.ts_offset"
 					:is-leverage="useMargin"
 					:leverage-offer="selectedOffer"
+					:leverage-level="leverageLevel"
 					@confirm="sendAskLimit"
 				>
 					<v-btn color="error" height="24" block>
@@ -260,6 +261,7 @@ export default {
 			volume: 0,
 			useMargin: false,
 			offers: [],
+			leverageLevel: 5
 		};
 	},
 

@@ -337,13 +337,13 @@ export default {
 					'Продать по рынку в случае, если цена актива упадёт одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
 
 				buy_limit_leverage:
-					'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{offerAmount}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
+					'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
 				buy_market_leverage:
-					'Вы собираетесь <b>купить {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{offerAmount}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
+					'Вы собираетесь <b>купить {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
 				sell_limit_leverage:
-					'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{offerAmount}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
+					'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
 				sell_market_leverage:
-					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{offerAmount}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
+					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
 
 				sell_limit_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b>',
 				sell_limit_order_with_params:

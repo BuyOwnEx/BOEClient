@@ -116,6 +116,10 @@ export default {
 			required: false,
 			default: null,
 		},
+		leverageLevel: {
+			type: Number,
+			default: null,
+		}
 	},
 
 	computed: {
@@ -204,7 +208,7 @@ export default {
 				price: this.price,
 				currency: this.currency,
 				market: this.market,
-				offerAmount: this.leverageOffer?.amount || 0,
+				leverageLevel: this.leverageLevel,
 				offerPercent: this.leverageOffer?.percent || 0,
 				offerDays: this.leverageOffer?.days || 0,
 			});
@@ -213,7 +217,7 @@ export default {
 			return this.$t('trading.forms.dialog.buy_market_leverage', {
 				amount: this.amount,
 				currency: this.currency,
-				offerAmount: this.leverageOffer?.amount || 0,
+				leverageLevel: this.leverageLevel,
 				offerPercent: this.leverageOffer?.percent || 0,
 				offerDays: this.leverageOffer?.days || 0,
 			});
@@ -224,7 +228,7 @@ export default {
 				price: this.price,
 				currency: this.currency,
 				market: this.market,
-				offerAmount: this.leverageOffer?.amount || 0,
+				leverageLevel: this.leverageLevel,
 				offerPercent: this.leverageOffer?.percent || 0,
 				offerDays: this.leverageOffer?.days || 0,
 			});
@@ -233,7 +237,7 @@ export default {
 			return this.$t('trading.forms.dialog.sell_market_leverage', {
 				amount: this.amount,
 				currency: this.currency,
-				offerAmount: this.leverageOffer?.amount,
+				leverageLevel: this.leverageLevel,
 				offerPercent: this.leverageOffer?.percent,
 				offerDays: this.leverageOffer?.days,
 			});
