@@ -335,7 +335,7 @@ export default {
 			return this.additionalParamsEnabled;
 		},
 		useMarginEnabled() {
-			return this.form.amount && this.form.amount !== '0';
+			return Number(this.form.amount);
 		},
 	},
 
