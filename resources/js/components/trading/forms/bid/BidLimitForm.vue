@@ -192,7 +192,7 @@
 					:take-profit="form.tp_rate"
 					:trailing-stop="form.ts_offset"
 					:is-leverage="useMargin"
-					:leverage-offer="form.offer"
+					:leverage-offer="selectedOffer"
 					@confirm="sendBidLimit"
 				>
 					<v-btn color="success" height="24" block>
@@ -335,6 +335,11 @@ export default {
 		useMarginEnabled() {
 			return Number(this.form.amount);
 		},
+
+		selectedOffer() {
+			const selectedOfferID = this.form.offer
+			return this.offers?.find(item => item.id === selectedOfferID)
+		}
 	},
 
 	watch: {
@@ -627,7 +632,7 @@ export default {
 	}
 
 	&__margin {
-		padding: 0 12px;
+		padding: 0 4px;
 	}
 
 	&__footer {

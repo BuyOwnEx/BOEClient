@@ -204,14 +204,18 @@ export default {
 				price: this.price,
 				currency: this.currency,
 				market: this.market,
-				offer: this.leverageOffer,
+				offerAmount: this.leverageOffer?.amount || 0,
+				offerPercent: this.leverageOffer?.percent || 0,
+				offerDays: this.leverageOffer?.days || 0,
 			});
 		},
 		buyMarketLeverageText() {
 			return this.$t('trading.forms.dialog.buy_market_leverage', {
 				amount: this.amount,
 				currency: this.currency,
-				offer: this.leverageOffer,
+				offerAmount: this.leverageOffer?.amount || 0,
+				offerPercent: this.leverageOffer?.percent || 0,
+				offerDays: this.leverageOffer?.days || 0,
 			});
 		},
 		sellLimitLeverageText() {
@@ -220,14 +224,18 @@ export default {
 				price: this.price,
 				currency: this.currency,
 				market: this.market,
-				offer: this.leverageOffer,
+				offerAmount: this.leverageOffer?.amount || 0,
+				offerPercent: this.leverageOffer?.percent || 0,
+				offerDays: this.leverageOffer?.days || 0,
 			});
 		},
 		sellMarketLeverageText() {
 			return this.$t('trading.forms.dialog.sell_market_leverage', {
 				amount: this.amount,
 				currency: this.currency,
-				offer: this.leverageOffer,
+				offerAmount: this.leverageOffer?.amount,
+				offerPercent: this.leverageOffer?.percent,
+				offerDays: this.leverageOffer?.days,
 			});
 		},
 

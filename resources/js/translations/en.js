@@ -337,13 +337,13 @@ export default {
 				buy_trailing_stop_text: 'Sell by market if the asset price drops by <b>{trailingStop}</b> points (TS order)',
 
 				buy_limit_leverage:
-					'You are going to <b>buy {amount} {currency}</b> at price of <b>{price} {market}</b> using <b>{offer.leverage}</b> leverage. Daily fee is <b>{offer.fee}</b>. Position validity:  <b>{offer.days}</b> days',
+					'You are going to <b>buy {amount} {currency}</b> at price of <b>{price} {market}</b> using <b>{offerAmount}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
 				buy_market_leverage:
-					'You are going to <b>buy {amount} {currency}</b> at the market price, using <b>{offer.leverage}</b> leverage. Daily fee is <b>{offer.fee}</b>. Position validity:  <b>{offer.days}</b> days',
+					'You are going to <b>buy {amount} {currency}</b> at the market price, using <b>{offerAmount}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
 				sell_limit_leverage:
-					'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b> using <b>{offer.leverage}</b> leverage. Daily fee is <b>{offer.fee}</b>. Position validity:  <b>{offer.days}</b> days',
+					'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b> using <b>{offerAmount}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
 				sell_market_leverage:
-					'You are going to <b>sell {amount} {currency}</b> at the market price, using <b>{offer.leverage}</b> leverage. Daily fee is <b>{offer.fee}</b>. Position validity:  <b>{offer.days}</b> days',
+					'You are going to <b>sell {amount} {currency}</b> at the market price, using <b>{offerAmount}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
 
 				sell_limit_order: 'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b>',
 				sell_limit_order_with_params:
