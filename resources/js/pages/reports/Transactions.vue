@@ -150,7 +150,7 @@ export default {
 		},
 		getTypeName(type) {
 			let index = _.findIndex(this.types, item => item.value === type);
-			return this.types[index].name;
+			return this.types[index]?.name;
 		},
 		getStatusName(status) {
 			let index = _.findIndex(this.statuses, item => item.value === status);

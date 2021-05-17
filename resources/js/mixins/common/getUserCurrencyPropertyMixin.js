@@ -1,13 +1,19 @@
 export default {
+	computed: {
+		userBalances() {
+			return this.$store.state.user.balances;
+		},
+	},
+
 	methods: {
 		getCurrencyLogo(currency) {
-			return this.$store.state.user?.balances[currency]?.logo;
+			if (this.userBalances) return this.userBalances[currency]?.logo;
 		},
 		getCurrencyColor(currency) {
-			return this.$store.state.user?.balances[currency]?.color;
+			if (this.userBalances) return this.userBalances[currency]?.color;
 		},
 		getCurrencyType(currency) {
-			return this.$store.state.user?.balances[currency]?.type;
+			if (this.userBalances) return this.userBalances[currency]?.type;
 		},
 	},
 };

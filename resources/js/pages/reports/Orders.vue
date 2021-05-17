@@ -193,15 +193,15 @@ export default {
 		},
 		getTypeName(type) {
 			let index = _.findIndex(this.types, item => item.value === type);
-			return this.types[index].name;
+			return this.types[index]?.name;
 		},
 		getStatusName(status) {
 			let index = _.findIndex(this.statuses, item => item.value === status);
-			return this.statuses[index].name;
+			return this.statuses[index]?.name;
 		},
 		getSideName(side) {
 			let index = _.findIndex(this.sides, item => item.value === side);
-			return this.sides[index].name;
+			return this.sides[index]?.name;
 		},
 		getRandomColor: function() {
 			return randomColor({
