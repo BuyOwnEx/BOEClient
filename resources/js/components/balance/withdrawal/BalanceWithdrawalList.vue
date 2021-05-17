@@ -40,9 +40,9 @@
 
 			<template v-slot:item.currency="{ item }">
 				<v-img
-					v-if="getCurrencyImage(item.currency)"
+					v-if="getCurrencyLogo(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
-					:src="getCurrencyImage(item.currency)"
+					:src="getCurrencyLogo(item.currency)"
 					max-height="22"
 					max-width="22"
 				/>
