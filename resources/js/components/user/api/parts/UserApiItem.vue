@@ -5,11 +5,7 @@
 
 			<div :class="[$vuetify.rtl ? 'mr-1' : 'ml-1']">
 				<UserApiDialogEdit :api-item="api" @edit="editAPI" />
-				<UserApiDialogDeleteOne
-					:id="api.id"
-					:name="api.name"
-					@delete="deleteAPI"
-				/>
+				<UserApiDialogDeleteOne :id="api.id" :name="api.name" @delete="deleteAPI" />
 			</div>
 		</v-card-title>
 
@@ -17,11 +13,7 @@
 
 		<div class="user-api-item__content pa-2">
 			<div class="user-api-item__icon-wrapper">
-				<v-avatar
-					class="user-api-item__icon"
-					size="150"
-					v-html="generatedIcon(api.name)"
-				/>
+				<v-avatar class="user-api-item__icon" size="150" v-html="generatedIcon(api.name)" />
 			</div>
 
 			<div class="user-api-item__info-wrapper">
@@ -44,21 +36,22 @@
 				</div>
 
 				<div class="user-api-item__abilities-key-wrapper">
-					<v-checkbox
-						v-model="tradingItemValue"
-						class="mt-0"
-						:label="$t('menu.trading')"
-						hide-details
-						dense
-						disabled
-					/>
+					<v-checkbox v-model="tradingItemValue" class="mt-0" :label="$t('menu.trading')" hide-details disabled dense />
 					<v-checkbox
 						v-model="withdrawItemValue"
 						class="mt-0"
 						:label="$t('common.withdrawal_funds')"
 						hide-details
-						dense
 						disabled
+						dense
+					/>
+					<v-checkbox
+						class="mt-0"
+						:input-value="true"
+						:label="$t('common.info')"
+						hide-details
+						disabled
+						dense
 					/>
 				</div>
 

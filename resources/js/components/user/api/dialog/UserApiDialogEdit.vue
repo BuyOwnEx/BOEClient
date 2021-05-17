@@ -21,13 +21,7 @@
 
 			<v-card-text class="common-dialog__content pt-0">
 				<v-form ref="form">
-					<v-checkbox
-						v-model="form.trading"
-						:ripple="false"
-						:label="$t('menu.trading')"
-						hide-details
-						dense
-					/>
+					<v-checkbox v-model="form.trading" :ripple="false" :label="$t('menu.trading')" hide-details dense />
 					<v-checkbox
 						v-model="form.withdraw"
 						:ripple="false"
@@ -35,6 +29,7 @@
 						hide-details
 						dense
 					/>
+					<v-checkbox :input-value='true' :ripple="false" :label="$t('common.info')" disabled hide-details dense />
 				</v-form>
 			</v-card-text>
 
@@ -49,15 +44,7 @@
 
 				<v-spacer />
 
-				<v-btn
-					:loading="loading"
-					color="primary"
-					small
-					tile
-					text
-					plain
-					@click="edit"
-				>
+				<v-btn :loading="loading" color="primary" small tile text plain @click="edit">
 					{{ $t('common.edit') }}
 				</v-btn>
 
@@ -98,10 +85,8 @@ export default {
 
 	computed: {
 		isNoChanges() {
-			const isTradingNoChange =
-				this.beforeEditTradingValue === this.form.trading;
-			const isWithdrawNoChange =
-				this.beforeEditWithdrawValue === this.form.withdraw;
+			const isTradingNoChange = this.beforeEditTradingValue === this.form.trading;
+			const isWithdrawNoChange = this.beforeEditWithdrawValue === this.form.withdraw;
 
 			return isTradingNoChange && isWithdrawNoChange;
 		},

@@ -1,14 +1,7 @@
 <template>
 	<v-dialog v-model="dialog" width="400" :persistent="Boolean(token)">
 		<template v-slot:activator="{ on, attrs }">
-			<v-btn
-				:class="[$vuetify.rtl ? 'ml-1' : 'mr-1']"
-				color="success"
-				v-bind="attrs"
-				v-on="on"
-				small
-				tile
-			>
+			<v-btn :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" color="success" v-bind="attrs" v-on="on" small tile>
 				{{ $t('user.api.dialog.create.title') }}
 			</v-btn>
 		</template>
@@ -47,6 +40,7 @@
 							hide-details
 							dense
 						/>
+						<v-checkbox :input-value="true" :ripple="false" :label="$t('common.info')" hide-details disabled dense />
 					</v-form>
 				</v-card-text>
 
@@ -58,16 +52,7 @@
 						{{ $t('common.close') }}
 					</v-btn>
 					<v-spacer />
-					<v-btn
-						:loading="loading"
-						:disabled="emptyName"
-						color="primary"
-						small
-						tile
-						text
-						plain
-						@click="create"
-					>
+					<v-btn :loading="loading" :disabled="emptyName" color="primary" small tile text plain @click="create">
 						{{ $t('common.create') }}
 					</v-btn>
 					<v-spacer />
@@ -80,17 +65,13 @@
 						{{ $t('user.api.dialog.create.copy_tokens_description') }}
 					</div>
 					<div class="pt-2">
-						<span class="user-api-dialog-create__token-name">
-							{{ $t('user.api.dialog.create.api_key') }}:
-						</span>
+						<span class="user-api-dialog-create__token-name"> {{ $t('user.api.dialog.create.api_key') }}: </span>
 						<div class="user-api-dialog-create__token">
 							<CommonCopyLabel :text="token" />
 						</div>
 					</div>
 					<div class="pt-1">
-						<span class="user-api-dialog-create__token-name">
-							{{ $t('user.api.dialog.create.secret_key') }}:
-						</span>
+						<span class="user-api-dialog-create__token-name"> {{ $t('user.api.dialog.create.secret_key') }}: </span>
 						<div class="user-api-dialog-create__token">
 							<CommonCopyLabel :text="secretToken" />
 						</div>
@@ -155,10 +136,7 @@ export default {
 			try {
 				this.startLoading();
 
-				const { data } = await axios.post(
-					'/trader/ext/new_api_token',
-					this.form
-				);
+				const { data } = await axios.post('/trader/ext/new_api_token', this.form);
 
 				this.token = data.data.plainTextToken;
 				this.secretToken = data.data.plainTextSecretToken;
@@ -174,7 +152,7 @@ export default {
 			this.form.abilities = [];
 			this.token = null;
 			this.secretToken = null;
-		}
+		},
 	},
 };
 </script>

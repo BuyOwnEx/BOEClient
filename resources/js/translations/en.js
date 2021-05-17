@@ -34,6 +34,7 @@ export default {
 		replenishment: 'Replenishment',
 		withdrawal: 'Withdrawal',
 		amount: 'Amount',
+		info: 'Info',
 
 		no_data: 'No data',
 		see_all: 'See all',

@@ -35,6 +35,7 @@ export default {
 		replenishment: 'Пополение',
 		withdrawal: 'Вывод',
 		amount: 'Сумма',
+		info: 'Информация',
 
 		no_data: 'Данных нет',
 		see_all: 'Увидеть все',
