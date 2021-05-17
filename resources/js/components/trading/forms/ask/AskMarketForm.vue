@@ -148,7 +148,7 @@
 					<v-switch
 						v-model="useMargin"
 						:label="$t('trading.order.use_margin')"
-						:disabled="!form.amount"
+						:disabled="!useMarginEnabled"
 						hide-details
 						left
 						dense
@@ -178,7 +178,7 @@
 					:take-profit="form.tp_rate"
 					:trailing-stop="form.ts_offset"
 					:is-leverage="useMargin"
-					:leverage-offer='form.offer'
+					:leverage-offer="form.offer"
 					@confirm="sendAskMarket"
 				>
 					<v-btn color="error" height="24" block>
@@ -325,8 +325,12 @@ export default {
 				return BigNumber(0).dp(scale, 1);
 			} else return BigNumber(0);
 		},
+
 		isAdditionalParams() {
 			return this.additionalParamsEnabled;
+		},
+		useMarginEnabled() {
+			return this.form.amount && this.form.amount !== '0';
 		},
 	},
 
@@ -360,7 +364,7 @@ export default {
 			}
 		},
 		'form.amount'(newAmount, oldAmount) {
-			if (!newAmount) this.useMargin = false
+			if (!this.useMarginEnabled) this.useMargin = false;
 
 			if (this.isNumeric(newAmount) || newAmount === '') {
 				let rl = new RegExp('\\d+\\.\\d{' + (this.amountScale + 1) + ',}', 'i');
