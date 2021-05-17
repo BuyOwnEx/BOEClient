@@ -37,6 +37,7 @@
 			<v-simple-table
 				v-if="tickersList && tickersListFilteredAndSorted.length > 0"
 				class="trading-tickers-list__content"
+				:class="getTickersContentClasses"
 				:height="calculateTableHeight"
 				dense
 				fixed-header
@@ -122,8 +123,11 @@
 									class="trading-tickers-list__pair-link"
 									@click.prevent="selectMarketAndCurrency(item.market, item.currency)"
 								>
-									<strong class="trading-tickers-list__pair-currency">
-										{{ item.currency }}
+									<strong
+										class="trading-tickers-list__pair-currency"
+										:class="{ 'small-cell-text': selectedMarket === 'favorites' }"
+									>
+										{{ getCurrencyOrPair(item) }}
 									</strong>
 								</a>
 							</td>
@@ -392,6 +396,10 @@ export default {
 			else this.selectedMarket = 'favorites';
 		},
 
+		getCurrencyOrPair(item) {
+			const isFavorites = this.selectedMarket === 'favorites';
+			return isFavorites ? item.pairName : item.currency;
+		},
 		getPercentColorClass(percent) {
 			if (percent > 0) return 'success--text';
 			else if (percent < 0) return 'error--text';
@@ -508,6 +516,9 @@ export default {
 
 	&__body-item--change
 		margin-right: 8px !important
+
+	.small-cell-text
+		font-size: 10px !important
 
 	::v-deep .v-data-table__wrapper
 		padding-right: 8px
