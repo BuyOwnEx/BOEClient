@@ -72,6 +72,7 @@ export default {
 			updateCurrencyAmountStore: 'user/UPDATE_CURRENCY_AMOUNT',
 		}),
 		...mapActions({
+			getBalancesFromServerStore: 'user/getBalancesFromServer',
 			cancelCryptoWithdrawalStore: 'balance/cancelCryptoWithdrawal',
 			cancelFiatWithdrawalStore: 'balance/cancelFiatWithdrawal',
 		}),
@@ -86,6 +87,7 @@ export default {
 				if (isSuccess) {
 					this.$emit('cancel', ID);
 					this.updateCurrencyAmountStore({ currency: this.currency, amount: this.amount });
+					this.getBalancesFromServerStore();
 					this.close();
 				}
 			} finally {

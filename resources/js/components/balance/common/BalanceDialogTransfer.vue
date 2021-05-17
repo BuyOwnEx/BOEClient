@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -157,6 +158,10 @@ export default {
 	},
 
 	methods: {
+		...mapActions({
+			getBalancesFromServerStore: 'user/getBalancesFromServer',
+		}),
+
 		async apply() {
 			try {
 				this.startLoading();
@@ -164,7 +169,7 @@ export default {
 				await axios.post(`/trader/ext/transfer/${this.type}`, this.form);
 
 				this.close();
-				this.$store.dispatch('user/getBalancesFromServer');
+				this.getBalancesFromServerStore();
 			} finally {
 				this.stopLoading();
 			}
