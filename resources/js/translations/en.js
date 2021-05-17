@@ -266,7 +266,7 @@ export default {
 			long_type: 'long',
 
 			close_title: 'Closing confirmation',
-			close_many: 'Are you sure you want to cancel all {type} positions?',
+			close_many: 'Are you sure you want to close all {type} positions?',
 			close_description: 'This action will close your position',
 
 			deposit_position: 'Deposit funds',
