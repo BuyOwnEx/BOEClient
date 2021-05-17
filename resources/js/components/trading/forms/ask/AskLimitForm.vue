@@ -271,17 +271,15 @@ export default {
 			return this.$store.state.user.balances;
 		},
 		offers_select() {
-			let self = this;
 			return _.map(this.offers, value => {
 				return {
 					id: value.id,
-					name: self.$t(
-						'trading.order.offer_option',
+					name: this.$t('trading.order.offer_option', [
 						BigNumber(value.percent).toString(),
 						BigNumber(value.days).toString(),
 						BigNumber(value.amount).toString(),
-						self.currency.toUpperCase()
-					),
+						this.currency.toUpperCase(),
+					]),
 				};
 			});
 		},
