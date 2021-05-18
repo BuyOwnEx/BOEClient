@@ -24,6 +24,7 @@ Vue.prototype.$eventHub = new Vue();
 Vue.prototype.$trading_currency = window.trading_currency;
 Vue.prototype.$trading_market = window.trading_market;
 Vue.prototype.$user = window.user;
+Vue.prototype.$config = window.config;
 
 import HighchartsVue from 'highcharts-vue';
 Vue.use(HighchartsVue);

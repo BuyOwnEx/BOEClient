@@ -17,6 +17,7 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$eventHub = new Vue();
 Vue.prototype.$user = window.user;
+Vue.prototype.$config = window.config;
 Vue.prototype.$component = window.component;
 
 Vue.component('balance', require('./pages/balance/Balance.vue').default);

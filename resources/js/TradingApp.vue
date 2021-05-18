@@ -35,6 +35,7 @@ export default {
 
 	mounted() {
 		this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+		this.$store.commit('app/setConfig', { config: this.$config, vm: this });
 	},
 };
 </script>

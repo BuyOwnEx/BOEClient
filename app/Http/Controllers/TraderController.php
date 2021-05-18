@@ -24,76 +24,76 @@ class TraderController extends Controller
         if (!isset($currency)) {
             return response(view('errors.404'), 404);
         }
-        return view('trading', ['currency'=>$currency, 'market'=>$market, 'user' => Auth::user()]);
+        return view('trading', ['currency'=>$currency, 'market'=>$market, 'user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getBalanceView(Request $request)
     {
-        return view('balance', ['user' => Auth::user()]);
+        return view('balance', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getOverviewView(Request $request)
     {
-        return view('overview', ['user' => Auth::user(), 'currency' => env('DEFAULT_CURRENCY', 'BTC'), 'market' => env('DEFAULT_MARKET', 'USDT')]);
+        return view('overview', ['user' => Auth::user(), 'currency' => env('DEFAULT_CURRENCY', 'BTC'), 'market' => env('DEFAULT_MARKET', 'USDT'), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getTransactionsView(Request $request)
     {
-        return view('transactions', ['user' => Auth::user()]);
+        return view('transactions', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getFiatTransactionsView(Request $request)
     {
-        return view('fiat_transactions', ['user' => Auth::user()]);
+        return view('fiat_transactions', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getTransfersView(Request $request)
     {
-        return view('transfers', ['user' => Auth::user()]);
+        return view('transfers', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getOrdersView(Request $request)
     {
-        return view('orders', ['user' => Auth::user()]);
+        return view('orders', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getDealsView(Request $request)
     {
-        return view('deals', ['user' => Auth::user()]);
+        return view('deals', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getRefPaymentsView(Request $request)
     {
-        return view('ref_payments', ['user' => Auth::user()]);
+        return view('ref_payments', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getSupportView(Request $request)
     {
-        return view('support', ['user' => Auth::user()]);
+        return view('support', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getProfileView(Request $request)
     {
-        return view('profile', ['user' => Auth::user()]);
+        return view('profile', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getNotificationsView(Request $request)
     {
-        return view('notifications', ['user' => Auth::user()]);
+        return view('notifications', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
 
     public function getPolicyView(Request $request)
     {
-        return view('policy', ['user' => Auth::user()]);
+        return view('policy', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getTermsView(Request $request)
     {
-        return view('terms', ['user' => Auth::user()]);
+        return view('terms', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getApiView(Request $request)
     {
-        return view('api', ['user' => Auth::user()]);
+        return view('api', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getFeesView(Request $request)
     {
-        return view('fees', ['user' => Auth::user()]);
+        return view('fees', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getStatusView(Request $request)
     {
-        return view('status', ['user' => Auth::user()]);
+        return view('status', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
     public function getContactsView(Request $request)
     {
-        return view('contacts', ['user' => Auth::user()]);
+        return view('contacts', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
     }
 
 

@@ -15,6 +15,7 @@
 @section('scripts')
     <script>
         window.user = {!! json_encode($user); !!};
+        window.config = {!! json_encode($config); !!};
         window.trading_currency = {!! json_encode($currency); !!};
         window.trading_market = {!! json_encode($market); !!};
         window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
