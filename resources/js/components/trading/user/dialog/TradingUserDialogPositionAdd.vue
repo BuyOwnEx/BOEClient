@@ -138,6 +138,13 @@ export default {
 		balances() {
 			return this.$store.state.user.balances;
 		},
+		currencyScale() {
+			const defaultScale = 2
+			const isCurrency = this.currency in this.balances
+
+			if (isCurrency) return this.balances[this.currency].scale;
+			else return defaultScale
+		},
 	},
 
 	methods: {
@@ -162,7 +169,7 @@ export default {
 			this.$refs.form.reset();
 		},
 		isCorrectPrecision(v) {
-			return !new RegExp('\\d+\\.\\d{' + (this.currency.scale + 1) + ',}', 'i').test(v);
+			return !new RegExp('\\d+\\.\\d{' + (this.currencyScale + 1) + ',}', 'i').test(v);
 		},
 	},
 };
