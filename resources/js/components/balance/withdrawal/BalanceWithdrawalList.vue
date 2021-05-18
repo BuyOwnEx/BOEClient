@@ -26,7 +26,7 @@
 					<v-list dense>
 						<WithdrawCancel
 							:withdrawObj="item"
-							:is-crypto="getCurrencyType(item.currency) === 'crypto'"
+							:is-crypto="isCrypto(item.currency)"
 							@close-menu="closeMenu(item)"
 							@cancel="filterWithdrawalList"
 						/>
@@ -132,6 +132,10 @@ export default {
 	methods: {
 		filterWithdrawalList(idToDelete) {
 			this.withdrawals = this.withdrawals.filter(item => item.id !== idToDelete);
+		},
+		isCrypto(currency) {
+			const type = this.getCurrencyType(currency);
+			return type === 'coin' || type === 'token';
 		},
 
 		BigNumber(item) {
