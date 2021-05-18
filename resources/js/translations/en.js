@@ -2304,11 +2304,15 @@ time, as well as applicable fees and limits. It is developing
 a tool that will include more information about the system, aiming
 make our system processes as transparent as possible.`,
 		see_state_of_market: 'You can get acquainted with the state of the market on the page',
+
 		fiat_status: 'System status for fiat currencies',
 		crypto_status: 'System status for cryptocurrencies',
+		pairs_status: 'System status for pairs',
+
 		support_currencies_only_crypto: '<b>9</b> cryptocurrencies (coins / tokens) supported',
 		support_currencies_fiat_and_crypto:
 			'<b>12</b> currencies are supported: <b>9</b> cryptocurrencies (coins / tokens) and <b>3</b> fiat currencies',
+
 		fiat_tab: 'Fiat currencies',
 		crypto_tab: 'Crypto currencies',
 		pairs_tab: 'Pairs',

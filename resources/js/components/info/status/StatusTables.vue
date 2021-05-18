@@ -2,7 +2,7 @@
 	<div class="status-page__tables-wrapper">
 		<v-tabs v-model="selectedTab" class="small-tabs" :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">{{ $t('status.crypto_tab') }}</v-tab>
-			<v-tab v-if="userFiat" :key="2">{{ $t('status.fiat_tab') }}</v-tab>
+			<v-tab :key="2">{{ $t('status.fiat_tab') }}</v-tab>
 			<v-tab :key="3"> {{ $t('status.pairs_tab') }} </v-tab>
 		</v-tabs>
 
