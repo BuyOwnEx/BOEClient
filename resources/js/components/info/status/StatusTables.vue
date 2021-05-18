@@ -88,9 +88,6 @@
 									<th>
 										{{ $t('common.withdrawal_funds') }}
 									</th>
-									<th>
-										{{ $t('table_header.available_payment_systems') }}
-									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -120,54 +117,6 @@
 												{{ getStateTextStatus(item.state, 'withdrawal') }}
 											</template>
 										</CommonTooltip>
-									</td>
-
-									<td>
-										<v-simple-table dense>
-											<template #default>
-												<thead>
-													<tr>
-														<th>
-															{{ $t('table_header.name') }}
-														</th>
-														<th>
-															{{ $t('table_header.min_replenish_amount') }}
-														</th>
-														<th>
-															{{ $t('table_header.min_withdrawal_amount') }}
-														</th>
-														<th>
-															{{ $t('table_header.replenishment_fee') }}
-														</th>
-														<th>
-															{{ $t('table_header.withdrawal_fee') }}
-														</th>
-														<th colspan="2">
-															{{ $t('table_header.daily_withdrawal_limit_connected') }}
-														</th>
-													</tr>
-												</thead>
-												<tbody v-if="item.payment">
-													<tr v-for="payment in item.payment" :key="payment.id">
-														<td>{{ payment.name }}</td>
-														<td>{{ payment.minDeposit }} {{ item.currency }}</td>
-														<td>{{ payment.minWithdraw }} {{ item.currency }}</td>
-														<td>{{ payment.depositFee }} {{ item.currency }}</td>
-														<td>{{ payment.withdrawFee }} {{ item.currency }}</td>
-														<td>{{ payment.noVerifyDayLimit }} {{ item.currency }}</td>
-														<td>{{ payment.verifyDayLimit }} {{ item.currency }}</td>
-													</tr>
-												</tbody>
-
-												<tbody v-else>
-													<tr>
-														<td class="text-center" colspan="6">
-															{{ $t('common.no_data') }}
-														</td>
-													</tr>
-												</tbody>
-											</template>
-										</v-simple-table>
 									</td>
 								</tr>
 							</tbody>
