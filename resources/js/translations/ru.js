@@ -2572,7 +2572,7 @@ export default {
 		fiat_transactions_title: 'Фиатные транзакции',
 		orders_title: 'Ордера',
 		ref_payments_title: 'Реферальные платежи',
-		crypto_transactions_title: 'Крипто транзакции',
+		crypto_transactions_title: 'Криптотранзакции',
 		transfers_title: 'Внутренние переводы',
 	},
 
