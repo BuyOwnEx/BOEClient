@@ -179,9 +179,11 @@ export default {
 		...mapState('app', ['product', 'isContentBoxed', 'menuTheme', 'toolbarTheme', 'isToolbarDetached', 'trader']),
 		...mapGetters({
 			isLogged: 'app/isLogged',
-			isUserFiat: 'user/isUserFiat',
 		}),
 
+		isUserFiat() {
+			return this.$config?.fiat;
+		},
 		calculateFooterHeight() {
 			const width = this.$vuetify.breakpoint.width;
 			const isMediumBreakpoint = width < 1264 && width > 960;

@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 import CommonLoading from '../../components/common/CommonLoading';
 
@@ -50,13 +48,12 @@ export default {
 	},
 
 	computed: {
-		...mapGetters({
-			isUserFiat: 'user/isUserFiat',
-		}),
-
 		isLoaded() {
 			return Boolean(this.fiatCurrencies && this.cryptoCurrencies && this.pairsData);
 		},
+		isUserFiat() {
+			return this.$config?.fiat
+		}
 	},
 
 	created() {

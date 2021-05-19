@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 import BalanceCryptoList from '../../components/balance/crypto/BalanceCryptoList';
@@ -63,9 +63,9 @@ export default {
 		...mapState({
 			withdrawalList: state => state.balance.withdrawals || [],
 		}),
-		...mapGetters({
-			isUserFiat: 'user/isUserFiat',
-		}),
+		isUserFiat() {
+			return this.$config?.fiat
+		}
 	},
 
 	created() {

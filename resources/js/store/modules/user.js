@@ -30,15 +30,6 @@ export default {
 			if (!seed) return avatars.create(user.name);
 			else return avatars.create(seed);
 		},
-
-		isUserFiat(state) {
-			if (!state.balances) return false;
-
-			for (const key in state.balances) {
-				if (state.balances[key].type === 'fiat') return true;
-			}
-			return false;
-		},
 	},
 
 	mutations: {
