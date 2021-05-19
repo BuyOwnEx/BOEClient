@@ -61,7 +61,7 @@
 					max-width="22"
 				/>
 
-				<v-avatar class="white--text subtitle-2" :color="item.color" size="22" v-else>
+				<v-avatar v-else class="white--text subtitle-2" :color="item.color" size="22">
 					{{ item.currency.charAt(0) }}
 				</v-avatar>
 

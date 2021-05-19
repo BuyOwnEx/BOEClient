@@ -31,14 +31,14 @@
 
 			<template v-slot:item.currency="{ item }">
 				<v-img
-					v-if="getCurrencyLogo(item.currency)"
+					v-if="getLogo(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
-					:src="getCurrencyLogo(item.currency)"
+					:src="getLogo(item.currency)"
 					max-height="22"
 					max-width="22"
 				/>
 
-				<v-avatar class="white--text subtitle-2" :color="getCurrencyColor(item.currency)" size="22" v-else>
+				<v-avatar v-else class="white--text subtitle-2" :color="item.color" size="22">
 					{{ item.currency.charAt(0) }}
 				</v-avatar>
 
@@ -144,6 +144,9 @@ export default {
 	methods: {
 		BigNumber(item) {
 			return BigNumber(item).toString();
+		},
+		getLogo(currency) {
+			return this.currencies.find(item => item.currency === currency).logo;
 		},
 		getDate(date) {
 			return date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';

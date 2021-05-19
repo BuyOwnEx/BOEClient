@@ -30,14 +30,14 @@
 
 			<template v-slot:item.currency="{ item }">
 				<v-img
-					v-if="getCurrencyLogo(item.currency)"
+					v-if="getLogo(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
-					:src="getCurrencyLogo(item.currency)"
+					:src="getLogo(item.currency)"
 					max-height="22"
 					max-width="22"
 				/>
 
-				<v-avatar class="white--text subtitle-2" :color="getCurrencyColor(item.currency)" size="22" v-else>
+				<v-avatar class="white--text subtitle-2" :color="item.color" size="22" v-else>
 					{{ item.currency.charAt(0) }}
 				</v-avatar>
 
@@ -66,7 +66,6 @@ import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import filters from '../../components/filters/Transfers';
-import getUserCurrencyPropertyMixin from '../../mixins/common/getUserCurrencyPropertyMixin';
 
 export default {
 	name: 'Transfers',
@@ -74,8 +73,6 @@ export default {
 	components: {
 		filters,
 	},
-
-	mixins: [getUserCurrencyPropertyMixin],
 
 	data() {
 		return {
@@ -127,6 +124,9 @@ export default {
 		BigNumber: function(item) {
 			return BigNumber(item).toString();
 		},
+		getLogo(currency) {
+			return this.currencies.find(item => item.currency === currency).logo;
+		},
 		getDate(date) {
 			return date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
 		},
@@ -134,7 +134,7 @@ export default {
 			let index = _.findIndex(this.sides, item => item.value === side);
 			return this.sides[index].name;
 		},
-		getRandomColor: function() {
+		getRandomColor() {
 			return randomColor({
 				luminosity: 'dark',
 				format: 'rgba',
