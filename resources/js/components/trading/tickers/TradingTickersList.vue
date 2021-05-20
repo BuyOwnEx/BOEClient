@@ -135,7 +135,10 @@
 								{{ BigNumber(item.latest).toString() }}
 							</td>
 
-							<td class="trading-tickers-list__body-item--volume">
+							<td
+								class="trading-tickers-list__body-item--volume"
+								:class="{ 'small-cell-text': selectedMarket === 'favorites' }"
+							>
 								{{ formatWithScaleInAllCurrencies(item.volume, market) }}
 							</td>
 
