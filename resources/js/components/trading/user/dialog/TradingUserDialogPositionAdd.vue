@@ -24,11 +24,15 @@
 					<v-text-field
 						v-model="form.amount"
 						class="pt-0 mt-0"
+						type="number"
 						:rules="[rules.required, rules.positive, localRules.lessAvailable, localRules.numberWithScalePrecision]"
 						:placeholder="$t('common.amount')"
 						:hint="$t('trading.position.deposit_amount')"
-						:suffix="currency"
+						:suffix="side ? currency : market"
 						persistent-hint
+						autofocus
+						@keydown="validateNumber"
+						@paste.prevent
 					/>
 				</v-card-text>
 
@@ -55,11 +59,12 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 import formValidationRules from '../../../../mixins/common/formValidationRules';
+import validateInputMixin from '../../../../mixins/common/validateInputMixin';
 
 export default {
 	name: 'TradingUserDialogPositionClose',
 
-	mixins: [loadingMixin, dialogMethodsMixin, formValidationRules],
+	mixins: [loadingMixin, dialogMethodsMixin, formValidationRules, validateInputMixin],
 
 	props: {
 		id: {
@@ -139,11 +144,11 @@ export default {
 			return this.$store.state.user.balances;
 		},
 		currencyScale() {
-			const defaultScale = 2
-			const isCurrency = this.currency in this.balances
+			const defaultScale = 2;
+			const isCurrency = this.currency in this.balances;
 
 			if (isCurrency) return this.balances[this.currency].scale;
-			else return defaultScale
+			else return defaultScale;
 		},
 	},
 
