@@ -164,9 +164,9 @@ export default {
 		},
 		UPDATE_CURRENCY_AMOUNT(state, { currency, amount }) {
 			if (state.balances && currency in state.balances) {
-				const currency = state.balances[currency];
-				currency.withdraw -= amount;
-				currency.safe = currency.safe + amount + currency.feeWithdraw;
+				const balancesCurrency = state.balances[currency];
+				balancesCurrency.withdraw -= amount;
+				balancesCurrency.safe = balancesCurrency.safe + amount + balancesCurrency.feeWithdraw;
 			}
 		},
 	},
