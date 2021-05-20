@@ -294,7 +294,7 @@ export default {
 
 	computed: {
 		safe() {
-			return this.currencyObj.safe ? BigNumber(this.currencyObj.safe).dp(this.currencyObj.scale || 2, 1) : 0;
+			return this.currencyObj.safe ? BigNumber(this.currencyObj.safe).dp(this.currencyObj.scale || 2, 1) : BigNumber(0);
 		},
 		fee() {
 			return BigNumber(this.currencyObj.feeWithdraw);
@@ -388,7 +388,7 @@ export default {
 
 				if (isSuccess) {
 					this.step++;
-					this.getBalancesFromServerStore()
+					this.getBalancesFromServerStore();
 				}
 			} finally {
 				this.stopLoading();

@@ -199,7 +199,7 @@ export default {
 			return this.currencyObj.currency;
 		},
 		safe() {
-			return BigNumber(this.currencyObj.safe || 0);
+			return BigNumber(this.currencyObj.safe);
 		},
 		fee() {
 			return BigNumber(this.currencyObj.feeWithdraw);
