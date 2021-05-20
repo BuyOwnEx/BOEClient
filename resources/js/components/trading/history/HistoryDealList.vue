@@ -68,7 +68,7 @@ export default {
 <style scoped lang="sass">
 .history-deal-list
 	&__header
-		margin-left: 8px
+		margin: 0 4px
 	&__content
 		position: relative
 	::v-deep.v-data-table__wrapper

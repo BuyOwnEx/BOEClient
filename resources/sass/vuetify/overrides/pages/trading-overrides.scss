@@ -95,4 +95,12 @@
 			margin-right: 0 !important;
 		}
 	}
+	.own-active-order-list,
+	.own-history-deal-list,
+	.own-active-position-list {
+		.v-data-footer__select .v-select {
+			margin-left: 0;
+			margin-right: 8px;
+		}
+	}
 }
