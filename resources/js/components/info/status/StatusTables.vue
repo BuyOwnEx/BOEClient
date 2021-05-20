@@ -141,19 +141,10 @@
 										{{ $t('table_header.market') }}
 									</th>
 									<th>
-										{{ $t('table_header.trade') }}
+										{{ $t('table_header.trading') }}
 									</th>
 									<th>
-										{{ $t('table_header.amount_scale') }}
-									</th>
-									<th>
-										{{ $t('table_header.rate_scale') }}
-									</th>
-									<th>
-										{{ $t('table_header.min_amount') }}
-									</th>
-									<th>
-										{{ $t('table_header.min_reverse_amount') }}
+										{{ $t('table_header.margin_trading') }}
 									</th>
 								</tr>
 							</thead>
@@ -166,10 +157,11 @@
 											{{ getStatusIcon(item.trade).name }}
 										</v-icon>
 									</td>
-									<td>{{ item.amountScale }}</td>
-									<td>{{ item.rateScale }}</td>
-									<td>{{ item.minAmount }}</td>
-									<td>{{ item.minReverseAmount }}</td>
+									<td>
+										<v-icon :color="getStatusIcon(item.margin).color">
+											{{ getStatusIcon(item.margin).name }}
+										</v-icon>
+									</td>
 								</tr>
 							</tbody>
 						</template>

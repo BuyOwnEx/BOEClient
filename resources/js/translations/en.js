@@ -97,10 +97,8 @@ export default {
 		filled: 'Filled, %',
 		close: 'Close',
 		cancel: 'Cancel',
-		amount_scale: 'Amount scale',
-		rate_scale: 'Rate scale',
-		min_amount: 'Min. amount',
-		min_reverse_amount: 'Min. reverse amount',
+		trading: 'Trading',
+		margin_trading: 'Margin trading',
 
 		deal_fee_maker: 'Transaction commission, Maker',
 		deal_fee_taker: 'Transaction commission, Taker',

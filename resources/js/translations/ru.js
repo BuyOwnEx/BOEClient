@@ -65,8 +65,8 @@ export default {
 	table_header: {
 		currency: 'Валюта',
 		name: 'Название',
-		safe: 'Safe',
-		trade: 'Trade',
+		safe: 'Внешний',
+		trade: 'Торговый',
 		withdraw: 'Вывод',
 		blocked: 'Заблокировано',
 		state: 'Состояние',
@@ -96,10 +96,8 @@ export default {
 		rate: 'Цена',
 		rate_per: 'Цена за 1',
 		filled: 'Завершено %',
-		amount_scale: 'Масштаб суммы',
-		rate_scale: 'Масштаб цены',
-		min_amount: 'Мин. сумма',
-		min_reverse_amount: 'Мин. обратная сумма',
+		trading: 'Торговля',
+		margin_trading: 'Маржинальная торговля',
 
 		deal_fee_maker: 'Комиссия по сделке, Maker',
 		deal_fee_taker: 'Комиссия по сделке, Taker',
