@@ -352,6 +352,8 @@ export default {
 
 	methods: {
 		...mapActions({
+			getBalancesFromServerStore: 'user/getBalancesFromServer',
+
 			validateAddressStore: 'balance/validateAddress',
 			formCryptoWithdrawRequestStore: 'balance/formCryptoWithdrawRequest',
 			confirmCryptoWithdrawStore: 'balance/confirmCryptoWithdraw',
@@ -386,6 +388,7 @@ export default {
 
 				if (isSuccess) {
 					this.step++;
+					this.getBalancesFromServerStore()
 				}
 			} finally {
 				this.stopLoading();
