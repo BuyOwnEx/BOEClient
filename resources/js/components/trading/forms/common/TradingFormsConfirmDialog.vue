@@ -30,7 +30,10 @@
 					<div v-if="isSell && isMarket" v-html="sellMarketLeverageText" />
 				</div>
 
-				<ul v-if="isAnyAdditionalParamExist" class="trading-forms-confirm-dialog__add-params-list">
+				<ul
+					v-if="isAnyAdditionalParamExist && isAdditionalParams"
+					class="trading-forms-confirm-dialog__add-params-list"
+				>
 					<li v-if="isBuy && stopLoss" v-html="buyStopLossText" />
 					<li v-if="isBuy && takeProfit" v-html="buyTakeProfitText" />
 					<li v-if="isBuy && trailingStop" v-html="buyTrailingStopText" />
@@ -40,7 +43,7 @@
 					<li v-if="isSell && trailingStop" v-html="sellTrailingStopText" />
 				</ul>
 
-				<small v-if="isMultiplyAdditionalParams" class="text--secondary pt-1">
+				<small v-if="isMultiplyAdditionalParams && isAdditionalParams" class="text--secondary pt-1">
 					* {{ $t('trading.forms.dialog.only_one_conditional_orders_trigger') }}
 				</small>
 			</div>
@@ -119,7 +122,7 @@ export default {
 		leverageLevel: {
 			type: Number,
 			default: null,
-		}
+		},
 	},
 
 	computed: {

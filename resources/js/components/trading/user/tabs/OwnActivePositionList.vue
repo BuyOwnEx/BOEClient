@@ -65,23 +65,22 @@
 				dense
 			>
 				<template #item.action="{ item }">
-					<v-menu close-on-click offset-y v-model="item.menu">
+					<v-menu v-model="item.menu" offset-y>
 						<template #activator="{ on }">
-							<v-btn tile outlined x-small color="#A6A6A6" v-on="on">
+							<v-btn color="#a5a5a5c4" outlined depressed tile x-small v-on="on">
 								{{ $t('table_header.actions') }}
 								<v-icon right>mdi-chevron-down</v-icon>
 							</v-btn>
 						</template>
 
 						<v-list dense>
-							<TradingUserDialogPositionClose :id="item.id" @closeMenu="closeMenu(item)" />
-
+							<TradingUserDialogPositionClose :id="item.id" @close-menu="closeMenu(item)" />
 							<TradingUserDialogPositionAdd
 								:id="item.id"
 								:currency="item.currency.toUpperCase()"
 								:market="item.market.toUpperCase()"
 								:side="item.side"
-								@closeMenu="closeMenu(item)"
+								@close-menu="closeMenu(item)"
 							/>
 						</v-list>
 					</v-menu>

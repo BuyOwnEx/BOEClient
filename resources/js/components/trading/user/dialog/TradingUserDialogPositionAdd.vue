@@ -22,9 +22,9 @@
 					</small>
 
 					<v-text-field
+						ref="amount"
 						v-model="form.amount"
 						class="pt-0 mt-0"
-						type="number"
 						:rules="[rules.required, rules.positive, localRules.lessAvailable, localRules.numberWithScalePrecision]"
 						:placeholder="$t('common.amount')"
 						:hint="$t('trading.position.deposit_amount')"
@@ -62,7 +62,7 @@ import formValidationRules from '../../../../mixins/common/formValidationRules';
 import validateInputMixin from '../../../../mixins/common/validateInputMixin';
 
 export default {
-	name: 'TradingUserDialogPositionClose',
+	name: 'TradingUserDialogPositionAdd',
 
 	mixins: [loadingMixin, dialogMethodsMixin, formValidationRules, validateInputMixin],
 
@@ -145,10 +145,21 @@ export default {
 		},
 		currencyScale() {
 			const defaultScale = 2;
-			const isCurrency = this.currency in this.balances;
+			const currency = this.side ? this.currency : this.market;
+			const isCurrency = currency in this.balances;
 
-			if (isCurrency) return this.balances[this.currency].scale;
+			if (isCurrency) return this.balances[currency].scale;
 			else return defaultScale;
+		},
+	},
+
+	watch: {
+		'form.amount'(newAmount, oldAmount) {
+			const isUnavailableScale = new RegExp('\\d+\\.\\d{' + (this.currencyScale + 1) + ',}', 'i');
+			if (isUnavailableScale.test(newAmount)) {
+				this.form.amount = oldAmount;
+				this.$refs.amount.lazyValue = oldAmount;
+			}
 		},
 	},
 

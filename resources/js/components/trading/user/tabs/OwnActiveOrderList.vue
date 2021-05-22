@@ -1,5 +1,5 @@
 <template>
-	<v-card class="own-active-order-list own-list pa-1" elevation='0'>
+	<v-card class="own-active-order-list own-list pa-1" elevation="0">
 		<v-card-title class="own-list__header pa-0">
 			<span class="own-list__title component-title">
 				{{ $t('trading.headers.own_active_order_list') }}
@@ -128,13 +128,8 @@
 				<template v-slot:item.action="{ item }">
 					<CommonDialog @confirm="orderCancel(item)">
 						<template #default>
-							<v-btn color="rgba(148, 148, 148, 0.14)" elevation="0" tile x-small dense>
-								<v-icon class="own-active-order-list__cancel-icon" x-small>
-									mdi-close
-								</v-icon>
-								<span class="own-active-order-list__cancel-text">
-									{{ $t('common.cancel') }}
-								</span>
+							<v-btn color="#a5a5a5c4" outlined depressed tile x-small>
+								{{ $t('common.cancel') }}
 							</v-btn>
 						</template>
 
@@ -326,13 +321,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="sass">
-.own-active-order-list
-	&__cancel
-		&-icon
-			opacity: 0.6
-			margin-right: 2px
-		&-text
-			opacity: 0.8
-</style>
