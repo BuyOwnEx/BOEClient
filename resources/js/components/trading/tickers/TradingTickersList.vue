@@ -44,7 +44,7 @@
 				<template v-slot:default>
 					<thead class="trading-tickers-list__table-header">
 						<tr>
-							<th class="trading-tickers-list__header-item--favorite" @click="switchFavoriteSorting">
+							<th class="trading-tickers-list__header-item--favorite clickable" @click="switchFavoriteSorting">
 								<span class="trading-tickers-list__header-favorite-wrapper">
 									<v-icon v-if="selectedMarket !== 'favorites'" color="#b0b29c" small>
 										mdi-star
@@ -54,41 +54,51 @@
 									</v-icon>
 								</span>
 							</th>
-							<th class="trading-tickers-list__header-item--pair" @click="setSorting('pair')">
-								<span>
-									{{ $t('table_header.market') }}
-								</span>
-								<v-icon v-if="tickersSorting === 'pairAsc'" small>
-									mdi-arrow-up
-								</v-icon>
-								<v-icon v-if="tickersSorting === 'pairDesc'" small>
-									mdi-arrow-down
-								</v-icon>
+
+							<th class="trading-tickers-list__header-item--pair clickable" @click="setSorting('pair')">
+								<div class="d-flex align-center">
+									<span>
+										{{ $t('table_header.market') }}
+									</span>
+									<v-icon v-if="tickersSorting === 'pairAsc'" small>
+										mdi-arrow-up
+									</v-icon>
+									<v-icon v-if="tickersSorting === 'pairDesc'" small>
+										mdi-arrow-down
+									</v-icon>
+								</div>
 							</th>
+
 							<th class="trading-tickers-list__header-item--rate">
 								{{ $t('table_header.rate') }}
 							</th>
-							<th class="trading-tickers-list__header-item--volume" @click="setSorting('volume')">
-								<span>
-									{{ $t('trading.sort.volume') }}
-								</span>
-								<v-icon v-if="tickersSorting === 'volumeDesc'" small>
-									mdi-arrow-down
-								</v-icon>
-								<v-icon v-if="tickersSorting === 'volumeAsc'" small>
-									mdi-arrow-up
-								</v-icon>
+
+							<th class="trading-tickers-list__header-item--volume clickable" @click="setSorting('volume')">
+								<div class="d-flex align-center">
+									<span>
+										{{ $t('trading.sort.volume') }}
+									</span>
+									<v-icon v-if="tickersSorting === 'volumeDesc'" small>
+										mdi-arrow-down
+									</v-icon>
+									<v-icon v-if="tickersSorting === 'volumeAsc'" small>
+										mdi-arrow-up
+									</v-icon>
+								</div>
 							</th>
-							<th class="trading-tickers-list__header-item--change text-end" @click="setSorting('change')">
-								<span>
-									{{ $t('trading.sort.change') }}
-								</span>
-								<v-icon v-if="tickersSorting === 'changeDesc'" small>
-									mdi-arrow-down
-								</v-icon>
-								<v-icon v-if="tickersSorting === 'changeAsc'" small>
-									mdi-arrow-up
-								</v-icon>
+
+							<th class="trading-tickers-list__header-item--change clickable text-end" @click="setSorting('change')">
+								<div class="d-flex align-center justify-end">
+									<span>
+										{{ $t('trading.sort.change') }}
+									</span>
+									<v-icon v-if="tickersSorting === 'changeDesc'" small>
+										mdi-arrow-down
+									</v-icon>
+									<v-icon v-if="tickersSorting === 'changeAsc'" small>
+										mdi-arrow-up
+									</v-icon>
+								</div>
 							</th>
 						</tr>
 					</thead>
@@ -481,8 +491,6 @@ export default {
 	&__table-header
 		height: 35px
 
-	&__header-item--favorite
-		cursor: pointer
 	&__header-favorite-wrapper
 		display: flex
 		justify-content: center
@@ -490,19 +498,11 @@ export default {
 		i
 			padding-bottom: 2px
 
-	&__header-item--pair
-		cursor: pointer
-		&:hover
-			color: rgba(0, 0, 0, 0.87) !important
-
-	&__header-item--volume
-		cursor: pointer
-		&:hover
-			color: rgba(0, 0, 0, 0.87) !important
-
-	&__header-item--change
-		cursor: pointer
-		margin-right: 8px !important
+	&__header-item
+		display: flex
+		align-items: center
+		&--change
+			margin-right: 8px !important
 		&:hover
 			color: rgba(0, 0, 0, 0.87) !important
 
@@ -516,15 +516,24 @@ export default {
 		text-decoration: none
 		color: unset
 
-	&__body-item--change
-		margin-right: 8px !important
-
 	.small-cell-text
 		font-size: 10px !important
 
 	::v-deep .v-data-table__wrapper
 		padding-right: 8px
 		margin-top: 8px
+
+.v-application--is-rtl
+	.trading-tickers-list
+		&__header-search
+			padding-right: 0
+			padding-left: 8px
+		&__pair-link
+			padding-left: 0
+			padding-right: 4px
+		::v-deep .v-data-table__wrapper
+			padding-right: 0
+			padding-left: 8px
 
 .theme--dark
 	.trading-tickers-list
