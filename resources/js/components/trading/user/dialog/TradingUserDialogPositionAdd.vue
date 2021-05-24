@@ -14,12 +14,12 @@
 
 				<v-card-text class="common-dialog__content">
 					<label>{{ $t('trading.order.available') }}</label>
-					<small class="clickable" @click="setAmount">
+					<b class="clickable non-selectable dashed" @click="setAmount">
 						<span class="available_balance">
 							{{ this.availableBalance }}
 						</span>
 						{{ side ? currency : market }}
-					</small>
+					</b>
 
 					<v-text-field
 						ref="amount"
