@@ -14,8 +14,8 @@
 
 				<v-card-text class="common-dialog__content">
 					<label>{{ $t('trading.order.available') }}</label>
-					<small class="clickable">
-						<span class="available_balance" @click="setAmount">
+					<small class="clickable" @click="setAmount">
+						<span class="available_balance">
 							{{ this.availableBalance }}
 						</span>
 						{{ side ? currency : market }}
@@ -105,7 +105,8 @@ export default {
 
 	computed: {
 		availableBalance() {
-			return this.side ? this.currencyBalance : this.marketBalance;
+			const balance = this.side ? this.currencyBalance : this.marketBalance;
+			return balance.toFixed(this.currencyScale);
 		},
 
 		currencyBalance() {
