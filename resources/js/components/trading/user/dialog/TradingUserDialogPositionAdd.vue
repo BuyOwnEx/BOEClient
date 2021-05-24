@@ -91,7 +91,7 @@ export default {
 			localRules: {
 				numberWithScalePrecision: v =>
 					!v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-				lessAvailable: v => !v || v <= this.availableBalance || this.$t('balance.more_available'),
+				lessAvailable: v => !v || BigNumber(v).lte(BigNumber(this.availableBalance)) || this.$t('balance.more_available'),
 			},
 
 			form: {
@@ -156,10 +156,23 @@ export default {
 
 	watch: {
 		'form.amount'(newAmount, oldAmount) {
-			const isUnavailableScale = new RegExp('\\d+\\.\\d{' + (this.currencyScale + 1) + ',}', 'i');
-			if (isUnavailableScale.test(newAmount)) {
-				this.form.amount = oldAmount;
-				this.$refs.amount.lazyValue = oldAmount;
+			if (this.isNumeric(newAmount) || newAmount === '') {
+				const leadZero = new RegExp('^0+(?=\\d)', 'i');
+				if(leadZero.test(newAmount))
+				{
+					this.form.amount = oldAmount;
+					this.$refs.amount.lazyValue = oldAmount;
+				}
+				else {
+					const isUnavailableScale = new RegExp('\\d+\\.\\d{' + (this.currencyScale + 1) + ',}', 'i');
+					if (isUnavailableScale.test(newAmount)) {
+						this.form.amount = oldAmount;
+						this.$refs.amount.lazyValue = oldAmount;
+					}
+				}
+			}
+			else {
+				this.form.amount = 0;
 			}
 		},
 	},
@@ -178,7 +191,9 @@ export default {
 					this.stopLoading();
 				});
 		},
-
+		isNumeric(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
+		},
 		setAmount() {
 			this.form.amount = this.availableBalance;
 		},
