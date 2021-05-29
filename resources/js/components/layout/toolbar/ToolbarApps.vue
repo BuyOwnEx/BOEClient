@@ -1,6 +1,6 @@
 <template>
 	<v-menu offset-y left transition="slide-y-transition">
-		<template v-slot:activator="{ on }">
+		<template #activator="{ on }">
 			<v-btn icon v-on="on">
 				<v-icon>mdi-view-grid-outline</v-icon>
 			</v-btn>

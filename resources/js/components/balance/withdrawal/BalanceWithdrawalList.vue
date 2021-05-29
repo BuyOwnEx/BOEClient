@@ -8,15 +8,15 @@
 			:footer-props="footer_props"
 			dense
 		>
-			<template v-slot:top>
+			<template #top>
 				<v-toolbar flat dense>
 					<div class="component-title">{{ $t('balance.headers.own_active_withdraw_list') }}</div>
 				</v-toolbar>
 			</template>
 
-			<template v-slot:item.action="{ item }">
+			<template #item.action="{ item }">
 				<v-menu close-on-click offset-y v-model="item.menu" transition="slide-y-transition" bottom>
-					<template v-slot:activator="{ on }">
+					<template #activator="{ on }">
 						<v-btn color="#A6A6A6" v-on="on" text tile small>
 							{{ $t('table_header.actions') }}
 							<v-icon right>mdi-chevron-down</v-icon>
@@ -38,7 +38,7 @@
 				{{ formatDate(item.date, 'dateOnly') + ' ' + formatDate(item.date, 'timeOnly') }}
 			</template>
 
-			<template v-slot:item.currency="{ item }">
+			<template #item.currency="{ item }">
 				<v-img
 					v-if="getCurrencyLogo(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
@@ -54,7 +54,7 @@
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
-			<template v-slot:item.amount="{ item }">
+			<template #item.amount="{ item }">
 				{{ BigNumber(item.amount).toString() }}
 			</template>
 		</v-data-table>

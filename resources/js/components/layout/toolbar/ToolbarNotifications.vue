@@ -1,7 +1,7 @@
 <template>
 	<div class="toolbar-notifications">
 		<v-menu transition="slide-y-transition" :close-on-content-click="false" min-width="400" offset-y left>
-			<template v-slot:activator="{ on }">
+			<template #activator="{ on }">
 				<v-badge :content="unreadQuantity" :value="unreadQuantity" offset-x="22" offset-y="22" bordered>
 					<v-btn icon v-on="on">
 						<v-icon>mdi-bell-outline</v-icon>

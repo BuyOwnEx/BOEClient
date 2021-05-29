@@ -14,7 +14,7 @@
 						min-width="290px"
 						offset-y
 					>
-						<template v-slot:activator="{ on, attrs }">
+						<template #activator="{ on, attrs }">
 							<v-text-field
 								class="mt-2"
 								v-model="filters.start_date"
@@ -52,7 +52,7 @@
 						min-width="290px"
 						offset-y
 					>
-						<template v-slot:activator="{ on, attrs }">
+						<template #activator="{ on, attrs }">
 							<v-text-field
 								class="mt-2"
 								v-model="filters.start_time"
@@ -92,7 +92,7 @@
 						min-width="290px"
 						offset-y
 					>
-						<template v-slot:activator="{ on, attrs }">
+						<template #activator="{ on, attrs }">
 							<v-text-field
 								class="mt-2"
 								v-model="filters.end_date"
@@ -130,7 +130,7 @@
 						min-width="290px"
 						offset-y
 					>
-						<template v-slot:activator="{ on, attrs }">
+						<template #activator="{ on, attrs }">
 							<v-text-field
 								class="mt-2"
 								v-model="filters.end_time"

@@ -1,6 +1,6 @@
 <template>
 	<v-menu offset-y left transition="slide-y-transition">
-		<template v-slot:activator="{ on }">
+		<template #activator="{ on }">
 			<v-btn icon class="elevation-2" v-on="on">
 				<v-badge color="success" offset-x="10" offset-y="10" dot bordered>
 					<v-avatar v-html="generatedAvatar" size="40" />

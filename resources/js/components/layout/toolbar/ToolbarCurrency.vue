@@ -4,7 +4,7 @@
 		left
 		transition='slide-y-transition'
 	>
-		<template v-slot:activator='{ on }'>
+		<template #activator='{ on }'>
 			<v-btn icon v-on='on'>{{ `${currency.currencySymbol} ${currency.label}` }}</v-btn>
 		</template>
 

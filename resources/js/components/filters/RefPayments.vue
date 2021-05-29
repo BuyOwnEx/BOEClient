@@ -14,7 +14,7 @@
 						min-width="290px"
 						offset-y
 					>
-						<template v-slot:activator="{ on, attrs }">
+						<template #activator="{ on, attrs }">
 							<v-text-field
 								v-model="computedDateFormatted"
 								:label="$t('reports.date_range')"

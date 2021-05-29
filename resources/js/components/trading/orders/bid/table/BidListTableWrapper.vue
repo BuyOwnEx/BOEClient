@@ -1,7 +1,7 @@
 <template>
 	<div class="bid-list-table-absolute-wrapper">
 		<v-simple-table class="bid-list__content__table" dense fixed-header>
-			<template v-slot:default>
+			<template #default>
 				<BidListTableHeader :currency="currency" :market="market" />
 
 				<BidListTableBody

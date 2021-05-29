@@ -9,7 +9,7 @@
 	>
 		{{ message }}
 
-		<template v-slot:action="{ attrs }">
+		<template #action="{ attrs }">
 			<v-btn v-bind="attrs" icon @click="hideSnackbar">
 				<v-icon>
 					mdi-close

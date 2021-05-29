@@ -29,7 +29,7 @@
 			link
 		>
 
-			<template v-slot:activator>
+			<template #activator>
 				<v-list-item-icon v-if='!subgroup'>
 					<v-icon :small='small'>{{ menuItem.icon || 'mdi-circle-medium' }}</v-icon>
 				</v-list-item-icon>

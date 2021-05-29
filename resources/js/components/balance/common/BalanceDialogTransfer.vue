@@ -1,6 +1,6 @@
 <template>
 	<v-dialog v-model="dialog" width="500">
-		<template v-slot:activator="{ on }">
+		<template #activator="{ on }">
 			<v-list-item dense v-on="on">
 				<v-list-item-title>
 					{{ menuTitle }}

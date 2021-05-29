@@ -1,6 +1,6 @@
 <template>
 	<v-tooltip max-width="300" top>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<span v-bind="attrs" v-on="on">
 				<slot></slot>
 			</span>

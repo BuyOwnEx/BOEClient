@@ -12,7 +12,7 @@
 			<v-expansion-panels v-model="commentsExpanded" multiple>
 				<v-expansion-panel v-for="item in comments" :key="item.id">
 					<v-expansion-panel-header>
-						<template v-slot:default="{ open }">
+						<template #default="{ open }">
 							<div class="d-flex">
 								<v-avatar size="36" v-html="getGeneratedAvatar(item.author)" />
 								<div class="mx-2 min-w-0">
@@ -28,7 +28,7 @@
 							</div>
 						</template>
 
-						<template v-slot:actions>
+						<template #actions>
 							<span class="support-ticket-details__date">
 								{{ formatDate(item.created_at, 'timeAgo') }}
 							</span>

@@ -16,7 +16,7 @@
 			:caption="$t('reports.transfers_title')"
 			dense
 		>
-			<template v-slot:top>
+			<template #top>
 				<filters
 					:all_sides="sides"
 					:all_currencies="currencies"
@@ -28,7 +28,7 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template v-slot:item.currency="{ item }">
+			<template #item.currency="{ item }">
 				<v-img
 					v-if="getLogo(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
@@ -44,15 +44,15 @@
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
-			<template v-slot:item.side="{ item }">
+			<template #item.side="{ item }">
 				<span>{{ getSideName(item.side) }}</span>
 			</template>
 
-			<template v-slot:item.created_at="{ item }">
+			<template #item.created_at="{ item }">
 				<span>{{ getDate(item.created_at) }}</span>
 			</template>
 
-			<template v-slot:item.amount="{ item }">
+			<template #item.amount="{ item }">
 				<span>{{ BigNumber(item.amount) }}</span>
 			</template>
 		</v-data-table>

@@ -1,6 +1,6 @@
 <template>
 	<v-dialog v-model="dialog" width="400" :persistent="Boolean(token)">
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<v-btn :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" color="success" v-bind="attrs" v-on="on" small tile>
 				{{ $t('user.api.dialog.create.title') }}
 			</v-btn>

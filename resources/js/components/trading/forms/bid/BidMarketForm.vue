@@ -17,7 +17,7 @@
 				hide-details
 				@keydown="validateNumber($event)"
 			>
-				<template v-slot:append>
+				<template #append>
 					<span class="button-currency-text">{{ currency.toUpperCase() }}</span>
 				</template>
 			</v-text-field>
@@ -48,7 +48,7 @@
 					hide-details
 					@keydown="validateNumber($event)"
 				>
-					<template v-slot:append>
+					<template #append>
 						<span class="button-currency-text">{{ currency.toUpperCase() }}</span>
 					</template>
 				</v-text-field>
@@ -83,7 +83,7 @@
 						hide-details
 						@keydown="validateNumber($event)"
 					>
-						<template v-slot:append>
+						<template #append>
 							<span class="button-currency-text">
 								{{ market.toUpperCase() }}
 							</span>
@@ -107,7 +107,7 @@
 						hide-details
 						@keydown="validateNumber($event)"
 					>
-						<template v-slot:append>
+						<template #append>
 							<span class="button-currency-text">
 								{{ market.toUpperCase() }}
 							</span>
@@ -131,7 +131,7 @@
 						hide-details
 						@keydown="validateNumber($event)"
 					>
-						<template v-slot:append>
+						<template #append>
 							<span class="button-currency-text">
 								{{ market.toUpperCase() }}
 							</span>

@@ -16,7 +16,7 @@
 			:caption="$t('reports.deals_title')"
 			dense
 		>
-			<template v-slot:top>
+			<template #top>
 				<filters
 					:all_sides="sides"
 					@apply-table-filter="onFilterApply"
@@ -27,7 +27,7 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template v-slot:item.pair="{ item }">
+			<template #item.pair="{ item }">
 				<v-avatar :color="item.color" size="22">
 					<span class="white--text caption">
 						{{ item.currency.charAt(0) + item.market.charAt(0) }}
@@ -36,31 +36,31 @@
 				<span class="ml-1">{{ item.currency }}/{{ item.market }}</span>
 			</template>
 
-			<template v-slot:item.side="{ item }">
+			<template #item.side="{ item }">
 				<span :class="item.side === false ? 'success--text' : 'error--text'">
 					{{ getSideName(item.side) }}
 				</span>
 			</template>
 
-			<template v-slot:item.created_at="{ item }">
+			<template #item.created_at="{ item }">
 				<span>{{ getDateFromTick(item.created_at) }}</span>
 			</template>
 
-			<template v-slot:item.size="{ item }">
+			<template #item.size="{ item }">
 				<span>{{ BigNumber(item.size) + ' ' + item.currency }}</span>
 			</template>
 
-			<template v-slot:item.price="{ item }">
+			<template #item.price="{ item }">
 				<span>{{ BigNumber(item.price) + ' ' + item.market }}</span>
 			</template>
 
-			<template v-slot:item.volume="{ item }">
+			<template #item.volume="{ item }">
 				<span>
 					{{ getVolume(item.size, item.price) + ' ' + item.market }}
 				</span>
 			</template>
 
-			<template v-slot:item.fee="{ item }">
+			<template #item.fee="{ item }">
 				<span v-if="item.side">
 					{{ BigNumber(item.fee) + ' ' + item.market }}
 				</span>
