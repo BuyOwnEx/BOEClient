@@ -8,7 +8,7 @@
 			:footer-props="footer_props"
 			dense
 		>
-			<template v-slot:top>
+			<template #top>
 				<v-toolbar flat dense>
 					<div class="component-title">{{ componentTitle }}</div>
 
@@ -26,9 +26,9 @@
 				</v-toolbar>
 			</template>
 
-			<template v-slot:item.action="{ item }">
+			<template #item.action="{ item }">
 				<v-menu v-model="item.menu" transition="slide-y-transition" close-on-click offset-y bottom>
-					<template v-slot:activator="{ on }">
+					<template #activator="{ on }">
 						<v-btn color="#A6A6A6" v-on="on" text tile small>
 							{{ $t('table_header.actions') }}
 							<v-icon right>mdi-chevron-down</v-icon>
@@ -52,7 +52,7 @@
 				</v-menu>
 			</template>
 
-			<template v-slot:item.currency="{ item }">
+			<template #item.currency="{ item }">
 				<v-img
 					v-if="item.logo"
 					class="elevation-0 d-inline-flex vertical-middle"
@@ -68,23 +68,23 @@
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
-			<template v-slot:item.safe="{ item }">
+			<template #item.safe="{ item }">
 				{{ BigNumber(item.safe).toString() }}
 			</template>
 
-			<template v-slot:item.trade="{ item }">
+			<template #item.trade="{ item }">
 				{{ BigNumber(item.available).toString() }}
 			</template>
 
-			<template v-slot:item.withdraw="{ item }">
+			<template #item.withdraw="{ item }">
 				{{ BigNumber(item.withdraw).toString() }}
 			</template>
 
-			<template v-slot:item.blocked="{ item }">
+			<template #item.blocked="{ item }">
 				{{ BigNumber(item.blocked).toString() }}
 			</template>
 
-			<template v-slot:item.replenishment="{ item }">
+			<template #item.replenishment="{ item }">
 				<CommonTooltip>
 					<v-icon :color="getStateIconColor(item.state, 'replenishment')">
 						{{ getStateIconName(item.state, 'replenishment') }}
@@ -96,7 +96,7 @@
 				</CommonTooltip>
 			</template>
 
-			<template v-slot:item.withdrawal="{ item }">
+			<template #item.withdrawal="{ item }">
 				<CommonTooltip>
 					<v-icon :color="getStateIconColor(item.state, 'withdrawal')">
 						{{ getStateIconName(item.state, 'withdrawal') }}

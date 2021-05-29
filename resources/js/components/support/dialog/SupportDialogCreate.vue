@@ -1,6 +1,6 @@
 <template>
 	<v-dialog v-model="dialog" width="600" persistent>
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<v-btn block large v-bind="attrs" v-on="on" color="primary">
 				{{ $t('support.create_ticket') }}
 			</v-btn>
@@ -125,13 +125,13 @@
 						solo
 						flat
 					>
-						<template v-slot:selection="{ attrs, item, parent, selected }">
+						<template #selection="{ attrs, item, parent, selected }">
 							<span class="font-weight-bold pr-2" :class="[`${item.color}--text`]">
 								{{ item.name }}
 							</span>
 						</template>
 
-						<template v-slot:item="{ item }">
+						<template #item="{ item }">
 							<span class="font-weight-bold my-1" :class="[`${item.color}--text`]">
 								{{ item.name }}
 							</span>
@@ -149,7 +149,7 @@
 						show-size
 						small-chips
 					>
-						<template v-slot:selection="{ text }">
+						<template #selection="{ text }">
 							<v-chip small label color="primary">
 								{{ text }}
 							</v-chip>

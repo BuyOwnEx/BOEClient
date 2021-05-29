@@ -27,33 +27,33 @@
 				:footer-props="footerProps"
 				dense
 			>
-				<template v-slot:item.date="{ item }">
+				<template #item.date="{ item }">
 					<span class="table-date">
 						{{ formatDate(item.createdAt, 'trading') }}
 					</span>
 				</template>
 
-				<template v-slot:item.pair="{ item }">
+				<template #item.pair="{ item }">
 					<span> {{ item.currency.toUpperCase() }}/{{ item.market.toUpperCase() }} </span>
 				</template>
 
-				<template v-slot:item.side="{ item }">
+				<template #item.side="{ item }">
 					<strong :class="{ 'success--text': item.side, 'error--text': !item.side }">
 						{{ item.side ? $t('trading.order.direction.buy') : $t('trading.order.direction.sell') }}
 					</strong>
 				</template>
 
-				<template v-slot:item.size="{ item }">
+				<template #item.size="{ item }">
 					{{ formatSize(item.size, findScale(market, currency, 'amountScale')) }}
 					{{ item.currency.toUpperCase() }}
 				</template>
 
-				<template v-slot:item.price="{ item }">
+				<template #item.price="{ item }">
 					{{ formatPrice(item.price, findScale(market, currency, 'rateScale')) }}
 					{{ item.market.toUpperCase() }}
 				</template>
 
-				<template v-slot:item.volume="{ item }">
+				<template #item.volume="{ item }">
 					{{ calculateVolume(item.price, item.size) }}
 					{{ item.market.toUpperCase() }}
 				</template>

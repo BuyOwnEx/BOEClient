@@ -1,6 +1,6 @@
 <template>
 	<v-tooltip bottom>
-		<template v-slot:activator="{ on }">
+		<template #activator="{ on }">
 			<span class="clickable" v-on="on" @click="copy">
 				<v-icon v-if="icon" small>
 					{{ icon }}

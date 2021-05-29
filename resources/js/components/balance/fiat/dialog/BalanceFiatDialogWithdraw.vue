@@ -1,6 +1,6 @@
 <template>
 	<v-dialog v-model="dialog" width="800">
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<v-list-item dense v-bind="attrs" v-on="on">
 				<v-list-item-title>
 					{{ $t('common.withdraw') }}
@@ -48,44 +48,49 @@
 										}}
 									</div>
 
-									<div>
-										{{ $t('balance.current_balance') }}:
-										<b class="clickable dashed non-selectable" @click="setCurrentBalance">
-											{{ currencyObj.safe }} {{ currency }}
-										</b>
-									</div>
+									<CommonAvailable
+										:available="currencyObj.safe"
+										:currency="currency"
+										:available-text="$t('balance.current_balance')"
+										@set="setCurrentBalance"
+									/>
 
-									<div>
-										{{ $t('balance.min_amount') }}:
-										<b>{{ selectedSystem.minWithdraw }} {{ currency }}</b>
-									</div>
+									<CommonAvailable
+										:available="selectedSystem.minWithdraw"
+										:currency="currency"
+										:available-text="$t('balance.min_amount')"
+										non-clickable
+									/>
 
-									<div>
-										{{ $t('balance.max_amount') }}:
-										<b>{{ selectedSystem.maxWithdraw }} {{ currency }}</b>
-										<small>
-											({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{ currencyObj.daily }}
-											{{ currency }})
-										</small>
-									</div>
+									<CommonAvailable
+										:available="selectedSystem.maxWithdraw"
+										:currency="currency"
+										:available-text="$t('balance.max_amount')"
+										:small-text="$t('balance.stepper.withdrawal_params.used_day_limit')"
+										:small="currencyObj.daily"
+										non-clickable
+									/>
 
-									<div>
-										{{ $t('balance.fee') }}:
-										<b>{{ selectedSystem.withdrawFee }} {{ currency }}</b>
-									</div>
+									<CommonAvailable
+										:available="selectedSystem.withdrawFee"
+										:currency="currency"
+										:available-text="$t('balance.fee')"
+										non-clickable
+									/>
 
-									<div>
-										{{ $t('balance.you_get') }}:
-										<b>{{ totalAmount }} {{ currency }}</b>
-									</div>
+									<CommonAvailable
+										:available="totalAmount"
+										:currency="currency"
+										:available-text="$t('balance.you_get')"
+										non-clickable
+									/>
 
-									<div>
-										{{ $t('balance.stepper.withdrawal_params.available_for_withdraw') }}:
-										<b class="clickable non-selectable dashed" @click="setAvailableForWithdrawAmount">
-											{{ availableForWithdraw }}
-											{{ currency }}
-										</b>
-									</div>
+									<CommonAvailable
+										:available="availableForWithdraw"
+										:currency="currency"
+										:available-text="$t('balance.stepper.withdrawal_params.available_for_withdraw')"
+										@set="setAvailableForWithdrawAmount"
+									/>
 								</div>
 
 								<v-form v-model="valid">
@@ -115,7 +120,7 @@
 								<v-spacer />
 								<v-btn
 									:loading="loading"
-									:disabled="!amount.trim()"
+									:disabled="!amount.trim() || !valid"
 									color="primary"
 									tile
 									text
@@ -141,6 +146,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import BalanceFiatDialogSelectSystem from './parts/BalanceFiatDialogSelectSystem';
 import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
+import CommonAvailable from '../../../common/CommonAvailable';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import validateInputMixin from '../../../../mixins/common/validateInputMixin';
@@ -149,7 +155,7 @@ import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 export default {
 	name: 'BalanceFiatDialogWithdraw',
 
-	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert },
+	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert, CommonAvailable },
 
 	mixins: [loadingMixin, validateInputMixin, dialogMethodsMixin],
 
@@ -186,7 +192,7 @@ export default {
 			return total;
 		},
 		availableForWithdraw() {
-			return BigNumber.min(this.availableForUser, this.maxAvailable);
+			return BigNumber.min(this.availableForUser, this.maxAvailable).toString();
 		},
 
 		minWithdraw() {
@@ -229,7 +235,7 @@ export default {
 			this.amount = this.currencyObj.safe.toString();
 		},
 		setAvailableForWithdrawAmount() {
-			this.amount = this.availableForWithdraw.toString();
+			this.amount = this.availableForWithdraw;
 		},
 
 		selectPaymentSystem(system) {

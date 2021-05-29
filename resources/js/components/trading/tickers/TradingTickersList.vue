@@ -41,7 +41,7 @@
 				dense
 				fixed-header
 			>
-				<template v-slot:default>
+				<template #default>
 					<thead class="trading-tickers-list__table-header">
 						<tr>
 							<th class="trading-tickers-list__header-item--favorite clickable" @click="switchFavoriteSorting">

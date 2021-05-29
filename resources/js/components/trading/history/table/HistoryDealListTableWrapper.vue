@@ -1,7 +1,7 @@
 <template>
 	<div class="history-deal-list-absolute-wrapper">
 		<v-simple-table dense fixed-header>
-			<template v-slot:default>
+			<template #default>
 				<HistoryDealListTableHeader :currency="currency" :market="market" />
 
 				<HistoryDealListTableBody

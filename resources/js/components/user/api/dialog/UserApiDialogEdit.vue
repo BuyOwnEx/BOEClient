@@ -1,6 +1,6 @@
 <template>
 	<v-dialog v-model="dialog" width="500">
-		<template v-slot:activator="{ on, attrs }">
+		<template #activator="{ on, attrs }">
 			<span :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-bind="attrs" v-on="on">
 				<v-btn v-if="$vuetify.breakpoint.smAndUp" small tile>
 					{{ $t('user.api.dialog.edit.title') }}

@@ -9,7 +9,7 @@
 			:hide-default-footer="true"
 			dense
 		>
-			<template v-slot:item.pair="{ item }">
+			<template #item.pair="{ item }">
 				<span class="overview-table__item--pair">
 					<a :href="item.pairLink" target="_blank">
 						{{ item.pairName }}
@@ -17,28 +17,28 @@
 				</span>
 			</template>
 
-			<template v-slot:item.best_bid="{ item }">
+			<template #item.best_bid="{ item }">
 				<span>
 					{{ BigNumber(item.bid).toString() }}
 					{{ item.market.toUpperCase() }}
 				</span>
 			</template>
 
-			<template v-slot:item.best_ask="{ item }">
+			<template #item.best_ask="{ item }">
 				<span>
 					{{ BigNumber(item.ask).toString() }}
 					{{ item.market.toUpperCase() }}
 				</span>
 			</template>
 
-			<template v-slot:item.latest_price="{ item }">
+			<template #item.latest_price="{ item }">
 				<span>
 					{{ BigNumber(item.latest).toString() }}
 					{{ item.market.toUpperCase() }}
 				</span>
 			</template>
 
-			<template v-slot:item.change24="{ item }">
+			<template #item.change24="{ item }">
 				<span v-if="item.changePercent < 0">
 					<v-icon color="error" x-small>mdi-arrow-down</v-icon>
 					<span class="error--text"> {{ item.changePercent }}%</span>
@@ -53,21 +53,21 @@
 				</span>
 			</template>
 
-			<template v-slot:item.min24="{ item }">
+			<template #item.min24="{ item }">
 				<span>
 					{{ BigNumber(item.min).toString() }}
 					{{ item.market.toUpperCase() }}
 				</span>
 			</template>
 
-			<template v-slot:item.max24="{ item }">
+			<template #item.max24="{ item }">
 				<span>
 					{{ BigNumber(item.max).toString() }}
 					{{ item.market.toUpperCase() }}
 				</span>
 			</template>
 
-			<template v-slot:item.volume24="{ item }">
+			<template #item.volume24="{ item }">
 				<span>
 					{{ formatWithScaleInAllCurrencies(item.volume, item.market) }}
 					{{ item.market.toUpperCase() }}

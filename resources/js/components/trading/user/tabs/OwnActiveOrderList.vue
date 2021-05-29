@@ -19,7 +19,7 @@
 			/>
 
 			<v-menu v-model="isCancelMenu" transition="slide-y-transition" content-class="small-text-menu" bottom>
-				<template v-slot:activator="{ on, attrs }">
+				<template #activator="{ on, attrs }">
 					<v-btn
 						:class="[$vuetify.rtl ? 'mr-auto' : 'ml-auto']"
 						color="#A6A6A6"
@@ -64,17 +64,17 @@
 				mobile-breakpoint="600"
 				dense
 			>
-				<template v-slot:item.date="{ item }">
+				<template #item.date="{ item }">
 					<span class="table-date">
 						{{ formatDate(item.createdAt, 'trading') }}
 					</span>
 				</template>
 
-				<template v-slot:item.pair="{ item }">
+				<template #item.pair="{ item }">
 					<span> {{ item.currency.toUpperCase() }}/{{ item.market.toUpperCase() }} </span>
 				</template>
 
-				<template v-slot:item.side="{ item }">
+				<template #item.side="{ item }">
 					<span v-if="item.side === false">
 						<strong class="success--text">
 							{{ $t('trading.order.direction.buy') }}
@@ -99,24 +99,24 @@
 					</span>
 				</template>
 
-				<template v-slot:item.size="{ item }">
+				<template #item.size="{ item }">
 					{{ formatSize(item.size, findScale(market, currency, 'amountScale')) }}
 					{{ item.currency.toUpperCase() }}
 				</template>
 
-				<template v-slot:item.price="{ item }">
+				<template #item.price="{ item }">
 					{{ formatPrice(item.price, findScale(market, currency, 'rateScale')) }}
 					{{ item.market.toUpperCase() }}
 				</template>
 
-				<template v-slot:item.volume="{ item }">
+				<template #item.volume="{ item }">
 					{{ calculateVolume(item.price, item.size) }}
 					{{ item.market.toUpperCase() }}
 				</template>
 
-				<template v-slot:item.percent="{ item }"> {{ percent(item) }}% </template>
+				<template #item.percent="{ item }"> {{ percent(item) }}% </template>
 
-				<template v-slot:item.status="{ item }">
+				<template #item.status="{ item }">
 					<span class="success--text" v-if="item.status === 'accepted'">
 						{{ $t('trading.order.status.accepted') }}
 					</span>
@@ -125,7 +125,7 @@
 					</span>
 				</template>
 
-				<template v-slot:item.action="{ item }">
+				<template #item.action="{ item }">
 					<CommonDialog @confirm="orderCancel(item)">
 						<template #default>
 							<v-btn color="#a5a5a5c4" outlined depressed tile x-small>

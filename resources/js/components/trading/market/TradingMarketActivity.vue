@@ -7,7 +7,7 @@
 		<CommonLoading v-if="!tickersList" />
 		<v-card-text v-else class="trading-market-activity__content pa-0">
 			<v-simple-table dense>
-				<template v-slot:default>
+				<template #default>
 					<tbody>
 						<tr v-for="item in activityList" :key="item.id">
 							<td class="trading-market-activity__item--pair">{{ item.currency }}/{{ item.market }}</td>

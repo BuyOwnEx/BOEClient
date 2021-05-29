@@ -1,7 +1,7 @@
 <template>
 	<div class="ask-list-table-absolute-wrapper">
 		<v-simple-table class="ask-list__content__table" dense fixed-header>
-			<template v-slot:default>
+			<template #default>
 				<AskListTableHeader :currency="currency" :market="market" />
 
 				<AskListTableBody

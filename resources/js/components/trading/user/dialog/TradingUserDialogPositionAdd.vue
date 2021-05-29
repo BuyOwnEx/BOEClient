@@ -13,13 +13,7 @@
 				</v-card-title>
 
 				<v-card-text class="common-dialog__content">
-					<label>{{ $t('trading.order.available') }}</label>
-					<b class="clickable non-selectable dashed" @click="setAmount">
-						<span class="available_balance">
-							{{ this.availableBalance }}
-						</span>
-						{{ side ? currency : market }}
-					</b>
+					<CommonAvailable :available="availableBalance" :currency="side ? currency : market" @set="setAmount" />
 
 					<v-text-field
 						ref="amount"
@@ -56,6 +50,8 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import CommonAvailable from '../../../common/CommonAvailable';
+
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 import formValidationRules from '../../../../mixins/common/formValidationRules';
@@ -63,6 +59,8 @@ import validateInputMixin from '../../../../mixins/common/validateInputMixin';
 
 export default {
 	name: 'TradingUserDialogPositionAdd',
+
+	components: { CommonAvailable },
 
 	mixins: [loadingMixin, dialogMethodsMixin, formValidationRules, validateInputMixin],
 
@@ -91,7 +89,8 @@ export default {
 			localRules: {
 				numberWithScalePrecision: v =>
 					!v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-				lessAvailable: v => !v || BigNumber(v).lte(BigNumber(this.availableBalance)) || this.$t('balance.more_available'),
+				lessAvailable: v =>
+					!v || BigNumber(v).lte(BigNumber(this.availableBalance)) || this.$t('balance.more_available'),
 			},
 
 			form: {
@@ -158,23 +157,24 @@ export default {
 		'form.amount'(newAmount, oldAmount) {
 			if (this.isNumeric(newAmount) || newAmount === '') {
 				const leadZero = new RegExp('^0+(?=\\d)', 'i');
-				if(leadZero.test(newAmount))
-				{
+				if (leadZero.test(newAmount)) {
 					this.form.amount = oldAmount;
 					this.$refs.amount.lazyValue = oldAmount;
-				}
-				else {
+				} else {
 					const isUnavailableScale = new RegExp('\\d+\\.\\d{' + (this.currencyScale + 1) + ',}', 'i');
 					if (isUnavailableScale.test(newAmount)) {
 						this.form.amount = oldAmount;
 						this.$refs.amount.lazyValue = oldAmount;
 					}
 				}
-			}
-			else {
+			} else {
 				this.form.amount = 0;
 			}
 		},
+	},
+
+	mounted() {
+		this.clearData();
 	},
 
 	methods: {
@@ -191,17 +191,19 @@ export default {
 					this.stopLoading();
 				});
 		},
-		isNumeric(n) {
-			return !isNaN(parseFloat(n)) && isFinite(n);
-		},
 		setAmount() {
 			this.form.amount = this.availableBalance;
 		},
-		clearData() {
-			this.$refs.form.reset();
+
+		isNumeric(n) {
+			return !isNaN(parseFloat(n)) && isFinite(n);
 		},
 		isCorrectPrecision(v) {
 			return !new RegExp('\\d+\\.\\d{' + (this.currencyScale + 1) + ',}', 'i').test(v);
+		},
+		clearData() {
+			this.form.amount = '';
+			this.$refs.form.resetValidation();
 		},
 	},
 };

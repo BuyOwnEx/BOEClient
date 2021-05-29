@@ -9,7 +9,7 @@
 			floating
 			expand-on-hover
 		>
-			<template v-slot:prepend>
+			<template #prepend>
 				<v-list-item class="sidebar-header">
 					<v-list-item-avatar height="48" min-width="48" width="48">
 						<v-img src="/images/logo.png"></v-img>

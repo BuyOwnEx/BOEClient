@@ -4,7 +4,7 @@
 		left
 		transition='slide-y-transition'
 	>
-		<template v-slot:activator='{ on }'>
+		<template #activator='{ on }'>
 			<v-btn text :icon='$vuetify.breakpoint.smAndDown' v-on='on'>
 				<flag-icon :round='$vuetify.breakpoint.smAndDown' :flag='currentLocale.flag'></flag-icon>
 				<span v-show='$vuetify.breakpoint.mdAndUp && showLabel'

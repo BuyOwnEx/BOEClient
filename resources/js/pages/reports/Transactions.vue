@@ -16,7 +16,7 @@
 			:caption="$t('reports.crypto_transactions_title')"
 			dense
 		>
-			<template v-slot:top>
+			<template #top>
 				<filters
 					:all_types="types"
 					:all_statuses="statuses"
@@ -29,7 +29,7 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template v-slot:item.currency="{ item }">
+			<template #item.currency="{ item }">
 				<v-img
 					v-if="getLogo(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
@@ -45,23 +45,23 @@
 				<span class="ml-1">{{ item.currency }}</span>
 			</template>
 
-			<template v-slot:item.type="{ item }">
+			<template #item.type="{ item }">
 				<span :class="item.type === true ? 'success--text' : 'error--text'">
 					{{ getTypeName(item.type) }}
 				</span>
 			</template>
 
-			<template v-slot:item.status="{ item }">
+			<template #item.status="{ item }">
 				<span :class="getStatusColorClass(item.status)">
 					{{ getStatusName(item.status) }}
 				</span>
 			</template>
 
-			<template v-slot:item.created_at="{ item }">
+			<template #item.created_at="{ item }">
 				<span>{{ getDate(item.created_at) }}</span>
 			</template>
 
-			<template v-slot:item.amount="{ item }">
+			<template #item.amount="{ item }">
 				<span>{{ BigNumber(item.amount) }}</span>
 			</template>
 		</v-data-table>
