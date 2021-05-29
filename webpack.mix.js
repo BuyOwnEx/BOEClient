@@ -60,7 +60,7 @@ mix.js('resources/js/app.js', 'public/dist/js')
 	.js('resources/js/plugins/hero-canvas.js', 'public/dist/js').vue()
 	.sass('resources/sass/app.scss', 'public/dist/css')
 	.sass('resources/sass/highcharts.scss', 'public/dist/css')
-	.webpackConfig({
+	/*.webpackConfig({
 		resolve: {
 			extensions: ['.js', '.vue', '.json'],
 			alias: {
@@ -73,10 +73,10 @@ mix.js('resources/js/app.js', 'public/dist/js')
 			chunkFilename: 'dist/js/[chunkhash].js',
 			path: path.resolve(__dirname, './public/build'),
 		},
-	});
+	})*/;
 //mix.version();
 mix.then(() => {
-	process.nextTick(publishAssets);
+	//process.nextTick(publishAssets);
 });
 
 function publishAssets() {

@@ -3,7 +3,7 @@
 		<v-app-bar flat height='80'>
 			<v-container class='py-0 px-0 px-sm-2 fill-height'>
 				<router-link to='/dashboard/analytics' class='d-flex align-center text-decoration-none mr-2'>
-					<img :src="require('@/assets/images/logo.png')" height='36' />
+					<img src="/images/logo.png" height='36' />
 				</router-link>
 
 				<v-spacer></v-spacer>
@@ -34,14 +34,7 @@
 							<div style='width: 80px; height: 2px' class='mb-5 mt-1 primary' />
 							<div class='d-flex flex-wrap'>
 								<div v-for='(link, i) in links' :key='i' class='w-half body-1 mb-1'>
-									<router-link
-										v-if='link.to'
-										class='text-decoration-none text--primary'
-										:to='link.to'
-									>{{ link.label }}
-									</router-link>
 									<a
-										v-else
 										class='text-decoration-none text--primary'
 										:href='link.href'
 										:target="link.target || 'blank'"
@@ -104,39 +97,37 @@
 </template>
 
 <script>
-import config from '@/configs';
 
 export default {
 	data() {
 		return {
-			config,
 			links: [{
 				label: 'Overview',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'Features',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'Pricing',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'Documentation',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'News',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'FAQ',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'About us',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'Carrers',
-				to: '#',
+				href: '#',
 			}, {
 				label: 'Press',
-				to: '#',
+				href: '#',
 			}],
 		};
 	},
