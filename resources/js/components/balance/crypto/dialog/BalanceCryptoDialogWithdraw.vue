@@ -106,53 +106,42 @@
 									{{ address }}
 								</div>
 
-								<div>
-									{{ $t('balance.stepper.withdrawal_params.min_withdraw') }}:
-									<b class="clickable non-selectable" @click="setMinPossibleAmount">
-										<span class="dashed">
-											{{ currencyObj.minWithdraw }}
-											{{ currency }}
-										</span>
-									</b>
-								</div>
+								<CommonAvailable
+									:available="currencyObj.minWithdraw"
+									:currency="currency"
+									:available-text="$t('balance.stepper.withdrawal_params.min_withdraw')"
+									@set="setMinPossibleAmount"
+								/>
 
-								<div>
-									{{ $t('balance.stepper.withdrawal_params.day_limit') }}:
-									<b>
-										{{ currencyObj.maxWithdraw }}
-										{{ currency }}
-									</b>
-									<small>
-										({{ $t('balance.stepper.withdrawal_params.used_day_limit') }}: {{ currencyObj.daily }}
-										{{ currency }})
-									</small>
-								</div>
+								<CommonAvailable
+									:available="currencyObj.maxWithdraw"
+									:currency="currency"
+									:available-text="$t('balance.max_amount')"
+									:small-text="$t('balance.stepper.withdrawal_params.used_day_limit')"
+									:small="currencyObj.daily"
+									non-clickable
+								/>
 
-								<div>
-									{{ $t('balance.stepper.withdrawal_params.fee_withdraw') }}:
-									<b>
-										{{ currencyObj.feeWithdraw }}
-										{{ currency }}
-									</b>
-								</div>
+								<CommonAvailable
+									:available="currencyObj.feeWithdraw"
+									:currency="currency"
+									:available-text="$t('balance.stepper.withdrawal_params.fee_withdraw')"
+									non-clickable
+								/>
 
-								<div>
-									{{ $t('balance.stepper.withdrawal_params.available_amount') }}:
-									<b>
-										{{ safe.toString() }}
-										{{ currency }}
-									</b>
-								</div>
+								<CommonAvailable
+									:available="safe.toString()"
+									:currency="currency"
+									:available-text="$t('balance.stepper.withdrawal_params.available_amount')"
+									non-clickable
+								/>
 
-								<div>
-									{{ $t('balance.stepper.withdrawal_params.available_for_withdraw') }}:
-									<b class="clickable non-selectable" @click="setAvailableForWithdrawAmount">
-										<span class="dashed">
-											{{ availableForWithdraw.toString() }}
-											{{ currency }}
-										</span>
-									</b>
-								</div>
+								<CommonAvailable
+									:available="availableForWithdraw"
+									:currency="currency"
+									:available-text="$t('balance.stepper.withdrawal_params.available_for_withdraw')"
+									@set="setAvailableForWithdrawAmount"
+								/>
 
 								<v-form v-model="amountFormValid">
 									<v-text-field
@@ -251,6 +240,7 @@ import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import CommonTooltip from '../../../common/CommonTooltip';
+import CommonAvailable from '../../../common/CommonAvailable';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
@@ -260,7 +250,7 @@ import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
 
-	components: { CommonTooltip },
+	components: { CommonTooltip, CommonAvailable },
 
 	mixins: [loadingMixin, showNotificationMixin, validateInputMixin, dialogMethodsMixin],
 
@@ -309,7 +299,7 @@ export default {
 			return BigNumber(this.maxWithdraw).minus(this.daily);
 		},
 		availableForWithdraw() {
-			return BigNumber.min(this.availableForUser, this.maxAvailable);
+			return BigNumber.min(this.availableForUser, this.maxAvailable).toString();
 		},
 		minWithdraw() {
 			return this.currencyObj.minWithdraw;
@@ -418,7 +408,7 @@ export default {
 			this.amount = this.currencyObj.minWithdraw.toString();
 		},
 		setAvailableForWithdrawAmount() {
-			this.amount = this.availableForWithdraw.toString();
+			this.amount = this.availableForWithdraw;
 		},
 
 		refreshWithdrawalDataIfConfirmCodeError() {

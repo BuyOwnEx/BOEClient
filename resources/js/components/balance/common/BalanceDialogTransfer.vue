@@ -14,14 +14,7 @@
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content">
-				<div>
-					<span>{{ $t('trading.order.available') }}</span>
-
-					<b class="available_balance clickable non-selectable dashed" @click="setAmount">
-						{{ this.availableBalance.toString() }}
-						{{ currencyObj.currency.toUpperCase() }}
-					</b>
-				</div>
+				<CommonAvailable :available="availableBalance" :currency="currencyObj.currency" @set="setAmount" />
 
 				<v-form v-model="valid">
 					<v-text-field
@@ -70,6 +63,8 @@ import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import CommonAvailable from '../../common/CommonAvailable';
+
 import loadingMixin from '../../../mixins/common/loadingMixin';
 import formValidationRules from '../../../mixins/common/formValidationRules';
 import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
@@ -78,6 +73,8 @@ import dialogMethodsMixin from '../../../mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceDialogTransfer',
+
+	components: { CommonAvailable },
 
 	mixins: [loadingMixin, formValidationRules, showNotificationMixin, validateInputMixin, dialogMethodsMixin],
 
@@ -140,8 +137,8 @@ export default {
 				? BigNumber(this.currencyObj.safe).dp(scale, 1)
 				: BigNumber(this.currencyObj.safe);
 
-			if (this.type === 'safe') return safeAvailable.toNumber();
-			else if (this.type === 'trade') return tradeAvailable.toNumber();
+			if (this.type === 'safe') return safeAvailable.toString();
+			else if (this.type === 'trade') return tradeAvailable.toString();
 			else return 0;
 		},
 
@@ -179,7 +176,7 @@ export default {
 			return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
 		},
 		setAmount() {
-			this.form.amount = this.availableBalance.toString();
+			this.form.amount = this.availableBalance;
 		},
 		clearData() {
 			this.amount = '';
