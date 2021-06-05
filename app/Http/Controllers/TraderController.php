@@ -186,10 +186,8 @@ class TraderController extends Controller
     public function getHealth()
     {
         try {
-            return Cache::remember('all_currencies', 60, function (){
-                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                return $api->health();
-            });
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->health();
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
