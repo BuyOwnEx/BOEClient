@@ -63,7 +63,6 @@ export default {
 	methods: {
 		async fetch() {
 			const { data } = await axios.get('/trader/ext/health');
-			console.log(data);
 			this.cryptoCurrencies = data.currencies;
 			this.fiatCurrencies = data.fiats;
 			this.pairsData = data.pairs;
