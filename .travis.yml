@@ -3,6 +3,8 @@ dist: precise
 
 language: php
 
+services:
+  - mysql
 php:
   - 7.2
 
