@@ -1,10 +1,7 @@
 # .travis.yml
-dist: precise
 
 language: php
 
-services:
-  - mysql
 php:
   - 7.2
 
@@ -15,11 +12,16 @@ cache:
 
 before_script:
   - cp .env.travis .env
-  - sudo mysql -e 'CREATE DATABASE exchange;'
   - composer self-update
-  - composer install --no-interaction
+  - composer install --prefer-source --no-interaction --dev
   - php artisan key:generate
-  - php artisan migrate --no-interaction
+  - php artisan migrate
+
+before_install:
+  - mysql -e 'CREATE DATABASE exchange;'
 
 script:
-  - vendor/bin/phpunit
+  - phpunit
+
+services:
+  - mysql
