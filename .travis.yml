@@ -20,8 +20,5 @@ before_script:
 before_install:
   - mysql -e 'CREATE DATABASE exchange;'
 
-script:
-  - vendor/bin/phpunit
-
 services:
   - mysql
