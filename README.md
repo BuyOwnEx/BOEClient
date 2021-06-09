@@ -1,6 +1,11 @@
 [main_screenshot]: https://demo.buyownex.com/main.jpg "Trading sreenshot"
 
 # BOEClient
+
+[![Build Status](https://img.shields.io/travis/buyownex/boeclient/master.svg)](https://travis-ci.org/buyownex/boeclient) 
+[![GitHub stars](https://img.shields.io/github/stars/buyownex/boeclient)](https://github.com/buyownex/boeclient/stargazers) 
+[![GitHub license](https://img.shields.io/github/license/buyownex/boeclient.svg)](https://raw.githubusercontent.com/buyownex/boeclient/master/LICENSE)
+
 BoeClient - b2b cryptocurrency exchange made on Laravel Framework. It`s allows you to deploy your own crypto exchange in few minutes, but with some limitations (see below) 
 
 ![Trading sreenshot][main_screenshot]
@@ -9,46 +14,95 @@ BoeClient - b2b cryptocurrency exchange made on Laravel Framework. It`s allows y
 
 This project not allow you to have full control on exchange, cause it is only web part of complex architecture. That is why you will have some limitations:
 1. You can`t perform listing on your exchange
-2. You have no control on currency status (deposit and withdrawal statuses)
+2. You have no control on currency deposit and withdrawal statuses
 3. You have no direct access to crypto gateway
 
 In other parts this exchange do not differ from others and you will have all functionality of normal exchange
 
-# Installation
+# Getting started
 
-## Minimum server specifications
+## Installation
 
-> 2.0 GHz 64-bit processor
+Please check the official laravel 7.x installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/7.x/installation#installation)
 
-> 2Gb RAM
+Alternative installation is possible without local dependencies relying on [Docker](#docker). 
 
-> 32Gb SSD
+Clone the repository
 
-> 200Mb Internet Channel
+    git clone git@github.com:buyownex/boeclient.git
 
-## Server requirements
+Switch to the repo folder
 
-> PHP >= 7.2.5
+    cd boeclient
 
-> BCMath PHP Extension
+Install all the dependencies using composer
 
-> Ctype PHP Extension
+    composer install
 
-> Fileinfo PHP extension
+Copy the example env file and make the required configuration changes in the .env file
 
-> JSON PHP Extension
+    cp .env.example .env
 
-> Mbstring PHP Extension
+Generate a new application key
 
-> OpenSSL PHP Extension
+    php artisan key:generate
 
-> PDO PHP Extension
+Run the database migrations (**Set the database connection in .env before migrating**)
 
-> Tokenizer PHP Extension
+    php artisan migrate
 
-> XML PHP Extension
+Create the symbolic link to the public storage
 
-> MySQL 5.6+ || PostgreSQL 9.4+ || SQLite 3.8.8+ || SQL Server 2017+ 
+    php artisan storage:link
 
-Do not forget to make storage link
-```php artisan storage:link```
+Start the local development server
+
+    php artisan serve
+
+You can now access the server at http://localhost
+
+**TL;DR command list**
+
+    git clone git@github.com:buyownex/boeclient.git
+    cd boeclient
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    
+**Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
+
+    php artisan migrate
+    php artisan serve
+    
+## Docker
+
+To install with [Docker](https://www.docker.com), run following commands:
+
+```
+git clone git@github.com:buyownex/boeclient.git
+cd boeclient
+cp .env.example .env
+docker run -v $(pwd):/app composer install
+cd ./docker
+docker-compose up -d
+docker-compose exec php php artisan key:generate
+docker-compose exec php php artisan migrate
+docker-compose exec php php artisan storage:link
+docker-compose exec php php artisan serve --host=0.0.0.0
+```
+
+----------
+
+# Code overview
+
+## Dependencies
+
+- [jwt-auth](https://github.com/tymondesigns/jwt-auth) - For authentication using JSON Web Tokens
+- [laravel-cors](https://github.com/barryvdh/laravel-cors) - For handling Cross-Origin Resource Sharing (CORS)
+
+## Environment variables
+
+- `.env` - Environment variables can be set in this file
+
+***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
+
