@@ -1,4 +1,4 @@
-[main_screenshot]: https://demo.buyownex.com/main.jpg "Trading sreenshot"
+[main_screenshot]: https://demo.buyownex.com/main_en.jpg "Trading sreenshot"
 
 # BOEClient
 
@@ -97,8 +97,8 @@ docker-compose exec php php artisan serve --host=0.0.0.0
 
 ## Dependencies
 
-- [jwt-auth](https://github.com/tymondesigns/jwt-auth) - For authentication using JSON Web Tokens
-- [laravel-cors](https://github.com/barryvdh/laravel-cors) - For handling Cross-Origin Resource Sharing (CORS)
+- [zendesk-laravel](https://github.com/huddledigital/zendesk-laravel) - For ticket system integration
+- [sanctum](https://github.com/laravel/sanctum) - For handling incoming API requests
 
 ## Environment variables
 
