@@ -99,10 +99,38 @@ docker-compose exec php php artisan serve --host=0.0.0.0
 
 - [zendesk-laravel](https://github.com/huddledigital/zendesk-laravel) - For ticket system integration
 - [sanctum](https://github.com/laravel/sanctum) - For handling incoming API requests
+- [bacon-qr-code](https://github.com/bacon/bacon-qr-code) - For generating QR codes
 
 ## Environment variables
 
-- `.env` - Environment variables can be set in this file
+`.env` - Environment variables can be set in this file
+
+Specific variables to this project:
+
+    # API Server, that handles incoming requests. Use this demo server for test purposes.
+    SERVER=http://188.127.235.78:18888
+    API_PUBLIC_KEY=5lG72waSPWg6APJr21BONXVeevkwNgwD3PANulKhX8v9p7TTYqBlnbYM6X3nqRub7lvTHJzH6kKMjid8 // demo public key for SERVER
+    API_SECRET_KEY=z2YH6R7lYzYCsE1Ecl1HKsWIWIdK9YQ73d6ZRU7ZXfFKXIOaUxVw4ny57xeUbIg1apkRKjX83Fc8CHDA // demo secret key for SERVER
+    
+    # When you navigate to the main page, redirection occurs to the http://localhost/trading/{DEFAULT_MARKET}/{DEFAULT_CURRENCY} link
+    DEFAULT_MARKET=USDT
+    DEFAULT_CURRENCY=BTC
+    
+    # Test server and credentials of KYC provider Sum&Substance. You can get own test account at https://sumsub.com/contact-us/
+    SUMSUB_SERVER=https://test-api.sumsub.com
+    SUMSUB_PUBLIC_KEY=
+    SUMSUB_SECRET_KEY=
+    
+    # Zendesk credentials for ticket system. Get your own account at https://www.zendesk.com/register
+    ZENDESK_SUBDOMAIN=
+    ZENDESK_USERNAME=
+    ZENDESK_TOKEN=
+    
+    # Redis Server for subscribtion purposes. Use this demo server and credentials for tests.
+    SUBSCRIPTION_REDIS_HOST=188.127.235.78
+    SUBSCRIPTION_REDIS_USERNAME=client
+    SUBSCRIPTION_REDIS_PASSWORD=5bslc1coee4cssgq4tfixudw3ql4u4wpmho4aqs2vnfmly3km46m2gszemu8mu4i
+    SUBSCRIPTION_REDIS_PORT=16379
 
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 
