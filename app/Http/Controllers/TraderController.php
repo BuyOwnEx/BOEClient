@@ -26,7 +26,7 @@ class TraderController extends Controller
             return response(view('errors.404'), 404);
         }
         $find_pair = Arr::where(app('all-pairs'), function ($value, $key) use ($currency, $market){
-            return $value['currenc'] === mb_strtoupper($currency) && $value['market'] === mb_strtoupper($market);
+            return $value['currency'] === mb_strtoupper($currency) && $value['market'] === mb_strtoupper($market);
         });
         if(!$find_pair)
         {
