@@ -59,7 +59,7 @@ Start the local development server
 
     php artisan serve
 
-You can now access the server at http://localhost
+You can now access the server at http://localhost:8000
 
 **TL;DR command list**
 

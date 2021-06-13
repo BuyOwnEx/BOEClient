@@ -130,5 +130,3 @@ Route::group(['prefix' => 'trader'], function () {
 
     });
 });
-
-//Route::get('/', 'SpaController@index')->where('any', '.*');

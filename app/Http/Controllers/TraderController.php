@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Arr;
 
 class TraderController extends Controller
 {
@@ -22,6 +23,13 @@ class TraderController extends Controller
             return response(view('errors.404'), 404);
         }
         if (!isset($currency)) {
+            return response(view('errors.404'), 404);
+        }
+        $find_pair = Arr::where(app('all-pairs'), function ($value, $key) use ($currency, $market){
+            return $value['currenc'] === mb_strtoupper($currency) && $value['market'] === mb_strtoupper($market);
+        });
+        if(!$find_pair)
+        {
             return response(view('errors.404'), 404);
         }
         return view('trading', ['currency'=>$currency, 'market'=>$market, 'user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
