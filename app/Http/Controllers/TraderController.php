@@ -32,76 +32,187 @@ class TraderController extends Controller
         {
             return response(view('errors.404'), 404);
         }
-        return view('trading', ['currency'=>$currency, 'market'=>$market, 'user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('trading', [
+            'currency'=>$currency,
+            'market'=>$market,
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getBalanceView(Request $request)
     {
-        return view('balance', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('balance', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getOverviewView(Request $request)
     {
-        return view('overview', ['user' => Auth::user(), 'currency' => env('DEFAULT_CURRENCY', 'BTC'), 'market' => env('DEFAULT_MARKET', 'USDT'), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('overview', [
+            'user' => $request->user(),
+            'currency' => env('DEFAULT_CURRENCY', 'BTC'),
+            'market' => env('DEFAULT_MARKET', 'USDT'),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getTransactionsView(Request $request)
     {
-        return view('transactions', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('transactions', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getFiatTransactionsView(Request $request)
     {
-        return view('fiat_transactions', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('fiat_transactions', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getTransfersView(Request $request)
     {
-        return view('transfers', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('transfers', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getOrdersView(Request $request)
     {
-        return view('orders', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('orders', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getDealsView(Request $request)
     {
-        return view('deals', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('deals', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getRefPaymentsView(Request $request)
     {
-        return view('ref_payments', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('ref_payments', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getSupportView(Request $request)
     {
-        return view('support', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('support', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getProfileView(Request $request)
     {
-        return view('profile', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('profile', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getNotificationsView(Request $request)
     {
-        return view('notifications', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('notifications', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
-
     public function getPolicyView(Request $request)
     {
-        return view('policy', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('policy', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getTermsView(Request $request)
     {
-        return view('terms', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('terms', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getApiView(Request $request)
     {
-        return view('api', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('api', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getFeesView(Request $request)
     {
-        return view('fees', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('fees', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getStatusView(Request $request)
     {
-        return view('status', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('status', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
     public function getContactsView(Request $request)
     {
-        return view('contacts', ['user' => Auth::user(), 'config' => ['fiat' => true, 'leverageLevel' => 5]]);
+        return view('contacts', [
+            'user' => $request->user(),
+            'config' => [
+                'fiat' => true,
+                'leverageLevel' => 5
+            ]
+        ]);
     }
 
 
@@ -114,7 +225,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getMarketData()
     {
         try {
@@ -124,7 +234,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getDepth(Request $request)
     {
         try {
@@ -134,7 +243,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function HistoryDealList(Request $request)
     {
         try {
@@ -144,7 +252,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getChart(Request $request)
     {
         try {
@@ -154,7 +261,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getCryptoCurrencies()
     {
         try {
@@ -166,7 +272,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getFiatCurrencies()
     {
         try {
@@ -178,7 +283,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getAllCurrencies()
     {
         try {
@@ -190,7 +294,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getHealth()
     {
         try {
@@ -200,7 +303,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getBalances()
     {
         try {
@@ -210,7 +312,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getOrders()
     {
         try {
@@ -220,7 +321,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getDeals()
     {
         try {
@@ -230,7 +330,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getPositions()
     {
         try {
@@ -240,7 +339,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function makeOrder(Request $request)
     {
         try {
@@ -264,7 +362,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function cancelOrder(Request $request)
     {
         try {
@@ -277,7 +374,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function cancelAllOrders(Request $request)
     {
         try {
@@ -292,7 +388,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function cancelAllSLOrders(Request $request)
     {
         try {
@@ -307,7 +402,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function cancelAllTPOrders(Request $request)
     {
         try {
@@ -322,7 +416,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function cancelAllTSOrders(Request $request)
     {
         try {
@@ -337,7 +430,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getOfferList(Request $request)
     {
         try {
@@ -353,7 +445,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function closePosition(Request $request)
     {
         try {
@@ -366,7 +457,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function closeAllPositions(Request $request)
     {
         try {
@@ -381,7 +471,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function closeAllLongPositions(Request $request)
     {
         try {
@@ -396,7 +485,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function closeAllShortPositions(Request $request)
     {
         try {
@@ -411,7 +499,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function depositPosition(Request $request)
     {
         try {
@@ -427,7 +514,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getWithdrawalList(Request $request)
     {
         try {
@@ -439,7 +525,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function transferToTradeWallet(Request $request)
     {
         try {
@@ -453,7 +538,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function transferToSafeWallet(Request $request)
     {
         try {
@@ -467,14 +551,13 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function withdrawCryptoRequest(Request $request)
     {
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->withdrawCryptoRequest(
                 Auth::id(),
-                Auth::user()->email,
+                $request->user()->email,
                 $request->currency,
                 $request->amount,
                 $request->address
@@ -483,7 +566,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function withdrawCryptoConfirm(ConfirmWithdrawRequest $request)
     {
         try {
@@ -496,7 +578,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function withdrawCryptoCancel(Request $request)
     {
         try {
@@ -509,7 +590,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function withdrawFiatCancel(Request $request)
     {
         try {
@@ -522,7 +602,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function sendMessage(Request $request)
     {
         try {
@@ -535,7 +614,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function getAllOrders(Request $request)
     {
         try {
@@ -635,18 +713,16 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
-    public function getSumSubToken()
+    public function getSumSubToken(Request $request)
     {
         try {
             $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
-            return $api->getAccessToken(Auth::user()->name);
+            return $api->getAccessToken($request->user()->name);
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function newAPIToken(Request $request)
     {
         try {
@@ -658,7 +734,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function editAPIToken(Request $request)
     {
         try {
@@ -671,52 +746,48 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
-    public function getAPITokens()
+    public function getAPITokens(Request $request)
     {
         try {
             Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
-            $tokens = Auth::user()->tokens;
+            $tokens = $request->user()->tokens;
             return ['success'=>true, 'abilities'=>APIToken::$abilities, 'data'=>$tokens];
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function deleteAPIToken(Request $request)
     {
         try {
             Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
-            Auth::user()->tokens()->where('id', $request->id)->delete();
+            $request->user()->tokens()->where('id', $request->id)->delete();
             return ['success'=>true];
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function deleteAllAPITokens(Request $request)
     {
         try {
             Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
-            Auth::user()->tokens()->delete();
+            $request->user()->tokens()->delete();
             return ['success'=>true];
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-
     public function setLocale(Request $request)
     {
         if (in_array($request->lang, config('app.locales'))) {   # Проверяем, что у пользователя выбран доступный язык
             App::setLocale($request->lang);
             session(['locale' =>$request->lang]);
-            if(Auth::user())
+            if($request->user())
             {
-                Auth::user()->language = $request->lang;
-                Auth::user()->save();
+                $request->user()->language = $request->lang;
+                $request->user()->save();
             }
             return ['success'=>true];
         }
