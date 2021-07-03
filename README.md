@@ -35,9 +35,13 @@ Switch to the repo folder
 
     cd boeclient
 
-Install all the dependencies using composer
+Install all the dependencies using composer for PHP 7
 
     composer install
+    
+Install all the dependencies using composer for PHP 8 with ignore flag of compatibility (due to incompatible of phpunit: phpunit/phpunit 8.5.9 requires php ^7.2)
+
+    composer install --ignore-platform-reqs
 
 Copy the example env file and make the required configuration changes in the .env file
 
