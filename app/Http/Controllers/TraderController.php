@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Arr;
 
@@ -23,6 +24,13 @@ class TraderController extends Controller
             return response(view('errors.404'), 404);
         }
         if (!isset($currency)) {
+            return response(view('errors.404'), 404);
+        }
+        $validator = Validator::make(['market'=>$market,'currency'=>$currency], [
+            'market' => 'required|alpha|min:2|max:6',
+            'currency' => 'required|alpha|min:2|max:6',
+        ]);
+        if ($validator->fails()) {
             return response(view('errors.404'), 404);
         }
         $find_pair = Arr::where(app('all-pairs'), function ($value, $key) use ($currency, $market){
