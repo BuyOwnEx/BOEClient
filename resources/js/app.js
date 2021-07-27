@@ -9,12 +9,8 @@ import store from './store';
 // PLUGINS
 import vuetify from './plugins/vuetify';
 import i18n from './plugins/vue-i18n';
-import './plugins/vue-google-maps';
-import './plugins/vue-shortkey';
 import './plugins/vue-head';
 import './plugins/vue-gtag';
-import './plugins/apexcharts';
-import './plugins/echarts';
 import './plugins/moment';
 
 // STYLES

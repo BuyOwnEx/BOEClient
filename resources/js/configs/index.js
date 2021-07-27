@@ -1,4 +1,3 @@
-import maps from './maps';
 import icons from './icons';
 import theme from './theme';
 import locales from './locales';
@@ -12,7 +11,6 @@ export default {
 		version: 'Trading module v.1.0',
 		slogan: 'be the future. be the crypto'
 	},
-	maps,
 	icons,
 	theme,
 	toolbar,
