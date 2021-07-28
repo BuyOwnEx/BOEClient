@@ -36,7 +36,7 @@ export default {
 	},
 	methods: {
 		initWSConnection() {
-			this.centrifuge = new Centrifuge('ws://188.127.235.78:7000/connection/websocket', {
+			this.centrifuge = new Centrifuge(process.env.MIX_WS_SERVER, {
 				debug: true,
 				subscribeEndpoint: '/trader/ext/private',
 				subscribeHeaders: {
