@@ -30,7 +30,7 @@
 			</v-select>
 		</v-col>
 
-		<highcharts class="overview-depth-graph__graph" :options="options" ref="depth_chart" />
+		<highcharts class="overview-depth-graph__graph" :options="options" :highcharts="hcInstance" ref="depth" />
 	</v-card>
 </template>
 
@@ -58,6 +58,7 @@ export default {
 
 	data() {
 		return {
+			hcInstance: Highcharts,
 			graphHeight: 450,
 			sp: 1,
 			options: {
@@ -201,7 +202,7 @@ export default {
 			}
 		},
 		updateDepthHandler(data) {
-			let depth_chart = this.$refs.depth_chart;
+			const depth_chart = this.$refs.depth;
 			if (data.asks_list) {
 				let askData = data.asks_list;
 				let askDataGraph = new Array(askData.length);
