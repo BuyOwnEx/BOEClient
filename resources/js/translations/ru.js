@@ -368,6 +368,7 @@ export default {
 		email: 'Эл. адрес',
 		password: 'Пароль',
 		indicates_required_fields: 'указывает на обязательные поля',
+		and: 'и',
 
 		check: {
 			title: 'Установить новый пароль',
@@ -418,6 +419,8 @@ export default {
 			button: 'Регистрация',
 			orsign: 'Или зарегистрируйтесь с',
 			agree: 'Регистрируясь, вы соглашаетесь с',
+			terms_link: 'Условиями предоставления услуг',
+			policy_link: 'Политикой конфиденциальности',
 			account: 'Уже есть аккаунт?',
 			register_action: 'Зарегистрироваться',
 			username_rules: 'Мин. символов: 5. Доступны: [a-zA-Z0-9-_]',

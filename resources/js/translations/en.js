@@ -365,6 +365,7 @@ export default {
 		email: 'Email',
 		password: 'Password',
 		indicates_required_fields: 'indicated required fields',
+		and: 'and',
 
 		check: {
 			title: 'Set New Password',
@@ -420,6 +421,8 @@ export default {
 			button: 'Create Account',
 			orsign: 'Or sign up with',
 			agree: 'By signing up, you agree to the',
+			terms_link: 'Terms of Service',
+			policy_link: 'Privacy Policy',
 			account: 'Already have an account?',
 			signin: 'Sign In',
 			register_action: 'Register now',
