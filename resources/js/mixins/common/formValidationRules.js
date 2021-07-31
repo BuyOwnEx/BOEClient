@@ -4,7 +4,7 @@ export default {
 			rules: {
 				required: v => !!v || this.$t('forms_validation.required'),
 				email: v => (v && /.+@.+\..+/.test(v)) || this.$t('forms_validation.email_invalid'),
-				passMatch: v => (v && v === this.user.password) || this.$t('auth.forgot.password_not_match'),
+				passMatch: v => (v && v === this.user.password) || this.$t('auth.forgot.passwords_not_match'),
 
 				min5char: v => !v || v.length >= 5 || this.$t('forms_validation.min_5char'),
 				min6char: v => !v || v.length >= 6 || this.$t('forms_validation.min_6char'),

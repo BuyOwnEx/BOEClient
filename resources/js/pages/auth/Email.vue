@@ -21,7 +21,6 @@
 								:rules="[rules.required, rules.email]"
 								:error-messages="errors.email"
 								@input="errors.email = []"
-								hide-details
 								required
 							>
 								<template #label>
@@ -41,7 +40,7 @@
 		</v-card>
 
 		<v-alert v-if="send_alert" dense text type="warning" class="mt-4">
-			{{ $t('auth.resend_password_recovery_link_text') }}
+			{{ send_text }}
 		</v-alert>
 	</div>
 </template>
@@ -67,16 +66,20 @@ export default {
 				email: [],
 			},
 			send_alert: false,
+			send_text: null
 		};
 	},
 
 	methods: {
 		resend() {
-			this.startLoading()
+			this.startLoading();
 			axios
 				.post('/password/email', this.user)
 				.then(response => {
-					if (response.data.resend) this.send_alert = true;
+					if (response.data.success) {
+						this.send_text = response.data.message;
+						this.send_alert = true;
+					}
 					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
 				})
 				.catch(error => {
@@ -91,11 +94,11 @@ export default {
 							}
 						}
 					} else {
-						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
+						this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
 				.finally(() => {
-					this.startLoading();
+					this.stopLoading();
 				});
 		},
 	},
