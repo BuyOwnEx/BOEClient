@@ -411,6 +411,7 @@ export default {
 			enter_your_password: 'Enter your password',
 			remember: 'Remember',
 			fill_all_to_login: 'Fill in all fields to enter',
+			verified_text: 'Email has been successfully confirmed',
 		},
 		register: {
 			title: 'Create Account',

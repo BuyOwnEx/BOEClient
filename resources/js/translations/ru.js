@@ -411,6 +411,7 @@ export default {
 			enter_your_password: 'Введите пароль',
 			remember: 'Запомнить',
 			fill_all_to_login: 'Заполните все поля, чтобы войти',
+			verified_text: 'Email успешно подтвержден',
 		},
 		register: {
 			title: 'Регистрация',
