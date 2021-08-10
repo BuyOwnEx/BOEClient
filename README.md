@@ -59,6 +59,11 @@ Create the symbolic link to the public storage
 
     php artisan storage:link
 
+Make front-end build
+
+    npm install
+    npm run dev
+
 Start the local development server
 
     php artisan serve
