@@ -54,6 +54,7 @@
 			<div class="alf__volume">
 				<v-text-field
 					v-model="volume"
+					@input="debouncedUpdateAmount(fee_market)"
 					ref="ask_limit_volume"
 					:label="$t('table_header.volume')"
 					type="text"
@@ -219,6 +220,7 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import { mapState } from 'vuex';
 import CommonTooltip from '../../../common/CommonTooltip';
 import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
 
@@ -266,6 +268,7 @@ export default {
 	},
 
 	computed: {
+		...mapState('trading', ['best_ask', 'best_bid']),
 		isAuth() {
 			return this.$store.getters['app/isLogged'];
 		},
@@ -311,13 +314,23 @@ export default {
 			return this.selectedMarket === null ? false : this.selectedMarket.margin;
 		},
 		fee_market() {
-			if (this.isAuth) {
-				let amount = _.get(this.balances, this.market.toUpperCase(), 0.002);
-				if (amount.fee !== undefined) {
-					return BigNumber(amount.fee);
+			if(this.selectedMarket !== null)
+			{
+				if (this.isAuth) {
+					if(this.form.rate > this.best_bid) {
+						return BigNumber(this.selectedMarket.makerFee).div(100);
+					}
+					else return BigNumber(this.selectedMarket.takerFee).div(100);
 				}
-				return BigNumber(amount);
-			} else return BigNumber(0.002);
+				else
+				{
+					if(this.form.rate > this.best_bid) {
+						return BigNumber(this.selectedMarket.makerFee).div(100);
+					}
+					else return BigNumber(this.selectedMarket.takerFee).div(100);
+				}
+			}
+			else return BigNumber(0);
 		},
 		fee_visible() {
 			return this.fee_market.times(BigNumber(100)).toString();
@@ -341,7 +354,7 @@ export default {
 		},
 
 		selectedOffer() {
-			const selectedOfferID = this.form.offer
+			const selectedOfferID = this.form.offer;
 			return this.offers?.find(item => item.id === selectedOfferID)
 		}
 	},
@@ -370,13 +383,14 @@ export default {
 				if (rl.test(newVolume)) {
 					this.volume = oldVolume;
 					this.$refs.ask_limit_volume.lazyValue = oldVolume;
-				} else {
-					if (this.form.rate !== '' && this.volume !== '' && this.form.rate !== 0 && this.volume !== 0)
-						this.debouncedUpdateAmount();
 				}
 			} else {
 				this.volume = 0;
 			}
+		},
+		fee_market(newFee, oldFee) {
+			if (newFee.toString() !== oldFee.toString())
+				this.debouncedUpdateVolumeByFee(newFee.toString());
 		},
 		'form.amount'(newAmount, oldAmount) {
 			if (!this.useMarginEnabled) this.useMargin = false;
@@ -459,6 +473,7 @@ export default {
 	mounted() {
 		this.debouncedUpdateAmount = _.debounce(this.updateAmount, 50);
 		this.debouncedUpdateVolume = _.debounce(this.updateVolume, 50);
+		this.debouncedUpdateVolumeByFee = _.debounce(this.updateVolumeByFee, 50);
 		this.debouncedUpdateOffers = _.debounce(this.updateOffers, 1000);
 	},
 
@@ -487,20 +502,22 @@ export default {
 		},
 		updateVolume() {
 			this.volume = BigNumber(this.form.amount)
-				.times(BigNumber(this.form.rate).times(BigNumber(1 - this.fee_market)))
+				.times(BigNumber(this.form.rate).times(BigNumber(1).minus(BigNumber(this.fee_market))))
 				.toString();
+		},
+		updateVolumeByFee(fee) {
+			this.volume = BigNumber(this.form.amount)
+					.times(BigNumber(this.form.rate).times(BigNumber(1).minus(BigNumber(fee))))
+					.toString();
 		},
 		updateOffers() {
 			if (this.useMargin) {
 				this.getOffers();
 			}
 		},
-		updateAmount() {
+		updateAmount(fee) {
 			let oldAmount = this.form.amount;
-			let newAmount = BigNumber(this.volume)
-				.div(BigNumber(this.form.rate).times(BigNumber(1 - this.fee_market)))
-				.decimalPlaces(this.amountScale, 1)
-				.toString();
+			let newAmount = BigNumber(this.volume).div(BigNumber(this.form.rate).times(BigNumber(BigNumber(1).minus(BigNumber(fee))))).decimalPlaces(this.amountScale, 1).toString();
 
 			let prevHasDot = /\.$/.test(oldAmount);
 			let newHasDot = /\./.test(newAmount);

@@ -306,13 +306,17 @@ export default {
 			return this.selectedMarket === null ? false : this.selectedMarket.margin;
 		},
 		fee_currency() {
-			if (this.isAuth) {
-				let amount = _.get(this.balances, this.currency.toUpperCase(), 0.002);
-				if (amount.fee !== undefined) {
-					return BigNumber(amount.fee);
+			if(this.selectedMarket !== null)
+			{
+				if (this.isAuth) {
+					return BigNumber(this.selectedMarket.takerFee).div(100);
 				}
-				return BigNumber(amount);
-			} else return BigNumber(0.002);
+				else
+				{
+					return BigNumber(this.selectedMarket.takerFee).div(100);
+				}
+			}
+			else return BigNumber(0);
 		},
 		fee_visible() {
 			return this.fee_currency.times(BigNumber(100)).toString();
