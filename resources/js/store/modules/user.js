@@ -13,6 +13,7 @@ export default {
 		balances: null,
 		orders: null,
 		deals: null,
+		fees: null,
 		positions: null,
 		marginCall: {
 			status: false,
@@ -44,6 +45,9 @@ export default {
 		},
 		setPositions(state, positions) {
 			state.positions = positions;
+		},
+		setOwnFees(state, fees) {
+			state.fees = fees;
 		},
 		updateBalance(state, data) {
 			if (state.balances) {
@@ -245,6 +249,20 @@ export default {
 					.get('/trader/ext/token')
 					.then(response => {
 						resolve(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+		getOwnFeesFromServer({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/fees')
+					.then(response => {
+						commit('setOwnFees', response.data.data);
+						resolve();
 					})
 					.catch(error => {
 						console.log(error);

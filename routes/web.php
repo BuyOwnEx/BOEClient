@@ -79,6 +79,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('balances', 'TraderController@getBalances')->name('balances');
             Route::get('orders', 'TraderController@getOrders')->name('orders');
             Route::get('deals', 'TraderController@getDeals')->name('deals');
+            Route::get('fees', 'TraderController@getOwnFees')->name('own_fees');
             Route::get('positions', 'TraderController@getPositions')->name('positions');
 
             Route::post('order/limit', 'TraderController@makeOrder')->name('limit_order');

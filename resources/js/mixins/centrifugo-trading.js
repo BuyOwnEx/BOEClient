@@ -101,6 +101,9 @@ export default {
 			if (this.$store.state.user.deals === null) {
 				this.$store.dispatch('user/getDealsFromServer');
 			}
+			if (this.$store.state.user.fees === null) {
+				this.$store.dispatch('user/getOwnFeesFromServer');
+			}
 			if (this.$store.state.user.positions === null) {
 				this.$store.dispatch('user/getPositionsFromServer');
 			}

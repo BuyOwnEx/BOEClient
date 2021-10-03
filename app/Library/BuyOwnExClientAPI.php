@@ -148,6 +148,14 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function own_fees(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/own_fees',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+
     public function positions(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/positions',[

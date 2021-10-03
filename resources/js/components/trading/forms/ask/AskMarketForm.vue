@@ -256,6 +256,11 @@ export default {
 		balances() {
 			return this.$store.state.user.balances;
 		},
+		own_fees() {
+			return this.$store.state.user.fees
+					? _.find(this.$store.state.user.fees, item => item.currency.toUpperCase() === this.currency.toUpperCase() && item.market.toUpperCase() === this.market.toUpperCase())
+					: null;
+		},
 		offers_select() {
 			return _.map(this.offers, value => {
 				return {
@@ -307,7 +312,11 @@ export default {
 			if(this.selectedMarket !== null)
 			{
 				if (this.isAuth) {
-					return BigNumber(this.selectedMarket.takerFee).div(100);
+					if(this.own_fees !== null)
+					{
+						return BigNumber(this.own_fees.taker_fee).div(100);
+					}
+					else return BigNumber(this.selectedMarket.takerFee).div(100);
 				}
 				else
 				{
