@@ -384,9 +384,9 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/withdraw_crypto_request',$params);
-        if($response->json()['success'] && $response->json()['code'])
+        if($response->json()['success'])
         {
-            Mail::to($email)->queue(new WithdrawRequest($response->json()['code']));
+            //Mail::to($email)->queue(new WithdrawRequest($response->json()['code']));
             return response()->json(['success' => true],$response->status());
         }
         else {
