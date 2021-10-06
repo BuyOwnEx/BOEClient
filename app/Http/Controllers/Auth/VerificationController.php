@@ -96,8 +96,6 @@ class VerificationController extends Controller
             DB::beginTransaction();
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             $res = $api->registerTrader($user);
-            Log::info($res->status());
-            Log::info($res->content());
             if($res->status() !== 200)
             {
                 DB::rollBack();
@@ -108,7 +106,6 @@ class VerificationController extends Controller
             else
             {
                 $result = json_decode($res->content(), true);
-                Log::info($result);
                 if(!$result['success'])
                 {
                     DB::rollBack();

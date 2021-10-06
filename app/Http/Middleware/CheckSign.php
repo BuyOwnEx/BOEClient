@@ -18,7 +18,6 @@ class CheckSign
     public function handle($request, Closure $next)
     {
         $access = PersonalAccessToken::findToken($request->bearerToken());
-        Log::info($request->header('X-Signature'));
         if($request->header('X-Signature')!==$this->signature($request->all(),$access->secret))
         {
             return response()->json([
@@ -34,7 +33,6 @@ class CheckSign
         ksort($params);
         $postFields = http_build_query($params, '', '&');
         $signature = strtoupper(hash_hmac('sha256', $postFields, $secret));
-        Log::info($signature);
         return $signature;
     }
 }

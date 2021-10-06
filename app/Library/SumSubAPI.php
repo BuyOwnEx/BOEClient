@@ -63,7 +63,6 @@ class SumSubAPI
         $path = "/resources/accessTokens?userId=" . $externalUserId;
         $response = Http::withHeaders($this->sign($params,'POST', $path))
             ->post($this->base.$path,$params);
-        Log::info($response);
         return response()->json($response->json(),$response->status());
     }
 

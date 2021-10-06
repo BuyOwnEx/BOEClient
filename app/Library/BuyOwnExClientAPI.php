@@ -373,7 +373,7 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/transfer_safe',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function withdrawCryptoRequest(int $user_id, string $email, string $currency, $amount, string $address)
+    public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address)
     {
         $params = [
             'trader' => $user_id,
@@ -386,7 +386,6 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/withdraw_crypto_request',$params);
         if($response->json()['success'])
         {
-            //Mail::to($email)->queue(new WithdrawRequest($response->json()['code']));
             return response()->json(['success' => true],$response->status());
         }
         else {
@@ -480,7 +479,6 @@ class BuyOwnExClientAPI
         ];
         ksort($params);
         $postFields = http_build_query($params, '', '&');
-        Log::info($postFields);
         $signature = strtoupper(hash_hmac('sha256', $postFields, $this->api_secret));
         $auth[$prefix . 'signature'] = $signature;
         return $auth;
@@ -619,7 +617,6 @@ class BuyOwnExClientAPI
 
     public function registerTrader($trader)
     {
-        Log::info($trader);
         $params = [
             'trader' => $trader->id,
             'name' => $trader->name,

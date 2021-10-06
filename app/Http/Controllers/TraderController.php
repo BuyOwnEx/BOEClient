@@ -574,7 +574,6 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->withdrawCryptoRequest(
                 Auth::id(),
-                $request->user()->email,
                 $request->currency,
                 $request->amount,
                 $request->address
@@ -736,7 +735,6 @@ class TraderController extends Controller
             $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
             return $api->getAccessToken($request->user()->name);
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
@@ -747,7 +745,6 @@ class TraderController extends Controller
             $token = $request->user()->createToken($request->name, $request->abilities);
             return ['success'=>true, 'data'=>$token];
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
@@ -759,7 +756,6 @@ class TraderController extends Controller
             $token->save();
             return ['success'=>true, 'data'=>$token];
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
@@ -770,7 +766,6 @@ class TraderController extends Controller
             $tokens = $request->user()->tokens;
             return ['success'=>true, 'abilities'=>APIToken::$abilities, 'data'=>$tokens];
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
@@ -781,7 +776,6 @@ class TraderController extends Controller
             $request->user()->tokens()->where('id', $request->id)->delete();
             return ['success'=>true];
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
@@ -792,7 +786,6 @@ class TraderController extends Controller
             $request->user()->tokens()->delete();
             return ['success'=>true];
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
