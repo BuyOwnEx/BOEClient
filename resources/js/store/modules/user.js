@@ -15,6 +15,8 @@ export default {
 		deals: null,
 		fees: null,
 		positions: null,
+		notification_status: null,
+		block_status: null,
 		marginCall: {
 			status: false,
 			positions: [],
@@ -36,6 +38,12 @@ export default {
 	mutations: {
 		setBalances(state, balances) {
 			state.balances = balances;
+		},
+		setNotificationSettings(state, notification_status) {
+			state.notification_status = notification_status;
+		},
+		setBlockStatus(state, block_status) {
+			state.block_status = block_status;
 		},
 		setOrders(state, orders) {
 			state.orders = orders;
@@ -270,6 +278,34 @@ export default {
 					});
 			});
 		},
+		getNotificationSettings({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/notification/status')
+					.then(response => {
+						commit('setNotificationSettings', response.data.status);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+		getBlockStatus({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/block/status')
+					.then(response => {
+						commit('setBlockStatus', response.data.status);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
 
 		async changeEmail() {},
 
@@ -281,13 +317,14 @@ export default {
 			const { data } = await axios.post('/trader/ext/email/change/confirm', payload);
 			return data.success;
 		},
+		async updateNotificationSettings(_, payload) {
+			const { data } = await axios.post('/trader/ext/notification/status', payload);
+			return data.success;
+		},
 
 		async logout() {
 			await axios.post('/logout');
 			window.location.pathname = 'login';
-		},
-		async updateNotificationsSettings(_, payload) {
-			//return await axios.post()
-		},
+		}
 	},
 };

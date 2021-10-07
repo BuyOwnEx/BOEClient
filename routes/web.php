@@ -107,6 +107,10 @@ Route::group(['prefix' => 'trader'], function () {
             Route::post('email/change/request', 'TraderController@emailChangeRequest')->name('email_change_request');
             Route::post('email/change/confirm', 'TraderController@emailChangeConfirm')->name('email_change_confirm');
 
+            Route::get('block/status', 'TraderController@getBlockStatus')->name('get_block_status');
+            Route::get('notification/status', 'TraderController@getNotificationStatus')->name('get_notification_status');
+            Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
+
             Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
 
             Route::get('all_orders', 'TraderController@getAllOrders')->name('all_orders');

@@ -412,6 +412,37 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
+    public function getBlockStatus(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/block_status',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getNotificationStatus(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/notification_status',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function setNotificationStatus(int $user_id, int $status)
+    {
+        $params = [
+            'trader' => $user_id,
+            'status' => $status
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notification_status',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
     public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address)
     {
         $params = [
