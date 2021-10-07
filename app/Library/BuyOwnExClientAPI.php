@@ -4,6 +4,7 @@ namespace App\Library;
 
 use App\Exceptions\ExceptionBuyOwnExAPI;
 use App\Mail\WithdrawRequest;
+use App\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -372,6 +373,44 @@ class BuyOwnExClientAPI
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/transfer_safe',$params);
         return response()->json($response->json(),$response->status());
+    }
+    public function emailChangeRequest(int $user_id, string $email)
+    {
+        $params = [
+            'trader' => $user_id,
+            'email' => $email
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/email_change_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function emailChangeConfirm(int $user_id, string $code_old_email, string $code_new_email)
+    {
+        $params = [
+            'trader' => $user_id,
+            'code_old_email' => $code_old_email,
+            'code_new_email' => $code_new_email
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/email_change_confirm',$params);
+        if($response->json()['success'])
+        {
+            $user = User::find($user_id);
+            $user->email = $response->json()['email'];
+            $user->save();
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
     }
     public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address)
     {

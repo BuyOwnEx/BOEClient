@@ -2353,8 +2353,6 @@ make our system processes as transparent as possible.`,
 			protected: '2FA protected',
 			kyc_status: 'KYC Status',
 
-			reset_pass: 'Reset Password',
-			reset_pass_subtitle: 'Send reset password email',
 			change_email: 'Change Email',
 			change_email_subtitle: 'Send email change request',
 			created: 'Created',

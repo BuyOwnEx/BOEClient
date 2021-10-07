@@ -2352,8 +2352,6 @@ export default {
 			protected: 'Двухфакторная защита',
 			kyc_status: 'KYC статус',
 
-			reset_pass: 'Сбросить пароль',
-			reset_pass_subtitle: 'Отправить электронное письмо для сброса пароля',
 			change_email: 'Изменить email',
 			change_email_subtitle: 'Отправить запрос на изменение адреса электронной почты',
 			created: 'Создан',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Confirm2FARequest;
 use App\Http\Requests\ConfirmWithdrawRequest;
 use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
@@ -568,6 +569,32 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function emailChangeRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->emailChangeRequest(
+                Auth::id(),
+                $request->email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function emailChangeConfirm(Confirm2FARequest $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->emailChangeConfirm(
+                Auth::id(),
+                $request->code_old_email,
+                $request->code_new_email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
     public function withdrawCryptoRequest(Request $request)
     {
         try {
@@ -582,7 +609,7 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-    public function withdrawCryptoConfirm(ConfirmWithdrawRequest $request)
+    public function withdrawCryptoConfirm(Confirm2FARequest $request)
     {
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));

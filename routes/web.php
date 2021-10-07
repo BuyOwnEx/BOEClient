@@ -104,6 +104,9 @@ Route::group(['prefix' => 'trader'], function () {
             Route::post('withdraw/crypto/cancel', 'TraderController@withdrawCryptoCancel')->name('withdraw_crypto_cancel');
             Route::post('withdraw/fiat/cancel', 'TraderController@withdrawFiatCancel')->name('withdraw_fiat_cancel');
 
+            Route::post('email/change/request', 'TraderController@emailChangeRequest')->name('email_change_request');
+            Route::post('email/change/confirm', 'TraderController@emailChangeConfirm')->name('email_change_confirm');
+
             Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
 
             Route::get('all_orders', 'TraderController@getAllOrders')->name('all_orders');

@@ -271,8 +271,16 @@ export default {
 			});
 		},
 
-		async resetPassword() {},
 		async changeEmail() {},
+
+		async formChangeEmailRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/email/change/request', payload);
+			return data.success;
+		},
+		async formChangeEmailConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/email/change/confirm', payload);
+			return data.success;
+		},
 
 		async logout() {
 			await axios.post('/logout');

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\UsedGoogleToken;
 use App\Rules\ValidGoogleToken;
 
-class ConfirmWithdrawRequest extends FormRequest
+class Confirm2FARequest extends FormRequest
 {
     private $user_id;
     /**
