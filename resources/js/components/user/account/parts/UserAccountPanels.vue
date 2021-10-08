@@ -24,10 +24,7 @@
 					<div class="subtitle mb-2">
 						{{ $t('user.info.change_email_subtitle') }}
 					</div>
-					<v-btn class="mb-2" :loading="changeEmailLoading" @click="changeEmail">
-						<v-icon left small>mdi-email</v-icon>
-						{{ $t('common.change') }}
-					</v-btn>
+					<UserAccountDialogChangeEmail :current-email="user.email" :two-fa="user.g2fa" />
 				</div>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
@@ -65,11 +62,16 @@
 
 <script>
 import { mapActions } from 'vuex';
-
 import formatDate from '../../../../mixins/format/formatDate';
+
+import UserAccountDialogChangeEmail from '../dialog/UserAccountDialogChangeEmail';
 
 export default {
 	name: 'UserAccountPanels',
+
+	components: {
+		UserAccountDialogChangeEmail,
+	},
 
 	mixins: [formatDate],
 
