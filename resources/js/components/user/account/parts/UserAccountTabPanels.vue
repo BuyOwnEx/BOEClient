@@ -19,7 +19,7 @@
 
 				<v-divider />
 
-				<div class="my-2">
+				<div class="mt-2">
 					<div class="title">{{ $t('user.info.change_email') }}</div>
 					<div class="subtitle mb-2">
 						{{ $t('user.info.change_email_subtitle') }}
