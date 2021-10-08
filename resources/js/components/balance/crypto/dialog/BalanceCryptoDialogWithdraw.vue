@@ -38,7 +38,7 @@
 						<v-divider />
 
 						<v-stepper-step step="3">
-							{{ $t('balance.stepper.confirmation.title') }}
+							{{ $t('common.confirmation') }}
 						</v-stepper-step>
 					</v-stepper-header>
 
@@ -193,16 +193,16 @@
 
 								<v-text-field
 									v-model="emailCode"
-									:hint="$t('balance.stepper.confirmation.code_hint')"
-									:placeholder="$t('balance.stepper.confirmation.code')"
+									:hint="$t('user.code_hint')"
+									:placeholder="$t('user.code')"
 									persistent-hint
 								/>
 								<v-text-field
 									v-if="user2FA"
 									v-model="twoFACode"
-									:hint="$t('balance.stepper.confirmation.two_fa_code_hint')"
-									:placeholder="$t('balance.stepper.confirmation.two_fa_code')"
-									max-length="6"
+									:hint="$t('user.two_fa_code_hint')"
+									:placeholder="$t('user.two_fa_code')"
+									maxlength="6"
 									persistent-hint
 									@keydown="validate2FA"
 								/>

@@ -1,9 +1,7 @@
 <template>
 	<div class="user-account-tab tab-fill-height">
 		<UserAccountBlockedAlert v-if="userData.blocked" />
-
 		<UserAccountBasicInfo :user="userData" />
-
 		<UserAccountPanels :user="userData" />
 	</div>
 </template>

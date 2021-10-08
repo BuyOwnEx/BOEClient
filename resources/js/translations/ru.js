@@ -488,15 +488,10 @@ export default {
 				used_day_limit: 'Использовано',
 			},
 			confirmation: {
-				title: 'Подтверждение',
 				enabled_2fa_description:
 					'Для окончательного формирования запроса на вывод средств, введите код из письма, отправленного на вашу электронную почту {email}, а также код 2FA',
 				disabled_2fa_description:
 					'Для окончательного формирования запроса на вывод средств, введите код из письма, отправленного на вашу электронную почту {email}',
-				code: 'Код',
-				code_hint: 'Введите код с почты',
-				two_fa_code: '2FA код',
-				two_fa_code_hint: 'Введите 2FA код',
 			},
 		},
 
@@ -2358,6 +2353,12 @@ export default {
 			last_browser: 'Последний Бразуер',
 			last_device: 'Последнее Устройство',
 			last_os: 'Последняя ОС',
+
+			new_email: 'Новый Email',
+			old_email_code_hint: 'Введите код, пришедший на ваш старый адреса эл.почты',
+			old_email_code: 'Код со старого адреса эл.почты',
+			new_email_code_hint: 'Введите код, пришедший на ваш новый адреса эл.почты',
+			new_email_code: 'Код с нового адреса эл.почты',
 		},
 
 		api: {
@@ -2428,6 +2429,11 @@ export default {
 			days: 'дней',
 			system_select_hint: 'Получение <b>{percent}</b> % от сделок рефералов на протяжении <b>{days}</b> дней',
 		},
+
+		code: 'Код',
+		code_hint: 'Введите код с вашего адреса эл.почты',
+		two_fa_code: '2FA код',
+		two_fa_code_hint: 'Введите 2FA код',
 	},
 
 	notifications: {

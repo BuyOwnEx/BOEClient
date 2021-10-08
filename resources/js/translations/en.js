@@ -491,15 +491,10 @@ export default {
 				used_day_limit: 'Used',
 			},
 			confirmation: {
-				title: 'Confirmation',
 				enabled_2fa_description:
 					'For the final formation of a withdrawal request, enter the code from the letter sent to your email {email}, as well as the 2FA code',
 				disabled_2fa_description:
 					'For the final formation of a request for withdrawal of funds, enter the code from the letter sent to your email {email}',
-				code: 'Code',
-				code_hint: 'Enter code from the email',
-				two_fa_code: '2FA code',
-				two_fa_code_hint: 'Enter 2FA code',
 			},
 		},
 
@@ -2359,6 +2354,12 @@ make our system processes as transparent as possible.`,
 			last_browser: 'Last Browser',
 			last_device: 'Last Device',
 			last_os: 'Last OS',
+
+			new_email: 'New Email',
+			old_email_code_hint: 'Enter code from your old email',
+			old_email_code: 'Code from old email',
+			new_email_code_hint: 'Enter code from your new email',
+			new_email_code: 'Code from new email',
 		},
 
 		api: {
@@ -2429,6 +2430,11 @@ make our system processes as transparent as possible.`,
 			days: 'days',
 			system_select_hint: 'Receiving <b>{percent}</b> % of referral transactions within <b>{days}</b> days',
 		},
+
+		code: 'Code',
+		code_hint: 'Enter code from the email',
+		two_fa_code: '2FA code',
+		two_fa_code_hint: 'Enter 2FA code',
 	},
 
 	notifications: {
