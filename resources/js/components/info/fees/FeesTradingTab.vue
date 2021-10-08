@@ -82,8 +82,8 @@ export default {
 						currency: item.currency,
 						market: item.market,
 						pair: item.currency + '/' + item.market,
-						makerFee: '0.2',
-						takerFee: '0.2',
+						makerFee: item.makerFee,
+						takerFee: item.takerFee,
 						minAmount: item.minAmount,
 						minReverseAmount: item.minReverseAmount,
 					});

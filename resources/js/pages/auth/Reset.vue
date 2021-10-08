@@ -36,7 +36,7 @@
 								:type="show ? 'text' : 'password'"
 								:append-icon="show ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
 								:rules="[rules.required, rules.min8char]"
-								:hint="$t('forms_validation.min8char')"
+								:hint="$t('forms_validation.min_8char')"
 								:error-messages="errors.password"
 								counter="255"
 								persistent-hint
@@ -80,9 +80,17 @@
 			</v-card-actions>
 		</v-card>
 
-		<v-alert v-if="reset_alert" dense text type="warning" class="mt-4">
-			{{ $t('auth.resend_activation_link_text') }}
-		</v-alert>
+		<v-card v-if="reset_alert">
+			<v-alert dense text type="warning" class="mt-4">
+				{{ reset_text }}
+			</v-alert>
+			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
+				<v-btn color="primary" block tile href="/login">
+					{{ $t('auth.signin') }}
+				</v-btn>
+			</v-card-actions>
+		</v-card>
+
 	</div>
 </template>
 
@@ -113,6 +121,7 @@ export default {
 				password_confirmation: [],
 			},
 			reset_alert: false,
+			reset_text: null
 		};
 	},
 
@@ -122,8 +131,10 @@ export default {
 			axios
 				.post('/password/reset', this.user)
 				.then(response => {
-					if (response.data.reset) this.reset_alert = true;
-					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
+					if (response.data.success) {
+						this.reset_text = response.data.message;
+						this.reset_alert = true;
+					}
 				})
 				.catch(error => {
 					this.reset_alert = false;

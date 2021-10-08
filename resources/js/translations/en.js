@@ -366,6 +366,7 @@ export default {
 		email: 'Email',
 		password: 'Password',
 		indicates_required_fields: 'indicated required fields',
+		and: 'and',
 
 		check: {
 			title: 'Set New Password',
@@ -411,6 +412,7 @@ export default {
 			enter_your_password: 'Enter your password',
 			remember: 'Remember',
 			fill_all_to_login: 'Fill in all fields to enter',
+			verified_text: 'Email has been successfully confirmed',
 		},
 		register: {
 			title: 'Create Account',
@@ -421,6 +423,8 @@ export default {
 			button: 'Create Account',
 			orsign: 'Or sign up with',
 			agree: 'By signing up, you agree to the',
+			terms_link: 'Terms of Service',
+			policy_link: 'Privacy Policy',
 			account: 'Already have an account?',
 			signin: 'Sign In',
 			register_action: 'Register now',
@@ -2345,8 +2349,6 @@ make our system processes as transparent as possible.`,
 			protected: '2FA protected',
 			kyc_status: 'KYC Status',
 
-			reset_pass: 'Reset Password',
-			reset_pass_subtitle: 'Send reset password email',
 			change_email: 'Change Email',
 			change_email_subtitle: 'Send email change request',
 			created: 'Created',

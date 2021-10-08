@@ -369,6 +369,7 @@ export default {
 		email: 'Эл. адрес',
 		password: 'Пароль',
 		indicates_required_fields: 'указывает на обязательные поля',
+		and: 'и',
 
 		check: {
 			title: 'Установить новый пароль',
@@ -411,6 +412,7 @@ export default {
 			enter_your_password: 'Введите пароль',
 			remember: 'Запомнить',
 			fill_all_to_login: 'Заполните все поля, чтобы войти',
+			verified_text: 'Email успешно подтвержден',
 		},
 		register: {
 			title: 'Регистрация',
@@ -419,6 +421,8 @@ export default {
 			button: 'Регистрация',
 			orsign: 'Или зарегистрируйтесь с',
 			agree: 'Регистрируясь, вы соглашаетесь с',
+			terms_link: 'Условиями предоставления услуг',
+			policy_link: 'Политикой конфиденциальности',
 			account: 'Уже есть аккаунт?',
 			register_action: 'Зарегистрироваться',
 			username_rules: 'Мин. символов: 5. Доступны: [a-zA-Z0-9-_]',
@@ -2344,8 +2348,6 @@ export default {
 			protected: 'Двухфакторная защита',
 			kyc_status: 'KYC статус',
 
-			reset_pass: 'Сбросить пароль',
-			reset_pass_subtitle: 'Отправить электронное письмо для сброса пароля',
 			change_email: 'Изменить email',
 			change_email_subtitle: 'Отправить запрос на изменение адреса электронной почты',
 			created: 'Создан',

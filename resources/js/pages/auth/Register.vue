@@ -112,7 +112,7 @@
 
 			<div class="text-left pl-6 pb-4 pr-6">
 				<small class="grey--text lighten-4">
-					{{ $t('auth.register_text1') }}
+					{{ $t('auth.register.agree') }}
 					<a :href="links[0].link">
 						<span>{{ links[0].title }}</span>
 					</a>
@@ -120,7 +120,6 @@
 					<a :href="links[1].link">
 						<span>{{ links[1].title }}</span>
 					</a>
-					{{ $t('auth.register_text2') }}
 				</small>
 			</div>
 		</v-card>
@@ -170,11 +169,11 @@ export default {
 		links() {
 			return [
 				{
-					title: this.$t('auth.register_terms_link'),
+					title: this.$t('auth.register.terms_link'),
 					link: '/terms',
 				},
 				{
-					title: this.$t('auth.register_policy_link'),
+					title: this.$t('auth.register.policy_link'),
 					link: '/policy',
 				},
 			];
@@ -188,7 +187,6 @@ export default {
 				.post('/register', this.user)
 				.then(response => {
 					if (response.data.registered) window.location.href = response.data.intended;
-					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
 				})
 				.catch(error => {
 					if (error.response.status === 422) {

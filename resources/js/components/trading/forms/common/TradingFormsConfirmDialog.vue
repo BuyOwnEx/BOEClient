@@ -187,19 +187,19 @@ export default {
 		},
 
 		buyStopLossText() {
-			return this.$t('trading.forms.dialog.buy_stop_loss', {
+			return this.$t('trading.forms.dialog.buy_stop_loss_text', {
 				stopLoss: this.stopLoss,
 				market: this.market,
 			});
 		},
 		buyTakeProfitText() {
-			return this.$t('trading.forms.dialog.buy_take_profit', {
+			return this.$t('trading.forms.dialog.buy_take_profit_text', {
 				takeProfit: this.takeProfit,
 				market: this.market,
 			});
 		},
 		buyTrailingStopText() {
-			return this.$t('trading.forms.dialog.buy_trailing_stop', {
+			return this.$t('trading.forms.dialog.buy_trailing_stop_text', {
 				trailingStop: this.trailingStop,
 				market: this.market,
 			});

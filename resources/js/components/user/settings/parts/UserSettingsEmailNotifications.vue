@@ -52,7 +52,7 @@ export default {
 
 	methods: {
 		...mapActions({
-			updateNotificationsSettings: 'user/updateNotificationsSettings',
+			updateNotificationSettings: 'user/updateNotificationSettings',
 		}),
 
 		async saveNotificationsSettings() {
@@ -60,7 +60,7 @@ export default {
 				this.saveNotificationsLoading = true;
 				const payload = this.selectedTypes.sort((a, b) => a - b);
 
-				await this.updateNotificationsSettings(payload);
+				await this.updateNotificationSettings(payload);
 			} finally {
 				this.saveNotificationsLoading = false;
 			}

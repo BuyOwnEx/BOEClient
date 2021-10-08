@@ -11,13 +11,7 @@
 					:market="market"
 				/>
 
-				<tbody v-else-if="historyData && !historyData.length">
-					<tr>
-						<td colspan="3" class="text-center">
-							{{ $t('trading.no_deals') }}
-						</td>
-					</tr>
-				</tbody>
+				<tbody v-else-if="historyData && !historyData.length" />
 				<tbody v-else>
 					<tr>
 						<td colspan="3">

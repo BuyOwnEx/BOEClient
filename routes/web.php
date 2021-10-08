@@ -79,6 +79,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('balances', 'TraderController@getBalances')->name('balances');
             Route::get('orders', 'TraderController@getOrders')->name('orders');
             Route::get('deals', 'TraderController@getDeals')->name('deals');
+            Route::get('fees', 'TraderController@getOwnFees')->name('own_fees');
             Route::get('positions', 'TraderController@getPositions')->name('positions');
 
             Route::post('order/limit', 'TraderController@makeOrder')->name('limit_order');
@@ -102,6 +103,13 @@ Route::group(['prefix' => 'trader'], function () {
             Route::post('withdraw/crypto/confirm', 'TraderController@withdrawCryptoConfirm')->name('withdraw_crypto_confirm');
             Route::post('withdraw/crypto/cancel', 'TraderController@withdrawCryptoCancel')->name('withdraw_crypto_cancel');
             Route::post('withdraw/fiat/cancel', 'TraderController@withdrawFiatCancel')->name('withdraw_fiat_cancel');
+
+            Route::post('email/change/request', 'TraderController@emailChangeRequest')->name('email_change_request');
+            Route::post('email/change/confirm', 'TraderController@emailChangeConfirm')->name('email_change_confirm');
+
+            Route::get('block/status', 'TraderController@getBlockStatus')->name('get_block_status');
+            Route::get('notification/status', 'TraderController@getNotificationStatus')->name('get_notification_status');
+            Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
 
             Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
 
@@ -130,5 +138,3 @@ Route::group(['prefix' => 'trader'], function () {
 
     });
 });
-
-//Route::get('/', 'SpaController@index')->where('any', '.*');

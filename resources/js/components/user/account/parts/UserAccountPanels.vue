@@ -6,16 +6,6 @@
 			</v-expansion-panel-header>
 
 			<v-expansion-panel-content>
-				<div class="mb-2">
-					<div class="title">{{ $t('user.info.reset_pass') }}</div>
-					<div class="subtitle mb-2">
-						{{ $t('user.info.reset_pass_subtitle') }}
-					</div>
-					<v-btn class="mb-2" :loading="resetPassLoading" @click="resetPassword">
-						<v-icon left small>mdi-email</v-icon>
-						{{ $t('common.send') }}
-					</v-btn>
-				</div>
 
 				<v-divider />
 
@@ -85,26 +75,14 @@ export default {
 	data() {
 		return {
 			panel: [0, 1],
-
-			resetPassLoading: false,
 			changeEmailLoading: false,
 		};
 	},
 
 	methods: {
 		...mapActions({
-			resetPasswordStore: 'user/resetPassword',
 			changeEmailStore: 'user/changeEmail',
 		}),
-
-		async resetPassword() {
-			try {
-				this.resetPassLoading = true;
-				await this.resetPasswordStore();
-			} finally {
-				this.resetPassLoading = false;
-			}
-		},
 
 		async changeEmail() {
 			try {

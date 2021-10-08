@@ -4,6 +4,7 @@ namespace App\Library;
 
 use App\Exceptions\ExceptionBuyOwnExAPI;
 use App\Mail\WithdrawRequest;
+use App\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -143,6 +144,14 @@ class BuyOwnExClientAPI
     public function deals(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/deals',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function own_fees(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/own_fees',[
             'trader' => $user_id
         ]);
         return response()->json($response->json(),$response->status());
@@ -365,7 +374,76 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/transfer_safe',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function withdrawCryptoRequest(int $user_id, string $email, string $currency, $amount, string $address)
+    public function emailChangeRequest(int $user_id, string $email)
+    {
+        $params = [
+            'trader' => $user_id,
+            'email' => $email
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/email_change_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function emailChangeConfirm(int $user_id, string $code_old_email, string $code_new_email)
+    {
+        $params = [
+            'trader' => $user_id,
+            'code_old_email' => $code_old_email,
+            'code_new_email' => $code_new_email
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/email_change_confirm',$params);
+        if($response->json()['success'])
+        {
+            $user = User::find($user_id);
+            $user->email = $response->json()['email'];
+            $user->save();
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function getBlockStatus(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/block_status',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getNotificationStatus(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/notification_status',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function setNotificationStatus(int $user_id, int $status)
+    {
+        $params = [
+            'trader' => $user_id,
+            'status' => $status
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notification_status',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address)
     {
         $params = [
             'trader' => $user_id,
@@ -376,9 +454,8 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/withdraw_crypto_request',$params);
-        if($response->json()['success'] && $response->json()['code'])
+        if($response->json()['success'])
         {
-            Mail::to($email)->queue(new WithdrawRequest($response->json()['code']));
             return response()->json(['success' => true],$response->status());
         }
         else {
@@ -472,7 +549,6 @@ class BuyOwnExClientAPI
         ];
         ksort($params);
         $postFields = http_build_query($params, '', '&');
-        Log::info($postFields);
         $signature = strtoupper(hash_hmac('sha256', $postFields, $this->api_secret));
         $auth[$prefix . 'signature'] = $signature;
         return $auth;
@@ -611,7 +687,6 @@ class BuyOwnExClientAPI
 
     public function registerTrader($trader)
     {
-        Log::info($trader);
         $params = [
             'trader' => $trader->id,
             'name' => $trader->name,

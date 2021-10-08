@@ -82,7 +82,6 @@ class VerificationController extends Controller
         }
         $user = User::findOrFail($request->route('id'));
 
-
         if (! hash_equals((string) $request->route('hash'), sha1($user->email))) {
             throw new AuthorizationException;
         }
@@ -90,32 +89,29 @@ class VerificationController extends Controller
         if ($user->email_verified_at) {
             return $request->wantsJson()
                 ? new JsonResponse([], 204)
-                : redirect($this->redirectPath())->with('error', trans('auth.alreadyVerified'));
+                : redirect($this->redirectPath())->with('error', trans('auth.already_verified'));
         }
         try
         {
             DB::beginTransaction();
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             $res = $api->registerTrader($user);
-            Log::info($res->status());
-            Log::info($res->content());
             if($res->status() !== 200)
             {
                 DB::rollBack();
                 return $request->wantsJson()
                     ? new JsonResponse([], 204)
-                    : redirect($this->redirectPath())->with('error', trans('auth.verificationError'));
+                    : redirect($this->redirectPath())->with('error', trans('auth.verification_error'));
             }
             else
             {
                 $result = json_decode($res->content(), true);
-                Log::info($result);
                 if(!$result['success'])
                 {
                     DB::rollBack();
                     return $request->wantsJson()
                         ? new JsonResponse([], 204)
-                        : redirect($this->redirectPath())->with('error', trans('auth.verificationError'));
+                        : redirect($this->redirectPath())->with('error', trans('auth.verification_error'));
                 }
                 else
                 {
@@ -163,14 +159,14 @@ class VerificationController extends Controller
             if ($user->email_verified_at) {
                 return response()->json([
                     'resend' => false,
-                    'message' => trans('auth.already_activated')
+                    'message' => trans('auth.already_verified')
                 ]);
             }
             $user->notify(new VerifyEmail);
 
             return response()->json([
                 'resend' => true,
-                'message' => trans('auth.already_activated')
+                'message' => trans('auth.already_verified')
             ]);
         }
         return $request->wantsJson()
