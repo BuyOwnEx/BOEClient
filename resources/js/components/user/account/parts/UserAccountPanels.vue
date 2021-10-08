@@ -69,7 +69,7 @@ import { mapActions } from 'vuex';
 import formatDate from '../../../../mixins/format/formatDate';
 
 export default {
-	name: 'UserAccountTabPanels',
+	name: 'UserAccountPanels',
 
 	mixins: [formatDate],
 

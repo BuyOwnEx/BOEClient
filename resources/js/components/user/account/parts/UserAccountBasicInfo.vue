@@ -81,7 +81,7 @@
 import CommonCopyLabel from '../../../common/CommonCopyLabel';
 
 export default {
-	name: 'UserAccountTabBasicInfo',
+	name: 'UserAccountBasicInfo',
 
 	components: { CommonCopyLabel },
 

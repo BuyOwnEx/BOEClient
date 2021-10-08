@@ -9,7 +9,7 @@
 
 <script>
 export default {
-	name: 'UserAccountTabBlockedAlert',
+	name: 'UserAccountBlockedAlert',
 };
 </script>
 
