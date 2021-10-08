@@ -32,7 +32,7 @@
 
 		<!--	mobile version	-->
 		<div v-else>
-			<v-tabs v-model="selectedTab" class='small-tabs' :key="$i18n.locale" grow>
+			<v-tabs v-model="selectedTab" class="small-tabs" :key="$i18n.locale" grow>
 				<v-tab :key="1">
 					{{ $t('trading.order.direction.buy') }}
 				</v-tab>
@@ -139,6 +139,8 @@ export default {
 			&--sell
 				padding-left: 0
 				padding-right: 8px
+		::v-deep &__best-wrapper
+			float: left
 
 @media screen and (min-width: 960px)
 	.trading-forms
