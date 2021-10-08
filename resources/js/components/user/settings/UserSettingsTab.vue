@@ -2,21 +2,18 @@
 	<v-card class="user-settings-tab tab-fill-height">
 		<v-card-title> {{ $t('user.title.settings') }} </v-card-title>
 
-		<CommonLoading v-if="!allRefTypes" />
+		<CommonLoading v-if="isLoading" page-margin />
 
 		<v-card-text v-else>
-			<UserSettingsRef
-				:all-ref-types="allRefTypes"
-				:user-ref-program-id="userRefProgram"
-			/>
-			<UserSettingsEmailNotifications
-				:user-types="userEmailNotifications"
-			/>
+			<UserSettingsRef :all-ref-types="allRefTypes" :user-ref-program-id="userRefProgram" />
+			<UserSettingsEmailNotifications :user-types="userEmailNotifications" />
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import UserSettingsRef from './parts/UserSettingsRef';
 import UserSettingsEmailNotifications from './parts/UserSettingsEmailNotifications';
 
@@ -38,21 +35,27 @@ export default {
 		},
 		userRefProgram: {
 			type: Number,
-			required: true
-		}
+			required: true,
+		},
 	},
 
 	data() {
 		return {
 			allRefTypes: null,
+			isLoading: true,
 		};
 	},
 
-	created() {
-		this.fetchRefTypes();
+	async created() {
+		await Promise.all([this.fetchRefTypes(), this.getNotificationSettingsStore()]);
+		this.isLoading = false;
 	},
 
 	methods: {
+		...mapActions({
+			getNotificationSettingsStore: 'user/getNotificationSettings',
+		}),
+
 		async fetchRefTypes() {
 			const { data } = await axios.get('/trader/ext/all_referral_types');
 			this.allRefTypes = data.data;

@@ -1,7 +1,7 @@
 <template>
 	<v-card class="user-api-tab tab-fill-height">
 		<v-card-title class="user-api-tab__title-wrapper">
-			<div class="user-api-tab__title">{{$t('user.api.title')}}</div>
+			<div class="user-api-tab__title">{{ $t('user.api.title') }}</div>
 
 			<div class="user-api-tab__actions">
 				<UserApiDialogCreate @create="addCreatedAPI" />
@@ -9,9 +9,10 @@
 			</div>
 		</v-card-title>
 
-		<CommonLoading v-if="!api" />
+		<CommonLoading v-if="!api" page-margin />
+
 		<div v-else-if="api && !api.length" class="user-api-tab__empty">
-			<span>{{$t('user.api.api_empty')}}</span>
+			<span>{{ $t('user.api.api_empty') }}</span>
 		</div>
 
 		<v-card-text v-else>
