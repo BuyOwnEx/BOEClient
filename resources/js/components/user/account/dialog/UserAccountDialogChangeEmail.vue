@@ -34,15 +34,17 @@
 
 					<v-stepper-items>
 						<v-stepper-content step="1">
-							<v-text-field
-								class="mb-6 pt-1"
-								v-model="newEmail"
-								:label="$t('user.info.new_email')"
-								:rules="[rules.required, rules.email]"
-								validate-on-blur
-								autofocus
-								outlined
-							/>
+							<v-form v-model="isValidRequestForm">
+								<v-text-field
+									class="mb-6 pt-1"
+									v-model="newEmail"
+									:label="$t('user.info.new_email')"
+									:rules="[rules.required, rules.email]"
+									validate-on-blur
+									autofocus
+									outlined
+								/>
+							</v-form>
 
 							<v-divider />
 
@@ -69,7 +71,7 @@
 						</v-stepper-content>
 
 						<v-stepper-content step="2">
-							<div class="mb-6">
+							<v-form class="mb-6" v-model="isValidConfirmForm">
 								<v-text-field
 									v-model="newEmailCode"
 									:rules="[rules.required]"
@@ -98,7 +100,7 @@
 									@keydown="validate2FA"
 									@input="handleCodeInput"
 								/>
-							</div>
+							</v-form>
 
 							<v-divider />
 
@@ -169,36 +171,46 @@ export default {
 			newEmailCode: '',
 			twoFaCode: '',
 
+			isValidRequestForm: false,
+			isValidConfirmForm: false,
 			step: 1,
 		};
 	},
 
 	methods: {
-		...mapActions({}),
-
+		...mapActions({
+			formChangeEmailRequestStore: 'user/formChangeEmailRequest',
+			formChangeEmailConfirmStore: 'user/formChangeEmailConfirm',
+		}),
 		async sendEmailCodes() {
+			if (!this.isValidRequestForm) return;
+
 			try {
 				this.startLoading();
-				// const payload = {
-				// 	currency: this.currency,
-				// 	address: this.address,
-				// };
-				//
-				// await this.validateAddressStore(payload);
+
+				const payload = {
+					email: this.newEmail,
+				};
+				await this.formChangeEmailRequestStore(payload);
+
 				this.step++;
 			} finally {
 				this.stopLoading();
 			}
 		},
 		async validateEmailCodes() {
+			if (!this.isValidConfirmForm) return;
+
 			try {
 				this.startLoading();
+
 				const payload = {
-					oldCode: this.oldEmailCode,
-					newCode: this.newEmailCode,
+					code_old_email: this.oldEmailCode,
+					code_new_email: this.newEmailCode,
+					code_2fa: this.twoFaCode,
 				};
-				//
-				// await this.validateAddressStore(payload);
+				await this.formChangeEmailConfirmStore(payload);
+
 				this.pushNotification(this.$t('user.info.email_changed'), 'success');
 				this.close();
 			} finally {

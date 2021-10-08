@@ -307,8 +307,6 @@ export default {
 			});
 		},
 
-		async changeEmail() {},
-
 		async formChangeEmailRequest(_, payload) {
 			const { data } = await axios.post('/trader/ext/email/change/request', payload);
 			return data.success;

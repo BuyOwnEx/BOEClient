@@ -6,7 +6,6 @@
 			</v-expansion-panel-header>
 
 			<v-expansion-panel-content>
-
 				<v-divider />
 
 				<div class="mt-2">
