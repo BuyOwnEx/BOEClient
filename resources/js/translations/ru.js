@@ -21,6 +21,7 @@ export default {
 		apply: 'Применить',
 		reset: 'Сбросить',
 		change: 'Изменить',
+		request: 'Запрос',
 
 		title: 'Тема',
 		description: 'Описание',

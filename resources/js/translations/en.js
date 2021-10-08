@@ -20,6 +20,7 @@ export default {
 		apply: 'Apply',
 		reset: 'Reset',
 		change: 'Change',
+		request: 'Request',
 
 		title: 'Title',
 		description: 'Description',
