@@ -199,6 +199,8 @@ export default {
 				};
 				//
 				// await this.validateAddressStore(payload);
+				this.pushNotification(this.$t('user.info.email_changed'), 'success');
+				this.close();
 			} finally {
 				this.stopLoading();
 			}
