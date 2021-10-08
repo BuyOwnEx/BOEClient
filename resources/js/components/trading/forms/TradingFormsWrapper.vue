@@ -1,5 +1,5 @@
 <template>
-	<v-card class="trading-forms ">
+	<v-card class="trading-forms">
 		<v-row v-if="isDesktop" class="pa-1" no-gutters>
 			<v-col class="trading-forms__form trading-forms__form--buy" cols="12" md="6">
 				<v-card-title class="trading-forms__header component-title pa-0">
@@ -132,12 +132,13 @@ export default {
 
 .v-application--is-rtl
 	.trading-forms
-		&__buy
-			padding-right: 0
-			padding-left: 8px
-		&__sell
-			padding-left: 0
-			padding-right: 8px
+		&__form
+			&--buy
+				padding-right: 0
+				padding-left: 8px
+			&--sell
+				padding-left: 0
+				padding-right: 8px
 
 @media screen and (min-width: 960px)
 	.trading-forms
