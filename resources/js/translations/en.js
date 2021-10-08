@@ -2360,6 +2360,7 @@ make our system processes as transparent as possible.`,
 			old_email_code: 'Code from old email',
 			new_email_code_hint: 'Enter code from your new email',
 			new_email_code: 'Code from new email',
+			email_changed: 'Email successfully changed',
 		},
 
 		api: {
