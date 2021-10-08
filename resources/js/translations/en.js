@@ -2446,8 +2446,8 @@ make our system processes as transparent as possible.`,
 		notifications_types: 'Notifications types',
 		types: {
 			system: 'System',
-			news: 'News',
 			finance: 'Finance',
+			funds: 'Funds',
 		},
 		kinds: {
 			login: {

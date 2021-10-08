@@ -2445,8 +2445,8 @@ export default {
 		notifications_types: 'Типы уведомлений',
 		types: {
 			system: 'Системные',
-			news: 'Новости',
 			finance: 'Финансы',
+			funds: 'Ввод/Вывод',
 		},
 		kinds: {
 			login: {
