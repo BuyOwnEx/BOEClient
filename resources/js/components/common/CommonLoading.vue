@@ -1,11 +1,6 @@
 <template>
-	<div class="common-loading text-center mt-3">
-		<v-progress-circular
-			:color="color"
-			:size="size"
-			:width="width"
-			indeterminate
-		/>
+	<div class="common-loading text-center" :class="[pageMargin ? 'mt-16' : 'mt-3']">
+		<v-progress-circular :color="color" :size="size" :width="width" indeterminate />
 	</div>
 </template>
 
@@ -20,6 +15,8 @@ export default {
 		},
 		size: { type: String, default: '30' },
 		width: { type: String, default: '2' },
+
+		pageMargin: Boolean,
 	},
 };
 </script>
