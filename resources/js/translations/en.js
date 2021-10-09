@@ -2326,7 +2326,7 @@ make our system processes as transparent as possible.`,
 		title: {
 			profile: 'Profile',
 			account: 'Account',
-			basic_info: 'Bacic Information',
+			basic_info: 'Basic Information',
 			actions: 'Actions',
 			metadata: 'Metadata',
 			verification: 'Verification',
