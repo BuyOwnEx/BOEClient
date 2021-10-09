@@ -17,7 +17,7 @@
 				/>
 			</div>
 
-			<v-btn type="submit" class="mt-3" :loading="saveNotificationsLoading">
+			<v-btn type="submit" class="mt-3" :loading="isSaveNotificationsLoading">
 				{{ $t('common.save') }}
 			</v-btn>
 		</v-form>
@@ -25,45 +25,69 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
 	name: 'UserSettingsEmailNotifications',
 
-	props: {
-		userTypes: {
-			type: Array,
-			required: true,
-		},
-	},
-
 	data() {
 		return {
-			selectedTypes: this.userTypes,
-			saveNotificationsLoading: false,
+			selectedTypes: [],
+			isSaveNotificationsLoading: false,
 		};
 	},
 
 	computed: {
+		...mapState('user', ['notification_status']),
 		...mapGetters({
 			notificationsKinds: 'notifications/notificationsKinds',
 		}),
 	},
 
+	created() {
+		this.selectedTypes = this.getSelectedFromBinary();
+	},
+
 	methods: {
 		...mapActions({
-			updateNotificationSettings: 'user/updateNotificationSettings',
+			updateNotificationSettingsStore: 'user/updateNotificationSettings',
 		}),
 
 		async saveNotificationsSettings() {
 			try {
-				this.saveNotificationsLoading = true;
-				const payload = this.selectedTypes.sort((a, b) => a - b);
+				this.isSaveNotificationsLoading = true;
 
-				await this.updateNotificationSettings(payload);
+				const payload = {
+					status: this.calculateDigitStatus(),
+				};
+				await this.updateNotificationSettingsStore(payload);
 			} finally {
-				this.saveNotificationsLoading = false;
+				this.isSaveNotificationsLoading = false;
 			}
+		},
+
+		calculateDigitStatus() {
+			const binaryArr = '000000000'.split('');
+
+			this.selectedTypes.forEach(id => {
+				const index = id - 1;
+				binaryArr[index] = '1';
+			});
+			binaryArr.reverse();
+			const binaryStr = binaryArr.join('');
+
+			return parseInt(binaryStr, 2);
+		},
+		getSelectedFromBinary() {
+			const res = [];
+
+			const binary = Number(this.notification_status).toString(2);
+			const binaryArr = binary.split('').reverse();
+			binaryArr.forEach((num, index) => {
+				if (num === '1') res.push(index + 1);
+			});
+
+			return res;
 		},
 	},
 };

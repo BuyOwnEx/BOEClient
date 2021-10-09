@@ -26,7 +26,7 @@
 			</v-tab-item>
 
 			<v-tab-item :key="5">
-				<UserSettingsTab :user-ref-program="trader.refProgram || 1" :user-email-notifications='trader.emailNotifications || []' />
+				<UserSettingsTab :user-ref-program="trader.refProgram || 1" />
 			</v-tab-item>
 		</v-tabs-items>
 	</div>

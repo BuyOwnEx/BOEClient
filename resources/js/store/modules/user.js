@@ -278,6 +278,7 @@ export default {
 					});
 			});
 		},
+
 		getNotificationSettings({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -292,6 +293,11 @@ export default {
 					});
 			});
 		},
+		async updateNotificationSettings(_, payload) {
+			const { data } = await axios.post('/trader/ext/notification/status', payload);
+			return data.success;
+		},
+
 		getBlockStatus({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -313,10 +319,6 @@ export default {
 		},
 		async formChangeEmailConfirm(_, payload) {
 			const { data } = await axios.post('/trader/ext/email/change/confirm', payload);
-			return data.success;
-		},
-		async updateNotificationSettings(_, payload) {
-			const { data } = await axios.post('/trader/ext/notification/status', payload);
 			return data.success;
 		},
 
