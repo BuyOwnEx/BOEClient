@@ -38,7 +38,7 @@ export default {
 	},
 
 	computed: {
-		...mapState('user', ['notification_status']),
+		...mapState('user', ['notificationStatus']),
 		...mapGetters({
 			notificationsKinds: 'notifications/notificationsKinds',
 		}),
@@ -81,7 +81,7 @@ export default {
 		getSelectedFromBinary() {
 			const res = [];
 
-			const binary = Number(this.notification_status).toString(2);
+			const binary = Number(this.notificationStatus).toString(2);
 			const binaryArr = binary.split('').reverse();
 			binaryArr.forEach((num, index) => {
 				if (num === '1') res.push(index + 1);

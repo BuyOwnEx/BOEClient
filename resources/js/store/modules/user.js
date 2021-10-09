@@ -15,8 +15,8 @@ export default {
 		deals: null,
 		fees: null,
 		positions: null,
-		notification_status: null,
-		block_status: null,
+		notificationStatus: null,
+		blockStatus: null,
 		marginCall: {
 			status: false,
 			positions: [],
@@ -39,11 +39,11 @@ export default {
 		setBalances(state, balances) {
 			state.balances = balances;
 		},
-		setNotificationSettings(state, notification_status) {
-			state.notification_status = notification_status;
+		setNotificationSettings(state, notificationStatus) {
+			state.notificationStatus = notificationStatus;
 		},
-		setBlockStatus(state, block_status) {
-			state.block_status = block_status;
+		setBlockStatus(state, blockStatus) {
+			state.blockStatus = blockStatus;
 		},
 		setOrders(state, orders) {
 			state.orders = orders;
@@ -325,6 +325,6 @@ export default {
 		async logout() {
 			await axios.post('/logout');
 			window.location.pathname = 'login';
-		}
+		},
 	},
 };
