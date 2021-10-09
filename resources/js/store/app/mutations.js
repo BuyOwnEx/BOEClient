@@ -2,8 +2,8 @@ import Vuetify from '../../plugins/vuetify';
 
 export default {
 	/**
-		* Theme and Layout
-		*/
+	 * Theme and Layout
+	 */
 	setGlobalTheme: (state, theme) => {
 		Vuetify.framework.theme.dark = theme === 'dark';
 		state.globalTheme = theme;
@@ -43,5 +43,8 @@ export default {
 	},
 	setUser2FA: (state, status) => {
 		state.trader.g2fa = status;
+	},
+	setUserEmail: (state, email) => {
+		state.trader.email = email;
 	},
 };

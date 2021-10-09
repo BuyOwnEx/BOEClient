@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 
 import CommonTooltip from '../../../common/CommonTooltip';
 
@@ -178,6 +178,9 @@ export default {
 	},
 
 	methods: {
+		...mapMutations({
+			setUserEmailStore: 'app/setUserEmail',
+		}),
 		...mapActions({
 			formChangeEmailRequestStore: 'user/formChangeEmailRequest',
 			formChangeEmailConfirmStore: 'user/formChangeEmailConfirm',
@@ -209,9 +212,12 @@ export default {
 					code_new_email: this.newEmailCode,
 				};
 				if (this.twoFa) payload.totp = this.twoFaCode;
-				await this.formChangeEmailConfirmStore(payload);
+				const success = true;
+				if (success) {
+					this.setUserEmailStore(this.newEmail);
+					this.pushNotification(this.$t('user.info.email_changed'), 'success');
+				}
 
-				this.pushNotification(this.$t('user.info.email_changed'), 'success');
 				this.close();
 			} finally {
 				this.stopLoading();
