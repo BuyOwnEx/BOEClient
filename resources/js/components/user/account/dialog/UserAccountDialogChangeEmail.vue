@@ -73,7 +73,7 @@
 						<v-stepper-content step="2">
 							<v-form class="mb-6" v-model="isValidConfirmForm">
 								<v-text-field
-									v-model="newEmailCode"
+									v-model="oldEmailCode"
 									:rules="[rules.required]"
 									:hint="$t('user.info.old_email_code_hint')"
 									:placeholder="$t('user.info.old_email_code')"
@@ -81,7 +81,7 @@
 									validate-on-blur
 								/>
 								<v-text-field
-									v-model="oldEmailCode"
+									v-model="newEmailCode"
 									:rules="[rules.required]"
 									:hint="$t('user.info.new_email_code_hint')"
 									:placeholder="$t('user.info.new_email_code')"
