@@ -101,9 +101,9 @@ export default {
 		flex-flow: column
 		flex-grow: 1
 		&--buy
-			padding-right: 8px
+			padding-right: 8px !important
 		&--sell
-			padding-left: 8px
+			padding-left: 8px !important
 
 
 	&__header
@@ -135,10 +135,10 @@ export default {
 		&__form
 			&--buy
 				padding-right: 0
-				padding-left: 8px
+				padding-left: 8px !important
 			&--sell
 				padding-left: 0
-				padding-right: 8px
+				padding-right: 8px !important
 		::v-deep &__best-wrapper
 			float: left
 
