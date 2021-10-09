@@ -210,9 +210,9 @@ export default {
 				const payload = {
 					code_old_email: this.oldEmailCode,
 					code_new_email: this.newEmailCode,
+					totp: this.twoFa ? this.twoFaCode : null,
 				};
-				if (this.twoFa) payload.totp = this.twoFaCode;
-				const success = true;
+				const success = await this.formChangeEmailConfirmStore(payload);
 				if (success) {
 					this.setUserEmailStore(this.newEmail);
 					this.pushNotification(this.$t('user.info.email_changed'), 'success');
@@ -232,6 +232,7 @@ export default {
 			this.newEmail = '';
 			this.oldEmailCode = '';
 			this.newEmailCode = '';
+			this.twoFaCode = '';
 			this.step = 1;
 		},
 		close() {
