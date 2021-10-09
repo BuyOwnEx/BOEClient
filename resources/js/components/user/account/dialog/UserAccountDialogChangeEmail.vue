@@ -208,7 +208,7 @@ export default {
 					code_old_email: this.oldEmailCode,
 					code_new_email: this.newEmailCode,
 				};
-				if (this.twoFa) payload.code_2fa = this.twoFaCode;
+				if (this.twoFa) payload.totp = this.twoFaCode;
 				await this.formChangeEmailConfirmStore(payload);
 
 				this.pushNotification(this.$t('user.info.email_changed'), 'success');
