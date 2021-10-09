@@ -2337,7 +2337,10 @@ make our system processes as transparent as possible.`,
 
 		disabled_alert: {
 			title: 'User blocked',
-			content: 'You have been blocked by system administrator. Please, contact support team for reason',
+			trading_block: 'Trading operations are blocked.',
+			withdrawal_block: 'Withdrawal of funds is blocked.',
+			trading_and_withdrawal_block: 'Trading operations and withdrawal of funds are blocked.',
+			support: 'Please, contact support team for reason',
 		},
 
 		info: {
