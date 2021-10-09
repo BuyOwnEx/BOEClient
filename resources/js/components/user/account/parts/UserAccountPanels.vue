@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import formatDate from '../../../../mixins/format/formatDate';
 
 import UserAccountDialogChangeEmail from '../dialog/UserAccountDialogChangeEmail';
@@ -74,23 +73,7 @@ export default {
 	data() {
 		return {
 			panel: [0, 1],
-			changeEmailLoading: false,
 		};
-	},
-
-	methods: {
-		...mapActions({
-			changeEmailStore: 'user/changeEmail',
-		}),
-
-		async changeEmail() {
-			try {
-				this.changeEmailLoading = true;
-				await this.changeEmailStore();
-			} finally {
-				this.changeEmailLoading = false;
-			}
-		},
 	},
 };
 </script>
