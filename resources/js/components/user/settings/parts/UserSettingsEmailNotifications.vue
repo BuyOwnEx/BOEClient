@@ -72,7 +72,7 @@ export default {
 		},
 
 		calculateDigitStatus() {
-			const binaryArr = '000000000'.split('');
+			const binaryArr = new Array(this.notificationsKinds.length).fill(0);
 
 			this.selectedTypes.forEach(id => {
 				const index = id - 1;
