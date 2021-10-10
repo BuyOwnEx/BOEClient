@@ -257,7 +257,7 @@ export default {
 			return this.$store.state.user.balances;
 		},
 		own_fees() {
-			return this.$store.state.user.fees
+			return this.$store.state.user.fees && this.selectedMarket !== null
 					? _.find(this.$store.state.user.fees, item => item.currency.toUpperCase() === this.currency.toUpperCase() && item.market.toUpperCase() === this.market.toUpperCase())
 					: null;
 		},
@@ -312,7 +312,7 @@ export default {
 			if(this.selectedMarket !== null)
 			{
 				if (this.isAuth) {
-					if(this.own_fees !== null)
+					if(this.own_fees !== null && this.own_fees !== undefined)
 					{
 						return BigNumber(this.own_fees.taker_fee).div(100);
 					}
@@ -347,7 +347,7 @@ export default {
 		},
 
 		selectedOffer() {
-			const selectedOfferID = this.form.offer
+			const selectedOfferID = this.form.offer;
 			return this.offers?.find(item => item.id === selectedOfferID)
 		}
 	},

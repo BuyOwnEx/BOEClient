@@ -276,8 +276,11 @@ export default {
 			return this.$store.state.user.balances;
 		},
 		own_fees() {
-			return this.$store.state.user.fees
-					? _.find(this.$store.state.user.fees, item => item.currency.toUpperCase() === this.currency.toUpperCase() && item.market.toUpperCase() === this.market.toUpperCase())
+			return this.$store.state.user.fees && this.selectedMarket !== null
+					? _.find(this.$store.state.user.fees,
+							item => item.currency.toUpperCase() === this.currency.toUpperCase() &&
+									item.market.toUpperCase() === this.market.toUpperCase()
+					)
 					: null;
 		},
 		offers_select() {
@@ -323,14 +326,14 @@ export default {
 			{
 				if (this.isAuth) {
 					if(this.form.rate > this.best_bid) {
-						if(this.own_fees !== null)
+						if(this.own_fees !== null && this.own_fees !== undefined)
 						{
 							return BigNumber(this.own_fees.maker_fee).div(100);
 						}
 						else return BigNumber(this.selectedMarket.makerFee).div(100);
 					}
 					else {
-						if(this.own_fees !== null)
+						if(this.own_fees !== null && this.own_fees !== undefined)
 						{
 							return BigNumber(this.own_fees.taker_fee).div(100);
 						}

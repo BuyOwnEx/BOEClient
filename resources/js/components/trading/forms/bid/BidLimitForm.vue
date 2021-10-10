@@ -321,14 +321,14 @@ export default {
 			{
 				if (this.isAuth) {
 					if(this.form.rate < this.best_ask) {
-						if(this.own_fees !== null)
+						if(this.own_fees !== null && this.own_fees !== undefined)
 						{
 							return BigNumber(this.own_fees.maker_fee).div(100);
 						}
 						else return BigNumber(this.selectedMarket.makerFee).div(100);
 					}
 					else {
-						if(this.own_fees !== null)
+						if(this.own_fees !== null && this.own_fees !== undefined)
 						{
 							return BigNumber(this.own_fees.taker_fee).div(100);
 						}

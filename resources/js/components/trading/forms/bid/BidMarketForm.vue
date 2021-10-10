@@ -314,7 +314,7 @@ export default {
 			if(this.selectedMarket !== null)
 			{
 				if (this.isAuth) {
-					if(this.own_fees !== null)
+					if(this.own_fees !== null && this.own_fees !== undefined)
 					{
 						return BigNumber(this.own_fees.taker_fee).div(100);
 					}
@@ -349,7 +349,7 @@ export default {
 		},
 
 		selectedOffer() {
-			const selectedOfferID = this.form.offer
+			const selectedOfferID = this.form.offer;
 			return this.offers?.find(item => item.id === selectedOfferID);
 		},
 	},
