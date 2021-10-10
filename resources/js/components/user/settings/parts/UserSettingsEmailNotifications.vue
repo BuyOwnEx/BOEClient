@@ -26,9 +26,12 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
+import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
 
 export default {
 	name: 'UserSettingsEmailNotifications',
+
+	mixins: [showNotificationMixin],
 
 	data() {
 		return {
@@ -61,6 +64,8 @@ export default {
 					status: this.calculateDigitStatus(),
 				};
 				await this.updateNotificationSettingsStore(payload);
+
+				this.pushSuccessNotification(this.$t('user.settings.notification_changed'));
 			} finally {
 				this.isSaveNotificationsLoading = false;
 			}
