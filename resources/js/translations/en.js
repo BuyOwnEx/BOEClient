@@ -2435,6 +2435,7 @@ make our system processes as transparent as possible.`,
 			},
 			days: 'days',
 			system_select_hint: 'Receiving <b>{percent}</b> % of referral transactions within <b>{days}</b> days',
+			notification_changed: 'Notification settings successfully changed',
 		},
 
 		code: 'Code',

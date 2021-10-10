@@ -2434,6 +2434,7 @@ export default {
 			},
 			days: 'дней',
 			system_select_hint: 'Получение <b>{percent}</b> % от сделок рефералов на протяжении <b>{days}</b> дней',
+			notification_changed: 'Настройки уведомлений успешно изменены',
 		},
 
 		code: 'Код',
