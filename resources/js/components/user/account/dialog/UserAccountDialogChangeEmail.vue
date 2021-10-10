@@ -215,7 +215,7 @@ export default {
 				const success = await this.formChangeEmailConfirmStore(payload);
 				if (success) {
 					this.setUserEmailStore(this.newEmail);
-					this.pushNotification(this.$t('user.info.email_changed'), 'success');
+					this.pushSuccessNotification(this.$t('user.info.email_changed'));
 				}
 
 				this.close();

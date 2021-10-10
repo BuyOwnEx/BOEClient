@@ -3,7 +3,9 @@
 		<v-card-title>
 			{{ $t('user.title.security') }}
 		</v-card-title>
-		<v-card-text>
+
+		<CommonLoading v-if="loading" page-margin />
+		<v-card-text v-else>
 			<div>
 				<div class="user-security-tab__title">
 					{{ $t('user.security.title') }}
@@ -103,12 +105,18 @@
 </template>
 
 <script>
+import CommonLoading from '../../common/CommonLoading';
+
 import loadingMixin from '../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
 import validateInputMixin from '../../../mixins/common/validateInputMixin';
 
 export default {
 	name: 'UserSecurityTab',
+
+	components: {
+		CommonLoading,
+	},
 
 	mixins: [loadingMixin, showNotificationMixin, validateInputMixin],
 
@@ -134,6 +142,12 @@ export default {
 		g2faStatus() {
 			return this.g2fa;
 		},
+	},
+
+	async created() {
+		this.startLoading();
+		await this.get2FAStatus();
+		this.stopLoading();
 	},
 
 	methods: {
@@ -205,9 +219,6 @@ export default {
 				this.disable2FA();
 			}
 		},
-	},
-	created() {
-		this.get2FAStatus();
 	},
 };
 </script>

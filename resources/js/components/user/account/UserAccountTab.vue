@@ -1,6 +1,8 @@
 <template>
 	<div class="user-account-tab tab-fill-height">
-		<CommonLoading v-if="isLoading" page-margin />
+		<v-card v-if="isLoading || !user" class="tab-fill-height">
+			<CommonLoading page-margin />
+		</v-card>
 
 		<template v-else>
 			<UserAccountBlockedAlert v-if="blockStatus" :status="blockStatus" />
