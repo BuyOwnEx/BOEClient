@@ -1,6 +1,7 @@
 <template>
 	<div class="user-account-tab tab-fill-height">
 		<v-card v-if="isLoading || !user" class="tab-fill-height">
+			<v-card-title>{{ $t('user.title.basic_info') }}</v-card-title>
 			<CommonLoading page-margin />
 		</v-card>
 

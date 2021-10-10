@@ -4,7 +4,7 @@
 			{{ $t('user.title.security') }}
 		</v-card-title>
 
-		<CommonLoading v-if="loading" page-margin />
+		<CommonLoading v-if="isPageLoading" page-margin />
 		<v-card-text v-else>
 			<div>
 				<div class="user-security-tab__title">
@@ -132,6 +132,7 @@ export default {
 			secret: null,
 			image: null,
 			totp: '',
+			isPageLoading: true,
 		};
 	},
 
@@ -145,9 +146,8 @@ export default {
 	},
 
 	async created() {
-		this.startLoading();
 		await this.get2FAStatus();
-		this.stopLoading();
+		this.isPageLoading = false;
 	},
 
 	methods: {
