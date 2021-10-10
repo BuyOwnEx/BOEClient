@@ -25,6 +25,13 @@ export default {
 			}
 		},
 
+		pushSuccessNotification(text) {
+			this.$store.commit('snackbar/SHOW_MESSAGE', {
+				text,
+				color: 'success',
+			});
+		},
+
 		pushNotification(text, color, timeout) {
 			this.$store.commit('snackbar/SHOW_MESSAGE', {
 				text,
