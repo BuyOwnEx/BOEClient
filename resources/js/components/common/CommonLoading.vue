@@ -1,5 +1,8 @@
 <template>
-	<div class="common-loading text-center" :class="[pageMargin ? 'mt-16' : 'mt-3']">
+	<div
+		class="common-loading text-center"
+		:class="[pageMargin ? 'pt-16' : 'pt-3', { 'common-loading--center': center }]"
+	>
 		<v-progress-circular :color="color" :size="size" :width="width" indeterminate />
 	</div>
 </template>
@@ -17,6 +20,7 @@ export default {
 		width: { type: String, default: '2' },
 
 		pageMargin: Boolean,
+		center: Boolean,
 	},
 };
 </script>
@@ -24,5 +28,15 @@ export default {
 <style scoped>
 .common-loading {
 	width: 100%;
+	&--center {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 }
 </style>
