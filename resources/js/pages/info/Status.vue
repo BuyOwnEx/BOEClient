@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import config from '../../configs';
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 import CommonLoading from '../../components/common/CommonLoading';
 
@@ -52,7 +53,7 @@ export default {
 			return Boolean(this.fiatCurrencies && this.cryptoCurrencies && this.pairsData);
 		},
 		isUserFiat() {
-			return this.$config?.fiat
+			return config.product.type === 'full';
 		}
 	},
 

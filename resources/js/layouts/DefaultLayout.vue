@@ -146,6 +146,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import config from '../configs';
 
 import MainMenu from '../components/layout/navigation/MainMenu';
 import ToolbarUser from '../components/layout/toolbar/ToolbarUser';
@@ -182,7 +183,7 @@ export default {
 		}),
 
 		isUserFiat() {
-			return this.$config?.fiat;
+			return config.product.type === 'full';
 		},
 		calculateFooterHeight() {
 			const width = this.$vuetify.breakpoint.width;

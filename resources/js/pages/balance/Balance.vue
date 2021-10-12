@@ -35,6 +35,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
+import config from '../../configs';
 import CommonPageTitle from '../../components/common/CommonPageTitle';
 import BalanceCryptoList from '../../components/balance/crypto/BalanceCryptoList';
 import BalanceWithdrawalList from '../../components/balance/withdrawal/BalanceWithdrawalList';
@@ -64,7 +65,7 @@ export default {
 			withdrawalList: state => state.balance.withdrawals || [],
 		}),
 		isUserFiat() {
-			return this.$config?.fiat
+			return config.product.type === 'full';
 		}
 	},
 
