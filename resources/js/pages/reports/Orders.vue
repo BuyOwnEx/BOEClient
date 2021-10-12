@@ -19,7 +19,7 @@
 			<template #top>
 				<filters
 					:all_sides="sides"
-					:all_types="types"
+					:all_types="filteredTypes"
 					:all_statuses="statuses"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
@@ -93,6 +93,7 @@ import moment from 'moment';
 import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import config from '../../configs';
 import filters from '../../components/filters/Orders';
 
 export default {
@@ -117,11 +118,11 @@ export default {
 				'items-per-page-all-text': '500',
 			},
 			types: [
-				{ value: 'LIMIT', name: 'Limit order' },
-				{ value: 'MARKET', name: 'Market order' },
-				{ value: 'STOPLOSS', name: 'Stop loss order' },
-				{ value: 'TAKEPROFIT', name: 'Take profit order' },
-				{ value: 'TRAILINGSTOP', name: 'Trailing stop order' },
+				{ value: 'LIMIT', name: 'Limit order', packet: 'start' },
+				{ value: 'MARKET', name: 'Market order', packet: 'start' },
+				{ value: 'STOPLOSS', name: 'Stop loss order', packet: 'startPlus' },
+				{ value: 'TAKEPROFIT', name: 'Take profit order', packet: 'startPlus' },
+				{ value: 'TRAILINGSTOP', name: 'Trailing stop order', packet: 'startPlus' },
 			],
 			statuses: [
 				{ value: 'filled', name: 'Filled' },
@@ -154,6 +155,13 @@ export default {
 				{ text: this.$t('table_header.status'), value: 'status' },
 				{ text: this.$t('table_header.side'), value: 'side' }
 			]
+		},
+		filteredTypes() {
+			if(config.product.type === 'start')
+			{
+				return _.filter(this.types, item => item.packet === config.product.type);
+			}
+			else return this.types;
 		}
 	},
 
