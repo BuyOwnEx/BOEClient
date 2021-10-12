@@ -2307,9 +2307,9 @@ make our system processes as transparent as possible.`,
 		crypto_status: 'System status for cryptocurrencies',
 		pairs_status: 'System status for pairs',
 
-		support_currencies_only_crypto: '<b>9</b> cryptocurrencies (coins / tokens) supported',
+		support_currencies_only_crypto: '<b>{0}</b> cryptocurrencies (coins / tokens) supported',
 		support_currencies_fiat_and_crypto:
-			'<b>12</b> currencies are supported: <b>9</b> cryptocurrencies (coins / tokens) and <b>3</b> fiat currencies',
+			'<b>{0}</b> currencies are supported: <b>{1}</b> cryptocurrencies (coins / tokens) and <b>{2}</b> fiat currencies',
 
 		fiat_tab: 'Fiat currencies',
 		crypto_tab: 'Crypto currencies',
