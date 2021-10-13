@@ -9,7 +9,7 @@
 				{{ $t('trading.headers.own_history_deal_list') }}
 			</v-tab>
 
-			<v-tab v-if="isMargin" :key="3">
+			<v-tab v-if="isMargin && marginAvailable" :key="3">
 				{{ $t('trading.headers.own_active_position_list') }}
 			</v-tab>
 		</v-tabs>
@@ -23,7 +23,7 @@
 				<OwnHistoryDealList :currency="currency" :market="market" />
 			</v-tab-item>
 
-			<v-tab-item v-if="isMargin" :key="3">
+			<v-tab-item v-if="isMargin && marginAvailable" :key="3">
 				<OwnActivePositionList :currency="currency" :market="market" />
 			</v-tab-item>
 		</v-tabs-items>
@@ -34,6 +34,8 @@
 import OwnActiveOrderList from './tabs/OwnActiveOrderList';
 import OwnHistoryDealList from './tabs/OwnHistoryDealList';
 import OwnActivePositionList from './tabs/OwnActivePositionList';
+
+import config from '../../../configs';
 
 export default {
 	name: 'OwnListsTabsWrapper',
@@ -59,6 +61,11 @@ export default {
 		return {
 			selectedTab: 0,
 		};
+	},
+	computed: {
+		marginAvailable() {
+			return config.product.type === 'full';
+		},
 	},
 };
 </script>

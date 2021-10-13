@@ -72,7 +72,7 @@
 				</div>
 			</div>
 
-			<div class="blf__margin" v-if="useMargin">
+			<div class="blf__margin" v-if="useMargin && marginAvailable">
 				<v-select
 					v-model="form.offer"
 					:items="offers_select"
@@ -84,7 +84,7 @@
 				/>
 			</div>
 
-			<div v-if="!useMargin" class="blf__params">
+			<div v-if="!useMargin && conditionalOrdersAvailable" class="blf__params">
 				<CommonTooltip>
 					<v-text-field
 						v-model="form.sl_rate"
@@ -158,7 +158,7 @@
 
 		<div>
 			<div class="blf__switch">
-				<div v-if="marginTradingAvailable" class="d-flex justify-start">
+				<div v-if="marginTradingAvailable && marginAvailable" class="d-flex justify-start">
 					<v-switch
 						v-model="useMargin"
 						:label="$t('trading.order.use_margin')"
@@ -169,7 +169,7 @@
 						inset
 					/>
 				</div>
-				<div v-if="!useMargin" class="d-flex justify-start">
+				<div v-if="!useMargin && conditionalOrdersAvailable" class="d-flex justify-start">
 					<v-switch
 						v-model="additionalParamsEnabled"
 						:label="$t('trading.order.use_additional_params')"
@@ -217,6 +217,7 @@
 <script>
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+import config from '../../../../configs';
 
 import { mapState } from 'vuex';
 import CommonTooltip from '../../../common/CommonTooltip';
@@ -269,6 +270,12 @@ export default {
 		...mapState('trading', ['best_ask', 'best_bid']),
 		isAuth() {
 			return this.$store.getters['app/isLogged'];
+		},
+		conditionalOrdersAvailable() {
+			return config.product.type === 'startPlus' || config.product.type === 'full';
+		},
+		marginAvailable() {
+			return config.product.type === 'full';
 		},
 		balances() {
 			return this.$store.state.user.balances;

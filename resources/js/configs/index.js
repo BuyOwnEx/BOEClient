@@ -10,7 +10,7 @@ export default {
 		name: 'BuyOwnEx',
 		version: 'Trading module v.1.0',
 		slogan: 'be the future. be the crypto',
-		type: 'full'
+		type: 'full' // possible values: "start", "startPlus", "full"
 	},
 	icons,
 	theme,
