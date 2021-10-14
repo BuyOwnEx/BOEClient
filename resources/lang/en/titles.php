@@ -14,7 +14,7 @@ return [
     'confirm' => 'Email confirm',
     'contacts' => 'Contacts',
     'deals' => 'Deals',
-    'email' => 'Email',
+    'email' => 'Password recovery',
     'fees' => 'Fees and limits',
     'fiat_transactions' => 'Fiat transactions',
     'login' => 'Sign In',
