@@ -6,16 +6,21 @@
 				:value="selectAll"
 				:indeterminate="selectAlmostAll"
 				:ripple="false"
-				@click.stop="onSelectAll(selectAll)"
+				@click.stop="handleSelectAll"
 			/>
 
 			<div v-if="selected.length">
-				<v-btn icon @click="readSelected">
-					<v-icon>mdi-eye</v-icon>
-				</v-btn>
-				<v-btn color="error" icon @click="removeSelected">
-					<v-icon>bx-trash-alt</v-icon>
-				</v-btn>
+				<CommonTooltip :value="$t('notifications.read_selected')">
+					<v-btn icon @click="readSelected">
+						<v-icon>mdi-eye</v-icon>
+					</v-btn>
+				</CommonTooltip>
+
+				<CommonTooltip :value="$t('notifications.delete_selected')">
+					<v-btn color="error" icon @click="deleteSelected">
+						<v-icon>bx-trash-alt</v-icon>
+					</v-btn>
+				</CommonTooltip>
 			</div>
 
 			<v-spacer />
@@ -40,22 +45,24 @@
 				v-for="item in paginatedNotifications"
 				:key="item.id"
 				:class="{
-					'grey lighten-4': item.read_at && !$vuetify.theme.dark,
-					'grey darken-4': item.read_at && $vuetify.theme.dark,
+					'grey lighten-4': item.read && !$vuetify.theme.dark,
+					'grey darken-4': item.read && $vuetify.theme.dark,
 					'v-list-item--active primary--text': selected.indexOf(item.id) !== -1,
 				}"
 				@click="readNotification(item)"
 			>
 				<v-list-item-action class="d-flex flex-row align-center">
-					<v-checkbox v-model="selected" :value="item.id" @click.stop />
+					<!--					TODO: no backend read selected / delete selected-->
+					<!--					<v-checkbox v-model="selected" :value="item.id" @click.stop />-->
 				</v-list-item-action>
 
 				<v-list-item-content>
-					<v-list-item-title :class="{ 'font-weight-light': item.read_at }">
-						{{ getSubject(item.kind) }}
+					<v-list-item-title :class="{ 'font-weight-light': item.read }">
+						{{ getSubject(item.subtype_id) }}
 					</v-list-item-title>
 					<v-list-item-subtitle class="font-weight-light">
-						{{ item.text }}
+						<!--						{{ item.text }}-->
+						{{ item.params }}
 					</v-list-item-subtitle>
 					<v-list-item-subtitle>
 						<v-chip
@@ -79,17 +86,14 @@
 			</v-list-item>
 		</v-list>
 
-		<div
-			v-if="!notifications.length"
-			class="d-flex align-center justify-center overline py-6"
-		>
+		<div v-if="!notifications.length" class="d-flex align-center justify-center overline py-6">
 			{{ $t('notifications.no_notifications') }}
 		</div>
 
-		<NotificationsCommonModal
+		<NotificationsDetail
 			v-if="showDetails"
 			:dialog-prop="showDetails"
-			:subject="getSubject(selectedNotificationDetails.kind)"
+			:subject="getSubject(selectedNotificationDetails.subtype_id)"
 			:notification="selectedNotificationDetails"
 			@close="showDetails = false"
 		/>
@@ -98,14 +102,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import CommonTooltip from '../../common/CommonTooltip';
 import formatDate from '../../../mixins/format/formatDate';
 
 export default {
 	name: 'NotificationsList',
 
 	components: {
-		NotificationsCommonModal: () =>
-			import(/* webpackPrefetch: true */ '../common/NotificationsCommonModal'),
+		CommonTooltip,
+		NotificationsDetail: () => import(/* webpackPrefetch: true */ '../NotificationsDetail'),
 	},
 
 	mixins: [formatDate],
@@ -152,12 +157,8 @@ export default {
 		}),
 
 		pagesText() {
-			const firstVisibleElement =
-				this.currentPage * this.perPage - this.perPage + 1;
-			const showedElements = Math.min(
-				this.currentPage * this.perPage,
-				this.notifications.length
-			);
+			const firstVisibleElement = this.currentPage * this.perPage - this.perPage + 1;
+			const showedElements = Math.min(this.currentPage * this.perPage, this.notifications.length);
 			return `${firstVisibleElement} - ${showedElements} of ${this.notifications.length}`;
 		},
 		paginatedNotifications() {
@@ -178,11 +179,7 @@ export default {
 						this.selectAll = false;
 						this.selectAlmostAll = false;
 					} else {
-						if (this.notifications.length === val.length) {
-							this.selectAlmostAll = false;
-						} else {
-							this.selectAlmostAll = true;
-						}
+						this.selectAlmostAll = this.notifications.length !== val.length;
 					}
 				}
 			});
@@ -195,11 +192,16 @@ export default {
 	methods: {
 		...mapActions({
 			readNotificationStore: 'notifications/readNotification',
+			deleteNotificationStore: 'notifications/deleteNotification',
+
+			readAllStore: 'notifications/readAll',
+			deleteAllStore: 'notifications/deleteAll',
+
 			readSelectedStore: 'notifications/readSelected',
-			removeSelectedStore: 'notifications/removeSelected',
+			deleteSelectedStore: 'notifications/deleteSelected',
 		}),
 
-		onSelectAll(selectAll) {
+		handleSelectAll() {
 			if (this.selectAll) {
 				this.selected = [];
 			} else {
@@ -215,16 +217,17 @@ export default {
 			this.readNotificationStore(notification.id);
 		},
 		readSelected() {
-			this.readSelectedStore(this.selected);
+			// this.readSelectedStore(this.selected);
+			this.readAllStore();
 			this.selected = [];
 		},
-		removeSelected() {
+		deleteSelected() {
 			this.closeDetailsIfDeletingItemOpen();
-			this.removeSelectedStore(this.selected);
+			// this.deleteSelectedStore(this.selected);
+			this.deleteAllStore();
 			this.selected = [];
 		},
 
-		getKindTitle(kindID) {},
 		getLabelColor(id) {
 			const label = this.labels.find(l => l.id === id);
 			return label ? label.color : '';
@@ -243,8 +246,7 @@ export default {
 
 		closeDetailsIfDeletingItemOpen() {
 			const openedItem = this.selectedNotificationDetails;
-			if (openedItem && this.selected.indexOf(openedItem.id) !== -1)
-				this.showDetails = false;
+			if (openedItem && this.selected.indexOf(openedItem.id) !== -1) this.showDetails = false;
 		},
 	},
 };

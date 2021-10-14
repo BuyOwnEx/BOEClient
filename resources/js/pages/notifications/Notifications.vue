@@ -19,7 +19,7 @@
 				</div>
 			</v-toolbar>
 
-			<NotificationsListWrapper :type-to-show="type" />
+			<NotificationsListWrapper :typeId="typeID" />
 		</div>
 	</div>
 </template>
@@ -41,7 +41,7 @@ export default {
 	data() {
 		return {
 			drawer: false,
-			type: 'system',
+			typeID: 1,
 		};
 	},
 
@@ -57,8 +57,8 @@ export default {
 		async fetch() {
 			await this.fetchNotificationsStore();
 		},
-		updateType(type) {
-			this.type = type;
+		updateType(id) {
+			this.typeID = id;
 		},
 	},
 };
