@@ -141,13 +141,21 @@ export default {
 			const itemIndex = state.notifications.findIndex(item => item.id === id);
 			state.notifications[itemIndex].read_at = Date.now();
 		},
+
+		READ_ALL(state) {
+			state.notifications.forEach(n => (n.read = true));
+		},
+		DELETE_ALL(state) {
+			state.notifications = [];
+		},
+
 		READ_SELECTED(state, selectedArray) {
 			selectedArray.forEach(id => {
 				const itemIndex = state.notifications.findIndex(item => item.id === id);
 				state.notifications[itemIndex].read_at = Date.now();
 			});
 		},
-		REMOVE_SELECTED(state, selectedArray) {
+		DELETE_SELECTED(state, selectedArray) {
 			state.notifications = state.notifications.filter(item => {
 				return selectedArray.indexOf(item.id) === -1;
 			});
@@ -160,17 +168,31 @@ export default {
 			commit('SET_NOTIFICATIONS', data.notifications);
 		},
 
-		readNotification({ commit }, id) {
+		async readNotification({ commit }, id) {
 			commit('READ_NOTIFICATION', id);
-			// запрос на бек
+			await axios.post('/trader/ext/notification/read', { notification_id: id });
 		},
+		async deleteNotification({ commit }, id) {
+			commit('DELETE_NOTIFICATION', id);
+			await axios.post('/trader/ext/notification/delete', { notification_id: id });
+		},
+
+		async readAll({ commit }) {
+			commit('READ_ALL');
+			await axios.post('/trader/ext/notification/read_all');
+		},
+		async deleteAll({ commit }) {
+			commit('DELETE_ALL');
+			await axios.post('/trader/ext/notification/delete_all');
+		},
+
 		readSelected({ commit }, selectedArray) {
 			commit('READ_SELECTED', selectedArray);
-			// запрос на бек
+			// back req
 		},
-		removeSelected({ commit }, selectedArray) {
-			commit('REMOVE_SELECTED', selectedArray);
-			// запрос на бек
+		deleteSelected({ commit }, selectedArray) {
+			commit('DELETE_SELECTED', selectedArray);
+			// back req
 		},
 	},
 };
