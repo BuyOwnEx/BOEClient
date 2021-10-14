@@ -18,19 +18,19 @@
 						<div v-for="(item, index) in toolbarNotifications" :key="item.id">
 							<v-divider v-if="index > 0 && index < toolbarNotifications.length" inset />
 
-							<v-list-item :ripple="false" @click="readNotification(item)">
-								<v-list-item-avatar size="32" :color="getNotificationColor(item.type)">
+							<v-list-item @click="readNotification(item)">
+								<v-list-item-avatar size="32" :color="getNotificationColor(item.type_id)">
 									<v-icon dark small>
-										{{ getNotificationIcon(item.type) }}
+										{{ getNotificationIcon(item.type_id) }}
 									</v-icon>
 								</v-list-item-avatar>
 
 								<v-list-item-content>
 									<v-list-item-title>
-										{{ item.title }}
+										{{ getNotificationSubject(item.subtype_id) }}
 									</v-list-item-title>
 									<v-list-item-subtitle class="caption">
-										{{ item.subtitle }}
+										{{ item.params }}
 									</v-list-item-subtitle>
 								</v-list-item-content>
 
@@ -56,10 +56,10 @@
 			</v-card>
 		</v-menu>
 
-		<NotificationCommonModal
+		<NotificationsDetail
 			v-if="showDetails"
 			:dialog-prop="showDetails"
-			:subject="getSubject(selectedNotificationDetails.kind)"
+			:subject="getNotificationSubject(selectedNotificationDetails.subtype_id)"
 			:notification="selectedNotificationDetails"
 			@close="showDetails = false"
 		/>
@@ -68,13 +68,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import NotificationCommonModal from '../../notifications/common/NotificationsCommonModal';
+import NotificationsDetail from '../../notifications/NotificationsDetail';
 import formatDate from '../../../mixins/format/formatDate';
 
 export default {
 	name: 'ToolbarNotifications',
 
-	components: { NotificationCommonModal },
+	components: { NotificationsDetail },
 
 	mixins: [formatDate],
 
@@ -93,7 +93,7 @@ export default {
 			getNotificationColor: 'notifications/getNotificationColor',
 			getNotificationIcon: 'notifications/getNotificationIcon',
 
-			getSubject: 'notifications/getNotificationKindSubject',
+			getNotificationSubject: 'notifications/getNotificationKindSubject',
 		}),
 
 		isTabletOrMobile() {
