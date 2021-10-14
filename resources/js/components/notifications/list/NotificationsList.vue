@@ -62,7 +62,7 @@
 					</v-list-item-title>
 					<v-list-item-subtitle class="font-weight-light">
 						<!--						{{ item.text }}-->
-						{{ item.params }}
+						{{ getSubTitleText(item) }}
 					</v-list-item-subtitle>
 					<v-list-item-subtitle>
 						<v-chip
@@ -94,7 +94,7 @@
 			v-if="showDetails"
 			:dialog-prop="showDetails"
 			:subject="getSubject(selectedNotificationDetails.subtype_id)"
-			:notification="selectedNotificationDetails"
+			:text="getSubTitleText(selectedNotificationDetails)"
 			@close="showDetails = false"
 		/>
 	</div>
@@ -201,6 +201,31 @@ export default {
 			deleteSelectedStore: 'notifications/deleteSelected',
 		}),
 
+		getSubTitleText(item) {
+			let obj = JSON.parse(item.params);
+			switch (item.subtype_id) {
+				case 1:
+					return this.$t('notifications.kinds.login.text',[obj.ip]);
+				case 2:
+					return this.$t('notifications.kinds.trading_block.text');
+				case 3:
+					return this.$t('notifications.kinds.money_block.text');
+				case 4:
+					return this.$t('notifications.kinds.system_block.text');
+				case 5:
+					return this.$t('notifications.kinds.ref.text',[obj.amount, obj.currency]);
+				case 6:
+					return this.$t('notifications.kinds.position_liquidation_warn.text');
+				case 7:
+					return this.$t('notifications.kinds.position_liquidation.text');
+				case 8:
+					return this.$t('notifications.kinds.add_money.text',[obj.amount, obj.currency]);
+				case 9:
+					return this.$t('notifications.kinds.withdraw_money.text',[obj.amount, obj.currency]);
+				default:
+					return '';
+			}
+		},
 		handleSelectAll() {
 			if (this.selectAll) {
 				this.selected = [];
@@ -214,6 +239,7 @@ export default {
 		readNotification(notification) {
 			this.showDetails = true;
 			this.selectedNotificationDetails = notification;
+			if(!notification.read)
 			this.readNotificationStore(notification.id);
 		},
 		readSelected() {

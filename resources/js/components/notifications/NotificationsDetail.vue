@@ -21,7 +21,7 @@
 			<v-divider />
 
 			<v-card-text class="common-dialog__content">
-				{{ notification.text }}
+				{{ text }}
 			</v-card-text>
 		</v-card>
 	</v-dialog>
@@ -41,8 +41,8 @@ export default {
 			type: String,
 			required: true,
 		},
-		notification: {
-			type: Object,
+		text: {
+			type: String,
 			required: true,
 		},
 	},

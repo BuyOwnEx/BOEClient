@@ -30,7 +30,7 @@
 										{{ getNotificationSubject(item.subtype_id) }}
 									</v-list-item-title>
 									<v-list-item-subtitle class="caption">
-										{{ item.params }}
+										{{ getSubTitleText(item) }}
 									</v-list-item-subtitle>
 								</v-list-item-content>
 
@@ -60,7 +60,7 @@
 			v-if="showDetails"
 			:dialog-prop="showDetails"
 			:subject="getNotificationSubject(selectedNotificationDetails.subtype_id)"
-			:notification="selectedNotificationDetails"
+			:text="getSubTitleText(selectedNotificationDetails)"
 			@close="showDetails = false"
 		/>
 	</div>
@@ -105,11 +105,36 @@ export default {
 		...mapActions({
 			readNotificationStore: 'notifications/readNotification',
 		}),
-
+		getSubTitleText(item) {
+			let obj = JSON.parse(item.params);
+			switch (item.subtype_id) {
+				case 1:
+					return this.$t('notifications.kinds.login.text',[obj.ip]);
+				case 2:
+					return this.$t('notifications.kinds.trading_block.text');
+				case 3:
+					return this.$t('notifications.kinds.money_block.text');
+				case 4:
+					return this.$t('notifications.kinds.system_block.text');
+				case 5:
+					return this.$t('notifications.kinds.ref.text',[obj.amount, obj.currency]);
+				case 6:
+					return this.$t('notifications.kinds.position_liquidation_warn.text');
+				case 7:
+					return this.$t('notifications.kinds.position_liquidation.text');
+				case 8:
+					return this.$t('notifications.kinds.add_money.text',[obj.amount, obj.currency]);
+				case 9:
+					return this.$t('notifications.kinds.withdraw_money.text',[obj.amount, obj.currency]);
+				default:
+					return '';
+			}
+		},
 		readNotification(notification) {
 			this.showDetails = true;
 			this.selectedNotificationDetails = notification;
-			this.readNotificationStore(notification.id);
+			if(!notification.read)
+				this.readNotificationStore(notification.id);
 		},
 		navigateToNotificationsPage() {
 			window.location.href = '/notifications';
