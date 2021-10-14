@@ -2457,7 +2457,7 @@ export default {
 		kinds: {
 			login: {
 				title: 'Уведомлять о входе в систему',
-				subject: 'Новый вход в систему',
+				subject: 'Вход в систему',
 			},
 			add_money: {
 				title: 'Уведомлять о пополнении средств',

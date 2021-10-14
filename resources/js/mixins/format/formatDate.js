@@ -19,6 +19,7 @@ export default {
 				case 'timeAgo':
 					const userLang = this.$store.state.app.trader.language || 'en';
 					return moment(date)
+						.tz(moment.tz.guess())
 						.locale(userLang)
 						.fromNow();
 				default:
