@@ -2448,6 +2448,8 @@ make our system processes as transparent as possible.`,
 		title: 'Notifications',
 		no_notifications: 'No new notifications',
 		notifications_types: 'Notifications types',
+		read_selected: 'Read selected',
+		delete_selected: 'Delete selected',
 		types: {
 			system: 'System',
 			finance: 'Finance',

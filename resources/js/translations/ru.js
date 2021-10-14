@@ -2447,6 +2447,8 @@ export default {
 		title: 'Уведомления',
 		no_notifications: 'Новых уведомлений нет',
 		notifications_types: 'Типы уведомлений',
+		read_selected: 'Прочитать выбранные',
+		delete_selected: 'Удалить выбранные',
 		types: {
 			system: 'Системные',
 			finance: 'Финансы',
