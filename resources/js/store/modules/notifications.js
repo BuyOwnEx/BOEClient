@@ -94,41 +94,42 @@ export default {
 			];
 		},
 
-		getNotificationsByType: state => type => {
+		getNotificationsByType: state => typeID => {
 			if (!state.notifications) return;
-			return state.notifications.filter(item => item.type === type);
+			return state.notifications.filter(item => item.type_id === typeID);
 		},
-		getNotificationsUnreadQuantityByType: (_, getters) => type => {
-			const dataArray = getters.getNotificationsByType(type);
-			if (dataArray) {
-				const nonCheckedArray = dataArray.filter(item => !item.read_at);
+		getNotificationsUnreadQuantityByType: (_, getters) => typeID => {
+			const dataArray = getters.getNotificationsByType(typeID);
+			if (dataArray?.length) {
+				const nonCheckedArray = dataArray.filter(item => !item.read);
+				console.log(typeID, nonCheckedArray);
 				return nonCheckedArray.length;
 			}
 		},
 
 		getUnreadNotifications(state) {
 			if (!state.notifications) return;
-			return state.notifications.filter(item => !item.read_at);
+			return state.notifications.filter(item => !item.read);
 		},
-		getFirstFiveUnreadNotificationsForToolbar(_, getters) {
+		getFirstFiveUnreadNotificationsForToolbar(state, getters) {
 			const dataArray = getters.getUnreadNotifications;
 			if (dataArray) return dataArray.slice(0, 5);
 		},
 		getUnreadNotificationsQuantity(_, getters) {
 			const dataArray = getters.getUnreadNotifications;
-			return dataArray ? dataArray.length : 0;
+			return dataArray?.length || 0;
 		},
 
-		getNotificationColor: (_, getters) => type => {
-			const typeItem = getters.notificationTypes.find(item => item.type === type);
-			return typeItem.color;
+		getNotificationColor: (_, getters) => typeID => {
+			const typeItem = getters.notificationTypes.find(item => item.id === typeID);
+			return typeItem?.color;
 		},
-		getNotificationIcon: (_, getters) => type => {
-			const typeItem = getters.notificationTypes.find(item => item.type === type);
-			return typeItem.icon;
+		getNotificationIcon: (_, getters) => typeID => {
+			const typeItem = getters.notificationTypes.find(item => item.id === typeID);
+			return typeItem?.icon;
 		},
 		getNotificationKindSubject: (_, getters) => kindID => {
-			return getters.notificationsKinds.find(k => k.id === kindID).subject;
+			return getters.notificationsKinds.find(k => k.id === kindID)?.subject;
 		},
 	},
 
@@ -139,7 +140,7 @@ export default {
 
 		READ_NOTIFICATION(state, id) {
 			const itemIndex = state.notifications.findIndex(item => item.id === id);
-			state.notifications[itemIndex].read_at = Date.now();
+			state.notifications[itemIndex].read = true;
 		},
 
 		READ_ALL(state) {
@@ -152,7 +153,7 @@ export default {
 		READ_SELECTED(state, selectedArray) {
 			selectedArray.forEach(id => {
 				const itemIndex = state.notifications.findIndex(item => item.id === id);
-				state.notifications[itemIndex].read_at = Date.now();
+				state.notifications[itemIndex].read = true;
 			});
 		},
 		DELETE_SELECTED(state, selectedArray) {
