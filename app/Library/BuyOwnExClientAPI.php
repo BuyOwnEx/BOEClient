@@ -426,6 +426,17 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function newLoginNotification(int $user_id, string $ip)
+    {
+        $params = [
+            'trader' => $user_id,
+            'ip' => $ip
+        ];
+        Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notification_login',$params);
+
+    }
     public function setNotificationStatus(int $user_id, int $status)
     {
         $params = [

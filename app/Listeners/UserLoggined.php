@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Library\BuyOwnExClientAPI;
 use Carbon\Carbon;
 use Browser;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,5 +36,7 @@ class UserLoggined
         $event->user->lastOS=Browser::platformName();
         $event->user->lastDevice=Browser::deviceFamily().' '.Browser::deviceModel().' '.Browser::mobileGrade();
         $event->user->save();
+        $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+        $api->newLoginNotification($event->user->id, $this->request->getClientIp());
     }
 }
