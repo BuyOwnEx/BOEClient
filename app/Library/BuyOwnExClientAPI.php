@@ -454,6 +454,72 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
+    public function setNotificationRead(int $user_id, int $notification_id)
+    {
+        $params = [
+            'trader' => $user_id,
+            'notification_id' => $notification_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/read_notification',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function deleteNotification(int $user_id, int $notification_id)
+    {
+        $params = [
+            'trader' => $user_id,
+            'notification_id' => $notification_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/delete_notification',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function setNotificationsReadAll(int $user_id)
+    {
+        $params = [
+            'trader' => $user_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/read_all_notifications',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function deleteAllNotifications(int $user_id)
+    {
+        $params = [
+            'trader' => $user_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/delete_all_notifications',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
     public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address)
     {
         $params = [
@@ -654,6 +720,13 @@ class BuyOwnExClientAPI
         $response = Http::withToken($this->api_key)->get($this->base.'v1/all_followers',[
             'trader' => $user_id,
             'name' => $name
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function all_notifications(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_notifications',[
+            'trader' => $user_id
         ]);
         return response()->json($response->json(),$response->status());
     }

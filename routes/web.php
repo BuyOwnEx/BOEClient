@@ -111,6 +111,11 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('notification/status', 'TraderController@getNotificationStatus')->name('get_notification_status');
             Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
 
+            Route::post('notification/read', 'TraderController@setNotificationRead')->name('set_notification_read');
+            Route::post('notification/delete', 'TraderController@deleteNotification')->name('delete_notification');
+            Route::post('notifications/read_all', 'TraderController@setNotificationsReadAll')->name('set_notifications_read_all');
+            Route::post('notifications/delete_all', 'TraderController@deleteAllNotifications')->name('delete_all_notifications');
+
             Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
 
             Route::get('all_orders', 'TraderController@getAllOrders')->name('all_orders');
@@ -120,6 +125,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('all_transfers', 'TraderController@getAllTransfers')->name('all_transfers');
             Route::get('all_ref_payments', 'TraderController@getAllRefPayments')->name('all_ref_payments');
             Route::get('all_followers', 'TraderController@getAllFollowers')->name('all_followers');
+            Route::get('all_notifications', 'TraderController@getAllNotifications')->name('all_notifications');
 
             Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
             Route::post('set_referral_type', 'TraderController@setReferralType')->name('set_referral_type');
