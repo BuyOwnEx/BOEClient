@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 @section('title')
-    {{trans('titles.login')}}
+    {{trans('titles.verify')}}
 @endsection
 @section('keywords')
     keywords
