@@ -536,7 +536,7 @@ class BuyOwnExClientAPI
             return response()->json(['success' => true],$response->status());
         }
         else {
-            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+            return response()->json(['success' => false, 'message'=> $response->json()['message'] ? $response->json()['message'] : 'Unknown error'],500);
         }
     }
     public function withdrawCrypto(int $user_id, string $email, string $currency, $amount, string $address)
