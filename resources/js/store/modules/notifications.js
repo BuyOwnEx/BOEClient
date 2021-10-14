@@ -11,18 +11,21 @@ export default {
 		notificationTypes() {
 			return [
 				{
+					id: 1,
 					name: VueI18n.t('notifications.types.system'),
 					type: 'system',
 					icon: 'mdi-email-outline',
 					color: 'primary',
 				},
 				{
+					id: 2,
 					name: VueI18n.t('notifications.types.finance'),
 					type: 'finance',
 					icon: 'mdi-currency-usd',
 					color: 'purple',
 				},
 				{
+					id: 3,
 					name: VueI18n.t('notifications.types.funds'),
 					type: 'funds',
 					icon: 'mdi-newspaper-variant-outline',
