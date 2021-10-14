@@ -180,11 +180,11 @@ export default {
 
 		async readAll({ commit }) {
 			commit('READ_ALL');
-			await axios.post('/trader/ext/notification/read_all');
+			await axios.post('/trader/ext/notifications/read_all');
 		},
 		async deleteAll({ commit }) {
 			commit('DELETE_ALL');
-			await axios.post('/trader/ext/notification/delete_all');
+			await axios.post('/trader/ext/notifications/delete_all');
 		},
 
 		readSelected({ commit }, selectedArray) {
