@@ -7,7 +7,9 @@
 		</template>
 
 		<span>
-			<slot name="text"></slot>
+			<slot name="text">
+				{{ value }}
+			</slot>
 		</span>
 	</v-tooltip>
 </template>
@@ -15,5 +17,13 @@
 <script>
 export default {
 	name: 'CommonTooltip',
+
+	props: {
+		value: {
+			type: [Number, String],
+			required: false,
+			default: null,
+		},
+	},
 };
 </script>
