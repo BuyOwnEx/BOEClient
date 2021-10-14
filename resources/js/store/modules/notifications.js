@@ -164,8 +164,8 @@ export default {
 
 	actions: {
 		async fetchNotifications({ commit }) {
-			const { data } =  await axios.get('/trader/ext/all_notifications');
-			commit('SET_NOTIFICATIONS', data.notifications);
+			const { data } = await axios.get('/trader/ext/all_notifications');
+			commit('SET_NOTIFICATIONS', data.data);
 		},
 
 		async readNotification({ commit }, id) {
