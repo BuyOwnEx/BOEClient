@@ -4,11 +4,11 @@
 
 		<v-list-item
 			v-for="item in notificationTypes"
-			:key="item.type"
-			:input-value="selectedType === item.type"
+			:key="item.id"
+			:input-value="selectedType === item.id"
 			:ripple="false"
 			active-class="primary--text"
-			@click="navigate(item.type)"
+			@click="navigate(item.id, item.type)"
 		>
 			<v-list-item-icon>
 				<v-icon small :color="item.color">{{ item.icon }}</v-icon>
@@ -18,8 +18,8 @@
 				<v-list-item-title>{{ item.name }}</v-list-item-title>
 			</v-list-item-content>
 
-			<v-list-item-action v-if="getTypeQuantity(item.type) > 0">
-				<v-badge class="font-weight-bold" :content="getTypeQuantity(item.type)" :color="item.color" inline> </v-badge>
+			<v-list-item-action v-if="getTypeQuantity(item.type_id) > 0">
+				<v-badge class="font-weight-bold" :content="getTypeQuantity(item.type_id)" :color="item.color" inline />
 			</v-list-item-action>
 		</v-list-item>
 	</v-list>
@@ -33,7 +33,7 @@ export default {
 
 	data() {
 		return {
-			selectedType: 'system',
+			selectedType: 1,
 		};
 	},
 
@@ -45,10 +45,10 @@ export default {
 	},
 
 	methods: {
-		navigate(type) {
-			window.location.hash = type;
-			this.selectedType = type;
-			this.$emit('update', type);
+		navigate(typeID, typeKey) {
+			window.location.hash = typeKey;
+			this.selectedType = typeID;
+			this.$emit('update', typeID);
 		},
 	},
 };

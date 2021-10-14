@@ -1,11 +1,7 @@
 <template>
 	<v-card class="d-flex flex-grow-1">
-		<CommonLoading v-if="!notificationsData" class="mt-6" />
-		<NotificationsList
-			v-else
-			:key="listKey"
-			:notifications-prop="notificationsData"
-		/>
+		<CommonLoading v-if="!notificationsData" page-margin />
+		<NotificationsList v-else :key="listKey" :notifications-prop="notificationsData" />
 	</v-card>
 </template>
 
@@ -18,8 +14,8 @@ export default {
 	name: 'NotificationsListWrapper',
 
 	props: {
-		typeToShow: {
-			type: String,
+		typeId: {
+			type: Number,
 			required: true,
 		},
 	},
@@ -32,7 +28,7 @@ export default {
 		}),
 
 		notificationsData() {
-			return this.getNotificationsByType(this.typeToShow);
+			return this.getNotificationsByType(this.typeId);
 		},
 		listKey() {
 			return this.notificationsData.length + Math.random();
