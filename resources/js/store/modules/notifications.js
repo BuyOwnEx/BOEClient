@@ -131,6 +131,36 @@ export default {
 		getNotificationKindSubject: (_, getters) => kindID => {
 			return getters.notificationsKinds.find(k => k.id === kindID)?.subject;
 		},
+		getNotificationSubTitleText: () => item => {
+			if (!item) return;
+			try {
+				const obj = JSON.parse(item.params);
+				switch (item.subtype_id) {
+					case 1:
+						return VueI18n.t('notifications.kinds.login.text', [obj.ip]);
+					case 2:
+						return VueI18n.t('notifications.kinds.trading_block.text');
+					case 3:
+						return VueI18n.t('notifications.kinds.money_block.text');
+					case 4:
+						return VueI18n.t('notifications.kinds.system_block.text');
+					case 5:
+						return VueI18n.t('notifications.kinds.ref.text', [obj.amount, obj.currency]);
+					case 6:
+						return VueI18n.t('notifications.kinds.position_liquidation_warn.text');
+					case 7:
+						return VueI18n.t('notifications.kinds.position_liquidation.text');
+					case 8:
+						return VueI18n.t('notifications.kinds.add_money.text', [obj.amount, obj.currency]);
+					case 9:
+						return VueI18n.t('notifications.kinds.withdraw_money.text', [obj.amount, obj.currency]);
+					default:
+						return '';
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		},
 	},
 
 	mutations: {
