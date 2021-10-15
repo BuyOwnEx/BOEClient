@@ -180,6 +180,11 @@ export default {
 			const itemIndex = state.notifications.findIndex(item => item.id === id);
 			state.notifications[itemIndex].read = true;
 		},
+		DELETE_NOTIFICATION(state, id) {
+			state.notifications = state.notifications.filter(item => {
+				return item.id !== id;
+			});
+		},
 
 		READ_ALL(state) {
 			state.notifications.forEach(n => (n.read = true));
