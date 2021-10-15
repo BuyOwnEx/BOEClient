@@ -19,7 +19,7 @@
 				</div>
 			</v-toolbar>
 
-			<NotificationsListWrapper :typeId="typeID" />
+			<NotificationsListWrapper :type-id="typeID" />
 		</div>
 	</div>
 </template>
@@ -41,24 +41,23 @@ export default {
 	data() {
 		return {
 			drawer: false,
-			typeID: 1,
+			typeID: 0,
 		};
 	},
 
-	created() {
-		this.fetch();
+	mounted() {
+		this.loadSavedTab();
 	},
 
 	methods: {
-		...mapActions({
-			fetchNotificationsStore: 'notifications/fetchNotifications',
-		}),
+		loadSavedTab() {
+			const availableTypes = this.$store.getters['notifications/notificationTypes'];
+			const tab = window.location.hash?.slice(1);
+			if (!tab) return;
 
-		async fetch() {
-			await this.fetchNotificationsStore();
-		},
-		updateType(id) {
-			this.typeID = id;
+			const item = availableTypes.find(t => t.type === tab);
+			if (!item) history.replaceState(null, null, ' ');
+			this.typeID = item?.id || 0;
 		},
 	},
 };
