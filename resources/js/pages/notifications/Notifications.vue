@@ -8,7 +8,7 @@
 			width="240"
 			floating
 		>
-			<NotificationsSidebarMenu @update="updateType" />
+			<NotificationsSidebarMenu v-model="typeID" />
 		</v-navigation-drawer>
 
 		<div class="notifications__content-wrapper d-flex flex-grow-1 flex-column">
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
 import NotificationsSidebarMenu from '../../components/notifications/sidebar/NotificationsSidebarMenu';
 import NotificationsListWrapper from '../../components/notifications/list/NotificationsListWrapper';
 

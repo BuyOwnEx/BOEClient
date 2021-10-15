@@ -5,7 +5,7 @@
 		<v-list-item
 			v-for="item in notificationTypes"
 			:key="item.id"
-			:input-value="selectedType === item.id"
+			:input-value="value === item.id"
 			:ripple="false"
 			active-class="primary--text"
 			@click="navigate(item.id, item.type)"
@@ -31,10 +31,17 @@ import { mapGetters } from 'vuex';
 export default {
 	name: 'NotificationsSidebarMenu',
 
-	data() {
-		return {
-			selectedType: 1,
-		};
+	model: {
+		prop: 'value',
+		event: 'update:value',
+	},
+
+	props: {
+		value: {
+			type: Number,
+			required: false,
+			default: 0,
+		},
 	},
 
 	computed: {
@@ -46,9 +53,12 @@ export default {
 
 	methods: {
 		navigate(typeID, typeKey) {
-			window.location.hash = typeKey;
-			this.selectedType = typeID;
-			this.$emit('update', typeID);
+			this.setHash(typeKey);
+			this.$emit('update:value', typeID);
+		},
+		setHash(key) {
+			if (key === 'all') history.replaceState(null, null, ' ');
+			else window.location.hash = key;
 		},
 	},
 };
