@@ -2448,8 +2448,10 @@ export default {
 		title: 'Уведомления',
 		no_notifications: 'Новых уведомлений нет',
 		notifications_types: 'Типы уведомлений',
-		read_selected: 'Прочитать все',
-		delete_selected: 'Удалить все',
+
+		read_all: 'Прочитать все',
+		delete_all: 'Удалить все',
+
 		types: {
 			system: 'Системные',
 			finance: 'Финансы',

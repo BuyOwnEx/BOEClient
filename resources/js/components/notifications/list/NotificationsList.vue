@@ -10,13 +10,13 @@
 			/>
 
 			<div v-if="selected.length">
-				<CommonTooltip :value="$t('notifications.read_selected')">
+				<CommonTooltip :value="$t('notifications.read_all')">
 					<v-btn icon @click="readSelected">
 						<v-icon>mdi-eye</v-icon>
 					</v-btn>
 				</CommonTooltip>
 
-				<CommonTooltip :value="$t('notifications.delete_selected')">
+				<CommonTooltip :value="$t('notifications.delete_all')">
 					<v-btn color="error" icon @click="deleteSelected">
 						<v-icon>bx-trash-alt</v-icon>
 					</v-btn>
