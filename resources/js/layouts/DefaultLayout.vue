@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 import config from '../configs';
 
 import MainMenu from '../components/layout/navigation/MainMenu';
@@ -170,14 +170,17 @@ export default {
 		CommonNotification,
 		CommonSnackbar,
 	},
+
 	data() {
 		return {
 			drawer: null,
 			isDarkTheme: true,
 		};
 	},
+
 	computed: {
 		...mapState('app', ['product', 'isContentBoxed', 'menuTheme', 'toolbarTheme', 'isToolbarDetached', 'trader']),
+		...mapState('notifications', ['notifications']),
 		...mapGetters({
 			isLogged: 'app/isLogged',
 		}),
@@ -197,6 +200,16 @@ export default {
 		isWidthMore400px() {
 			return this.$vuetify.breakpoint.width >= 400;
 		},
+	},
+
+	created() {
+		if (!this.notifications) this.fetchNotificationsStore();
+	},
+
+	methods: {
+		...mapActions({
+			fetchNotificationsStore: 'notifications/fetchNotifications',
+		}),
 	},
 };
 </script>
