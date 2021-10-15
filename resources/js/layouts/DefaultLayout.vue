@@ -202,14 +202,17 @@ export default {
 		},
 	},
 
-	created() {
-		if (!this.notifications) this.fetchNotificationsStore();
+	mounted() {
+		this.$eventHub.$on('set-user', this.getNotifications);
 	},
 
 	methods: {
 		...mapActions({
 			fetchNotificationsStore: 'notifications/fetchNotifications',
 		}),
+		getNotifications() {
+			if (!this.notifications && this.isLogged) this.fetchNotificationsStore();
+		}
 	},
 };
 </script>
