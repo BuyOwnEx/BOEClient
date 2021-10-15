@@ -62,7 +62,7 @@ export default {
 			return [
 				{
 					id: 1,
-					name: VueI18n.t('support.priority.all'),
+					name: VueI18n.t('common.all'),
 					key: 'all',
 					color: 'primary',
 				},

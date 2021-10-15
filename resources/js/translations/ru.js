@@ -22,6 +22,7 @@ export default {
 		reset: 'Сбросить',
 		change: 'Изменить',
 		request: 'Запрос',
+		all: 'Все',
 
 		title: 'Тема',
 		description: 'Описание',
@@ -2536,7 +2537,6 @@ export default {
 			closed: 'Закрытые',
 		},
 		priority: {
-			all: 'Все',
 			low: 'Низкий',
 			medium: 'Средний',
 			high: 'Высокий',

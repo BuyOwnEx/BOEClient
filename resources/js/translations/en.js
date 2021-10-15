@@ -21,6 +21,7 @@ export default {
 		reset: 'Reset',
 		change: 'Change',
 		request: 'Request',
+		all: 'All',
 
 		title: 'Title',
 		description: 'Description',
@@ -2536,7 +2537,6 @@ make our system processes as transparent as possible.`,
 			closed: 'Closed',
 		},
 		priority: {
-			all: 'All',
 			low: 'Low',
 			medium: 'Medium',
 			high: 'High',
