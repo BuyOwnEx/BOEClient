@@ -60,8 +60,7 @@
 					<v-list-item-title :class="{ 'font-weight-light': item.read }">
 						{{ getSubject(item.subtype_id) }}
 					</v-list-item-title>
-					<v-list-item-subtitle class="font-weight-light">
-						<!--						{{ item.text }}-->
+					<v-list-item-subtitle :class="{ 'font-weight-light': $vuetify.theme.dark }">
 						{{ getSubTitleText(item) }}
 					</v-list-item-subtitle>
 					<v-list-item-subtitle>
