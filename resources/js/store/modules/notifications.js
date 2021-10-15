@@ -11,6 +11,13 @@ export default {
 		notificationTypes() {
 			return [
 				{
+					id: 0,
+					name: VueI18n.t('common.all'),
+					type: 'all',
+					icon: 'mdi-dots-horizontal',
+					color: 'primary',
+				},
+				{
 					id: 1,
 					name: VueI18n.t('notifications.types.system'),
 					type: 'system',
@@ -96,6 +103,7 @@ export default {
 
 		getNotificationsByType: state => typeID => {
 			if (!state.notifications) return;
+			if (typeID === 0) return state.notifications;
 			return state.notifications.filter(item => item.type_id === typeID);
 		},
 		getNotificationsUnreadQuantityByType: (_, getters) => typeID => {
@@ -165,7 +173,7 @@ export default {
 
 	mutations: {
 		SET_NOTIFICATIONS(state, notifications) {
-			state.notifications = notifications;
+			state.notifications = notifications || [];
 		},
 
 		READ_NOTIFICATION(state, id) {
