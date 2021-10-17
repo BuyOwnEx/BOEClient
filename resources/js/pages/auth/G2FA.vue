@@ -32,10 +32,6 @@
 				</v-container>
 			</v-card-text>
 
-			<div class="caption grey--text darken-4 pl-6 pr-6">
-				<small>{{ $t('auth.no_letter') }}</small>
-			</div>
-
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
 				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="verify">
 					{{ $t('auth.g2fa.verify') }}
@@ -45,11 +41,11 @@
 
 		<div class="text-center mt-6" style="position: relative; z-index: 2">
 			<div class="caption grey--text darken-4">
-				{{ $t('auth.already_activated') }}
+				{{ $t('auth.g2fa.problem') }}
 			</div>
 
-			<v-btn block small text tile href="/login" color="primary darken-1">
-				{{ $t('auth.login_btn_text') }}
+			<v-btn block small text tile href="/contacts" color="primary darken-1">
+				{{ $t('auth.g2fa.contact') }}
 			</v-btn>
 		</div>
 	</div>
@@ -95,7 +91,12 @@ export default {
 								}
 							}
 						}
-					} else {
+					}
+					else if (error.response.status === 409)
+					{
+						this.errors.totp=[error.response.data.message];
+					}
+					else {
 						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})

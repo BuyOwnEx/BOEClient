@@ -436,6 +436,8 @@ export default {
 			subtitle: 'Please, enter your 6 digit code from Google Authenticator application',
 			code: 'Code',
 			verify: 'Verify',
+			problem: 'Have a problem with 2FA?',
+			contact: 'Contact customer support',
 		},
 	},
 
