@@ -44,10 +44,11 @@ export default {
 	},
 
 	computed: {
-		...mapState('user', ['blockStatus']),
+		...mapState('user', ['blockStatus','verifyStatus']),
 	},
 
 	async created() {
+		await Promise.all([this.getVerificationStatusStore(), this.getBlockStatusStore()]);
 		await this.getBlockStatusStore();
 		this.isLoading = false;
 	},
@@ -55,6 +56,7 @@ export default {
 	methods: {
 		...mapActions({
 			getBlockStatusStore: 'user/getBlockStatus',
+			getVerificationStatusStore: 'user/getVerifyStatus',
 		}),
 	},
 };

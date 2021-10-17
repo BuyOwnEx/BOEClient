@@ -17,6 +17,7 @@ export default {
 		positions: null,
 		notificationStatus: null,
 		blockStatus: null,
+		verifyStatus: null,
 		marginCall: {
 			status: false,
 			positions: [],
@@ -44,6 +45,9 @@ export default {
 		},
 		setBlockStatus(state, blockStatus) {
 			state.blockStatus = blockStatus;
+		},
+		setVerifyStatus(state, verifyStatus) {
+			state.verifyStatus = verifyStatus;
 		},
 		setOrders(state, orders) {
 			state.orders = orders;
@@ -304,6 +308,21 @@ export default {
 					.get('/trader/ext/block/status')
 					.then(response => {
 						commit('setBlockStatus', response.data.status);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+
+		getVerifyStatus({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/verify/status')
+					.then(response => {
+						commit('setVerifyStatus', response.data.status);
 						resolve();
 					})
 					.catch(error => {

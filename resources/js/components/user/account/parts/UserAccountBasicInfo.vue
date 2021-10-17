@@ -63,7 +63,7 @@
 						/>
 						<v-checkbox
 							class="mt-0"
-							v-model="user.verify_status"
+							v-model="verifyStatus"
 							:ripple="false"
 							:label="$t('user.info.kyc_status')"
 							readonly
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import CommonCopyLabel from '../../../common/CommonCopyLabel';
 
 export default {
@@ -93,6 +94,7 @@ export default {
 	},
 
 	computed: {
+		...mapState('user', ['verifyStatus']),
 		generatedAvatar() {
 			return this.$store.getters['user/getGeneratedAvatar']();
 		},
