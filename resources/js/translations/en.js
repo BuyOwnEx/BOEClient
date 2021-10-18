@@ -2406,13 +2406,13 @@ make our system processes as transparent as possible.`,
 		},
 
 		security: {
-			title: 'buyownex recommends using two-factor authentication',
+			title: 'We recommend using two-factor authentication',
 			description: {
 				line_one:
 					'Two-factor authentication (2fa) greatly enhances safety, requesting not only the login and password, but a special authorization code.',
 				line_two:
-					'BuyOwnEx uses 2fa from Google Authenticator. To enable this feature, download Google Authenticator to your mobile phone and scan the QR code. ',
-				line_three: 'After installing the application, use the codes specified therein to work with BuyOwnEx.',
+					'Our exchange uses 2fa from Google Authenticator. To enable this feature, download Google Authenticator to your mobile phone and scan the QR code. ',
+				line_three: 'After installing the application, use the codes specified therein to work with our exchange.',
 			},
 			for_disable: 'To disable two-factor authentication, enter the current code in the Google Authenticator App',
 			status: {
