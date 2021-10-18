@@ -2487,8 +2487,8 @@ make our system processes as transparent as possible.`,
 				text: 'Your trading operations have been blocked. You can find out the reason for blocking by contacting the support service',
 			},
 			money_block: {
-				title: 'Notify about blocking on replenishment / withdrawal of funds',
-				subject: 'Blocking replenishment/withdrawal',
+				title: 'Notify about blocking on withdrawal of funds',
+				subject: 'Blocking withdrawals',
 				text: 'The withdrawal of funds has been blocked. You can find out the reason for blocking by contacting the support service',
 			},
 			system_block: {
