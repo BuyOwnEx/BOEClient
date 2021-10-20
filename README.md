@@ -118,6 +118,7 @@ Specific variables to this project:
 
     # API Server, that handles incoming requests. Use this demo server for test purposes.
     SERVER=http://188.127.235.78:18888
+    MIX_WS_SERVER=wss://demo.buyownex.com/connection/websocket
     API_PUBLIC_KEY=5lG72waSPWg6APJr21BONXVeevkwNgwD3PANulKhX8v9p7TTYqBlnbYM6X3nqRub7lvTHJzH6kKMjid8 // demo public key for SERVER
     API_SECRET_KEY=z2YH6R7lYzYCsE1Ecl1HKsWIWIdK9YQ73d6ZRU7ZXfFKXIOaUxVw4ny57xeUbIg1apkRKjX83Fc8CHDA // demo secret key for SERVER
     
