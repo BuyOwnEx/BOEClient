@@ -232,6 +232,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Zendesk' => Huddle\Zendesk\Facades\Zendesk::class,
+        'Geetest' => App\Library\Geetest::class,
     ],
 
 ];

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateSecretRequest;
+use App\Library\Geetest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -42,6 +44,15 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    protected function validateLogin(Request $request)
+    {
+        Log::info($request);
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'geetest_challenge' => 'geetest'
+        ]);
+    }
     /**
      * The user has been authenticated.
      *
@@ -84,6 +95,17 @@ class LoginController extends Controller
             return view('auth/2fa');
         }
         return redirect('login');
+    }
+
+    public function getGeetest(Request $request)
+    {
+        $data = [
+            'client_type' => 'web',
+            'ip_address' => $request->getClientIp()
+        ];
+        $status = Geetest::preProcess($data);
+        session()->put('gtserver', $status);
+        return Geetest::getResponseStr();
     }
 
     public function postValidateToken(ValidateSecretRequest $request)

@@ -20,4 +20,5 @@
     </script>
     <script src="{{mix('dist/js/auth.js')}}"></script>
     <script src="{{mix('dist/js/hero-canvas.js')}}"></script>
+    <script src="{{mix('dist/js/gt.js')}}"></script>
 @endsection

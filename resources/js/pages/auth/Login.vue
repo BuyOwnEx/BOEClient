@@ -69,7 +69,7 @@
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn color="primary" :loading="loading" :disabled="!valid" tile block @click="login">
+				<v-btn color="primary" :loading="loading" :disabled="!valid" tile block @click="verify">
 					{{ $t('auth.signin') }}
 				</v-btn>
 			</v-card-actions>
@@ -87,6 +87,10 @@
 
 		<v-alert v-if="verify_error" dense text type="error" class="mt-4">
 			{{ verify_error }}
+		</v-alert>
+
+		<v-alert v-if="errors.geetest_challenge.length !== 0" dense text type="error" class="mt-4">
+			{{ $t('auth.login.captcha_error') }}
 		</v-alert>
 
 		<div class="text-center mt-6" style="position: relative; z-index: 2">
@@ -117,24 +121,66 @@ export default {
 				email: '',
 				password: '',
 				remember: false,
+				geetest_challenge: null,
+				geetest_validate: null,
+				geetest_seccode: null
 			},
 			errors: {
 				email: [],
 				password: [],
 				remember: [],
+				geetest_challenge: []
 			},
 
 			verify_block: window.verified,
 			verify_error: window.v_error,
 		};
 	},
+	created(){
+		this.initGT();
+	},
 
 	methods: {
+		initGT: function() {
+			let handler= function (captcha_obj,vm) {
+				//captcha_obj.appendTo("#captcha_register");
+				captcha_obj.onReady(function () {
+					//Initialization completion code
+					vm.captcha_obj=captcha_obj//Put this obj into the vue instance for management
+				}).onSuccess(function(){
+					//Get the three parameters of the verification call captcha_obj.getValidate()
+					vm.captcha_obj=captcha_obj;
+					let result = captcha_obj.getValidate();
+					//After completing the verification, call the send verification code function again to send the request through detection
+					vm.user.geetest_challenge = result.geetest_challenge;
+					vm.user.geetest_validate = result.geetest_validate;
+					vm.user.geetest_seccode = result.geetest_seccode;
+					vm.login()
+				}).onError(function () {
+					captcha_obj.reset();
+				})
+			};
+			axios.get('/geetest?t='+(new Date()).getTime()).then(res=>{
+				let data=res.data;
+				// eslint-disable-next-line no-undef
+				initGeetest({
+					gt: data.gt,
+					challenge: data.challenge,
+					new_captcha: data.new_captcha, // When it is down, it means that it is the downtime of the new verification code
+					offline: !data.success, // Indicates that the user background checks whether the Jiyu server is down, generally do not need to pay attention
+					product: "bind", // Product form, including: float, popup
+					width: "100%",
+					lang: 'en'
+				}, handler,this);
+			})
+		},
+		verify() {
+			this.captcha_obj.verify();
+		},
 		login() {
 			this.startLoading();
 			const form = this.user.remember ? this.user : _.omit(this.user, ['remember']);
-			axios
-				.post('/login', form)
+			axios.post('/login', form)
 				.then(response => {
 					if (response.data.auth) window.location.href = response.data.intended;
 					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});

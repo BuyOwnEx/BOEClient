@@ -414,6 +414,7 @@ export default {
 			remember: 'Запомнить',
 			fill_all_to_login: 'Заполните все поля, чтобы войти',
 			verified_text: 'Email успешно подтвержден',
+			captcha_error: 'Ошибка валидации Captcha',
 		},
 		register: {
 			title: 'Регистрация',

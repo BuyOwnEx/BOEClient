@@ -136,11 +136,9 @@ Specific variables to this project:
     ZENDESK_USERNAME=
     ZENDESK_TOKEN=
     
-    # Redis Server for subscribtion purposes. Use this demo server and credentials for tests.
-    SUBSCRIPTION_REDIS_HOST=188.127.235.78
-    SUBSCRIPTION_REDIS_USERNAME=client
-    SUBSCRIPTION_REDIS_PASSWORD=5bslc1coee4cssgq4tfixudw3ql4u4wpmho4aqs2vnfmly3km46m2gszemu8mu4i
-    SUBSCRIPTION_REDIS_PORT=16379
+    # geetest ID and Key. Get your own account at https://www.geetest.com/en/
+    GEETEST_ID=
+    GEETEST_KEY=
 
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 

@@ -414,6 +414,7 @@ export default {
 			remember: 'Remember',
 			fill_all_to_login: 'Fill in all fields to enter',
 			verified_text: 'Email has been successfully confirmed',
+			captcha_error: 'Captcha validation error',
 		},
 		register: {
 			title: 'Create Account',
