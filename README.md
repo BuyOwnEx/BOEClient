@@ -1,4 +1,4 @@
-[main_screenshot]: https://demo.buyownex.com/main_en.jpg "Trading sreenshot"
+[main_screenshot]: https://buyownex.com/main.jpg "Trading sreenshot"
 
 # BOEClient
 
