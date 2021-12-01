@@ -62,7 +62,9 @@
 			<!--if 2fa disabled-->
 			<div v-else class="user-security-tab__content">
 				<div class="user-security-tab__qr-code-wrapper">
-					<div class="user-security-tab__qr-code" v-html="image" />
+					<div class="user-security-tab__qr-code">
+						<v-img :src="image"></v-img>
+					</div>
 				</div>
 
 				<div class="user-security-tab__form">
