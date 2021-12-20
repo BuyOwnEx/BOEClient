@@ -256,7 +256,7 @@ export default {
 					currency: item.currency,
 					margin: item.margin,
 					volume: item.volume,
-					latest: item.latest.toFixed(2),
+					latest: item.latest.toFixed(rateScale),
 					change: change.toFixed(item.scale),
 					changePercent: changePercent.toFixed(2),
 				};
