@@ -65,7 +65,7 @@
 			</v-bottom-navigation>
 
 			<TradingChartWrapper
-				v-if="selectedTab === 0"
+				v-show="selectedTab === 0"
 				class="trading__mobile__chart"
 				:currency="currency"
 				:market="market"
