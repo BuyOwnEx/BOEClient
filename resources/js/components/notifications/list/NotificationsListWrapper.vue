@@ -1,5 +1,5 @@
 <template>
-	<v-card class="d-flex flex-grow-1">
+	<v-card class="d-flex flex-grow-1 flex-column">
 		<CommonLoading v-if="!notificationsData" page-margin />
 		<NotificationsList v-else :key="listKey" :notifications-prop="notificationsData" />
 	</v-card>

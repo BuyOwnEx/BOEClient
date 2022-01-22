@@ -16,6 +16,7 @@
 
 // Custom scroll <19.02.21>
 html {
+	overflow-y: auto;
 	&::-webkit-scrollbar {
 		height: var(--scrollbar-size);
 		width: var(--scrollbar-size-page);

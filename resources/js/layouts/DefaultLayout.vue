@@ -50,7 +50,7 @@
 								<v-img src="/images/logo.png" />
 							</v-list-item-avatar>
 
-							<v-list-item-content>
+							<v-list-item-content class="product-name-version">
 								<v-list-item-title>
 									{{ product.name }}
 								</v-list-item-title>
@@ -247,6 +247,22 @@ export default {
 @media screen and (max-width: 599px) {
 	.footer {
 		font-size: 8px !important;
+	}
+}
+
+@media screen and (max-width: 540px) {
+	.product-name-version {
+		display: none;
+	}
+	.v-application--is-ltr {
+		.v-list-item__avatar:first-child {
+			margin-right: 10px !important;
+		}
+	}
+	.v-application--is-rtl {
+		.v-list-item__avatar:first-child {
+			margin-left: 10px !important;
+		}
 	}
 }
 </style>
