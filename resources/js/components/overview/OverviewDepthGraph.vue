@@ -193,7 +193,7 @@ export default {
 		changePair(data) {
 			console.log(data);
 			const market = this.pairs ? _.find(this.pairs, item => item.id === data) : null;
-			if (!market) {
+			if (market) {
 				const pair = market.name.split('/');
 				this.$store.commit('trading/setPair', {
 					currency: pair[0],
