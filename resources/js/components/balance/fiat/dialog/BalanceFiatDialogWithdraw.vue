@@ -175,10 +175,10 @@ export default {
 			phone: '',
 
 			amountRules: [
-				v => !v || v >= this.minWithdraw || this.$t('balance.less_min'),
-				v => !v || v <= this.maxWithdraw || this.$t('balance.more_max'),
-				v => !v || v <= this.currencyObj.safe || this.$t('balance.more_available'),
-				v => !v || v <= this.availableForWithdraw || this.$t('balance.more_withdraw_available'),
+				v => !v || BigNumber(v).gte(this.minWithdraw) || this.$t('balance.less_min'),
+				v => !v || BigNumber(v).lte(this.maxWithdraw) || this.$t('balance.more_max'),
+				v => !v || BigNumber(v).lte(this.currencyObj.safe) || this.$t('balance.more_available'),
+				v => !v || BigNumber(v).lte(this.availableForWithdraw) || this.$t('balance.more_withdraw_available'),
 			],
 			valid: false,
 			step: 1,

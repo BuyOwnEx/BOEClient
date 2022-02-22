@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 export default {
 	data() {
 		return {
@@ -16,7 +18,7 @@ export default {
 				latinAndNumbers: v =>
 					!v || (v && /^[a-zA-Z0-9-_]+$/g.test(v)) || this.$t('forms_validation.unsupported_char_latinAndNumbers'),
 				numbers: v => !v || /^[0-9]+$/.test(v) || this.$t('forms_validation.unsupported_char_numbers'),
-				positive: v => !v || v > 0 || this.$t('forms_validation.positive'),
+				positive: v => !v || BigNumber(v).gt(0) || this.$t('forms_validation.positive'),
 
 				maxFileSize5MB: v => !v || v.size < 5000000 || this.$t('forms_validation.max_filesize_5MB'),
 			},

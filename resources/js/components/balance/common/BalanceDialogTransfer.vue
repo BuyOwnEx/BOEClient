@@ -106,7 +106,7 @@ export default {
 			localRules: {
 				numberWithScalePrecision: v =>
 					!v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-				lessAvailable: v => !v || v <= this.availableBalance || this.$t('balance.more_available'),
+				lessAvailable: v => !v || BigNumber(v).lte(this.availableBalance) || this.$t('balance.more_available'),
 			},
 
 			form: {

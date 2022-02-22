@@ -268,9 +268,9 @@ export default {
 			amount: '',
 			amountFormValid: false,
 			amountRules: [
-				v => !v || v >= this.minWithdraw || this.$t('balance.less_min'),
-				v => !v || v <= this.maxWithdraw || this.$t('balance.more_max'),
-				v => !v || v <= this.availableForWithdraw || this.$t('balance.more_withdraw_available'),
+				v => !v || BigNumber(v).gte(this.minWithdraw) || this.$t('balance.less_min'),
+				v => !v || BigNumber(v).lte(this.maxWithdraw) || this.$t('balance.more_max'),
+				v => !v || BigNumber(v).lte(this.availableForWithdraw) || this.$t('balance.more_withdraw_available'),
 				v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
 			],
 
