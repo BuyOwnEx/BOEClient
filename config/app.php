@@ -4,6 +4,8 @@ return [
     'server'              => env('SERVER'),
     'api-public-key'      => env('API_PUBLIC_KEY'),
     'api-secret-key'      => env('API_SECRET_KEY'),
+    'api-mobile-public-key'      => env('API_MOBILE_PUBLIC_KEY'),
+    'api-mobile-secret-key'      => env('API_MOBILE_SECRET_KEY'),
 
     /*
     |--------------------------------------------------------------------------
