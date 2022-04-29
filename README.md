@@ -122,6 +122,10 @@ Specific variables to this project:
     API_PUBLIC_KEY=5lG72waSPWg6APJr21BONXVeevkwNgwD3PANulKhX8v9p7TTYqBlnbYM6X3nqRub7lvTHJzH6kKMjid8 // demo public key for SERVER
     API_SECRET_KEY=z2YH6R7lYzYCsE1Ecl1HKsWIWIdK9YQ73d6ZRU7ZXfFKXIOaUxVw4ny57xeUbIg1apkRKjX83Fc8CHDA // demo secret key for SERVER
     
+    # Moble API keys
+    API_MOBILE_PUBLIC_KEY= // public key for mobile app (optional)
+    API_MOBILE_SECRET_KEY= // secret key for mobile app (optional)
+    
     # When you navigate to the main page, redirection occurs to the http://localhost/trading/{DEFAULT_MARKET}/{DEFAULT_CURRENCY} link
     DEFAULT_MARKET=USDT
     DEFAULT_CURRENCY=BTC
