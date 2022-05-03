@@ -136,7 +136,7 @@
 				</a>
 			</span>
 
-			<span> Copyright © BuyOwnEx Ltd. 2017 - {{ new Date().getFullYear() }}. All rights reserved </span>
+			<span> Copyright © {{ product.name }} Ltd. 2017 - {{ new Date().getFullYear() }}. All rights reserved </span>
 		</v-footer>
 
 		<CommonNotification />

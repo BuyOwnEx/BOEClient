@@ -88,7 +88,7 @@
 					</v-row>
 					<v-divider class='my-3'></v-divider>
 					<div class='text-center caption'>
-						© Indielayer 2021. All Rights Reserved
+            Copyright © {{ product.name }} Ltd. 2017 - {{ new Date().getFullYear() }}. All rights reserved
 					</div>
 				</v-container>
 			</v-footer>
