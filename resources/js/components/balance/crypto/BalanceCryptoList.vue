@@ -156,9 +156,9 @@ export default {
 		return {
 			showOnlyNotNullBalances: false,
 			componentTitle: this.$t('balance.headers.own_crypto_balance_list'),
-			itemsPerPage: 10,
+			itemsPerPage: 20,
 			footer_props: {
-				'items-per-page-options': [5, 10, 30, 100, 500],
+				'items-per-page-options': [5, 20, 50, 100, 500],
 				'items-per-page-all-text': '500',
 			},
 		};
