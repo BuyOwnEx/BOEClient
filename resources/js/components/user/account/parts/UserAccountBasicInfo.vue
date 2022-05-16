@@ -99,7 +99,7 @@ export default {
 			return this.$store.getters['user/getGeneratedAvatar']();
 		},
 		refLink() {
-			return `${window.location.hostname}?ref=${user.id}`;
+			return `${window.location.hostname}?ref=${this.user.id}`;
 		},
 	},
 };
