@@ -2355,7 +2355,7 @@ export default {
 			protected: 'Двухфакторная защита',
 			kyc_status: 'KYC статус',
 
-			change_email: 'Изменить почту',
+			change_email: 'Изменить email',
 			change_email_subtitle: 'Отправить запрос на изменение адреса электронной почты',
 			created: 'Создан',
 			last_sign_in: 'Последний Вход',
@@ -2363,7 +2363,7 @@ export default {
 			last_device: 'Последнее Устройство',
 			last_os: 'Последняя ОС',
 
-			new_email: 'Новая почта',
+			new_email: 'Новый email',
 			old_email_code_hint: 'Введите код, пришедший на ваш старый адрес эл.почты',
 			old_email_code: 'Код со старого адреса эл.почты',
 			new_email_code_hint: 'Введите код, пришедший на ваш новый адрес эл.почты',
