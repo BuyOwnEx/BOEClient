@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\PersonalAccessToken;
 use Closure;
-use Illuminate\Support\Facades\Log;
 
 class CheckSign
 {

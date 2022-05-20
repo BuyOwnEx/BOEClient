@@ -5,7 +5,6 @@ use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -46,9 +45,11 @@ Route::middleware('CheckMobileSign')->post('/sanctum/token', function (Request $
                 'success' => false,
                 'message' => 'The provided credentials are incorrect',
             ],404);
+        $token = $user->createToken($request->device_name);
         return response()->json([
             'success' => true,
-            'token' => $user->createToken($request->device_name)->plainTextToken
+            'token' => $token->plainTextToken,
+            'secret' => $token->plainTextSecretToken
         ],200);
     }
     catch (Exception $exception)
