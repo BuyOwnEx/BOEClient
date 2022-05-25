@@ -5,6 +5,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import randomColor from 'randomcolor';
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-avataaars-sprites';
+import { find } from 'lodash/collection';
 
 export default {
 	namespaced: true,
@@ -71,20 +72,47 @@ export default {
 		},
 
 		setAddress(state, data) {
-			if (state.balances && data.currency in state.balances) {
-				Vue.set(state.balances[data.currency], 'address', data.address);
+			if (state.balances && data.currency.toUpperCase() in state.balances && state.balances[data.currency].platforms) {
+				if (data.currency.toUpperCase() === data.platform.toUpperCase())
+				{
+					let ind = _.findIndex(state.balances[data.currency].platforms, (item) => item.currency.toLowerCase() === data.platform.toLowerCase());
+					Vue.set(state.balances[data.currency].platforms[ind], 'address', data.address);
+				}
+				else
+				{
+					let ind = _.findIndex(state.balances[data.currency].platforms, (item) => item.base_currency.toLowerCase() === data.platform.toLowerCase());
+					Vue.set(state.balances[data.currency].platforms[ind], 'address', data.address);
+				}
 			}
 		},
 		setAddressValidation(state, data) {
-			if (state.balances && data.currency in state.balances) {
-				Vue.set(state.balances[data.currency], 'addressValidation', data.address);
+			if (state.balances && data.currency.toUpperCase() in state.balances && state.balances[data.currency].platforms) {
+				if (data.currency.toUpperCase() === data.platform.toUpperCase())
+				{
+					let ind = _.findIndex(state.balances[data.currency].platforms, (item) => item.currency.toLowerCase() === data.platform.toLowerCase());
+					Vue.set(state.balances[data.currency].platforms[ind], 'addressValidation', data.address);
+				}
+				else
+				{
+					let ind = _.findIndex(state.balances[data.currency].platforms, (item) => item.base_currency.toLowerCase() === data.platform.toLowerCase());
+					Vue.set(state.balances[data.currency].platforms[ind], 'addressValidation', data.address);
+				}
 			}
 		},
 
 		updateCurrencyState(state, data) {
 			if (state.balances) {
 				if (data.currency.toUpperCase() in state.balances) {
-					state.balances[data.currency.toUpperCase()].state = data.state;
+					if (data.currency.toUpperCase() === data.platform.toUpperCase())
+					{
+						let ind = _.findIndex(state.balances[data.currency.toUpperCase()].platforms, (item) => item.currency.toLowerCase() === data.platform.toLowerCase());
+						Vue.set(state.balances[data.currency.toUpperCase()].platforms[ind], 'state', data.state);
+					}
+					else
+					{
+						let ind = _.findIndex(state.balances[data.currency.toUpperCase()].platforms, (item) => item.base_currency.toLowerCase() === data.platform.toLowerCase());
+						Vue.set(state.balances[data.currency.toUpperCase()].platforms[ind], 'state', data.state);
+					}
 				}
 			}
 		},

@@ -13,56 +13,86 @@
 				{{ $t('common.replenishment_funds') }} {{ currencyObj.currency }}
 			</v-card-title>
 
-			<CommonLoading v-if="!currencyObj.address" class="mb-6" />
-			<v-card-text v-else class="common-dialog__content">
-				<div>
-					<div>
-						{{ $t('balance.min_replenish_amount') }}:
-						<b> {{ currencyObj.minReplenish }} {{ currencyObj.currency }} </b>
-					</div>
+      <v-card-text class="common-dialog__content pb-1">
+        <v-stepper v-model="step">
+          <v-stepper-items>
+            <v-stepper-content class="pa-0" step="1">
+              <BalanceCryptoDialogSelectSystem
+                  class="mb-2"
+                  :platforms="currencyObj.platforms"
+                  type="replenish"
+                  @select="selectPlatform"
+              />
 
-					<div>
-						{{ $t('balance.replenish_fee') }}:
-						<b>0 {{ currencyObj.currency }}</b>
-					</div>
-				</div>
+              <v-divider />
 
-				<div class="py-2">
-					описание
-				</div>
+              <div class="common-dialog__actions d-flex pt-1">
+                <v-spacer />
+                <v-btn block plain tile text small @click="close">
+                  {{ $t('common.close') }}
+                </v-btn>
+                <v-spacer />
+              </div>
+            </v-stepper-content>
 
-				<div class="text-center">
-					<QrCode :value="address" :options="{ width: 200 }" />
-				</div>
+            <v-stepper-content class="pa-0" step="2">
+              <CommonLoading v-if="!selectedPlatform" class="mb-6" />
+              <v-card-text v-else class="common-dialog__content">
+                <div>
+                  <div>
+                    {{ $t('balance.min_replenish_amount') }}:
+                    <b> {{ selectedPlatform.minReplenish }} {{ selectedPlatform.currency }} </b>
+                  </div>
 
-				<div class="text-center pt-1">
-					<CommonCopyLabel :text="address" icon="mdi-content-copy" />
-				</div>
-			</v-card-text>
+                  <div>
+                    {{ $t('balance.replenish_fee') }}:
+                    <b>0 {{ selectedPlatform.currency }}</b>
+                  </div>
+                </div>
 
-			<v-divider />
+                <div class="py-2 error--text">
+                  {{$t('balance.replenish_crypto_description', [selectedPlatform.platform !== null ? selectedPlatform.platform : selectedPlatform.base_currency])}}
+                </div>
 
-			<v-card-actions class="common-dialog__actions">
-				<v-btn small tile text plain block @click="close">
-					{{ $t('common.close') }}
-				</v-btn>
-			</v-card-actions>
+                <div class="text-center">
+                  <QrCode :value="address" :options="{ width: 200 }" />
+                </div>
+
+                <div class="text-center pt-1">
+                  <CommonCopyLabel :text="address" icon="mdi-content-copy" />
+                </div>
+              </v-card-text>
+
+              <v-divider />
+
+              <div class="common-dialog__actions d-flex pt-1">
+                <v-spacer />
+                <v-btn plain tile text small @click="back">
+                  {{ $t('common.back') }}
+                </v-btn>
+                <v-spacer />
+              </div>
+            </v-stepper-content>
+          </v-stepper-items>
+        </v-stepper>
+      </v-card-text>
 		</v-card>
 	</v-dialog>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 
 import QrCode from '@chenfengyuan/vue-qrcode';
 import CommonLoading from '../../../common/CommonLoading';
 import CommonCopyLabel from '../../../common/CommonCopyLabel';
 import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+import BalanceCryptoDialogSelectSystem from './parts/BalanceCryptoDialogSelectSystem';
+import { mapActions } from 'vuex';
 
 export default {
 	name: 'BalanceCryptoDialogReplenish',
 
-	components: { CommonLoading, CommonCopyLabel, QrCode },
+	components: { BalanceCryptoDialogSelectSystem, CommonLoading, CommonCopyLabel, QrCode },
 
 	mixins: [dialogMethodsMixin],
 
@@ -73,20 +103,31 @@ export default {
 		},
 	},
 
+  data() {
+    return {
+      selectedPlatform: null,
+      step: 1,
+    };
+  },
+
 	computed: {
 		address() {
-			return this.currencyObj.address;
+			return this.selectedPlatform ? this.selectedPlatform.address : '-';
 		},
 	},
 
 	methods: {
-		...mapActions({
-			getAddressStore: 'balance/getAddress',
-		}),
-	},
-
-	created() {
-		this.getAddressStore(this.currencyObj.currency);
+    ...mapActions({
+      getAddressStore: 'balance/getAddress',
+    }),
+    selectPlatform(platform) {
+      this.selectedPlatform = platform;
+      this.getAddressStore(this.selectedPlatform);
+      this.step++;
+    },
+    back() {
+      this.step--;
+    },
 	},
 };
 </script>

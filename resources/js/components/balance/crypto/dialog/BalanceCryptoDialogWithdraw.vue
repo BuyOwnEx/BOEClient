@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog" width="1200" :persistent="step === 3">
+	<v-dialog v-model="dialog" width="1200" :persistent="step === 4">
 		<template #activator="{ on, attrs }">
 			<v-list-item dense v-bind="attrs" v-on="on">
 				<v-list-item-title>
@@ -12,7 +12,7 @@
 			<v-card-title class="common-dialog__title pb-0">
 				<span>
 					{{ $t('common.withdrawal_funds') }}
-					{{ currency }}
+					{{ currencyObj.currency }}
 				</span>
 
 				<v-spacer />
@@ -26,24 +26,47 @@
 				<v-stepper v-model="step">
 					<v-stepper-header>
 						<v-stepper-step :complete="step > 1" step="1">
-							{{ $t('balance.stepper.address_validation.title') }}
+							{{ $t('balance.select_network') }}
 						</v-stepper-step>
 
 						<v-divider />
 
 						<v-stepper-step :complete="step > 2" step="2">
-							{{ $t('balance.stepper.withdrawal_params.title') }}
+							{{ $t('balance.stepper.address_validation.title') }}
 						</v-stepper-step>
 
 						<v-divider />
 
-						<v-stepper-step step="3">
+            <v-stepper-step :complete="step > 3" step="3">
+              {{ $t('balance.stepper.withdrawal_params.title') }}
+            </v-stepper-step>
+
+            <v-divider />
+
+						<v-stepper-step step="4">
 							{{ $t('common.confirmation') }}
 						</v-stepper-step>
 					</v-stepper-header>
 
 					<v-stepper-items>
-						<v-stepper-content step="1">
+            <v-stepper-content step="1">
+              <BalanceCryptoDialogSelectSystem
+                  class="mb-2"
+                  :platforms="currencyObj.platforms"
+                  type="withdraw"
+                  @select="selectPlatform"
+              />
+
+              <v-divider />
+
+              <div class="common-dialog__actions d-flex pt-1">
+                <v-spacer />
+                <v-btn plain tile text small @click="close">
+                  {{ $t('common.close') }}
+                </v-btn>
+              </div>
+            </v-stepper-content>
+						<v-stepper-content step="2">
 							<div class="mb-6">
 								<div>
 									{{
@@ -86,7 +109,7 @@
 							</div>
 						</v-stepper-content>
 
-						<v-stepper-content step="2">
+						<v-stepper-content step="3">
 							<div class="mb-6">
 								<div>
 									{{ $t('balance.stepper.withdrawal_params.description') }}
@@ -107,7 +130,7 @@
 								</div>
 
 								<CommonAvailable
-									:available="currencyObj.minWithdraw"
+									:available="selectedPlatform !== null ? selectedPlatform.minWithdraw : '-'"
 									:currency="currency"
 									:available-text="$t('balance.stepper.withdrawal_params.min_withdraw')"
 									@set="setMinPossibleAmount"
@@ -123,7 +146,7 @@
 								/>
 
 								<CommonAvailable
-									:available="currencyObj.feeWithdraw"
+									:available="selectedPlatform !== null ? selectedPlatform.feeWithdraw: '-'"
 									:currency="currency"
 									:available-text="$t('balance.stepper.withdrawal_params.fee_withdraw')"
 									non-clickable
@@ -180,7 +203,7 @@
 							</div>
 						</v-stepper-content>
 
-						<v-stepper-content step="3">
+						<v-stepper-content step="4">
 							<div class="mb-6">
 								<div>
 									<span v-if="user2FA">
@@ -241,6 +264,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import CommonTooltip from '../../../common/CommonTooltip';
 import CommonAvailable from '../../../common/CommonAvailable';
+import BalanceCryptoDialogSelectSystem from './parts/BalanceCryptoDialogSelectSystem';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
@@ -250,7 +274,7 @@ import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
 
-	components: { CommonTooltip, CommonAvailable },
+	components: { BalanceCryptoDialogSelectSystem, CommonTooltip, CommonAvailable },
 
 	mixins: [loadingMixin, showNotificationMixin, validateInputMixin, dialogMethodsMixin],
 
@@ -263,6 +287,7 @@ export default {
 
 	data() {
 		return {
+      selectedPlatform: null,
 			address: '',
 
 			amount: '',
@@ -287,7 +312,7 @@ export default {
 			return this.currencyObj.safe ? BigNumber(this.currencyObj.safe).dp(this.currencyObj.scale || 2, 1) : BigNumber(0);
 		},
 		fee() {
-			return BigNumber(this.currencyObj.feeWithdraw);
+			return this.selectedPlatform ? BigNumber(this.selectedPlatform.feeWithdraw) : 0;
 		},
 		daily() {
 			return BigNumber(this.currencyObj.daily);
@@ -302,7 +327,7 @@ export default {
 			return BigNumber.min(this.availableForUser, this.maxAvailable).toString();
 		},
 		minWithdraw() {
-			return this.currencyObj.minWithdraw;
+			return this.selectedPlatform ? this.selectedPlatform.minWithdraw : 0;
 		},
 		maxWithdraw() {
 			return this.currencyObj.maxWithdraw;
@@ -325,12 +350,12 @@ export default {
 	mounted() {
 		this.$store.subscribe(mutation => {
 			const type = mutation.type;
-			const { address, currency } = mutation.payload;
+			const { address, currency, platform } = mutation.payload;
 			const setAddressValidation = type === 'user/setAddressValidation';
 
-			if (setAddressValidation && currency === this.currency) {
+			if (setAddressValidation && currency === this.currency && platform.toLowerCase() === this.selectedPlatform.base_currency.toLowerCase()) {
 				if (address === true) {
-					this.step = 2;
+					this.step = 3;
 					this.stopLoading();
 				} else if (address === false) {
 					this.stopLoading();
@@ -349,7 +374,10 @@ export default {
 			confirmCryptoWithdrawStore: 'balance/confirmCryptoWithdraw',
 			fetchWithdrawalsStore: 'balance/fetchWithdrawals',
 		}),
-
+    selectPlatform(platform) {
+      this.selectedPlatform = platform;
+      this.step++;
+    },
 		async validateAddress() {
 			if (!this.address.trim()) {
 				this.pushErrorNotification();
@@ -360,6 +388,7 @@ export default {
 			const payload = {
 				currency: this.currency,
 				address: this.address,
+        platform_id: this.selectedPlatform.id
 			};
 
 			await this.validateAddressStore(payload);
@@ -373,6 +402,7 @@ export default {
 					currency: this.currency.toUpperCase(),
 					amount: this.amount,
 					address: this.address,
+          platform_id: this.selectedPlatform.id
 				};
 				const isSuccess = await this.formCryptoWithdrawRequestStore(payload);
 
@@ -405,14 +435,14 @@ export default {
 		},
 
 		setMinPossibleAmount() {
-			this.amount = this.currencyObj.minWithdraw.toString();
+			this.amount = BigNumber(this.selectedPlatform.minWithdraw).toString();
 		},
 		setAvailableForWithdrawAmount() {
 			this.amount = this.availableForWithdraw;
 		},
 
 		refreshWithdrawalDataIfConfirmCodeError() {
-			const confirmCodeStep = 3;
+			const confirmCodeStep = 4;
 			const neededStep = this.step === confirmCodeStep;
 			const unsuccessfulWithdraw = !this.isSuccessWithdraw;
 

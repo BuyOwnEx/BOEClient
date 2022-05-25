@@ -447,13 +447,14 @@ export default {
 
 		headers: {
 			own_fiat_balance_list: 'Own Fiat Balance List',
-			own_crypto_balance_list: 'Own Crypto Balance List',
+			own_crypto_balance_list: 'Own Balance List',
 			own_active_withdraw_list: 'Own Active Withdraw List',
 		},
 
 		amount: 'Amount',
 		show_only_not_null_balances: 'Show only not null balances',
 		select_payment_system: 'Select payment system',
+		select_network: 'Select network',
 
 		current_balance: 'Current balance',
 		min_amount: 'Min. amount',
@@ -463,6 +464,7 @@ export default {
 		status: 'Status',
 		min_replenish_amount: 'Min. replenish amount',
 		replenish_fee: 'Replenish fee',
+		replenish_crypto_description: 'When depositing funds, make transactions only on the {0} network. When making transactions on a different network, your funds will be lost',
 
 		less_min: 'Less than the minimum possible amount',
 		more_max: 'More than the maximum possible amount',
@@ -2493,8 +2495,8 @@ make our system processes as transparent as possible.`,
 				text: 'The withdrawal of funds has been blocked. You can find out the reason for blocking by contacting the support service',
 			},
 			system_block: {
-				title: 'System block',
-				subject: 'Notify about system block',
+				title: 'Notify about system block',
+				subject: 'System block',
 				text: 'Your account is blocked. You can find out the reason for blocking by contacting the support service',
 			},
 			position_liquidation_warn: {

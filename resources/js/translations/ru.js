@@ -443,14 +443,15 @@ export default {
 		title: 'Баланс',
 
 		headers: {
-			own_fiat_balance_list: 'Own Fiat Balance List',
-			own_crypto_balance_list: 'Own Crypto Balance List',
-			own_active_withdraw_list: 'Own Active Withdraw List',
+			own_fiat_balance_list: 'Балансы (фиат)',
+			own_crypto_balance_list: 'Текущие балансы',
+			own_active_withdraw_list: 'Запросы на вывод',
 		},
 
 		amount: 'Сумма',
 		show_only_not_null_balances: 'Показывать только ненулевой баланс',
 		select_payment_system: 'Выберите платёжную систему',
+		select_network: 'Выберите сеть',
 
 		current_balance: 'Текущий баланс',
 		min_amount: 'Мин. сумма',
@@ -460,6 +461,7 @@ export default {
 		status: 'Статус',
 		min_replenish_amount: 'Минимальная сумма пополнения',
 		replenish_fee: 'Комиссия по пополнению',
+		replenish_crypto_description: 'При пополнении средств, осуществляйте транзакции только в сети {0}. При осуществлении транзакций в иной сети, ваши средства будут утеряны',
 
 		less_min: 'Меньше минимально возможной суммы',
 		more_max: 'Больше максимально возможной суммы',
@@ -2494,8 +2496,8 @@ export default {
 				text: 'Вывод средств был заблокирован. Причину блокировки вы можете узнать, обратившись в службу поддержки',
 			},
 			system_block: {
-				title: 'Системная блокировка',
-				subject: 'Уведомлять о системной блокировке',
+				title: 'Уведомлять о системной блокировке',
+				subject: 'Системная блокировка',
 				text: 'Ваши аккаунт заблокирован. Причину блокировки вы можете узнать, обратившись в службу поддержки',
 			},
 			position_liquidation_warn: {

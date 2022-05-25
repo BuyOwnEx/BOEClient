@@ -7,11 +7,11 @@
 				{{ $t('balance.headers.own_crypto_balance_list') }}
 			</v-tab>
 
-			<v-tab v-if="isUserFiat" :key="2">
+<!--			<v-tab v-if="isUserFiat" :key="2">
 				{{ $t('balance.headers.own_fiat_balance_list') }}
-			</v-tab>
+			</v-tab>-->
 
-			<v-tab :key="3">
+			<v-tab :key="2">
 				{{ $t('balance.headers.own_active_withdraw_list') }}
 			</v-tab>
 		</v-tabs>
@@ -21,11 +21,11 @@
 				<BalanceCryptoList />
 			</v-tab-item>
 
-			<v-tab-item v-if="isUserFiat" :key="2">
+<!--			<v-tab-item v-if="isUserFiat" :key="2">
 				<BalanceFiatList />
-			</v-tab-item>
+			</v-tab-item>-->
 
-			<v-tab-item :key="3">
+			<v-tab-item :key="2">
 				<BalanceWithdrawalList :list="withdrawalList" />
 			</v-tab-item>
 		</v-tabs-items>
@@ -64,9 +64,6 @@ export default {
 		...mapState({
 			withdrawalList: state => state.balance.withdrawals || [],
 		}),
-		isUserFiat() {
-			return config.product.type === 'full';
-		}
 	},
 
 	created() {

@@ -135,7 +135,7 @@ export default {
 		},
 		isCrypto(currency) {
 			const type = this.getCurrencyType(currency);
-			return type === 'coin' || type === 'token';
+			return type === 'crypto';
 		},
 
 		BigNumber(item) {

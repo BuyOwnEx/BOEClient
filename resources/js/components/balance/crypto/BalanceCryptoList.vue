@@ -3,7 +3,7 @@
 		<v-data-table
 			:calculate-widths="true"
 			:headers="headers"
-			:items="cryptoBalances"
+			:items="showedBalances"
 			:items-per-page="itemsPerPage"
 			:footer-props="footer_props"
 			dense
@@ -37,12 +37,10 @@
 
 					<v-list dense>
 						<BalanceCryptoDialogReplenish
-							v-if="isReplenish(item.state)"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
 						<BalanceCryptoDialogWithdraw
-							v-if="isWithdraw(item.state)"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
@@ -106,30 +104,6 @@
 						.toString()
 				}}
 			</template>
-
-			<template #item.replenishment="{ item }">
-				<CommonTooltip>
-					<v-icon :color="getStateIconColor(item.state, 'replenishment')">
-						{{ getStateIconName(item.state, 'replenishment') }}
-					</v-icon>
-
-					<template #text>
-						{{ getStateTextStatus(item.state, 'replenishment') }}
-					</template>
-				</CommonTooltip>
-			</template>
-
-			<template #item.withdrawal="{ item }">
-				<CommonTooltip>
-					<v-icon :color="getStateIconColor(item.state, 'withdrawal')">
-						{{ getStateIconName(item.state, 'withdrawal') }}
-					</v-icon>
-
-					<template #text>
-						{{ getStateTextStatus(item.state, 'withdrawal') }}
-					</template>
-				</CommonTooltip>
-			</template>
 		</v-data-table>
 	</v-card>
 </template>
@@ -144,10 +118,10 @@ export default {
 	name: 'BalanceCryptoList',
 
 	components: {
-		BalanceCryptoDialogReplenish: () => import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogReplenish'),
-		BalanceCryptoDialogWithdraw: () => import(/* webpackPrefetch: true */ './dialog/BalanceCryptoDialogWithdraw'),
-		BalanceDialogTransfer: () => import(/* webpackPrefetch: true */ '../common/BalanceDialogTransfer'),
-		CommonTooltip: () => import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
+		BalanceCryptoDialogReplenish: () => import('./dialog/BalanceCryptoDialogReplenish'),
+		BalanceCryptoDialogWithdraw: () => import('./dialog/BalanceCryptoDialogWithdraw'),
+		BalanceDialogTransfer: () => import('../common/BalanceDialogTransfer'),
+		CommonTooltip: () => import('../../common/CommonTooltip'),
 	},
 
 	mixins: [balanceStateMethodsMixin],
@@ -187,14 +161,14 @@ export default {
 					text: this.$t('table_header.blocked'),
 					value: 'blocked',
 				},
-				{
+				/*{
 					text: this.$t('common.replenishment'),
 					value: 'replenishment',
 				},
 				{
 					text: this.$t('common.withdrawal'),
 					value: 'withdrawal',
-				},
+				},*/
 				{
 					text: this.$t('table_header.actions'),
 					value: 'action',
@@ -207,20 +181,17 @@ export default {
 		balances() {
 			return this.$store.state.user.balances;
 		},
-		cryptoBalances() {
+		showedBalances() {
 			return this.showOnlyNotNullBalances
 				? _.filter(this.balances, item => {
 						return (
-							(item.type === 'coin' || item.type === 'token') &&
 							(!BigNumber(item.safe).isZero() ||
 								!BigNumber(item.available).isZero() ||
 								!BigNumber(item.blocked).isZero() ||
 								!BigNumber(item.withdraw).isZero())
 						);
 				  })
-				: _.filter(this.balances, item => {
-						return item.type === 'coin' || item.type === 'token';
-				  });
+				: _.values(this.balances);
 		},
 	},
 

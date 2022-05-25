@@ -527,13 +527,14 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
-    public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address)
+    public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address, int $platform_id)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'amount' => $amount,
-            'address' => $address
+            'address' => $address,
+            'platform_id' => $platform_id
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -755,20 +756,22 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/set_referral_type',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function get_address(int $user_id, string $currency)
+    public function get_address(int $user_id, string $currency, int $platform_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/get_address',[
             'trader' => $user_id,
-            'currency' => $currency
+            'currency' => $currency,
+            'platform_id' => $platform_id
         ]);
         return response()->json($response->json(),$response->status());
     }
-    public function validate_address(int $user_id, string $currency, string $address)
+    public function validate_address(int $user_id, string $currency, string $address, int $platform_id)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
-            'address' => $address
+            'address' => $address,
+            'platform_id' => $platform_id
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

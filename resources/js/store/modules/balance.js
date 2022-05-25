@@ -80,9 +80,9 @@ export default {
 		async validateAddress(_, payload) {
 			await axios.post('/trader/ext/validate_address', payload);
 		},
-		getAddress(_, currency) {
+		getAddress(_, platform) {
 			axios.get('/trader/ext/get_address', {
-				params: { currency },
+				params: { 'currency': platform.currency, 'platform_id': platform.id },
 			});
 		},
 

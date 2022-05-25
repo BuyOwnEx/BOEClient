@@ -694,7 +694,8 @@ class TraderController extends Controller
                 Auth::id(),
                 $request->currency,
                 $request->amount,
-                $request->address
+                $request->address,
+                $request->platform_id
             );
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
@@ -842,7 +843,7 @@ class TraderController extends Controller
     {
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->get_address(Auth::id(),$request->currency);
+            return $api->get_address(Auth::id(),$request->currency, $request->platform_id);
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
@@ -851,7 +852,7 @@ class TraderController extends Controller
     {
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->validate_address(Auth::id(), $request->currency, $request->address);
+            return $api->validate_address(Auth::id(), $request->currency, $request->address, $request->platform_id);
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
