@@ -64,6 +64,7 @@ export default {
 	},
 
 	table_header: {
+		base_currency: 'Base currency',
 		currency: 'Currency',
 		name: 'Name',
 		safe: 'Safe',

@@ -12,53 +12,77 @@
 						{{ $t('status.crypto_status') }}
 					</div>
 					<v-simple-table dense>
-						<template #default>
-							<thead>
-								<tr>
-									<th>
-										{{ $t('table_header.currency') }}
-									</th>
-									<th>
-										{{ $t('table_header.name') }}
-									</th>
-									<th>
-										{{ $t('table_header.type') }}
-									</th>
-									<th>
-										{{ $t('table_header.platform') }}
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in currencies" :key="item.id">
-									<td>{{ item.currency }}</td>
-									<td>{{ item.name }}</td>
-									<td class="text-capitalize">{{ item.type }}</td>
-									<td>
-										<CommonTooltip>
-											<v-icon :color="getStateIconColor(item.state, 'replenishment')">
-												{{ getStateIconName(item.state, 'replenishment') }}
-											</v-icon>
+						<thead>
+							<tr>
+								<th>
+									{{ $t('table_header.currency') }}
+								</th>
+								<th>
+									{{ $t('table_header.name') }}
+								</th>
+								<th>
+									{{ $t('table_header.type') }}
+								</th>
+								<th>
+									{{ $t('table_header.platform') }}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="item in currencies" :key="item.id">
+								<td>{{ item.currency }}</td>
+								<td>{{ item.name }}</td>
+								<td class="text-capitalize">{{ item.type }}</td>
+								<td v-if="item.platforms.length">
+									<v-simple-table dense>
+										<thead>
+											<tr>
+												<th>
+													{{ $t('table_header.base_currency') }}
+												</th>
+												<th>
+													{{ $t('table_header.type') }}
+												</th>
+												<th>
+													{{ $t('common.replenishment_funds') }}
+												</th>
+												<th>
+													{{ $t('common.withdrawal_funds') }}
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="platform in item.platforms" :key="platform.id">
+												<td>{{ platform.base_currency || platform.currency }}</td>
+												<td class="text-capitalize" style="width: 200px">{{ platform.type || 'Fiat' }}</td>
+												<td>
+													<CommonTooltip>
+														<v-icon :color="getStateIconColor(platform.state, 'replenishment')">
+															{{ getStateIconName(platform.state, 'replenishment') }}
+														</v-icon>
 
-											<template #text>
-												{{ getStateTextStatus(item.state, 'replenishment') }}
-											</template>
-										</CommonTooltip>
-									</td>
-									<td>
-										<CommonTooltip>
-											<v-icon :color="getStateIconColor(item.state, 'withdrawal')">
-												{{ getStateIconName(item.state, 'withdrawal') }}
-											</v-icon>
+														<template #text>
+															{{ getStateTextStatus(platform.state, 'replenishment') }}
+														</template>
+													</CommonTooltip>
+												</td>
+												<td>
+													<CommonTooltip>
+														<v-icon :color="getStateIconColor(platform.state, 'withdrawal')">
+															{{ getStateIconName(platform.state, 'withdrawal') }}
+														</v-icon>
 
-											<template #text>
-												{{ getStateTextStatus(item.state, 'withdrawal') }}
-											</template>
-										</CommonTooltip>
-									</td>
-								</tr>
-							</tbody>
-						</template>
+														<template #text>
+															{{ getStateTextStatus(platform.state, 'withdrawal') }}
+														</template>
+													</CommonTooltip>
+												</td>
+											</tr>
+										</tbody>
+									</v-simple-table>
+								</td>
+							</tr>
+						</tbody>
 					</v-simple-table>
 				</div>
 			</v-tab-item>

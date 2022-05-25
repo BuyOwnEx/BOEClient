@@ -64,6 +64,7 @@ export default {
 	},
 
 	table_header: {
+		base_currency: 'Базовая валюта',
 		currency: 'Валюта',
 		name: 'Название',
 		safe: 'Внешний',
