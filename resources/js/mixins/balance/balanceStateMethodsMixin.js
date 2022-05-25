@@ -19,12 +19,12 @@ export default {
 		getStateIconName(state, type) {
 			const status = this.stateTypes.find(t => t.id === state);
 			const iconType = `${type}Icon`;
-			return status[iconType].name;
+			return status?.[iconType]?.name;
 		},
 		getStateIconColor(state, type) {
 			const status = this.stateTypes.find(t => t.id === state);
 			const iconType = `${type}Icon`;
-			return status[iconType].color;
+			return status?.[iconType]?.color;
 		},
 		getStateTextStatus(state, type) {
 			const status = this.stateTypes.find(t => t.id === state);

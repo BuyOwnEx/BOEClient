@@ -11,10 +11,8 @@
 			<CommonLoading v-if="!isLoaded" />
 			<StatusTables
 				v-else
-				:fiat-data="fiatCurrencies"
-				:crypto-data="cryptoCurrencies"
+				:currencies="currencies"
 				:pairs-data="pairsData"
-				:user-fiat="isUserFiat"
 			/>
 		</v-card-text>
 	</v-card>
@@ -42,25 +40,24 @@ export default {
 
 	data() {
 		return {
-			fiatCurrencies: null,
-			cryptoCurrencies: null,
+			currencies: null,
 			pairsData: null,
 		};
 	},
 
 	computed: {
 		isLoaded() {
-			return Boolean(this.fiatCurrencies && this.cryptoCurrencies && this.pairsData);
+			return Boolean(this.currencies && this.pairsData);
 		},
 		cryptoCount() {
-			return this.cryptoCurrencies !== null ? this.cryptoCurrencies.length : 0;
+			return this.currencies?.filter(c => c.type === 'crypto')?.length;
 		},
 		fiatCount() {
-			return this.fiatCurrencies !== null ? this.fiatCurrencies.length : 0;
+			return this.currencies?.filter(c => c.type === 'fiat')?.length;
 		},
 		isUserFiat() {
 			return config.product.type === 'full';
-		}
+		},
 	},
 
 	created() {
@@ -70,8 +67,7 @@ export default {
 	methods: {
 		async fetch() {
 			const { data } = await axios.get('/trader/ext/health');
-			this.cryptoCurrencies = data.currencies;
-			this.fiatCurrencies = data.fiats;
+			this.currencies = data.currencies;
 			this.pairsData = data.pairs;
 		},
 	},
