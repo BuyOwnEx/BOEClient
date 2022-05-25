@@ -103,6 +103,7 @@ export default {
 		trading: 'Trading',
 		margin_trading: 'Margin trading',
 		platform: 'Platform',
+		network: 'Network',
 
 		deal_fee_maker: 'Transaction commission, Maker',
 		deal_fee_taker: 'Transaction commission, Taker',

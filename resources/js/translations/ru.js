@@ -101,6 +101,7 @@ export default {
 		trading: 'Торговля',
 		margin_trading: 'Маржинальная торговля',
 		platform: 'Платформа',
+		network: 'Сеть',
 
 		deal_fee_maker: 'Комиссия по сделке, Maker',
 		deal_fee_taker: 'Комиссия по сделке, Taker',
