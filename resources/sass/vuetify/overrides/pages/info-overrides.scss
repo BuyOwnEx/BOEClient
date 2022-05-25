@@ -23,7 +23,7 @@
 	}
 }
 .fees-page {
-	.v-data-table {
+	> .v-data-table {
 		&__wrapper {
 			min-height: calc(100vh - 307px);
 			@media screen and (max-width: 1264px) {

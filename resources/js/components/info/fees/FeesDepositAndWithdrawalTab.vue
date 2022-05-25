@@ -15,6 +15,43 @@
 					/>
 				</v-toolbar>
 			</template>
+
+			<template #header.platforms="{ header }">
+				<div class="text-center">
+					{{ header.text }}
+				</div>
+			</template>
+
+			<template #item.platforms="{ item }">
+				<v-simple-table v-if="item.platforms && item.platforms.length" dense>
+					<thead>
+						<tr>
+							<th>
+								{{ $t('table_header.replenishment_fee') }}
+							</th>
+							<th>
+								{{ $t('table_header.withdrawal_fee') }}
+							</th>
+							<th>
+								{{ $t('table_header.min_number_of_network_confirmation') }}
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="platform in item.platforms" :key="platform.id">
+							<td>
+								{{ platform.feeReplenish || '–' }}
+							</td>
+							<td>
+								{{ platform.feeWithdraw || '–' }}
+							</td>
+							<td>
+								{{ platform.approve || '–' }}
+							</td>
+						</tr>
+					</tbody>
+				</v-simple-table>
+			</template>
 		</v-data-table>
 	</div>
 </template>
@@ -48,27 +85,12 @@ export default {
 					value: 'name',
 				},
 				{
-					text: this.$t('table_header.replenishment_fee'),
-					align: 'center',
-					sortable: true,
+					text: this.$t('table_header.platform'),
+					sortable: false,
 					filterable: false,
-					value: 'feeReplenish',
+					value: 'platforms',
 				},
-				{
-					text: this.$t('table_header.withdrawal_fee'),
-					align: 'center',
-					sortable: true,
-					filterable: false,
-					value: 'feeWithdraw',
-				},
-				{
-					text: this.$t('table_header.min_number_of_network_confirmation'),
-					align: 'center',
-					sortable: true,
-					filterable: false,
-					value: 'confirmations',
-				},
-			]
+			];
 		},
 
 		crypto() {
@@ -81,6 +103,7 @@ export default {
 					feeReplenish: '-',
 					feeWithdraw: value.feeWithdraw,
 					confirmations: value.approve,
+					platforms: value.platforms,
 				});
 			});
 			return result;
