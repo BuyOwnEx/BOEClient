@@ -3,7 +3,7 @@
 		<v-data-table :headers="headers" :items="pairs" :search="search" dense>
 			<template #top>
 				<v-toolbar flat dense>
-					<div class="component-title">{{ $t('fees.trading_fee') }}</div>
+					<div class="component-title grey--text text--darken-2">{{ $t('fees.trading_fee') }}</div>
 
 					<v-text-field
 						v-model="search"
@@ -67,7 +67,7 @@ export default {
 					filterable: false,
 					value: 'minReverseAmount',
 				},
-			]
+			];
 		},
 
 		markets() {
@@ -97,3 +97,25 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.fees-trading-tab {
+	::v-deep thead {
+		background-color: var(--v-primary-base) !important;
+	}
+	::v-deep .v-toolbar__content {
+		padding-left: 0;
+	}
+	::v-deep .v-data-table {
+		&__wrapper {
+			min-height: calc(100vh - 307px);
+			@media screen and (max-width: 1264px) {
+				min-height: calc(100vh - 318px);
+			}
+		}
+		@media screen and (max-width: 600px) {
+			margin-top: 16px;
+		}
+	}
+}
+</style>

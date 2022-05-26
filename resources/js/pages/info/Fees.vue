@@ -1,5 +1,5 @@
 <template>
-	<v-card class="info-page status-page flex-grow-1">
+	<v-card class="fees-page info-page status-page flex-grow-1">
 		<CommonPageTitle>{{ $t('fees.title') }}</CommonPageTitle>
 		<v-card-text>
 			<v-tabs v-model="selectedTab" class="small-tabs" :key="$i18n.locale" show-arrows>
