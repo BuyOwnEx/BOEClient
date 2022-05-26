@@ -27,55 +27,57 @@
 									{{ $t('table_header.platform') }}
 								</th>
 							</tr>
-              <tr>
-                <th>
-                  {{ $t('table_header.network') }}
-                </th>
-                <th>
-                  {{ $t('table_header.type') }}
-                </th>
-                <th>
-                  {{ $t('common.replenishment_funds') }}
-                </th>
-                <th>
-                  {{ $t('common.withdrawal_funds') }}
-                </th>
-              </tr>
+							<tr>
+								<th>
+									{{ $t('table_header.network') }}
+								</th>
+								<th>
+									{{ $t('table_header.type') }}
+								</th>
+								<th>
+									{{ $t('common.replenishment_funds') }}
+								</th>
+								<th>
+									{{ $t('common.withdrawal_funds') }}
+								</th>
+							</tr>
 						</thead>
 						<tbody>
-              <template v-for="curr in currencies">
-                <template v-for="platform in curr.platforms">
-                  <tr>
-                    <td nowrap="">{{ curr.currency }}</td>
-                    <td nowrap="">{{ curr.name }}</td>
-                    <td class="overline" nowrap="">{{ curr.type }}</td>
-                    <td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
-                    <td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>
-                    <td>
-                      <CommonTooltip>
-                        <v-icon :color="getStateIconColor(platform.state, 'replenishment')">
-                          {{ getStateIconName(platform.state, 'replenishment') }}
-                        </v-icon>
+							<template v-for="curr in currencies">
+								<template v-for="platform in curr.platforms">
+									<tr>
+										<td nowrap="">
+											<CommonCurrency :code="curr.currency" :color="curr.color" :src="curr.logo" />
+										</td>
+										<td nowrap="">{{ curr.name }}</td>
+										<td class="overline" nowrap="">{{ curr.type }}</td>
+										<td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
+										<td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>
+										<td>
+											<CommonTooltip>
+												<v-icon :color="getStateIconColor(platform.state, 'replenishment')">
+													{{ getStateIconName(platform.state, 'replenishment') }}
+												</v-icon>
 
-                        <template #text>
-                          {{ getStateTextStatus(platform.state, 'replenishment') }}
-                        </template>
-                      </CommonTooltip>
-                    </td>
-                    <td>
-                      <CommonTooltip>
-                        <v-icon :color="getStateIconColor(platform.state, 'withdrawal')">
-                          {{ getStateIconName(platform.state, 'withdrawal') }}
-                        </v-icon>
+												<template #text>
+													{{ getStateTextStatus(platform.state, 'replenishment') }}
+												</template>
+											</CommonTooltip>
+										</td>
+										<td>
+											<CommonTooltip>
+												<v-icon :color="getStateIconColor(platform.state, 'withdrawal')">
+													{{ getStateIconName(platform.state, 'withdrawal') }}
+												</v-icon>
 
-                        <template #text>
-                          {{ getStateTextStatus(platform.state, 'withdrawal') }}
-                        </template>
-                      </CommonTooltip>
-                    </td>
-                  </tr>
-                </template>
-              </template>
+												<template #text>
+													{{ getStateTextStatus(platform.state, 'withdrawal') }}
+												</template>
+											</CommonTooltip>
+										</td>
+									</tr>
+								</template>
+							</template>
 						</tbody>
 					</v-simple-table>
 				</div>
@@ -129,11 +131,12 @@ import { mapGetters } from 'vuex';
 import CommonTooltip from '../../common/CommonTooltip';
 
 import balanceStateMethodsMixin from '../../../mixins/balance/balanceStateMethodsMixin';
+import CommonCurrency from '../../common/CommonCurrency';
 
 export default {
 	name: 'StatusTables',
 
-	components: { CommonTooltip },
+	components: { CommonCurrency, CommonTooltip },
 	mixins: [balanceStateMethodsMixin],
 	props: {
 		currencies: {
