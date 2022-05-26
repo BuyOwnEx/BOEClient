@@ -103,6 +103,7 @@ export default {
 		margin_trading: 'Маржинальная торговля',
 		platform: 'Платформа',
 		network: 'Сеть',
+		blocked_funds_limits: 'Лимит по блок. средствам',
 
 		deal_fee_maker: 'Комиссия по сделке, Maker',
 		deal_fee_taker: 'Комиссия по сделке, Taker',

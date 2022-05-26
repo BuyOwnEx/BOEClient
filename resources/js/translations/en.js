@@ -105,6 +105,7 @@ export default {
 		margin_trading: 'Margin trading',
 		platform: 'Platform',
 		network: 'Network',
+		blocked_funds_limits: 'Blocked funds limit',
 
 		deal_fee_maker: 'Transaction commission, Maker',
 		deal_fee_taker: 'Transaction commission, Taker',
