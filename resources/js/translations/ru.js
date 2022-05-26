@@ -116,7 +116,7 @@ export default {
 		withdrawal_fee: 'Комиссия по выводу',
 		daily_withdrawal_limit_connected: 'Дневной лимит вывода (Не прошедшие/Прошедшие верификацию)',
 		daily_withdrawal_limit: 'Лимит вывода (в день)',
-		daily_withdrawal_limit_verify: 'Лимит вывода KYC (в день)',
+		no_kyc: 'Без KYC',
 		available_payment_systems: 'Доступные платежные системы',
 		min_number_of_network_confirmation: 'Мин. кол-во подтверждений сети',
 	},

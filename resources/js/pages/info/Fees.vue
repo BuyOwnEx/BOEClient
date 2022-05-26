@@ -34,11 +34,8 @@
 									<th rowspan="2" nowrap="">
 										{{ $t('table_header.type') }}
 									</th>
-									<th rowspan="2" nowrap="">
+									<th colspan="2" nowrap="">
 										{{ $t('table_header.daily_withdrawal_limit') }}
-									</th>
-									<th rowspan="2" nowrap="">
-										{{ $t('table_header.daily_withdrawal_limit_verify') }}
 									</th>
 									<th rowspan="2" nowrap="">
 										{{ $t('table_header.blocked_funds_limits') }}
@@ -47,7 +44,15 @@
 										{{ $t('table_header.platform') }}
 									</th>
 								</tr>
+
 								<tr>
+									<th>
+										KYC
+									</th>
+									<th>
+										{{ $t('table_header.no_kyc') }}
+									</th>
+
 									<th>
 										{{ $t('table_header.network') }}
 									</th>
@@ -65,6 +70,7 @@
 									</th>
 								</tr>
 							</thead>
+
 							<tbody>
 								<template v-for="curr in currencies">
 									<template v-for="platform in curr.platforms">
@@ -74,8 +80,8 @@
 											</td>
 											<td nowrap="">{{ curr.name }}</td>
 											<td class="overline" nowrap="">{{ curr.type }}</td>
-											<td nowrap="">{{ curr.maxWithdraw }} {{ curr.currency }}</td>
 											<td nowrap="">{{ curr.maxVerifyWithdraw }} {{ curr.currency }}</td>
+											<td nowrap="">{{ curr.maxWithdraw }} {{ curr.currency }}</td>
 											<td nowrap="">{{ curr.blockedFundLimit }} {{ curr.currency }}</td>
 											<td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
 											<td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>

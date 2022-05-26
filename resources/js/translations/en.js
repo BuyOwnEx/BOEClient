@@ -118,7 +118,7 @@ export default {
 		withdrawal_fee: 'Withdrawal fee',
 		daily_withdrawal_limit_connected: 'Daily withdrawal limit (Not passed / Passed verification)',
 		daily_withdrawal_limit: 'Withdrawal limit (per day)',
-		daily_withdrawal_limit_verify: 'Withdrawal limit KYC (per day)',
+		no_kyc: 'No KYC',
 		available_payment_systems: 'Available payment systems',
 		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
@@ -469,7 +469,8 @@ export default {
 		status: 'Status',
 		min_replenish_amount: 'Min. replenish amount',
 		replenish_fee: 'Replenish fee',
-		replenish_crypto_description: 'When depositing funds, make transactions only on the {0} network. When making transactions on a different network, your funds will be lost',
+		replenish_crypto_description:
+			'When depositing funds, make transactions only on the {0} network. When making transactions on a different network, your funds will be lost',
 
 		less_min: 'Less than the minimum possible amount',
 		more_max: 'More than the maximum possible amount',
@@ -2472,7 +2473,7 @@ make our system processes as transparent as possible.`,
 			login: {
 				title: 'Notify on login',
 				subject: 'New login',
-				text: 'The system was logged in with IP {0}. If it wasn\'t you, please immediately inform the support service',
+				text: "The system was logged in with IP {0}. If it wasn't you, please immediately inform the support service",
 			},
 			add_money: {
 				title: 'Notify about replenishment',
@@ -2492,12 +2493,14 @@ make our system processes as transparent as possible.`,
 			trading_block: {
 				title: 'Notify about blocking on a trading operations',
 				subject: 'Blocking trading operations',
-				text: 'Your trading operations have been blocked. You can find out the reason for blocking by contacting the support service',
+				text:
+					'Your trading operations have been blocked. You can find out the reason for blocking by contacting the support service',
 			},
 			money_block: {
 				title: 'Notify about blocking on withdrawal of funds',
 				subject: 'Blocking withdrawals',
-				text: 'The withdrawal of funds has been blocked. You can find out the reason for blocking by contacting the support service',
+				text:
+					'The withdrawal of funds has been blocked. You can find out the reason for blocking by contacting the support service',
 			},
 			system_block: {
 				title: 'Notify about system block',
@@ -2507,7 +2510,8 @@ make our system processes as transparent as possible.`,
 			position_liquidation_warn: {
 				title: 'Notify about the imminent liquidation of a position',
 				subject: 'Soon liquidation of funds',
-				text: 'We notify you about the possible liquidation of your position. Make a payment for the position as soon as possible to avoid liquidation',
+				text:
+					'We notify you about the possible liquidation of your position. Make a payment for the position as soon as possible to avoid liquidation',
 			},
 			position_liquidation: {
 				title: 'Notify about liquidation of a position',
@@ -2517,7 +2521,8 @@ make our system processes as transparent as possible.`,
 			maintenance: {
 				title: 'Notify about upcoming maintenance of the exchange',
 				subject: 'Maintenance',
-				text: 'We notify you about the upcoming maintenance of the exchange in the period from {0} to {1}. We apologize for the inconvenience',
+				text:
+					'We notify you about the upcoming maintenance of the exchange in the period from {0} to {1}. We apologize for the inconvenience',
 			},
 			news: {
 				title: 'Notify about news',
