@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import BigNumber from 'bignumber.js';
 import moment from 'moment';
 import randomColor from 'randomcolor';
@@ -92,11 +94,11 @@ export default {
 				{ value: false, name: 'From safe to trade wallet' },
 				{ value: true, name: 'From trade to safe wallet' },
 			],
-			currencies: [],
 		};
 	},
 
 	computed: {
+    ...mapState('trading', ['all_currencies','allCurrencyListInit']),
 		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
@@ -106,6 +108,9 @@ export default {
 				{ text: this.$t('table_header.amount'), value: 'amount' },
 			];
 		},
+    currencies() {
+      return this.allCurrencyListInit ? this.all_currencies : []
+    },
 	},
 
 	watch: {
@@ -220,10 +225,5 @@ export default {
 		},
 	},
 
-	mounted() {
-		axios.get('/trader/ext/all_currencies').then(response => {
-			this.currencies = response.data.data;
-		});
-	},
 };
 </script>

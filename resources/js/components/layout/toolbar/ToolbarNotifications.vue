@@ -13,7 +13,7 @@
 				<div v-if="unreadQuantity > 0">
 					<v-list three-line dense max-width="400">
 						<v-subheader class="pa-2 font-weight-bold">
-							Notifications
+              {{ $t('menu.notifications') }}
 						</v-subheader>
 						<div v-for="(item, index) in toolbarNotifications" :key="item.id">
 							<v-divider v-if="index > 0 && index < toolbarNotifications.length" inset />

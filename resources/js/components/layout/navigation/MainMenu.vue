@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import NavMenu from './NavMenu';
 
 export default {
@@ -12,13 +13,6 @@ export default {
 
 	components: {
 		NavMenu,
-	},
-
-	props: {
-		userFiat: {
-			type: Boolean,
-			required: true,
-		},
 	},
 
 	data() {
@@ -101,12 +95,20 @@ export default {
 	},
 
 	computed: {
+    ...mapState('trading', ['all_currencies','allCurrencyListInit']),
 		filteredNavItems() {
-			if (this.userFiat) return this.items;
+			if ((this.all_currencies?.filter(c => c.type === 'fiat')?.length || 0) > 0) return this.items;
 			else {
 				return this.items.filter(item => item.key !== 'menu.fiat_transactions');
 			}
 		},
+    hasCurrencies() {
+      return this.allCurrencyListInit;
+    }
 	},
+  mounted() {
+    if(!this.hasCurrencies)
+      this.$store.dispatch('trading/getAllCurrencyListFromServer');
+  },
 };
 </script>

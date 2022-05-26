@@ -52,9 +52,6 @@
 				@click="readNotification(item)"
 			>
 				<v-list-item-action class="d-flex flex-row align-center">
-					<!--					TODO: no backend read selected / delete selected-->
-					<!--					<v-checkbox v-model="selected" :value="item.id" @click.stop />-->
-
 					<CommonTooltip :value="$t('common.delete')">
 						<v-btn color="error" icon @click.prevent="deleteNotificationStore(item.id)">
 							<v-icon>mdi-delete</v-icon>

@@ -26,7 +26,7 @@
 				<v-divider />
 			</template>
 
-			<MainMenu :user-fiat="isUserFiat" />
+			<MainMenu />
 		</v-navigation-drawer>
 
 		<v-app-bar
@@ -185,9 +185,6 @@ export default {
 			isLogged: 'app/isLogged',
 		}),
 
-		isUserFiat() {
-			return config.product.type === 'full';
-		},
 		calculateFooterHeight() {
 			const width = this.$vuetify.breakpoint.width;
 			const isMediumBreakpoint = width < 1264 && width > 960;

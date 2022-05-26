@@ -156,14 +156,6 @@ export default {
 				this.sub_graph.on('error', this.channelErrorHandler);
 				this.sub_graph.on('unsubscribe', this.channelUnsubscribeHandler);
 			});
-			this.$store.dispatch('trading/getAllCurrencyListFromServer').then(resp => {
-				this.sub_currencies = this.centrifuge.subscribe('public:currencies');
-				this.sub_currencies.on('subscribe', this.channelSubscribeHandler);
-				this.sub_currencies.on('publish', this.currenciesPubHandler);
-				this.sub_currencies.on('error', this.channelErrorHandler);
-				this.sub_currencies.on('unsubscribe', this.channelUnsubscribeHandler);
-			});
-
 			this.sub_chat = this.centrifuge.subscribe('chat:ru');
 			this.sub_chat.on('subscribe', this.channelSubscribeHandler);
 			this.sub_chat.on('publish', this.chatPubHandler);

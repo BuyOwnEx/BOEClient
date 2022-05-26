@@ -10,10 +10,6 @@
 				<v-tab :key="2">
 					{{ $t('status.pairs_tab') }}
 				</v-tab>
-
-				<!--			<v-tab :key="3">
-                {{ $t('fees.operations_limits') }}
-              </v-tab>-->
 			</v-tabs>
 
 			<v-tabs-items v-model="selectedTab" touchless>
@@ -94,27 +90,22 @@
 							</tbody>
 						</v-simple-table>
 					</div>
-					<!--        <FeesDepositAndWithdrawalTab />-->
 				</v-tab-item>
 
 				<v-tab-item :key="2">
 					<FeesTradingTab />
 				</v-tab-item>
 
-				<v-tab-item :key="3">
-					<FeesDepositAndWithdrawalLimitsTab />
-				</v-tab-item>
 			</v-tabs-items>
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
-import CommonPageTitle from '../../components/common/CommonPageTitle';
+import { mapState } from 'vuex';
 
+import CommonPageTitle from '../../components/common/CommonPageTitle';
 import FeesTradingTab from '../../components/info/fees/FeesTradingTab';
-import FeesDepositAndWithdrawalTab from '../../components/info/fees/FeesDepositAndWithdrawalTab';
-import FeesDepositAndWithdrawalLimitsTab from '../../components/info/fees/FeesDepositAndWithdrawalLimitsTab';
 import CommonCurrency from '../../components/common/CommonCurrency';
 
 export default {
@@ -123,21 +114,19 @@ export default {
 		CommonCurrency,
 		CommonPageTitle,
 		FeesTradingTab,
-		FeesDepositAndWithdrawalTab,
-		FeesDepositAndWithdrawalLimitsTab,
 	},
 
 	data() {
 		return {
 			selectedTab: 0,
-			currencies: [],
 		};
 	},
-	mounted() {
-		axios.get('/trader/ext/all_currencies').then(response => {
-			this.currencies = response.data.data;
-		});
-	},
+  computed: {
+    ...mapState('trading', ['all_currencies','allCurrencyListInit']),
+    currencies() {
+      return this.allCurrencyListInit ? this.all_currencies : []
+    },
+  },
 };
 </script>
 
