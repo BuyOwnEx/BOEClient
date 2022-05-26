@@ -66,6 +66,7 @@ export default {
 	table_header: {
 		base_currency: 'Базовая валюта',
 		currency: 'Валюта',
+		currencies: 'Валюты',
 		name: 'Название',
 		safe: 'Внешний',
 		trade: 'Торговый',
@@ -114,7 +115,7 @@ export default {
 		withdrawal_fee: 'Комиссия по выводу',
 		daily_withdrawal_limit_connected: 'Дневной лимит вывода (Не прошедшие/Прошедшие верификацию)',
 		daily_withdrawal_limit: 'Лимит вывода (в день)',
-		daily_withdrawal_limit_verify: 'Лимит вывода для прошедших верификацию (в день)',
+		daily_withdrawal_limit_verify: 'Лимит вывода KYC (в день)',
 		available_payment_systems: 'Доступные платежные системы',
 		min_number_of_network_confirmation: 'Мин. кол-во подтверждений сети',
 	},
@@ -2312,7 +2313,7 @@ export default {
 		see_state_of_market: 'Ознакомиться c состоянием рынка можно на странице',
 
 		fiat_status: 'Состояние системы по фиатным валютам',
-		crypto_status: 'Состояние системы по криптовалютам',
+		currency_status: 'Состояние системы по валютам',
 		pairs_status: 'Состояние системы по парам',
 
 		support_currencies_only_crypto: 'Поддерживаются <b>{0}</b> криптовалют (монет/токенов)',
@@ -2320,7 +2321,7 @@ export default {
 			'Поддерживаются <b>{0}</b> валют: <b>{1}</b> криптовалют (монет/токенов) и <b>{2}</b> фиатных валют',
 
 		fiat_tab: 'Фиатные валюты',
-		crypto_tab: 'Криптовалюты',
+		currencies_tab: 'Валюты',
 		pairs_tab: 'Пары',
 	},
 	fees: {

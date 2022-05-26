@@ -1,7 +1,7 @@
 <template>
 	<div class="status-page__tables-wrapper">
 		<v-tabs v-model="selectedTab" class="small-tabs" :key="$i18n.locale" show-arrows>
-			<v-tab :key="1">{{ $t('status.crypto_tab') }}</v-tab>
+			<v-tab :key="1">{{ $t('status.currencies_tab') }}</v-tab>
 			<v-tab :key="2"> {{ $t('status.pairs_tab') }} </v-tab>
 		</v-tabs>
 
@@ -9,7 +9,7 @@
 			<v-tab-item :key="1">
 				<div class="status-page__crypto-table">
 					<div class="component-title py-1">
-						{{ $t('status.crypto_status') }}
+						{{ $t('status.currency_status') }}
 					</div>
 					<v-simple-table dense>
 						<thead class="primary">
@@ -88,13 +88,10 @@
 					</div>
 					<v-simple-table dense>
 						<template #default>
-							<thead>
+							<thead class="primary">
 								<tr>
 									<th>
-										{{ $t('table_header.currency') }}
-									</th>
-									<th>
-										{{ $t('table_header.market') }}
+										{{ $t('table_header.pair') }}
 									</th>
 									<th>
 										{{ $t('table_header.trading') }}
@@ -106,8 +103,7 @@
 							</thead>
 							<tbody>
 								<tr v-for="item in pairsData" :key="item.id">
-									<td>{{ item.currency }}</td>
-									<td>{{ item.market }}</td>
+									<td>{{ item.currency }}/{{ item.market }}</td>
 									<td>
 										<v-icon :color="getStatusIcon(item.trade).color">
 											{{ getStatusIcon(item.trade).name }}
@@ -146,10 +142,6 @@ export default {
 		},
 		pairsData: {
 			type: Array,
-			required: true,
-		},
-		userFiat: {
-			type: Boolean,
 			required: true,
 		},
 	},

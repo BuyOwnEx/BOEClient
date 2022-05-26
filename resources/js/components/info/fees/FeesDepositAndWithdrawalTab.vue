@@ -110,7 +110,7 @@ export default {
 		},
 	},
 	mounted() {
-		axios.get('/trader/ext/crypto_currencies').then(response => {
+		axios.get('/trader/ext/all_currencies').then(response => {
 			this.currencies = response.data.data;
 		});
 	},

@@ -66,6 +66,7 @@ export default {
 	table_header: {
 		base_currency: 'Base currency',
 		currency: 'Currency',
+		currencies: 'Currencies',
 		name: 'Name',
 		safe: 'Safe',
 		trade: 'Trade',
@@ -116,7 +117,7 @@ export default {
 		withdrawal_fee: 'Withdrawal fee',
 		daily_withdrawal_limit_connected: 'Daily withdrawal limit (Not passed / Passed verification)',
 		daily_withdrawal_limit: 'Withdrawal limit (per day)',
-		daily_withdrawal_limit_verify: 'Withdrawal limit who passed verification (per day)',
+		daily_withdrawal_limit_verify: 'Withdrawal limit KYC (per day)',
 		available_payment_systems: 'Available payment systems',
 		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
@@ -2313,7 +2314,7 @@ make our system processes as transparent as possible.`,
 		see_state_of_market: 'You can get acquainted with the state of the market on the page',
 
 		fiat_status: 'System status for fiat currencies',
-		crypto_status: 'System status for cryptocurrencies',
+		currency_status: 'System status for currencies',
 		pairs_status: 'System status for pairs',
 
 		support_currencies_only_crypto: '<b>{0}</b> cryptocurrencies (coins / tokens) supported',
@@ -2321,7 +2322,7 @@ make our system processes as transparent as possible.`,
 			'<b>{0}</b> currencies are supported: <b>{1}</b> cryptocurrencies (coins / tokens) and <b>{2}</b> fiat currencies',
 
 		fiat_tab: 'Fiat currencies',
-		crypto_tab: 'Crypto currencies',
+		currencies_tab: 'Currencies',
 		pairs_tab: 'Pairs',
 	},
 	fees: {

@@ -1,6 +1,6 @@
 <template>
 	<v-card-text>
-		<div v-if="userFiat" v-html="userCryptoAndFiatText" />
+		<div v-if="fiatCount > 0" v-html="userCryptoAndFiatText" />
 		<div v-else v-html="userOnlyCryptoText" />
 	</v-card-text>
 </template>
@@ -10,10 +10,6 @@ export default {
 	name: 'StatusSupportCurrencyText',
 
 	props: {
-		userFiat: {
-			type: Boolean,
-			required: true,
-		},
 		cryptoCount: {
 			type: Number,
 			required: true,

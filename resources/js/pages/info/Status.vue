@@ -2,7 +2,7 @@
 	<v-card class="info-page status-page flex-grow-1">
 		<CommonPageTitle>{{ $t('status.title') }}</CommonPageTitle>
 
-		<StatusSupportCurrencyText :user-fiat="isUserFiat" :crypto-count="cryptoCount" :fiat-count="fiatCount" />
+		<StatusSupportCurrencyText :crypto-count="cryptoCount" :fiat-count="fiatCount" />
 		<v-divider />
 
 		<v-card-text>
@@ -50,13 +50,10 @@ export default {
 			return Boolean(this.currencies && this.pairsData);
 		},
 		cryptoCount() {
-			return this.currencies?.filter(c => c.type === 'crypto')?.length;
+			return this.currencies?.filter(c => c.type === 'crypto')?.length || 0;
 		},
 		fiatCount() {
-			return this.currencies?.filter(c => c.type === 'fiat')?.length;
-		},
-		isUserFiat() {
-			return config.product.type === 'full';
+			return this.currencies?.filter(c => c.type === 'fiat')?.length || 0;
 		},
 	},
 

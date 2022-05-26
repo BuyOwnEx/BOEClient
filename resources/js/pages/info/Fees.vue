@@ -1,34 +1,103 @@
 <template>
-	<v-card class="info-page fees-page flex-grow-1">
+	<v-card class="info-page status-page flex-grow-1">
 		<CommonPageTitle>{{ $t('fees.title') }}</CommonPageTitle>
+    <v-card-text>
+      <v-tabs v-model="selectedTab" class='small-tabs' :key="$i18n.locale" show-arrows>
+        <v-tab :key="1">
+          {{ $t('status.currencies_tab') }}
+        </v-tab>
 
-		<v-tabs v-model="selectedTab" class='small-tabs' :key="$i18n.locale" show-arrows>
-			<v-tab :key="1">
-				{{ $t('fees.trading_fee') }}
-			</v-tab>
+        <v-tab :key="2">
+          {{ $t('status.pairs_tab') }}
+        </v-tab>
 
-			<v-tab :key="2">
-				{{ $t('fees.operations_fee') }}
-			</v-tab>
+        <!--			<v-tab :key="3">
+                {{ $t('fees.operations_limits') }}
+              </v-tab>-->
+      </v-tabs>
 
-			<v-tab :key="3">
-				{{ $t('fees.operations_limits') }}
-			</v-tab>
-		</v-tabs>
+      <v-tabs-items v-model="selectedTab" touchless>
+        <v-tab-item :key="1">
+          <div class="status-page__crypto-table">
+            <div class="component-title py-1">
+              {{ $t('fees.title') }}
+            </div>
+            <v-simple-table dense>
+              <thead class="primary">
+              <tr>
+                <th rowspan="2" nowrap="">
+                  {{ $t('table_header.currency') }}
+                </th>
+                <th rowspan="2" nowrap="">
+                  {{ $t('table_header.name') }}
+                </th>
+                <th rowspan="2" nowrap="">
+                  {{ $t('table_header.type') }}
+                </th>
+                <th rowspan="2" nowrap="">
+                  {{ $t('table_header.daily_withdrawal_limit') }}
+                </th>
+                <th rowspan="2" nowrap="">
+                  {{ $t('table_header.daily_withdrawal_limit_verify') }}
+                </th>
+                <th rowspan="2" nowrap="">
+                  {{ $t('table_header.blocked_fund_limits') }}
+                </th>
+                <th colspan="5">
+                  {{ $t('table_header.platform') }}
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  {{ $t('table_header.network') }}
+                </th>
+                <th>
+                  {{ $t('table_header.type') }}
+                </th>
+                <th>
+                  {{ $t('table_header.min_replenish_amount') }}
+                </th>
+                <th>
+                  {{ $t('table_header.min_withdrawal_amount') }}
+                </th>
+                <th>
+                  {{ $t('table_header.withdrawal_fee') }}
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <template v-for="curr in currencies">
+                <template v-for="platform in curr.platforms">
+                  <tr>
+                    <td nowrap="">{{ curr.currency }}</td>
+                    <td nowrap="">{{ curr.name }}</td>
+                    <td class="overline" nowrap="">{{ curr.type }}</td>
+                    <td nowrap="">{{ curr.maxWithdraw }}</td>
+                    <td nowrap="">{{ curr.maxVerifyWithdraw }}</td>
+                    <td nowrap="">{{ curr.blockedFundLimit }}</td>
+                    <td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
+                    <td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>
+                    <td>{{platform.minReplenish}}</td>
+                    <td>{{platform.minWithdraw}}</td>
+                    <td>{{platform.feeWithdraw}}</td>
+                  </tr>
+                </template>
+              </template>
+              </tbody>
+            </v-simple-table>
+          </div>
+          <!--        <FeesDepositAndWithdrawalTab />-->
+        </v-tab-item>
 
-		<v-tabs-items v-model="selectedTab" touchless>
-			<v-tab-item :key="1">
-				<FeesTradingTab />
-			</v-tab-item>
+        <v-tab-item :key="2">
+          <FeesTradingTab />
+        </v-tab-item>
 
-			<v-tab-item :key="2">
-				<FeesDepositAndWithdrawalTab />
-			</v-tab-item>
-
-			<v-tab-item :key="3">
-				<FeesDepositAndWithdrawalLimitsTab />
-			</v-tab-item>
-		</v-tabs-items>
+        <v-tab-item :key="3">
+          <FeesDepositAndWithdrawalLimitsTab />
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card-text>
 	</v-card>
 </template>
 
@@ -41,7 +110,6 @@ import FeesDepositAndWithdrawalLimitsTab from '../../components/info/fees/FeesDe
 
 export default {
 	name: 'Fees',
-
 	components: {
 		CommonPageTitle,
 		FeesTradingTab,
@@ -52,8 +120,14 @@ export default {
 	data() {
 		return {
 			selectedTab: 0,
+      currencies: [],
 		};
 	},
+  mounted() {
+    axios.get('/trader/ext/all_currencies').then(response => {
+      this.currencies = response.data.data;
+    });
+  },
 };
 </script>
 
