@@ -127,6 +127,10 @@ export default {
       return this.allCurrencyListInit ? this.all_currencies : []
     },
   },
+  mounted() {
+    if(!this.allCurrencyListInit)
+      this.$store.dispatch('trading/getAllCurrencyListFromServer');
+  },
 };
 </script>
 

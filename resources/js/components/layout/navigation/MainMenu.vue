@@ -104,7 +104,7 @@ export default {
 		},
     hasCurrencies() {
       return this.allCurrencyListInit;
-    }
+    },
 	},
   mounted() {
     if(!this.hasCurrencies)
