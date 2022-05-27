@@ -42,6 +42,7 @@ export default {
 		see_all: 'Увидеть все',
 	},
 
+
 	apps: {
 		exchange: {
 			title: 'Обмен',
@@ -119,6 +120,10 @@ export default {
 		no_kyc: 'Без KYC',
 		available_payment_systems: 'Доступные платежные системы',
 		min_number_of_network_confirmation: 'Мин. кол-во подтверждений сети',
+	},
+
+	gateways: {
+		'bank_details': 'По реквизитам',
 	},
 
 	menu: {

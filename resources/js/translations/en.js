@@ -123,6 +123,10 @@ export default {
 		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
 
+	gateways: {
+		'bank_details': 'Bank details',
+	},
+
 	menu: {
 		trading: 'Trading',
 		overview: 'Market overview',

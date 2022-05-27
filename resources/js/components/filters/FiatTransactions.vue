@@ -189,6 +189,8 @@
 					<v-select
 						v-model="filters.payment_type"
 						:items="all_payment_types"
+            item-text="name"
+            item-value="id"
 						:label="$t('reports.gateway')"
 						:hint="$t('reports.gateway_hint')"
 						hide-details="auto"

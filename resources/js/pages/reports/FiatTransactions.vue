@@ -19,7 +19,7 @@
 			<template #top>
 				<filters
 					:all_types="types"
-					:all_payment_types="payments"
+					:all_payment_types="gateways"
 					:all_currencies="currencies"
 					:all_statuses="statuses"
 					@apply-table-filter="onFilterApply"
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import moment from 'moment';
@@ -108,12 +110,14 @@ export default {
 				{ value: false, name: 'Withdrawal' },
 				{ value: true, name: 'Replenish' },
 			],
-			payments: ['Payeer'],
-			currencies: [],
+			gateways: [
+          { id: 1, name: this.$t('gateways.bank_details') }
+      ],
 		};
 	},
 
 	computed: {
+    ...mapState('trading', ['all_currencies','allCurrencyListInit']),
 		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
@@ -126,6 +130,9 @@ export default {
 				{ text: this.$t('table_header.status'), value: 'status' },
 			];
 		},
+    currencies() {
+      return this.allCurrencyListInit ? _.filter(this.all_currencies,item => item.type === 'fiat') : []
+    },
 	},
 
 	watch: {
@@ -249,12 +256,6 @@ export default {
 		toggleFiltersShow() {
 			this.isFiltersShow = !this.isFiltersShow;
 		},
-	},
-
-	mounted() {
-		axios.get('/trader/ext/fiat_currencies').then(response => {
-			this.currencies = response.data.data;
-		});
 	},
 };
 </script>
