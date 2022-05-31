@@ -31,9 +31,9 @@ export default {
 		contact: 'Связаться с нами',
 		have_questions: 'Остались вопросы?',
 
-		replenishment_funds: 'Пополение средств',
+		replenishment_funds: 'Пополнение средств',
 		withdrawal_funds: 'Вывод средств',
-		replenishment: 'Пополение',
+		replenishment: 'Пополнение',
 		withdrawal: 'Вывод',
 		amount: 'Сумма',
 		info: 'Информация',
