@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog" width="800">
+	<v-dialog v-model="dialog" width="800" :persistent="step === 3">
 		<template #activator="{ on, attrs }">
 			<v-list-item dense v-bind="attrs" v-on="on">
 				<v-list-item-title>
@@ -19,7 +19,8 @@
 						<v-stepper-content step="1">
 							<BalanceFiatDialogSelectSystem
 								class="mb-6"
-								:systems-data="currencyObj.payment_systems"
+								:platforms="platforms"
+                :gateways="gateways"
 								type="replenish"
 								@select="selectPaymentSystem"
 							/>
@@ -46,17 +47,16 @@
 									class="balance-fiat-dialog-replenish__replenish-info pt-2"
 								>
 									{{
-										$t('balance.dialog.fiat_replenishment_description', {
-											payment: selectedSystem.name,
-										})
+										$t('balance.dialog.fiat_bank_details_replenishment_description')
 									}}
 								</div>
 
-								<v-form>
+								<v-form v-model="amountFormValid">
 									<v-text-field
 										v-model="amount"
 										:placeholder="$t('balance.amount')"
 										:suffix="currency"
+                    :rules="amountRules"
 										autofocus
 										@keydown="validateNumber"
 										@paste.prevent
@@ -74,7 +74,7 @@
 								<v-spacer />
 								<v-btn
 									:loading="loading"
-									:disabled="!amount.trim()"
+                  :disabled="!amount || !amountFormValid"
 									color="primary"
 									tile
 									text
@@ -87,6 +87,48 @@
 								<v-spacer />
 							</div>
 						</v-stepper-content>
+            <v-stepper-content class="pa-0" step="3">
+              <v-card-text v-if="selectedSystem" class="common-dialog__content">
+                <div>
+                  <div>
+                    {{ $t('balance.min_replenish_amount') }}:
+                    <b> {{ selectedSystem.minReplenish }} {{ selectedSystem.currency }} </b>
+                  </div>
+
+                  <div>
+                    {{ $t('balance.replenish_fee') }}:
+                    <b>0 {{ selectedSystem.currency }}</b>
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <QrCode v-if="this.bank_details !== null" :value="qr_replenish" :options="{ width: 200 }" />
+                </div>
+
+              </v-card-text>
+
+              <v-divider />
+
+              <div class="common-dialog__actions d-flex pt-1">
+                <v-spacer />
+                <v-btn plain tile text small @click="back">
+                  {{ $t('common.back') }}
+                </v-btn>
+                <v-spacer />
+                <v-btn
+                    :loading="loading"
+                    color="primary"
+                    tile
+                    text
+                    plain
+                    small
+                    @click="finish"
+                >
+                  {{ $t('kyc.purchase') }}
+                </v-btn>
+                <v-spacer />
+              </div>
+            </v-stepper-content>
 					</v-stepper-items>
 				</v-stepper>
 			</v-card-text>
@@ -95,17 +137,19 @@
 </template>
 
 <script>
+import QrCode from '@chenfengyuan/vue-qrcode';
 import BalanceFiatDialogSelectSystem from './parts/BalanceFiatDialogSelectSystem';
 import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
 
 import loadingMixin from '../../../../mixins/common/loadingMixin';
 import validateInputMixin from '../../../../mixins/common/validateInputMixin';
 import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+import BigNumber from 'bignumber.js';
 
 export default {
 	name: 'BalanceFiatDialogReplenish',
 
-	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert },
+	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert, QrCode },
 
 	mixins: [loadingMixin, validateInputMixin, dialogMethodsMixin],
 
@@ -119,13 +163,20 @@ export default {
 	data() {
 		return {
 			selectedSystem: null,
+      bank_details: null,
 			amount: '',
-
+      amountFormValid: false,
+      gateways: [],
 			step: 1,
+      amountRules: [
+        v => !v || BigNumber(v).gte(this.selectedSystem.minReplenish) || this.$t('balance.less_min'),
+        v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
+      ],
 		};
 	},
 
 	computed: {
+
 		totalAmount() {
 			const total = Number(this.amount) - this.selectedSystem?.withdrawFee;
 			return total || 0;
@@ -140,6 +191,22 @@ export default {
 		currency() {
 			return this.currencyObj.currency;
 		},
+    platforms() {
+      return this.currencyObj.platforms;
+    },
+    qr_replenish() {
+      return this.bank_details ?
+          'ST00012|Name='+this.bank_details.name+
+          '|PersonalAcc='+this.bank_details.personal_acc+
+          '|BankName='+this.bank_details.bank_name+
+          '|BIC='+this.bank_details.bic+
+          '|CorrespAcc='+this.bank_details.corr_acc+
+          '|KPP='+this.bank_details.kpp+
+          '|PayeeINN='+this.bank_details.payee_inn+
+          '|Purpose='+this.bank_details.purpose+
+          '|Sum='+BigNumber(this.amount).multipliedBy(100).toString()
+          : '';
+    },
 	},
 
 	methods: {
@@ -148,8 +215,23 @@ export default {
 				this.startLoading();
 			} finally {
 				this.stopLoading();
+        this.step++;
 			}
 		},
+    finish() {
+      axios.post('/trader/ext/notify_fiat_replenish', {
+        currency: this.selectedSystem.currency,
+        amount: this.amount,
+        gateway_id: this.selectedSystem.gateway_id
+      }).then(response => {
+        if (response.data.success === true) {
+          this.close();
+        }
+      });
+    },
+    isCorrectPrecision(v) {
+      return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
+    },
 		selectPaymentSystem(system) {
 			this.selectedSystem = system;
 			this.step++;
@@ -164,5 +246,13 @@ export default {
 			this.step = 1;
 		},
 	},
+  mounted() {
+    axios.get('/trader/ext/all_fiat_platforms').then(response => {
+      this.gateways = response.data.data;
+    });
+    axios.get('/trader/ext/replenish_bank_details').then(response => {
+      this.bank_details = response.data.data;
+    });
+  }
 };
 </script>

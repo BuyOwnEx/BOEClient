@@ -4,36 +4,38 @@
 
 		<div
 			class="balance-fiat-dialog-select-system__item"
-			v-for="item in systemsData"
+			v-for="item in platforms"
 			:key="item.id"
 		>
 			<img
 				class="balance-fiat-dialog-select-system__item-img"
-				:src="getSystemImage(item.name)"
-				:alt="item.name"
+        :src="getSystemImage(item.currency)"
+        :alt="item.currency"
 				height="90"
 				width="90"
 			/>
+      <div class="align-self-center">
+        {{ getGatewayName(item.gateway_id) }}
+      </div>
 
 			<div class="balance-fiat-dialog-select-system__item-info pa-2">
 				<div>
-					{{ $t('balance.min_amount') }}:
-					<b>{{ getMinAmount(item) }} {{ item.currency }}</b>
+					{{ $t('balance.min_amount') }}: <b>{{ getMinAmount(item) }} {{ item.currency }}</b>
 				</div>
 				<div>
 					{{ $t('balance.fee') }}: <b>{{ getFee(item) }} {{ item.currency }}</b>
 				</div>
-				<div>
-					{{ $t('balance.status') }}:
-					<b :class="getStatusColor(item.status)">{{ item.status }}</b>
-				</div>
+        <div>
+          {{ $t('balance.status') }}: <b :class="getStateColor(item.state)">{{ getStateName(item.state) }}</b>
+        </div>
 			</div>
 			<div class="balance-fiat-dialog-select-system__item-action pa-2">
 				<v-btn
-					:disabled="item.status !== 'active'"
-					color="primary"
-					tile
-					small
+          :disabled="(!(item.state === 1 || item.state === 3) && isReplenish) || (!(item.state === 1 || item.state === 2) && !isReplenish)"
+          :color="((item.state === 1 || item.state === 3) && isReplenish) || ((item.state === 1 || item.state === 2) && !isReplenish) ? 'success' : ''"
+          tile
+          text
+          small
 					@click="select(item)"
 				>
 					{{ $t('common.select') }}
@@ -48,10 +50,14 @@ export default {
 	name: 'BalanceFiatDialogSelectSystem',
 
 	props: {
-		systemsData: {
+		platforms: {
 			type: Array,
 			required: true,
 		},
+    gateways: {
+      type: Array,
+      required: true,
+    },
 		type: {
 			type: String,
 			required: true,
@@ -77,21 +83,45 @@ export default {
 		select(item) {
 			this.$emit('select', item);
 		},
-
-		getSystemImage(name) {
-			const filename = name.toLowerCase() + '.png';
-			return `/storage/gateway/${filename}`;
-		},
+    getGatewayName(gateway_id)
+    {
+      let gateway = _.find(this.gateways, item => (item.id === gateway_id));
+      return gateway.name;
+    },
+    getSystemImage(name) {
+      const filename = name.toLowerCase() + '.png';
+      return `/storage/currencies/${filename}`;
+    },
 		getMinAmount(item) {
 			return this.isReplenish ? item.minReplenish : item.minWithdraw;
 		},
 		getFee(item) {
-			return this.isReplenish ? item.replenishFee : item.withdrawFee;
+			return this.isReplenish ? '-' : item.feeWithdraw;
 		},
-		getStatusColor(status) {
-			const activeStatus = status === 'active';
-			return activeStatus ? 'success--text' : 'error--text';
-		},
+    getStateColor(state) {
+      if(this.isReplenish)
+      {
+        const activeState = state === 1 || state === 3;
+        return activeState ? 'success--text' : 'error--text';
+      }
+      else
+      {
+        const activeState = state === 1 || state === 2;
+        return activeState ? 'success--text' : 'error--text';
+      }
+    },
+    getStateName(state) {
+      if(this.isReplenish)
+      {
+        const activeState = state === 1 || state === 3;
+        return activeState ? 'ON' : 'OFF';
+      }
+      else
+      {
+        const activeState = state === 1 || state === 2;
+        return activeState ? 'ON' : 'OFF';
+      }
+    },
 	},
 };
 </script>

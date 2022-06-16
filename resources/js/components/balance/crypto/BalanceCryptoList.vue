@@ -37,10 +37,17 @@
 
 					<v-list dense>
 						<BalanceCryptoDialogReplenish
+              v-if="item.type === 'crypto'"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
+            <BalanceFiatDialogReplenish
+                v-if="item.type === 'fiat'"
+                :currency-obj="item"
+                @close-menu="closeMenu(item)"
+            />
 						<BalanceCryptoDialogWithdraw
+              v-if="item.type === 'crypto'"
 							:currency-obj="item"
 							@close-menu="closeMenu(item)"
 						/>
@@ -118,6 +125,7 @@ export default {
 	name: 'BalanceCryptoList',
 
 	components: {
+    BalanceFiatDialogReplenish: () => import('../fiat/dialog/BalanceFiatDialogReplenish'),
 		BalanceCryptoDialogReplenish: () => import('./dialog/BalanceCryptoDialogReplenish'),
 		BalanceCryptoDialogWithdraw: () => import('./dialog/BalanceCryptoDialogWithdraw'),
 		BalanceDialogTransfer: () => import('../common/BalanceDialogTransfer'),

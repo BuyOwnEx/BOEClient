@@ -65,6 +65,12 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function all_fiat_platforms()
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_fiat_platforms');
+        return response()->json($response->json(),$response->status());
+    }
+
     public function health()
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/health');
@@ -790,6 +796,78 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/register_trader',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function verificationRequest($trader_id, $first_name, $second_name, $surname, $sex, $birthday, $birthday_place, $passport_no, $passport_place, $passport_date, $address, $file_ps, $file_ws, $file_ts)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'first_name' => $first_name,
+            'second_name' => $second_name,
+            'surname' => $surname,
+            'sex' => $sex,
+            'birthday' => $birthday,
+            'birthday_place' => $birthday_place,
+            'passport_no' => $passport_no,
+            'passport_place' => $passport_place,
+            'passport_date' => $passport_date,
+            'address' => $address,
+            'file_ps' => $file_ps,
+            'file_ws' => $file_ws,
+            'file_ts' => $file_ts,
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/verification_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function verificationPayment($trader_id)
+    {
+        $params = [
+            'trader' => $trader_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/verification_payment',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function notifyFiatReplenish($trader_id, $currency, $amount, $gateway_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'currency' => $currency,
+            'amount' => $amount,
+            'gateway_id' => $gateway_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notify_fiat_replenish',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function getVerification($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/verification_request',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function getVerificationBankDetails($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_verification_bank_details',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getReplenishBankDetails($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_replenish_bank_details',[
+            'trader' => $trader_id
+        ]);
         return response()->json($response->json(),$response->status());
     }
 

@@ -69,6 +69,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('crypto_currencies', 'TraderController@getCryptoCurrencies')->name('crypto_currencies');
         Route::get('fiat_currencies', 'TraderController@getFiatCurrencies')->name('fiat_currencies');
         Route::get('all_currencies', 'TraderController@getAllCurrencies')->name('all_currencies');
+        Route::get('all_fiat_platforms', 'TraderController@getAllFiatPlatforms')->name('all_fiat_platforms');
         Route::get('health', 'TraderController@getHealth')->name('health');
         Route::get('get_offer_list', 'TraderController@getOfferList')->name('offer_list');
 
@@ -142,6 +143,15 @@ Route::group(['prefix' => 'trader'], function () {
             Route::post('edit_api_token', 'TraderController@editAPIToken')->name('edit_api_token');
             Route::post('delete_api_token', 'TraderController@deleteAPIToken')->name('delete_api_token');
             Route::post('delete_all_api_tokens', 'TraderController@deleteAllAPITokens')->name('delete_all_api_tokens');
+
+            Route::get('kyc_request', 'TraderController@getKYCRequest')->name('kyc_request');
+            Route::post('kyc_request', 'TraderController@sendKYCRequest')->name('send_kyc_request');
+            Route::post('kyc_fix', 'TraderController@sendKYCFix')->name('send_kyc_fix');
+            Route::post('kyc_payment', 'TraderController@setKYCPayment')->name('set_kyc_payment');
+            Route::get('verification_bank_details', 'TraderController@getVerificationBankDetails')->name('verification_bank_details');
+            Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
+            Route::get('get_image', 'TraderController@getKYCImage')->name('kyc_image');
+            Route::post('notify_fiat_replenish', 'TraderController@NotifyFiatReplenish')->name('notify_fiat_replenish');
         });
 
     });

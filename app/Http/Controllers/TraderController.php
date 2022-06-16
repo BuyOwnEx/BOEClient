@@ -8,11 +8,14 @@ use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;
 use App\PersonalAccessToken;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Arr;
@@ -298,6 +301,17 @@ class TraderController extends Controller
             return Cache::remember('all_currencies', 60, function (){
                 $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
                 return $api->all_currencies();
+            });
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getAllFiatPlatforms()
+    {
+        try {
+            return Cache::remember('all_fiat_platforms', 60, function (){
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->all_fiat_platforms();
             });
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
@@ -931,6 +945,267 @@ class TraderController extends Controller
         }
         else {
             return ['success'=>false, 'message'=>'Language is not supported'];
+        }
+    }
+
+    public function sendKYCRequest(Request $request)
+    {
+        $validator=Validator::make($request->all(), [
+            'first_name' => 'required|string|min:1|max:64',
+            'second_name' => 'required|string|min:1|max:64',
+            'surname' => 'required|string|min:1|max:64',
+            'sex' => 'required|string|in:male,female',
+            'birthday' => 'required|date_format:"Y-m-d"',
+            'birthday_place' => 'required|string|min:1|max:128',
+            'passport_no' => 'required|string|min:5|max:20',
+            'passport_place' => 'required|string|min:5|max:255',
+            'passport_date' => 'required|date_format:"Y-m-d"',
+            'address' => 'required|string|min:10|max:512',
+            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+        ], [], [
+            'first_name' => trans('kyc.first_name'),
+            'second_name' => trans('kyc.second_name'),
+            'surname' => trans('kyc.surname'),
+            'sex' => trans('kyc.sex'),
+            'birthday' => trans('kyc.birthday'),
+            'birthday_place' => trans('kyc.birthday_place'),
+            'passport_no' => trans('kyc.passport_no'),
+            'passport_place' => trans('kyc.passport_place'),
+            'passport_date' => trans('kyc.passport_date'),
+            'address' => trans('kyc.address'),
+            'file_ps' => trans('kyc.file_ps'),
+            'file_ws' => trans('kyc.file_ws'),
+            'file_ts' => trans('kyc.file_ts'),
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->getMessages(),
+            ],422);
+        }
+        else
+        {
+            try{
+                $path_ps = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ps'));
+                $path_ws = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ws'));
+                $path_ts = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ts'));
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->verificationRequest(
+                    Auth::id(),
+                    $request->first_name,
+                    $request->second_name,
+                    $request->surname,
+                    $request->sex,
+                    $request->birthday,
+                    $request->birthday_place,
+                    $request->passport_no,
+                    $request->passport_place,
+                    $request->passport_date,
+                    $request->address,
+                    env('APP_URL').'/'.$path_ps,
+                    env('APP_URL').'/'.$path_ws,
+                    env('APP_URL').'/'.$path_ts,
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+
+        }
+    }
+    public function sendKYCFix(Request $request)
+    {
+        $validator=Validator::make($request->all(), [
+            'first_name' => 'required|string|min:1|max:64',
+            'second_name' => 'required|string|min:1|max:64',
+            'surname' => 'required|string|min:1|max:64',
+            'sex' => 'required|string|in:male,female',
+            'birthday' => 'required|date_format:"Y-m-d"',
+            'birthday_place' => 'required|string|min:1|max:128',
+            'passport_no' => 'required|string|min:5|max:20',
+            'passport_place' => 'required|string|min:5|max:255',
+            'passport_date' => 'required|date_format:"Y-m-d"',
+            'address' => 'required|string|min:10|max:512',
+            'file_ps' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ws' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ts' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+        ], [], [
+            'first_name' => trans('kyc.first_name'),
+            'second_name' => trans('kyc.second_name'),
+            'surname' => trans('kyc.surname'),
+            'sex' => trans('kyc.sex'),
+            'birthday' => trans('kyc.birthday'),
+            'birthday_place' => trans('kyc.birthday_place'),
+            'passport_no' => trans('kyc.passport_no'),
+            'passport_place' => trans('kyc.passport_place'),
+            'passport_date' => trans('kyc.passport_date'),
+            'address' => trans('kyc.address'),
+            'file_ps' => trans('kyc.file_ps'),
+            'file_ws' => trans('kyc.file_ws'),
+            'file_ts' => trans('kyc.file_ts'),
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->getMessages(),
+            ],422);
+        }
+        else
+        {
+            try{
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                $kyc = $api->getVerification(
+                    Auth::id()
+                );
+                if (isset($request->file_ps))
+                {
+                    $path_ps = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ps'));
+                    $path_ps = env('APP_URL').'/'.$path_ps;
+                }
+                else
+                    $path_ps = $kyc->getData()->data->file_ps;
+                if (isset($request->file_ws))
+                {
+                    $path_ws = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ws'));
+                    $path_ws = env('APP_URL').'/'.$path_ws;
+                }
+                else
+                    $path_ws = $kyc->getData()->data->file_ws;
+                if (isset($request->file_ts))
+                {
+                    $path_ts = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ts'));
+                    $path_ts = env('APP_URL').'/'.$path_ts;
+                }
+                else
+                    $path_ts = $kyc->getData()->data->file_ts;
+
+                return $api->verificationRequest(
+                    Auth::id(),
+                    $request->first_name,
+                    $request->second_name,
+                    $request->surname,
+                    $request->sex,
+                    $request->birthday,
+                    $request->birthday_place,
+                    $request->passport_no,
+                    $request->passport_place,
+                    $request->passport_date,
+                    $request->address,
+                    $path_ps,
+                    $path_ws,
+                    $path_ts,
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+        }
+    }
+    public function setKYCPayment(Request $request) {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->verificationPayment(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function NotifyFiatReplenish(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->notifyFiatReplenish(
+                Auth::id(),
+                $request->currency,
+                $request->amount,
+                $request->gateway_id
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getKYCRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getVerification(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getKYCImage(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $kyc = $api->getVerification(
+                Auth::id()
+            );
+            switch ($request->type){
+                case 'ps':
+                    $kyc_file = $kyc->getData()->data->file_ps;
+                    if ($kyc_file === $request->path)
+                        $file=Storage::get(explode(env('APP_URL'),$kyc_file)[1]);
+                    break;
+                case 'ts':
+                    $kyc_file = $kyc->getData()->data->file_ts;
+                    if ($kyc_file === $request->path)
+                        $file=Storage::get(explode(env('APP_URL'),$kyc_file)[1]);
+                    break;
+                case 'ws':
+                    $kyc_file = $kyc->getData()->data->file_ws;
+                    if ($kyc_file === $request->path)
+                        $file=Storage::get(explode(env('APP_URL'),$kyc_file)[1]);
+                    break;
+                default:
+                    return response()->file(public_path().'/images/file-not-found.png');
+                    break;
+            }
+            return response($file);
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getVerificationBankDetails(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getVerificationBankDetails(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getReplenishBankDetails(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getReplenishBankDetails(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
 }
