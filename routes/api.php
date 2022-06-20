@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -92,6 +93,19 @@ Route::middleware('CheckMobileSign')->post('/sanctum/register', function (Reques
         return response()->json([
             'success' => true,
         ],200);
+    }
+    catch (Exception $exception)
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $exception->getMessage(),
+        ],500);
+    }
+});
+Route::middleware('CheckMobileSign')->get('/sanctum/get_image', function (Request $request) {
+    try {
+        $file = Storage::get(explode(env('APP_URL'), $request->path)[1]);
+        return response($file);
     }
     catch (Exception $exception)
     {
