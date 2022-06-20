@@ -143,6 +143,9 @@ Specific variables to this project:
     # geetest ID and Key. Get your own account at https://www.geetest.com/en/
     GEETEST_ID=
     GEETEST_KEY=
-
+    
+    # verification driver choice. Possible values: local or sumsub
+    MIX_KYC_DRIVER=local
+    
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 
