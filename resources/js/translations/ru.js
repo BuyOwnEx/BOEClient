@@ -1426,7 +1426,7 @@ export default {
 					title: 'Получение тикера',
 					content:
 						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/ticker\n' +
+						'                            GET запрос по адресу {url}/api/v1/tickers\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
@@ -1442,7 +1442,7 @@ export default {
 						'                            <strong><i>Пример:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{url}/api/v1/ticker</i>\n' +
+						'                            <i>{url}/api/v1/tickers</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            При удачном ответе вернется строка в JSON формате\n' +

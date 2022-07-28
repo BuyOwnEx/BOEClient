@@ -1424,7 +1424,7 @@ export default {
 					title: 'Ticker',
 					content:
 						'<p>\n' +
-						'                            GET request at {url}/api/v1/ticker\n' +
+						'                            GET request at {url}/api/v1/tickers\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Headers:</u>\n' +
@@ -1440,7 +1440,7 @@ export default {
 						'                            <strong><i>Example:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>{url}/api/v1/ticker</i>\n' +
+						'                            <i>{url}/api/v1/tickers</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            If the answer is successful the string in JSON format will be returned\n' +
