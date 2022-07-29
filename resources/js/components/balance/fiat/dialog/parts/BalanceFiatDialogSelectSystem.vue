@@ -8,7 +8,7 @@
 			:key="item.id"
 		>
 			<img
-				class="balance-fiat-dialog-select-system__item-img"
+				class="align-self-center balance-fiat-dialog-select-system__item-img"
         :src="getSystemImage(item.currency)"
         :alt="item.currency"
 				height="90"
@@ -18,7 +18,7 @@
         {{ getGatewayName(item.gateway_id) }}
       </div>
 
-			<div class="balance-fiat-dialog-select-system__item-info pa-2">
+			<div class="align-self-center balance-fiat-dialog-select-system__item-info pa-2">
 				<div>
 					{{ $t('balance.min_amount') }}: <b>{{ getMinAmount(item) }} {{ item.currency }}</b>
 				</div>
@@ -29,7 +29,7 @@
           {{ $t('balance.status') }}: <b :class="getStateColor(item.state)">{{ getStateName(item.state) }}</b>
         </div>
 			</div>
-			<div class="balance-fiat-dialog-select-system__item-action pa-2">
+			<div class="align-self-center balance-fiat-dialog-select-system__item-action pa-2">
 				<v-btn
           :disabled="(!(item.state === 1 || item.state === 3) && isReplenish) || (!(item.state === 1 || item.state === 2) && !isReplenish)"
           :color="((item.state === 1 || item.state === 3) && isReplenish) || ((item.state === 1 || item.state === 2) && !isReplenish) ? 'success' : ''"
@@ -128,13 +128,15 @@ export default {
 
 <style lang="sass" scoped>
 .balance-fiat-dialog-select-system
-	&__item
-		display: flex
-		justify-content: space-between
-		border: 1px solid #a9a8a838
-		&:not(:first-child)
-			margin-top: 8px
-	&__item-action
-		display: flex
-		align-items: center
+  &__item
+    display: flex
+    justify-content: space-between
+    border: 1px solid #a9a8a838
+    @media screen and (max-width: 600px)
+      flex-direction: column
+    &:not(:first-child)
+      margin-top: 8px
+  &__item-action
+    display: flex
+    align-items: center
 </style>

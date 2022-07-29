@@ -8,7 +8,7 @@
         :key="item.id"
     >
       <img
-          class="balance-crypto-dialog-select-system__item-img pa-1"
+          class="align-self-center balance-crypto-dialog-select-system__item-img pa-1"
           :src="getSystemImage(item.base_currency)"
           :alt="item.base_currency"
           height="90"
@@ -18,7 +18,7 @@
         {{item.platform !== null ? item.platform : item.currency }}
       </div>
 
-      <div class="balance-crypto-dialog-select-system__item-info pa-2">
+      <div class="align-self-center balance-crypto-dialog-select-system__item-info pa-2">
         <div>
           {{ $t('balance.min_amount') }}: <b>{{ getMinAmount(item) }} {{ item.currency }}</b>
         </div>
@@ -29,7 +29,7 @@
           {{ $t('balance.status') }}: <b :class="getStateColor(item.state)">{{ getStateName(item.state) }}</b>
         </div>
       </div>
-      <div class="balance-crypto-dialog-select-system__item-action pa-2">
+      <div class="align-self-center balance-crypto-dialog-select-system__item-action pa-2">
         <v-btn
             :disabled="(!(item.state === 1 || item.state === 3) && isReplenish) || (!(item.state === 1 || item.state === 2) && !isReplenish)"
             :color="((item.state === 1 || item.state === 3) && isReplenish) || ((item.state === 1 || item.state === 2) && !isReplenish) ? 'success' : ''"
@@ -124,6 +124,8 @@ export default {
     display: flex
     justify-content: space-between
     border: 1px solid #a9a8a838
+    @media screen and (max-width: 600px)
+      flex-direction: column
     &:not(:first-child)
       margin-top: 8px
   &__item-action
