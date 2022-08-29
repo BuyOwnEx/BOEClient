@@ -196,10 +196,14 @@ export default {
 							(!BigNumber(item.safe).isZero() ||
 								!BigNumber(item.available).isZero() ||
 								!BigNumber(item.blocked).isZero() ||
-								!BigNumber(item.withdraw).isZero())
+								!BigNumber(item.withdraw).isZero()) && item.status === 'active'
 						);
 				  })
-				: _.values(this.balances);
+				: _.filter(this.balances, item => {
+            return (
+                item.status === 'active'
+            );
+          });
 		},
 	},
 

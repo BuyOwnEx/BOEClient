@@ -31,8 +31,8 @@ class TraderController extends Controller
             return response(view('errors.404'), 404);
         }
         $validator = Validator::make(['market'=>$market,'currency'=>$currency], [
-            'market' => 'required|alpha|min:2|max:6',
-            'currency' => 'required|alpha|min:2|max:6',
+            'market' => 'required|alpha|min:2|max:10',
+            'currency' => 'required|alpha|min:2|max:10',
         ]);
         if ($validator->fails()) {
             return response(view('errors.404'), 404);

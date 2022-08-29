@@ -1,5 +1,6 @@
 <?php
 
+use App\Rules\ActiveTraderExists;
 use App\Rules\TraderExists;
 use App\User;
 use Illuminate\Auth\Events\Registered;
@@ -71,9 +72,7 @@ Route::middleware('CheckMobileSign')->post('/sanctum/register', function (Reques
         'ref' => [
             'string',
             'max:100',
-            Rule::exists('users')->where(function ($query) use ($data) {
-                $query->where('id', $data['ref'])->whereNotNull('email_verified_at');
-            }),
+            new ActiveTraderExists
         ]
     ]);
     if ($validator->fails()) {

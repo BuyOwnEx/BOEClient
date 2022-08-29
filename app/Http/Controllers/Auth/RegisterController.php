@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\ActiveTraderExists;
 use App\Rules\TraderExists;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -59,9 +60,7 @@ class RegisterController extends Controller
             'ref' => [
                 'string',
                 'max:100',
-                Rule::exists('users')->where(function ($query) use ($data) {
-                    $query->where('id', $data['ref'])->whereNotNull('email_verified_at');
-                }),
+                new ActiveTraderExists
             ]
         ]);
     }
