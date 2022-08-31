@@ -9,7 +9,7 @@ use App\Rules\ValidGoogleToken;
 
 class Confirm2FARequest extends FormRequest
 {
-    private $user_id;
+    private $user;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -20,8 +20,8 @@ class Confirm2FARequest extends FormRequest
         try {
             if($this->user() && $this->user()->g2fa)
             {
-                $this->user_id = $this->user()->id;
-                return $this->user()->id === session('2fa:user:id') ? true : false;
+                $this->user = $this->user();
+                return true;
             }
             else if($this->user() && !$this->user()->g2fa)
                 return true;
@@ -39,15 +39,15 @@ class Confirm2FARequest extends FormRequest
      */
     public function rules()
     {
-        if($this->user_id)
+        if($this->user)
         {
             return [
                 'totp' => [
                     'bail',
                     'required',
                     'digits:6',
-                    new ValidGoogleToken($this->user_id),
-                    new UsedGoogleToken($this->user_id)
+                    new ValidGoogleToken($this->user),
+                    new UsedGoogleToken($this->user)
                 ],
             ];
         }

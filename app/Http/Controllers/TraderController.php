@@ -598,6 +598,8 @@ class TraderController extends Controller
     public function emailChangeConfirm(Confirm2FARequest $request)
     {
         try {
+            //use cache to store token to blacklist
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->emailChangeConfirm(
                 Auth::id(),
@@ -718,6 +720,8 @@ class TraderController extends Controller
     public function withdrawCryptoConfirm(Confirm2FARequest $request)
     {
         try {
+            //use cache to store token to blacklist
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->withdrawCryptoConfirm(
                 Auth::id(),

@@ -20,9 +20,7 @@ class ValidateSecretRequest extends FormRequest
     public function authorize()
     {
         try {
-            $this->user = User::findOrFail(
-                session('2fa:user:id')
-            );
+            $this->user = User::findOrFail(session('2fa:user:id'));
         } catch (Exception $exc) {
             return false;
         }
