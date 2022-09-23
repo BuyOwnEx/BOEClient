@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\ApiRegistered;
+use App\Listeners\SendEmailVerificationCodeNotification;
 use App\Listeners\UserLoggined;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Login;
@@ -19,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        ApiRegistered::class => [
+            SendEmailVerificationCodeNotification::class,
         ],
         Login::class => [
             UserLoggined::class,

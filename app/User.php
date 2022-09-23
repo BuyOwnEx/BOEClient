@@ -52,6 +52,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return new APIToken($token, $plainTextToken, $secretTextToken);
     }
 
+    public function createTokenWithDelete(string $name, array $abilities = ['*'])
+    {
+        $this->tokens()->where('name','=', $name)->delete();
+        $token = $this->tokens()->create([
+            'name' => $name,
+            'token' => hash('sha256', $plainTextToken = Str::random(80)),
+            'secret' => $secretTextToken = Str::random(80),
+            'abilities' => $abilities,
+        ]);
+        return new APIToken($token, $plainTextToken, $secretTextToken);
+    }
+
     /**
      * Get the access tokens that belong to model.
      *

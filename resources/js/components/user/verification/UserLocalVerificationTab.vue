@@ -10,19 +10,21 @@
 
           <v-divider />
 
-          <v-stepper-step class="pa-0" :complete="step > 2" step="2">
-            {{ $t('kyc.make_payment') }}
-          </v-stepper-step>
+          <div v-if="is_payment_required">
+            <v-stepper-step class="pa-0" :complete="step > 2" step="2">
+              {{ $t('kyc.make_payment') }}
+            </v-stepper-step>
 
-          <v-divider />
+            <v-divider />
+          </div>
 
-          <v-stepper-step class="pa-0" :complete="step > 3" step="3">
+          <v-stepper-step class="pa-0" :complete="is_payment_required ? step > 3 : step > 2" :step="is_payment_required ? 3 : 2">
             {{ $t('kyc.step_pending') }}
           </v-stepper-step>
 
           <v-divider />
 
-          <v-stepper-step class="pa-0" :complete="step === 4" step="4">
+          <v-stepper-step class="pa-0" :complete="is_payment_required ? step === 4 : step === 3" :step="is_payment_required ? 4 : 3">
             {{ $t('kyc.step_accepted') }}
           </v-stepper-step>
 
@@ -298,7 +300,7 @@
             </v-col>
           </v-row>
         </v-stepper-content>
-        <v-stepper-content class="pa-0" step="2">
+        <v-stepper-content v-if="is_payment_required" class="pa-0" step="2">
           <v-row v-if="reason !== null">
             <v-col class="pb-1 pt-1" cols="12" md="12">
               <v-card class="user-account-tab-verification-reject-alert">
@@ -326,7 +328,7 @@
             </v-col>
           </v-row>
         </v-stepper-content>
-        <v-stepper-content class="pa-0" step="3">
+        <v-stepper-content class="pa-0" :step="is_payment_required ? 3 : 2">
           <v-row>
             <v-col class="pb-1 pt-1" cols="12" md="12">
               <div class="d-flex align-center justify-center fill-height">
@@ -349,7 +351,7 @@
             </v-col>
           </v-row>
         </v-stepper-content>
-        <v-stepper-content class="pa-0" step="4">
+        <v-stepper-content class="pa-0" :step="is_payment_required ? 4 : 3">
           <v-row>
             <v-col class="pb-1 pt-1" cols="12" md="12">
               <div class="d-flex align-center justify-center fill-height">
@@ -398,7 +400,7 @@
       >
         {{ $t('common.continue') }}
       </v-btn>
-      <v-btn v-if="step === 2"
+      <v-btn v-if="step === 2 && is_payment_required"
              :loading="false"
              color="primary"
              tile
@@ -425,6 +427,7 @@ export default {
   mixins: [formValidationRules],
   data() {
     return {
+      payment_required: null,
       step: 1,
       birthday: false,
       passport_date: false,
@@ -481,6 +484,9 @@ export default {
           '|Purpose='+this.bank_details.purpose+
           '|Sum='+this.bank_details.sum.String
           : '';
+    },
+    is_payment_required() {
+      return this.payment_required === true;
     },
   },
   methods: {
@@ -561,7 +567,7 @@ export default {
             if (response.data.success === true) {
               console.log(response.data);
               this.verification_id = response.data.data;
-              if(this.data.paid)
+              if(this.data.paid && this.is_payment_required)
                 this.step = 3;
               else
                 this.step = 2;
@@ -585,6 +591,8 @@ export default {
     },
   },
   mounted() {
+    this.payment_required = process.env.MIX_VERIFICATION_PAYMENT_REQUIRED ?? true;
+    console.log(this.payment_required);
     axios.get('/trader/ext/kyc_request').then(response => {
       if(response.data.data.id !== 0)
       {
@@ -603,9 +611,9 @@ export default {
         if(response.data.data.verify_status === 'new' && response.data.data.paid === false)
           this.step = 2;
         if(response.data.data.verify_status === 'pending')
-          this.step = 3;
+          this.step = this.is_payment_required ? 3 : 2;
         if(response.data.data.verify_status === 'accepted')
-          this.step = 4;
+          this.step = this.is_payment_required ? 4 : 3;
         if(response.data.data.reason.String !== "")
           this.reason = response.data.data.reason.String;
       }

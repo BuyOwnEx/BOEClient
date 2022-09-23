@@ -22,98 +22,26 @@ use Illuminate\Validation\Rule;
 |
 */
 
-Route::middleware('CheckMobileSign')->post('/sanctum/token', function (Request $request) {
-    $data = $request->all();
-    $validator = Validator::make($data, [
-        'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
-        'password' => ['required', 'string', 'min:8'],
-        'device_name' => [ 'required', 'string']
-    ]);
-    if ($validator->fails()) {
-        return response()->json([
-            'success' => false,
-            'errors' => $validator->errors()->getMessages(),
-        ],422);
-    }
-    try {
-        $user = User::where('email', $request->email)->first();
-        if(!$user)
-            return response()->json([
-                'success' => false,
-                'message' => 'User not found',
-            ],404);
-        if(!Hash::check($request->password, $user->password))
-            return response()->json([
-                'success' => false,
-                'message' => 'The provided credentials are incorrect',
-            ],404);
-        $token = $user->createToken($request->device_name);
-        return response()->json([
-            'success' => true,
-            'token' => $token->plainTextToken,
-            'secret' => $token->plainTextSecretToken
-        ],200);
-    }
-    catch (Exception $exception)
-    {
-        return response()->json([
-            'success' => false,
-            'message' => $exception->getMessage(),
-        ],500);
-    }
+Route::post('/sanctum/token', 'AppAPIController@GetTraderToken');
+Route::post('/sanctum/register', 'AppAPIController@RegisterTrader');
+Route::post('/sanctum/register/resend', 'AppAPIController@ResendTrader');
+Route::post('/sanctum/register/verify', 'AppAPIController@VerifyTrader');
+Route::post('/sanctum/password/email', 'AppAPIController@sendResetLinkEmail'); // на вход получаем email, на выходе должны получить success или не success + token
+Route::middleware(['CheckMobileSign'])->group(function () {
+    Route::post('/sanctum/password/reset', 'Auth\ResetPasswordController@reset'); // на вход получаем token, email, password и password_confirmation
 });
 
-Route::middleware('CheckMobileSign')->post('/sanctum/register', function (Request $request) {
-    $data = $request->all();
-    $validator = Validator::make($data, [
-        'name' => ['required', 'string', 'min:5' ,'max:128', 'regex:/^([a-zA-Z0-9-_])+$/', 'unique:users', new TraderExists],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'string', 'min:8', 'confirmed'],
-        'ref' => [
-            'string',
-            'max:100',
-            new ActiveTraderExists
-        ]
-    ]);
-    if ($validator->fails()) {
-        return response()->json([
-            'success' => false,
-            'errors' => $validator->errors()->getMessages(),
-        ],422);
-    }
-    try {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'inviteCode' => $data['ref'] ?? null
-        ]);
-        event(new Registered($user));
-        return response()->json([
-            'success' => true,
-        ],200);
-    }
-    catch (Exception $exception)
-    {
-        return response()->json([
-            'success' => false,
-            'message' => $exception->getMessage(),
-        ],500);
-    }
+Route::get('/sanctum/get_image', 'AppAPIController@GetImage');
+Route::post('/sanctum/upload_images', 'AppAPIController@UploadImages');
+Route::post('/sanctum/email_change_confirm', 'AppAPIController@EmailChangeConfirm');
+Route::middleware(['throttle:5'])->group(function () {
+    Route::post('/sanctum/check_2fa', 'AppAPIController@Check2FA');
+    Route::post('/sanctum/enable_2fa', 'AppAPIController@Enable2FA');
+    Route::post('/sanctum/disable_2fa', 'AppAPIController@Disable2FA');
+    Route::post('/sanctum/image_2fa', 'AppAPIController@Image2FA');
 });
-Route::middleware('CheckMobileSign')->get('/sanctum/get_image', function (Request $request) {
-    try {
-        $file = Storage::get(explode(env('APP_URL'), $request->path)[1]);
-        return response($file);
-    }
-    catch (Exception $exception)
-    {
-        return response()->json([
-            'success' => false,
-            'message' => $exception->getMessage(),
-        ],500);
-    }
-});
+
+
 
 Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
     Route::get('tickers', 'APIController@getTicker');
