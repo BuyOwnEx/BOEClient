@@ -203,7 +203,7 @@ export default {
           '|CorrespAcc='+this.bank_details.corr_acc+
           '|KPP='+this.bank_details.kpp+
           '|PayeeINN='+this.bank_details.payee_inn+
-          '|Purpose='+this.bank_details.purpose+
+          '|Purpose='+this.bank_details.purpose.replace('%trader_id%', this.$user.id).replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())+
           '|Sum='+BigNumber(this.amount).multipliedBy(100).toString()
           : '';
     },

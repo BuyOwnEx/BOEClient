@@ -69,7 +69,7 @@
 
 						<ToolbarLanguage />
 
-						<div class="hidden-xs-only mx-1">
+						<div v-if="product.showCurrencies" class="hidden-xs-only mx-1">
 							<ToolbarCurrency />
 						</div>
 

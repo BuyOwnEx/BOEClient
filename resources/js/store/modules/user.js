@@ -75,7 +75,7 @@ export default {
 			if (state.balances && data.currency.toUpperCase() in state.balances && state.balances[data.currency].platforms) {
 				if (data.currency.toUpperCase() === data.platform.toUpperCase())
 				{
-					let ind = _.findIndex(state.balances[data.currency].platforms, (item) => item.currency.toLowerCase() === data.platform.toLowerCase());
+					let ind = _.findIndex(state.balances[data.currency].platforms, (item) => item.base_currency.toLowerCase() === data.platform.toLowerCase());
 					Vue.set(state.balances[data.currency].platforms[ind], 'address', data.address);
 				}
 				else

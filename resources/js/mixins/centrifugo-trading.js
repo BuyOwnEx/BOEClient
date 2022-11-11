@@ -127,8 +127,13 @@ export default {
 				if (resp.asks_list.length !== 0) {
 					this.$eventHub.$emit('set-buy-price', { price: resp.asks_list[0].price });
 				}
+				else {
+					this.$eventHub.$emit('set-buy-price', { price: 0 });
+				}
 				if (resp.bids_list.length !== 0) {
 					this.$eventHub.$emit('set-sell-price', { price: resp.bids_list[0].price });
+				} else {
+					this.$eventHub.$emit('set-sell-price', { price: 0 });
 				}
 				this.sub_order_book = this.centrifuge.subscribe('public:order_book_' + this.selectedCurrency.toLowerCase() + '_' + this.selectedMarket.toLowerCase());
 				this.sub_order_book.on('subscribe', this.channelSubscribeHandler);

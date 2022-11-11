@@ -2308,6 +2308,29 @@ export default {
 				},
 			},
 		},
+		contacts: {
+			general: {
+				title: 'Contacts',
+				content:
+					'<p>\n' +
+					'                            Contacts area here\n' +
+					'                        </p>\n',
+			},
+			email: {
+				title: 'Email',
+				content:
+					'<p>\n' +
+					'                            Email area here\n' +
+					'                        </p>\n',
+			},
+			phone: {
+				title: 'Phone',
+				content:
+					'<p>\n' +
+					'                            Phone area here\n' +
+					'                        </p>\n',
+			},
+		},
 	},
 
 	status: {

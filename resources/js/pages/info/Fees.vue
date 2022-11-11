@@ -81,9 +81,9 @@
 											<td nowrap="">{{ curr.blockedFundLimit !== 0 ? curr.blockedFundLimit : '-' }} {{ curr.blockedFundLimit !== 0 ? curr.currency : ''}}</td>
 											<td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
 											<td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>
-											<td>{{ platform.minReplenish }} {{ platform.base_currency || curr.currency }}</td>
-											<td>{{ platform.minWithdraw }} {{ platform.base_currency || curr.currency }}</td>
-											<td>{{ platform.feeWithdraw }} {{ platform.base_currency || curr.currency }}</td>
+											<td>{{ platform.minReplenish }} {{ curr.currency }}</td>
+											<td>{{ platform.minWithdraw }} {{ curr.currency }}</td>
+											<td>{{ platform.feeWithdraw }} {{ curr.currency }}</td>
 										</tr>
 									</template>
 								</template>

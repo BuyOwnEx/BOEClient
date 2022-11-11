@@ -2310,6 +2310,29 @@ export default {
 				},
 			},
 		},
+		contacts: {
+			general: {
+				title: 'Контакты',
+				content:
+					'<p>\n' +
+					'                            Здесь отображаются контакты\n' +
+					'                        </p>\n',
+			},
+			email: {
+				title: 'Email',
+				content:
+					'<p>\n' +
+					'                            Здесь отображается email\n' +
+					'                        </p>\n',
+			},
+			phone: {
+				title: 'Phone',
+				content:
+					'<p>\n' +
+					'                            Здесь отображается phone\n' +
+					'                        </p>\n',
+			},
+		}
 	},
 
 	status: {

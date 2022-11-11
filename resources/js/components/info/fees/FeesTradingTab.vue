@@ -1,6 +1,6 @@
 <template>
 	<div class="fees-trading-tab">
-		<v-data-table :headers="headers" :items="pairs" :search="search" dense>
+		<v-data-table :headers="headers" :items="pairs" :search="search" :items-per-page="itemsPerPage" :footer-props="footer_props" dense>
 			<template #top>
 				<v-toolbar flat dense>
 					<div class="component-title grey--text text--darken-2">{{ $t('fees.trading_fee') }}</div>
@@ -26,6 +26,11 @@ export default {
 	data() {
 		return {
 			search: '',
+      itemsPerPage: 20,
+      footer_props: {
+        'items-per-page-options': [5, 20, 50, 100, 500],
+        'items-per-page-all-text': '500',
+      },
 		};
 	},
 
