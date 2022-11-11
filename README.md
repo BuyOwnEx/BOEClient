@@ -146,6 +146,8 @@ Specific variables to this project:
     
     # verification driver choice. Possible values: local or sumsub
     MIX_KYC_DRIVER=local
+    # payment for verification option: false - payment excluded, true - payment included
+    MIX_VERIFICATION_PAYMENT_REQUIRED=false
     
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 
