@@ -219,7 +219,7 @@ export default {
 			return this.$store.state.tickers.tickersList;
 		},
 		markets() {
-			return _.keys(this.marketsFromStorage);
+			return _.keys(_.pickBy(this.marketsFromStorage, e => _.find(e, {interface: true})));
 		},
 
 		tickersList() {
