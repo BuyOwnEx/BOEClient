@@ -2499,6 +2499,7 @@ export default {
 			funds: 'Ввод/Вывод',
 		},
 		kinds: {
+
 			login: {
 				title: 'Уведомлять о входе в систему',
 				subject: 'Вход в систему',

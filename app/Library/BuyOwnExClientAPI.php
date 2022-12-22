@@ -432,6 +432,13 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getStatus(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/status',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
     public function getNotificationStatus(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/notification_status',[

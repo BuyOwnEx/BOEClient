@@ -632,6 +632,17 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getStatus()
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getStatus(
+                Auth::id()
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getNotificationStatus()
     {
         try {

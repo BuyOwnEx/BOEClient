@@ -169,13 +169,13 @@ class AppAPIController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => trans('auth.no_such_user')
-            ],204);
+            ],400);
         }
         if ($user->email_verified_at) {
             return response()->json([
                 'success' => false,
                 'message' => trans('auth.already_verified')
-            ],204);
+            ],400);
         }
         $user->notify(new ApiVerifyEmail);
         return response()->json([
@@ -204,7 +204,7 @@ class AppAPIController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => trans('auth.already_verified'),
-            ],204);
+            ],400);
         }
         try
         {
@@ -217,7 +217,7 @@ class AppAPIController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => trans('auth.verification_error'),
-                ],204);
+                ],500);
             }
             else
             {
@@ -228,7 +228,7 @@ class AppAPIController extends Controller
                     return response()->json([
                         'success' => false,
                         'message' => trans('auth.verification_error'),
-                    ],204);
+                    ],500);
                 }
                 else
                 {

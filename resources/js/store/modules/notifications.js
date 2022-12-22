@@ -162,6 +162,12 @@ export default {
 						return VueI18n.t('notifications.kinds.add_money.text', [obj.amount, obj.currency]);
 					case 9:
 						return VueI18n.t('notifications.kinds.withdraw_money.text', [obj.amount, obj.currency]);
+					case 10:
+						return VueI18n.t('notifications.kinds.withdraw_money.text', [obj.amount, obj.currency]);
+					case 11:
+						return VueI18n.t('notifications.kinds.withdraw_money.text', [obj.amount, obj.currency]);
+					case 12:
+						return VueI18n.t('notifications.kinds.withdraw_money.text', [obj.amount, obj.currency]);
 					default:
 						return '';
 				}
