@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Confirm2FARequest;
-use App\Http\Requests\ConfirmWithdrawRequest;
 use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;

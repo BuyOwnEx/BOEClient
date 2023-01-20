@@ -7,8 +7,7 @@
 		<template #activator='{ on }'>
 			<v-btn text :icon='$vuetify.breakpoint.smAndDown' v-on='on'>
 				<flag-icon :round='$vuetify.breakpoint.smAndDown' :flag='currentLocale.flag'></flag-icon>
-				<span v-show='$vuetify.breakpoint.mdAndUp && showLabel'
-										:class="[$vuetify.rtl ? 'mr-1' : 'ml-1']">{{ currentLocale.label }}</span>
+				<span v-show='$vuetify.breakpoint.mdAndUp && showLabel' :class="[$vuetify.rtl ? 'mr-1' : 'ml-1']">{{ currentLocale.label }}</span>
 				<v-icon v-if='showArrow' right>mdi-chevron-down</v-icon>
 			</v-btn>
 		</template>
