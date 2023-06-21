@@ -148,6 +148,7 @@ export default {
 			});
 			if (index !== -1) {
 				if (data.status !== 'filled') {
+					state.orders[index].size = data.size;
 					state.orders[index].actualSize = data.actualSize;
 					state.orders[index].status = data.status;
 					state.orders[index].updatedAt = data.updatedAt;

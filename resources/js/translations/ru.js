@@ -361,7 +361,7 @@ export default {
 				sell_market_order_with_params:
 					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
 				sell_stop_loss_text:
-					'Купить по рынку в случае,Вы собираетесь если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
+					'Купить по рынку в случае, если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
 				sell_take_profit_text:
 					'Купить по рынку в случае, если Best Ask достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
 				sell_trailing_stop_text:
