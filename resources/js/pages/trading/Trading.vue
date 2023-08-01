@@ -1,6 +1,6 @@
 <template>
 	<div class="trading">
-		<div v-if="!isMobile" class="trading__desktop">
+		<div v-if="!isMobile" class="trading__desktop fill-height">
 			<TickersList class="trading__desktop__tickers" :currency="currency" :market="market" />
 
 			<TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
@@ -237,6 +237,7 @@ export default {
 		display: grid;
 		grid-gap: 5px;
 		grid-template-columns: 325px 1fr 1fr 1fr 1fr 325px;
+		grid-template-rows: 1fr 1fr;
 		grid-template-areas:
 			'tickers chart chart chart chart history'
 			'chat bid forms forms ask history'

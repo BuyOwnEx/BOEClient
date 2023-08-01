@@ -8,21 +8,19 @@
             {{ $t('kyc.fill_all_fields') }}
           </v-stepper-step>
 
-          <v-divider />
+          <v-divider class="ml-1 mr-1" />
 
-          <div v-if="is_payment_required">
-            <v-stepper-step class="pa-0" :complete="step > 2" step="2">
-              {{ $t('kyc.make_payment') }}
-            </v-stepper-step>
+          <v-stepper-step class="pa-0" v-if="is_payment_required" :complete="step > 2" step="2">
+            {{ $t('kyc.make_payment') }}
+          </v-stepper-step>
 
-            <v-divider />
-          </div>
+          <v-divider class="ml-1 mr-1" v-if="is_payment_required" />
 
           <v-stepper-step class="pa-0" :complete="is_payment_required ? step > 3 : step > 2" :step="is_payment_required ? 3 : 2">
             {{ $t('kyc.step_pending') }}
           </v-stepper-step>
 
-          <v-divider />
+          <v-divider class="ml-1 mr-1" />
 
           <v-stepper-step class="pa-0" :complete="is_payment_required ? step === 4 : step === 3" :step="is_payment_required ? 4 : 3">
             {{ $t('kyc.step_accepted') }}
@@ -591,7 +589,7 @@ export default {
     },
   },
   mounted() {
-    this.payment_required = process.env.MIX_VERIFICATION_PAYMENT_REQUIRED ?? true;
+    this.payment_required = process.env.MIX_VERIFICATION_PAYMENT_REQUIRED === 'true';
     console.log(this.payment_required);
     axios.get('/trader/ext/kyc_request').then(response => {
       if(response.data.data.id !== 0)

@@ -1,8 +1,8 @@
 <template>
-	<v-card class="trading-chart-wrapper">
+	<v-card class="trading-chart-wrapper fill-height" >
 		<TradingChartMarketInfo :currency="currency" :market="market" />
 		<TradingChart
-			class="trading-chart-wrapper__chart"
+			class="trading-chart-wrapper__chart fill-height"
 			:currency="currency"
 			:market="market"
 		/>
@@ -12,12 +12,17 @@
 <script>
 import TradingChart from './TradingChart';
 import TradingChartMarketInfo from './TradingChartMarketInfo';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
 	name: 'TradingChartWrapper',
 
 	components: { TradingChart, TradingChartMarketInfo },
-
+  computed: {
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
+  },
 	props: {
 		currency: {
 			type: String,

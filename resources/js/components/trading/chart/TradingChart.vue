@@ -46,7 +46,6 @@ export default {
 	data() {
 		return {
 			hcInstance: Highcharts,
-			graphHeight: 400,
 			chartInFullscreen: false,
 			candle_period: '1m',
 			valuesToDisplay: 97,
@@ -61,13 +60,11 @@ export default {
 						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},
-					height: this.$vuetify.breakpoint.smAndDown ? this.calculateGraphHeight() : 400,
+
 					spacing: [10, 10, 10, 10],
 					events: {
 						load() {
-							setTimeout(() => {
-								this.reflow();
-							}, 100);
+              this.redraw();
 						},
 					},
 				},
@@ -334,17 +331,6 @@ export default {
 	},
 
 	methods: {
-		calculateGraphHeight() {
-			const deviceHeight = this.$vuetify.breakpoint.height;
-
-			const header = 56;
-			const marketInfo = 53;
-			const pageContainerPaddings = 10;
-			const tabs = 56;
-			const footer = 58;
-
-			return deviceHeight - header - marketInfo - pageContainerPaddings - tabs - footer;
-		},
 		monitoringFullMode() {
 			if (document.addEventListener) {
 				document.addEventListener('webkitfullscreenchange', this.exitHandler, false);
@@ -375,7 +361,10 @@ export default {
 				range: this.valuesToDisplay * this.candle_room * 60 * 1000,
 				overscroll,
 			});
-			candle.chart.redraw();
+      setTimeout(() => {
+        candle.chart.redraw();
+        candle.chart.reflow();
+      }, 200);
 		},
 		addPointHandler(data) {
 			const candle = this.$refs.candle;
@@ -435,9 +424,9 @@ export default {
 			this.$nextTick(() => {
 				const candle = this.$refs.candle;
 				if (val === true) {
-					candle.chart.setSize(undefined, null);
+					candle.chart.redraw();
 				} else {
-					candle.chart.setSize(undefined, this.graphHeight);
+          candle.chart.redraw();
 				}
 			});
 		},

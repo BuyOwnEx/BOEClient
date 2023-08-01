@@ -66,7 +66,6 @@ export default {
 	align-items: center;
 	border-top: 1px solid #90909057;
 	margin-top: auto;
-	padding-top: 4px;
 
 	&__field {
 		width: 90%;
