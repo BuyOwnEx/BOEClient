@@ -1,6 +1,6 @@
 <template>
 	<div class="trading">
-		<div v-if="!isMobile" class="trading__desktop fill-height">
+		<div v-if="!isMobile" class="trading__desktop fill-height" :class="[isLogged ? 'logged' : '']">
 			<TickersList class="trading__desktop__tickers" :currency="currency" :market="market" />
 
 			<TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
@@ -237,13 +237,12 @@ export default {
 		display: grid;
 		grid-gap: 5px;
 		grid-template-columns: 325px 1fr 1fr 1fr 1fr 325px;
-		grid-template-rows: 1fr 1fr;
+		grid-template-rows: 1fr;
 		grid-template-areas:
 			'tickers chart chart chart chart history'
 			'chat bid forms forms ask history'
 			'chat bid forms forms ask history'
-			'activity bid forms forms ask history'
-			'own own own own own own';
+			'activity bid forms forms ask history';
 
 		&__tickers {
 			grid-area: tickers;
@@ -285,6 +284,15 @@ export default {
 		}
 	}
 
+  &__desktop.logged {
+    grid-template-areas:
+			'tickers chart chart chart chart history'
+			'chat bid forms forms ask history'
+			'chat bid forms forms ask history'
+			'activity bid forms forms ask history'
+			'own own own own own own';
+  }
+
 	&__mobile {
 		display: flex;
 		flex-grow: 1;
@@ -308,9 +316,16 @@ export default {
 			'tickers chart chart chart chart history'
 			'chat bid bid ask ask history'
 			'chat forms forms forms forms history'
+			'activity forms forms forms forms history';
+	}
+  .trading__desktop.logged {
+    grid-template-areas:
+			'tickers chart chart chart chart history'
+			'chat bid bid ask ask history'
+			'chat forms forms forms forms history'
 			'activity forms forms forms forms history'
 			'own own own own own own';
-	}
+  }
 }
 
 @media screen and (max-width: 1382px) {
@@ -322,9 +337,24 @@ export default {
 				'bid bid bid bid ask ask ask ask tickers tickers tickers tickers'
 				'forms forms forms forms forms forms forms forms history history history history'
 				'forms forms forms forms forms forms forms forms history history history history'
+				'forms forms forms forms forms forms forms forms history history history history';
+      &__chart {
+        min-height: 400px;
+      }
+		}
+    &__desktop.logged {
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-areas:
+				'chart chart chart chart chart chart chart chart chart chart chart chart'
+				'bid bid bid bid ask ask ask ask tickers tickers tickers tickers'
+				'forms forms forms forms forms forms forms forms history history history history'
+				'forms forms forms forms forms forms forms forms history history history history'
 				'forms forms forms forms forms forms forms forms history history history history'
 				'own own own own own own own own own own own own';
-		}
+      &__chart {
+        min-height: 400px;
+      }
+    }
 	}
 }
 </style>
