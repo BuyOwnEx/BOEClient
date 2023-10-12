@@ -6,6 +6,7 @@ return [
     'api-secret-key'      => env('API_SECRET_KEY'),
     'api-mobile-public-key'      => env('API_MOBILE_PUBLIC_KEY'),
     'api-mobile-secret-key'      => env('API_MOBILE_SECRET_KEY'),
+    'captcha_enabled'     => (bool) env('CAPTCHA_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -234,7 +235,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Zendesk' => Huddle\Zendesk\Facades\Zendesk::class,
-        'Geetest' => App\Library\Geetest::class,
     ],
 
 ];

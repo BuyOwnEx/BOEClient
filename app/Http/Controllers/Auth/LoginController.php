@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateSecretRequest;
-use App\Library\Geetest;
 use App\Providers\RouteServiceProvider;
+use App\Rules\Geetest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Config;
 
 class LoginController extends Controller
 {
@@ -46,12 +46,20 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        Log::info($request);
-        $request->validate([
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-            'geetest_challenge' => 'geetest'
-        ]);
+        if (config('app.captcha_enabled'))
+        {
+            $request->validate([
+                $this->username() => 'required|string',
+                'password' => 'required|string',
+                'captcha' => ['required',new Geetest()]
+            ]);
+        }
+        else {
+            $request->validate([
+                $this->username() => 'required|string',
+                'password' => 'required|string'
+            ]);
+        }
     }
     /**
      * The user has been authenticated.
@@ -99,13 +107,11 @@ class LoginController extends Controller
 
     public function getGeetest(Request $request)
     {
-        $data = [
-            'client_type' => 'web',
-            'ip_address' => $request->getClientIp()
+        return [
+            'captcha_id' => Config::get('geetest.id'),
+            'product' => Config::get('geetest.product'),
+            'language' => Config::get('geetest.lang')
         ];
-        $status = Geetest::preProcess($data);
-        session()->put('gtserver', $status);
-        return Geetest::getResponseStr();
     }
 
     public function postValidateToken(ValidateSecretRequest $request)

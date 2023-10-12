@@ -140,6 +140,9 @@ Specific variables to this project:
     ZENDESK_USERNAME=
     ZENDESK_TOKEN=
     
+    # Is to use Geetest Captcha or not. It is recommended to use it. Disable it only if Geetest don`t work
+    CAPTCHA_ENABLED=true
+
     # geetest ID and Key. Get your own account at https://www.geetest.com/en/
     GEETEST_ID=
     GEETEST_KEY=

@@ -69,7 +69,7 @@
 			</div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn color="primary" :loading="loading" :disabled="!valid" tile block @click="verify">
+				<v-btn color="primary" :loading="loading" :disabled="!valid || !btn_available" tile block @click="verify">
 					{{ $t('auth.signin') }}
 				</v-btn>
 			</v-card-actions>
@@ -89,7 +89,7 @@
 			{{ verify_error }}
 		</v-alert>
 
-		<v-alert v-if="errors.geetest_challenge.length !== 0" dense text type="error" class="mt-4">
+		<v-alert v-if="errors.captcha.length !== 0" dense text type="error" class="mt-4">
 			{{ $t('auth.login.captcha_error') }}
 		</v-alert>
 
@@ -121,61 +121,73 @@ export default {
 				email: '',
 				password: '',
 				remember: false,
-				geetest_challenge: null,
-				geetest_validate: null,
-				geetest_seccode: null
+        captcha: window.captcha_enabled,
+        lot_number: null,
+        captcha_output: null,
+        pass_token: null,
+        gen_time: null
 			},
 			errors: {
 				email: [],
 				password: [],
 				remember: [],
-				geetest_challenge: []
+        captcha: []
 			},
-
+      captcha_obj: null,
+      captcha_init: false,
 			verify_block: window.verified,
 			verify_error: window.v_error,
 		};
 	},
-	created(){
-		this.initGT();
+
+  computed: {
+    btn_available() {
+      return window.captcha_enabled ? (this.captcha_obj !== null) : true;
+    },
+  },
+
+	created() {
+    if (this.user.captcha)
+		  this.initGT();
 	},
 
 	methods: {
 		initGT: function() {
-			let handler= function (captcha_obj,vm) {
-				//captcha_obj.appendTo("#captcha_register");
-				captcha_obj.onReady(function () {
-					//Initialization completion code
-					vm.captcha_obj=captcha_obj//Put this obj into the vue instance for management
-				}).onSuccess(function(){
-					//Get the three parameters of the verification call captcha_obj.getValidate()
-					vm.captcha_obj=captcha_obj;
-					let result = captcha_obj.getValidate();
-					//After completing the verification, call the send verification code function again to send the request through detection
-					vm.user.geetest_challenge = result.geetest_challenge;
-					vm.user.geetest_validate = result.geetest_validate;
-					vm.user.geetest_seccode = result.geetest_seccode;
-					vm.login()
-				}).onError(function () {
-					captcha_obj.reset();
-				})
+      let self = this;
+			let handler= function (captcha_obj) {
+				captcha_obj
+          .onReady(function () {
+            self.captcha_obj=captcha_obj
+          })
+          .onSuccess(function(){
+            self.captcha_obj=captcha_obj;
+            let result = captcha_obj.getValidate();
+
+            self.user.lot_number = result.lot_number;
+            self.user.captcha_output = result.captcha_output;
+            self.user.pass_token = result.pass_token;
+            self.user.gen_time = result.gen_time;
+            self.login()
+          })
+          .onError(function () {
+            captcha_obj.reset();
+          })
 			};
-			axios.get('/geetest?t='+(new Date()).getTime()).then(res=>{
-				let data=res.data;
-				// eslint-disable-next-line no-undef
-				initGeetest({
-					gt: data.gt,
-					challenge: data.challenge,
-					new_captcha: data.new_captcha, // When it is down, it means that it is the downtime of the new verification code
-					offline: !data.success, // Indicates that the user background checks whether the Jiyu server is down, generally do not need to pay attention
-					product: "bind", // Product form, including: float, popup
-					width: "100%",
-					lang: 'en'
-				}, handler,this);
+			axios.get('/geetest?t='+(new Date()).getTime()).then( res => {
+				let data = res.data;
+				initGeetest4({
+          captchaId: data.captcha_id,
+					product: data.product,
+          language: data.language,
+          protocol: 'https://'
+				}, handler);
 			})
 		},
 		verify() {
-			this.captcha_obj.verify();
+      if (this.user.captcha)
+			  this.captcha_obj.showCaptcha();
+      else
+        this.login();
 		},
 		login() {
 			this.startLoading();
@@ -183,7 +195,6 @@ export default {
 			axios.post('/login', form)
 				.then(response => {
 					if (response.data.auth) window.location.href = response.data.intended;
-					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
 				})
 				.catch(error => {
 					if (error.response.status === 422) {
@@ -195,8 +206,6 @@ export default {
 								}
 							}
 						}
-					} else {
-						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
 					}
 				})
 				.finally(() => {
