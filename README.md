@@ -117,10 +117,10 @@ docker-compose exec php php artisan serve --host=0.0.0.0
 Specific variables to this project:
 
     # API Server, that handles incoming requests. Use this demo server for test purposes.
-    SERVER=http://65.108.71.47:18888
-    MIX_WS_SERVER=wss://demo.buyownex.com/connection/websocket
-    API_PUBLIC_KEY=F8qErvMf5LLoZcMKhucDYnByuxeSx94lnHMIwTWItpPJ9c4Y6wxRdUbtZATmCFfyyUd2M1fhEcBo0b9y // demo public key for SERVER
-    API_SECRET_KEY=K8rx23vVSJKvZhywro4KAO4OaTmGRRGiDlESCx3XZsWKJs8e71MxcLntj4OxhQKF8xjDkLIQnJfB3N3K // demo secret key for SERVER
+    SERVER=https://api.buyownex.com
+    MIX_WS_SERVER=wss://ws.buyownex.com/ws
+    API_PUBLIC_KEY=9ayqB8BIUTyhDkEFxoNzyAVCQv523Fx9ynUhlHvOka7PUCOn91PMbh560wROb66Gu8rgm3gqoJkrbCgv // demo public key for SERVER
+    API_SECRET_KEY=q2e78LdPopmKPVCaAwxrrNmXb1qWMD3WoY77F7glTzByWD4d8zQHcyPLunBJ5I2szzzrbbsQGG141yeO // demo secret key for SERVER
     
     # Moble API keys
     API_MOBILE_PUBLIC_KEY= // public key for mobile app (optional)
