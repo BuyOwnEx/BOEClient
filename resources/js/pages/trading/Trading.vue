@@ -3,7 +3,7 @@
 		<div v-if="!isMobile" class="trading__desktop fill-height" :class="[isLogged ? 'logged' : '']">
 			<TickersList class="trading__desktop__tickers" :currency="currency" :market="market" />
 
-			<TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
+            <TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
 
 			<HistoryDealList class="trading__desktop__history" :market="market" :currency="currency" />
 
@@ -114,19 +114,19 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import TickersList from '../../components/trading/tickers/TradingTickersList';
-import TradingChartWrapper from '../../components/trading/chart/TradingChartWrapper';
-import HistoryDealList from '../../components/trading/history/HistoryDealList';
+import TickersList from '@/components/trading/tickers/TradingTickersList.vue';
+import TradingChartWrapper from '@/components/trading/chart/TradingChartWrapper.vue';
+import HistoryDealList from '@/components/trading/history/HistoryDealList.vue';
 
-import TradingChat from '../../components/trading/chat/TradingChat';
-import AskList from '../../components/trading/orders/ask/AskList';
-import TradingMarketActivity from '../../components/trading/market/TradingMarketActivity';
-import BidList from '../../components/trading/orders/bid/BidList';
+import TradingChat from '@/components/trading/chat/TradingChat.vue';
+import AskList from '@/components/trading/orders/ask/AskList.vue';
+import TradingMarketActivity from '@/components/trading/market/TradingMarketActivity.vue';
+import BidList from '@/components/trading/orders/bid/BidList.vue';
 
-import TradingFormsWrapper from '../../components/trading/forms/TradingFormsWrapper';
-import OwnListsTabsWrapper from '../../components/trading/user/OwnListsTabsWrapper';
+import TradingFormsWrapper from '@/components/trading/forms/TradingFormsWrapper.vue';
+import OwnListsTabsWrapper from '@/components/trading/user/OwnListsTabsWrapper.vue';
 
-import CentrifugeTradingMixin from '../../mixins/centrifugo-trading';
+import CentrifugeTradingMixin from '@/mixins/centrifugo-trading';
 
 export default {
 	name: 'Trading',
@@ -140,7 +140,7 @@ export default {
 		TradingChat,
 		TradingMarketActivity,
 		AskList,
-		AskBidLastPrice: () => import(/* webpackPrefetch: true */ '../../components/trading/orders/mobile/AskBidLastPrice'),
+		AskBidLastPrice: () => import('@/components/trading/orders/mobile/AskBidLastPrice.vue'),
 		BidList,
 		TradingFormsWrapper,
 		OwnListsTabsWrapper,
@@ -181,10 +181,10 @@ export default {
 		},
 
 		currency() {
-			return this.selectedCurrency.toUpperCase();
+			return this.selectedCurrency ? this.selectedCurrency.toUpperCase() : null;
 		},
 		market() {
-			return this.selectedMarket.toUpperCase();
+			return this.selectedMarket ? this.selectedMarket.toUpperCase() : null;
 		},
 	},
 
@@ -217,6 +217,8 @@ export default {
 				market: this.$trading_market,
 			});
 		}
+        if (this.$spa)
+            this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 	},
 
 	mounted() {

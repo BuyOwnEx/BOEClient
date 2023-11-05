@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import AskListTableBody from './AskListTableBody';
-import AskListTableHeader from './AskListTableHeader';
-import CommonLoading from '../../../../common/CommonLoading';
+import AskListTableBody from '@/components/trading/orders/ask/table/AskListTableBody.vue';
+import AskListTableHeader from '@/components/trading/orders/ask/table/AskListTableHeader.vue';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'AskListTableWrapper',

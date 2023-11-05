@@ -1,14 +1,14 @@
-import en from '../translations/en';
-import es from '../translations/es';
-import pt from '../translations/pt';
-import de from '../translations/de';
-import fr from '../translations/fr';
-import ar from '../translations/ar';
-import ko from '../translations/ko';
-import ru from '../translations/ru';
-import zh from '../translations/zh';
-import ja from '../translations/ja';
-import pl from '../translations/pl';
+import en from '../translations/js/en.js';
+import es from '../translations/js/es.js';
+import pt from '../translations/js/pt.js';
+import de from '../translations/js/de.js';
+import fr from '../translations/js/fr.js';
+import ar from '../translations/js/ar.js';
+import ko from '../translations/js/ko.js';
+import ru from '../translations/js/ru.js';
+import zh from '../translations/js/zh.js';
+import ja from '../translations/js/ja.js';
+import pl from '../translations/js/pl.js';
 
 const supported = ['en', 'es', 'pt', 'de', 'fr', 'ar', 'ko', 'ru', 'zh', 'ja', 'pl'];
 let locale = 'en';

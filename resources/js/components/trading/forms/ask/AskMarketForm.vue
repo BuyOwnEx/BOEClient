@@ -202,13 +202,14 @@
 <script>
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
-import config from '../../../../configs';
 
-import CommonTooltip from '../../../common/CommonTooltip';
-import TradingFormsConfirmDialog from '../common/TradingFormsConfirmDialog';
+import config from '@/configs';
 
-import formatWithScaleInAllCurrencies from '../../../../mixins/format/formatWithScaleInAllCurrencies';
-import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
+import CommonTooltip from '@/components/common/CommonTooltip.vue';
+import TradingFormsConfirmDialog from '@/components/trading/forms/common/TradingFormsConfirmDialog.vue';
+
+import formatWithScaleInAllCurrencies from '@/mixins/format/formatWithScaleInAllCurrencies';
+import showNotificationMixin from '@/mixins/common/showNotificationMixin';
 
 export default {
 	name: 'AskMarketForm',

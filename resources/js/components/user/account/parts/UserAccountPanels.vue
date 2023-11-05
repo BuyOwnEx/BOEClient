@@ -30,19 +30,19 @@
 				</div>
 				<div>
 					<span class="font-weight-bold">{{ $t('user.info.last_sign_in') }}: </span>
-					{{ formatDate(user.lastLoginAt) }}
+					{{ formatDate(user.last_login_at) }}
 				</div>
 				<div>
 					<span class="font-weight-bold">{{ $t('user.info.last_browser') }}: </span>
-					{{ user.lastBrowser }}
+					{{ user.last_browser }}
 				</div>
 				<div>
 					<span class="font-weight-bold">{{ $t('user.info.last_device') }}: </span>
-					{{ user.lastDevice }}
+					{{ user.last_device }}
 				</div>
 				<div>
 					<span class="font-weight-bold">{{ $t('user.info.last_os') }}: </span>
-					{{ user.lastOS }}
+					{{ user.last_os }}
 				</div>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
@@ -50,9 +50,9 @@
 </template>
 
 <script>
-import formatDate from '../../../../mixins/format/formatDate';
+import formatDate from '@/mixins/format/formatDate';
 
-import UserAccountDialogChangeEmail from '../dialog/UserAccountDialogChangeEmail';
+import UserAccountDialogChangeEmail from '@/components/user/account/dialog/UserAccountDialogChangeEmail.vue';
 
 export default {
 	name: 'UserAccountPanels',

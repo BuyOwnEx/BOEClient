@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use App\Library\BuyOwnExClientAPI;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ExceptionBuyOwnExAPI extends Exception
 {
@@ -11,23 +13,17 @@ class ExceptionBuyOwnExAPI extends Exception
     protected $message = 'Unknown error';
 
     public function __construct($code) {
+        parent::__construct();
         $this->code=$code;
-        switch($code) {
-            case BuyOwnExClientAPI::BadConstruction:
-                $this->message = trans('errors.api.BadConstruction');
-                break;
-            case BuyOwnExClientAPI::CurlNotInstalled:
-                $this->message = trans('errors.api.CurlNotInstalled');
-                break;
-            case BuyOwnExClientAPI::ApiKeyNotSet:
-                $this->message = trans('errors.api.ApiKeyNotSet');
-                break;
-            case BuyOwnExClientAPI::ApiSecretKeyNotSet:
-                $this->message = trans('errors.api.ApiSecretKeyNotSet');
-                break;
+        if ($code == BuyOwnExClientAPI::BadConstruction) {
+            $this->message = __('app.api.errors.BadConstruction');
         }
     }
-    public function report()
+    public function report() : void
+    {
+
+    }
+    public function render(Request $request): JsonResponse
     {
         return response()->json([
             'code' => $this->code,

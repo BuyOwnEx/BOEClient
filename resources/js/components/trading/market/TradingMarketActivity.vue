@@ -52,7 +52,7 @@ import BigNumber from 'bignumber.js';
 
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CommonLoading from '../../common/CommonLoading';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'TradingMarketActivity',

@@ -9,10 +9,7 @@
 			<canvas class="waves" id="waves"></canvas>
 
 			<div class="auth-layout__side-top mt-3 mt-md-1 pa-2">
-				<a href="/">
-					<v-img min-height="103" max-width="250" src="/images/logo_full.png" class="ma-auto" />
-				</a>
-
+                <Link path="/"><v-img min-height="103" max-width="250" :src="LogoFull" class="ma-auto" /></Link>
 				<div class="auth-layout__slogan title my-2 white--text">
 					{{ product.slogan }}
 				</div>
@@ -20,14 +17,10 @@
 
 			<div class="auth-layout__links overline pa-1 mb-1">
 				<span>
-					<a class="white--text" href="/">{{ $t('menu.trading') }}</a>
-					<a class="white--text" href="/fees">
-						{{ $t('fees.title') }}
-					</a>
-					<a class="white--text" href="/status">
-						{{ $t('status.title') }}
-					</a>
-					<a class="white--text" href="/api">{{ $t('menu.api') }}</a>
+                    <Link path="/">{{ $t('menu.trading') }}</Link>
+                    <Link class="white--text" path="/fees">{{ $t('fees.title') }}</Link>
+                    <Link class="white--text" path="/status">{{ $t('status.title') }}</Link>
+                    <Link class="white--text" path="/api">{{ $t('menu.api') }}</Link>
 				</span>
 			</div>
 		</v-sheet>
@@ -39,14 +32,10 @@
 
 			<div class="overline mt-4">
 				<div v-if="$vuetify.breakpoint.smAndDown" class="auth-layout__links mb-1">
-					<a href="/"> {{ $t('menu.trading') }}</a>
-					<a href="/fees">
-						{{ $t('fees.title') }}
-					</a>
-					<a href="/status">
-						{{ $t('status.title') }}
-					</a>
-					<a href="/api">{{ $t('menu.api') }}</a>
+                    <Link path="/">{{ $t('menu.trading') }}</Link>
+                    <Link path="/fees">{{ $t('fees.title') }}</Link>
+                    <Link path="/status">{{ $t('status.title') }}</Link>
+                    <Link path="/api">{{ $t('menu.api') }}</Link>
 				</div>
 
 				<div>{{ product.name }} - {{ product.version }}</div>
@@ -57,22 +46,25 @@
 
 <script>
 import { mapState } from 'vuex';
-
-import ToolbarThemeChanger from '../components/layout/toolbar/ToolbarThemeChanger';
-import ToolbarLanguage from '../components/layout/toolbar/ToolbarLanguage';
+import LogoFull from '@/assets/images/logo_full.png';
+import ToolbarThemeChanger from '@/components/layout/toolbar/ToolbarThemeChanger.vue';
+import ToolbarLanguage from '@/components/layout/toolbar/ToolbarLanguage.vue';
+import Link from "@/components/common/Link.vue";
 
 export default {
-	components: { ToolbarThemeChanger, ToolbarLanguage },
-
+	components: {
+        Link,
+        ToolbarThemeChanger,
+        ToolbarLanguage
+    },
 	data() {
-		return {};
+		return {
+            LogoFull
+        };
 	},
-
 	computed: {
 		...mapState('app', ['product']),
-	},
-
-	methods: {},
+	}
 };
 </script>
 

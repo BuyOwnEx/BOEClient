@@ -144,13 +144,13 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import BalanceFiatDialogSelectSystem from './parts/BalanceFiatDialogSelectSystem';
-import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
-import CommonAvailable from '../../../common/CommonAvailable';
+import BalanceFiatDialogSelectSystem from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogSelectSystem.vue';
+import BalanceFiatDialogAlert from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogAlert.vue';
+import CommonAvailable from '@/components/common/CommonAvailable.vue';
 
-import loadingMixin from '../../../../mixins/common/loadingMixin';
-import validateInputMixin from '../../../../mixins/common/validateInputMixin';
-import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceFiatDialogWithdraw',
@@ -169,11 +169,9 @@ export default {
 	data() {
 		return {
 			selectedSystem: null,
-
 			amount: '',
 			selectedMethodID: 1,
 			phone: '',
-
 			amountRules: [
 				v => !v || BigNumber(v).gte(this.minWithdraw) || this.$t('balance.less_min'),
 				v => !v || BigNumber(v).lte(this.maxWithdraw) || this.$t('balance.more_max'),

@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import UserApiItem from './parts/UserApiItem';
-import UserApiDialogCreate from './dialog/UserApiDialogCreate';
-import UserApiDialogDeleteAll from './dialog/UserApiDialogDeleteAll';
-import CommonLoading from '../../common/CommonLoading';
+import UserApiItem from '@/components/user/api/parts/UserApiItem.vue';
+import UserApiDialogCreate from '@/components/user/api/dialog/UserApiDialogCreate.vue';
+import UserApiDialogDeleteAll from '@/components/user/api/dialog/UserApiDialogDeleteAll.vue';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'UserApiTab',

@@ -30,7 +30,7 @@
 			</v-select>
 		</v-col>
 
-		<highcharts class="overview-depth-graph__graph" :options="options" :highcharts="hcInstance" ref="depth" />
+		<highcharts :constructor-type="'chart'" class="overview-depth-graph__graph" :options="options" :highcharts="hcInstanceOverview" ref="depth" />
 	</v-card>
 </template>
 
@@ -38,13 +38,16 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import { Chart } from 'highcharts-vue';
 import Highcharts from 'highcharts';
 import highchartsTheme from 'highcharts/themes/grid-light';
 highchartsTheme(Highcharts);
 
 export default {
 	name: 'MarketDepthGraph',
-
+    components: {
+        highcharts: Chart
+    },
 	props: {
 		currency: {
 			type: String,
@@ -58,7 +61,7 @@ export default {
 
 	data() {
 		return {
-			hcInstance: Highcharts,
+			hcInstanceOverview: Highcharts,
 			graphHeight: 450,
 			sp: 1,
 			options: {
@@ -161,6 +164,11 @@ export default {
 						xAxis: 1,
 					},
 				],
+                stockTools: {
+                    gui: {
+                        enabled: false
+                    }
+                }
 			},
 		};
 	},
@@ -190,6 +198,10 @@ export default {
 	},
 
 	methods: {
+        leaveHandler() {
+            this.$eventHub.$off('updateDepth', this.updateDepthHandler);
+            this.$eventHub.$off('overviewChartLeave', this.leaveHandler);
+        },
 		changePair(data) {
 			console.log(data);
 			const market = this.pairs ? _.find(this.pairs, item => item.id === data) : null;
@@ -229,6 +241,7 @@ export default {
 
 	mounted() {
 		this.$eventHub.$on('updateDepth', this.updateDepthHandler);
+        this.$eventHub.$on('overviewChartLeave', this.leaveHandler);
 	},
 };
 </script>

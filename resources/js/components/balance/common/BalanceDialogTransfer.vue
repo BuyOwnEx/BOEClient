@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="dialog" width="500">
-		<template #activator="{ on }">
-			<v-list-item dense v-on="on">
+		<template #activator="{ on: dialog_transfer }">
+			<v-list-item dense v-on="dialog_transfer">
 				<v-list-item-title>
 					{{ menuTitle }}
 				</v-list-item-title>
@@ -63,13 +63,13 @@ import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CommonAvailable from '../../common/CommonAvailable';
+import CommonAvailable from '@/components/common/CommonAvailable.vue';
 
-import loadingMixin from '../../../mixins/common/loadingMixin';
-import formValidationRules from '../../../mixins/common/formValidationRules';
-import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
-import validateInputMixin from '../../../mixins/common/validateInputMixin';
-import dialogMethodsMixin from '../../../mixins/common/dialogMethodsMixin';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import formValidationRules from '@/mixins/common/formValidationRules';
+import showNotificationMixin from '@/mixins/common/showNotificationMixin';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceDialogTransfer',
@@ -179,7 +179,7 @@ export default {
 			this.form.amount = this.availableBalance;
 		},
 		clearData() {
-			this.amount = '';
+			this.form.amount = '';
 		},
 	},
 };

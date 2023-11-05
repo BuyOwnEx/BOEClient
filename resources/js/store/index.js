@@ -20,17 +20,14 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
 	modules: {
 		app,
-
 		trading,
 		tickers,
 		tooltip: ordersTooltip,
 		chat,
-
 		balance,
 		support,
 		notifications,
 		user,
-
 		snackbar,
 	},
 });

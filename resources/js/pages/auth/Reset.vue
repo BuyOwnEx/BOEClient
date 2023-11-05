@@ -85,7 +85,7 @@
 				{{ reset_text }}
 			</v-alert>
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn color="primary" block tile href="/login">
+				<v-btn color="primary" block tile href="/login" :to="this.$spa ? '/login' : null">
 					{{ $t('auth.signin') }}
 				</v-btn>
 			</v-card-actions>
@@ -95,20 +95,17 @@
 </template>
 
 <script>
-import formValidationRules from '../../mixins/common/formValidationRules';
-import loadingMixin from '../../mixins/common/loadingMixin';
+import formValidationRules from '@/mixins/common/formValidationRules';
+import loadingMixin from '@/mixins/common/loadingMixin';
 
 export default {
 	name: 'Reset',
-
 	mixins: [formValidationRules, loadingMixin],
-
 	data() {
 		return {
 			valid: true,
 			show: false,
 			show_confirm: false,
-
 			user: {
 				email: window.reset.email,
 				token: window.reset.token,
@@ -124,36 +121,34 @@ export default {
 			reset_text: null
 		};
 	},
-
 	methods: {
 		set() {
 			this.startLoading();
-			axios
-				.post('/password/reset', this.user)
-				.then(response => {
-					if (response.data.success) {
-						this.reset_text = response.data.message;
-						this.reset_alert = true;
-					}
-				})
-				.catch(error => {
-					this.reset_alert = false;
-					if (error.response.status === 422) {
-						let errors = error.response.data.errors;
-						if (errors) {
-							for (let field in errors) {
-								if (errors.hasOwnProperty(field)) {
-									this.errors[field] = errors[field];
-								}
-							}
-						}
-					} else {
-						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
-					}
-				})
-				.finally(() => {
-					this.stopLoading()
-				});
+			axios.post('/password/reset', this.user)
+            .then(response => {
+                if (response.data.success) {
+                    this.reset_text = response.data.message;
+                    this.reset_alert = true;
+                }
+            })
+            .catch(error => {
+                this.reset_alert = false;
+                if (error.response.status === 422) {
+                    let errors = error.response.data.errors;
+                    if (errors) {
+                        for (let field in errors) {
+                            if (errors.hasOwnProperty(field)) {
+                                this.errors[field] = errors[field];
+                            }
+                        }
+                    }
+                } else {
+                    //this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
+                }
+            })
+            .finally(() => {
+                this.stopLoading()
+            });
 		},
 	},
 };

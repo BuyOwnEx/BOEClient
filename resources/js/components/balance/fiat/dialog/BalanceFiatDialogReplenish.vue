@@ -138,12 +138,12 @@
 
 <script>
 import QrCode from '@chenfengyuan/vue-qrcode';
-import BalanceFiatDialogSelectSystem from './parts/BalanceFiatDialogSelectSystem';
-import BalanceFiatDialogAlert from './parts/BalanceFiatDialogAlert';
+import BalanceFiatDialogSelectSystem from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogSelectSystem.vue';
+import BalanceFiatDialogAlert from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogAlert.vue';
 
-import loadingMixin from '../../../../mixins/common/loadingMixin';
-import validateInputMixin from '../../../../mixins/common/validateInputMixin';
-import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 import BigNumber from 'bignumber.js';
 
 export default {
@@ -163,15 +163,15 @@ export default {
 	data() {
 		return {
 			selectedSystem: null,
-      bank_details: null,
+            bank_details: null,
 			amount: '',
-      amountFormValid: false,
-      gateways: [],
+            amountFormValid: false,
+            gateways: [],
 			step: 1,
-      amountRules: [
-        v => !v || BigNumber(v).gte(this.selectedSystem.minReplenish) || this.$t('balance.less_min'),
-        v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-      ],
+            amountRules: [
+                v => !v || BigNumber(v).gte(this.selectedSystem.minReplenish) || this.$t('balance.less_min'),
+                v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
+            ],
 		};
 	},
 

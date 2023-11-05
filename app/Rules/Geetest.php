@@ -2,11 +2,11 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Config;
-use App\Library\GeetestLib;
 
-class Geetest implements Rule
+class Geetest implements ValidationRule
 {
     protected $lot_number;
     protected $captcha_output;
@@ -15,10 +15,23 @@ class Geetest implements Rule
 
     public function __construct()
     {
-        list($this->lot_number, $this->captcha_output, $this->pass_token, $this->gen_time) = array_values(request()->only('lot_number', 'captcha_output', 'pass_token', 'gen_time'));
+        list($this->lot_number,
+            $this->captcha_output,
+            $this->pass_token,
+            $this->gen_time) = array_values(request()->only(
+                'lot_number',
+                'captcha_output',
+                'pass_token',
+                'gen_time'
+        ));
     }
 
-    public function passes($attribute, $value)
+    /**
+     * Run the validation rule.
+     *
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $sign_token = hash_hmac('sha256', $this->lot_number, Config::get('geetest.key'));
         $api_server = Config::get('geetest.api_server');
@@ -32,17 +45,10 @@ class Geetest implements Rule
         $url = sprintf($api_server . "/validate" . "?captcha_id=%s", Config::get('geetest.id'));
         $res = $this->post_request_v4($url,$data);
         $obj = json_decode($res,true);
-        if ($obj['status'] === 'success' && $obj['result'] === 'success') {
-            return true;
+        if ($obj['status'] !== 'success' || $obj['result'] !== 'success') {
+            $fail('app.validation.captcha')->translate();
         }
-        return false;
     }
-
-    public function message()
-    {
-        return 'The validation error message.';
-    }
-
     protected function post_request_v4($url, $postdata)
     {
         $data = http_build_query($postdata);

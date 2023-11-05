@@ -262,14 +262,14 @@ import { mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CommonTooltip from '../../../common/CommonTooltip';
-import CommonAvailable from '../../../common/CommonAvailable';
-import BalanceCryptoDialogSelectSystem from './parts/BalanceCryptoDialogSelectSystem';
+import CommonTooltip from '@/components/common/CommonTooltip.vue';
+import CommonAvailable from '@/components/common/CommonAvailable.vue';
+import BalanceCryptoDialogSelectSystem from '@/components/balance/crypto/dialog/parts/BalanceCryptoDialogSelectSystem.vue';
 
-import loadingMixin from '../../../../mixins/common/loadingMixin';
-import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
-import validateInputMixin from '../../../../mixins/common/validateInputMixin';
-import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import showNotificationMixin from '@/mixins/common/showNotificationMixin';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
@@ -287,9 +287,8 @@ export default {
 
 	data() {
 		return {
-      selectedPlatform: null,
+            selectedPlatform: null,
 			address: '',
-
 			amount: '',
 			amountFormValid: false,
 			amountRules: [
@@ -298,10 +297,8 @@ export default {
 				v => !v || BigNumber(v).lte(this.availableForWithdraw) || this.$t('balance.more_withdraw_available'),
 				v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
 			],
-
 			emailCode: '',
 			twoFACode: '',
-
 			isSuccessWithdraw: false,
 			step: 1,
 		};
@@ -349,19 +346,18 @@ export default {
 
 	mounted() {
 		this.$store.subscribe(mutation => {
-			const type = mutation.type;
-			const { address, currency, platform } = mutation.payload;
-			const setAddressValidation = type === 'user/setAddressValidation';
-
-			if (setAddressValidation && currency === this.currency && platform.toLowerCase() === this.selectedPlatform.base_currency.toLowerCase()) {
-				if (address === true) {
-					this.step = 3;
-					this.stopLoading();
-				} else if (address === false) {
-					this.stopLoading();
-					this.pushErrorNotification(_, 'incorrect');
-				}
-			}
+            if (mutation.type === 'user/setAddressValidation') {
+                const { address, currency, platform } = mutation.payload;
+                if (currency === this.currency && platform.toLowerCase() === this.selectedPlatform.base_currency.toLowerCase()) {
+                    if (address === true) {
+                        this.step = 3;
+                        this.stopLoading();
+                    } else if (address === false) {
+                        this.stopLoading();
+                        this.pushErrorNotification(_, 'incorrect');
+                    }
+                }
+            }
 		});
 	},
 

@@ -178,16 +178,15 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import formatDate from '../../../../mixins/format/formatDate';
+import formatDate from '@/mixins/format/formatDate';
 
 export default {
 	name: 'OwnActivePositionList',
 
 	components: {
-		TradingUserDialogPositionAdd: () => import(/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionAdd'),
-		TradingUserDialogPositionClose: () =>
-			import(/* webpackPrefetch: true */ '../dialog/TradingUserDialogPositionClose'),
-		CommonDialog: () => import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
+		TradingUserDialogPositionAdd: () => import('@/components/trading/user/dialog/TradingUserDialogPositionAdd.vue'),
+		TradingUserDialogPositionClose: () => import('@/components/trading/user/dialog/TradingUserDialogPositionClose.vue'),
+		CommonDialog: () => import('@/components/common/CommonDialog.vue'),
 	},
 
 	mixins: [formatDate],

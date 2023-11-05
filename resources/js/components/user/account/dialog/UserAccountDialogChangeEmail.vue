@@ -135,13 +135,13 @@
 <script>
 import { mapMutations, mapActions } from 'vuex';
 
-import CommonTooltip from '../../../common/CommonTooltip';
+import CommonTooltip from '@/components/common/CommonTooltip.vue';
 
-import loadingMixin from '../../../../mixins/common/loadingMixin';
-import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
-import validateInputMixin from '../../../../mixins/common/validateInputMixin';
-import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
-import formValidationRules from '../../../../mixins/common/formValidationRules';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import showNotificationMixin from '@/mixins/common/showNotificationMixin';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
+import formValidationRules from '@/mixins/common/formValidationRules';
 
 export default {
 	name: 'UserAccountDialogChangeEmail',

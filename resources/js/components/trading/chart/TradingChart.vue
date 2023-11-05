@@ -6,6 +6,7 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
+import { Chart } from 'highcharts-vue';
 import Highcharts from 'highcharts';
 import loadStock from 'highcharts/modules/stock';
 import indicators from 'highcharts/indicators/indicators-all';
@@ -31,7 +32,9 @@ highchartsTheme(Highcharts);
 
 export default {
 	name: 'TradingChart',
-
+    components: {
+        highcharts: Chart
+    },
 	props: {
 		currency: {
 			type: String,
@@ -64,7 +67,7 @@ export default {
 					spacing: [10, 10, 10, 10],
 					events: {
 						load() {
-              this.redraw();
+                            this.redraw();
 						},
 					},
 				},
@@ -305,7 +308,7 @@ export default {
 								items: ['typeCandlestick', 'typeLine', 'typeOHLC'],
 							},
 						},
-						iconsURL: '/images/highcharts/',
+						iconsURL: '/resources/js/assets/images/highcharts/',
 					},
 				},
 			},
@@ -331,6 +334,12 @@ export default {
 	},
 
 	methods: {
+        leaveHandler() {
+            this.$eventHub.$off('addedPoint', this.addPointHandler);
+            this.$eventHub.$off('updatedPoint', this.updatePointHandler);
+            this.$eventHub.$off('initGraphData', this.initGraphDataHandler);
+            this.$eventHub.$off('chartLeave', this.leaveHandler);
+        },
 		monitoringFullMode() {
 			if (document.addEventListener) {
 				document.addEventListener('webkitfullscreenchange', this.exitHandler, false);
@@ -347,75 +356,85 @@ export default {
 			}
 		},
 		initGraphDataHandler(data) {
-			const candle = this.$refs.candle;
-			const graphsToProcess = ['main'];
-			candle.chart.series.forEach((item, i) => {
-				const id = _.get(item, 'options.id', undefined);
-				if (graphsToProcess.indexOf(id) !== -1) {
-					candle.chart.series[i].setData(data.xData, false, false, false);
-				}
-			});
-			candle.chart.series[1].setData(data.yData, false);
-			const overscroll = Math.round(this.candle_room) * 60 * 1000;
-			candle.chart.xAxis[0].update({
-				range: this.valuesToDisplay * this.candle_room * 60 * 1000,
-				overscroll,
-			});
-      setTimeout(() => {
-        candle.chart.redraw();
-        candle.chart.reflow();
-      }, 200);
+            if (this.$refs.candle)
+            {
+                const candle = this.$refs.candle;
+                const graphsToProcess = ['main'];
+                candle.chart.series.forEach((item, i) => {
+                    const id = _.get(item, 'options.id', undefined);
+                    if (graphsToProcess.indexOf(id) !== -1) {
+                        candle.chart.series[i].setData(data.xData, false, false, false);
+                    }
+                });
+                candle.chart.series[1].setData(data.yData, false);
+                const overscroll = Math.round(this.candle_room) * 60 * 1000;
+                candle.chart.xAxis[0].update({
+                    range: this.valuesToDisplay * this.candle_room * 60 * 1000,
+                    overscroll,
+                });
+                setTimeout(() => {
+                    candle.chart.redraw();
+                    candle.chart.reflow();
+                }, 200);
+            }
 		},
 		addPointHandler(data) {
-			const candle = this.$refs.candle;
-			const shift = candle.chart.series[0].options.data.length >= this.maxCandles;
-			candle.chart.series[0].addPoint(
-				{
-					x: parseInt(data.point.x),
-					open: data.point.close,
-					high: data.point.close,
-					low: data.point.close,
-					close: data.point.close,
-				},
-				false,
-				shift,
-				true
-			);
-			candle.chart.series[1].addPoint(
-				{
-					x: parseInt(data.point.x),
-					y: 0,
-				},
-				true,
-				shift,
-				true
-			);
-			candle.chart.redraw();
+            if (this.$refs.candle)
+            {
+                const candle = this.$refs.candle;
+                const shift = candle.chart.series[0].options.data.length >= this.maxCandles;
+                candle.chart.series[0].addPoint(
+                    {
+                        x: parseInt(data.point.x),
+                        open: data.point.close,
+                        high: data.point.close,
+                        low: data.point.close,
+                        close: data.point.close,
+                    },
+                    false,
+                    shift,
+                    true
+                );
+                candle.chart.series[1].addPoint(
+                    {
+                        x: parseInt(data.point.x),
+                        y: 0,
+                    },
+                    true,
+                    shift,
+                    true
+                );
+                candle.chart.redraw();
+            }
 		},
 		updatePointHandler(data) {
-			const candle = this.$refs.candle;
-			const candlesData = candle.chart.series[0].options.data;
-			const volumeData = candle.chart.series[1].options.data;
-			candlesData[candlesData.length - 1] = {
-				x: parseInt(data.point.x),
-				open: BigNumber(data.point.open).toNumber(),
-				high: BigNumber(data.point.high).toNumber(),
-				low: BigNumber(data.point.low).toNumber(),
-				close: BigNumber(data.point.close).toNumber(),
-			};
-			volumeData[volumeData.length - 1] = {
-				x: parseInt(data.point.x),
-				y: BigNumber(data.point.volume).toNumber(),
-			};
-			const graphsToProcess = ['main'];
-			candle.chart.series.forEach((item, i) => {
-				const id = _.get(item, 'options.id', undefined);
-				if (graphsToProcess.indexOf(id) !== -1) {
-					candle.chart.series[i].setData(candlesData, false, false, false);
-				}
-			});
-			candle.chart.series[1].setData(volumeData, false);
-			candle.chart.redraw();
+            if (this.$refs.candle)
+            {
+                const candle = this.$refs.candle;
+                const candlesData = candle.chart.series[0].options.data;
+                const volumeData = candle.chart.series[1].options.data;
+                candlesData[candlesData.length - 1] = {
+                    x: parseInt(data.point.x),
+                    open: BigNumber(data.point.open).toNumber(),
+                    high: BigNumber(data.point.high).toNumber(),
+                    low: BigNumber(data.point.low).toNumber(),
+                    close: BigNumber(data.point.close).toNumber(),
+                };
+                volumeData[volumeData.length - 1] = {
+                    x: parseInt(data.point.x),
+                    y: BigNumber(data.point.volume).toNumber(),
+                };
+                const graphsToProcess = ['main'];
+                candle.chart.series.forEach((item, i) => {
+                    const id = _.get(item, 'options.id', undefined);
+                    if (graphsToProcess.indexOf(id) !== -1) {
+                        candle.chart.series[i].setData(candlesData, false, false, false);
+                    }
+                });
+                candle.chart.series[1].setData(volumeData, false);
+                candle.chart.redraw();
+            }
+
 		},
 	},
 
@@ -463,7 +482,6 @@ export default {
 			this.$store.commit('trading/setGraphPeriod', val);
 		},
 	},
-
 	created() {
 		this.$nextTick(() => {
 			window.candle = this.$refs.candle;
@@ -493,13 +511,11 @@ export default {
 		this.$eventHub.$on('addedPoint', this.addPointHandler);
 		this.$eventHub.$on('updatedPoint', this.updatePointHandler);
 		this.$eventHub.$on('initGraphData', this.initGraphDataHandler);
+        this.$eventHub.$on('chartLeave', this.leaveHandler);
 	},
 
 	mounted() {
 		this.monitoringFullMode();
 	},
-
-	activated() {},
-	deactivated() {},
 };
 </script>

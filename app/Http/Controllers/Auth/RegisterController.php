@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use App\Rules\ActiveTraderExists;
 use App\Rules\TraderExists;
-use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -53,15 +53,11 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        Log::info(print_r($data, true));
         return Validator::make($data, [
             'name' => ['required', 'string', 'min:5' ,'max:128', 'regex:/^([a-zA-Z0-9-_])+$/', 'unique:users', new TraderExists],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'ref' => [
-                'string',
-                'max:100',
-                new ActiveTraderExists
-            ]
+            'password' => ['required', 'string', 'min:8', 'confirmed']
         ]);
     }
 
@@ -69,25 +65,19 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
+        $referrer = User::find(intval(session()->pull('ref'))); // intval(null) = 0
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'inviteCode' => $data['ref'] ?? null
+            'invite_code' => $referrer?->id
         ]);
     }
 
-    /**
-     * The user has been registered.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
     protected function registered(Request $request, $user)
     {
         if ($request->ajax())

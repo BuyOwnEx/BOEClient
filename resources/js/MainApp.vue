@@ -1,41 +1,41 @@
 <template>
 	<v-app>
-		<component :is="currentLayout">
+		<layout>
 			<transition name="fade" mode="out-in">
-				<component v-bind:is="component"></component>
+				<component :is="component"></component>
 			</transition>
-		</component>
+        </layout>
 	</v-app>
 </template>
 
 <script>
 import config from './configs';
-import defaultLayout from './layouts/DefaultLayout';
-
+import Layout from "./layouts/DefaultLayout.vue";
 export default {
 	name: 'MainApp',
-
-	components: {
-		defaultLayout,
-	},
-
+    components: {
+        Layout
+    },
 	data: () => ({
-		currentLayout: 'defaultLayout',
 		component: null,
 	}),
-
+    computed: {
+        loader() {
+            return () => import(`./pages/main/${this.$component}`+`.vue`);
+        },
+    },
 	head: {
 		link: [
 			// adds config/icons into the html head tag
 			...config.icons.map(href => ({ rel: 'stylesheet', href })),
 		],
 	},
-
 	created() {
-		this.component = this.$component;
-		this.lang = this.$lang;
+        this.loader().then(res => {
+            // components can be defined as a function that returns a promise;
+            this.component = () => this.loader();
+        })
 	},
-
 	mounted() {
 		this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 		this.$store.commit('app/setConfig', { config: this.$config, vm: this });

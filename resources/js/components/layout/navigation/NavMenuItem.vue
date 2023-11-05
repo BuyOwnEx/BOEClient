@@ -4,6 +4,7 @@
 			v-if='!menuItem.items'
 			:input-value='menuItem.value'
 			:href='menuItem.link'
+            :to="this.$spa ? menuItem.link : null"
 			:disabled='menuItem.disabled'
 			active-class='primary--text'
 			link
@@ -26,6 +27,7 @@
 			:disabled='menuItem.disabled'
 			:sub-group='subgroup'
 			:href='menuItem.link'
+            :to="this.$spa ? menuItem.link : null"
 			link
 		>
 

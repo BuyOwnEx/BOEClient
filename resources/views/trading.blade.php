@@ -1,16 +1,15 @@
 @extends('layouts.main')
 @section('title')
-    {{strtoupper($currency)}}/{{strtoupper($market)}}
+    {{ strtoupper($currency) }}/{{ strtoupper($market) }}
 @endsection
 @section('keywords')
-    keywords
+    {{ __('keywords.main') }}
 @endsection
 @section('description')
-    description
+    {{ __('descriptions.main') }}
 @endsection
 @section('styles')
-    <link href="{{ mix('dist/css/app.css') }}" rel="stylesheet">
-    <link href="{{ mix('dist/css/highcharts.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
 @endsection
 @section('scripts')
     <script>
@@ -20,5 +19,9 @@
         window.trading_market = {!! json_encode($market); !!};
         window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
     </script>
-    <script src="{{mix('dist/js/trading.js')}}"></script>
+    @if (config('app.spa_enabled'))
+        @vite('resources/js/app.js')
+    @else
+        @vite('resources/js/trading.js')
+    @endif
 @endsection

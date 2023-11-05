@@ -4,7 +4,7 @@
 
 		<slot>
 			<span>{{ $t('common.have_questions') }}</span>
-			<a href="/contacts">{{ $t('common.contact') }}</a>
+            <Link path="/contacts">{{ $t('common.contact') }}</Link>
 		</slot>
 
 		<!--		-->
@@ -12,7 +12,11 @@
 </template>
 
 <script>
+import Link from "@/components/common/Link.vue";
 export default {
 	name: 'DocsFooter',
+    components: {
+        Link
+    },
 };
 </script>

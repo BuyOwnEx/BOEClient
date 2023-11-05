@@ -6,7 +6,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import NavMenu from './NavMenu';
+import NavMenu from '@/components/layout/navigation/NavMenu.vue';
 
 export default {
 	name: 'MainMenu',

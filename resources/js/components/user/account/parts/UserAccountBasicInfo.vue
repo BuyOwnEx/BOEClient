@@ -79,7 +79,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import CommonCopyLabel from '../../../common/CommonCopyLabel';
+import CommonCopyLabel from '@/components/common/CommonCopyLabel.vue';
 
 export default {
 	name: 'UserAccountBasicInfo',

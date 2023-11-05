@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import DocsContentNestedWithItems from '../nested/DocsContentNestedWithItems';
-import DocsContentNestedWithoutItems from '../nested/DocsContentNestedWithoutItems';
+import DocsContentNestedWithItems from '@/components/docs/content/nested/DocsContentNestedWithItems.vue';
+import DocsContentNestedWithoutItems from '@/components/docs/content/nested/DocsContentNestedWithoutItems.vue';
 
 export default {
 	name: 'DocsContentTypeNested',

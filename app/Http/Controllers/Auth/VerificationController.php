@@ -5,17 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Library\BuyOwnExClientAPI;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Models\User;
 use Exception;
-use Illuminate\Foundation\Auth\VerifiesEmails;
-use Illuminate\Http\Request;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class VerificationController extends Controller
 {
@@ -30,10 +29,7 @@ class VerificationController extends Controller
     |
     */
 
-    use VerifiesEmails {
-        verify as public traitVerify;
-        show as public traitShow;
-    }
+    use VerifiesEmails;
 
     /**
      * Where to redirect users after verification.
@@ -49,17 +45,11 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth')->only('show', 'resend');
+        //$this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:3,1')->only('verify', 'resend');
     }
 
-    /**
-     * Show the email verification notice.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
-     */
     public function show(Request $request)
     {
         return $request->session()->has('activation')
@@ -67,14 +57,6 @@ class VerificationController extends Controller
             : redirect($this->redirectPath());
     }
 
-    /**
-     * Mark the authenticated user's email address as verified.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
     public function verify(Request $request)
     {
         if(!$request->route('id')) {
@@ -89,7 +71,7 @@ class VerificationController extends Controller
         if ($user->email_verified_at) {
             return $request->wantsJson()
                 ? new JsonResponse([], 204)
-                : redirect($this->redirectPath())->with('error', trans('auth.already_verified'));
+                : redirect($this->redirectPath())->with('error', __('app.auth.already_verified'));
         }
         try
         {
@@ -101,7 +83,7 @@ class VerificationController extends Controller
                 DB::rollBack();
                 return $request->wantsJson()
                     ? new JsonResponse([], 204)
-                    : redirect($this->redirectPath())->with('error', trans('auth.verification_error'));
+                    : redirect($this->redirectPath())->with('error', __('app.auth.verification_error'));
             }
             else
             {
@@ -111,18 +93,17 @@ class VerificationController extends Controller
                     DB::rollBack();
                     return $request->wantsJson()
                         ? new JsonResponse([], 204)
-                        : redirect($this->redirectPath())->with('error', trans('auth.verification_error'));
+                        : redirect($this->redirectPath())->with('error', __('app.auth.verification_error'));
                 }
                 else
                 {
                     $user->email_verified_at = Date::now();
                     $user->save();
                     event(new Verified($user));
+                    DB::commit();
                     if ($response = $this->verified($request)) {
-                        DB::commit();
                         return $response;
                     }
-                    DB::commit();
                     return $request->wantsJson()
                         ? new JsonResponse([], 204)
                         : redirect($this->redirectPath())->with('verified', true);
@@ -138,12 +119,6 @@ class VerificationController extends Controller
         }
     }
 
-    /**
-     * Resend the email verification notification.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     */
     public function resend(Request $request)
     {
         if ($request->ajax())
@@ -153,20 +128,20 @@ class VerificationController extends Controller
             {
                 return response()->json([
                     'resend' => false,
-                    'message' => trans('auth.no_such_user')
+                    'message' => __('app.auth.no_such_user')
                 ]);
             }
             if ($user->email_verified_at) {
                 return response()->json([
                     'resend' => false,
-                    'message' => trans('auth.already_verified')
+                    'message' => __('app.auth.already_verified')
                 ]);
             }
             $user->notify(new VerifyEmail);
 
             return response()->json([
                 'resend' => true,
-                'message' => trans('auth.already_verified')
+                'message' => __('app.auth.already_verified')
             ]);
         }
         return $request->wantsJson()
@@ -174,12 +149,6 @@ class VerificationController extends Controller
             : back()->with('resent', true);
     }
 
-    /**
-     * The user has been verified.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
     protected function verified(Request $request)
     {
         $request->session()->flash('verified', true);

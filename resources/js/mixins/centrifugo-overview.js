@@ -36,7 +36,7 @@ export default {
 	},
 	methods: {
 		initWSConnection() {
-			this.centrifuge = new Centrifuge(process.env.MIX_WS_SERVER, {
+			this.centrifuge = new Centrifuge(import.meta.env.VITE_WS_SERVER, {
 				debug: true,
 				subscribeEndpoint: '/trader/ext/private',
 				subscribeHeaders: {
@@ -93,12 +93,14 @@ export default {
 				this.sub_tickers.on('unsubscribe', this.channelUnsubscribeHandler);
 			});
 			this.$store.dispatch('trading/getOrderBookFromServer').then(resp => {
-				if (resp.asks_list.length !== 0) {
+                this.$eventHub.$emit('updateDepth', { asks_list: resp.asks_list });
+                this.$eventHub.$emit('updateDepth', { bids_list: resp.bids_list });
+				/*if (resp.asks_list.length !== 0) {
 					this.$eventHub.$emit('updateDepth', { asks_list: resp.asks_list });
 				}
 				if (resp.bids_list.length !== 0) {
 					this.$eventHub.$emit('updateDepth', { bids_list: resp.bids_list });
-				}
+				}*/
 				this.sub_order_book = this.centrifuge.subscribe('public:order_book_' + this.selectedCurrency.toLowerCase() + '_' + this.selectedMarket.toLowerCase());
 				this.sub_order_book.on('subscribe', this.channelSubscribeHandler);
 				this.sub_order_book.on('publish', this.orderBookPubHandler);
@@ -181,14 +183,27 @@ export default {
 		},
 	},
 	mounted() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	created() {
-		//this.$eventHub.$on('set-user', this.initWSConnection);
+		this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);
 	},
+    beforeRouteLeave(to, from, next) {
+        // called when the route that renders this component is about to
+        // be navigated away from.
+        // has access to `this` component instance.
+        //this.unsubscribeAll();
+        this.$eventHub.$emit('overviewChartLeave');
+        //this.needWatch = false;
+        /*this.$store.commit('trading/setPair', {
+            currency: 'BTC',
+            market: 'USDT',
+        });*/
+        next();
+    },
 	activated() {
 		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},

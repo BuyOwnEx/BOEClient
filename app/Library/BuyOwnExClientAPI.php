@@ -3,11 +3,8 @@
 namespace App\Library;
 
 use App\Exceptions\ExceptionBuyOwnExAPI;
-use App\Mail\WithdrawRequest;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class BuyOwnExClientAPI
 {
@@ -798,7 +795,7 @@ class BuyOwnExClientAPI
             'trader' => $trader->id,
             'name' => $trader->name,
             'email' => $trader->email,
-            'ref' => $trader->inviteCode,
+            'ref' => $trader->invite_code,
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

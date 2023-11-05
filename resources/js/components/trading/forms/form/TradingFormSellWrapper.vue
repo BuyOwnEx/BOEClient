@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import AskMarketForm from '../ask/AskMarketForm';
-import AskLimitForm from '../ask/AskLimitForm';
-import TradingFormsBest from '../common/TradingFormsBest';
+import AskMarketForm from '@/components/trading/forms/ask/AskMarketForm.vue';
+import AskLimitForm from '@/components/trading/forms/ask/AskLimitForm.vue';
+import TradingFormsBest from '@/components/trading/forms/common/TradingFormsBest.vue';
 
 export default {
 	name: 'TradingFormSellWrapper',

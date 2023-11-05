@@ -114,17 +114,17 @@
 <script>
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
-
-import balanceStateMethodsMixin from '../../../mixins/balance/balanceStateMethodsMixin';
+import lodash from 'lodash';
+import balanceStateMethodsMixin from '@/mixins/balance/balanceStateMethodsMixin';
 
 export default {
 	name: 'BalanceFiatList',
 
 	components: {
-		BalanceFiatDialogReplenish: () => import(/* webpackPrefetch: true */ './dialog/BalanceFiatDialogReplenish'),
-		BalanceFiatDialogWithdraw: () => import(/* webpackPrefetch: true */ './dialog/BalanceFiatDialogWithdraw'),
-		BalanceDialogTransfer: () => import(/* webpackPrefetch: true */ '../common/BalanceDialogTransfer'),
-		CommonTooltip: () => import(/* webpackPrefetch: true */ '../../common/CommonTooltip'),
+		BalanceFiatDialogReplenish: () => import('@/components/balance/fiat/dialog/BalanceFiatDialogReplenish.vue'),
+		BalanceFiatDialogWithdraw: () => import('@/components/balance/fiat/dialog/BalanceFiatDialogWithdraw.vue'),
+		BalanceDialogTransfer: () => import('@/components/balance/common/BalanceDialogTransfer.vue'),
+		CommonTooltip: () => import('@/components/common/CommonTooltip.vue'),
 	},
 
 	mixins: [balanceStateMethodsMixin],

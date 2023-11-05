@@ -68,8 +68,8 @@ export default {
 	},
 	mutations: {
 		setPair(state, payload) {
-			state.selectedCurrency = payload.currency.toLowerCase();
-			state.selectedMarket = payload.market.toLowerCase();
+			state.selectedCurrency = payload.currency !== null ? payload.currency.toLowerCase() : null;
+			state.selectedMarket = payload.market !== null ? payload.market.toLowerCase() : null;
 		},
 		setAskList(state, list) {
 			state.ask_list = list;
@@ -264,12 +264,6 @@ export default {
 						volumes = volumes.sort((a, b) => {
 							return a.x - b.x;
 						});
-						console.log(
-							'Last timestamp OHLC from API: ' + ohlc[ohlc.length - 1].x,
-						);
-						console.log(
-							'Last timestamp VOLUME from API: ' + volumes[volumes.length - 1].x,
-						);
 						commit('setGraphData', {
 							candlesData: ohlc,
 							volumeData: volumes,

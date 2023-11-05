@@ -2,44 +2,28 @@
 
 namespace App\Rules;
 
-use App\User;
-use Illuminate\Contracts\Validation\Rule;
+use App\Models\User;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Cache;
 
-class UsedGoogleToken implements Rule
+class UsedGoogleToken implements ValidationRule
 {
     private $user;
 
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
     public function __construct(User $user)
     {
         $this->user = $user;
     }
-
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $key = $this->user->id . ':' . $value;
-        return !Cache::has($key);
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return trans('validation.2fa_reuse');
+        if(Cache::has($key))
+            $fail('app.validation.2fa_reuse')->translate();
     }
 }

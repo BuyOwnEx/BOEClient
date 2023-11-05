@@ -156,8 +156,7 @@
 								class="trading-tickers-list__body-item--change text-end"
 								:class="[getPercentColorClass(item.changePercent)]"
 							>
-								<span>{{ item.changePercent }}</span>
-								<span>%</span>
+								<span>{{ item.changePercent }}</span> <span>%</span>
 							</td>
 						</tr>
 					</tbody>
@@ -175,9 +174,9 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CommonLoading from '../../common/CommonLoading';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
-import formatWithScaleInAllCurrencies from '../../../mixins/format/formatWithScaleInAllCurrencies';
+import formatWithScaleInAllCurrencies from '@/mixins/format/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'TradingTickersList',
@@ -332,8 +331,8 @@ export default {
 			return BigNumber(item);
 		},
 		selectMarketAndCurrency(market, currency) {
-			market = market.toLowerCase();
-			currency = currency.toLowerCase();
+			market = market.toUpperCase();
+			currency = currency.toUpperCase();
 
 			this.$store.commit('trading/setPair', {
 				market: market,

@@ -2,8 +2,7 @@
 	<div class="market-info px-2 pt-1">
 		<div class="market-info__last-price market-info__item">
 			<span class="info-value">
-				<span>{{ lastPrice }}</span>
-				<span class="currency">{{ selectedMarket }}</span>
+				<span>{{ lastPrice }}</span> <span class="currency">{{ selectedMarket }}</span>
 			</span>
 			<span class="info-title">
 				{{ $t('trading.last_price') }}
@@ -27,24 +26,21 @@
 
 		<div class="market-info__daily-high market-info__item">
 			<span class="info-value">
-				{{ dailyHigh }}
-				<span class="currency">{{ selectedMarket }}</span>
+				{{ dailyHigh }} <span class="currency">{{ selectedMarket }}</span>
 			</span>
 			<span class="info-title">{{ $t('trading.daily_high') }}</span>
 		</div>
 
 		<div class="market-info__daily-low market-info__item">
 			<span class="info-value">
-				{{ dailyLow }}
-				<span class="currency">{{ selectedMarket }}</span>
+				{{ dailyLow }} <span class="currency">{{ selectedMarket }}</span>
 			</span>
 			<span class="info-title">{{ $t('trading.daily_low') }}</span>
 		</div>
 
 		<div class="market-info__daily-volume market-info__item">
 			<span class="info-value">
-				<span>{{ formatWithScaleInAllCurrencies(dailyVolume, market) }} </span>
-				<span class="currency">{{ selectedMarket }}</span>
+				<span>{{ formatWithScaleInAllCurrencies(dailyVolume, market) }} </span> <span class="currency">{{ selectedMarket }}</span>
 			</span>
 			<span class="info-title">
 				{{ $t('trading.daily_volume') }}
@@ -57,7 +53,7 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import formatWithScaleInAllCurrencies from '../../../mixins/format/formatWithScaleInAllCurrencies';
+import formatWithScaleInAllCurrencies from '@/mixins/format/formatWithScaleInAllCurrencies';
 
 export default {
 	name: 'MarketInfo',

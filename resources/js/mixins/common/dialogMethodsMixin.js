@@ -6,12 +6,14 @@ export default {
 	},
 
 	watch: {
-		dialog(val) {
-			if (val) {
-				if (this.clearData) this.clearData();
-				this.$emit('close-menu');
-			}
-		},
+		dialog: {
+            handler(newValue) {
+                if (!newValue) {
+                    if (this.clearData) this.clearData();
+                    this.$emit('close-menu');
+                }
+            }
+        },
 	},
 
 	methods: {

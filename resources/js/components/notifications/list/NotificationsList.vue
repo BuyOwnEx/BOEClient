@@ -104,15 +104,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import CommonTooltip from '../../common/CommonTooltip';
-import formatDate from '../../../mixins/format/formatDate';
+import CommonTooltip from '@/components/common/CommonTooltip.vue';
+import formatDate from '@/mixins/format/formatDate';
 
 export default {
 	name: 'NotificationsList',
 
 	components: {
 		CommonTooltip,
-		NotificationsDetail: () => import(/* webpackPrefetch: true */ '../NotificationsDetail'),
+		NotificationsDetail: () => import('@/components/notifications/NotificationsDetail.vue'),
 	},
 
 	mixins: [formatDate],

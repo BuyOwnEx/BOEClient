@@ -8,16 +8,14 @@
 			</th>
 			<th>
 				<div class="ask-table-header__item--amount">
-					<span>{{ $t('table_header.amount') }}</span>
-					<span>({{ currency }})</span>
+					<span>{{ $t('table_header.amount') }}</span> <span>({{ currency }})</span>
 				</div>
 			</th>
 			<th>
 				<div
 					class="ask-table-header__item--price text-end"
 				>
-					<span>{{ $t('table_header.rate') }}</span>
-					<span>({{ market }})</span>
+					<span>{{ $t('table_header.rate') }}</span> <span>({{ market }})</span>
 				</div>
 			</th>
 		</tr>
@@ -25,14 +23,12 @@
 		<tr v-else>
 			<th>
 				<div class="ask-table-header__item--price">
-					<span>{{ $t('table_header.rate') }}</span>
-					<span>({{ market }})</span>
+					<span>{{ $t('table_header.rate') }}</span> <span>({{ market }})</span>
 				</div>
 			</th>
 			<th>
 				<div class="ask-table-header__item--amount">
-					<span>{{ $t('table_header.amount') }}</span>
-					<span>({{ currency }})</span>
+					<span>{{ $t('table_header.amount') }}</span> <span>({{ currency }})</span>
 				</div>
 			</th>
 			<th>

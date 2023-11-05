@@ -47,47 +47,44 @@ import { mapMutations, mapActions } from 'vuex';
 export default {
 	name: 'ToolbarUser',
 
-	data() {
-		return {
-			items: [
-				{
-					icon: 'mdi-account-box-outline',
-					text: this.$t('user.title.profile'),
-					link: '/profile',
-					tabIndex: 0,
-				},
-				{
-					icon: 'mdi-email-outline',
-					text: this.$t('user.title.verification'),
-					link: '/profile#verification',
-					tabIndex: 1,
-				},
-				{
-					icon: 'mdi-format-list-checkbox',
-					text: this.$t('user.title.api'),
-					link: '/profile#api',
-					tabIndex: 2,
-				},
-				{
-					icon: 'mdi-shield-key-outline',
-					text: this.$t('user.title.security'),
-					link: '/profile#security',
-					tabIndex: 3,
-				},
-				{
-					icon: 'mdi-cog-outline',
-					text: this.$t('user.title.settings'),
-					link: '/profile#settings',
-					tabIndex: 4,
-				},
-			],
-		};
-	},
-
 	computed: {
 		generatedAvatar() {
 			return this.$store.getters['user/getGeneratedAvatar']();
 		},
+        items() {
+            return [
+                {
+                    icon: 'mdi-account-box-outline',
+                    text: this.$t('user.title.profile'),
+                    link: '/profile#account',
+                    tabIndex: 0,
+                },
+                {
+                    icon: 'mdi-email-outline',
+                    text: this.$t('user.title.verification'),
+                    link: '/profile#verification',
+                    tabIndex: 1,
+                },
+                {
+                    icon: 'mdi-format-list-checkbox',
+                    text: this.$t('user.title.api'),
+                    link: '/profile#api',
+                    tabIndex: 2,
+                },
+                {
+                    icon: 'mdi-shield-key-outline',
+                    text: this.$t('user.title.security'),
+                    link: '/profile#security',
+                    tabIndex: 3,
+                },
+                {
+                    icon: 'mdi-cog-outline',
+                    text: this.$t('user.title.settings'),
+                    link: '/profile#settings',
+                    tabIndex: 4,
+                },
+            ];
+        }
 	},
 
 	methods: {
@@ -99,10 +96,18 @@ export default {
 		}),
 
 		navigatePage(item) {
-			const isProfilePage = window.location.pathname === '/profile';
+            if (this.$spa)
+            {
+                this.$router.push(item.link);
+                this.setProfileTab(item.tabIndex);
+            }
+            else {
+                const isProfilePage = window.location.pathname === '/profile';
 
-			if (isProfilePage) this.setProfileTab(item.tabIndex);
-			else window.location = item.link;
+                if (isProfilePage) this.setProfileTab(item.tabIndex);
+                else window.location = item.link;
+            }
+
 		},
 	},
 };

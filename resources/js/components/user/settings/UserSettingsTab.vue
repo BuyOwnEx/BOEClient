@@ -14,10 +14,10 @@
 <script>
 import { mapActions } from 'vuex';
 
-import UserSettingsRef from './parts/UserSettingsRef';
-import UserSettingsEmailNotifications from './parts/UserSettingsEmailNotifications';
+import UserSettingsRef from '@/components/user/settings/parts/UserSettingsRef.vue';
+import UserSettingsEmailNotifications from '@/components/user/settings/parts/UserSettingsEmailNotifications.vue';
 
-import CommonLoading from '../../common/CommonLoading';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'UserSettingsTab',

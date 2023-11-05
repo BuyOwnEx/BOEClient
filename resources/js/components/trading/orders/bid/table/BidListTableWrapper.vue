@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import BidListTableBody from './BidListTableBody';
-import BidListTableHeader from './BidListTableHeader';
-import CommonLoading from '../../../../common/CommonLoading';
+import BidListTableBody from '@/components/trading/orders/bid/table/BidListTableBody.vue';
+import BidListTableHeader from '@/components/trading/orders/bid/table/BidListTableHeader.vue';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'BidListTableWrapper',

@@ -31,11 +31,11 @@
 </template>
 
 <script>
-import OwnActiveOrderList from './tabs/OwnActiveOrderList';
-import OwnHistoryDealList from './tabs/OwnHistoryDealList';
-import OwnActivePositionList from './tabs/OwnActivePositionList';
+import OwnActiveOrderList from '@/components/trading/user/tabs/OwnActiveOrderList.vue';
+import OwnHistoryDealList from '@/components/trading/user/tabs/OwnHistoryDealList.vue';
+import OwnActivePositionList from '@/components/trading/user/tabs/OwnActivePositionList.vue';
 
-import config from '../../../configs';
+import config from '@/configs';
 
 export default {
 	name: 'OwnListsTabsWrapper',

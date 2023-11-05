@@ -56,9 +56,9 @@
 <script>
 import { mapState } from 'vuex';
 
-import TradingFormBuyWrapper from './form/TradingFormBuyWrapper';
-import TradingFormSellWrapper from './form/TradingFormSellWrapper';
-import TradingFormsBest from './common/TradingFormsBest';
+import TradingFormBuyWrapper from '@/components/trading/forms/form/TradingFormBuyWrapper.vue';
+import TradingFormSellWrapper from '@/components/trading/forms/form/TradingFormSellWrapper.vue';
+import TradingFormsBest from '@/components/trading/forms/common/TradingFormsBest.vue';
 export default {
 	name: 'TradingForms',
 

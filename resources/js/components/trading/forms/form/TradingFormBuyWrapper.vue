@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import BidMarketForm from '../bid/BidMarketForm';
-import BidLimitForm from '../bid/BidLimitForm';
-import TradingFormsBest from '../common/TradingFormsBest';
+import BidMarketForm from '@/components/trading/forms/bid/BidMarketForm.vue';
+import BidLimitForm from '@/components/trading/forms/bid/BidLimitForm.vue';
+import TradingFormsBest from '@/components/trading/forms/common/TradingFormsBest.vue';
 
 export default {
 	name: 'TradingFormBuyWrapper',

@@ -73,7 +73,7 @@
 							<v-text-field
 								v-model="user.password_confirmation"
 								:append-icon="show_confirm ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-								:rules="[rules.required, rules.min8char, rules.confirm]"
+								:rules="[rules.required, rules.min8char, rules.passMatch]"
 								:type="show_confirm ? 'text' : 'password'"
 								counter="255"
 								:hint="$t('auth.forgot.repeat_pass')"
@@ -113,13 +113,13 @@
 			<div class="text-left pl-6 pb-4 pr-6">
 				<small class="grey--text lighten-4">
 					{{ $t('auth.register.agree') }}
-					<a :href="links[0].link">
-						<span>{{ links[0].title }}</span>
-					</a>
-					{{ $t('auth.and') }}
-					<a :href="links[1].link">
-						<span>{{ links[1].title }}</span>
-					</a>
+                    <Link :path="links[0].link" :title="links[0].title">
+                        <span>{{ links[0].title }}</span>
+                    </Link>
+                    {{ $t('auth.and') }}
+                    <Link :path="links[1].link" :title="links[1].title">
+                        <span>{{ links[1].title }}</span>
+                    </Link>
 				</small>
 			</div>
 		</v-card>
@@ -128,22 +128,22 @@
 			<div class="caption grey--text darken-4">
 				{{ $t('auth.register.account') }}
 			</div>
-			<v-btn block small text tile href="/login" color="primary darken-1">
-				{{ $t('auth.signin') }}
-			</v-btn>
+            <v-btn block small text tile href="/login" :to="this.$spa ? '/login' : null" color="primary darken-1">
+                {{ $t('auth.signin') }}
+            </v-btn>
 		</div>
 	</div>
 </template>
 
 <script>
-import formValidationRules from '../../mixins/common/formValidationRules';
-import loadingMixin from '../../mixins/common/loadingMixin';
+import formValidationRules from '@/mixins/common/formValidationRules';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import Link from "@/components/common/Link.vue";
 
 export default {
 	name: 'Register',
-
-	mixins: [formValidationRules, loadingMixin],
-
+    components: {Link},
+    mixins: [formValidationRules, loadingMixin],
 	data() {
 		return {
 			valid: true,
@@ -164,7 +164,6 @@ export default {
 			},
 		};
 	},
-
 	computed: {
 		links() {
 			return [
@@ -179,7 +178,6 @@ export default {
 			];
 		},
 	},
-
 	methods: {
 		register() {
 			this.startLoading();

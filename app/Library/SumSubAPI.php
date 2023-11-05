@@ -3,7 +3,6 @@
 namespace App\Library;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class SumSubAPI
 {
@@ -26,7 +25,7 @@ class SumSubAPI
                 $this->base = config('app.sumsub_endpoint','https://test-api.sumsub.com');
                 break;
             default:
-                throw new \Exception(trans('errors.api.BadConstruction'),1000);
+                throw new \Exception(__('app.api.errors.BadConstruction'),1000);
         }
     }
 

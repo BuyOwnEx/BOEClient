@@ -4,19 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDetectFieldsToUserTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('lastBrowser',128)->nullable();
-            $table->string('lastOS',128)->nullable();
-            $table->string('lastDevice',128)->nullable();
+            $table->string('last_browser',128)->nullable();
+            $table->string('last_os',128)->nullable();
+            $table->string('last_device',128)->nullable();
         });
     }
 
@@ -25,12 +25,12 @@ class AddDetectFieldsToUserTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('lastBrowser');
-            $table->dropColumn('lastOS');
-            $table->dropColumn('lastDevice');
+            $table->dropColumn('last_browser');
+            $table->dropColumn('last_os');
+            $table->dropColumn('last_device');
         });
     }
-}
+};

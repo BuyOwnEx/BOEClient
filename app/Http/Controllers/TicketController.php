@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Huddle\Zendesk\Facades\Zendesk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {

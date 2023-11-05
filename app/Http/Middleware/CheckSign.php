@@ -2,19 +2,19 @@
 
 namespace App\Http\Middleware;
 
-use App\PersonalAccessToken;
+use App\Models\PersonalAccessToken;
 use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CheckSign
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         $access = PersonalAccessToken::findToken($request->bearerToken());
         if($request->header('X-Signature')!==$this->signature($request->all(),$access->secret))

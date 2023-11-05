@@ -15,8 +15,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import SupportList from './SupportList';
-import CommonLoading from '../../common/CommonLoading';
+import SupportList from '@/components/support/list/SupportList.vue';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'SupportListWrapper',

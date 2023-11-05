@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import CommonDialog from '../../../common/CommonDialog';
+import CommonDialog from '@/components/common/CommonDialog.vue';
 
-import loadingMixin from '../../../../mixins/common/loadingMixin';
-import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'UserApiDialogEdit',

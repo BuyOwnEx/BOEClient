@@ -128,10 +128,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import CommonTooltip from '../../common/CommonTooltip';
+import CommonTooltip from '@/components/common/CommonTooltip.vue';
 
-import balanceStateMethodsMixin from '../../../mixins/balance/balanceStateMethodsMixin';
-import CommonCurrency from '../../common/CommonCurrency';
+import balanceStateMethodsMixin from '@/mixins/balance/balanceStateMethodsMixin';
+import CommonCurrency from '@/components/common/CommonCurrency.vue';
 
 export default {
 	name: 'StatusTables',

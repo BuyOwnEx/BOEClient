@@ -1,12 +1,12 @@
 @extends('layouts.error')
 @section('title')
-    {{trans('titles.404')}}
+    {{ __('titles.500') }}
 @endsection
 @section('keywords')
-    keywords
+    {{ __('keywords.main') }}
 @endsection
 @section('description')
-    description
+    {{ __('descriptions.main') }}
 @endsection
 @section('styles')
 
@@ -14,7 +14,11 @@
 @section('scripts')
     <script>
 			window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
-			window.component = 'unexpected-page';
+			window.component = 'UnexpectedPage';
     </script>
-    <script src="{{mix('dist/js/error.js')}}"></script>
+    @if (config('app.spa_enabled'))
+        @vite('resources/js/app.js')
+    @else
+        @vite('resources/js/error.js')
+    @endif
 @endsection

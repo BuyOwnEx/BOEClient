@@ -1,36 +1,42 @@
 import './bootstrap';
 import Vue from 'vue';
+import VueRouter from 'vue-router'
 import App from './App.vue';
 
 import store from './store';
-
-//import router from './router'
+import router from './router';
 
 // PLUGINS
 import vuetify from './plugins/vuetify';
 import i18n from './plugins/vue-i18n';
 import './plugins/vue-head';
-import './plugins/vue-gtag';
+import './plugins/clipboard';
+import './plugins/gt4';
 import './plugins/moment';
 
-// STYLES
-import '../sass/theme.scss';
+// STYLES Именно так и никак иначе, поскольку только variables должны быть в секции css.preprocessorOptions.sass.additionalData
+import '../sass/app.scss'
+import '../sass/vuetify/overrides.scss'
+import '../sass/helpers.scss'
 
 Vue.config.productionTip = false;
-
+Vue.prototype.$store = store;
+Vue.prototype.$vuetify = vuetify.framework;
 Vue.prototype.$eventHub = new Vue();
-Vue.prototype.$currency = window.currency || 'BTC';
-Vue.prototype.$market = window.market || 'USDT';
+Vue.prototype.$trading_currency = window.trading_currency || 'BTC';
+Vue.prototype.$trading_market = window.trading_market || 'USDT';
 Vue.prototype.$user = window.user || null;
 Vue.prototype.$config = window.config || null;
+Vue.prototype.$component = window.component;
+Vue.prototype.$spa = true;
 
-import HighchartsVue from 'highcharts-vue';
-Vue.use(HighchartsVue);
+Vue.use(i18n);
+Vue.use(VueRouter)
 
 export default new Vue({
-	i18n,
-	vuetify,
-	//router,
-	store,
-	render: h => h(App),
+    i18n,
+    vuetify,
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app');

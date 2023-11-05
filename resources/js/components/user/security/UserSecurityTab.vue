@@ -107,11 +107,11 @@
 </template>
 
 <script>
-import CommonLoading from '../../common/CommonLoading';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
-import loadingMixin from '../../../mixins/common/loadingMixin';
-import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
-import validateInputMixin from '../../../mixins/common/validateInputMixin';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import showNotificationMixin from '@/mixins/common/showNotificationMixin';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
 
 export default {
 	name: 'UserSecurityTab',

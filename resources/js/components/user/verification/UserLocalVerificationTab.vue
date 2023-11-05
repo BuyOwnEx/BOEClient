@@ -416,7 +416,7 @@
 
 <script>
 import QrCode from '@chenfengyuan/vue-qrcode';
-import formValidationRules from '../../../mixins/common/formValidationRules';
+import formValidationRules from '@/mixins/common/formValidationRules';
 import moment from 'moment';
 
 export default {
@@ -589,7 +589,7 @@ export default {
     },
   },
   mounted() {
-    this.payment_required = process.env.MIX_VERIFICATION_PAYMENT_REQUIRED === 'true';
+    this.payment_required = import.meta.env.VITE_VERIFICATION_PAYMENT_REQUIRED === 'true';
     console.log(this.payment_required);
     axios.get('/trader/ext/kyc_request').then(response => {
       if(response.data.data.id !== 0)

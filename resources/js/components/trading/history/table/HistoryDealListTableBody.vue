@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import formatPrice from '../../../../mixins/trading/formatPrice';
-import formatSize from '../../../../mixins/trading/formatSize';
-import formatDate from '../../../../mixins/format/formatDate';
-import getPriceScale from '../../../../mixins/trading/getPriceScale';
-import getAmountScale from '../../../../mixins/trading/getAmountScale';
+import formatPrice from '@/mixins/trading/formatPrice';
+import formatSize from '@/mixins/trading/formatSize';
+import formatDate from '@/mixins/format/formatDate';
+import getPriceScale from '@/mixins/trading/getPriceScale';
+import getAmountScale from '@/mixins/trading/getAmountScale';
 
 export default {
 	name: 'HistoryDealListTableBody',

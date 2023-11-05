@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import NavMenuItem from './NavMenuItem';
+import NavMenuItem from '@/components/layout/navigation/NavMenuItem.vue';
 
 /*
 |---------------------------------------------------------------------

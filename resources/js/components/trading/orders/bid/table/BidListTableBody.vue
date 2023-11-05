@@ -48,13 +48,13 @@ import { mapGetters, mapActions } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import OrdersWall from '../../common/OrdersWall';
+import OrdersWall from '@/components/trading/orders/common/OrdersWall.vue';
 
-import formatPrice from '../../../../../mixins/trading/formatPrice';
-import formatSize from '../../../../../mixins/trading/formatSize';
-import getPriceScale from '../../../../../mixins/trading/getPriceScale';
-import getAmountScale from '../../../../../mixins/trading/getAmountScale';
-import calculateVolume from '../../../../../mixins/trading/calculateVolume';
+import formatPrice from '@/mixins/trading/formatPrice';
+import formatSize from '@/mixins/trading/formatSize';
+import getPriceScale from '@/mixins/trading/getPriceScale';
+import getAmountScale from '@/mixins/trading/getAmountScale';
+import calculateVolume from '@/mixins/trading/calculateVolume';
 
 export default {
 	name: 'BidListTableBody',

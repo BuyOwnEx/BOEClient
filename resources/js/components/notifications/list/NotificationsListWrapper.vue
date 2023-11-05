@@ -7,8 +7,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import NotificationsList from './NotificationsList';
-import CommonLoading from '../../common/CommonLoading';
+import NotificationsList from '@/components/notifications/list/NotificationsList.vue';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'NotificationsListWrapper',

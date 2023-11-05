@@ -26,7 +26,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
-import showNotificationMixin from '../../../../mixins/common/showNotificationMixin';
+import showNotificationMixin from '@/mixins/common/showNotificationMixin';
 
 export default {
 	name: 'UserSettingsEmailNotifications',

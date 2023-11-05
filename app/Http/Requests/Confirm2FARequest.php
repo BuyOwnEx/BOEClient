@@ -2,20 +2,18 @@
 
 namespace App\Http\Requests;
 
-use Exception;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\UsedGoogleToken;
 use App\Rules\ValidGoogleToken;
+use Exception;
+use Illuminate\Foundation\Http\FormRequest;
 
 class Confirm2FARequest extends FormRequest
 {
     private $user;
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         try {
             if($this->user() && $this->user()->g2fa)
@@ -35,9 +33,9 @@ class Confirm2FARequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         if($this->user)
         {

@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<component :is="currentLayout" v-if="isRouterLoaded">
+		<component :is="this.$route.meta.layout" v-if="isRouterLoaded">
 			<transition name="fade" mode="out-in">
 				<router-view />
 			</transition>
@@ -12,35 +12,39 @@
 
 import config from './configs';
 
-import defaultLayout from './layouts/DefaultLayout';
-import landingLayout from './layouts/LandingLayout';
-import simpleLayout from './layouts/SimpleLayout';
-import authLayout from './layouts/AuthLayout';
-import errorLayout from './layouts/ErrorLayout';
-
 export default {
-	components: {
-		defaultLayout,
-		landingLayout,
-		simpleLayout,
-		authLayout,
-		errorLayout,
-	},
 	computed: {
 		isRouterLoaded: function() {
 			return this.$route.name !== null;
-		},
-		currentLayout: function() {
-			const layout = this.$route.meta.layout || 'default';
-			return layout + 'Layout';
 		},
 	},
 	head: {
 		link: [
 			// adds config/icons into the html head tag
 			...config.icons.map(href => ({ rel: 'stylesheet', href })),
-		],
+		]
 	},
+    watch: {
+        $route: {
+            immediate: true,
+            handler(to, from) {
+                if(to.name === 'trading')
+                {
+                    document.title = config.product.name + ' - ' + this.$trading_currency + '/' + this.$trading_market;
+                    if(this.$trading_currency !== to.params.currency || this.$trading_market !== to.params.market)
+                    {
+                        this.$router.push('/');
+                    }
+                }
+                else
+                    document.title = config.product.name + ' - ' + this.$t(to.meta.title) || config.product.name;
+            }
+        },
+    },
+    mounted() {
+        this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+        this.$store.commit('app/setConfig', { config: this.$config, vm: this });
+    },
 };
 </script>
 

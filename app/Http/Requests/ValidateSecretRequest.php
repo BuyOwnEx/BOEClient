@@ -2,37 +2,29 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use App\Rules\UsedGoogleToken;
 use App\Rules\ValidGoogleToken;
-use App\User;
-use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ValidateSecretRequest extends FormRequest
 {
-    private $user;
-
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        try {
-            $this->user = User::findOrFail(session('2fa:user:id'));
-        } catch (Exception $exc) {
+        if(!User::findOrFail(session('2fa:user:id')))
             return false;
-        }
-        return true;
+        else return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'totp' => [

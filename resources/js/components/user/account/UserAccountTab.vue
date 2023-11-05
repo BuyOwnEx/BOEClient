@@ -16,9 +16,9 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
-import CommonLoading from '../../common/CommonLoading';
-import UserAccountBasicInfo from './parts/UserAccountBasicInfo';
-import UserAccountPanels from './parts/UserAccountPanels';
+import CommonLoading from '@/components/common/CommonLoading.vue';
+import UserAccountBasicInfo from '@/components/user/account/parts/UserAccountBasicInfo.vue';
+import UserAccountPanels from '@/components/user/account/parts/UserAccountPanels.vue';
 
 export default {
 	name: 'UserAccountTab',
@@ -27,7 +27,7 @@ export default {
 		CommonLoading,
 		UserAccountBasicInfo,
 		UserAccountPanels,
-		UserAccountBlockedAlert: () => import(/* webpackPrefetch: true */ './parts/UserAccountBlockedAlert'),
+		UserAccountBlockedAlert: () => import('@/components/user/account/parts/UserAccountBlockedAlert.vue'),
 	},
 
 	props: {

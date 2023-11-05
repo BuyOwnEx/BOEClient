@@ -1,5 +1,5 @@
 <template>
-	<div class="history-deal-list-absolute-wrapper">
+	<div class="history-deal-list-absolute-wrapper fill-height">
 		<v-simple-table dense fixed-header>
 			<template #default>
 				<HistoryDealListTableHeader :currency="currency" :market="market" />
@@ -10,24 +10,17 @@
 					:currency="currency"
 					:market="market"
 				/>
-
 				<tbody v-else-if="historyData && !historyData.length" />
-				<tbody v-else>
-					<tr>
-						<td colspan="3">
-							<CommonLoading />
-						</td>
-					</tr>
-				</tbody>
 			</template>
 		</v-simple-table>
+    <CommonLoading v-if="!historyData" />
 	</div>
 </template>
 
 <script>
-import HistoryDealListTableBody from './HistoryDealListTableBody';
-import HistoryDealListTableHeader from './HistoryDealListTableHeader';
-import CommonLoading from '../../../common/CommonLoading';
+import HistoryDealListTableBody from '@/components/trading/history/table/HistoryDealListTableBody.vue';
+import HistoryDealListTableHeader from '@/components/trading/history/table/HistoryDealListTableHeader.vue';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'HistoryDealListTableWrapper',
@@ -60,16 +53,16 @@ export default {
 	top: 0
 	right: 0
 	left: 0
-	bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 35)
+	//bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 35)
 	overflow: hidden
 
 @media screen and (min-width: 1382px) and (max-width: 1768px)
 	.history-deal-list-absolute-wrapper
-		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 51)
+		//bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 51)
 @media screen and (min-width: 960px) and (max-width: 1382px)
 	.history-deal-list-absolute-wrapper
-		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 18)
+		//bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 18)
 @media screen and (max-width: 959px)
 	.history-deal-list-absolute-wrapper
-		bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 40)
+		//bottom: calc(var(--negative-table-header-height) - var(--table-row-height) * 40)
 </style>

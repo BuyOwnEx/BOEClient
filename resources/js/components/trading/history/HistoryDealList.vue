@@ -1,10 +1,10 @@
 <template>
-	<v-card class="history-deal-list pa-1">
+	<v-card class="history-deal-list d-flex flex-column pa-1">
 		<v-card-title class="history-deal-list__header component-title pa-0">
 			{{ $t('trading.headers.history_deal_list') }}
 		</v-card-title>
 
-		<v-card-text class="history-deal-list__content pa-0">
+		<v-card-text class="d-flex fill-height history-deal-list__content pa-0">
 			<HistoryDealListTableWrapper
 				:currency="currency"
 				:historyData="historyDealList"
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import HistoryDealListTableWrapper from './table/HistoryDealListTableWrapper';
+import HistoryDealListTableWrapper from '@/components/trading/history/table/HistoryDealListTableWrapper.vue';
 
 export default {
 	name: 'HistoryDealList',

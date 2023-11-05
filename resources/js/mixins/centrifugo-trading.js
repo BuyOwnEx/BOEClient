@@ -14,6 +14,7 @@ export default {
 			sub_chat: null,
 			centrifuge: null,
 			connected: false,
+            needWatch: true,
 		};
 	},
 	computed: {
@@ -35,7 +36,7 @@ export default {
 	},
 	watch: {
 		pair(val, oldVal) {
-			if (oldVal[0] !== null && oldVal[1] !== null) {
+			if (oldVal[0] !== null && oldVal[1] !== null && this.needWatch) {
 				this.unsubscribePublic(oldVal[0], oldVal[1]);
 				this.subscribePublic();
 			}
@@ -49,7 +50,7 @@ export default {
 	},
 	methods: {
 		initWSConnection() {
-			this.centrifuge = new Centrifuge(process.env.MIX_WS_SERVER, {
+			this.centrifuge = new Centrifuge(import.meta.env.VITE_WS_SERVER, {
 				debug: true,
 				subscribeEndpoint: '/trader/ext/private',
 				subscribeHeaders: {
@@ -109,20 +110,27 @@ export default {
 			}
 		},
 		subscribePublic() {
-			this.$store.dispatch('tickers/getMarketDataFromServer').then(resp => {
-				this.sub_markets = this.centrifuge.subscribe('public:markets');
-				this.sub_markets.on('subscribe', this.channelSubscribeHandler);
-				this.sub_markets.on('publish', this.marketsPubHandler);
-				this.sub_markets.on('error', this.channelErrorHandler);
-				this.sub_markets.on('unsubscribe', this.channelUnsubscribeHandler);
-			});
-			this.$store.dispatch('tickers/getTickersListFromServer').then(resp => {
-				this.sub_tickers = this.centrifuge.subscribe('public:tickers');
-				this.sub_tickers.on('subscribe', this.channelSubscribeHandler);
-				this.sub_tickers.on('publish', this.tickersPubHandler);
-				this.sub_tickers.on('error', this.channelErrorHandler);
-				this.sub_tickers.on('unsubscribe', this.channelUnsubscribeHandler);
-			});
+            if(this.sub_markets === null)
+            {
+                this.$store.dispatch('tickers/getMarketDataFromServer').then(resp => {
+                    this.sub_markets = this.centrifuge.subscribe('public:markets');
+                    this.sub_markets.on('subscribe', this.channelSubscribeHandler);
+                    this.sub_markets.on('publish', this.marketsPubHandler);
+                    this.sub_markets.on('error', this.channelErrorHandler);
+                    this.sub_markets.on('unsubscribe', this.channelUnsubscribeHandler);
+                });
+            }
+			if(this.sub_tickers === null)
+            {
+                this.$store.dispatch('tickers/getTickersListFromServer').then(resp => {
+                    this.sub_tickers = this.centrifuge.subscribe('public:tickers');
+                    this.sub_tickers.on('subscribe', this.channelSubscribeHandler);
+                    this.sub_tickers.on('publish', this.tickersPubHandler);
+                    this.sub_tickers.on('error', this.channelErrorHandler);
+                    this.sub_tickers.on('unsubscribe', this.channelUnsubscribeHandler);
+                });
+            }
+
 			this.$store.dispatch('trading/getOrderBookFromServer').then(resp => {
 				if (resp.asks_list.length !== 0) {
 					this.$eventHub.$emit('set-buy-price', { price: resp.asks_list[0].price });
@@ -161,20 +169,22 @@ export default {
 				this.sub_graph.on('error', this.channelErrorHandler);
 				this.sub_graph.on('unsubscribe', this.channelUnsubscribeHandler);
 			});
-			this.sub_chat = this.centrifuge.subscribe('chat:ru');
-			this.sub_chat.on('subscribe', this.channelSubscribeHandler);
-			this.sub_chat.on('publish', this.chatPubHandler);
-			this.sub_chat.on('error', this.channelErrorHandler);
-			this.sub_chat.on('unsubscribe', this.channelUnsubscribeHandler);
-			let st = this.$store;
-			this.sub_chat.history().then(resp => {
-				if(!resp.publications) {
-					st.commit('chat/setHistoryMessages', []);
-				} else {
-					st.commit('chat/setHistoryMessages', resp.publications);
-				}
-				console.log(resp);
-			});
+            if (this.sub_chat === null)
+            {
+                this.sub_chat = this.centrifuge.subscribe('chat:ru');
+                this.sub_chat.on('subscribe', this.channelSubscribeHandler);
+                this.sub_chat.on('publish', this.chatPubHandler);
+                this.sub_chat.on('error', this.channelErrorHandler);
+                this.sub_chat.on('unsubscribe', this.channelUnsubscribeHandler);
+                let st = this.$store;
+                this.sub_chat.history().then(resp => {
+                    if(!resp.publications) {
+                        st.commit('chat/setHistoryMessages', []);
+                    } else {
+                        st.commit('chat/setHistoryMessages', resp.publications);
+                    }
+                });
+            }
 		},
 
 		subscribeGraphPeriod() {
@@ -189,28 +199,55 @@ export default {
 		unsubscribePublic(currency, market) {
 			currency = currency.toLowerCase();
 			market = market.toLowerCase();
-			this.sub_order_book.unsubscribe();
-			this.sub_order_book.removeAllListeners();
-			this.$store.commit('trading/resetOrderBook');
-
-			this.sub_history_deals.unsubscribe();
-			this.sub_history_deals.removeAllListeners();
-			this.$store.commit('trading/resetHistoryDealList');
-
-			this.sub_depth.unsubscribe();
-			this.sub_depth.removeAllListeners();
-
-			this.sub_graph.unsubscribe();
-			this.sub_graph.removeAllListeners();
-
-			//this.$store.commit('trading/resetGraphList');
+            if(this.sub_order_book)
+            {
+                this.sub_order_book.unsubscribe();
+                this.sub_order_book.removeAllListeners();
+                this.$store.commit('trading/resetOrderBook');
+            }
+			if(this.sub_history_deals)
+            {
+                this.sub_history_deals.unsubscribe();
+                this.sub_history_deals.removeAllListeners();
+                this.$store.commit('trading/resetHistoryDealList');
+            }
+            if(this.sub_depth)
+            {
+                this.sub_depth.unsubscribe();
+                this.sub_depth.removeAllListeners();
+            }
+			if(this.sub_graph)
+            {
+                this.sub_graph.unsubscribe();
+                this.sub_graph.removeAllListeners();
+            }
 
 		},
 		unsubscribeGraphPeriod() {
-			this.sub_graph.unsubscribe();
-			this.sub_graph.removeAllListeners();
-			//this.$store.commit('trading/resetGraphList');
+            if(this.sub_graph)
+            {
+                this.sub_graph.unsubscribe();
+                this.sub_graph.removeAllListeners();
+            }
 		},
+        unsubscribeAll() {
+            this.sub_markets.unsubscribe();
+            this.sub_markets.removeAllListeners();
+            this.sub_tickers.unsubscribe();
+            this.sub_tickers.removeAllListeners();
+            this.sub_order_book.unsubscribe();
+            this.sub_order_book.removeAllListeners();
+            this.$store.commit('trading/resetOrderBook');
+            this.sub_depth.unsubscribe();
+            this.sub_depth.removeAllListeners();
+            this.sub_history_deals.unsubscribe();
+            this.sub_history_deals.removeAllListeners();
+            this.$store.commit('trading/resetHistoryDealList');
+            this.sub_graph.unsubscribe();
+            this.sub_graph.removeAllListeners();
+            this.sub_chat.unsubscribe();
+            this.sub_chat.removeAllListeners();
+        },
 		privatePubHandler(data) {
 			console.log(data);
 			switch (data.data.action) {
@@ -373,18 +410,44 @@ export default {
 		},
 	},
 	mounted() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	created() {
-		//this.$eventHub.$on('set-user', this.initWSConnection);
+		this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);
 	},
-	activated() {
-		//this.$eventHub.$on('set-user', this.initWSConnection);
-	},
-	deactivated() {
-		//this.$eventHub.$off('set-user', this.initWSConnection);
-	},
+    beforeRouteLeave(to, from, next) {
+        // called when the route that renders this component is about to
+        // be navigated away from.
+        // has access to `this` component instance.
+        this.unsubscribeAll();
+        this.$eventHub.$emit('chartLeave');
+        this.needWatch = false;
+        this.$store.commit('trading/setPair', {
+            currency: 'BTC',
+            market: 'USDT',
+        });
+        next();
+    },
+    beforeRouteEnter (to, from, next) {
+        if(to.params.currency === 'BTC' && to.params.market === 'USDT')
+        {
+            next(vm => {
+                console.log(vm);
+                vm.needWatch = true;
+                vm.$store.commit('trading/setPair', {
+                    currency: 'BTC',
+                    market: 'USDT',
+                });
+            })
+        }
+        else
+        {
+            next(vm => {
+                // access to component instance via `vm`
+            })
+        }
+    },
 };

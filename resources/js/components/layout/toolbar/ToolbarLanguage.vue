@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import FlagIcon from '../../common/FlagIcon';
+import FlagIcon from '@/components/common/FlagIcon.vue';
 
 /*
 |---------------------------------------------------------------------

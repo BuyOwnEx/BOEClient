@@ -20,14 +20,14 @@
 </template>
 
 <script>
-import AskListTableWrapper from './table/AskListTableWrapper';
+import AskListTableWrapper from '@/components/trading/orders/ask/table/AskListTableWrapper.vue';
 
 export default {
 	name: 'AskList',
 
 	components: {
 		AskListTableWrapper,
-		OrdersTooltip: () => import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
+		OrdersTooltip: () => import('@/components/trading/orders/common/OrdersTooltip.vue'),
 	},
 
 	props: {

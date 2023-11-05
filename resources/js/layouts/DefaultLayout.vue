@@ -7,12 +7,12 @@
 			:right="$vuetify.rtl"
 			app
 			floating
-			expand-on-hover
+            :mini-variant.sync="mini"
 		>
 			<template #prepend>
 				<v-list-item class="sidebar-header">
 					<v-list-item-avatar height="48" min-width="48" width="48">
-						<v-img src="/images/logo.png"></v-img>
+						<v-img :src="Logo"></v-img>
 					</v-list-item-avatar>
 
 					<v-list-item-content>
@@ -21,6 +21,10 @@
 							<small>{{ product.version }}</small>
 						</v-list-item-subtitle>
 					</v-list-item-content>
+
+                    <v-btn icon @click.stop="mini = !mini">
+                        <v-icon>mdi-chevron-left</v-icon>
+                    </v-btn>
 				</v-list-item>
 
 				<v-divider />
@@ -47,7 +51,7 @@
 						<v-app-bar-nav-icon v-if="isLogged" @click.stop="drawer = !drawer" />
 						<v-list-item v-if="!isLogged" style="padding: 0 4px;">
 							<v-list-item-avatar height="48" min-width="48" width="48">
-								<v-img src="/images/logo.png" />
+								<v-img :src="Logo" />
 							</v-list-item-avatar>
 
 							<v-list-item-content class="product-name-version">
@@ -82,7 +86,7 @@
 						</div>
 
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged">
-							<v-btn href="/login" tile>{{ $t('menu.login') }}</v-btn>
+							<v-btn href="/login" :to="this.$spa ? '/login' : null" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
 
 						<div v-if="isLogged">
@@ -90,7 +94,7 @@
 						</div>
 
 						<div v-else>
-							<v-btn color="primary" href="/register" tile dark>{{ $t('menu.register') }}</v-btn>
+							<v-btn color="primary" href="/register" :to="this.$spa ? '/register' : null" tile dark>{{ $t('menu.register') }}</v-btn>
 						</div>
 					</div>
 				</div>
@@ -107,33 +111,14 @@
 
 		<v-footer class="footer overline" :height="calculateFooterHeight" inset app>
 			<span>
-				<a class="footer__link" href="/status">
-					{{ $t('status.title') }}
-				</a>
 
-				<a class="footer__link" href="/fees">
-					{{ $t('fees.title') }}
-				</a>
-
-				<a v-if="isWidthMore400px" class="footer__link" href="/contacts">
-					{{ $t('menu.contacts') }}
-				</a>
-
-				<a class="footer__link" href="/overview">
-					{{ $t('menu.overview') }}
-				</a>
-
-				<a v-if="isWidthMore400px" class="footer__link" href="/api">
-					{{ $t('menu.api') }}
-				</a>
-
-				<a v-if="isWidthMore400px" class="footer__link" href="/terms">
-					{{ $t('docs.terms.title') }}
-				</a>
-
-				<a v-if="isWidthMore400px" class="footer__link" href="/policy">
-					{{ $t('docs.policy.title') }}
-				</a>
+                <Link class="footer__link" path="/status">{{ $t('status.title') }}</Link>
+                <Link class="footer__link" path="/fees">{{ $t('fees.title') }}</Link>
+                <Link v-if="isWidthMore400px" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
+                <Link class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
+                <Link v-if="isWidthMore400px" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
+                <Link v-if="isWidthMore400px" class="footer__link" path="/terms">{{ $t('docs.terms.title') }}</Link>
+                <Link v-if="isWidthMore400px" class="footer__link" path="/policy">{{ $t('docs.policy.title') }}</Link>
 			</span>
 
 			<span> Copyright © {{ product.name }} Ltd. 2017 - {{ new Date().getFullYear() }}. All rights reserved </span>
@@ -146,17 +131,18 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
-import config from '../configs';
 
-import MainMenu from '../components/layout/navigation/MainMenu';
-import ToolbarUser from '../components/layout/toolbar/ToolbarUser';
-import ToolbarApps from '../components/layout/toolbar/ToolbarApps';
-import ToolbarLanguage from '../components/layout/toolbar/ToolbarLanguage';
-import ToolbarCurrency from '../components/layout/toolbar/ToolbarCurrency';
-import ToolbarNotifications from '../components/layout/toolbar/ToolbarNotifications';
-import ToolbarThemeChanger from '../components/layout/toolbar/ToolbarThemeChanger';
-import CommonNotification from '../components/common/CommonNotification';
-import CommonSnackbar from '../components/common/CommonSnackbar';
+import Logo from '@/assets/images/logo.png';
+import MainMenu from '@/components/layout/navigation/MainMenu.vue';
+import ToolbarUser from '@/components/layout/toolbar/ToolbarUser.vue';
+import ToolbarApps from '@/components/layout/toolbar/ToolbarApps.vue';
+import ToolbarLanguage from '@/components/layout/toolbar/ToolbarLanguage.vue';
+import ToolbarCurrency from '@/components/layout/toolbar/ToolbarCurrency.vue';
+import ToolbarNotifications from '@/components/layout/toolbar/ToolbarNotifications.vue';
+import ToolbarThemeChanger from '@/components/layout/toolbar/ToolbarThemeChanger.vue';
+import CommonNotification from '@/components/common/CommonNotification.vue';
+import CommonSnackbar from '@/components/common/CommonSnackbar.vue';
+import Link from "@/components/common/Link.vue";
 
 export default {
 	components: {
@@ -169,12 +155,15 @@ export default {
 		ToolbarThemeChanger,
 		CommonNotification,
 		CommonSnackbar,
+        Link
 	},
 
 	data() {
 		return {
+            Logo,
 			drawer: null,
 			isDarkTheme: true,
+            mini: true,
 		};
 	},
 
@@ -199,7 +188,7 @@ export default {
 		},
 	},
 
-	mounted() {
+	created() {
 		this.$eventHub.$on('set-user', this.getNotifications);
 	},
 

@@ -66,7 +66,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import SupportDialogCreate from '../dialog/SupportDialogCreate';
+import SupportDialogCreate from '@/components/support/dialog/SupportDialogCreate.vue';
 
 export default {
 	name: 'SupportSidebarMenu',

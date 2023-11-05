@@ -78,18 +78,18 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import CommonLoading from '../../common/CommonLoading';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
-import formatDate from '../../../mixins/format/formatDate';
-import loadingMixin from '../../../mixins/common/loadingMixin';
-import showNotificationMixin from '../../../mixins/common/showNotificationMixin';
+import formatDate from '@/mixins/format/formatDate';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import showNotificationMixin from '@/mixins/common/showNotificationMixin';
 
 export default {
 	name: 'SupportTicketDetails',
 
 	components: {
 		SupportTicketDetailsInput: () =>
-			import(/* webpackPrefetch: true */ "./SupportTicketDetailsInput"),
+			import("@/components/support/details/SupportTicketDetailsInput.vue"),
 		CommonLoading,
 	},
 

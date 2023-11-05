@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidateSecretRequest;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use ParagonIE\ConstantTime\Base32;
-use PragmaRX\Google2FA\Google2FA;
 
 class Google2FAController extends Controller
 {
@@ -84,7 +83,7 @@ class Google2FAController extends Controller
             }
         }
         else {
-            return ['success' => false, 'message' => trans('auth.unauthed')];
+            return ['success' => false, 'message' => __('app.auth.un_authed')];
         }
     }
 

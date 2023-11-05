@@ -1,5 +1,5 @@
 <template>
-	<v-card class="bid-list pa-1" :class="{ 'bid-list--rotated': $vuetify.breakpoint.smAndDown }">
+	<v-card class="bid-list pa-1">
 		<v-card-title class="bid-list__header component-title pa-0">
 			{{ $t('trading.headers.bid_orders') }}
 		</v-card-title>
@@ -20,14 +20,14 @@
 </template>
 
 <script>
-import BidListTableWrapper from './table/BidListTableWrapper';
+import BidListTableWrapper from '@/components/trading/orders/bid/table/BidListTableWrapper.vue';
 
 export default {
 	name: 'BidList',
 
 	components: {
 		BidListTableWrapper,
-		OrdersTooltip: () => import(/* webpackPrefetch: true */ '../common/OrdersTooltip'),
+		OrdersTooltip: () => import('@/components/trading/orders/common/OrdersTooltip.vue'),
 	},
 
 	props: {

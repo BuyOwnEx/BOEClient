@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import CommonDialog from '../../../common/CommonDialog';
+import CommonDialog from '@/components/common/CommonDialog.vue';
 
 export default {
 	name: 'UserApiDialogDeleteAll',

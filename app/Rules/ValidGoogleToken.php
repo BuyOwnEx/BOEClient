@@ -2,52 +2,37 @@
 
 namespace App\Rules;
 
-use App\User;
-use Illuminate\Contracts\Validation\Rule;
+use App\Models\User;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FA\Google2FA;
 
-class ValidGoogleToken implements Rule
+class ValidGoogleToken implements ValidationRule
 {
     private $user;
 
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
     public function __construct(User $user)
     {
         $this->user = $user;
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         try {
             $secret = Crypt::decrypt($this->user->g2fa_secret);
             $tmp = new Google2FA();
-            return $tmp->verifyKey($secret, $value);
+            if(!$tmp->verifyKey($secret, $value))
+                $fail('app.validation.2fa')->translate();
         }
         catch(\Exception $e)
         {
-            return false;
+            $fail('app.validation.2fa')->translate();
         }
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return trans('validation.2fa');
     }
 }

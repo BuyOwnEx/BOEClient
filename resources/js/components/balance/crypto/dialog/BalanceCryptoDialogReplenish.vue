@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="dialog" width="500">
-		<template #activator="{ on, attrs }">
-			<v-list-item dense v-bind="attrs" v-on="on">
+		<template #activator="{ on }">
+			<v-list-item dense v-on="on">
 				<v-list-item-title>
 					{{ $t('common.replenish') }}
 				</v-list-item-title>
@@ -83,10 +83,10 @@
 <script>
 
 import QrCode from '@chenfengyuan/vue-qrcode';
-import CommonLoading from '../../../common/CommonLoading';
-import CommonCopyLabel from '../../../common/CommonCopyLabel';
-import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
-import BalanceCryptoDialogSelectSystem from './parts/BalanceCryptoDialogSelectSystem';
+import CommonLoading from '@/components/common/CommonLoading.vue';
+import CommonCopyLabel from '@/components/common/CommonCopyLabel.vue';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
+import BalanceCryptoDialogSelectSystem from '@/components/balance/crypto/dialog/parts/BalanceCryptoDialogSelectSystem.vue';
 import { mapActions } from 'vuex';
 
 export default {
@@ -103,12 +103,12 @@ export default {
 		},
 	},
 
-  data() {
-    return {
-      selectedPlatform: null,
-      step: 1,
-    };
-  },
+    data() {
+        return {
+          selectedPlatform: null,
+          step: 1,
+        };
+    },
 
 	computed: {
 		address() {
@@ -117,17 +117,17 @@ export default {
 	},
 
 	methods: {
-    ...mapActions({
-      getAddressStore: 'balance/getAddress',
-    }),
-    selectPlatform(platform) {
-      this.selectedPlatform = platform;
-      this.getAddressStore(this.selectedPlatform);
-      this.step++;
-    },
-    back() {
-      this.step--;
-    },
+        ...mapActions({
+          getAddressStore: 'balance/getAddress',
+        }),
+        selectPlatform(platform) {
+          this.selectedPlatform = platform;
+          this.getAddressStore(this.selectedPlatform);
+          this.step++;
+        },
+        back() {
+          this.step--;
+        },
 	},
 };
 </script>

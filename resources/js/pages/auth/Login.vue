@@ -75,7 +75,7 @@
 			</v-card-actions>
 
 			<div class="caption grey--text darken-4 pb-4 pl-6 pr-6">
-				<v-btn class="text-decoration-underline" color="primary" href="/password/reset" small plain>
+				<v-btn class="text-decoration-underline" color="primary" href="/password/reset" :to="this.$spa ? '/password/reset' : null" small plain>
 					{{ $t('auth.login.forgot') }}
 				</v-btn>
 			</div>
@@ -97,7 +97,8 @@
 			<div class="caption grey--text darken-4">
 				{{ $t('auth.login.noaccount') }}
 			</div>
-			<v-btn block small text tile href="/register" color="primary darken-1">
+
+			<v-btn block small text tile href="/register" :to="this.$spa ? '/register' : null" color="primary darken-1">
 				{{ $t('auth.login.create') }}
 			</v-btn>
 		</div>
@@ -105,14 +106,13 @@
 </template>
 
 <script>
-import formValidationRules from '../../mixins/common/formValidationRules';
-import loadingMixin from '../../mixins/common/loadingMixin';
+import formValidationRules from '@/mixins/common/formValidationRules';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import config from "@/configs/index.js";
 
 export default {
 	name: 'Login',
-
 	mixins: [formValidationRules, loadingMixin],
-
 	data() {
 		return {
 			valid: true,
@@ -121,97 +121,111 @@ export default {
 				email: '',
 				password: '',
 				remember: false,
-        captcha: window.captcha_enabled,
-        lot_number: null,
-        captcha_output: null,
-        pass_token: null,
-        gen_time: null
+                captcha: window.captcha_enabled,
+                lot_number: null,
+                captcha_output: null,
+                pass_token: null,
+                gen_time: null
 			},
 			errors: {
 				email: [],
 				password: [],
 				remember: [],
-        captcha: []
+                captcha: []
 			},
-      captcha_obj: null,
-      captcha_init: false,
+        captcha_obj: null,
+        captcha_init: false,
 			verify_block: window.verified,
 			verify_error: window.v_error,
 		};
 	},
-
-  computed: {
-    btn_available() {
-      return window.captcha_enabled ? (this.captcha_obj !== null) : true;
+    computed: {
+        btn_available() {
+          return window.captcha_enabled ? (this.captcha_obj !== null) : true;
+        }
     },
-  },
-
 	created() {
-    if (this.user.captcha)
-		  this.initGT();
-	},
-
+        if (this.user.captcha)
+          this.initGT();
+    },
 	methods: {
 		initGT: function() {
-      let self = this;
+            let self = this;
 			let handler= function (captcha_obj) {
-				captcha_obj
-          .onReady(function () {
-            self.captcha_obj=captcha_obj
-          })
-          .onSuccess(function(){
-            self.captcha_obj=captcha_obj;
-            let result = captcha_obj.getValidate();
+				captcha_obj.onReady(function () {
+                    self.captcha_obj=captcha_obj
+                }).onSuccess(function() {
+                    self.captcha_obj=captcha_obj;
+                    let result = captcha_obj.getValidate();
 
-            self.user.lot_number = result.lot_number;
-            self.user.captcha_output = result.captcha_output;
-            self.user.pass_token = result.pass_token;
-            self.user.gen_time = result.gen_time;
-            self.login()
-          })
-          .onError(function () {
-            captcha_obj.reset();
-          })
+                    self.user.lot_number = result.lot_number;
+                    self.user.captcha_output = result.captcha_output;
+                    self.user.pass_token = result.pass_token;
+                    self.user.gen_time = result.gen_time;
+                    self.login()
+                }).onError(function () {
+                    captcha_obj.reset();
+                })
 			};
 			axios.get('/geetest?t='+(new Date()).getTime()).then( res => {
 				let data = res.data;
 				initGeetest4({
-          captchaId: data.captcha_id,
-					product: data.product,
-          language: data.language,
-          protocol: 'https://'
+                    captchaId: data.captcha_id,
+                    product: data.product,
+                    language: data.language,
+                    protocol: 'https://'
 				}, handler);
 			})
 		},
 		verify() {
-      if (this.user.captcha)
-			  this.captcha_obj.showCaptcha();
-      else
-        this.login();
-		},
+            if (this.user.captcha)
+			    this.captcha_obj.showCaptcha();
+            else
+                this.login();
+        },
 		login() {
 			this.startLoading();
 			const form = this.user.remember ? this.user : _.omit(this.user, ['remember']);
-			axios.post('/login', form)
-				.then(response => {
-					if (response.data.auth) window.location.href = response.data.intended;
-				})
-				.catch(error => {
-					if (error.response.status === 422) {
-						let errors = error.response.data.errors;
-						if (errors) {
-							for (let field in errors) {
-								if (errors.hasOwnProperty(field)) {
-									this.errors[field] = errors[field];
-								}
-							}
-						}
-					}
-				})
-				.finally(() => {
-					this.stopLoading();
-				});
+			axios.post('/login', form).then(response => {
+                if (response.data.auth) {
+                    if(response.data.intended === '/')
+                    {
+                        window.location.href = response.data.intended;
+                    }
+                    else {
+                        if(this.$spa)
+                            this.$router.push(response.data.intended);
+                        else
+                            window.location.href = response.data.intended;
+                    }
+                }
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    let errors = error.response.data.errors;
+                    if (errors) {
+                        for (let field in errors) {
+                            if (errors.hasOwnProperty(field)) {
+                                this.errors[field] = errors[field];
+                            }
+                        }
+                    }
+                }
+            }).finally(() => {
+                this.stopLoading();
+            });
 		},
 	},
+    watch: {
+        $route: {
+            immediate: true,
+            handler(to, from) {
+                if(to.name === 'login')
+                {
+                    if (this.captcha_obj === null)
+                        this.initGT();
+                }
+            }
+        },
+    },
 };
 </script>

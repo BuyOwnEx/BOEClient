@@ -3,45 +3,31 @@
 namespace App\Rules;
 
 use App\Library\BuyOwnExClientAPI;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class TraderExists implements Rule
+class TraderExists implements ValidationRule
 {
     public $api;
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         $this->api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
     }
-
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $res = $this->api->checkTraderName($value);
-        if($res->status() !== 200) return false;
+        if($res->status() !== 200)
+            $fail('app.validation.check_trader_name_error')->translate();
         else {
             $result = json_decode($res->content(), true);
-            return $result['success'];
+            if (!$result['success'])
+                $fail('app.validation.check_trader_name')->translate();
         }
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return 'The validation error message.';
     }
 }

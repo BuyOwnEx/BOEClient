@@ -50,12 +50,12 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import CommonAvailable from '../../../common/CommonAvailable';
+import CommonAvailable from '@/components/common/CommonAvailable.vue';
 
-import loadingMixin from '../../../../mixins/common/loadingMixin';
-import dialogMethodsMixin from '../../../../mixins/common/dialogMethodsMixin';
-import formValidationRules from '../../../../mixins/common/formValidationRules';
-import validateInputMixin from '../../../../mixins/common/validateInputMixin';
+import loadingMixin from '@/mixins/common/loadingMixin';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
+import formValidationRules from '@/mixins/common/formValidationRules';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
 
 export default {
 	name: 'TradingUserDialogPositionAdd',

@@ -88,11 +88,11 @@
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-jdenticon-sprites';
 
-import UserApiDialogEdit from '../dialog/UserApiDialogEdit';
-import UserApiDialogDeleteOne from '../dialog/UserApiDialogDeleteOne';
-import CommonCopyLabel from '../../../common/CommonCopyLabel';
+import UserApiDialogEdit from '@/components/user/api/dialog/UserApiDialogEdit.vue';
+import UserApiDialogDeleteOne from '@/components/user/api/dialog/UserApiDialogDeleteOne.vue';
+import CommonCopyLabel from '@/components/common/CommonCopyLabel.vue';
 
-import formatDate from '../../../../mixins/format/formatDate';
+import formatDate from '@/mixins/format/formatDate';
 
 export default {
 	name: 'UserApiItem',

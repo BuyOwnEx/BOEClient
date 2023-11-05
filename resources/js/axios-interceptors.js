@@ -1,25 +1,10 @@
 import Store from './store/index.js';
 const store = Store;
 
-axios.interceptors.response.use(
-	response => {
-		if ('phpdebugbar' in window) {
-			window.phpdebugbar.ajaxHandler.handle(response.request);
-		}
-		return response;
-	},
-	error => {
-		return Promise.reject(error);
-	}
-);
-
 window.axios.interceptors.response.use(
 	function(response) {
 		try {
 			let data = response.data;
-
-			console.log(data);
-
 			let color = 'info';
 			if ('success' in data && !data.success) {
 				color = 'danger';
@@ -40,7 +25,6 @@ window.axios.interceptors.response.use(
 						color,
 					};
 				}
-
 				store.commit('snackbar/SHOW_MESSAGE', notification);
 				if (data.success === false) return Promise.reject(data);
 			}
@@ -50,7 +34,6 @@ window.axios.interceptors.response.use(
 		return response;
 	},
 	function(error) {
-		console.log(error);
 		let timeout = 6000;
 		try {
 			if (error.response.status === 419) {
@@ -62,7 +45,8 @@ window.axios.interceptors.response.use(
 					};
 					store.commit('snackbar/SHOW_MESSAGE', notification);
 				}
-			} else if (error.response.status === 422) {
+			}
+            else if (error.response.status === 422) {
 				let errors = _.get(error, 'response.data');
 				if (errors !== undefined && _.size(errors) > 0) {
 					_.each(errors, type => {
@@ -75,7 +59,8 @@ window.axios.interceptors.response.use(
 						});
 					});
 				}
-			} else {
+			}
+            else {
 				let message = _.get(error, 'response.data.message');
 				if (message !== undefined) {
 					let notification = {};
@@ -90,7 +75,8 @@ window.axios.interceptors.response.use(
 							'response.data.message.timeout',
 							timeout
 						);
-					} else {
+					}
+                    else {
 						notification = {
 							text: error.response.data.message,
 							color: 'error',
@@ -102,7 +88,6 @@ window.axios.interceptors.response.use(
 		} catch (e) {
 			// do nothing
 		}
-
 		return Promise.reject(error);
 	}
 );

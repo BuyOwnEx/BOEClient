@@ -2,7 +2,7 @@
 
 namespace App\Library;
 
-use App\PersonalAccessToken;
+use App\Models\PersonalAccessToken;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -37,7 +37,7 @@ class APIToken implements Arrayable, Jsonable
     /**
      * Create a new access token result.
      *
-     * @param  \App\PersonalAccessToken  $accessToken
+     * @param  \App\Models\PersonalAccessToken  $accessToken
      * @param  string  $plainTextToken
      * @return void
      */

@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import DocsContentTypeNested from './type/DocsContentTypeNested';
-import DocsContentTypeDefault from './type/DocsContentTypeDefault';
+import DocsContentTypeNested from '@/components/docs/content/type/DocsContentTypeNested.vue';
+import DocsContentTypeDefault from '@/components/docs/content/type/DocsContentTypeDefault.vue';
 
 export default {
 	name: 'DocsContent',

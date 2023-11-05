@@ -9,7 +9,7 @@
 		<v-card>
 			<v-list dense>
 				<v-list-item-group>
-					<v-list-item v-for="item in items" :key="item.title" :href="item.to">
+					<v-list-item v-for="item in items" :key="item.title" :href="item.to" :to="isSPA ? item.to : null">
 						<v-list-item-avatar>
 							<v-icon color="primary" large>{{ item.icon }}</v-icon>
 						</v-list-item-avatar>
@@ -41,6 +41,9 @@ export default {
 				},
 			];
 		},
+        isSPA() {
+            return this.$spa;
+        }
 	},
 };
 </script>

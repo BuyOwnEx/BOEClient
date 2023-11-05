@@ -151,17 +151,17 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import formatDate from '../../../../mixins/format/formatDate';
-import calculateVolume from '../../../../mixins/trading/calculateVolume';
-import findScale from '../../../../mixins/trading/findScale';
-import formatSize from '../../../../mixins/trading/formatSize';
-import formatPrice from '../../../../mixins/trading/formatPrice';
+import formatDate from '@/mixins/format/formatDate';
+import calculateVolume from '@/mixins/trading/calculateVolume';
+import findScale from '@/mixins/trading/findScale';
+import formatSize from '@/mixins/trading/formatSize';
+import formatPrice from '@/mixins/trading/formatPrice';
 
 export default {
 	name: 'OwnActiveOrderList',
 
 	components: {
-		CommonDialog: () => import(/* webpackPrefetch: true */ '../../../common/CommonDialog'),
+		CommonDialog: () => import('@/components/common/CommonDialog.vue'),
 	},
 
 	mixins: [formatDate, formatSize, formatPrice, calculateVolume, findScale],

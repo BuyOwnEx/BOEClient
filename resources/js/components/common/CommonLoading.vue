@@ -25,18 +25,16 @@ export default {
 };
 </script>
 
-<style scoped>
-.common-loading {
-	width: 100%;
-	&--center {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-}
+<style scoped lang="sass">
+.common-loading
+	width: 100%
+	:is(--center)
+		position: absolute
+		top: 0
+		left: 0
+		right: 0
+		bottom: 0
+		display: flex
+		justify-content: center
+		align-items: center
 </style>

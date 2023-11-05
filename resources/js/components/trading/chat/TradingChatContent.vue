@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import TradingChatMessage from './TradingChatMessage';
+import TradingChatMessage from '@/components/trading/chat/TradingChatMessage.vue';
 
 export default {
 	name: 'TradingChatContent',

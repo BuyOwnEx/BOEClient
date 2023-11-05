@@ -3,15 +3,13 @@
 		<tr>
 			<th>
 				<div class="bid-list-table-header__item--price">
-					<span>{{ $t('table_header.rate') }}</span>
-					<span>({{ market }})</span>
+					<span>{{ $t('table_header.rate') }}</span> <span>({{ market }})</span>
 				</div>
 			</th>
 
 			<th>
 				<div class="bid-list-table-header__item--amount">
-					<span>{{ $t('table_header.amount') }}</span>
-					<span>({{ currency }})</span>
+					<span>{{ $t('table_header.amount') }}</span> <span>({{ currency }})</span>
 				</div>
 			</th>
 

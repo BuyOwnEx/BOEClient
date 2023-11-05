@@ -65,14 +65,14 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import formatDate from '../../../mixins/format/formatDate';
-import getUserCurrencyPropertyMixin from '../../../mixins/common/getUserCurrencyPropertyMixin';
+import formatDate from '@/mixins/format/formatDate';
+import getUserCurrencyPropertyMixin from '@/mixins/common/getUserCurrencyPropertyMixin';
 
 export default {
 	name: 'BalanceWithdrawalList',
 
 	components: {
-		WithdrawCancel: () => import(/* webpackPrefetch: true */ './WithdrawCancel'),
+		WithdrawCancel: () => import('@/components/balance/withdrawal/WithdrawCancel.vue'),
 	},
 
 	mixins: [formatDate, getUserCurrencyPropertyMixin],

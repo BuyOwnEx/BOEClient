@@ -6,18 +6,15 @@ use App\Http\Requests\Confirm2FARequest;
 use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;
-use App\PersonalAccessToken;
-use Exception;
+use App\Models\PersonalAccessToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Support\Arr;
 
 class TraderController extends Controller
 {
@@ -979,19 +976,19 @@ class TraderController extends Controller
             'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
         ], [], [
-            'first_name' => trans('kyc.first_name'),
-            'second_name' => trans('kyc.second_name'),
-            'surname' => trans('kyc.surname'),
-            'sex' => trans('kyc.sex'),
-            'birthday' => trans('kyc.birthday'),
-            'birthday_place' => trans('kyc.birthday_place'),
-            'passport_no' => trans('kyc.passport_no'),
-            'passport_place' => trans('kyc.passport_place'),
-            'passport_date' => trans('kyc.passport_date'),
-            'address' => trans('kyc.address'),
-            'file_ps' => trans('kyc.file_ps'),
-            'file_ws' => trans('kyc.file_ws'),
-            'file_ts' => trans('kyc.file_ts'),
+            'first_name' => __('kyc.first_name'),
+            'second_name' => __('kyc.second_name'),
+            'surname' => __('kyc.surname'),
+            'sex' => __('kyc.sex'),
+            'birthday' => __('kyc.birthday'),
+            'birthday_place' => __('kyc.birthday_place'),
+            'passport_no' => __('kyc.passport_no'),
+            'passport_place' => __('kyc.passport_place'),
+            'passport_date' => __('kyc.passport_date'),
+            'address' => __('kyc.address'),
+            'file_ps' => __('kyc.file_ps'),
+            'file_ws' => __('kyc.file_ws'),
+            'file_ts' => __('kyc.file_ts'),
         ]);
         if ($validator->fails())
         {
@@ -1048,19 +1045,19 @@ class TraderController extends Controller
             'file_ws' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ts' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
         ], [], [
-            'first_name' => trans('kyc.first_name'),
-            'second_name' => trans('kyc.second_name'),
-            'surname' => trans('kyc.surname'),
-            'sex' => trans('kyc.sex'),
-            'birthday' => trans('kyc.birthday'),
-            'birthday_place' => trans('kyc.birthday_place'),
-            'passport_no' => trans('kyc.passport_no'),
-            'passport_place' => trans('kyc.passport_place'),
-            'passport_date' => trans('kyc.passport_date'),
-            'address' => trans('kyc.address'),
-            'file_ps' => trans('kyc.file_ps'),
-            'file_ws' => trans('kyc.file_ws'),
-            'file_ts' => trans('kyc.file_ts'),
+            'first_name' => __('kyc.first_name'),
+            'second_name' => __('kyc.second_name'),
+            'surname' => __('kyc.surname'),
+            'sex' => __('kyc.sex'),
+            'birthday' => __('kyc.birthday'),
+            'birthday_place' => __('kyc.birthday_place'),
+            'passport_no' => __('kyc.passport_no'),
+            'passport_place' => __('kyc.passport_place'),
+            'passport_date' => __('kyc.passport_date'),
+            'address' => __('kyc.address'),
+            'file_ps' => __('kyc.file_ps'),
+            'file_ws' => __('kyc.file_ws'),
+            'file_ts' => __('kyc.file_ts'),
         ]);
         if ($validator->fails())
         {

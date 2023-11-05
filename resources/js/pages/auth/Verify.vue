@@ -54,7 +54,7 @@
 				{{ $t('auth.verify.already_activated') }}
 			</div>
 
-			<v-btn block small text tile href="/login" color="primary darken-1">
+			<v-btn block small text tile href="/login" :to="this.$spa ? '/login' : null" color="primary darken-1">
 				{{ $t('auth.signin') }}
 			</v-btn>
 		</div>
@@ -62,14 +62,12 @@
 </template>
 
 <script>
-import formValidationRules from '../../mixins/common/formValidationRules';
-import loadingMixin from '../../mixins/common/loadingMixin';
+import formValidationRules from '@/mixins/common/formValidationRules';
+import loadingMixin from '@/mixins/common/loadingMixin';
 
 export default {
 	name: 'Verify',
-
 	mixins: [formValidationRules, loadingMixin],
-
 	data() {
 		return {
 			valid: true,
@@ -83,34 +81,32 @@ export default {
 			resend_alert: false,
 		};
 	},
-
 	methods: {
 		resend() {
 			this.startLoading();
-			axios
-				.post('/email/resend', this.user)
-				.then(response => {
-					if (response.data.resend) this.resend_alert = true;
-					//else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
-				})
-				.catch(error => {
-					this.resend_alert = false;
-					if (error.response.status === 422) {
-						let errors = error.response.data.errors;
-						if (errors) {
-							for (let field in errors) {
-								if (errors.hasOwnProperty(field)) {
-									this.errors[field] = errors[field];
-								}
-							}
-						}
-					} else {
-						//this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
-					}
-				})
-				.finally(() => {
-					this.stopLoading();
-				});
+			axios.post('/email/resend', this.user)
+            .then(response => {
+                if (response.data.resend) this.resend_alert = true;
+                //else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
+            })
+            .catch(error => {
+                this.resend_alert = false;
+                if (error.response.status === 422) {
+                    let errors = error.response.data.errors;
+                    if (errors) {
+                        for (let field in errors) {
+                            if (errors.hasOwnProperty(field)) {
+                                this.errors[field] = errors[field];
+                            }
+                        }
+                    }
+                } else {
+                    //this.$store.commit('snackbars/showSnackbar',{ text: error.response.data.message || error.response.statusText, success: false});
+                }
+            })
+            .finally(() => {
+                this.stopLoading();
+            });
 		},
 	},
 };

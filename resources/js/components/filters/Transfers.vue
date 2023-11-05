@@ -211,8 +211,8 @@
 </template>
 
 <script>
-import FiltersTitle from './parts/FiltersTitle';
-import FiltersFooter from './parts/FiltersFooter';
+import FiltersTitle from '@/components/filters/parts/FiltersTitle.vue';
+import FiltersFooter from '@/components/filters/parts/FiltersFooter.vue';
 
 export default {
 	name: 'Transfers',

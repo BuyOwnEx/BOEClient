@@ -14,7 +14,6 @@ export default {
 				link: '/fiat_transactions',
 			},
 			{ icon: 'mdi-swap-horizontal', key: 'menu.transfers', text: 'Transfers', link: '/transfers' },
-			/*{ icon: 'mdi-poll', key: 'menu.offers', text: 'Margin offers', link: '/offers' },*/
 			{ icon: 'mdi-file-document-outline', key: 'menu.orders', text: 'Orders', link: '/orders' },
 			{ icon: 'mdi-checkbox-marked-outline', key: 'menu.deals', text: 'Deals', link: '/deals' },
 			{ icon: 'mdi-currency-usd', key: 'menu.balance', text: 'Balance', link: '/balance' },

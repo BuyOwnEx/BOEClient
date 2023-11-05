@@ -61,13 +61,7 @@ class LoginController extends Controller
             ]);
         }
     }
-    /**
-     * The user has been authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
+
     protected function authenticated(Request $request, $user)
     {
         if ($request->ajax())
@@ -130,4 +124,5 @@ class LoginController extends Controller
             'intended' => $this->redirectPath(),
         ]);
     }
+
 }

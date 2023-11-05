@@ -13,8 +13,7 @@ export default {
 
 	methods: {
 		initWSConnection() {
-			this.centrifuge = new Centrifuge(
-				process.env.MIX_WS_SERVER,
+			this.centrifuge = new Centrifuge(import.meta.env.VITE_WS_SERVER,
 				{
 					debug: true,
 					subscribeEndpoint: '/trader/ext/private',
@@ -103,11 +102,11 @@ export default {
 	},
 
 	mounted() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	created() {
 		//console.log('centrifugo balance created...');
-		//this.$eventHub.$on('set-user', this.initWSConnection);
+		this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);

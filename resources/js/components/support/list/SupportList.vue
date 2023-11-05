@@ -82,15 +82,14 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 
-import formatDate from '../../../mixins/format/formatDate';
-import loadingMixin from '../../../mixins/common/loadingMixin';
+import formatDate from '@/mixins/format/formatDate';
+import loadingMixin from '@/mixins/common/loadingMixin';
 
 export default {
 	name: 'SupportList',
 
 	components: {
-		SupportTicketDetails: () =>
-			import(/* webpackPrefetch: true */ '../details/SupportTicketDetails'),
+		SupportTicketDetails: () => import('@/components/support/details/SupportTicketDetails.vue'),
 	},
 
 	mixins: [formatDate, loadingMixin],

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Library\BuyOwnExClientAPI;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class JWTController extends Controller
 {

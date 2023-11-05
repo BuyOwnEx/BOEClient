@@ -10,29 +10,28 @@
 </template>
 
 <script>
-import TradingChart from './TradingChart';
-import TradingChartMarketInfo from './TradingChartMarketInfo';
-import { mapGetters, mapState } from 'vuex';
+import TradingChart from '@/components/trading/chart/TradingChart.vue';
+import TradingChartMarketInfo from '@/components/trading/chart/TradingChartMarketInfo.vue';
 
 export default {
 	name: 'TradingChartWrapper',
-
-	components: { TradingChart, TradingChartMarketInfo },
-  computed: {
-    isMobile() {
-      return this.$vuetify.breakpoint.smAndDown;
+    props: {
+        currency: {
+            type: String,
+            required: true,
+        },
+        market: {
+            type: String,
+            required: true,
+        },
     },
-  },
-	props: {
-		currency: {
-			type: String,
-			required: true,
-		},
-		market: {
-			type: String,
-			required: true,
-		},
-	},
+	components: { TradingChart, TradingChartMarketInfo },
+
+    computed: {
+        isMobile() {
+          return this.$vuetify.breakpoint.smAndDown;
+        },
+    }
 };
 </script>
 

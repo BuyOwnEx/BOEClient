@@ -27,7 +27,7 @@
 			</template>
 
 			<template #item.action="{ item }">
-				<v-menu v-model="item.menu" transition="slide-y-transition" close-on-click offset-y bottom>
+				<v-menu v-model="item.menu" transition="slide-y-transition" close-on-click close-on-content-click offset-y bottom>
 					<template #activator="{ on }">
 						<v-btn color="#A6A6A6" v-on="on" text tile small>
 							{{ $t('table_header.actions') }}
@@ -36,23 +36,11 @@
 					</template>
 
 					<v-list dense>
-						<BalanceCryptoDialogReplenish
-              v-if="item.type === 'crypto'"
-							:currency-obj="item"
-							@close-menu="closeMenu(item)"
-						/>
-            <BalanceFiatDialogReplenish
-                v-if="item.type === 'fiat'"
-                :currency-obj="item"
-                @close-menu="closeMenu(item)"
-            />
-						<BalanceCryptoDialogWithdraw
-              v-if="item.type === 'crypto'"
-							:currency-obj="item"
-							@close-menu="closeMenu(item)"
-						/>
+						<BalanceCryptoDialogReplenish v-if="item.type === 'crypto'" :currency-obj="item" @close-menu="closeMenu(item)" />
+                        <BalanceFiatDialogReplenish v-if="item.type === 'fiat'" :currency-obj="item" @close-menu="closeMenu(item)" />
+						<BalanceCryptoDialogWithdraw v-if="item.type === 'crypto'" :currency-obj="item" @close-menu="closeMenu(item)" />
 						<BalanceDialogTransfer type="trade" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
-						<BalanceDialogTransfer type="safe" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
+                        <BalanceDialogTransfer type="safe" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
 					</v-list>
 				</v-menu>
 			</template>
@@ -119,17 +107,17 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
-import balanceStateMethodsMixin from '../../../mixins/balance/balanceStateMethodsMixin';
+import balanceStateMethodsMixin from '@/mixins/balance/balanceStateMethodsMixin';
 
 export default {
 	name: 'BalanceCryptoList',
 
 	components: {
-    BalanceFiatDialogReplenish: () => import('../fiat/dialog/BalanceFiatDialogReplenish'),
-		BalanceCryptoDialogReplenish: () => import('./dialog/BalanceCryptoDialogReplenish'),
-		BalanceCryptoDialogWithdraw: () => import('./dialog/BalanceCryptoDialogWithdraw'),
-		BalanceDialogTransfer: () => import('../common/BalanceDialogTransfer'),
-		CommonTooltip: () => import('../../common/CommonTooltip'),
+    BalanceFiatDialogReplenish: () => import('@/components/balance/fiat/dialog/BalanceFiatDialogReplenish.vue'),
+		BalanceCryptoDialogReplenish: () => import('@/components/balance/crypto/dialog/BalanceCryptoDialogReplenish.vue'),
+		BalanceCryptoDialogWithdraw: () => import('@/components/balance/crypto/dialog/BalanceCryptoDialogWithdraw.vue'),
+		BalanceDialogTransfer: () => import('@/components/balance/common/BalanceDialogTransfer.vue'),
+		CommonTooltip: () => import('@/components/common/CommonTooltip.vue'),
 	},
 
 	mixins: [balanceStateMethodsMixin],
@@ -212,7 +200,7 @@ export default {
 			return BigNumber(item);
 		},
 		closeMenu(item) {
-			item.menu = false;
+            item.menu = false;
 		},
 	},
 };

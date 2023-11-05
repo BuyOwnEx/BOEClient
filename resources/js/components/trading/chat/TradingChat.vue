@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import TradingChatContent from './TradingChatContent';
-import TradingChatAddMessage from './TradingChatAddMessage';
-import CommonLoading from '../../common/CommonLoading';
+import TradingChatContent from '@/components/trading/chat/TradingChatContent.vue';
+import TradingChatAddMessage from '@/components/trading/chat/TradingChatAddMessage.vue';
+import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'TradingChat',

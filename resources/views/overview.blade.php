@@ -1,25 +1,27 @@
 @extends('layouts.main')
 @section('title')
-    {{trans('titles.overview')}}
+    {{ __('titles.overview') }}
 @endsection
 @section('keywords')
-    keywords
+    {{ __('keywords.main') }}
 @endsection
 @section('description')
-    description
+    {{ __('descriptions.main') }}
 @endsection
 @section('styles')
-    <link href="{{ mix('dist/css/app.css') }}" rel="stylesheet">
-    <link href="{{ mix('dist/css/highcharts.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
 @endsection
 @section('scripts')
     <script>
         window.user = {!! json_encode($user); !!};
         window.config = {!! json_encode($config); !!};
-        window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
-        window.component = 'overview';
         window.trading_currency = {!! json_encode($currency); !!};
         window.trading_market = {!! json_encode($market); !!};
+        window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
     </script>
-    <script src="{{mix('dist/js/overview.js')}}"></script>
+    @if (config('app.spa_enabled'))
+        @vite('resources/js/app.js')
+    @else
+        @vite('resources/js/overview.js')
+    @endif
 @endsection

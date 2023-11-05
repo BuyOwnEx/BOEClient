@@ -13,7 +13,7 @@
 				<div v-if="unreadQuantity > 0">
 					<v-list three-line dense max-width="400">
 						<v-subheader class="pa-2 font-weight-bold">
-              {{ $t('menu.notifications') }}
+                            {{ $t('menu.notifications') }}
 						</v-subheader>
 						<div v-for="(item, index) in toolbarNotifications" :key="item.id">
 							<v-divider v-if="index > 0 && index < toolbarNotifications.length" inset />
@@ -68,8 +68,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import NotificationsDetail from '../../notifications/NotificationsDetail';
-import formatDate from '../../../mixins/format/formatDate';
+import NotificationsDetail from '@/components/notifications/NotificationsDetail.vue';
+import formatDate from '@/mixins/format/formatDate';
 
 export default {
 	name: 'ToolbarNotifications',
@@ -113,7 +113,10 @@ export default {
 			if (!notification.read) this.readNotificationStore(notification.id);
 		},
 		navigateToNotificationsPage() {
-			window.location.href = '/notifications';
+            if (this.$spa)
+                this.$router.push('/notifications');
+            else
+			    window.location.href = '/notifications';
 		},
 	},
 };
