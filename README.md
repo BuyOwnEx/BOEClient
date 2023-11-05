@@ -23,7 +23,7 @@ In other parts this exchange do not differ from others and you will have all fun
 
 ## Installation
 
-Please check the official laravel 7.x installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/7.x/installation#installation)
+Please check the official laravel 10.x installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/10.x/releases#support-policy)
 
 Alternative installation is possible without local dependencies relying on [Docker](#docker). 
 
@@ -35,13 +35,9 @@ Switch to the repo folder
 
     cd boeclient
 
-Install all the dependencies using composer v2 for PHP 7
+Install all the dependencies using composer v2 for PHP 8
 
     composer install
-    
-Install all the dependencies using composer v2 for PHP 8 with ignore flag of compatibility (due to incompatible of phpunit: phpunit/phpunit 8.5.9 requires php ^7.2)
-
-    composer install --ignore-platform-reqs
 
 Copy the example env file and make the required configuration changes in the .env file
 
@@ -62,7 +58,7 @@ Create the symbolic link to the public storage
 Make front-end build
 
     npm install
-    npm run dev
+    npm run build
 
 Start the local development server
 
@@ -77,28 +73,21 @@ You can now access the server at http://localhost:8000
     composer install
     cp .env.example .env
     php artisan key:generate
+    php artisan storage:link
+    npm install
     
 **Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
 
     php artisan migrate
     php artisan serve
+
+**Make sure you set the correct VITE_WS_SERVER before running front end build** [Environment variables](#environment-variables)
+
+    npm run build
     
 ## Docker
 
-To install with [Docker](https://www.docker.com), run following commands:
-
-```
-git clone git@github.com:buyownex/boeclient.git
-cd boeclient
-cp .env.example .env
-docker run -v $(pwd):/app composer install
-cd ./docker
-docker-compose up -d
-docker-compose exec php php artisan key:generate
-docker-compose exec php php artisan migrate
-docker-compose exec php php artisan storage:link
-docker-compose exec php php artisan serve --host=0.0.0.0
-```
+To install with [Docker](https://www.docker.com), you can use laradock infrastructure [Official Laradock Documentation](https://laradock.io/getting-started/)
 
 ----------
 
@@ -116,16 +105,21 @@ docker-compose exec php php artisan serve --host=0.0.0.0
 
 Specific variables to this project:
 
-    # API Server, that handles incoming requests. Use this demo server for test purposes.
+    # Web socket server. Use this demo server for test purposes
+    VITE_WS_SERVER=wss://ws.buyownex.com/ws
+    # verification driver choice. Possible values: local or sumsub
+    VITE_KYC_DRIVER=local
+    # payment for verification option: false - payment excluded, true - payment included
+    VITE_VERIFICATION_PAYMENT_REQUIRED=false
+
+    # API Server, that handles incoming requests. Use this demo server and API keys for test purposes
     SERVER=https://api.buyownex.com
-    MIX_WS_SERVER=wss://ws.buyownex.com/ws
     API_PUBLIC_KEY=9ayqB8BIUTyhDkEFxoNzyAVCQv523Fx9ynUhlHvOka7PUCOn91PMbh560wROb66Gu8rgm3gqoJkrbCgv // demo public key for SERVER
     API_SECRET_KEY=q2e78LdPopmKPVCaAwxrrNmXb1qWMD3WoY77F7glTzByWD4d8zQHcyPLunBJ5I2szzzrbbsQGG141yeO // demo secret key for SERVER
     
-    # Moble API keys
-    API_MOBILE_PUBLIC_KEY= // public key for mobile app (optional)
-    API_MOBILE_SECRET_KEY= // secret key for mobile app (optional)
-    
+    # Choice between SPA application and common application
+    SPA_ENABLED=true
+ 
     # When you navigate to the main page, redirection occurs to the http://localhost/trading/{DEFAULT_MARKET}/{DEFAULT_CURRENCY} link
     DEFAULT_MARKET=USDT
     DEFAULT_CURRENCY=BTC
@@ -146,11 +140,6 @@ Specific variables to this project:
     # geetest ID and Key. Get your own account at https://www.geetest.com/en/
     GEETEST_ID=
     GEETEST_KEY=
-    
-    # verification driver choice. Possible values: local or sumsub
-    MIX_KYC_DRIVER=local
-    # payment for verification option: false - payment excluded, true - payment included
-    MIX_VERIFICATION_PAYMENT_REQUIRED=false
     
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 
