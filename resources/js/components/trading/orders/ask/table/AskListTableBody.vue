@@ -12,15 +12,15 @@
 		>
 			<td v-if="isDesktop">
 				<div class="ask-list-table-body__tooltip-volume-wrapper">
-					<OrdersWall :item-index="itemIndex" :volume="calculateVolume(item.price, item.actualSize)" type="ask" />
+					<OrdersWall :item-index="itemIndex" :volume="calculateVolume(item.price, item.actual_size)" type="ask" />
 					<div class="ask-list-table-body__item--volume text-start">
-						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+						<span>{{ calculateVolume(item.price, item.actual_size) }}</span>
 					</div>
 				</div>
 			</td>
 			<td v-if="isDesktop">
 				<div class="ask-list-table-body__item--size">
-					{{ formatSize(item.actualSize, getAmountScale) }}
+					{{ formatSize(item.actual_size, getAmountScale) }}
 				</div>
 			</td>
 			<td v-if="isDesktop">
@@ -40,19 +40,19 @@
 			</td>
 			<td v-if="isMobile">
 				<div class="ask-list-table-body__item--size">
-					{{ formatSize(item.actualSize, getAmountScale) }}
+					{{ formatSize(item.actual_size, getAmountScale) }}
 				</div>
 			</td>
 			<td v-if="isMobile">
 				<div class="ask-list-table-body__tooltip-volume-wrapper text-right">
 					<OrdersWall
 						:item-index="itemIndex"
-						:volume="calculateVolume(item.price, item.actualSize)"
+						:volume="calculateVolume(item.price, item.actual_size)"
 						type="ask"
 						mobile
 					/>
 					<div class="ask-list-table-body__item--volume text-end">
-						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+						<span>{{ calculateVolume(item.price, item.actual_size) }}</span>
 					</div>
 				</div>
 			</td>
@@ -136,8 +136,8 @@ export default {
 			this.$eventHub.$emit('set-buy-price', { price: itemPrice });
 		},
 
-		calculatePercent(actualSize) {
-			return BigNumber(actualSize)
+		calculatePercent(actual_size) {
+			return BigNumber(actual_size)
 				.times(100)
 				.div(BigNumber(this.volumeDepth))
 				.dp(2)

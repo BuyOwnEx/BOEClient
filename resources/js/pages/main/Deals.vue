@@ -112,7 +112,7 @@ export default {
 				{ text: 'ID', value: 'id' },
 				{ text: this.$t('table_header.date'), value: 'created_at' },
 				{ text: this.$t('table_header.pair'), value: 'pair', sortable: false },
-				{ text: this.$t('table_header.order'), value: 'orderId', sortable: false },
+				{ text: this.$t('table_header.order'), value: 'order_id', sortable: false },
 				{ text: this.$t('table_header.fee'), value: 'fee' },
 				{ text: this.$t('table_header.size'), value: 'size' },
 				{ text: this.$t('table_header.price'), value: 'price' },

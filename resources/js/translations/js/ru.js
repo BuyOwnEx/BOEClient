@@ -339,12 +339,12 @@ export default {
 		no_activity: 'Активности нет',
 		realized: 'Реализовано',
 		credited: 'Кредит',
-		creditFee: '% по кредиту',
-		creditUsed: 'Использовано',
-		blockedFunds: 'Маржа',
-		marginPosition: 'Позиция',
+		credit_fee: '% по кредиту',
+		credit_used: 'Использовано',
+		blocked_funds: 'Маржа',
+		margin_position: 'Позиция',
 		marginLevel: 'Уровень маржи',
-		validUntil: 'Действует до',
+		valid_until: 'Действует до',
 		show_other_pairs: 'Показать все пары',
 		not_found: 'Ничего не найдено',
 		total: 'Всего',
@@ -1942,7 +1942,7 @@ export default {
 						'    "side": "sell",\n' +
 						'    "price": "7215.22",\n' +
 						'    "size": "0.2",\n' +
-						'    "actualSize": "0.11",\n' +
+						'    "actual_size": "0.11",\n' +
 						'    "trades": [\n' +
 						'        &#123;\n' +
 						'            "id": 5627162,\n' +
@@ -1970,7 +1970,7 @@ export default {
 						'                            <li><strong>side</strong> – направленность ордера. Возможные значения: <strong>sell</strong>, <strong>buy</strong></li>\n' +
 						'                            <li><strong>price</strong> – цена покупки/продажи</li>\n' +
 						'                            <li><strong>size</strong> – изначальное количество валюты в ордере</li>\n' +
-						'                            <li><strong>actualSize</strong> – текущее количество валюты в ордере</li>\n' +
+						'                            <li><strong>actual_size</strong> – текущее количество валюты в ордере</li>\n' +
 						'                            <li><strong>trades</strong> – массив сделок по данному ордеру</li>\n' +
 						'                        </ul>',
 				},

@@ -301,7 +301,7 @@ export default {
 				if (item.size === 0) {
 					return 100;
 				}
-				return parseFloat(100 - (item.actualSize * 100) / item.size).toFixed(2);
+				return parseFloat(100 - (item.actual_size * 100) / item.size).toFixed(2);
 			}
 			if (item.status === 'accepted') {
 				return 0;
