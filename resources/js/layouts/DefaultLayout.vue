@@ -12,7 +12,7 @@
 			<template #prepend>
 				<v-list-item class="sidebar-header">
 					<v-list-item-avatar height="48" min-width="48" width="48">
-						<v-img :src="Logo"></v-img>
+						<v-img contain :src="Logo"></v-img>
 					</v-list-item-avatar>
 
 					<v-list-item-content>
@@ -50,8 +50,8 @@
 					<div class="d-flex flex-grow-1 align-center">
 						<v-app-bar-nav-icon v-if="isLogged" @click.stop="drawer = !drawer" />
 						<v-list-item v-if="!isLogged" style="padding: 0 4px;">
-							<v-list-item-avatar height="48" min-width="48" width="48">
-								<v-img :src="Logo" />
+							<v-list-item-avatar height="48" min-width="48" width="48" >
+								<v-img contain :src="Logo" />
 							</v-list-item-avatar>
 
 							<v-list-item-content class="product-name-version">

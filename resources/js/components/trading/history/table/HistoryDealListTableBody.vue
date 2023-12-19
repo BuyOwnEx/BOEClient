@@ -22,7 +22,7 @@
 
 			<td>
 				<div class="history-deal-list-table-body__item--date table-date">
-					{{ formatDate(item.createdAt, 'trading') }}
+					{{ formatDate(item.created_at, 'trading') }}
 				</div>
 			</td>
 		</tr>

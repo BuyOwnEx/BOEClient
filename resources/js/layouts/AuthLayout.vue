@@ -9,7 +9,7 @@
 			<canvas class="waves" id="waves"></canvas>
 
 			<div class="auth-layout__side-top mt-3 mt-md-1 pa-2">
-                <Link path="/"><v-img min-height="103" max-width="250" :src="LogoFull" class="ma-auto" /></Link>
+                <Link path="/"><v-img contain min-height="103" max-width="250" :src="LogoFull" class="ma-auto" /></Link>
 				<div class="auth-layout__slogan title my-2 white--text">
 					{{ product.slogan }}
 				</div>
@@ -96,7 +96,7 @@ export default {
 	}
 	&__side {
 		width: 420px;
-		background: rgba(0, 0, 0, 0) linear-gradient(5deg, rgb(20, 47, 109) 0%, rgb(9, 28, 72) 40%) repeat scroll 0% 0%;
+		background: rgba(0, 0, 0, 0) linear-gradient(5deg, rgb(20, 47, 109) 0%, rgb(9, 28, 72) 40%) repeat scroll 0 0;
 	}
 	&__slogan {
 		z-index: 1;

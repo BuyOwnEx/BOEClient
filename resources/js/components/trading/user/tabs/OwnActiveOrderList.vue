@@ -66,7 +66,7 @@
 			>
 				<template #item.date="{ item }">
 					<span class="table-date">
-						{{ formatDate(item.createdAt, 'trading') }}
+						{{ formatDate(item.created_at, 'trading') }}
 					</span>
 				</template>
 
