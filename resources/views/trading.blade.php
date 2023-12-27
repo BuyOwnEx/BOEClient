@@ -13,11 +13,10 @@
 @endsection
 @section('scripts')
     <script>
-        window.user = {!! json_encode($user); !!};
-        window.config = {!! json_encode($config); !!};
-        window.trading_currency = {!! json_encode($currency); !!};
-        window.trading_market = {!! json_encode($market); !!};
-        window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
+			window.user = {!! json_encode($user); !!};
+			window.trading_currency = {!! json_encode($currency); !!};
+			window.trading_market = {!! json_encode($market); !!};
+			window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
     </script>
     @if (config('app.spa_enabled'))
         @vite('resources/js/app.js')

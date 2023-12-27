@@ -343,7 +343,7 @@ export default {
 		credit_used: 'Использовано',
 		blocked_funds: 'Маржа',
 		margin_position: 'Позиция',
-		marginLevel: 'Уровень маржи',
+		margin_level: 'Уровень маржи',
 		valid_until: 'Действует до',
 		show_other_pairs: 'Показать все пары',
 		not_found: 'Ничего не найдено',

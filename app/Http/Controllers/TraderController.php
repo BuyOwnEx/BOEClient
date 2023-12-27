@@ -43,21 +43,13 @@ class TraderController extends Controller
         return view('trading', [
             'currency'=>$currency,
             'market'=>$market,
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getBalanceView(Request $request)
     {
         return view('balance', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getOverviewView(Request $request)
@@ -65,161 +57,97 @@ class TraderController extends Controller
         return view('overview', [
             'user' => $request->user(),
             'currency' => env('DEFAULT_CURRENCY', 'BTC'),
-            'market' => env('DEFAULT_MARKET', 'USDT'),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'market' => env('DEFAULT_MARKET', 'USDT')
         ]);
     }
     public function getTransactionsView(Request $request)
     {
         return view('transactions', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getFiatTransactionsView(Request $request)
     {
         return view('fiat_transactions', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getTransfersView(Request $request)
     {
         return view('transfers', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getOrdersView(Request $request)
     {
         return view('orders', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getDealsView(Request $request)
     {
         return view('deals', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getRefPaymentsView(Request $request)
     {
         return view('ref_payments', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getSupportView(Request $request)
     {
         return view('support', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getProfileView(Request $request)
     {
         return view('profile', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getNotificationsView(Request $request)
     {
         return view('notifications', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getPolicyView(Request $request)
     {
         return view('policy', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getTermsView(Request $request)
     {
         return view('terms', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getApiView(Request $request)
     {
         return view('api', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getFeesView(Request $request)
     {
         return view('fees', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getStatusView(Request $request)
     {
         return view('status', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
     public function getContactsView(Request $request)
     {
         return view('contacts', [
-            'user' => $request->user(),
-            'config' => [
-                'fiat' => true,
-                'leverageLevel' => 5
-            ]
+            'user' => $request->user()
         ]);
     }
 

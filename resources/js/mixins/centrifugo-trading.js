@@ -92,6 +92,9 @@ export default {
 		connect() {
 			this.centrifuge.connect();
 		},
+		disconnect() {
+			this.centrifuge.disconnect();
+		},
 		getInitTraderData() {
 			if (this.$store.state.user.balances === null) {
 				this.$store.dispatch('user/getBalancesFromServer');
@@ -418,36 +421,37 @@ export default {
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);
 	},
-    beforeRouteLeave(to, from, next) {
-        // called when the route that renders this component is about to
-        // be navigated away from.
-        // has access to `this` component instance.
-        this.unsubscribeAll();
-        this.$eventHub.$emit('chartLeave');
-        this.needWatch = false;
-        this.$store.commit('trading/setPair', {
-            currency: 'BTC',
-            market: 'USDT',
-        });
-        next();
-    },
-    beforeRouteEnter (to, from, next) {
-        if(to.params.currency === 'BTC' && to.params.market === 'USDT')
-        {
-            next(vm => {
-                console.log(vm);
-                vm.needWatch = true;
-                vm.$store.commit('trading/setPair', {
-                    currency: 'BTC',
-                    market: 'USDT',
-                });
-            })
-        }
-        else
-        {
-            next(vm => {
-                // access to component instance via `vm`
-            })
-        }
-    },
+	beforeRouteLeave(to, from, next) {
+			// called when the route that renders this component is about to
+			// be navigated away from.
+			// has access to `this` component instance.
+			this.unsubscribeAll();
+			this.$eventHub.$emit('chartLeave');
+			this.needWatch = false;
+			this.$store.commit('trading/setPair', {
+					currency: 'BTC',
+					market: 'USDT',
+			});
+			this.disconnect();
+			next();
+	},
+	beforeRouteEnter (to, from, next) {
+			if(to.params.currency === 'BTC' && to.params.market === 'USDT')
+			{
+					next(vm => {
+							console.log(vm);
+							vm.needWatch = true;
+							vm.$store.commit('trading/setPair', {
+									currency: 'BTC',
+									market: 'USDT',
+							});
+					})
+			}
+			else
+			{
+					next(vm => {
+							// access to component instance via `vm`
+					})
+			}
+	},
 };

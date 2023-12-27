@@ -345,7 +345,7 @@ export default {
 		credit_used: 'Used',
 		blocked_funds: 'Margin',
 		margin_position: 'Position',
-		marginLevel: 'Margin level',
+		margin_level: 'Margin level',
 		valid_until: 'Valid until',
 		close_position: 'Close position',
 		deposit_margin: 'Deposit margin',

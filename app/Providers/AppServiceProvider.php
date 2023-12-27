@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Library\BuyOwnExClientAPI;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,7 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::share('config', [
+            'fiat' => true,
+            'leverageLevel' => 5,
+            'captcha_enabled' => config('app.captcha_enabled')
+        ]);
     }
 
     private function initializeSettingsContainer()

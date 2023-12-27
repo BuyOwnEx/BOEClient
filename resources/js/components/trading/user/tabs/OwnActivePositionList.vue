@@ -152,7 +152,7 @@
 					>
 				</template>
 
-				<template #item.marginLevel="{ item }">
+				<template #item.margin_level="{ item }">
 					<strong :class="marginLevelClass(item)">
 						{{ marginLevel(item) }}
 					</strong>
@@ -258,8 +258,8 @@ export default {
 					value: 'margin_position',
 				},
 				{
-					text: this.$t('trading.marginLevel'),
-					value: 'marginLevel',
+					text: this.$t('trading.margin_level'),
+					value: 'margin_level',
 				},
 				{
 					text: this.$t('trading.valid_until'),
