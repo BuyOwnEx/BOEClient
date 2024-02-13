@@ -1,5 +1,5 @@
 <template>
-	<div class="user-account-tab tab-fill-height">
+	<div class="user-account-tab d-flex flex-column tab-fill-height">
 		<v-card v-if="isLoading || !user" class="tab-fill-height">
 			<v-card-title>{{ $t('user.title.basic_info') }}</v-card-title>
 			<CommonLoading page-margin />

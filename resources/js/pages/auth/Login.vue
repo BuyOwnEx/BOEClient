@@ -108,7 +108,7 @@
 <script>
 import formValidationRules from '@/mixins/common/formValidationRules';
 import loadingMixin from '@/mixins/common/loadingMixin';
-import config from "@/configs/index.js";
+import waves from "@/plugins/hero-canvas";
 
 export default {
 	name: 'Login',
@@ -121,7 +121,7 @@ export default {
 				email: '',
 				password: '',
 				remember: false,
-                captcha: window.captcha_enabled,
+                captcha: window.config.captcha_enabled,
                 lot_number: null,
                 captcha_output: null,
                 pass_token: null,
@@ -139,33 +139,41 @@ export default {
 			verify_error: window.v_error,
 		};
 	},
-    computed: {
-        btn_available() {
-          return window.captcha_enabled ? (this.captcha_obj !== null) : true;
-        }
-    },
+  computed: {
+      btn_available() {
+        return window.config.captcha_enabled ? (this.captcha_obj !== null) : true;
+      }
+  },
 	created() {
-        if (this.user.captcha)
+        if (this.user.captcha && !this.$spa)
           this.initGT();
-    },
-	methods: {
+
+  },
+  mounted() {
+    waves.ClassicalNoise.prototype.start();
+  },
+  beforeRouteLeave(to, from, next) {
+    waves.ClassicalNoise.prototype.stop();
+    next();
+  },
+  methods: {
 		initGT: function() {
-            let self = this;
+      let self = this;
 			let handler= function (captcha_obj) {
 				captcha_obj.onReady(function () {
-                    self.captcha_obj=captcha_obj
-                }).onSuccess(function() {
-                    self.captcha_obj=captcha_obj;
-                    let result = captcha_obj.getValidate();
+            self.captcha_obj=captcha_obj
+        }).onSuccess(function() {
+            self.captcha_obj=captcha_obj;
+            let result = captcha_obj.getValidate();
 
-                    self.user.lot_number = result.lot_number;
-                    self.user.captcha_output = result.captcha_output;
-                    self.user.pass_token = result.pass_token;
-                    self.user.gen_time = result.gen_time;
-                    self.login()
-                }).onError(function () {
-                    captcha_obj.reset();
-                })
+            self.user.lot_number = result.lot_number;
+            self.user.captcha_output = result.captcha_output;
+            self.user.pass_token = result.pass_token;
+            self.user.gen_time = result.gen_time;
+            self.login()
+        }).onError(function () {
+            captcha_obj.reset();
+        })
 			};
 			axios.get('/geetest?t='+(new Date()).getTime()).then( res => {
 				let data = res.data;
@@ -178,11 +186,9 @@ export default {
 			})
 		},
 		verify() {
-            if (this.user.captcha)
-			    this.captcha_obj.showCaptcha();
-            else
-                this.login();
-        },
+      if (this.user.captcha) this.captcha_obj.showCaptcha();
+      else this.login();
+    },
 		login() {
 			this.startLoading();
 			const form = this.user.remember ? this.user : _.omit(this.user, ['remember']);
@@ -215,17 +221,17 @@ export default {
             });
 		},
 	},
-    watch: {
-        $route: {
-            immediate: true,
-            handler(to, from) {
-                if(to.name === 'login')
-                {
-                    if (this.captcha_obj === null)
-                        this.initGT();
-                }
-            }
-        },
-    },
+  watch: {
+      $route: {
+          immediate: true,
+          handler(to, from) {
+              if(to.name === 'login')
+              {
+                  if (this.captcha_obj === null && window.config.captcha_enabled)
+                      this.initGT();
+              }
+          }
+      },
+  },
 };
 </script>

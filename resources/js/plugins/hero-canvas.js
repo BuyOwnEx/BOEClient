@@ -12,6 +12,8 @@ let ClassicalNoise = function(r) { // Classic Perlin noise in 3D, for comparison
 	}
 };
 
+ClassicalNoise.prototype.is_started = false;
+
 ClassicalNoise.prototype.dot = function(g, x, y, z) {
 	return g[0] * x + g[1] * y + g[2] * z;
 };
@@ -84,62 +86,70 @@ ClassicalNoise.prototype.noise = function(x, y, z) {
 	// Interpolate the two last results along z
     return this.mix(nxy0, nxy1, w);
 };
-window.addEventListener('load', () => {
-    let canvas = document.getElementById('waves');
+ClassicalNoise.prototype.stop = function() {
+	this.is_started = false;
+}
+ClassicalNoise.prototype.start = function() {
+	this.is_started = true;
+	let canvas = document.getElementById('waves');
 
-    if (canvas) {
-        let ctx = canvas.getContext('2d'),
-            perlin = new ClassicalNoise(),
-            variation = .001,
-            amp = 800,
-            maxLines = 52,
-            variators = [],
-            canvasWidth,
-            canvasHeight,
-            startY;
+	if (canvas) {
+		let ctx = canvas.getContext('2d'),
+			perlin = new ClassicalNoise(),
+			variation = .001,
+			amp = 800,
+			maxLines = 52,
+			variators = [],
+			canvasWidth,
+			canvasHeight,
+			startY;
 
-        for (let i = 0, u = 0; i < maxLines; i++, u += .02) {
-            variators[i] = u;
-        }
+		for (let i = 0, u = 0; i < maxLines; i++, u += .02) {
+			variators[i] = u;
+		}
 
-        function draw() {
-            ctx.shadowColor = 'rgba(195,204,224)';
-            ctx.shadowBlur = 0;
+		function draw() {
+			ctx.shadowColor = 'rgba(195,204,224)';
+			ctx.shadowBlur = 0;
 
-            for (let i = 0; i <= maxLines; i++) {
-                ctx.beginPath();
-                ctx.moveTo(0, startY);
-                let y = 0;
-                for (let x = 0; x <= canvasWidth; x++) {
-                    y = perlin.noise(x * variation + variators[i], x * variation, 0);
-                    ctx.lineTo(x, startY + amp * y);
-                }
-                let alpha = Math.min(Math.abs(y), .7) + .1;
-                ctx.strokeStyle = 'rgba(3,164,194,' + alpha + ')';
-                ctx.stroke();
-                ctx.closePath();
-                variators[i] += .002;
-            }
-        }
+			for (let i = 0; i <= maxLines; i++) {
+				ctx.beginPath();
+				ctx.moveTo(0, startY);
+				let y = 0;
+				for (let x = 0; x <= canvasWidth; x++) {
+					y = perlin.noise(x * variation + variators[i], x * variation, 0);
+					ctx.lineTo(x, startY + amp * y);
+				}
+				let alpha = Math.min(Math.abs(y), .7) + .1;
+				ctx.strokeStyle = 'rgba(3,164,194,' + alpha + ')';
+				ctx.stroke();
+				ctx.closePath();
+				variators[i] += .002;
+			}
+		}
 
-        (function init() {
-            resizeCanvas();
-            animate();
-            window.addEventListener('resize', resizeCanvas);
-        })();
+		(function init() {
+			resizeCanvas();
+			animate();
+			window.addEventListener('resize', resizeCanvas);
+		})();
 
-        function animate() {
-            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-            draw();
-            requestAnimationFrame(animate);
-        }
+		function animate() {
+			if (ClassicalNoise.prototype.is_started)
+			{
+				ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+				draw();
+				requestAnimationFrame(animate);
+			}
+		}
 
-        function resizeCanvas() {
-            canvasWidth = document.documentElement.clientWidth;
-            canvasHeight = document.documentElement.clientHeight;
-            canvas.setAttribute('width', canvasWidth);
-            canvas.setAttribute('height', canvasHeight);
-            startY = canvasHeight / 2;
-        }
-    }
-})
+		function resizeCanvas() {
+			canvasWidth = document.documentElement.clientWidth;
+			canvasHeight = document.documentElement.clientHeight;
+			canvas.setAttribute('width', canvasWidth);
+			canvas.setAttribute('height', canvasHeight);
+			startY = canvasHeight / 2;
+		}
+	}
+}
+export default { ClassicalNoise };

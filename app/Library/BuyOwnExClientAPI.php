@@ -584,7 +584,7 @@ class BuyOwnExClientAPI
             return response()->json(['success' => true],$response->status());
         }
         else {
-            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+            return response()->json(['success' => false, 'message'=> 'Confirmation code is not correct'],500);
         }
     }
     public function withdrawCryptoCancel(int $user_id, int $withdraw_id)

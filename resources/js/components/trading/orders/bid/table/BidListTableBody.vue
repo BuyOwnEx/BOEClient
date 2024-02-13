@@ -20,7 +20,7 @@
 
 			<td>
 				<div class="bid-list-table-body__item--size">
-					{{ formatSize(item.actualSize, getAmountScale) }}
+					{{ formatSize(item.actual_size, getAmountScale) }}
 				</div>
 			</td>
 
@@ -28,14 +28,14 @@
 				<div class="bid-list-table-body__tooltip-volume-wrapper">
 					<OrdersWall
 						:item-index="itemIndex"
-						:volume="calculateVolume(item.price, item.actualSize)"
+						:volume="calculateVolume(item.price, item.actual_size)"
 						type="bid"
 					/>
 
 					<div
 						class="bid-list-table-body__item--volume text-end"
 					>
-						<span>{{ calculateVolume(item.price, item.actualSize) }}</span>
+						<span>{{ calculateVolume(item.price, item.actual_size) }}</span>
 					</div>
 				</div>
 			</td>
@@ -126,8 +126,8 @@ export default {
 			this.$eventHub.$emit('set-sell-price', { price: itemPrice });
 		},
 
-		calculatePercent(actualSize) {
-			return BigNumber(actualSize)
+		calculatePercent(actual_size) {
+			return BigNumber(actual_size)
 				.times(100)
 				.div(BigNumber(this.volumeDepth))
 				.dp(2)

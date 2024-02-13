@@ -55,6 +55,9 @@ export default {
 		connect() {
 			this.centrifuge.connect();
 		},
+		disconnect() {
+			this.centrifuge.disconnect();
+		},
 		getInitTraderData() {
 			if (this.$store.state.user.balances === null) {
 				this.$store.dispatch('user/getBalancesFromServer');
@@ -110,6 +113,10 @@ export default {
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);
+	},
+	beforeRouteLeave(to, from, next) {
+		this.disconnect();
+		next();
 	},
 	activated() {
 		//this.$eventHub.$on('set-user', this.initWSConnection);

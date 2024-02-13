@@ -1,6 +1,6 @@
 <template>
-	<v-expansion-panels class="user-account-tab-panels" v-model="panel" multiple>
-		<v-expansion-panel class="user-account-tab-panels__actions" readonly>
+	<v-expansion-panels class="user-account-tab-panels d-flex flex-column flex-grow-1" style="margin-top: 5px" v-model="panel" multiple>
+		<v-expansion-panel class="user-account-tab-panels__actions d-flex flex-column flex-grow-1" readonly>
 			<v-expansion-panel-header class="title">
 				{{ $t('user.title.actions') }}
 			</v-expansion-panel-header>
@@ -18,7 +18,7 @@
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 
-		<v-expansion-panel class="user-account-tab-panels__metadata">
+		<v-expansion-panel class="user-account-tab-panels__metadata d-flex flex-column flex-grow-0" style="margin-top: 5px">
 			<v-expansion-panel-header class="title">
 				{{ $t('user.title.metadata') }}
 			</v-expansion-panel-header>
@@ -77,17 +77,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="sass" scoped>
-.user-account-tab-panels
-	::v-deep.v-expansion-panel--active
-		margin-top: 5px
-		+ .v-expansion-panel
-			margin-top: 5px
-
-	&__actions
-		::v-deep.v-expansion-panel-header
-			cursor: default !important
-		::v-deep.v-expansion-panel-header__icon
-			display: none
-</style>

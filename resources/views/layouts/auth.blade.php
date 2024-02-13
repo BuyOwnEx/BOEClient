@@ -18,5 +18,8 @@
 
 </div>
 @yield('scripts')
+<script>
+	window.config = {!! json_encode($config); !!};
+</script>
 </body>
 </html>

@@ -139,6 +139,7 @@
 import formValidationRules from '@/mixins/common/formValidationRules';
 import loadingMixin from '@/mixins/common/loadingMixin';
 import Link from "@/components/common/Link.vue";
+import waves from '@/plugins/hero-canvas';
 
 export default {
 	name: 'Register',
@@ -178,6 +179,13 @@ export default {
 			];
 		},
 	},
+  mounted() {
+    waves.ClassicalNoise.prototype.start();
+  },
+  beforeRouteLeave(to, from, next) {
+    waves.ClassicalNoise.prototype.stop();
+    next();
+  },
 	methods: {
 		register() {
 			this.startLoading();

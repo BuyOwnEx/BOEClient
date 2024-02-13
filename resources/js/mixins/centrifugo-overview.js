@@ -77,6 +77,9 @@ export default {
 		connect() {
 			this.centrifuge.connect();
 		},
+		disconnect() {
+			this.centrifuge.disconnect();
+		},
 		subscribePublic() {
 			this.$store.dispatch('tickers/getMarketDataFromServer').then(resp => {
 				this.sub_markets = this.centrifuge.subscribe('public:markets');
@@ -191,19 +194,20 @@ export default {
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);
 	},
-    beforeRouteLeave(to, from, next) {
-        // called when the route that renders this component is about to
-        // be navigated away from.
-        // has access to `this` component instance.
-        //this.unsubscribeAll();
-        this.$eventHub.$emit('overviewChartLeave');
-        //this.needWatch = false;
-        /*this.$store.commit('trading/setPair', {
-            currency: 'BTC',
-            market: 'USDT',
-        });*/
-        next();
-    },
+	beforeRouteLeave(to, from, next) {
+			// called when the route that renders this component is about to
+			// be navigated away from.
+			// has access to `this` component instance.
+			//this.unsubscribeAll();
+			this.$eventHub.$emit('overviewChartLeave');
+			this.disconnect();
+			//this.needWatch = false;
+			/*this.$store.commit('trading/setPair', {
+					currency: 'BTC',
+					market: 'USDT',
+			});*/
+			next();
+	},
 	activated() {
 		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},

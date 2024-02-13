@@ -54,6 +54,7 @@
 <script>
 import formValidationRules from '@/mixins/common/formValidationRules';
 import loadingMixin from '@/mixins/common/loadingMixin';
+import waves from '@/plugins/hero-canvas';
 
 export default {
 	name: 'G2FA',
@@ -69,6 +70,13 @@ export default {
 			},
 		};
 	},
+  mounted() {
+    waves.ClassicalNoise.prototype.start();
+  },
+  beforeRouteLeave(to, from, next) {
+    waves.ClassicalNoise.prototype.stop();
+    next();
+  },
 	methods: {
 		verify() {
 			this.startLoading()

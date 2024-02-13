@@ -220,7 +220,7 @@ export default {
 				let askDataGraph = new Array(askData.length);
 				let askDepthTotal = 0;
 				for (let i = 0; i < askData.length; i++) {
-					askDepthTotal += askData[i]['actualSize'];
+					askDepthTotal += askData[i]['actual_size'];
 					askDataGraph[i] = [askData[i]['price'], askDepthTotal];
 				}
 				depth_chart.chart.series[1].setData(askDataGraph, false);
@@ -230,7 +230,7 @@ export default {
 				let bidDataGraph = new Array(bidData.length);
 				let bidDepthTotal = 0;
 				for (let j = 0; j < bidData.length; j++) {
-					bidDepthTotal += bidData[j]['actualSize'];
+					bidDepthTotal += bidData[j]['actual_size'];
 					bidDataGraph[j] = [bidData[j]['price'], bidDepthTotal];
 				}
 				depth_chart.chart.series[0].setData(bidDataGraph, false);

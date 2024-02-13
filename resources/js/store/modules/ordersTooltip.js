@@ -48,9 +48,9 @@ export default {
 
 			itemsBeforeMainIndex.forEach(item => {
 				sumPrice = BigNumber.sum(sumPrice, item.price).toNumber();
-				sumSize = BigNumber.sum(sumSize, item.actualSize).toNumber();
+				sumSize = BigNumber.sum(sumSize, item.actual_size).toNumber();
 
-				const volume = BigNumber(item.price).times(item.actualSize);
+				const volume = BigNumber(item.price).times(item.actual_size);
 				sumVolume = BigNumber.sum(sumVolume, volume).toNumber();
 			});
 

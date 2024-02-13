@@ -129,8 +129,8 @@ export default {
 			});
 			if (index !== -1) {
 				state.orders[index].status = data.status;
-				state.orders[index].actualSize = data.actualSize;
-				state.orders[index].updatedAt = data.updatedAt;
+				state.orders[index].actual_size = data.actual_size;
+				state.orders[index].updated_at = data.updated_at;
 			}
 		},
 		updateConditionOrder(state, data) {
@@ -139,7 +139,7 @@ export default {
 			});
 			if (index !== -1) {
 				state.orders[index].price = data.price;
-				state.orders[index].actualSize = data.actualSize;
+				state.orders[index].actual_size = data.actual_size;
 			}
 		},
 		updateMatchOrder(state, data) {
@@ -149,9 +149,9 @@ export default {
 			if (index !== -1) {
 				if (data.status !== 'filled') {
 					state.orders[index].size = data.size;
-					state.orders[index].actualSize = data.actualSize;
+					state.orders[index].actual_size = data.actual_size;
 					state.orders[index].status = data.status;
-					state.orders[index].updatedAt = data.updatedAt;
+					state.orders[index].updated_at = data.updated_at;
 				} else {
 					state.orders.splice(index, 1);
 				}
@@ -176,10 +176,10 @@ export default {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
-				state.positions[index].marginPosition = data.marginPosition;
-				state.positions[index].blockedFunds = data.blockedFunds;
-				state.positions[index].creditFee = data.creditFee;
-				state.positions[index].updatedAt = data.updatedAt;
+				state.positions[index].margin_position = data.margin_position;
+				state.positions[index].blocked_funds = data.blocked_funds;
+				state.positions[index].credit_fee = data.credit_fee;
+				state.positions[index].updated_at = data.updated_at;
 			}
 		},
 		updateMatchPosition(state, data) {
@@ -187,12 +187,12 @@ export default {
 				return item.id === data.id;
 			});
 			if (index !== -1) {
-				state.positions[index].actualSize = data.actualSize;
-				state.positions[index].creditUsed = data.creditUsed;
-				state.positions[index].marginPosition = data.marginPosition;
+				state.positions[index].actual_size = data.actual_size;
+				state.positions[index].credit_used = data.credit_used;
+				state.positions[index].margin_position = data.margin_position;
 				state.positions[index].realized = data.realized;
 				state.positions[index].status = data.status;
-				state.positions[index].updatedAt = data.updatedAt;
+				state.positions[index].updated_at = data.updated_at;
 			}
 		},
 		deletePosition(state, data) {

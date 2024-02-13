@@ -17,6 +17,9 @@
 <div id="app">
 
 </div>
+<script>
+	window.config = {!! json_encode($config); !!};
+</script>
 @yield('scripts')
 </body>
 </html>

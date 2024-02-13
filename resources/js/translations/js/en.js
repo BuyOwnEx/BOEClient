@@ -341,12 +341,12 @@ export default {
 		no_activity: 'No activity',
 		realized: 'Realized',
 		credited: 'Credit',
-		creditFee: 'Credit %',
-		creditUsed: 'Used',
-		blockedFunds: 'Margin',
-		marginPosition: 'Position',
-		marginLevel: 'Margin level',
-		validUntil: 'Valid until',
+		credit_fee: 'Credit %',
+		credit_used: 'Used',
+		blocked_funds: 'Margin',
+		margin_position: 'Position',
+		margin_level: 'Margin level',
+		valid_until: 'Valid until',
 		close_position: 'Close position',
 		deposit_margin: 'Deposit margin',
 		show_other_pairs: 'Show all pairs',
@@ -1941,7 +1941,7 @@ export default {
 						'    "side": "sell",\n' +
 						'    "price": "7215.22",\n' +
 						'    "size": "0.2",\n' +
-						'    "actualSize": "0.11",\n' +
+						'    "actual_size": "0.11",\n' +
 						'    "trades": [\n' +
 						'        &#123;\n' +
 						'            "id": 5627162,\n' +
@@ -1969,7 +1969,7 @@ export default {
 						'                            <li><strong>side</strong> – order direction. Possible values: <strong>sell</strong>, <strong>buy</strong></li>\n' +
 						'                            <li><strong>price</strong> – order buy/sell price</li>\n' +
 						'                            <li><strong>size</strong> – the initial amount of currency in the order</li>\n' +
-						'                            <li><strong>actualSize</strong> – the current amount of currency in the order</li>\n' +
+						'                            <li><strong>actual_size</strong> – the current amount of currency in the order</li>\n' +
 						'                            <li><strong>trades</strong> – array of trades on this order</li>\n' +
 						'                        </ul>',
 				},

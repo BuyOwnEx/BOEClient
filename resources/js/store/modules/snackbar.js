@@ -4,18 +4,18 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 const transformHelpers = {
 	volume: item => {
 		return BigNumber(item.price)
-			.times(BigNumber(item.actualSize))
+			.times(BigNumber(item.actual_size))
 			.toString();
 	},
 	percent: item => {
 		if (item.status === 'partiallyFilled') {
-			return parseFloat(100 - (item.actualSize * 100) / item.size).toFixed(2);
+			return parseFloat(100 - (item.actual_size * 100) / item.size).toFixed(2);
 		}
 		return '';
 	},
 	positionPercent: item => {
 		if (item.status === 'partiallyFilled') {
-			return BigNumber(item.actualSize)
+			return BigNumber(item.actual_size)
 				.times(100)
 				.div(BigNumber(item.size))
 				.dp(2)
@@ -23,8 +23,8 @@ const transformHelpers = {
 		}
 		return '';
 	},
-	actualSize: item => {
-		return BigNumber(item.actualSize).toString();
+	actual_size: item => {
+		return BigNumber(item.actual_size).toString();
 	},
 	size: item => {
 		return BigNumber(item.size).toString();
@@ -44,7 +44,7 @@ const getOrderNotificationMessage = item => {
 			if (item.side === false) {
 				return `${item.lang.t(
 					'trading.notifications.order.text_buy'
-				)} ${transformHelpers.actualSize(item)} ${item.currency} ${item.lang.t(
+				)} ${transformHelpers.actual_size(item)} ${item.currency} ${item.lang.t(
 					'trading.notifications.order.price'
 				)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
 					'trading.notifications.order.accepted'
@@ -52,7 +52,7 @@ const getOrderNotificationMessage = item => {
 			}
 			return `${item.lang.t(
 				'trading.notifications.order.text_sell'
-			)} ${transformHelpers.actualSize(item)} ${item.currency} ${item.lang.t(
+			)} ${transformHelpers.actual_size(item)} ${item.currency} ${item.lang.t(
 				'trading.notifications.order.price'
 			)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
 				'trading.notifications.order.accepted'
@@ -95,7 +95,7 @@ const getOrderNotificationMessage = item => {
 			if (item.side === false) {
 				return `${item.lang.t(
 					'trading.notifications.order.text_buy'
-				)} ${transformHelpers.actualSize(item)} ${item.currency} ${item.lang.t(
+				)} ${transformHelpers.actual_size(item)} ${item.currency} ${item.lang.t(
 					'trading.notifications.order.price'
 				)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
 					'trading.notifications.order.cancel'
@@ -103,7 +103,7 @@ const getOrderNotificationMessage = item => {
 			}
 			return `${item.lang.t(
 				'trading.notifications.order.text_sell'
-			)} ${transformHelpers.actualSize(item)} ${item.currency} ${item.lang.t(
+			)} ${transformHelpers.actual_size(item)} ${item.currency} ${item.lang.t(
 				'trading.notifications.order.price'
 			)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
 				'trading.notifications.order.cancel'

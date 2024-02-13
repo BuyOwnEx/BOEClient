@@ -88,12 +88,12 @@
 
 				<template #item.date="{ item }">
 					<span class="table-date">
-						{{ formatDate(item.createdAt, 'trading') }}
+						{{ formatDate(item.created_at, 'trading') }}
 					</span>
 				</template>
-				<template #item.validUntil="{ item }">
+				<template #item.valid_until="{ item }">
 					<span class="table-date">
-						{{ formatDate(item.validUntil, 'trading') }}
+						{{ formatDate(item.valid_until, 'trading') }}
 					</span>
 				</template>
 
@@ -110,7 +110,7 @@
 				</template>
 
 				<template #item.filled="{ item }">
-					{{ BigNumber(item.actualSize).toString() }}/{{ BigNumber(item.size).toString() }}
+					{{ BigNumber(item.actual_size).toString() }}/{{ BigNumber(item.size).toString() }}
 					{{ item.currency.toUpperCase() }} ({{ percent(item) }} %)
 				</template>
 
@@ -126,33 +126,33 @@
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template #item.creditFee="{ item }">
-					{{ BigNumber(item.creditFee).toString() }}
+				<template #item.credit_fee="{ item }">
+					{{ BigNumber(item.credit_fee).toString() }}
 					<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template #item.creditUsed="{ item }">
-					{{ BigNumber(item.creditUsed).toString() }}
+				<template #item.credit_used="{ item }">
+					{{ BigNumber(item.credit_used).toString() }}
 					<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template #item.blockedFunds="{ item }">
-					{{ BigNumber(item.blockedFunds).toString() }}
+				<template #item.blocked_funds="{ item }">
+					{{ BigNumber(item.blocked_funds).toString() }}
 					<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 					<span v-else>{{ item.market.toUpperCase() }}</span>
 				</template>
 
-				<template #item.marginPosition="{ item }">
+				<template #item.margin_position="{ item }">
 					<strong :class="marginPositionClass(item)">
-						{{ BigNumber(item.marginPosition).toString() }}
+						{{ BigNumber(item.margin_position).toString() }}
 						<span v-if="item.side">{{ item.currency.toUpperCase() }}</span>
 						<span v-else>{{ item.market.toUpperCase() }}</span></strong
 					>
 				</template>
 
-				<template #item.marginLevel="{ item }">
+				<template #item.margin_level="{ item }">
 					<strong :class="marginLevelClass(item)">
 						{{ marginLevel(item) }}
 					</strong>
@@ -242,28 +242,28 @@ export default {
 					value: 'credited',
 				},
 				{
-					text: this.$t('trading.creditFee'),
-					value: 'creditFee',
+					text: this.$t('trading.credit_fee'),
+					value: 'credit_fee',
 				},
 				{
-					text: this.$t('trading.creditUsed'),
-					value: 'creditUsed',
+					text: this.$t('trading.credit_used'),
+					value: 'credit_used',
 				},
 				{
-					text: this.$t('trading.blockedFunds'),
-					value: 'blockedFunds',
+					text: this.$t('trading.blocked_funds'),
+					value: 'blocked_funds',
 				},
 				{
-					text: this.$t('trading.marginPosition'),
-					value: 'marginPosition',
+					text: this.$t('trading.margin_position'),
+					value: 'margin_position',
 				},
 				{
-					text: this.$t('trading.marginLevel'),
-					value: 'marginLevel',
+					text: this.$t('trading.margin_level'),
+					value: 'margin_level',
 				},
 				{
-					text: this.$t('trading.validUntil'),
-					value: 'validUntil',
+					text: this.$t('trading.valid_until'),
+					value: 'valid_until',
 				},
 				{
 					text: this.$t('table_header.status'),
@@ -333,12 +333,12 @@ export default {
 			return BigNumber(item);
 		},
 		marginPosition(item) {
-			return BigNumber(item.marginPosition);
+			return BigNumber(item.margin_position);
 		},
 		marginLevel(item) {
-			return BigNumber(item.blockedFunds)
-				.plus(BigNumber(item.marginPosition))
-				.div(BigNumber(item.blockedFunds))
+			return BigNumber(item.blocked_funds)
+				.plus(BigNumber(item.margin_position))
+				.div(BigNumber(item.blocked_funds))
 				.dp(2, 1)
 				.toString();
 		},
@@ -359,7 +359,7 @@ export default {
 			};
 		},
 		percent(item) {
-			return BigNumber(item.actualSize)
+			return BigNumber(item.actual_size)
 				.times(100)
 				.div(BigNumber(item.size))
 				.dp(2)
