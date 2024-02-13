@@ -217,8 +217,12 @@ export default {
 				market: this.$trading_market,
 			});
 		}
-        if (this.$spa)
-            this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+    if ('localStorage' in window) {
+      const candlePeriod = window.localStorage.getItem('tradingCandlePeriod');
+      if(candlePeriod) this.$store.commit('trading/setGraphPeriod', candlePeriod);
+    }
+    if (this.$spa)
+        this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 	},
 
 	mounted() {

@@ -90,7 +90,6 @@ export default {
 		margin-bottom: 5px
 	::v-deep.v-card
 		box-shadow: none
-		border: 1px solid #7b7b7b52
 	> ::v-deep.v-card:not(:last-child)
 		margin-bottom: 5px
 

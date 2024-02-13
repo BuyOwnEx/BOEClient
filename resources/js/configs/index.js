@@ -7,7 +7,7 @@ import navigation from './navigation';
 export default {
 	product: {
 		name: 'BuyOwnEx',
-		version: 'Trading module v.2.0',
+		version: 'Trading module v.2.1.1',
 		slogan: 'be the future. be the crypto',
 		type: 'full', // possible values: "start", "startPlus", "full"
 		showCurrencies: false

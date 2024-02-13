@@ -287,7 +287,7 @@ export default {
 
 	data() {
 		return {
-            selectedPlatform: null,
+      selectedPlatform: null,
 			address: '',
 			amount: '',
 			amountFormValid: false,
@@ -404,7 +404,6 @@ export default {
 
 				if (isSuccess) {
 					this.step++;
-					this.getBalancesFromServerStore();
 				}
 			} finally {
 				this.stopLoading();
@@ -423,6 +422,7 @@ export default {
 
 				if (isSuccess) {
 					this.isSuccessWithdraw = true;
+          await this.getBalancesFromServerStore();
 					this.close();
 				}
 			} finally {
