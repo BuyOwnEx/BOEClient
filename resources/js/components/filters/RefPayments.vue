@@ -92,10 +92,10 @@ export default {
 			menu: false,
 			filters: {
 				dates: [
-					moment()
+          this.$moment()
 						.startOf('month')
 						.format('YYYY-MM-DD'),
-					moment().format('YYYY-MM-DD'),
+          this.$moment().format('YYYY-MM-DD'),
 				],
 				follower: null,
 				currency: null,
@@ -176,10 +176,10 @@ export default {
 		},
 		resetFilter() {
 			this.filters.dates = [
-				moment()
+        this.$moment()
 					.startOf('month')
 					.format('YYYY-MM-DD'),
-				moment().format('YYYY-MM-DD'),
+        this.$moment().format('YYYY-MM-DD'),
 			];
 			this.filters.user = null;
 			this.filters.follower = null;

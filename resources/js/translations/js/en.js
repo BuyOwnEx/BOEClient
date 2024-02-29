@@ -564,6 +564,8 @@ export default {
 				'Only payments made through the Deposit form on the exchange are accepted and processed.\n' +
 				'There is no other way to Deposit, payments sent not through our Deposit form, but in any other way, will not be credited and processed. They will be lost, claims in this case are not accepted.\n' +
 				'By clicking the Pay button, you agree to these terms ',
+			fiat_bank_details_replenishment_description:
+				'Specify the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "I paid" button.',
 			fiat_replenishment_description:
 				'Specify the amount you want to Deposit. You will then be redirected to the {payment} website.\n' +
 				'You must make this payment from your internal {payment} account. No other payments can be credited. ',

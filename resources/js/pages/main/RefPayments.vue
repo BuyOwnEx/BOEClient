@@ -58,7 +58,6 @@
 import { mapState } from 'vuex';
 
 import BigNumber from 'bignumber.js';
-import moment from 'moment';
 import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -125,7 +124,7 @@ export default {
 			return this.currencies.find(item => item.currency === currency).logo;
 		},
 		getDate(date) {
-			return date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
+			return date ? this.$moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
 		},
 		getRandomColor() {
 			return randomColor({
@@ -182,10 +181,10 @@ export default {
 			if (opts.filters === undefined) {
 				let dates = {
 					filters: {
-						start: moment()
+						start: this.$moment()
 							.startOf('month')
 							.format('YYYY-MM-DD'),
-						end: moment().format('YYYY-MM-DD'),
+						end: this.$moment().format('YYYY-MM-DD'),
 					},
 				};
 				_.assign(parameters, dates);

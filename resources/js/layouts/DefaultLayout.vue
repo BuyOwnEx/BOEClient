@@ -6,25 +6,21 @@
 			class="elevation-1"
 			:right="$vuetify.rtl"
 			app
+      expand-on-hover
 			floating
-            :mini-variant.sync="mini"
+      :mini-variant="mini"
 		>
 			<template #prepend>
 				<v-list-item class="sidebar-header">
 					<v-list-item-avatar height="48" min-width="48" width="48">
 						<v-img contain :src="Logo"></v-img>
 					</v-list-item-avatar>
-
 					<v-list-item-content>
 						<v-list-item-title>{{ product.name }}</v-list-item-title>
 						<v-list-item-subtitle>
 							<small>{{ product.version }}</small>
 						</v-list-item-subtitle>
 					</v-list-item-content>
-
-                    <v-btn icon @click.stop="mini = !mini">
-                        <v-icon>mdi-chevron-left</v-icon>
-                    </v-btn>
 				</v-list-item>
 
 				<v-divider />
@@ -160,10 +156,10 @@ export default {
 
 	data() {
 		return {
-            Logo,
+      Logo,
 			drawer: null,
 			isDarkTheme: true,
-            mini: true,
+      mini: true,
 		};
 	},
 

@@ -30,7 +30,6 @@
         "lodash": "^4.17.21",
         "mitt": "^3.0.1",
         "moment": "^2.26.0",
-        "moment-timezone": "^0.5.33",
         "randomcolor": "^0.6.2",
         "tiptap": "^1.32.2",
         "tiptap-extensions": "^1.35.2",

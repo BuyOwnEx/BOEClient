@@ -70,7 +70,6 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-import moment from 'moment';
 import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -149,7 +148,7 @@ export default {
 			return this.currencies.find(item => item.currency === currency).logo;
 		},
 		getDate(date) {
-			return date ? moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
+			return date ? this.$moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
 		},
 		getTypeName(type) {
 			let index = _.findIndex(this.types, item => item.value === type);
@@ -215,12 +214,12 @@ export default {
 				let dates = {
 					filters: {
 						start:
-							moment()
+                this.$moment()
 								.startOf('month')
 								.format('YYYY-MM-DD') +
 							' ' +
 							'00:00:00',
-						end: moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
+						end: this.$moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
 					},
 				};
 				_.assign(parameters, dates);

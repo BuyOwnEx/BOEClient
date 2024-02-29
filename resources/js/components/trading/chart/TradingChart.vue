@@ -55,8 +55,8 @@ export default {
 			maxCandles: 501,
 			options: {
 				time: {
-					timezone: moment.tz.guess(),
-				},
+          timezoneOffset: new Date().getTimezoneOffset()
+        },
 				chart: {
 					style: {
 						fontFamily: '"Quicksand", "Roboto", sans-serif',

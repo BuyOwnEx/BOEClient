@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export default {
 	methods: {
 		formatDate(date, type) {
@@ -8,9 +6,9 @@ export default {
 			switch (type) {
 				case 'trading':
 					const timestamp = date / 10000 - 62135596800000;
-					return moment
+					return this.$moment
 						.utc(timestamp)
-						.tz(moment.tz.guess())
+						.utcOffset(this.$moment().utcOffset())
 						.format('YYYY-MM-DD HH:mm:ss');
 				case 'dateOnly':
 					return new Date(date).toLocaleDateString();
@@ -18,8 +16,8 @@ export default {
 					return new Date(date).toLocaleTimeString();
 				case 'timeAgo':
 					const userLang = this.$store.state.app.trader.language || 'en';
-					return moment(date)
-						.tz(moment.tz.guess())
+					return this.$moment(date)
+						.utcOffset(this.$moment().utcOffset())
 						.locale(userLang)
 						.fromNow();
 				default:

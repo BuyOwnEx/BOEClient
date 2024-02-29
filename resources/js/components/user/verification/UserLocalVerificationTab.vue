@@ -417,7 +417,6 @@
 <script>
 import QrCode from '@chenfengyuan/vue-qrcode';
 import formValidationRules from '@/mixins/common/formValidationRules';
-import moment from 'moment';
 
 export default {
   name: 'UserLocalVerificationTab',
@@ -602,8 +601,8 @@ export default {
         this.data.file_ps = null;
         this.data.file_ws = null;
         this.data.file_ts = null;
-        this.data.birthday = response.data.data.birthday !== "" ? moment(response.data.data.birthday).format('YYYY-MM-DD') : "";
-        this.data.passport_date = response.data.data.passport_date !== "" ? moment(response.data.data.passport_date).format('YYYY-MM-DD') : "";
+        this.data.birthday = response.data.data.birthday !== "" ? this.$moment(response.data.data.birthday).format('YYYY-MM-DD') : "";
+        this.data.passport_date = response.data.data.passport_date !== "" ? this.$moment(response.data.data.passport_date).format('YYYY-MM-DD') : "";
         if(response.data.data.verify_status === 'rejected')
           this.step = 1;
         if(response.data.data.verify_status === 'new' && response.data.data.paid === false)

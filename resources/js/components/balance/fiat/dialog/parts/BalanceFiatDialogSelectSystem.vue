@@ -8,7 +8,7 @@
 			:key="item.id"
 		>
 			<img
-				class="align-self-center balance-fiat-dialog-select-system__item-img"
+				class="align-self-center balance-fiat-dialog-select-system__item-img pa-2"
         :src="getSystemImage(item.currency)"
         :alt="item.currency"
 				height="90"

@@ -271,11 +271,11 @@ export default {
 			menu_end_date: false,
 			menu_end_time: false,
 			filters: {
-				start_date: moment()
+				start_date: this.$moment()
 					.startOf('month')
 					.format('YYYY-MM-DD'),
 				start_time: '00:00:00',
-				end_date: moment().format('YYYY-MM-DD'),
+				end_date: this.$moment().format('YYYY-MM-DD'),
 				end_time: '23:59:59',
 				id: null,
 				pair: null,
@@ -337,11 +337,11 @@ export default {
 			localStorage.orderFilters = JSON.stringify(this.filters);
 		},
 		resetFilter() {
-			this.filters.start_date = moment()
+			this.filters.start_date = this.$moment()
 				.startOf('month')
 				.format('YYYY-MM-DD');
 			this.filters.start_time = '00:00:00';
-			this.filters.end_date = moment().format('YYYY-MM-DD');
+			this.filters.end_date = this.$moment().format('YYYY-MM-DD');
 			this.filters.end_time = '23:59:59';
 			this.filters.id = null;
 			this.filters.pair = null;

@@ -66,14 +66,11 @@ export default {
 				{
 					this.$i18n.locale = locale;
 					this.$vuetify.lang.current = locale;
+          this.$moment.updateLocale(locale);
 					const html = document.documentElement; // returns the html tag
 					html.setAttribute('lang', locale);
 					// example on how certain languages can be RTL
-					if (locale === 'ar') {
-						this.$vuetify.rtl = true;
-					} else {
-						this.$vuetify.rtl = false;
-					}
+					this.$vuetify.rtl = locale === 'ar';
 				}
 			});
 

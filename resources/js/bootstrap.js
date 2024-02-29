@@ -92,6 +92,3 @@ window.axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
-import moment from "moment-timezone";
-window.moment = moment;
