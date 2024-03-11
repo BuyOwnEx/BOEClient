@@ -10,7 +10,7 @@ Vue.use(Router)
 
 export const routes = [{
         path: '/',
-        redirect: '/trading/USDT/BTC'
+        redirect: '/trading/'+import.meta.env.VITE_DEFAULT_MARKET+'/'+import.meta.env.VITE_DEFAULT_CURRENCY
     },
     ...AuthRoutes,
     ...MainRoutes,

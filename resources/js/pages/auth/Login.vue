@@ -53,6 +53,9 @@
 						<v-col cols="12" md="12" class="pt-0 pb-0">
 							<v-checkbox v-model="user.remember" :label="$t('auth.login.remember')" />
 						</v-col>
+            <v-col cols="12" md="12" class="pt-0 pb-0">
+              <div id="captcha"></div>
+            </v-col>
 					</v-row>
 				</v-container>
 			</v-card-text>
@@ -121,33 +124,34 @@ export default {
 				email: '',
 				password: '',
 				remember: false,
-                captcha: window.config.captcha_enabled,
-                lot_number: null,
-                captcha_output: null,
-                pass_token: null,
-                gen_time: null
+        captcha: window.config.captcha_enabled,
+        lot_number: null,
+        captcha_output: null,
+        pass_token: null,
+        gen_time: null
 			},
 			errors: {
 				email: [],
 				password: [],
 				remember: [],
-                captcha: []
+        captcha: []
 			},
-        captcha_obj: null,
-        captcha_init: false,
+      captcha_obj: null,
+      captcha_init: false,
 			verify_block: window.verified,
 			verify_error: window.v_error,
 		};
 	},
   computed: {
-      btn_available() {
-        return window.config.captcha_enabled ? (this.captcha_obj !== null) : true;
-      }
+    btn_available() {
+      return window.config.captcha_enabled ? (this.captcha_obj !== null) : true;
+    }
   },
 	created() {
-        if (this.user.captcha && !this.$spa)
-          this.initGT();
-
+    if (this.user.captcha && !this.$spa)
+    {
+      this.initCaptcha();
+    }
   },
   mounted() {
     waves.ClassicalNoise.prototype.start();
@@ -157,12 +161,42 @@ export default {
     next();
   },
   methods: {
-		initGT: function() {
+    getGeetestLang(lang) {
+      switch (lang)
+      {
+        case 'ar':
+          return 'ara';
+        case 'de':
+          return 'deu';
+        case 'en':
+          return 'eng';
+        case 'es':
+          return 'spa';
+        case 'fr':
+          return 'fra';
+        case 'ja':
+          return 'jpn';
+        case 'ko':
+          return 'kor';
+        case 'ru':
+          return 'rus';
+        case 'pt':
+          return 'por';
+        case 'zh':
+          return 'zho';
+        default:
+          return 'eng';
+      }
+    },
+		initCaptcha: function() {
       let self = this;
-			let handler= function (captcha_obj) {
-				captcha_obj.onReady(function () {
+      let handler;
+      if(window.config.captcha_type.toUpperCase() === 'GEETEST')
+      {
+        handler = function (captcha_obj) {
+          captcha_obj.onReady(function () {
             self.captcha_obj=captcha_obj
-        }).onSuccess(function() {
+          }).onSuccess(function() {
             self.captcha_obj=captcha_obj;
             let result = captcha_obj.getValidate();
 
@@ -171,67 +205,91 @@ export default {
             self.user.pass_token = result.pass_token;
             self.user.gen_time = result.gen_time;
             self.login()
-        }).onError(function () {
+          }).onError(function () {
             captcha_obj.reset();
+          })
+        };
+      }
+      if(window.config.captcha_type.toUpperCase() === 'GEETEST')
+      {
+        axios.get('/captcha?captcha_type=geetest&t='+(new Date()).getTime()).then( res => {
+          initGeetest4({
+            captchaId: res.data.captcha_id,
+            product: res.data.product,
+            language: this.getGeetestLang(self.$i18n.locale),
+            protocol: 'http://'
+          }, handler);
         })
-			};
-			axios.get('/geetest?t='+(new Date()).getTime()).then( res => {
-				let data = res.data;
-				initGeetest4({
-                    captchaId: data.captcha_id,
-                    product: data.product,
-                    language: data.language,
-                    protocol: 'https://'
-				}, handler);
-			})
+      }
+      else if(window.config.captcha_type.toUpperCase() === 'CLOUDFLARE')
+      {
+        axios.get('/captcha?captcha_type=cloudflare&t='+(new Date()).getTime()).then( res => {
+          turnstile.ready(function () {
+            turnstile.render('#captcha', {
+              sitekey: res.data.captcha_id,
+              language: self.$i18n.locale,
+              theme: self.$vuetify.theme.isDark ? 'dark' : 'light',
+              callback: function(token) {
+                self.captcha_obj = token;
+                self.user.captcha_output = token;
+              },
+            });
+          });
+        })
+      }
 		},
 		verify() {
-      if (this.user.captcha) this.captcha_obj.showCaptcha();
+      if (this.user.captcha)
+      {
+        if(window.config.captcha_type.toUpperCase() === 'GEETEST')
+          this.captcha_obj.showCaptcha();
+        else this.login();
+      }
       else this.login();
     },
 		login() {
 			this.startLoading();
 			const form = this.user.remember ? this.user : _.omit(this.user, ['remember']);
 			axios.post('/login', form).then(response => {
-                if (response.data.auth) {
-                    if(response.data.intended === '/')
-                    {
-                        window.location.href = response.data.intended;
-                    }
-                    else {
-                        if(this.$spa)
-                            this.$router.push(response.data.intended);
-                        else
-                            window.location.href = response.data.intended;
-                    }
-                }
-            }).catch(error => {
-                if (error.response.status === 422) {
-                    let errors = error.response.data.errors;
-                    if (errors) {
-                        for (let field in errors) {
-                            if (errors.hasOwnProperty(field)) {
-                                this.errors[field] = errors[field];
-                            }
-                        }
-                    }
-                }
-            }).finally(() => {
-                this.stopLoading();
-            });
+        if (response.data.auth) {
+          if(response.data.intended === '/')
+          {
+            window.location.href = response.data.intended;
+          }
+          else {
+            if(this.$spa)
+              this.$router.push(response.data.intended);
+            else
+              window.location.href = response.data.intended;
+          }
+        }
+      }).catch(error => {
+        if (error.response.status === 422) {
+          let errors = error.response.data.errors;
+          if (errors) {
+            for (let field in errors) {
+              if (errors.hasOwnProperty(field)) {
+                this.errors[field] = errors[field];
+              }
+            }
+          }
+        }
+      }).finally(() => {
+        this.stopLoading();
+      });
 		},
 	},
   watch: {
-      $route: {
-          immediate: true,
-          handler(to, from) {
-              if(to.name === 'login')
-              {
-                  if (this.captcha_obj === null && window.config.captcha_enabled)
-                      this.initGT();
-              }
-          }
-      },
+    $route: {
+      immediate: true,
+      handler(to, from) {
+        if(to.name === 'login')
+        {
+          if (this.captcha_obj === null && window.config.captcha_enabled)
+            this.initCaptcha();
+        }
+      }
+    },
   },
 };
 </script>

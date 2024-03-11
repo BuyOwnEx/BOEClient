@@ -3,9 +3,9 @@ import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import randomColor from 'randomcolor';
-import Avatars from '@dicebear/avatars';
-import sprites from '@dicebear/avatars-avataaars-sprites';
-import { find } from 'lodash/collection';
+import { createAvatar } from '@dicebear/core';
+import * as identicon from '@dicebear/identicon';
+import * as initials from '@dicebear/initials';
 
 export default {
 	namespaced: true,
@@ -28,13 +28,27 @@ export default {
 	},
 
 	getters: {
-		getGeneratedAvatar: (_, __, rootState) => seed => {
-			const options = {};
-			const avatars = new Avatars(sprites, options);
-			const user = rootState.app.trader;
-
-			if (!seed) return avatars.create(user.name);
-			else return avatars.create(seed);
+		getGeneratedAvatar: (_, __, rootState) => (type, seed) => {
+			if(type === 'identicon')
+			{
+				const avatar = createAvatar(identicon, {
+					seed: seed ?? rootState.app.trader.name,
+				});
+				return avatar.toString();
+			}
+			else if(type === 'initials')
+			{
+				const avatar = createAvatar(initials, {
+					seed: seed ?? rootState.app.trader.name,
+				});
+				return avatar.toString();
+			}
+			else {
+				const avatar = createAvatar(identicon, {
+					seed: seed ?? rootState.app.trader.name,
+				});
+				return avatar.toString();
+			}
 		},
 	},
 

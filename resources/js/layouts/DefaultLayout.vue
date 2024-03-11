@@ -22,13 +22,10 @@
 						</v-list-item-subtitle>
 					</v-list-item-content>
 				</v-list-item>
-
 				<v-divider />
 			</template>
-
 			<MainMenu />
 		</v-navigation-drawer>
-
 		<v-app-bar
 			app
 			:color="isToolbarDetached ? 'surface' : undefined"
@@ -49,7 +46,6 @@
 							<v-list-item-avatar height="48" min-width="48" width="48" >
 								<v-img contain :src="Logo" />
 							</v-list-item-avatar>
-
 							<v-list-item-content class="product-name-version">
 								<v-list-item-title>
 									{{ product.name }}
@@ -61,34 +57,25 @@
 								</v-list-item-subtitle>
 							</v-list-item-content>
 						</v-list-item>
-
 						<v-spacer class="d-none d-lg-block" />
 						<v-spacer class="d-block" />
-
 						<ToolbarThemeChanger />
-
 						<ToolbarLanguage />
-
 						<div v-if="product.showCurrencies" class="hidden-xs-only mx-1">
 							<ToolbarCurrency />
 						</div>
-
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']">
 							<ToolbarApps />
 						</div>
-
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged">
 							<ToolbarNotifications />
 						</div>
-
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged">
 							<v-btn href="/login" :to="this.$spa ? '/login' : null" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
-
 						<div v-if="isLogged">
 							<ToolbarUser />
 						</div>
-
 						<div v-else>
 							<v-btn color="primary" href="/register" :to="this.$spa ? '/register' : null" tile dark>{{ $t('menu.register') }}</v-btn>
 						</div>
@@ -96,7 +83,6 @@
 				</div>
 			</v-card>
 		</v-app-bar>
-
 		<v-main class="main">
 			<v-container class="fill-height" :fluid="!isContentBoxed">
 				<v-layout>
@@ -104,22 +90,18 @@
 				</v-layout>
 			</v-container>
 		</v-main>
-
 		<v-footer class="footer overline" :height="calculateFooterHeight" inset app>
 			<span>
-
-                <Link class="footer__link" path="/status">{{ $t('status.title') }}</Link>
-                <Link class="footer__link" path="/fees">{{ $t('fees.title') }}</Link>
-                <Link v-if="isWidthMore400px" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
-                <Link class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
-                <Link v-if="isWidthMore400px" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
-                <Link v-if="isWidthMore400px" class="footer__link" path="/terms">{{ $t('docs.terms.title') }}</Link>
-                <Link v-if="isWidthMore400px" class="footer__link" path="/policy">{{ $t('docs.policy.title') }}</Link>
+        <Link class="footer__link" path="/status">{{ $t('status.title') }}</Link>
+        <Link class="footer__link" path="/fees">{{ $t('fees.title') }}</Link>
+        <Link v-if="isWidthMore400px" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
+        <Link class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
+        <Link v-if="isWidthMore400px" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
+        <Link v-if="isWidthMore400px" class="footer__link" path="/terms">{{ $t('docs.terms.title') }}</Link>
+        <Link v-if="isWidthMore400px" class="footer__link" path="/policy">{{ $t('docs.policy.title') }}</Link>
 			</span>
-
-			<span> Copyright © {{ product.name }} Ltd. 2017 - {{ new Date().getFullYear() }}. All rights reserved </span>
+			<span> {{ product.copyright }} {{ product.copy_start_year }} - {{ new Date().getFullYear() }}. {{ product.all_rights_text }} </span>
 		</v-footer>
-
 		<CommonNotification />
 		<CommonSnackbar />
 	</div>
@@ -174,7 +156,6 @@ export default {
 			const width = this.$vuetify.breakpoint.width;
 			const isMediumBreakpoint = width < 1264 && width > 960;
 			const isMobile = this.$vuetify.breakpoint.smAndDown;
-
 			if (isMediumBreakpoint) return 40;
 			else if (isMobile) return 58;
 			else return 29;

@@ -96,7 +96,7 @@ export default {
 	computed: {
 		...mapState('user', ['verifyStatus']),
 		generatedAvatar() {
-			return this.$store.getters['user/getGeneratedAvatar']();
+			return this.$store.getters['user/getGeneratedAvatar'](import.meta.env.VITE_USER_ICON_TYPE || 'initials');
 		},
 		refLink() {
       return `${window.location.origin}?ref=${this.user.id}`;
@@ -107,11 +107,6 @@ export default {
 
 <style lang="sass" scoped>
 .user-account-tab-basic-info
-	&__avatar
-		background: #cfd8dc
 	::v-deep.v-input--checkbox:first-child
 		padding-top: 0
-.theme--dark
-	.user-account-tab-basic-info__avatar
-		background: #687479
 </style>

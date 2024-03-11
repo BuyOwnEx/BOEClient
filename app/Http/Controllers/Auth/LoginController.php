@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ValidateSecretRequest;
 use App\Providers\RouteServiceProvider;
+use App\Rules\CloudFlare;
 use App\Rules\Geetest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -46,13 +47,24 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        if (config('app.captcha_enabled'))
+        if (config('captcha.enabled'))
         {
-            $request->validate([
-                $this->username() => 'required|string',
-                'password' => 'required|string',
-                'captcha' => ['required',new Geetest()]
-            ]);
+            if(mb_strtoupper(config('captcha.type')) === 'GEETEST')
+            {
+                $request->validate([
+                    $this->username() => 'required|string',
+                    'password' => 'required|string',
+                    'captcha' => ['required',new Geetest()]
+                ]);
+            }
+            elseif (mb_strtoupper(config('captcha.type')) === 'CLOUDFLARE')
+            {
+                $request->validate([
+                    $this->username() => 'required|string',
+                    'password' => 'required|string',
+                    'captcha' => ['required',new CloudFlare()]
+                ]);
+            }
         }
         else {
             $request->validate([
@@ -99,13 +111,24 @@ class LoginController extends Controller
         return redirect('login');
     }
 
-    public function getGeetest(Request $request)
+    public function getCaptchaConfig(Request $request)
     {
-        return [
-            'captcha_id' => Config::get('geetest.id'),
-            'product' => Config::get('geetest.product'),
-            'language' => Config::get('geetest.lang')
-        ];
+        if(mb_strtoupper($request->captcha_type) === 'GEETEST')
+        {
+            return [
+                'captcha_id' => config('captcha.id'),
+                'product' => config('captcha.product'),
+                'language' => config('captcha.lang')
+            ];
+        }
+        elseif (mb_strtoupper($request->captcha_type) === 'CLOUDFLARE')
+        {
+            return [
+                'captcha_id' => config('captcha.id'),
+                'language' => config('captcha.lang')
+            ];
+        }
+        else return false;
     }
 
     public function postValidateToken(ValidateSecretRequest $request)

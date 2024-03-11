@@ -56,8 +56,8 @@ class TraderController extends Controller
     {
         return view('overview', [
             'user' => $request->user(),
-            'currency' => env('DEFAULT_CURRENCY', 'BTC'),
-            'market' => env('DEFAULT_MARKET', 'USDT')
+            'currency' => env('VITE_DEFAULT_CURRENCY', 'BTC'),
+            'market' => env('VITE_DEFAULT_MARKET', 'USDT')
         ]);
     }
     public function getTransactionsView(Request $request)

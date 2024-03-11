@@ -107,10 +107,58 @@ Specific variables to this project:
 
     # Web socket server. Use this demo server for test purposes
     VITE_WS_SERVER=wss://ws.buyownex.com/ws
+    
     # verification driver choice. Possible values: local or sumsub
     VITE_KYC_DRIVER=local
+    
     # payment for verification option: false - payment excluded, true - payment included
     VITE_VERIFICATION_PAYMENT_REQUIRED=false
+    
+    # This name is displayed in several places on the site
+    VITE_CONFIG_APP_NAME=BuyOwnEx
+    
+    # The version of BOEClient App
+    VITE_CONFIG_APP_VERSION="Trading module v.2.1.2"
+    
+    # Your slogan. It is displayed in auth pages
+    VITE_CONFIG_SLOGAN="be the future. be the crypto"
+    
+    # Depending on the type of product, different functionality is displayed. Possible values: "start", "startPlus", "full"
+    VITE_CONFIG_PRODUCT_TYPE=full
+    
+    # Whether to display currencies at top menu
+    VITE_CONFIG_SHOW_CURRENCIES=false
+    
+    # Copyright text
+    VITE_CONFIG_COPYRIGHT="Copyright © BuyOwnEx Ltd."
+    
+    # Start of your activity
+    VITE_CONFIG_COPY_START_YEAR=2017
+    
+    # Display this text after copyright
+    VITE_CONFIG_ALL_RIGHTS_TEXT="All rights reserved"
+    
+    # Whether to use custom translate files instead of defaults. Custom files must be in custom directory nearby defaults files
+    VITE_CONFIG_USE_CUSTOM_TRANSLATE=false
+    
+    # Choose the list of displayed languages
+    VITE_CONFIG_AVAILABLE_LOCALES=en,ru
+    
+    # Default language
+    VITE_CONFIG_DEFAULT_LOCALE=en
+    
+    # If translation not found, this language will be used
+    VITE_CONFIG_FALLBACK_LOCALE=en
+    
+    # Icon type of user. Possible values: "initials", "identicon"
+    VITE_USER_ICON_TYPE=initials
+    
+    # Icon type of API. Possible values: "initials", "identicon"
+    VITE_API_ICON_TYPE=identicon
+    
+    # When you navigate to the main page, redirection occurs to the http://localhost/trading/{VITE_DEFAULT_MARKET}/{VITE_DEFAULT_CURRENCY} link
+    VITE_DEFAULT_MARKET=USDT
+    VITE_DEFAULT_CURRENCY=BTC
 
     # API Server, that handles incoming requests. Use this demo server and API keys for test purposes
     SERVER=https://api.buyownex.com
@@ -119,10 +167,6 @@ Specific variables to this project:
     
     # Choice between SPA application and common application
     SPA_ENABLED=true
- 
-    # When you navigate to the main page, redirection occurs to the http://localhost/trading/{DEFAULT_MARKET}/{DEFAULT_CURRENCY} link
-    DEFAULT_MARKET=USDT
-    DEFAULT_CURRENCY=BTC
     
     # Test server and credentials of KYC provider Sum&Substance. You can get own test account at https://sumsub.com/contact-us/
     SUMSUB_SERVER=https://test-api.sumsub.com
@@ -134,12 +178,15 @@ Specific variables to this project:
     ZENDESK_USERNAME=
     ZENDESK_TOKEN=
     
-    # Is to use Geetest Captcha or not. It is recommended to use it. Disable it only if Geetest don`t work
+    # Is to use Captcha or not. It is recommended to use it. Disable it only if test purposes
     CAPTCHA_ENABLED=true
 
-    # geetest ID and Key. Get your own account at https://www.geetest.com/en/
-    GEETEST_ID=
-    GEETEST_KEY=
+    # Captcha type. Available implementations: Geetest, CloudFlare
+    CAPTCHA_TYPE=Geetest
+
+    # Captcha ID and secret key. Get your own at official resources (https://www.geetest.com/en/ - Geetest; https://www.cloudflare.com/products/turnstile - CloudFlare)
+    CAPTCHA_ID=
+    CAPTCHA_SECRET=
     
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
 

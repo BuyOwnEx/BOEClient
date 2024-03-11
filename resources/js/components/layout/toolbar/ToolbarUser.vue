@@ -1,9 +1,9 @@
 <template>
 	<v-menu offset-y left transition="slide-y-transition">
 		<template #activator="{ on }">
-			<v-btn icon class="elevation-2" v-on="on">
-				<v-badge color="success" offset-x="10" offset-y="10" dot bordered>
-					<v-avatar v-html="generatedAvatar" size="40" />
+			<v-btn icon plain tile v-on="on">
+				<v-badge color="success"  dot >
+					<v-avatar tile v-html="generatedAvatar" size="35" />
 				</v-badge>
 			</v-btn>
 		</template>
@@ -49,7 +49,7 @@ export default {
 
 	computed: {
 		generatedAvatar() {
-			return this.$store.getters['user/getGeneratedAvatar']();
+			return this.$store.getters['user/getGeneratedAvatar'](import.meta.env.VITE_USER_ICON_TYPE || 'initials');
 		},
         items() {
             return [

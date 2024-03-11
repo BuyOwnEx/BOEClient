@@ -429,21 +429,21 @@ export default {
 			this.$eventHub.$emit('chartLeave');
 			this.needWatch = false;
 			this.$store.commit('trading/setPair', {
-					currency: 'BTC',
-					market: 'USDT',
+					currency: import.meta.env.VITE_DEFAULT_CURRENCY,
+					market: import.meta.env.VITE_DEFAULT_MARKET,
 			});
 			this.disconnect();
 			next();
 	},
 	beforeRouteEnter (to, from, next) {
-			if(to.params.currency === 'BTC' && to.params.market === 'USDT')
+			if(to.params.currency === import.meta.env.VITE_DEFAULT_CURRENCY && to.params.market === import.meta.env.VITE_DEFAULT_MARKET)
 			{
 					next(vm => {
 							console.log(vm);
 							vm.needWatch = true;
 							vm.$store.commit('trading/setPair', {
-									currency: 'BTC',
-									market: 'USDT',
+									currency: import.meta.env.VITE_DEFAULT_CURRENCY,
+									market: import.meta.env.VITE_DEFAULT_MARKET,
 							});
 					})
 			}

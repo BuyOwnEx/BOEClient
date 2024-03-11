@@ -25,7 +25,11 @@
         @vite('resources/js/auth.js')
     @endif
 
-    @if (config('app.captcha_enabled'))
-        @vite('resources/js/plugins/gt4.js')
+    @if (config('captcha.enabled'))
+        @if(mb_strtoupper(config('captcha.type')) === 'GEETEST')
+            @vite('resources/js/plugins/gt4.js')
+        @elseif(mb_strtoupper(config('captcha.type')) === 'CLOUDFLARE')
+            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+        @endif
     @endif
 @endsection

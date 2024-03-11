@@ -33,8 +33,8 @@ class Geetest implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $sign_token = hash_hmac('sha256', $this->lot_number, Config::get('geetest.key'));
-        $api_server = Config::get('geetest.api_server');
+        $sign_token = hash_hmac('sha256', $this->lot_number, Config::get('captcha.secret'));
+        $api_server = Config::get('captcha.geetest_api_server');
         $data = [
             "lot_number" => $this->lot_number,
             "captcha_output" => $this->captcha_output,
@@ -42,7 +42,7 @@ class Geetest implements ValidationRule
             "gen_time" => $this->gen_time,
             "sign_token" => $sign_token
         ];
-        $url = sprintf($api_server . "/validate" . "?captcha_id=%s", Config::get('geetest.id'));
+        $url = sprintf($api_server . "/validate" . "?captcha_id=%s", Config::get('captcha.id'));
         $res = $this->post_request_v4($url,$data);
         $obj = json_decode($res,true);
         if ($obj['status'] !== 'success' || $obj['result'] !== 'success') {

@@ -51,10 +51,10 @@ export default {
 	},
 	computed: {
 		currentLocale() {
-			return this.$i18n.locales.find((i) => i.code === this.$i18n.locale);
+			return this.$i18n.locales.find((i) => i.code === this.$i18n.locale && i.used);
 		},
 		availableLocales() {
-			return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
+			return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale && i.used);
 		},
 	},
 	methods: {

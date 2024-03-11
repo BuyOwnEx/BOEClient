@@ -26,7 +26,8 @@ class AppServiceProvider extends ServiceProvider
         View::share('config', [
             'fiat' => true,
             'leverageLevel' => 5,
-            'captcha_enabled' => config('app.captcha_enabled')
+            'captcha_enabled' => config('captcha.enabled'),
+            'captcha_type' => config('captcha.type')
         ]);
     }
 

@@ -13,7 +13,7 @@
 
 		<div class="user-api-item__content pa-2">
 			<div class="user-api-item__icon-wrapper">
-				<v-avatar class="user-api-item__icon" size="150" v-html="generatedIcon(api.name)" />
+				<v-avatar class="user-api-item__icon" size="150" v-html="generatedAvatar(api.name)" />
 			</div>
 
 			<div class="user-api-item__info-wrapper">
@@ -85,8 +85,6 @@
 </template>
 
 <script>
-import Avatars from '@dicebear/avatars';
-import sprites from '@dicebear/avatars-jdenticon-sprites';
 
 import UserApiDialogEdit from '@/components/user/api/dialog/UserApiDialogEdit.vue';
 import UserApiDialogDeleteOne from '@/components/user/api/dialog/UserApiDialogDeleteOne.vue';
@@ -124,11 +122,9 @@ export default {
 	},
 
 	methods: {
-		generatedIcon(name) {
-			const options = {};
-			const avatars = new Avatars(sprites, options);
-			return avatars.create(name);
-		},
+    generatedAvatar(name) {
+      return this.$store.getters['user/getGeneratedAvatar'](import.meta.env.VITE_API_ICON_TYPE || 'identicon', name);
+    },
 
 		editAPI(newAbilities) {
 			this.api.abilities = newAbilities;

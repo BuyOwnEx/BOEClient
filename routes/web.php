@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::get('/', function () {
-    return redirect('trading/'.env('DEFAULT_MARKET', 'USDT').'/'.env('DEFAULT_CURRENCY', 'BTC'));
+    return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
 });
 Route::get('trading/{market}/{currency}', 'TraderController@getTradingView')->name('trading_view');
 Route::get('overview', 'TraderController@getOverviewView')->name('overview_view');
@@ -27,7 +27,7 @@ Route::get('fees', 'TraderController@getFeesView')->name('fees_view');
 Route::get('status', 'TraderController@getStatusView')->name('status_view');
 Route::get('contacts', 'TraderController@getContactsView')->name('contacts_view');
 Route::get('2fa', 'Auth\LoginController@getValidateToken');
-Route::get('geetest', 'Auth\LoginController@getGeetest');
+Route::get('captcha', 'Auth\LoginController@getCaptchaConfig');
 Route::post('2fa_validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
 Route::get('forget_2fa','Google2FAController@forgetTwoFactor');
 Route::post('set_locale', 'TraderController@setLocale');

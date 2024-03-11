@@ -4,23 +4,20 @@
 			<ToolbarLanguage class="auth-layout__lang" />
 			<ToolbarThemeChanger class="auth-layout__theme mr-md-0 ml-md-0" :class="[$vuetify.rtl ? 'mr-1' : 'ml-1']" />
 		</div>
-
 		<v-sheet class="auth-layout__side mx-auto d-none d-md-flex flex-md-column justify-space-between">
 			<canvas class="waves" id="waves"></canvas>
-
 			<div class="auth-layout__side-top mt-3 mt-md-1 pa-2">
-                <Link path="/"><v-img contain min-height="103" max-width="250" :src="LogoFull" class="ma-auto" /></Link>
+        <Link path="/"><v-img contain min-height="103" max-width="250" :src="LogoFull" class="ma-auto" /></Link>
 				<div class="auth-layout__slogan title my-2 white--text">
 					{{ product.slogan }}
 				</div>
 			</div>
-
 			<div class="auth-layout__links overline pa-1 mb-1">
 				<span>
-                    <Link path="/">{{ $t('menu.trading') }}</Link>
-                    <Link class="white--text" path="/fees">{{ $t('fees.title') }}</Link>
-                    <Link class="white--text" path="/status">{{ $t('status.title') }}</Link>
-                    <Link class="white--text" path="/api">{{ $t('menu.api') }}</Link>
+          <Link path="/">{{ $t('menu.trading') }}</Link>
+          <Link class="white--text" path="/fees">{{ $t('fees.title') }}</Link>
+          <Link class="white--text" path="/status">{{ $t('status.title') }}</Link>
+          <Link class="white--text" path="/api">{{ $t('menu.api') }}</Link>
 				</span>
 			</div>
 		</v-sheet>
@@ -32,12 +29,11 @@
 
 			<div class="overline mt-4">
 				<div v-if="$vuetify.breakpoint.smAndDown" class="auth-layout__links mb-1">
-                    <Link path="/">{{ $t('menu.trading') }}</Link>
-                    <Link path="/fees">{{ $t('fees.title') }}</Link>
-                    <Link path="/status">{{ $t('status.title') }}</Link>
-                    <Link path="/api">{{ $t('menu.api') }}</Link>
+          <Link path="/">{{ $t('menu.trading') }}</Link>
+          <Link path="/fees">{{ $t('fees.title') }}</Link>
+          <Link path="/status">{{ $t('status.title') }}</Link>
+          <Link path="/api">{{ $t('menu.api') }}</Link>
 				</div>
-
 				<div>{{ product.name }} - {{ product.version }}</div>
 			</div>
 		</div>

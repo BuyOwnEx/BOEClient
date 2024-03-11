@@ -9,7 +9,6 @@ return [
     'api-secret-key'      => env('API_SECRET_KEY'),
     'api-mobile-public-key'      => env('API_MOBILE_PUBLIC_KEY', null),
     'api-mobile-secret-key'      => env('API_MOBILE_SECRET_KEY', null),
-    'captcha_enabled'     => (bool) env('CAPTCHA_ENABLED', true),
     'spa_enabled'         => (bool) env('SPA_ENABLED', false),
     /*
     |--------------------------------------------------------------------------
