@@ -15,11 +15,12 @@
 				<v-stepper v-model="step">
 					<v-stepper-items>
 						<v-stepper-content step="1">
-							<BalanceFiatDialogSelectSystem
+							<SelectWithdrawMethod
 								class="mb-6"
-								:systems-data="currencyObj.payment_systems"
-								type="withdraw"
-								@select="selectPaymentSystem"
+                :platforms="platforms"
+                :gateways="withdrawGateways"
+                :fees="fees"
+								@select_platform="platformSelected"
 							/>
 
 							<v-divider />
@@ -145,6 +146,7 @@ import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import BalanceFiatDialogSelectSystem from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogSelectSystem.vue';
+import SelectWithdrawMethod from '@/components/balance/fiat/dialog/parts/SelectWithdrawMethod.vue';
 import BalanceFiatDialogAlert from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogAlert.vue';
 import CommonAvailable from '@/components/common/CommonAvailable.vue';
 
@@ -155,9 +157,18 @@ import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 export default {
 	name: 'BalanceFiatDialogWithdraw',
 
-	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert, CommonAvailable },
+	components: {
+    SelectWithdrawMethod,
+    BalanceFiatDialogSelectSystem,
+    BalanceFiatDialogAlert,
+    CommonAvailable
+  },
 
-	mixins: [loadingMixin, validateInputMixin, dialogMethodsMixin],
+	mixins: [
+    loadingMixin,
+    validateInputMixin,
+    dialogMethodsMixin
+  ],
 
 	props: {
 		currencyObj: {
@@ -172,6 +183,8 @@ export default {
 			amount: '',
 			selectedMethodID: 1,
 			phone: '',
+      gateways: [],
+      fees: [],
 			amountRules: [
 				v => !v || BigNumber(v).gte(this.minWithdraw) || this.$t('balance.less_min'),
 				v => !v || BigNumber(v).lte(this.maxWithdraw) || this.$t('balance.more_max'),
@@ -182,7 +195,14 @@ export default {
 			step: 1,
 		};
 	},
-
+  mounted() {
+    axios.get('/trader/ext/all_fiat_platforms').then(response => {
+      this.gateways = response.data.data;
+    });
+    axios.get('/trader/ext/all_fiat_fees').then(response => {
+      this.fees = response.data.data;
+    });
+  },
 	computed: {
 		totalAmount() {
 			const total = Number(this.amount) - this.selectedSystem?.withdrawFee;
@@ -192,7 +212,6 @@ export default {
 		availableForWithdraw() {
 			return BigNumber.min(this.availableForUser, this.maxAvailable).toString();
 		},
-
 		minWithdraw() {
 			return this.selectedSystem?.minWithdraw;
 		},
@@ -217,7 +236,17 @@ export default {
 		maxAvailable() {
 			return BigNumber(this.maxWithdraw).minus(this.daily);
 		},
-	},
+    platforms() {
+      return this.currencyObj.platforms;
+    },
+    withdrawGateways() {
+      return _.filter(this.gateways, item => {
+        return (
+            item.is_withdrawal === true
+        );
+      });
+    }
+  },
 
 	methods: {
 		withdraw() {
@@ -236,8 +265,8 @@ export default {
 			this.amount = this.availableForWithdraw;
 		},
 
-		selectPaymentSystem(system) {
-			this.selectedSystem = system;
+    platformSelected(platform) {
+			this.selectedSystem = platform;
 			this.step++;
 		},
 		back() {

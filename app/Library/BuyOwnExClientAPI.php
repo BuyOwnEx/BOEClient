@@ -68,6 +68,12 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function all_fiat_fees()
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_fiat_fees');
+        return response()->json($response->json(),$response->status());
+    }
+
     public function health()
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/health');
@@ -803,6 +809,37 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function kycKonturIndRequest($trader_id, $fio, $birthday, $passport_number, $inn, $file_ps, $file_ws, $file_ts)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'fio' => $fio,
+            'birthday' => $birthday,
+            'passport_number' => $passport_number,
+            'inn' => $inn,
+            'file_ps' => $file_ps,
+            'file_ws' => $file_ws,
+            'file_ts' => $file_ts
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kyc_kontur_ind_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function kycKonturCompRequest($trader_id, $inn, $edo_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'inn' => $inn,
+            'edo_id' => $edo_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kyc_kontur_comp_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
     public function verificationRequest($trader_id, $first_name, $second_name, $surname, $sex, $birthday, $birthday_place, $passport_no, $passport_place, $passport_date, $address, $file_ps, $file_ws, $file_ts)
     {
         $params = [
@@ -849,6 +886,14 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/notify_fiat_replenish',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function getKYCKonturData($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/kyc_kontur_data',[
+            'trader' => $trader_id
+        ]);
         return response()->json($response->json(),$response->status());
     }
 

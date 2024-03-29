@@ -17,117 +17,49 @@
 				<v-stepper v-model="step">
 					<v-stepper-items>
 						<v-stepper-content step="1">
-							<BalanceFiatDialogSelectSystem
+							<SelectReplenishMethod
 								class="mb-6"
 								:platforms="platforms"
-                :gateways="gateways"
+                :gateways="replenishGateways"
+                :fees="fees"
 								type="replenish"
-								@select="selectPaymentSystem"
+								@select_platform="platformSelected"
 							/>
 
 							<v-divider />
 
 							<div class="common-dialog__actions d-flex pt-1">
 								<v-spacer />
-								<v-btn block plain tile text small @click="close">
-									{{ $t('common.close') }}
-								</v-btn>
+								<v-btn block plain tile text small @click="close"> {{ $t('common.close') }} </v-btn>
 								<v-spacer />
 							</div>
 						</v-stepper-content>
 
 						<v-stepper-content step="2">
-							<div class="mb-6">
-								<BalanceFiatDialogAlert>
-									{{ $t('balance.dialog.fiat_replenishment_alert') }}
-								</BalanceFiatDialogAlert>
+              <FillAmountStep
+                  v-if="selectedGateway && selectedGateway.code === 'QR'"
+                  :selectedPlatform="selectedPlatfrom"
+                  :currency_scale="currencyObj.scale"
+                  @filled="next_step"
+                  @back_pressed="back"
+              />
+              <FillFieldsStep
+                  v-else-if="selectedGateway && selectedGateway.code === 'INVOICE'"
+                  :selectedPlatform="selectedPlatfrom"
+                  :currency_scale="currencyObj.scale"
+                  @filled="next_step"
+                  @back_pressed="back"
+              />
 
-								<div
-									v-if="selectedSystem"
-									class="balance-fiat-dialog-replenish__replenish-info pt-2"
-								>
-									{{
-										$t('balance.dialog.fiat_bank_details_replenishment_description')
-									}}
-								</div>
-
-								<v-form v-model="amountFormValid">
-									<v-text-field
-										v-model="amount"
-										:placeholder="$t('balance.amount')"
-										:suffix="currency"
-                    :rules="amountRules"
-										autofocus
-										@keydown="validateNumber"
-										@paste.prevent
-									/>
-								</v-form>
-							</div>
-
-							<v-divider />
-
-							<div class="common-dialog__actions d-flex pt-1">
-								<v-spacer />
-								<v-btn plain tile text small @click="back">
-									{{ $t('common.back') }}
-								</v-btn>
-								<v-spacer />
-								<v-btn
-									:loading="loading"
-                  :disabled="!amount || !amountFormValid"
-									color="primary"
-									tile
-									text
-									plain
-									small
-									@click="replenish"
-								>
-									{{ $t('common.replenish') }}
-								</v-btn>
-								<v-spacer />
-							</div>
 						</v-stepper-content>
+
             <v-stepper-content class="pa-0" step="3">
-              <v-card-text v-if="selectedSystem" class="common-dialog__content">
-                <div>
-                  <div>
-                    {{ $t('balance.min_replenish_amount') }}:
-                    <b> {{ selectedSystem.minReplenish }} {{ selectedSystem.currency }} </b>
-                  </div>
-
-                  <div>
-                    {{ $t('balance.replenish_fee') }}:
-                    <b>0 {{ selectedSystem.currency }}</b>
-                  </div>
-                </div>
-
-                <div class="text-center">
-                  <QrCode v-if="this.bank_details !== null" :value="qr_replenish" :options="{ width: 200 }" />
-                </div>
-
-              </v-card-text>
-
-              <v-divider />
-
-              <div class="common-dialog__actions d-flex pt-1">
-                <v-spacer />
-                <v-btn plain tile text small @click="back">
-                  {{ $t('common.back') }}
-                </v-btn>
-                <v-spacer />
-                <v-btn
-                    :loading="loading"
-                    color="primary"
-                    tile
-                    text
-                    plain
-                    small
-                    @click="finish"
-                >
-                  {{ $t('kyc.purchase') }}
-                </v-btn>
-                <v-spacer />
-              </div>
+              <ShowQr
+                  v-if="selectedGateway && selectedGateway.code === 'QR'"
+                  :selectedPlatform="selectedPlatfrom"
+                  :amount="amount"
+                  @back_pressed="back"
+              />
             </v-stepper-content>
 					</v-stepper-items>
 				</v-stepper>
@@ -137,21 +69,27 @@
 </template>
 
 <script>
-import QrCode from '@chenfengyuan/vue-qrcode';
-import BalanceFiatDialogSelectSystem from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogSelectSystem.vue';
-import BalanceFiatDialogAlert from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogAlert.vue';
+import SelectReplenishMethod from '@/components/balance/fiat/dialog/parts/SelectReplenishMethod.vue';
+import FillAmountStep from '@/components/balance/fiat/dialog/parts/qr/FillAmountStep.vue';
+import ShowQr from '@/components/balance/fiat/dialog/parts/qr/ShowQr.vue';
+import FillFieldsStep from '@/components/balance/fiat/dialog/parts/invoice/FillFieldsStep.vue';
 
 import loadingMixin from '@/mixins/common/loadingMixin';
-import validateInputMixin from '@/mixins/common/validateInputMixin';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
-import BigNumber from 'bignumber.js';
-
 export default {
 	name: 'BalanceFiatDialogReplenish',
 
-	components: { BalanceFiatDialogSelectSystem, BalanceFiatDialogAlert, QrCode },
+	components: {
+    SelectReplenishMethod,
+    FillAmountStep,
+    ShowQr,
+    FillFieldsStep
+  },
 
-	mixins: [loadingMixin, validateInputMixin, dialogMethodsMixin],
+	mixins: [
+    loadingMixin,
+    dialogMethodsMixin
+  ],
 
 	props: {
 		currencyObj: {
@@ -162,31 +100,25 @@ export default {
 
 	data() {
 		return {
-			selectedSystem: null,
-            bank_details: null,
+      selectedPlatfrom: null,
+      selectedGateway: null,
 			amount: '',
-            amountFormValid: false,
-            gateways: [],
+      gateways: [],
+      fees: [],
 			step: 1,
-            amountRules: [
-                v => !v || BigNumber(v).gte(this.selectedSystem.minReplenish) || this.$t('balance.less_min'),
-                v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-            ],
 		};
 	},
 
 	computed: {
-
 		totalAmount() {
-			const total = Number(this.amount) - this.selectedSystem?.withdrawFee;
+			const total = Number(this.amount) - this.selectedPlatfrom?.withdrawFee;
 			return total || 0;
 		},
-
 		minWithdraw() {
-			return this.selectedSystem?.minWithdraw;
+			return this.selectedPlatfrom?.minWithdraw;
 		},
 		maxWithdraw() {
-			return Math.min(this.selectedSystem?.maxWithdraw, this.currencyObj.safe);
+			return Math.min(this.selectedPlatfrom?.maxWithdraw, this.currencyObj.safe);
 		},
 		currency() {
 			return this.currencyObj.currency;
@@ -194,23 +126,17 @@ export default {
     platforms() {
       return this.currencyObj.platforms;
     },
-    qr_replenish() {
-      return this.bank_details ?
-          'ST00012|Name='+this.bank_details.name+
-          '|PersonalAcc='+this.bank_details.personal_acc+
-          '|BankName='+this.bank_details.bank_name+
-          '|BIC='+this.bank_details.bic+
-          '|CorrespAcc='+this.bank_details.corr_acc+
-          '|KPP='+this.bank_details.kpp+
-          '|PayeeINN='+this.bank_details.payee_inn+
-          '|Purpose='+this.bank_details.purpose.replace('%trader_id%', this.$user.id).replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())+
-          '|Sum='+BigNumber(this.amount).multipliedBy(100).toString()
-          : '';
+    replenishGateways() {
+      return _.filter(this.gateways, item => {
+        return (
+            item.is_replenish === true
+        );
+      });
     },
 	},
 
 	methods: {
-		replenish() {
+		next_step() {
 			try {
 				this.startLoading();
 			} finally {
@@ -218,22 +144,9 @@ export default {
         this.step++;
 			}
 		},
-    finish() {
-      axios.post('/trader/ext/notify_fiat_replenish', {
-        currency: this.selectedSystem.currency,
-        amount: this.amount,
-        gateway_id: this.selectedSystem.gateway_id
-      }).then(response => {
-        if (response.data.success === true) {
-          this.close();
-        }
-      });
-    },
-    isCorrectPrecision(v) {
-      return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
-    },
-		selectPaymentSystem(system) {
-			this.selectedSystem = system;
+    platformSelected(data) {
+			this.selectedPlatfrom = data.platform;
+      this.selectedGateway = data.gateway;
 			this.step++;
 		},
 
@@ -242,7 +155,8 @@ export default {
 		},
 		clearData() {
 			this.amount = '';
-			this.selectedSystem = null;
+			this.selectedPlatfrom = null;
+      this.selectedGateway = null;
 			this.step = 1;
 		},
 	},
@@ -250,8 +164,8 @@ export default {
     axios.get('/trader/ext/all_fiat_platforms').then(response => {
       this.gateways = response.data.data;
     });
-    axios.get('/trader/ext/replenish_bank_details').then(response => {
-      this.bank_details = response.data.data;
+    axios.get('/trader/ext/all_fiat_fees').then(response => {
+      this.fees = response.data.data;
     });
   }
 };

@@ -490,7 +490,7 @@ export default {
 
 		amount: 'Сумма',
 		show_only_not_null_balances: 'Скрыть ненулевой баланс',
-		select_payment_system: 'Выберите платёжную систему',
+		select_payment_method: 'Выберите платёжный метод',
 		select_network: 'Выберите сеть',
 
 		current_balance: 'Текущий баланс',

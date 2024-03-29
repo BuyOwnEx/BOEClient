@@ -494,7 +494,7 @@ export default {
 
 		amount: 'Amount',
 		show_only_not_null_balances: 'Show only not null balances',
-		select_payment_system: 'Select payment system',
+		select_payment_method: 'Select payment method',
 		select_network: 'Select network',
 
 		current_balance: 'Current balance',

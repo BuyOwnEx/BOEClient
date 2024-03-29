@@ -69,6 +69,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('fiat_currencies', 'TraderController@getFiatCurrencies')->name('fiat_currencies');
         Route::get('all_currencies', 'TraderController@getAllCurrencies')->name('all_currencies');
         Route::get('all_fiat_platforms', 'TraderController@getAllFiatPlatforms')->name('all_fiat_platforms');
+        Route::get('all_fiat_fees', 'TraderController@getAllFiatFees')->name('all_fiat_fees');
         Route::get('health', 'TraderController@getHealth')->name('health');
         Route::get('get_offer_list', 'TraderController@getOfferList')->name('offer_list');
 
@@ -145,6 +146,9 @@ Route::group(['prefix' => 'trader'], function () {
             Route::post('delete_all_api_tokens', 'TraderController@deleteAllAPITokens')->name('delete_all_api_tokens');
 
             Route::get('kyc_request', 'TraderController@getKYCRequest')->name('kyc_request');
+            Route::get('kyc_kontur_data', 'TraderController@getKYCKonturData')->name('kyc_kontur_data');
+            Route::post('kyc_kontur_ind_request', 'TraderController@sendKYCKonturIndRequest')->name('send_kyc_kontur_ind_request');
+            Route::post('kyc_kontur_comp_request', 'TraderController@sendKYCKonturCompRequest')->name('send_kyc_kontur_comp_request');
             Route::post('kyc_request', 'TraderController@sendKYCRequest')->name('send_kyc_request');
             Route::post('kyc_fix', 'TraderController@sendKYCFix')->name('send_kyc_fix');
             Route::post('kyc_payment', 'TraderController@setKYCPayment')->name('set_kyc_payment');

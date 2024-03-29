@@ -14,7 +14,7 @@
 
 		<v-tabs-items v-model="selectedTab" touchless>
 			<v-tab-item :key="1">
-				<BalanceCryptoList />
+				<BalanceList />
 			</v-tab-item>
 
 			<v-tab-item :key="2">
@@ -28,7 +28,7 @@
 import { mapState, mapActions } from 'vuex';
 
 import CommonPageTitle from '@/components/common/CommonPageTitle.vue';
-import BalanceCryptoList from '@/components/balance/crypto/BalanceCryptoList.vue';
+import BalanceList from '@/components/balance/common/BalanceList.vue';
 import BalanceWithdrawalList from '@/components/balance/withdrawal/BalanceWithdrawalList.vue';
 
 import CentrifugeBalanceMixin from '@/mixins/centrifugo-balance';
@@ -40,9 +40,8 @@ export default {
 
 	components: {
 		CommonPageTitle,
-		BalanceCryptoList,
+		BalanceList,
 		BalanceWithdrawalList,
-		BalanceFiatList: () => import('@/components/balance/fiat/BalanceFiatList.vue'),
 	},
 
 	data() {
@@ -58,7 +57,7 @@ export default {
 	},
 
 	created() {
-        this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+    this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 		this.fetchWithdrawals();
 	},
 

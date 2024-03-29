@@ -25,6 +25,23 @@ export default {
 			positions: [],
 		},
 		profileSelectedTab: 0,
+		kontur: {
+			id: null,
+			kyc_type: null,
+			fio: null,
+			birthday: null,
+			passport_number: null,
+			inn: null,
+			edo_id: null,
+			status: null,
+			state: null,
+			is_verified: null,
+			risk_level: null,
+			risk: null,
+			company_name: null,
+			created_at: null,
+			updated_at: null
+		}
 	},
 
 	getters: {
@@ -232,6 +249,12 @@ export default {
 				balancesCurrency.safe = balancesCurrency.safe + amount + balancesCurrency.feeWithdraw;
 			}
 		},
+		setKonturData(state, data) {
+			state.kontur = data;
+		},
+		setStateKontur(state, data) {
+			state.kontur.state = data;
+		}
 	},
 
 	actions: {
@@ -321,6 +344,21 @@ export default {
 					.get('/trader/ext/fees')
 					.then(response => {
 						commit('setOwnFees', response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+
+		getKonturData({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/kyc_kontur_data')
+					.then(response => {
+						commit('setKonturData', response.data.data);
 						resolve();
 					})
 					.catch(error => {

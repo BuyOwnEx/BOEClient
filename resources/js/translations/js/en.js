@@ -22,6 +22,9 @@ export default {
 		change: 'Change',
 		request: 'Request',
 		all: 'All',
+		min: 'Min.',
+		max: 'Max.',
+		next: 'Next',
 
 		title: 'Title',
 		description: 'Description',
@@ -41,8 +44,7 @@ export default {
 		no_data: 'No data',
 		see_all: 'See all',
 	},
-
-    titles: {
+	titles: {
         "2fa": 'Check 2FA',
         "2fa_forget": 'Forget 2FA',
         api: 'API',
@@ -73,20 +75,17 @@ export default {
         error_maintenance: 'Maintenance',
         error: '404'
     },
-
 	apps: {
 		exchange: {
 			title: 'Exchange',
 			subtitle: 'Crypto-asset trading',
 		},
 	},
-
 	copy: {
 		copy: 'Copy',
 		copied: 'Copied',
 		copied_to_clipboard: 'Copied to clipboard!',
 	},
-
 	error: {
 		notfound: 'Page Not Found',
 		other: 'An Error Ocurred',
@@ -94,7 +93,6 @@ export default {
 	utility: {
 		maintenance: 'In Maintenance',
 	},
-
 	table_header: {
 		base_currency: 'Base currency',
 		currency: 'Currency',
@@ -154,11 +152,18 @@ export default {
 		available_payment_systems: 'Available payment systems',
 		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
-
-	gateways: {
-		'bank_details': 'Bank details',
+	fiat: {
+		gateway: {
+			names: {
+				qr: 'Payment by bank details via QR code',
+				invoice: 'Request an invoice',
+			},
+			descriptions: {
+				qr: 'Payment can be made in any bank application that supports payment by QR code',
+				invoice: 'The invoice will be sent to your email address specified during registration',
+			},
+		},
 	},
-
 	menu: {
 		trading: 'Trading',
 		overview: 'Market overview',
@@ -214,14 +219,12 @@ export default {
 		landingPage: 'Landing Page',
 		pricingPage: 'Pricing Page',
 	},
-
 	overview: {
 		graph_title: 'Market depth',
 		table_title: 'Market overview',
 		select_pair: 'Select pair',
 		select_pair_hint: 'Select pair from available options',
 	},
-
 	trading: {
 		last_price: 'Last price',
 		daily_change: 'Daily change',
@@ -482,7 +485,6 @@ export default {
 			contact: 'Contact customer support',
 		},
 	},
-
 	balance: {
 		title: 'Balance',
 
@@ -494,8 +496,11 @@ export default {
 
 		amount: 'Amount',
 		show_only_not_null_balances: 'Show only not null balances',
-		select_payment_system: 'Select payment system',
+		select_payment_method: 'Select payment method',
 		select_network: 'Select network',
+		inn: 'TIN',
+		bic: 'BIC',
+		acc: 'Account no',
 
 		current_balance: 'Current balance',
 		min_amount: 'Min. amount',
@@ -581,7 +586,6 @@ export default {
 			cancel_withdrawal_description: 'Are you sure you want to cancel withdrawal of {amount} {currency}?',
 		},
 	},
-
 	docs: {
 		navigation: 'Contents',
 		terms: {
@@ -2366,7 +2370,6 @@ export default {
 			},
 		},
 	},
-
 	status: {
 		title: 'System status',
 		description: `System status is a monitoring tool that provides
@@ -2394,7 +2397,6 @@ make our system processes as transparent as possible.`,
 		operations_fee: 'Replenish and withdrawal fee',
 		operations_limits: 'Replenish and withdrawal limits',
 	},
-
 	user: {
 		title: {
 			profile: 'Profile',
@@ -2516,7 +2518,6 @@ make our system processes as transparent as possible.`,
 		two_fa_code: '2FA code',
 		two_fa_code_hint: 'Enter 2FA code',
 	},
-
 	notifications: {
 		title: 'Notifications',
 		no_notifications: 'No new notifications',
@@ -2592,7 +2593,6 @@ make our system processes as transparent as possible.`,
 			},
 		},
 	},
-
 	support: {
 		title: 'Support',
 		menu: {
@@ -2621,7 +2621,6 @@ make our system processes as transparent as possible.`,
 			urgent: 'Urgent',
 		},
 	},
-
 	reports: {
 		filters: 'Filters',
 
@@ -2677,8 +2676,61 @@ make our system processes as transparent as possible.`,
 		crypto_transactions_title: 'Crypto transactions',
 		transfers_title: 'Internal transfers',
 	},
-
 	kyc: {
+		kontur: {
+			type: {
+				individual: 'Individual person',
+				legal: 'Legal entity'
+			},
+			risk_level: {
+				low: 'Low',
+				middle: 'Middle',
+				high: 'High',
+				not_defined: 'not defined'
+			},
+			created_at: 'Verification request date',
+			updated_at: 'Verification processing date',
+			individual: {
+				title: 'Passing verification as a physical person',
+				description: 'When passing verification as a physical person, you will need a Russian passport and your TIN (TIN is optional to fill in, but significantly reduces the risk of erroneous blocking)',
+				form: {
+					fio: 'Full name',
+					fio_brief: 'Full name',
+					birthday: 'Date of birth',
+					passport_number: 'Passport series and number',
+					inn: 'TIN'
+				},
+				hints: {
+					fio: 'Specify your full name as it is written in the passport',
+					birthday: 'Specify your date of birth',
+					passport_number: 'Enter the passport series and number',
+					inn: 'Specify your individual taxpayer number (optional, but reduces the risk of erroneous blocking)'
+				}
+			},
+			legal: {
+				title: 'Passing verification as a legal entity',
+				description: 'When passing verification as a legal entity, you will need the TIN of the organization and the unique EDO number issued to your organization by the electronic document management operator',
+				company_name: 'Name of the organization',
+				risk_level: 'Risk level',
+				risk: 'The risk value on a scale from 0 to 100',
+				form: {
+					inn: 'TIN',
+					edo_id: 'EDO ID'
+				},
+				hints: {
+					inn: 'Specify the individual taxpayer number of your organization',
+					edo_id: 'Specify the EDO number issued to your organization by the electronic document management operator'
+				}
+			},
+			state: {
+				new: 'The verification request has been successfully created',
+				processing: 'The verification request is being processed',
+				finish: {
+					success: 'Remote identification has been successfully completed',
+					error: 'Remote identification failed'
+				}
+			}
+		},
 		first_name: 'First name',
 		second_name: 'Second name',
 		surname: 'Surname',
@@ -2723,10 +2775,15 @@ make our system processes as transparent as possible.`,
 			support: 'Please correct the reasons why your verification request was rejected and send the data again, or if the reasons are not clear, then contact the support team to find out additional information.',
 		},
 	},
-
 	forms_validation: {
 		required: 'Required field',
 		email_invalid: 'Invalid E-mail',
+		fio_invalid: 'Make sure that the field contains at least the last name and first name, does not contain numbers and characters other than: "-" (hyphen), "." (dot), "\'" (apostrophe)',
+		birthday_18years: 'You must be 18 years old or older',
+		passport_number_invalid: 'Enter the passport number in the format #### ######',
+		edo_id_invalid: 'Enter the EDO number in the format [EDO operator code (3 characters)]-[EDO number (32 characters)]',
+		ind_inn_invalid: 'Enter a 12-digit TIN',
+		comp_inn_invalid: 'Enter the 10-digit TIN of the organization',
 		passwords_not_match: "Passwords don't match",
 		max_filesize_5MB: 'Max. file size 5 MB',
 		fill_all_fields: 'Fill all fields',
@@ -2745,7 +2802,6 @@ make our system processes as transparent as possible.`,
 		unsupported_precision: 'Unsupported number of decimal places',
 		positive: 'Only positive numbers',
 	},
-
 	$vuetify: {
 		badge: 'Badge',
 		close: 'Close',

@@ -7,11 +7,13 @@ use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;
 use App\Models\PersonalAccessToken;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\Sanctum;
@@ -98,9 +100,13 @@ class TraderController extends Controller
     }
     public function getSupportView(Request $request)
     {
-        return view('support', [
-            'user' => $request->user()
-        ]);
+        if(config('app.support_enabled'))
+        {
+            return view('support', [
+                'user' => $request->user()
+            ]);
+        }
+        else return view('errors.404');
     }
     public function getProfileView(Request $request)
     {
@@ -236,6 +242,17 @@ class TraderController extends Controller
             return Cache::remember('all_fiat_platforms', 60, function (){
                 $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
                 return $api->all_fiat_platforms();
+            });
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getAllFiatFees()
+    {
+        try {
+            return Cache::remember('all_fiat_fees', 60, function (){
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->all_fiat_fees();
             });
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
@@ -887,6 +904,92 @@ class TraderController extends Controller
         }
     }
 
+    public function sendKYCKonturIndRequest(Request $request)
+    {
+        $validator=Validator::make($request->all(), [
+            'fio' => 'required|string|min:1|max:256',
+            'birthday' => 'required|date_format:"Y-m-d"',
+            'passport_number' => 'required|string|min:10|max:11',
+            'ind_inn' => 'nullable|string|size:12',
+            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+        ], [], [
+            'fio' => __('kyc.kontur.validation.fio'),
+            'birthday' => __('kyc.kontur.validation.birthday'),
+            'passport_number' => __('kyc.kontur.validation.passport_number'),
+            'ind_inn' => __('kyc.kontur.validation.ind_inn'),
+            'file_ps' => __('kyc.file_ps'),
+            'file_ws' => __('kyc.file_ws'),
+            'file_ts' => __('kyc.file_ts'),
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->getMessages(),
+            ],422);
+        }
+        else
+        {
+            try
+            {
+                $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
+                $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
+                $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->kycKonturIndRequest(
+                    Auth::id(),
+                    $request->fio,
+                    $request->birthday,
+                    $request->passport_number,
+                    $request->ind_inn,
+                    $path_ps,
+                    $path_ws,
+                    $path_ts
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+
+        }
+    }
+    public function sendKYCKonturCompRequest(Request $request)
+    {
+        $validator=Validator::make($request->all(), [
+            'comp_inn' => 'nullable|string|size:10',
+            'edo_id' => 'required|string|min:35|max:50'
+        ], [], [
+            'comp_inn' => __('kyc.kontur.validation.comp_inn'),
+            'edo_id' => __('kyc.kontur.validation.edo_id'),
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->getMessages(),
+            ],422);
+        }
+        else
+        {
+            try
+            {
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->kycKonturCompRequest(
+                    Auth::id(),
+                    $request->comp_inn,
+                    $request->edo_id
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+
+        }
+    }
     public function sendKYCRequest(Request $request)
     {
         $validator=Validator::make($request->all(), [
@@ -928,9 +1031,9 @@ class TraderController extends Controller
         else
         {
             try{
-                $path_ps = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ps'));
-                $path_ws = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ws'));
-                $path_ts = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ts'));
+                $path_ps = Storage::putFile('verifications/'.config('app.api-secret-key').'/'.Auth::id(), $request->file('file_ps'));
+                $path_ws = Storage::putFile('verifications/'.config('app.api-secret-key').'/'.Auth::id(), $request->file('file_ws'));
+                $path_ts = Storage::putFile('verifications/'.config('app.api-secret-key').'/'.Auth::id(), $request->file('file_ts'));
                 $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
                 return $api->verificationRequest(
                     Auth::id(),
@@ -1067,6 +1170,19 @@ class TraderController extends Controller
                 $request->currency,
                 $request->amount,
                 $request->gateway_id
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getKYCKonturData(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getKYCKonturData(
+                Auth::id()
             );
         }
         catch (Exception $e)

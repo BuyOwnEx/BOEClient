@@ -220,6 +220,7 @@ export default {
     if ('localStorage' in window) {
       const candlePeriod = window.localStorage.getItem('tradingCandlePeriod');
       if(candlePeriod) this.$store.commit('trading/setGraphPeriod', candlePeriod);
+      else this.$store.commit('trading/setGraphPeriod', '1m');
     }
     if (this.$spa)
         this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });

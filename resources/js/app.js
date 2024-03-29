@@ -6,6 +6,9 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 
+import { VueMaskDirective } from 'v-mask'
+Vue.directive('mask', VueMaskDirective);
+
 // PLUGINS
 import vuetify from './plugins/vuetify';
 import i18n from './plugins/vue-i18n';

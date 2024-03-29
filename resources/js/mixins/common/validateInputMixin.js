@@ -4,6 +4,10 @@ export default {
 			const valid = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete'];
 			if (!valid.includes(val.key)) val.preventDefault();
 		},
+		validateOnlyNumbers(val) {
+			const valid = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete'];
+			if (!valid.includes(val.key)) val.preventDefault();
+		},
 		validateNumber(evt) {
 			evt = evt ? evt : window.event;
 			let charCode = evt.which ? evt.which : evt.keyCode;

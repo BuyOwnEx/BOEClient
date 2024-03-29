@@ -7,9 +7,11 @@ return [
     'server'              => env('SERVER'),
     'api-public-key'      => env('API_PUBLIC_KEY'),
     'api-secret-key'      => env('API_SECRET_KEY'),
+    'client_id'           => env('CLIENT_ID'),
     'api-mobile-public-key'      => env('API_MOBILE_PUBLIC_KEY', null),
     'api-mobile-secret-key'      => env('API_MOBILE_SECRET_KEY', null),
     'spa_enabled'         => (bool) env('SPA_ENABLED', false),
+    'support_enabled'     => (bool) env('VITE_CONFIG_ENABLED_SUPPORT', false),
     /*
     |--------------------------------------------------------------------------
     | Application Name
