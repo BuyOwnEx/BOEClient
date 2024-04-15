@@ -182,6 +182,14 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function activeFiatWithdrawals($user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/active_fiat_withdrawals',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+
     public function makeOrder(
         int $user_id,
         string $type,
@@ -543,25 +551,50 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
-    public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address, int $platform_id)
+    public function withdrawCryptoRequest(int $user_id, string $currency, $amount, string $address, int $platform_id, int $reason_id)
     {
-        $params = [
-            'trader' => $user_id,
-            'currency' => $currency,
-            'amount' => $amount,
-            'address' => $address,
-            'platform_id' => $platform_id
-        ];
-        $response = Http::asForm()->withToken($this->api_key)
-            ->withHeaders($this->sign($params))
-            ->post($this->base.'v1/withdraw_crypto_request',$params);
-        if($response->json()['success'])
+        if($reason_id !== null)
         {
-            return response()->json(['success' => true],$response->status());
+            $params = [
+                'trader' => $user_id,
+                'currency' => $currency,
+                'amount' => $amount,
+                'address' => $address,
+                'platform_id' => $platform_id,
+                'reason_id' => $reason_id
+            ];
+            $response = Http::asForm()->withToken($this->api_key)
+                ->withHeaders($this->sign($params))
+                ->post($this->base.'v1/withdraw_legal_crypto_request',$params);
+            if($response->json()['success'])
+            {
+                return response()->json(['success' => true],$response->status());
+            }
+            else {
+                return response()->json(['success' => false, 'message'=> $response->json()['message'] ? $response->json()['message'] : 'Unknown error'],500);
+            }
         }
-        else {
-            return response()->json(['success' => false, 'message'=> $response->json()['message'] ? $response->json()['message'] : 'Unknown error'],500);
+        else
+        {
+            $params = [
+                'trader' => $user_id,
+                'currency' => $currency,
+                'amount' => $amount,
+                'address' => $address,
+                'platform_id' => $platform_id
+            ];
+            $response = Http::asForm()->withToken($this->api_key)
+                ->withHeaders($this->sign($params))
+                ->post($this->base.'v1/withdraw_crypto_request',$params);
+            if($response->json()['success'])
+            {
+                return response()->json(['success' => true],$response->status());
+            }
+            else {
+                return response()->json(['success' => false, 'message'=> $response->json()['message'] ? $response->json()['message'] : 'Unknown error'],500);
+            }
         }
+
     }
     public function withdrawCrypto(int $user_id, string $email, string $currency, $amount, string $address)
     {
@@ -585,6 +618,23 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/withdraw_crypto_confirm',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Confirmation code is not correct'],500);
+        }
+    }
+    public function withdrawFiatConfirm(int $user_id, string $code)
+    {
+        $params = [
+            'trader' => $user_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/withdraw_fiat_confirm',$params);
         if($response->json()['success'])
         {
             return response()->json(['success' => true],$response->status());
@@ -875,7 +925,7 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
-    public function notifyFiatReplenish($trader_id, $currency, $amount, $gateway_id)
+    public function notifyFiatQRReplenish($trader_id, $currency, $amount, $gateway_id)
     {
         $params = [
             'trader' => $trader_id,
@@ -885,7 +935,41 @@ class BuyOwnExClientAPI
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
-            ->post($this->base.'v1/notify_fiat_replenish',$params);
+            ->post($this->base.'v1/notify_fiat_qr_replenish',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function notifyFiatInvoiceReplenish($trader_id, $currency, $amount, $inn, $bic, $acc, $gateway_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'currency' => $currency,
+            'amount' => $amount,
+            'inn' => $inn,
+            'bic' => $bic,
+            'acc' => $acc,
+            'gateway_id' => $gateway_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notify_fiat_invoice_replenish',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function notifyFiatInvoiceWithdraw($trader_id, $currency, $amount, $inn, $bic, $acc, $gateway_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'currency' => $currency,
+            'amount' => $amount,
+            'inn' => $inn,
+            'bic' => $bic,
+            'acc' => $acc,
+            'gateway_id' => $gateway_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notify_fiat_invoice_withdraw',$params);
         return response()->json($response->json(),$response->status());
     }
 

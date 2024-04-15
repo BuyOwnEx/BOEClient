@@ -234,6 +234,33 @@
 
                 <div class="kyc-kontur-item__created-key-wrapper">
                   <div class="kyc-kontur-item__header">
+                    <v-icon small color="green darken-2">
+                      mdi-check
+                    </v-icon>
+                    <span class="ml-1">{{ $t('kyc.kontur.ps_file_uploaded') }}</span>
+                  </div>
+                </div>
+
+                <div class="kyc-kontur-item__created-key-wrapper">
+                  <div class="kyc-kontur-item__header">
+                    <v-icon small color="green darken-2">
+                      mdi-check
+                    </v-icon>
+                    <span class="ml-1">{{ $t('kyc.kontur.ws_file_uploaded') }}</span>
+                  </div>
+                </div>
+
+                <div class="kyc-kontur-item__created-key-wrapper">
+                  <div class="kyc-kontur-item__header">
+                    <v-icon small color="green darken-2">
+                      mdi-check
+                    </v-icon>
+                    <span class="ml-1">{{ $t('kyc.kontur.ts_file_uploaded') }}</span>
+                  </div>
+                </div>
+
+                <div class="kyc-kontur-item__created-key-wrapper">
+                  <div class="kyc-kontur-item__header">
                     {{ $t('kyc.kontur.created_at') }}
                   </div>
                   <div class="kyc-kontur-item__created">
@@ -361,6 +388,33 @@
                     {{ $t('kyc.kontur.individual.form.inn') }}
                   </div>
                   <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.ind_inn }}</div>
+                </div>
+
+                <div class="kyc-kontur-item__created-key-wrapper">
+                  <div class="kyc-kontur-item__header">
+                    <v-icon small color="green darken-2">
+                      mdi-check
+                    </v-icon>
+                    <span class="ml-1">{{ $t('kyc.kontur.ps_file_uploaded') }}</span>
+                  </div>
+                </div>
+
+                <div class="kyc-kontur-item__created-key-wrapper">
+                  <div class="kyc-kontur-item__header">
+                    <v-icon small color="green darken-2">
+                      mdi-check
+                    </v-icon>
+                    <span class="ml-1">{{ $t('kyc.kontur.ws_file_uploaded') }}</span>
+                  </div>
+                </div>
+
+                <div class="kyc-kontur-item__created-key-wrapper">
+                  <div class="kyc-kontur-item__header">
+                    <v-icon small color="green darken-2">
+                      mdi-check
+                    </v-icon>
+                    <span class="ml-1">{{ $t('kyc.kontur.ts_file_uploaded') }}</span>
+                  </div>
                 </div>
 
                 <div class="kyc-kontur-item__created-key-wrapper">

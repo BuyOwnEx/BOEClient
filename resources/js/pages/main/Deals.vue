@@ -99,8 +99,8 @@ export default {
 				'items-per-page-all-text': '500',
 			},
 			sides: [
-				{ value: true, name: 'Sell' },
-				{ value: false, name: 'Buy' },
+				{ value: true, name: this.$t('deals.sides.sell') },
+				{ value: false, name: this.$t('deals.sides.buy') },
 			],
 		};
 	},

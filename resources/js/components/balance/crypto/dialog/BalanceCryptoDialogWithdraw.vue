@@ -176,6 +176,19 @@
 										@keydown="validateNumber"
 										@paste.prevent
 									/>
+
+                  <v-select v-if="is_legal && is_reason_enabled"
+                      v-model="reason_id"
+                      :items="all_reasons"
+                      item-text="name"
+                      item-value="value"
+                      :label="$t('balance.withdraw_reason')"
+                      :hint="$t('balance.withdraw_reason_hint')"
+                      persistent-hint
+                      hide-details="auto"
+                      required
+                      class="required"
+                  ></v-select>
 								</v-form>
 							</div>
 
@@ -188,7 +201,7 @@
 								</v-btn>
 								<v-spacer />
 								<v-btn
-									:disabled="!amount || !amountFormValid"
+									:disabled="form_withdraw_disabled"
 									:loading="loading"
 									color="primary"
 									tile
@@ -258,7 +271,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
@@ -290,6 +303,7 @@ export default {
       selectedPlatform: null,
 			address: '',
 			amount: '',
+      reason_id: null,
 			amountFormValid: false,
 			amountRules: [
 				v => !v || BigNumber(v).gte(this.minWithdraw) || this.$t('balance.less_min'),
@@ -301,10 +315,25 @@ export default {
 			twoFACode: '',
 			isSuccessWithdraw: false,
 			step: 1,
+      all_reasons: [
+        { value: 1, name: this.$t('balance.withdraw_reasons.invest') },
+        { value: 2, name: this.$t('balance.withdraw_reasons.supplier') }
+      ]
 		};
 	},
 
 	computed: {
+    ...mapState('user', ['status']),
+    ...mapState('app', ['product']),
+    is_legal() {
+      return (this.status & 4) === 4;
+    },
+    is_reason_enabled() {
+      return this.product.enabledLegalWithdrawReason
+    },
+    form_withdraw_disabled() {
+      return (!this.amount || !this.amountFormValid) || (this.is_legal && this.is_reason_enabled && !this.reason_id)
+    },
 		safe() {
 			return this.currencyObj.safe ? BigNumber(this.currencyObj.safe).dp(this.currencyObj.scale || 2, 1) : BigNumber(0);
 		},
@@ -394,13 +423,14 @@ export default {
 			try {
 				this.startLoading();
 
-				const payload = {
+				let payload = {
 					currency: this.currency.toUpperCase(),
 					amount: this.amount,
+          reason_id: this.reason_id,
 					address: this.address,
           platform_id: this.selectedPlatform.id
 				};
-				const isSuccess = await this.formCryptoWithdrawRequestStore(payload);
+				const isSuccess = await this.formCryptoWithdrawRequestStore(this.is_legal ? payload : _.omit(payload, ['reason_id']));
 
 				if (isSuccess) {
 					this.step++;
@@ -454,6 +484,7 @@ export default {
 			this.amount = '';
 			this.emailCode = '';
 			this.twoFACode = '';
+      this.reason_id = null;
 			this.step = 1;
 			this.isSuccessWithdraw = false;
 		},

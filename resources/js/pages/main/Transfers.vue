@@ -90,8 +90,8 @@ export default {
 				'items-per-page-all-text': '500',
 			},
 			sides: [
-				{ value: false, name: 'From safe to trade wallet' },
-				{ value: true, name: 'From trade to safe wallet' },
+				{ value: false, name: this.$t('transfers.sides.to_trade') },
+				{ value: true, name: this.$t('transfers.sides.to_safe') },
 			],
 		};
 	},
@@ -193,12 +193,7 @@ export default {
 			if (opts.filters === undefined) {
 				let dates = {
 					filters: {
-						start:
-                this.$moment()
-								.startOf('month')
-								.format('YYYY-MM-DD') +
-							' ' +
-							'00:00:00',
+						start: this.$moment().startOf('month').format('YYYY-MM-DD') + ' ' + '00:00:00',
 						end: this.$moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
 					},
 				};

@@ -174,21 +174,9 @@
 				</v-col>
 
 				<v-col class="px-1" cols="12" sm="4" md="4">
-					<v-text-field
-						v-model="filters.txid"
-						:label="$t('reports.operation')"
-						:hint="$t('reports.operation_hint')"
-						hide-details="auto"
-						persistent-hint
-						clearable
-						@change="setEnabled"
-					/>
-				</v-col>
-
-				<v-col class="px-1" cols="12" sm="4" md="4">
 					<v-select
-						v-model="filters.payment_type"
-						:items="all_payment_types"
+						v-model="filters.gateway_id"
+						:items="all_gateways"
             item-text="name"
             item-value="id"
 						:label="$t('reports.gateway')"
@@ -260,7 +248,7 @@ export default {
 
 	components: { FiltersFooter, FiltersTitle },
 
-	props: ['all_currencies', 'all_types', 'all_statuses', 'all_payment_types'],
+	props: ['all_currencies', 'all_types', 'all_statuses', 'all_gateways'],
 
 	data() {
 		return {
@@ -278,14 +266,13 @@ export default {
 				end_date: this.$moment().format('YYYY-MM-DD'),
 				end_time: '23:59:59',
 				id: null,
-				txid: null,
-				payment_type: null,
+        gateway_id: null,
 				currency: null,
 				type: null,
 				status: null,
 			},
 			currencies: this.all_currencies,
-			payments: this.all_payment_types,
+			gateways: this.all_gateways,
 			types: this.all_types,
 			statuses: this.all_statuses,
 		};
@@ -302,9 +289,8 @@ export default {
 			return {
 				start: this.filters.start_date + ' ' + this.filters.start_time,
 				end: this.filters.end_date + ' ' + this.filters.end_time,
-				id: this.filters.id,
-				txid: this.filters.txid,
-				payment_type: this.filters.payment_type,
+				id: this.filters.id === '' ? null : this.filters.id,
+				gateway_id: this.filters.gateway_id,
 				currency: this.filters.currency,
 				type: this.filters.type,
 				status: this.filters.status,
@@ -329,8 +315,7 @@ export default {
 			this.filters.end_date = this.$moment().format('YYYY-MM-DD');
 			this.filters.end_time = '23:59:59';
 			this.filters.id = null;
-			this.filters.txid = null;
-			this.filters.payment_type = null;
+			this.filters.gateway_id = null;
 			this.filters.currency = null;
 			this.filters.type = null;
 			this.filters.status = null;
@@ -348,8 +333,7 @@ export default {
 			this.filters.end_date = saved_filters.end_date;
 			this.filters.end_time = saved_filters.end_time;
 			this.filters.id = saved_filters.id;
-			this.filters.txid = saved_filters.txid;
-			this.filters.payment_type = saved_filters.payment_type;
+			this.filters.gateway_id = saved_filters.gateway_id;
 			this.filters.currency = saved_filters.currency;
 			this.filters.type = saved_filters.type;
 			this.filters.status = saved_filters.status;

@@ -5,50 +5,52 @@
         {{ $t('balance.dialog.fiat_replenishment_alert') }}
       </BalanceFiatDialogAlert>
 
-      <div class="balance-fiat-dialog-replenish__replenish-info pt-2">
-        {{ $t('balance.dialog.fiat_bank_details_replenishment_description') }}
+      <div v-if="this.is_legal" class="balance-fiat-dialog-replenish__replenish-info pt-2">
+        {{ $t('balance.dialog.fiat_invoice_comp_fill_fields_step_description') }}
+      </div>
+      <div v-else class="balance-fiat-dialog-replenish__replenish-info pt-2">
+        {{ $t('balance.dialog.fiat_invoice_ind_fill_fields_step_description') }}
       </div>
 
       <v-form v-model="formValid">
         <v-row>
-          <v-col cols="12" md="12">
+          <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
                 v-model="amount"
-                :placeholder="$t('balance.amount')"
+                :label="$t('balance.amount')"
                 :suffix="selectedPlatform.currency"
-                :rules="amountRules"
-                autofocus
-                @keydown="validateNumber"
+                v-mask="numberMask"
+                :rules="[rules.required,amountRules]"
                 @paste.prevent
             />
           </v-col>
-          <v-col cols="12" md="12">
+          <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
                 v-model="inn"
-                :placeholder="$t('balance.inn')"
-                :rules="[rules.required, rules.numbers, rules.innChars]"
-                autofocus
-                @keydown="validateOnlyNumbers"
+                :label="$t('fiat.inn')"
+                :rules="[rules.required, this.is_legal ? rules.comp_inn : rules.ind_inn]"
+                v-mask="this.is_legal ? '##########' : '############'"
+                persistent-hint
                 @paste.prevent
             />
           </v-col>
-          <v-col cols="12" md="12">
+          <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
                 v-model="bic"
-                :placeholder="$t('balance.bic')"
-                :rules="[rules.required, rules.numbers, rules.only9char]"
-                autofocus
-                @keydown="validateOnlyNumbers"
+                :label="$t('fiat.bic')"
+                :rules="[rules.required, rules.bic]"
+                v-mask="'#########'"
+                persistent-hint
                 @paste.prevent
             />
           </v-col>
-          <v-col cols="12" md="12">
+          <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
                 v-model="acc"
-                :placeholder="$t('balance.acc')"
-                :rules="[rules.required, rules.numbers, rules.only20char]"
-                autofocus
-                @keydown="validateOnlyNumbers"
+                :label="$t('fiat.acc')"
+                :rules="[rules.required, rules.acc]"
+                v-mask="'####################'"
+                persistent-hint
                 @paste.prevent
             />
           </v-col>
@@ -82,9 +84,11 @@
 <script>
 import BalanceFiatDialogAlert from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogAlert.vue';
 import BigNumber from 'bignumber.js';
+BigNumber.config({ EXPONENTIAL_AT: [-15, 20]});
 import loadingMixin from '@/mixins/common/loadingMixin.js';
 import formValidationRules from '@/mixins/common/formValidationRules.js';
 import validateInputMixin from '@/mixins/common/validateInputMixin.js';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 export default {
   name: 'FillFieldsStep',
   components: {
@@ -104,9 +108,21 @@ export default {
       type: [String, Number],
       required: true,
     },
+    trader_status: {
+      type: Number,
+      required: true,
+    }
   },
   data() {
     return {
+      numberMask: createNumberMask({
+        prefix: '',
+        includeThousandsSeparator: false,
+        thousandsSeparatorSymbol: ' ',
+        allowDecimal: true,
+        decimalLimit: this.currency_scale,
+        integerLimit: 23
+      }),
       amount: '',
       inn: null,
       bic: null,
@@ -114,11 +130,16 @@ export default {
       formValid: false,
       gateways: [],
       fees: [],
-      amountRules: [
-        v => !v || BigNumber(v).gte(this.selectedPlatform.minReplenish) || this.$t('balance.less_min'),
-        v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-      ],
+      amountRules: v => !v || BigNumber(v).gte(this.selectedPlatform.minReplenish) || this.$t('balance.less_min'),
     };
+  },
+  computed: {
+    is_legal() {
+      return (this.trader_status & 4) === 4;
+    },
+    is_individual() {
+      return (this.trader_status & 2) === 2;
+    },
   },
   methods: {
     next() {

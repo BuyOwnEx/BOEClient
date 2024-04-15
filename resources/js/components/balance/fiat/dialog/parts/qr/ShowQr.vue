@@ -1,9 +1,8 @@
 <template>
   <div>
-    <v-card-text class="common-dialog__content">
-      <div>
-        <div> {{ $t('balance.min_replenish_amount') }}: <b> {{ minReplenish }} {{ currency }} </b></div>
-        <div> {{ $t('balance.replenish_fee') }}: <b>0 {{ currency }}</b> </div>
+    <v-card-text class="common-dialog__content pb-3 pt-0">
+      <div class="balance-fiat-dialog-replenish__replenish-info pb-3">
+        {{ $t('balance.dialog.fiat_qr_confirm_step_description') }}
       </div>
       <div class="text-center">
         <QrCode v-if="this.bank_details !== null" :value="qr_replenish" :options="{ width: 200 }" />
@@ -25,7 +24,7 @@
           small
           @click="finish"
       >
-        {{ $t('kyc.purchase') }}
+        {{ $t('fiat.paid') }}
       </v-btn>
       <v-spacer />
     </div>
@@ -59,6 +58,8 @@ export default {
   data() {
     return {
       bank_details: null,
+      platform: this.selectedPlatform,
+      d_amount: this.amount
     };
   },
   computed: {
@@ -95,13 +96,13 @@ export default {
       this.$emit('back_pressed');
     },
     finish() {
-      axios.post('/trader/ext/notify_fiat_replenish', {
-        currency: this.selectedPlatfrom.currency,
-        amount: this.amount,
-        gateway_id: this.selectedPlatfrom.gateway_id
+      axios.post('/trader/ext/notify_fiat_qr_replenish', {
+        currency: this.platform.currency,
+        amount: this.d_amount,
+        gateway_id: this.platform.gateway_id
       }).then(response => {
         if (response.data.success === true) {
-          this.close();
+          this.$emit('success_response');
         }
       });
     },

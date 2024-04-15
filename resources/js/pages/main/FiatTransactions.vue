@@ -19,7 +19,7 @@
 			<template #top>
 				<filters
 					:all_types="types"
-					:all_payment_types="gateways"
+					:all_gateways="gateways"
 					:all_currencies="currencies"
 					:all_statuses="statuses"
 					@apply-table-filter="onFilterApply"
@@ -30,7 +30,7 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template #item.currency="{ item }">
+			<template #item.amount="{ item }">
 				<v-img
 					v-if="getLogo(item.currency)"
 					class="elevation-0 d-inline-flex vertical-middle"
@@ -38,19 +38,37 @@
 					max-height="22"
 					max-width="22"
 				/>
-
 				<v-avatar v-else class="white--text subtitle-2" :color="item.color" size="22">
 					{{ item.currency.charAt(0) }}
 				</v-avatar>
-
-				<span class="ml-1">{{ item.currency }}</span>
+				<span class="ml-1">{{ BigNumber(item.amount).toFixed(2,4) }} {{ item.currency }}</span>
 			</template>
+
+      <template #item.fee="{ item }">
+        <v-img
+            v-if="getLogo(item.currency)"
+            class="elevation-0 d-inline-flex vertical-middle"
+            :src="getLogo(item.currency)"
+            max-height="22"
+            max-width="22"
+        />
+        <v-avatar v-else class="white--text subtitle-2" :color="item.color" size="22">
+          {{ item.currency.charAt(0) }}
+        </v-avatar>
+        <span class="ml-1">{{ BigNumber(item.fee).toFixed(2,4) }} {{ item.currency }}</span>
+      </template>
 
 			<template #item.type="{ item }">
 				<span :class="item.type === true ? 'success--text' : 'error--text'">
 					{{ getTypeName(item.type) }}
 				</span>
 			</template>
+
+      <template #item.gateway_id="{ item }">
+				<span>
+					{{ getGatewayName(item.gateway_id, item.type) }}
+				</span>
+      </template>
 
 			<template #item.status="{ item }">
 				<span :class="getStatusColorClass(item.status)">
@@ -62,9 +80,6 @@
 				<span>{{ getDate(item.created_at) }}</span>
 			</template>
 
-			<template #item.amount="{ item }">
-				<span>{{ BigNumber(item.amount) }}</span>
-			</template>
 		</v-data-table>
 	</v-card>
 </template>
@@ -99,18 +114,18 @@ export default {
 				'items-per-page-all-text': '500',
 			},
 			statuses: [
-				{ value: 'done', name: 'Executed' },
-				{ value: 'wait', name: 'Pending' },
-				{ value: 'new', name: 'Waiting' },
-				{ value: 'accepted', name: 'Accepted' },
-				{ value: 'fail', name: 'Failed' },
+				{ value: 'done', name: this.$t('fiat.statuses.done') }, // вывод осуществлен
+				{ value: 'wait', name: this.$t('fiat.statuses.wait') }, // ожидание вывода
+				{ value: 'accepted', name: this.$t('fiat.statuses.accepted') }, // пополнение принято
+				{ value: 'fail', name: this.$t('fiat.statuses.fail') }, // вывод отклонен
 			],
 			types: [
-				{ value: false, name: 'Withdrawal' },
-				{ value: true, name: 'Replenish' },
+				{ value: false, name: this.$t('common.withdrawal') },
+				{ value: true, name: this.$t('common.replenishment') },
 			],
 			gateways: [
-          { id: 1, name: this.$t('gateways.bank_details') }
+        { id: 1, name: this.$t('fiat.gateways.qr') },
+        { id: 2, name: this.$t('fiat.gateways.invoice') }
       ],
 		};
 	},
@@ -122,10 +137,9 @@ export default {
 				{ text: 'ID', value: 'id' },
 				{ text: this.$t('table_header.date'), value: 'created_at' },
 				{ text: this.$t('table_header.type'), value: 'type' },
-				{ text: this.$t('table_header.gateway'), value: 'payment_type' },
-				{ text: this.$t('table_header.currency'), value: 'currency' },
-				{ text: this.$t('table_header.amount'), value: 'amount' },
-				{ text: this.$t('table_header.operation_id'), value: 'txid' },
+				{ text: this.$t('table_header.gateway'), value: 'gateway_id' },
+        { text: this.$t('common.amount'), value: 'amount' },
+				{ text: this.$t('table_header.fee'), value: 'fee' },
 				{ text: this.$t('table_header.status'), value: 'status' },
 			];
 		},
@@ -148,7 +162,7 @@ export default {
 
 	methods: {
 		BigNumber(item) {
-			return BigNumber(item).toString();
+			return BigNumber(item);
 		},
 		getLogo(currency) {
 			return this.currencies.find(item => item.currency === currency).logo;
@@ -160,6 +174,19 @@ export default {
 			let index = _.findIndex(this.types, item => item.value === type);
 			return this.types[index]?.name;
 		},
+    getGatewayName(gateway_id, trx_type) {
+      if(trx_type === true)
+      {
+        if(gateway_id === 1) return this.$t('fiat.gateway.replenish.names.qr')
+        else if(gateway_id === 2) return this.$t('fiat.gateway.replenish.names.invoice')
+        else return '-';
+      }
+      else
+      {
+        if(gateway_id === 2) return this.$t('fiat.gateway.withdraw.names.invoice')
+        else return '-';
+      }
+    },
 		getStatusName(status) {
 			let index = _.findIndex(this.statuses, item => item.value === status);
 			return this.statuses[index]?.name;
@@ -246,7 +273,7 @@ export default {
 		},
 
 		getStatusColorClass(status) {
-			if (status === 'done') return 'success--text';
+			if (status === 'done' || status === 'accepted') return 'success--text';
 			else if (status === 'wait' || status === 'new') return 'warning--text';
 			else if (status === 'fail') return 'error--text';
 			else return '';

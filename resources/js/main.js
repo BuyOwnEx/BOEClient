@@ -9,6 +9,7 @@ import vuetify from './plugins/vuetify';
 import i18n from './plugins/vue-i18n';
 import './plugins/vue-head';
 import './plugins/clipboard';
+import './plugins/moment';
 
 // STYLES Именно так и никак иначе, поскольку только variables должны быть в секции css.preprocessorOptions.sass.additionalData
 import '../sass/app.scss'

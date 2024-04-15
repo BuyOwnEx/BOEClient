@@ -1,7 +1,11 @@
 <template>
   <div class="balance-fiat-dialog-select-system">
-    <div class="pb-1">{{ $t('balance.select_payment_method') }}</div>
-    <div class="balance-fiat-dialog-select-system__item" v-for="item in onlyWithdrawPlatforms" :key="item.id">
+    <v-card v-if="!is_verified">
+      <BalanceFiatDialogAlert>
+        {{ $t('fiat.fiat_only_for_verified') }}
+      </BalanceFiatDialogAlert>
+    </v-card>
+    <div class="balance-fiat-dialog-select-system__item" v-else v-for="item in onlyWithdrawPlatforms" :key="item.id">
       <img
           class="align-self-center balance-fiat-dialog-select-system__item-img pa-2"
           :src="getGatewayLogo(item.gateway_id)"
@@ -10,8 +14,8 @@
           width="90"
       />
       <div class="align-self-center">
-        <div> {{ $t('fiat.gateway.names.' + getGatewayName(item.gateway_id)) }} </div>
-        <div> {{ $t('fiat.gateway.descriptions.' + getGatewayDescription(item.gateway_id)) }} </div>
+        <div class="font-weight-bold text-uppercase"> {{ $t('fiat.gateway.withdraw.names.' + getGatewayName(item.gateway_id)) }} </div>
+        <div> {{ $t('fiat.gateway.withdraw.descriptions.' + getGatewayDescription(item.gateway_id)) }} </div>
       </div>
       <div class="align-self-center balance-fiat-dialog-select-system__item-info pa-2" style="min-width: 200px">
         <div> {{ $t('balance.min_amount') }}: <b>{{ getMinAmount(item) }} {{ item.currency }}</b> </div>
@@ -37,9 +41,9 @@
 <script>
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
+import BalanceFiatDialogAlert from '@/components/balance/fiat/dialog/parts/BalanceFiatDialogAlert.vue';
 export default {
   name: 'SelectWithdrawMethod',
-
   props: {
     platforms: {
       type: Array,
@@ -53,8 +57,22 @@ export default {
       type: Array,
       required: true,
     },
+    is_verified: {
+      type: Boolean,
+      required: true,
+    },
+    block_status: {
+      type: Number,
+      required: true,
+    },
+    trader_status: {
+      type: Number,
+      required: true,
+    }
   },
-
+  components: {
+    BalanceFiatDialogAlert
+  },
   data() {
     return {
       minAmount: '',
@@ -152,4 +170,7 @@ export default {
   &__item-action
     display: flex
     align-items: center
+    .v-btn
+      text-transform: uppercase !important
+      letter-spacing: 1px !important
 </style>

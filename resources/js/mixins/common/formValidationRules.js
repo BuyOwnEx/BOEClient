@@ -12,6 +12,8 @@ export default {
 				edo_id: v => (v && /\w{3}-\w{32}/.test(v)) || this.$t('forms_validation.edo_id_invalid'),
 				ind_inn: v => !v || /\d{12}/.test(v) || this.$t('forms_validation.ind_inn_invalid'),
 				comp_inn: v => (v && /\d{10}/.test(v)) || this.$t('forms_validation.comp_inn_invalid'),
+				bic: v => !v || v.length === 9 || this.$t('forms_validation.bic_invalid'),
+				acc: v => !v || v.length === 20 || this.$t('forms_validation.acc_invalid'),
 				passMatch: v => (v && v === this.user.password) || this.$t('auth.forgot.passwords_not_match'),
 
 				min5char: v => !v || v.length >= 5 || this.$t('forms_validation.min_5char'),

@@ -69,3 +69,11 @@
 		);
 	}
 }
+.common-dialog__actions .v-btn {
+	text-transform: uppercase !important;
+	letter-spacing: 1px !important;
+}
+.balance-fiat-dialog-select-system__item-action .v-btn, .balance-crypto-dialog-select-system__item-action .v-btn {
+	text-transform: uppercase !important;
+	letter-spacing: 1px !important;
+}

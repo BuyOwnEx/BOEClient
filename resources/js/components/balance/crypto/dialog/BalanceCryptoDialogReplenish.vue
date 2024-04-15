@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="dialog" width="500">
+	<v-dialog v-model="dialog" width="700">
 		<template #activator="{ on }">
 			<v-list-item dense v-on="on">
 				<v-list-item-title>
@@ -52,6 +52,10 @@
 
                 <div class="py-2 error--text">
                   {{$t('balance.replenish_crypto_description', [selectedPlatform.platform !== null ? selectedPlatform.platform : selectedPlatform.base_currency])}}
+                </div>
+
+                <div class="py-2 error--text" v-if="selectedPlatform.replenish_type === 2 || selectedPlatform.replenish_type === 3">
+                  {{ $t('balance.replenish_crypto_attention') }}
                 </div>
 
                 <div class="text-center">

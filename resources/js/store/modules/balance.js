@@ -5,6 +5,7 @@ export default {
 
 	state: () => ({
 		withdrawals: null,
+		fiat_withdrawals: null
 	}),
 
 	getters: {
@@ -69,12 +70,20 @@ export default {
 		SET_WITHDRAWALS(state, data) {
 			state.withdrawals = data;
 		},
+		SET_FIAT_WITHDRAWALS(state, data) {
+			state.fiat_withdrawals = data;
+		},
 	},
 
 	actions: {
 		async fetchWithdrawals({ commit }) {
 			const { data } = await axios.get('/trader/ext/balance/all-withdrawals');
 			commit('SET_WITHDRAWALS', data.data);
+		},
+
+		async fetchFiatWithdrawals({ commit }) {
+			const { data } = await axios.get('/trader/ext/balance/all-fiat-withdrawals');
+			commit('SET_FIAT_WITHDRAWALS', data.data);
 		},
 
 		async validateAddress(_, payload) {
@@ -90,8 +99,16 @@ export default {
 			const { data } = await axios.post('/trader/ext/withdraw/crypto/request', payload);
 			return data.success;
 		},
+		async formFiatWithdrawRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/withdraw/fiat/request', payload);
+			return data.success;
+		},
 		async confirmCryptoWithdraw(_, payload) {
 			const { data } = await axios.post('/trader/ext/withdraw/crypto/confirm', payload);
+			return data.success;
+		},
+		async confirmFiatCryptoWithdraw(_, payload) {
+			const { data } = await axios.post('/trader/ext/withdraw/fiat/confirm', payload);
 			return data.success;
 		},
 

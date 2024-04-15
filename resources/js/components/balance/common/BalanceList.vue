@@ -37,8 +37,8 @@
 
           <v-list dense>
             <BalanceCryptoDialogReplenish v-if="item.type === 'crypto'" :currency-obj="item" @close-menu="closeMenu(item)" />
-            <BalanceFiatDialogReplenish v-if="item.type === 'fiat'" :currency-obj="item" @close-menu="closeMenu(item)" />
-            <BalanceFiatDialogWithdraw v-if="item.type === 'fiat'" :currency-obj="item" @close-menu="closeMenu(item)" />
+            <BalanceFiatDialogReplenish v-if="item.type === 'fiat'" :currency-obj="item" :is_verified="is_verified" :block_status="block_status" :trader_status="trader_status" @close-menu="closeMenu(item)" />
+            <BalanceFiatDialogWithdraw v-if="item.type === 'fiat'" :currency-obj="item" :is_verified="is_verified" :block_status="block_status" :trader_status="trader_status" @close-menu="closeMenu(item)" />
             <BalanceCryptoDialogWithdraw v-if="item.type === 'crypto'" :currency-obj="item" @close-menu="closeMenu(item)" />
             <BalanceDialogTransfer type="trade" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
             <BalanceDialogTransfer type="safe" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
@@ -113,7 +113,20 @@ import BalanceFiatDialogWithdraw from '@/components/balance/fiat/dialog/BalanceF
 
 export default {
   name: 'BalanceList',
-
+  props: {
+    is_verified: {
+      type: Boolean,
+      required: true,
+    },
+    block_status: {
+      type: Number,
+      required: true,
+    },
+    trader_status: {
+      type: Number,
+      required: true,
+    },
+  },
   components: {
     BalanceFiatDialogWithdraw,
     BalanceFiatDialogReplenish: () => import('@/components/balance/fiat/dialog/BalanceFiatDialogReplenish.vue'),

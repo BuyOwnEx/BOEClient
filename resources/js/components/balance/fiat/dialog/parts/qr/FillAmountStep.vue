@@ -6,7 +6,7 @@
       </BalanceFiatDialogAlert>
 
       <div class="balance-fiat-dialog-replenish__replenish-info pt-2">
-        {{ $t('balance.dialog.fiat_bank_details_replenishment_description') }}
+        {{ $t('balance.dialog.fiat_qr_amount_step_description') }}
       </div>
 
       <v-form v-model="amountFormValid">

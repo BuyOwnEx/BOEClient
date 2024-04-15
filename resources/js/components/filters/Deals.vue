@@ -266,7 +266,7 @@ export default {
 			return {
 				start: this.filters.start_date + ' ' + this.filters.start_time,
 				end: this.filters.end_date + ' ' + this.filters.end_time,
-				id: this.filters.id,
+				id: this.filters.id === '' ? null : this.filters.id,
 				pair: this.filters.pair,
 				side: this.filters.side,
 			};

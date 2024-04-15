@@ -492,6 +492,7 @@ export default {
 			own_fiat_balance_list: 'Own Fiat Balance List',
 			own_crypto_balance_list: 'Own Balance List',
 			own_active_withdraw_list: 'Own Active Withdraw List',
+			own_active_fiat_withdraw_list: 'Own Active Fiat Withdraw List',
 		},
 
 		amount: 'Amount',
@@ -512,11 +513,19 @@ export default {
 		replenish_fee: 'Replenish fee',
 		replenish_crypto_description:
 			'When depositing funds, make transactions only on the {0} network. When making transactions on a different network, your funds will be lost',
+		replenish_crypto_attention: 'Attention: when depositing funds, make sure that the transfer will not be made through third-party smart contracts. In the case of sending a smart contract, funds may be lost.',
 
 		less_min: 'Less than the minimum possible amount',
 		more_max: 'More than the maximum possible amount',
 		more_available: 'More than available amount',
 		more_withdraw_available: 'More than available amount for withdrawal',
+
+		withdraw_reasons: {
+			invest: 'Crypto assets were acquired as financial investments',
+			supplier: 'Crypto assets were acquired for settlements with suppliers'
+		},
+		withdraw_reason: 'Reason',
+		withdraw_reason_hint: 'Specify the reason for the purchase of crypto assets',
 
 		state_type: {
 			replenishment: 'Funds deposit works',
@@ -568,9 +577,15 @@ export default {
 			fiat_replenishment_alert:
 				'Only payments made through the Deposit form on the exchange are accepted and processed.\n' +
 				'There is no other way to Deposit, payments sent not through our Deposit form, but in any other way, will not be credited and processed. They will be lost, claims in this case are not accepted.\n' +
-				'By clicking the Pay button, you agree to these terms ',
-			fiat_bank_details_replenishment_description:
-				'Specify the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "I paid" button.',
+				'By clicking the Next button, you agree to these terms ',
+			fiat_qr_amount_step_description:
+				'Specify the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "Paid" button.',
+			fiat_qr_confirm_step_description:
+				'Scan the QR code in your bank\'s mobile application, make the transfer without changing any data, and click the "Paid" button',
+			fiat_invoice_fill_fields_step_description:
+				'Specify the amount and your banking details from which you are going to make a payment on the invoice. This invoice will be sent to your e-mail address specified during registration',
+			fiat_invoice_confirm_step_description:
+				'Check your details, and if everything is correct, click the "Confirm" button',
 			fiat_replenishment_description:
 				'Specify the amount you want to Deposit. You will then be redirected to the {payment} website.\n' +
 				'You must make this payment from your internal {payment} account. No other payments can be credited. ',
@@ -2678,6 +2693,9 @@ make our system processes as transparent as possible.`,
 	},
 	kyc: {
 		kontur: {
+			ps_file_uploaded: 'Document scan (photo) is uploaded',
+			ws_file_uploaded: 'Document scan (address) is uploaded',
+			ts_file_uploaded: 'Selfie with document is uploaded',
 			type: {
 				individual: 'Individual person',
 				legal: 'Legal entity'

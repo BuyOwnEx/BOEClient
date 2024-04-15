@@ -15,10 +15,31 @@
 
 			<v-card-text class="common-dialog__content pb-1">
 				<v-stepper v-model="step">
+          <v-stepper-header>
+            <v-stepper-step :complete="step > 1" step="1">
+              {{ $t('balance.select_payment_method') }}
+            </v-stepper-step>
+
+            <v-divider />
+
+            <v-stepper-step :complete="step > 2" step="2">
+              {{ $t('balance.fill_all_fields') }}
+            </v-stepper-step>
+
+            <v-divider />
+
+            <v-stepper-step :complete="step > 3" step="3">
+              {{ $t('common.confirmation') }}
+            </v-stepper-step>
+          </v-stepper-header>
+
 					<v-stepper-items>
 						<v-stepper-content step="1">
 							<SelectReplenishMethod
 								class="mb-6"
+                :is_verified="is_verified"
+                :trader_status="trader_status"
+                :block_status="block_status"
 								:platforms="platforms"
                 :gateways="replenishGateways"
                 :fees="fees"
@@ -37,29 +58,41 @@
 
 						<v-stepper-content step="2">
               <FillAmountStep
-                  v-if="selectedGateway && selectedGateway.code === 'QR'"
+                  v-if="selected_gateway && selected_gateway.code === 'QR'"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
-                  @filled="next_step"
+                  @filled="amount_filled"
                   @back_pressed="back"
               />
               <FillFieldsStep
-                  v-else-if="selectedGateway && selectedGateway.code === 'INVOICE'"
+                  v-if="selected_gateway && selected_gateway.code === 'INVOICE'"
+                  :trader_status="trader_status"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
-                  @filled="next_step"
+                  @filled="fields_filled"
                   @back_pressed="back"
               />
-
 						</v-stepper-content>
 
             <v-stepper-content class="pa-0" step="3">
               <ShowQr
-                  v-if="selectedGateway && selectedGateway.code === 'QR'"
+                  v-if="selected_gateway && selected_gateway.code === 'QR' && amount !== null"
                   :selectedPlatform="selectedPlatfrom"
                   :amount="amount"
                   @back_pressed="back"
+                  @success_response="close"
               />
+              <ConfirmationStep
+                  v-if="selected_gateway && selected_gateway.code === 'INVOICE' && amount !== null && inn !== null && bic !== null && acc !== null"
+                  :amount="amount"
+                  :inn="inn"
+                  :bic="bic"
+                  :acc="acc"
+                  :selected-platform="selectedPlatfrom"
+                  :fees="fees"
+                  @back_pressed="back"
+                  @success_response="close"
+              ></ConfirmationStep>
             </v-stepper-content>
 					</v-stepper-items>
 				</v-stepper>
@@ -73,17 +106,36 @@ import SelectReplenishMethod from '@/components/balance/fiat/dialog/parts/Select
 import FillAmountStep from '@/components/balance/fiat/dialog/parts/qr/FillAmountStep.vue';
 import ShowQr from '@/components/balance/fiat/dialog/parts/qr/ShowQr.vue';
 import FillFieldsStep from '@/components/balance/fiat/dialog/parts/invoice/FillFieldsStep.vue';
+import ConfirmationStep from '@/components/balance/fiat/dialog/parts/invoice/ConfirmationStep.vue';
 
 import loadingMixin from '@/mixins/common/loadingMixin';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 export default {
 	name: 'BalanceFiatDialogReplenish',
-
+  props: {
+    currencyObj: {
+      type: Object,
+      required: true,
+    },
+    is_verified: {
+      type: Boolean,
+      required: true,
+    },
+    block_status: {
+      type: Number,
+      required: true,
+    },
+    trader_status: {
+      type: Number,
+      required: true,
+    },
+  },
 	components: {
     SelectReplenishMethod,
     FillAmountStep,
     ShowQr,
-    FillFieldsStep
+    FillFieldsStep,
+    ConfirmationStep
   },
 
 	mixins: [
@@ -91,18 +143,14 @@ export default {
     dialogMethodsMixin
   ],
 
-	props: {
-		currencyObj: {
-			type: Object,
-			required: true,
-		},
-	},
-
 	data() {
 		return {
       selectedPlatfrom: null,
       selectedGateway: null,
-			amount: '',
+			amount: null,
+      inn: null,
+      bic: null,
+      acc: null,
       gateways: [],
       fees: [],
 			step: 1,
@@ -133,17 +181,23 @@ export default {
         );
       });
     },
+    selected_gateway() {
+      return this.selectedGateway;
+    }
 	},
 
 	methods: {
-		next_step() {
-			try {
-				this.startLoading();
-			} finally {
-				this.stopLoading();
-        this.step++;
-			}
+    fields_filled(data) {
+      this.amount = data.amount;
+      this.inn = data.inn;
+      this.bic = data.bic;
+      this.acc = data.acc;
+      this.step++;
 		},
+    amount_filled(amount) {
+      this.amount = amount;
+      this.step++;
+    },
     platformSelected(data) {
 			this.selectedPlatfrom = data.platform;
       this.selectedGateway = data.gateway;

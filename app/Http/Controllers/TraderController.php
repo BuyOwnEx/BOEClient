@@ -498,6 +498,17 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getFiatWithdrawalList(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->activeFiatWithdrawals(
+                Auth::id()
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function transferToTradeWallet(Request $request)
     {
         try {
@@ -663,9 +674,29 @@ class TraderController extends Controller
                 $request->currency,
                 $request->amount,
                 $request->address,
-                $request->platform_id
+                $request->platform_id,
+                $request->reason_id ?? null
             );
         } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function withdrawFiatRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->notifyFiatInvoiceWithdraw(
+                Auth::id(),
+                $request->currency,
+                $request->amount,
+                $request->inn,
+                $request->bic,
+                $request->acc,
+                $request->gateway_id
+            );
+        }
+        catch (Exception $e)
+        {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
@@ -676,6 +707,20 @@ class TraderController extends Controller
             Cache::add(Auth::id().':'.$request->totp, true, 4);
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->withdrawCryptoConfirm(
+                Auth::id(),
+                $request->code
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function withdrawFiatConfirm(Confirm2FARequest $request)
+    {
+        try {
+            //use cache to store token to blacklist
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->withdrawFiatConfirm(
                 Auth::id(),
                 $request->code
             );
@@ -1161,14 +1206,33 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-    public function NotifyFiatReplenish(Request $request)
+    public function NotifyFiatQRReplenish(Request $request)
     {
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->notifyFiatReplenish(
+            return $api->notifyFiatQRReplenish(
                 Auth::id(),
                 $request->currency,
                 $request->amount,
+                $request->gateway_id
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function NotifyFiatInvoiceReplenish(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->notifyFiatInvoiceReplenish(
+                Auth::id(),
+                $request->currency,
+                $request->amount,
+                $request->inn,
+                $request->bic,
+                $request->acc,
                 $request->gateway_id
             );
         }
