@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use App\Rules\ActiveTraderExists;
 use App\Rules\TraderExists;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;

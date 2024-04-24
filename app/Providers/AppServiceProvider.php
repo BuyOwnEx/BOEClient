@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Library\BuyOwnExClientAPI;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;

@@ -46,8 +46,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['prefix' => 'trader'], function () {
-    Route::post('2fa_enable', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@enableTwoFactorReady']);
-    Route::post('2fa_disable', ['middleware' => 'throttle:5', 'uses' => 'Google2FAController@disableTwoFactorReady']);
+    Route::post('2fa_enable', ['middleware' => ['throttle:5','check_block_status'], 'uses' => 'Google2FAController@enableTwoFactorReady']);
+    Route::post('2fa_disable', ['middleware' => ['throttle:5','check_block_status'], 'uses' => 'Google2FAController@disableTwoFactorReady']);
     Route::get('2fa_generate', 'Google2FAController@generateTwoFactor');
 
     Route::get('tickets', 'TicketController@getAllTickets');
@@ -55,9 +55,9 @@ Route::group(['prefix' => 'trader'], function () {
     Route::get('ticket/priorities', 'TicketController@getPriorities');
     Route::get('ticket/statuses', 'TicketController@getStatuses');
     Route::get('ticket/tags', 'TicketController@getTags');
-    Route::post('ticket/create', 'TicketController@createTicket');
-    Route::post('ticket/comment/add', 'TicketController@addComment');
-    Route::post('ticket/close', 'TicketController@closeTicket');
+    Route::post('ticket/create', 'TicketController@createTicket')->middleware('check_block_status');
+    Route::post('ticket/comment/add', 'TicketController@addComment')->middleware('check_block_status');
+    Route::post('ticket/close', 'TicketController@closeTicket')->middleware('check_block_status');
 
     Route::group(['prefix' => 'ext'], function () {
         Route::get('tickers', 'TraderController@getTickers')->name('tickers');
@@ -84,47 +84,12 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('fees', 'TraderController@getOwnFees')->name('own_fees');
             Route::get('positions', 'TraderController@getPositions')->name('positions');
 
-            Route::post('order/limit', 'TraderController@makeOrder')->name('limit_order');
-            Route::post('order/market', 'TraderController@makeOrder')->name('market_order');
-            Route::post('order/cancel', 'TraderController@cancelOrder')->name('cancel_order');
-            Route::post('order/cancel_all', 'TraderController@cancelAllOrders')->name('cancel_all_orders');
-            Route::post('order/cancel_all_sl', 'TraderController@cancelAllSLOrders')->name('cancel_all_sl_orders');
-            Route::post('order/cancel_all_tp', 'TraderController@cancelAllTPOrders')->name('cancel_all_tp_orders');
-            Route::post('order/cancel_all_ts', 'TraderController@cancelAllTSOrders')->name('cancel_all_ts_orders');
-
-            Route::post('position/close', 'TraderController@closePosition')->name('close_position');
-            Route::post('position/close_all', 'TraderController@closeAllPositions')->name('close_all_positions');
-            Route::post('position/close_all_long', 'TraderController@closeAllLongPositions')->name('close_all_long_positions');
-            Route::post('position/close_all_short', 'TraderController@closeAllShortPositions')->name('close_all_short_positions');
-            Route::post('position/deposit', 'TraderController@depositPosition')->name('deposit_position');
-
             Route::get('balance/all-withdrawals', 'TraderController@getWithdrawalList')->name('withdrawal_list');
             Route::get('balance/all-fiat-withdrawals', 'TraderController@getFiatWithdrawalList')->name('fiat_withdrawal_list');
-            Route::post('transfer/trade', 'TraderController@transferToTradeWallet')->name('transfer_to_trade');
-            Route::post('transfer/safe', 'TraderController@transferToSafeWallet')->name('transfer_to_safe');
-            Route::post('withdraw/crypto/request', 'TraderController@withdrawCryptoRequest')->name('withdraw_crypto_request');
-            Route::post('withdraw/fiat/request', 'TraderController@withdrawFiatRequest')->name('withdraw_fiat_request');
-            Route::post('withdraw/crypto/confirm', 'TraderController@withdrawCryptoConfirm')->name('withdraw_crypto_confirm');
-            Route::post('withdraw/fiat/confirm', 'TraderController@withdrawFiatConfirm')->name('withdraw_fiat_confirm');
-            Route::post('withdraw/crypto/cancel', 'TraderController@withdrawCryptoCancel')->name('withdraw_crypto_cancel');
-            Route::post('withdraw/fiat/cancel', 'TraderController@withdrawFiatCancel')->name('withdraw_fiat_cancel');
-
-            Route::post('email/change/request', 'TraderController@emailChangeRequest')->name('email_change_request');
-            Route::post('email/change/confirm', 'TraderController@emailChangeConfirm')->name('email_change_confirm');
-
             Route::get('block/status', 'TraderController@getBlockStatus')->name('get_block_status');
             Route::get('verify/status', 'TraderController@getVerifyStatus')->name('get_verify_status');
             Route::get('status', 'TraderController@getStatus')->name('get_status');
             Route::get('notification/status', 'TraderController@getNotificationStatus')->name('get_notification_status');
-            Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
-
-            Route::post('notification/read', 'TraderController@setNotificationRead')->name('set_notification_read');
-            Route::post('notification/delete', 'TraderController@deleteNotification')->name('delete_notification');
-            Route::post('notifications/read_all', 'TraderController@setNotificationsReadAll')->name('set_notifications_read_all');
-            Route::post('notifications/delete_all', 'TraderController@deleteAllNotifications')->name('delete_all_notifications');
-
-            Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
-
             Route::get('all_orders', 'TraderController@getAllOrders')->name('all_orders');
             Route::get('all_deals', 'TraderController@getAllDeals')->name('all_deals');
             Route::get('all_transactions', 'TraderController@getAllTransactions')->name('all_transactions');
@@ -133,33 +98,73 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('all_ref_payments', 'TraderController@getAllRefPayments')->name('all_ref_payments');
             Route::get('all_followers', 'TraderController@getAllFollowers')->name('all_followers');
             Route::get('all_notifications', 'TraderController@getAllNotifications')->name('all_notifications');
-
             Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
-            Route::post('set_referral_type', 'TraderController@setReferralType')->name('set_referral_type');
-
             Route::get('get_address', 'TraderController@getAddress')->name('get_address');
-            Route::post('validate_address', 'TraderController@validateAddress')->name('validate_address');
-
             Route::get('sumsub_token', 'TraderController@getSumSubToken')->name('sumsub_token');
-
             Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');
-            Route::post('new_api_token', 'TraderController@newAPIToken')->name('new_api_token');
-            Route::post('edit_api_token', 'TraderController@editAPIToken')->name('edit_api_token');
-            Route::post('delete_api_token', 'TraderController@deleteAPIToken')->name('delete_api_token');
-            Route::post('delete_all_api_tokens', 'TraderController@deleteAllAPITokens')->name('delete_all_api_tokens');
-
             Route::get('kyc_request', 'TraderController@getKYCRequest')->name('kyc_request');
             Route::get('kyc_kontur_data', 'TraderController@getKYCKonturData')->name('kyc_kontur_data');
-            Route::post('kyc_kontur_ind_request', 'TraderController@sendKYCKonturIndRequest')->name('send_kyc_kontur_ind_request');
-            Route::post('kyc_kontur_comp_request', 'TraderController@sendKYCKonturCompRequest')->name('send_kyc_kontur_comp_request');
-            Route::post('kyc_request', 'TraderController@sendKYCRequest')->name('send_kyc_request');
-            Route::post('kyc_fix', 'TraderController@sendKYCFix')->name('send_kyc_fix');
-            Route::post('kyc_payment', 'TraderController@setKYCPayment')->name('set_kyc_payment');
             Route::get('verification_bank_details', 'TraderController@getVerificationBankDetails')->name('verification_bank_details');
             Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
             Route::get('get_image', 'TraderController@getKYCImage')->name('kyc_image');
-            Route::post('notify_fiat_qr_replenish', 'TraderController@NotifyFiatQRReplenish')->name('notify_fiat_qr_replenish');
-            Route::post('notify_fiat_invoice_replenish', 'TraderController@NotifyFiatInvoiceReplenish')->name('notify_fiat_invoice_replenish');
+
+            Route::middleware('check_block_status')->group(function () {
+                Route::post('order/limit', 'TraderController@makeOrder')->name('limit_order');
+                Route::post('order/market', 'TraderController@makeOrder')->name('market_order');
+                Route::post('order/cancel', 'TraderController@cancelOrder')->name('cancel_order');
+                Route::post('order/cancel_all', 'TraderController@cancelAllOrders')->name('cancel_all_orders');
+                Route::post('order/cancel_all_sl', 'TraderController@cancelAllSLOrders')->name('cancel_all_sl_orders');
+                Route::post('order/cancel_all_tp', 'TraderController@cancelAllTPOrders')->name('cancel_all_tp_orders');
+                Route::post('order/cancel_all_ts', 'TraderController@cancelAllTSOrders')->name('cancel_all_ts_orders');
+
+                Route::post('position/close', 'TraderController@closePosition')->name('close_position');
+                Route::post('position/close_all', 'TraderController@closeAllPositions')->name('close_all_positions');
+                Route::post('position/close_all_long', 'TraderController@closeAllLongPositions')->name('close_all_long_positions');
+                Route::post('position/close_all_short', 'TraderController@closeAllShortPositions')->name('close_all_short_positions');
+                Route::post('position/deposit', 'TraderController@depositPosition')->name('deposit_position');
+
+                Route::post('transfer/trade', 'TraderController@transferToTradeWallet')->name('transfer_to_trade');
+                Route::post('transfer/safe', 'TraderController@transferToSafeWallet')->name('transfer_to_safe');
+
+                Route::post('withdraw/crypto/request', 'TraderController@withdrawCryptoRequest')->name('withdraw_crypto_request');
+                Route::post('withdraw/fiat/request', 'TraderController@withdrawFiatRequest')->name('withdraw_fiat_request');
+                Route::post('withdraw/crypto/confirm', 'TraderController@withdrawCryptoConfirm')->name('withdraw_crypto_confirm');
+                Route::post('withdraw/fiat/confirm', 'TraderController@withdrawFiatConfirm')->name('withdraw_fiat_confirm');
+                Route::post('withdraw/crypto/cancel', 'TraderController@withdrawCryptoCancel')->name('withdraw_crypto_cancel');
+                Route::post('withdraw/fiat/cancel', 'TraderController@withdrawFiatCancel')->name('withdraw_fiat_cancel');
+
+                Route::post('email/change/request', 'TraderController@emailChangeRequest')->name('email_change_request');
+                Route::post('email/change/confirm', 'TraderController@emailChangeConfirm')->name('email_change_confirm');
+
+                Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
+
+                Route::post('notification/read', 'TraderController@setNotificationRead')->name('set_notification_read');
+                Route::post('notification/delete', 'TraderController@deleteNotification')->name('delete_notification');
+                Route::post('notifications/read_all', 'TraderController@setNotificationsReadAll')->name('set_notifications_read_all');
+                Route::post('notifications/delete_all', 'TraderController@deleteAllNotifications')->name('delete_all_notifications');
+
+                Route::post('message/send', 'TraderController@sendMessage')->name('send_message');
+
+                Route::post('set_referral_type', 'TraderController@setReferralType')->name('set_referral_type');
+
+                Route::post('validate_address', 'TraderController@validateAddress')->name('validate_address');
+
+                Route::post('new_api_token', 'TraderController@newAPIToken')->name('new_api_token');
+                Route::post('edit_api_token', 'TraderController@editAPIToken')->name('edit_api_token');
+                Route::post('delete_api_token', 'TraderController@deleteAPIToken')->name('delete_api_token');
+                Route::post('delete_all_api_tokens', 'TraderController@deleteAllAPITokens')->name('delete_all_api_tokens');
+
+                Route::post('kyc_kontur_ind_request', 'TraderController@sendKYCKonturIndRequest')->name('send_kyc_kontur_ind_request');
+                Route::post('kyc_kontur_comp_request', 'TraderController@sendKYCKonturCompRequest')->name('send_kyc_kontur_comp_request');
+                Route::post('kyc_request', 'TraderController@sendKYCRequest')->name('send_kyc_request');
+                Route::post('kyc_fix', 'TraderController@sendKYCFix')->name('send_kyc_fix');
+                Route::post('kyc_payment', 'TraderController@setKYCPayment')->name('set_kyc_payment');
+
+                Route::post('notify_fiat_qr_replenish', 'TraderController@NotifyFiatQRReplenish')->name('notify_fiat_qr_replenish');
+                Route::post('notify_fiat_invoice_replenish', 'TraderController@NotifyFiatInvoiceReplenish')->name('notify_fiat_invoice_replenish');
+            });
+
+
         });
 
     });
