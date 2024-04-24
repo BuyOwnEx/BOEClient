@@ -117,9 +117,10 @@ class MobileController extends Controller
         }
         DB::table('password_resets')->where('email', '=', $request->email)->delete();
         $token = substr(hash_hmac('sha256', Str::random(40), $this->getHashKey()), 0, 6);
-        DB::table('password_resets')->insert(['email' => $request->email, 'token' => Hash::make($token), 'created_at' => new Carbon]);
+        $hash_token = Hash::make($token);
+        DB::table('password_resets')->insert(['email' => $request->email, 'token' => $hash_token, 'created_at' => new Carbon]);
 
-        $user->notify(new APIResetPassword($token));
+        $user->notify(new APIResetPassword(crc32($hash_token)));
         return response()->json([
             'success' => true,
             'message' => trans('passwords.sent'),
@@ -129,7 +130,7 @@ class MobileController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, [
-            'token' => ['required', 'string', 'size:6'],
+            'token' => ['required', 'string', 'max:10'],
             'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed']
         ]);
@@ -139,7 +140,7 @@ class MobileController extends Controller
                 'errors' => $validator->errors()->getMessages(),
             ],422);
         }
-        $user = User::where('email', '=', $request->email)->where('password', '=', Hash::make($data['password']))->first();
+        $user = User::where('email', '=', $request->email)->first();
         if(!$user)
         {
             return response()->json([
@@ -155,7 +156,6 @@ class MobileController extends Controller
         }
         $record = DB::table('password_resets')
             ->where('email', '=', $request->email)
-            ->where('token', '=', Hash::make($request->token))
             ->first();
         if(!$record)
         {
@@ -163,6 +163,16 @@ class MobileController extends Controller
                 'success' => false,
                 'message' => trans('Invalid token'),
             ],400);
+        }
+        else
+        {
+            if(strval(crc32($record->token)) !== $request->token)
+            {
+                return response()->json([
+                    'success' => false,
+                    'message' => trans('Invalid token'),
+                ],400);
+            }
         }
         try
         {
