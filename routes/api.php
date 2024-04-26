@@ -29,20 +29,39 @@ Route::prefix('mobile')->middleware(['check_mobile_sign'])->group(function () {
     Route::get('fiat_currencies', 'APIController@getFiatCurrencies');
     Route::get('all_currencies', 'APIController@getAllCurrencies');
     Route::get('depth', 'APIController@getDepth');
+    Route::get('graph', 'APIController@getChart');
+    Route::get('all_fiat_platforms', 'APIController@getAllFiatPlatforms');
+    Route::get('all_fiat_fees', 'APIController@getAllFiatFees');
+    Route::get('health', 'APIController@getHealth');
 
     Route::middleware(['auth:sanctum','throttle:rate_limit,1'])->group(function () {
         Route::get('user', function (Request $request) {
             return $request->user();
         });
+        Route::get('balance', 'APIController@getBalance');
+        Route::get('fees', 'APIController@getOwnFees');
+        Route::get('all_deals', 'APIController@getDeals');
+        Route::get('active_orders', 'APIController@getOrders');
+        Route::get('active_crypto_withdrawals', 'APIController@getActiveWithdrawals');
+        Route::get('active_fiat_withdrawals', 'APIController@getActiveFiatWithdrawals');
+        Route::get('status', 'APIController@getStatus');
+        Route::get('block_status', 'APIController@getBlockStatus');
+        Route::get('verify_status', 'APIController@getVerifyStatus');
+        Route::get('notification_status', 'APIController@getNotificationStatus');
+        Route::get('all_notifications', 'APIController@getAllNotifications');
+        Route::get('get_address', 'APIController@getAddress');
+        Route::get('api_keys', 'APIController@getAPITokens');
+
+
         Route::get('deals', 'APIController@getOwnDeals');
         Route::get('orders', 'APIController@getOwnOrders');
-        Route::get('balance', 'APIController@getBalance');
         Route::get('transactions', 'APIController@getTransactions');
         Route::get('fiat_transactions', 'APIController@getFiatTransactions');
         Route::get('transfers', 'APIController@getTransfers');
+        Route::get('ref_payments', 'APIController@getRefPayments');
         Route::middleware(['check_api_signature','check_block_status'])->group(function () {
-            Route::post('enable_2fa', 'Google2FAController@enableTwoFactorReady');
-            Route::post('disable_2fa', 'Google2FAController@disableTwoFactorReady');
+            Route::post('enable_2fa', 'Google2FAController@enableTwoFactorReady')->middleware('throttle:5');
+            Route::post('disable_2fa', 'Google2FAController@disableTwoFactorReady')->middleware('throttle:5');
             Route::post('generate_2fa', 'Google2FAController@generateTwoFactor');
             Route::post('make_order', 'APIController@makeOrder');
             Route::post('cancel_order', 'APIController@cancelOrder');

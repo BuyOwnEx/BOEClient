@@ -26,7 +26,6 @@ class Google2FAController extends Controller
     public function enableTwoFactorReady(ValidateSecretRequest $request)
     {
         $user = $request->user();
-        $secret = $request->secret;
 
         $userId = $request->session()->pull('2fa:user:id');
         $key    = $userId . ':' . $request->totp;

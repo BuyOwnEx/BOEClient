@@ -98,6 +98,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('all_ref_payments', 'TraderController@getAllRefPayments')->name('all_ref_payments');
             Route::get('all_followers', 'TraderController@getAllFollowers')->name('all_followers');
             Route::get('all_notifications', 'TraderController@getAllNotifications')->name('all_notifications');
+
             Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
             Route::get('get_address', 'TraderController@getAddress')->name('get_address');
             Route::get('sumsub_token', 'TraderController@getSumSubToken')->name('sumsub_token');
