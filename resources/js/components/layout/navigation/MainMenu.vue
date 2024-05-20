@@ -107,7 +107,7 @@ export default {
 			else
       {
         if(!this.product.enabledSupport)
-				  return this.items.filter(item => (item.key !== 'menu.fiat_transactions' || item.key !== 'menu.support'));
+				  return this.items.filter(item => (item.key !== 'menu.fiat_transactions' && item.key !== 'menu.support'));
         else return this.items.filter(item => item.key !== 'menu.fiat_transactions');
 			}
 		},

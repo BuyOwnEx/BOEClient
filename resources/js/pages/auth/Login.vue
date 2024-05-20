@@ -217,7 +217,7 @@ export default {
             captchaId: res.data.captcha_id,
             product: res.data.product,
             language: this.getGeetestLang(self.$i18n.locale),
-            protocol: 'http://'
+            protocol: window.location.protocol+'//'
           }, handler);
         })
       }
