@@ -1,7 +1,7 @@
 <template>
 	<v-tooltip bottom>
 		<template #activator="{ on }">
-			<span class="clickable" v-on="on" @click="copy">
+			<span class="clickable" v-on="on" @click="copy" v-if="direction === 'left'">
 				<v-icon v-if="icon" small>
 					{{ icon }}
 				</v-icon>
@@ -9,6 +9,14 @@
 				<span ref="copyLabel" class="copy-label">
 					{{ text }}
 				</span>
+			</span>
+      <span class="clickable" v-on="on" @click="copy" v-else>
+				<span ref="copyLabel" class="copy-label mr-1">
+					{{ text }}
+				</span>
+        <v-icon v-if="icon" small>
+					{{ icon }}
+				</v-icon>
 			</span>
 		</template>
 
@@ -29,6 +37,11 @@ export default {
 			type: String,
 			required: false,
 		},
+    direction: {
+      type: String,
+      required: false,
+      default: 'left',
+    },
 	},
 
 	data() {

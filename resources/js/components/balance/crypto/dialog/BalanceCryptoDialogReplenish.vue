@@ -58,11 +58,27 @@
                   {{ $t('balance.replenish_crypto_attention') }}
                 </div>
 
-                <div class="text-center">
+                <div class="text-center" v-if="selectedPlatform.base_currency === 'TON'">
+                  <QrCode :value="address_memo.address" :options="{ width: 200 }" />
+                </div>
+                <div class="text-center" v-else>
                   <QrCode :value="address" :options="{ width: 200 }" />
                 </div>
 
-                <div class="text-center pt-1">
+                <div class="text-center pt-1" v-if="selectedPlatform.base_currency === 'TON'">
+                  <div class="d-flex justify-space-between">
+                    <div>{{ $t('balance.stepper.address') }}:</div>
+                    <div><CommonCopyLabel :text="address_memo.address" icon="mdi-content-copy" direction="right" /></div>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <div>Tag/Memo:</div>
+                    <div><CommonCopyLabel :text="address_memo.memo" icon="mdi-content-copy" direction="right" /></div>
+                  </div>
+                </div>
+                <div class="py-2 error--text" v-if="selectedPlatform.base_currency === 'TON'">
+                  {{ $t('balance.replenish_crypto_memo_attention') }}
+                </div>
+                <div class="text-center pt-1" v-else>
                   <CommonCopyLabel :text="address" icon="mdi-content-copy" />
                 </div>
               </v-card-text>
@@ -118,6 +134,12 @@ export default {
 		address() {
 			return this.selectedPlatform ? this.selectedPlatform.address : '-';
 		},
+    address_memo() {
+      return {
+        'address': this.selectedPlatform ? (this.selectedPlatform.address ? this.selectedPlatform.address.split(':')[0] : '-') : '-',
+        'memo': this.selectedPlatform ? (this.selectedPlatform.address ? this.selectedPlatform.address.split(':')[1] : '-') : '-',
+      };
+    },
 	},
 
 	methods: {

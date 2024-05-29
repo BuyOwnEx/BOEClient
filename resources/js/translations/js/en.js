@@ -496,6 +496,7 @@ export default {
 		},
 
 		amount: 'Amount',
+		memo: 'Tag/Memo',
 		show_only_not_null_balances: 'Show only not null balances',
 		select_payment_method: 'Select payment method',
 		select_network: 'Select network',
@@ -514,6 +515,7 @@ export default {
 		replenish_crypto_description:
 			'When depositing funds, make transactions only on the {0} network. When making transactions on a different network, your funds will be lost',
 		replenish_crypto_attention: 'Attention: when depositing funds, make sure that the transfer will not be made through third-party smart contracts. In the case of sending a smart contract, funds may be lost.',
+		replenish_crypto_memo_attention: 'Make sure that when making a deposit, you use both the deposit address and the deposit tag/memo',
 
 		less_min: 'Less than the minimum possible amount',
 		more_max: 'More than the maximum possible amount',

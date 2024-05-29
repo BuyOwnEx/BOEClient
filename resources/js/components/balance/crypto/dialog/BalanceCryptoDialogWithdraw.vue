@@ -177,6 +177,14 @@
 										@paste.prevent
 									/>
 
+                  <v-text-field
+                      v-if="needTagField"
+                      v-model="memo"
+                      :rules="memoRules"
+                      :placeholder="$t('balance.memo')"
+                      @paste.prevent
+                  />
+
                   <v-select v-if="is_legal && is_reason_enabled"
                       v-model="reason_id"
                       :items="all_reasons"
@@ -271,6 +279,7 @@
 </template>
 
 <script>
+
 import { mapActions, mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
@@ -303,6 +312,7 @@ export default {
       selectedPlatform: null,
 			address: '',
 			amount: '',
+      memo: '',
       reason_id: null,
 			amountFormValid: false,
 			amountRules: [
@@ -311,6 +321,10 @@ export default {
 				v => !v || BigNumber(v).lte(this.availableForWithdraw) || this.$t('balance.more_withdraw_available'),
 				v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
 			],
+      memoRules: [
+        v => !v || v.length <= 64 || this.$t('forms_validation.max_64char'),
+        v => !v || (v && /^[a-zA-Z0-9-_]+$/g.test(v)) || this.$t('forms_validation.unsupported_char_latinAndNumbers'),
+      ],
 			emailCode: '',
 			twoFACode: '',
 			isSuccessWithdraw: false,
@@ -355,6 +369,9 @@ export default {
 		minWithdraw() {
 			return this.selectedPlatform ? this.selectedPlatform.minWithdraw : 0;
 		},
+    needTagField() {
+      return this.selectedPlatform ? this.selectedPlatform.base_currency === 'TON' : false;
+    },
 		maxWithdraw() {
 			return this.currencyObj.maxWithdraw;
 		},
@@ -427,7 +444,7 @@ export default {
 					currency: this.currency.toUpperCase(),
 					amount: this.amount,
           reason_id: this.reason_id,
-					address: this.address,
+					address: this.memo !== ''? this.address + ':' + this.memo : this.address,
           platform_id: this.selectedPlatform.id
 				};
 				const isSuccess = await this.formCryptoWithdrawRequestStore(this.is_legal ? payload : _.omit(payload, ['reason_id']));
