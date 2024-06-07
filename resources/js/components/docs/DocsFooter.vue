@@ -1,13 +1,10 @@
 <template>
 	<div class="caption mt-2 text-center">
-		<!--		-->
-
 		<slot>
 			<span>{{ $t('common.have_questions') }}</span>
-            <Link path="/contacts">{{ $t('common.contact') }}</Link>
+      <br>
+      <Link path="/contacts">{{ $t('common.contact') }}</Link>
 		</slot>
-
-		<!--		-->
 	</div>
 </template>
 

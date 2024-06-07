@@ -177,6 +177,7 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import CommonLoading from '@/components/common/CommonLoading.vue';
 
 import formatWithScaleInAllCurrencies from '@/mixins/format/formatWithScaleInAllCurrencies';
+import config from '@/configs/index.js';
 
 export default {
 	name: 'TradingTickersList',
@@ -338,6 +339,7 @@ export default {
 				market: market,
 				currency: currency,
 			});
+      document.title = config.product.name + ' - ' + currency + '/' + market;
 		},
 		setSorting(type) {
 			const sort = this.tickersSorting;

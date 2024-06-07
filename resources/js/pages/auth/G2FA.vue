@@ -15,18 +15,18 @@
 				<v-container class="pt-0 pb-0">
 					<v-row>
 						<v-col cols="12" md="12" class="pt-0 pb-0">
-							<v-text-field
-								v-model="form.totp"
-								append-icon="mdi-schield"
-								:rules="[rules.required]"
-								:error-messages="errors.totp"
-								@input="errors.totp = []"
-								required
-							>
-								<template #label>
-									{{ $t('auth.g2fa.code') }} <span class="red--text"><b>*</b></span>
-								</template>
-							</v-text-field>
+              <v-otp-input
+                  v-model="form.totp"
+                  length="6"
+                  type="number"
+                  :disabled="loading"
+                  autofocus
+                  :rules="[rules.required]"
+                  :error-messages="errors.totp"
+                  @input="errors.totp = []"
+                  @keydown="validate2FA"
+                  @finish="verify"
+              ></v-otp-input>
 						</v-col>
 					</v-row>
 				</v-container>
@@ -48,17 +48,23 @@
 				{{ $t('auth.g2fa.contact') }}
 			</v-btn>
 		</div>
+    <CommonSnackbar />
 	</div>
 </template>
 
 <script>
 import formValidationRules from '@/mixins/common/formValidationRules';
+import validateInputMixin from '@/mixins/common/validateInputMixin';
 import loadingMixin from '@/mixins/common/loadingMixin';
 import waves from '@/plugins/hero-canvas';
+import CommonSnackbar from '@/components/common/CommonSnackbar.vue';
 
 export default {
 	name: 'G2FA',
-	mixins: [formValidationRules, loadingMixin],
+  components: {
+    CommonSnackbar
+  },
+	mixins: [formValidationRules, loadingMixin, validateInputMixin],
 	data() {
 		return {
 			valid: true,
@@ -90,9 +96,15 @@ export default {
                     let errors = error.response.data.errors;
                     if (errors) {
                         for (let field in errors) {
-                            if (errors.hasOwnProperty(field)) {
-                                this.errors[field] = errors[field];
-                            }
+                          if(field === 'totp')
+                            this.$store.commit('snackbar/SHOW_MESSAGE', {
+                              text: errors[field][0],
+                              color: 'error',
+                              timeout: 3000,
+                            });
+                          if (errors.hasOwnProperty(field)) {
+                            this.errors[field] = errors[field];
+                          }
                         }
                     }
                 }
@@ -105,7 +117,7 @@ export default {
                 }
             })
             .finally(() => {
-                this.stopLoading()
+                this.stopLoading();
             });
 		},
 	},

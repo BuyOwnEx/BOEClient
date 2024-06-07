@@ -22,7 +22,7 @@ export default {
 
 	data() {
 		return {
-			openedPanels: [0],
+			openedPanels: this.expArray,
 		};
 	},
 
@@ -31,6 +31,13 @@ export default {
 			type: Array,
 			required: true,
 		},
+    expArray: {
+      type: Array,
+      required: true,
+      default() {
+        return [0];
+      },
+    }
 	},
 };
 </script>

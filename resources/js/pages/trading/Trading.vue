@@ -3,7 +3,7 @@
 		<div v-if="!isMobile" class="trading__desktop fill-height" :class="[isLogged ? 'logged' : '']">
 			<TickersList class="trading__desktop__tickers" :currency="currency" :market="market" />
 
-            <TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
+      <TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
 
 			<HistoryDealList class="trading__desktop__history" :market="market" :currency="currency" />
 

@@ -3,13 +3,11 @@
 		<CommonPageTitle>
 			{{ $t('docs.policy.title') }}
 		</CommonPageTitle>
-
 		<v-card-text>
 			<v-row>
 				<DocsNavigation :data-array="policy" />
-				<DocsContent :data-array="policy" />
+				<DocsContent :data-array="policy" :expanded="expanded_items" />
 			</v-row>
-
 			<DocsFooter />
 		</v-card-text>
 	</v-card>
@@ -31,49 +29,37 @@ export default {
 
 	computed: {
 		policy() {
-			return [
-				{
-					id: 'general',
-					title: this.$t('docs.policy.general.title'),
-					content: this.$t('docs.policy.general.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'collecting_data',
-					title: this.$t('docs.policy.collecting_data.title'),
-					content: this.$t('docs.policy.collecting_data.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'event_data',
-					title: this.$t('docs.policy.event_data.title'),
-					content: this.$t('docs.policy.event_data.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'cookie',
-					title: this.$t('docs.policy.cookie.title'),
-					content: this.$t('docs.policy.cookie.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'security',
-					title: this.$t('docs.policy.security.title'),
-					content: this.$t('docs.policy.security.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'links',
-					title: this.$t('docs.policy.links.title'),
-					content: this.$t('docs.policy.links.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'changes',
-					title: this.$t('docs.policy.changes.title'),
-					content: this.$t('docs.policy.changes.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'contact',
-					title: this.$t('docs.policy.contact.title'),
-					content: this.$t('docs.policy.contact.content', { url: this.url, productName: this.productName }),
-				},
-			];
+      const ctx = { url: this.url, productName: this.productName };
+      let content = [{
+        id: 'general',
+        title: this.$t('docs.policy.general.title', ctx),
+        content: this.$t('docs.policy.general.content', ctx),
+      }];
+      let paragraph = 1;
+      while (this.$te('docs.policy.p'+paragraph+'.title'))
+      {
+        content.push({
+          id: 'p'+paragraph,
+          title: this.$t('docs.policy.p'+paragraph+'.title', ctx),
+          content: this.$t('docs.policy.p'+paragraph+'.content', ctx),
+        });
+        paragraph++;
+      }
+      return content;
 		},
+    expanded_items() {
+      let exp_array = [0];
+      let paragraph = 1;
+      if(config.product.policy_all_expanded)
+      {
+        while (this.$te('docs.policy.p'+paragraph+'.title'))
+        {
+          exp_array.push(paragraph);
+          paragraph++;
+        }
+      }
+      return exp_array;
+    },
 
 		productName() {
 			return config.product.name;

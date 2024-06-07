@@ -36,7 +36,7 @@ export default {
 
 	data() {
 		return {
-			nestedOpenedPanels: [[0]],
+			nestedOpenedPanels: this.expArray,
 		};
 	},
 
@@ -45,6 +45,13 @@ export default {
 			type: Array,
 			required: true,
 		},
+    expArray: {
+      type: Array,
+      required: true,
+      default() {
+        return [[0]];
+      },
+    }
 	},
 };
 </script>

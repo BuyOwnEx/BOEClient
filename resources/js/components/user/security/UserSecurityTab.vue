@@ -41,17 +41,17 @@
 					</div>
 
 					<v-form @submit.prevent="disable2FA">
-						<v-text-field
-							v-model="totp"
-							:placeholder="$t('user.security.auth_code')"
-							:disabled="loading"
-							maxlength="6"
-							counter
-							dense
-							@input="handleCodeInputDisable"
-							@keydown="validate2FA"
-							@paste.prevent
-						/>
+            <v-otp-input
+                v-model="totp"
+                length="6"
+                type="number"
+                :disabled="loading"
+                @keydown="validate2FA"
+                @finish="disable2FA"
+                autofocus
+                :error-messages="errors.totp"
+                @input="errors.totp = []"
+            ></v-otp-input>
 						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading" color="error" small tile>
 							{{ $t('user.security.disable') }}
 						</v-btn>
@@ -85,17 +85,17 @@
 					</div>
 
 					<v-form @submit.prevent="enable2FA">
-						<v-text-field
-							v-model="totp"
-							:placeholder="$t('user.security.auth_code')"
-							:disabled="loading"
-							maxlength="6"
-							counter
-							dense
-							@input="handleCodeInputEnable"
-							@keydown="validate2FA"
-							@paste.prevent
-						/>
+            <v-otp-input
+                v-model="totp"
+                length="6"
+                type="number"
+                :disabled="loading"
+                @keydown="validate2FA"
+                @finish="enable2FA"
+                autofocus
+                :error-messages="errors.totp"
+                @input="errors.totp = []"
+            ></v-otp-input>
 						<v-btn type="submit" :block="isXsBreakpoint" :loading="loading" color="success" small tile>
 							{{ $t('user.security.enable') }}
 						</v-btn>
@@ -135,6 +135,9 @@ export default {
 			image: null,
 			totp: '',
 			isPageLoading: true,
+      errors: {
+        totp: [],
+      },
 		};
 	},
 
@@ -170,7 +173,25 @@ export default {
 						this.$store.commit('app/setUser2FA', true);
 						this.totp = '';
 						this.get2FAStatus();
-					});
+					})
+          .catch(error => {
+            if (error.response.status === 422) {
+              let errors = error.response.data.errors;
+              if (errors) {
+                for (let field in errors) {
+                  if(field === 'totp')
+                    this.$store.commit('snackbar/SHOW_MESSAGE', {
+                      text: errors[field][0],
+                      color: 'error',
+                      timeout: 3000,
+                    });
+                  if (errors.hasOwnProperty(field)) {
+                    this.errors[field] = errors[field];
+                  }
+                }
+              }
+            }
+          });
 			} finally {
 				this.stopLoading();
 			}
@@ -180,7 +201,6 @@ export default {
 				this.pushErrorNotification(_, 'incorrect');
 				return;
 			}
-
 			try {
 				this.startLoading();
 				axios
@@ -191,7 +211,25 @@ export default {
 						this.$store.commit('app/setUser2FA', false);
 						this.totp = '';
 						this.get2FAStatus();
-					});
+					})
+          .catch(error => {
+            if (error.response.status === 422) {
+              let errors = error.response.data.errors;
+              if (errors) {
+                for (let field in errors) {
+                  if(field === 'totp')
+                    this.$store.commit('snackbar/SHOW_MESSAGE', {
+                      text: errors[field][0],
+                      color: 'error',
+                      timeout: 3000,
+                    });
+                  if (errors.hasOwnProperty(field)) {
+                    this.errors[field] = errors[field];
+                  }
+                }
+              }
+            }
+        });
 			} finally {
 				this.stopLoading();
 			}
@@ -210,72 +248,67 @@ export default {
 				}
 			});
 		},
-
-		handleCodeInputEnable(data) {
-			if (data.length === 6) {
-				this.enable2FA();
-			}
-		},
-		handleCodeInputDisable(data) {
-			if (data.length === 6) {
-				this.disable2FA();
-			}
-		},
 	},
 };
 </script>
 
 <style lang="sass" scoped>
+::v-deep.v-otp-input .v-input
+  flex: 0 1 8px
+  &__control
+    width: 30px
+    .v-input__slot
+      min-height: 24px
 .user-security-tab
-	&__content
-		display: grid
-		grid-template-columns: 250px 1fr
-		grid-template-areas: 'code form'
-		margin-top: 32px
-	&__qr-code-wrapper
-		grid-area: code
-	&__qr-code
-		height: 200px
-		width: 200px
-		background-color: white
-	&__form
-		grid-area: form
+  &__content
+    display: grid
+    grid-template-columns: 250px 1fr
+    grid-template-areas: 'code form'
+    margin-top: 32px
+  &__qr-code-wrapper
+    grid-area: code
+  &__qr-code
+    height: 200px
+    width: 200px
+    background-color: white
+  &__form
+    grid-area: form
 
-	&__title
-		font-size: 1rem
-		font-weight: 500
-		text-transform: uppercase
-		padding-bottom: 6px
-	&__header-wrapper
-		padding-bottom: 4px
-	&__header
-		font-size: 1.2rem
-	&__status
-		font-size: 10px
-		text-transform: uppercase
+  &__title
+    font-size: 1rem
+    font-weight: 500
+    text-transform: uppercase
+    padding-bottom: 6px
+  &__header-wrapper
+    padding-bottom: 4px
+  &__header
+    font-size: 1.2rem
+  &__status
+    font-size: 10px
+    text-transform: uppercase
 
-	p
-		margin-bottom: 5px
-		line-height: 18px
-	::v-deep.v-input
-		padding-top: 0
-		margin-top: 0
-		margin-bottom: 12px
-		&__slot
-			min-height: 30px !important
-	.v-form
-		width: 25%
-		@media screen and (max-width: 1263px)
-			width: 50%
-		@media screen and (max-width: 959px)
-			width: 100%
+  p
+    margin-bottom: 5px
+    line-height: 18px
+  ::v-deep.v-input
+    padding-top: 0
+    margin-top: 0
+    margin-bottom: 12px
+    &__slot
+      min-height: 30px !important
+  .v-form
+    width: 25%
+    @media screen and (max-width: 1263px)
+      width: 50%
+    @media screen and (max-width: 959px)
+      width: 100%
 
-	@media screen and (max-width: 599px)
-		&__content
-			display: flex
-			flex-flow: column
-		&__qr-code-wrapper
-			display: flex
-			justify-content: center
-			margin-bottom: 32px
+  @media screen and (max-width: 599px)
+    &__content
+      display: flex
+      flex-flow: column
+    &__qr-code-wrapper
+      display: flex
+      justify-content: center
+      margin-bottom: 32px
 </style>

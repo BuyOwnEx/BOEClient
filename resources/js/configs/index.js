@@ -15,7 +15,11 @@ export default {
 		enabledLegalWithdrawReason: import.meta.env.VITE_CONFIG_ENABLED_LEGAL_WITHDRAW_REASON === "true",
 		copyright: import.meta.env.VITE_CONFIG_COPYRIGHT,
 		copy_start_year: import.meta.env.VITE_CONFIG_COPY_START_YEAR,
-		all_rights_text: import.meta.env.VITE_CONFIG_ALL_RIGHTS_TEXT
+		all_rights_text: import.meta.env.VITE_CONFIG_ALL_RIGHTS_TEXT,
+		terms_all_expanded: import.meta.env.VITE_TERMS_ALL_EXPANDED === "true",
+		policy_all_expanded: import.meta.env.VITE_POLICY_ALL_EXPANDED === "true",
+		api_all_expanded: import.meta.env.VITE_API_ALL_EXPANDED === "true",
+		contacts_all_expanded: import.meta.env.VITE_CONTACTS_ALL_EXPANDED === "true",
 	},
 	icons,
 	theme,

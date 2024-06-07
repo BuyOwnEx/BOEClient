@@ -71,7 +71,7 @@
 						</v-stepper-content>
 
 						<v-stepper-content step="2">
-							<v-form class="mb-6" v-model="isValidConfirmForm">
+							<v-form class="mb-2" v-model="isValidConfirmForm">
 								<v-text-field
 									v-model="oldEmailCode"
 									:rules="[rules.required]"
@@ -88,18 +88,25 @@
 									persistent-hint
 									validate-on-blur
 								/>
-								<v-text-field
-									v-if="twoFa"
-									v-model="twoFaCode"
-									:rules="[rules.required]"
-									:hint="$t('user.two_fa_code_hint')"
-									:placeholder="$t('user.two_fa_code')"
-									maxlength="6"
-									persistent-hint
-									validate-on-blur
-									@keydown="validate2FA"
-									@input="handleCodeInput"
-								/>
+                <v-otp-input
+                    v-if="twoFa"
+                    v-model="twoFaCode"
+                    length="6"
+                    type="number"
+                    :hint="$t('user.two_fa_code_hint')"
+                    :label="$t('user.two_fa_code_hint')"
+                    :rules="[rules.required]"
+                    @keydown="validate2FA"
+                    @finish="handleCodeInput"
+                    class="mt-2"
+                ></v-otp-input>
+                <div v-if="twoFa" class="v-messages" :class="{ 'theme--dark': $vuetify.theme.dark }">
+                  <div class="v-messages__wrapper">
+                    <div class="v-messages__message">
+                      {{$t('user.two_fa_code_hint')}}
+                    </div>
+                  </div>
+                </div>
 							</v-form>
 
 							<v-divider />
@@ -244,3 +251,11 @@ export default {
 	},
 };
 </script>
+<style lang="sass" scoped>
+::v-deep.v-otp-input .v-input
+  flex: 0 1 8px
+  &__control
+    width: 30px
+    .v-input__slot
+      min-height: 24px
+</style>

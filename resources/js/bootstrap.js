@@ -50,7 +50,8 @@ window.axios.interceptors.response.use(
             }
             else if (error.response.status === 422) {
                 let errors = _.get(error, 'response.data');
-                if (errors !== undefined && _.size(errors) > 0) {
+                if (errors !== undefined && _.size(errors) > 0)
+                {
                     _.each(errors, type => {
                         _.each(type, message => {
                             const notification = {
@@ -62,7 +63,8 @@ window.axios.interceptors.response.use(
                     });
                 }
             }
-            else {
+            else
+            {
                 let message = _.get(error, 'response.data.message');
                 if (message !== undefined) {
                     let notification = {};

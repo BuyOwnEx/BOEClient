@@ -44,7 +44,7 @@
 						<v-app-bar-nav-icon v-if="isLogged" @click.stop="drawer = !drawer" />
 						<v-list-item v-if="!isLogged" style="padding: 0 4px;">
 							<v-list-item-avatar height="48" min-width="48" width="48" >
-								<v-img contain :src="Logo" />
+                <Link path="/"><v-img contain :src="Logo" /></Link>
 							</v-list-item-avatar>
 							<v-list-item-content class="product-name-version">
 								<v-list-item-title>

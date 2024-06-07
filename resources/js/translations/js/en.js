@@ -624,7 +624,7 @@ export default {
 					'  Your acceptance of these Terms, as may be amended, entitles the Service to act as an intermediary between buyers and sellers for trading on the platform in accordance with the subclauses laid down below and to perform the functions described below.' +
 					'</p>',
 			},
-			definition: {
+			p1: {
 				title: 'Definitions',
 				content:
 					'<p>' +
@@ -661,7 +661,7 @@ export default {
 					'  “Arbitrage“ is an array of buy/sale operations carried out in a short time within the {productName} Exchange.' +
 					'</p>',
 			},
-			account: {
+			p2: {
 				title: 'Your account',
 				content:
 					'<p>' +
@@ -692,7 +692,7 @@ export default {
 					'  Accounts can be used exclusively for the purposes specified in these Terms.' +
 					'</p>',
 			},
-			platform: {
+			p3: {
 				title: 'Platform for sale-purchase transactions',
 				content:
 					'<p>' +
@@ -708,7 +708,7 @@ export default {
 					'  Payments made by client in the game are non-refundable. Payments made by client in the voting for coins are final and non-refundable in any case.' +
 					'</p>',
 			},
-			service_duty: {
+			p4: {
 				title: 'Responsibilities of the service',
 				content:
 					'<p>' +
@@ -735,7 +735,7 @@ export default {
 					"  The service doesn't take responsibility for sustained casualties due to vulnerability of software, blockchains or any other technical features of cryptocurrency trading at the Exchange. Likewise it's not responsible for the casualties due to late report by cryptocurrency developers or representatives (or no report at all) of any issues with cryptocurrency including all sorts of forks, technical node issues or any other issues having fund losses as a result. In this case there are two ways to refund the losses. The priority option the service is struggling to actualize is having particular cryptocurrency developers or represenatives to refund losses fully. The other option is to charge clients' accounts in accordance with their deposit amounts of this specific cryptocurrency at the Exchange." +
 					'</p>',
 			},
-			user_duty: {
+			p5: {
 				title: 'Responsibilities of users',
 				content:
 					'<p>' +
@@ -772,14 +772,14 @@ export default {
 					'  U.S. Citizens are not allowed to use our service.' +
 					'</p>',
 			},
-			ip: {
+			p6: {
 				title: 'Intellectual property',
 				content:
 					'<p>' +
 					'	All intellectual property rights, texts, images or any other material posted on / pertaining to the platform are owned by the Service or by the Platform partners. Accordingly, users may not copy, distribute, reproduce, republish, upload, transmit, modify, publish or otherwise use any such content without a prior express authorization granted by the Service.' +
 					'</p>',
 			},
-			responsibility: {
+			p7: {
 				title: 'Liability',
 				content:
 					'<p>' +
@@ -807,7 +807,7 @@ export default {
 					'  In view of the above, the total liability of the Service that may result from or in connection with use of the Website and/or Platform by the User, be that in tort (including negligence) or otherwise, under any circumstances, will not exceed the greater of: the total balance of the account of the user (less any commission fees); or 100% of the transaction (s) that are the subject of the claim minus any commission fees.' +
 					'</p>',
 			},
-			stop: {
+			p8: {
 				title: 'Termination',
 				content:
 					'<p>' +
@@ -837,7 +837,7 @@ export default {
 					'	The Users acknowledge and agree that their accounts can be blocked until their ID documents and/or any other information are delivered to the Service, if the Service deems it necessary for servicing the accounts, for effecting transactions and/or for operation of the Platform.' +
 					'</p>    ',
 			},
-			additional: {
+			p9: {
 				title: 'Additional terms',
 				content:
 					'<p>' +
@@ -847,7 +847,7 @@ export default {
 					'	If a competent judiciary authority recognizes any provision of the Terms to be unenforceable, such provision shall be enforced to a maximum extent permissible, and all other provisions shall remain in full force and effect.' +
 					'</p>',
 			},
-			contacts: {
+			p10: {
 				title: 'Contacts',
 				content:
 					'<p>' +
@@ -867,21 +867,21 @@ export default {
 					'	We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at {url}.' +
 					'</p>',
 			},
-			collecting_data: {
+			p1: {
 				title: 'Information Collection And Use',
 				content:
 					'<p>' +
 					'	While using our Site, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your name, email address, postal address and phone number ("Personal Information").' +
 					'</p>',
 			},
-			event_data: {
+			p2: {
 				title: 'Log Data',
 				content:
 					'<p>' +
 					'	Like many site operators, we collect information that your browser sends whenever you visit our Site ("Log Data"). This Log Data may include information such as your computer\'s Internet Protocol ("IP") address, browser type, browser version, the pages of our Site that you visit, the time and date of your visit, the time spent on those pages and other statistics.' +
 					'</p>',
 			},
-			cookie: {
+			p3: {
 				title: 'Cookies',
 				content:
 					'<p>' +
@@ -891,14 +891,14 @@ export default {
 					'	Like many sites, we use "cookies" to collect information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Site.' +
 					'</p>',
 			},
-			security: {
+			p4: {
 				title: 'Security',
 				content:
 					'<p>' +
 					'	The security of your Personal Information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage, is 100% secure. While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security.' +
 					'</p>',
 			},
-			links: {
+			p5: {
 				title: 'Links To Other Sites',
 				content:
 					'<p>' +
@@ -908,14 +908,14 @@ export default {
 					'	{productName} has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party sites or services.' +
 					'</p>',
 			},
-			changes: {
+			p6: {
 				title: 'Changes To This Privacy Policy',
 				content:
 					'<p>' +
 					'	{productName} may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on the Site. You are advised to review this Privacy Policy periodically for any changes.' +
 					'</p>',
 			},
-			contact: {
+			p7: {
 				title: 'Contact Us',
 				content: '<p>' + '	If you have any questions about this Privacy Policy, please contact us.' + '</p>',
 			},
@@ -2371,14 +2371,14 @@ export default {
 					'                            Contacts area here\n' +
 					'                        </p>\n',
 			},
-			email: {
+			p1: {
 				title: 'Email',
 				content:
 					'<p>\n' +
 					'                            Email area here\n' +
 					'                        </p>\n',
 			},
-			phone: {
+			p2: {
 				title: 'Phone',
 				content:
 					'<p>\n' +

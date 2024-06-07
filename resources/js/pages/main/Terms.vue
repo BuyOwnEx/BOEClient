@@ -5,7 +5,7 @@
 		<v-card-text>
 			<v-row>
 				<DocsNavigation :data-array="terms" />
-				<DocsContent :data-array="terms" />
+				<DocsContent :data-array="terms" :expanded="expanded_items" />
 			</v-row>
 
 			<DocsFooter />
@@ -28,65 +28,38 @@ export default {
 
 	computed: {
 		terms() {
-			return [
-				{
-					id: 'general',
-					title: this.$t('docs.terms.general.title'),
-					content: this.$t('docs.terms.general.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'definition',
-					title: this.$t('docs.terms.definition.title'),
-					content: this.$t('docs.terms.definition.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'account',
-					title: this.$t('docs.terms.account.title'),
-					content: this.$t('docs.terms.account.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'platform',
-					title: this.$t('docs.terms.platform.title'),
-					content: this.$t('docs.terms.platform.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'service_duty',
-					title: this.$t('docs.terms.service_duty.title'),
-					content: this.$t('docs.terms.service_duty.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'user_duty',
-					title: this.$t('docs.terms.user_duty.title'),
-					content: this.$t('docs.terms.user_duty.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'ip',
-					title: this.$t('docs.terms.ip.title'),
-					content: this.$t('docs.terms.ip.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'responsibility',
-					title: this.$t('docs.terms.responsibility.title'),
-					content: this.$t('docs.terms.responsibility.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'stop',
-					title: this.$t('docs.terms.stop.title'),
-					content: this.$t('docs.terms.stop.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'additional',
-					title: this.$t('docs.terms.additional.title'),
-					content: this.$t('docs.terms.additional.content', { url: this.url, productName: this.productName }),
-				},
-				{
-					id: 'contacts',
-					title: this.$t('docs.terms.contacts.title'),
-					content: this.$t('docs.terms.contacts.content', { url: this.url, productName: this.productName }),
-				},
-			];
+      const ctx = { url: this.url, productName: this.productName };
+      let content = [{
+        id: 'general',
+        title: this.$t('docs.terms.general.title', ctx),
+        content: this.$t('docs.terms.general.content', ctx),
+      }];
+      let paragraph = 1;
+      while (this.$te('docs.terms.p'+paragraph+'.title'))
+      {
+        content.push({
+          id: 'p'+paragraph,
+          title: this.$t('docs.terms.p'+paragraph+'.title', ctx),
+          content: this.$t('docs.terms.p'+paragraph+'.content', ctx),
+        });
+        paragraph++;
+      }
+      return content;
 		},
 
+    expanded_items() {
+      let exp_array = [0];
+      let paragraph = 1;
+      if(config.product.terms_all_expanded)
+      {
+        while (this.$te('docs.terms.p'+paragraph+'.title'))
+        {
+          exp_array.push(paragraph);
+          paragraph++;
+        }
+      }
+      return exp_array;
+    },
 		productName() {
 			return config.product.name;
 		},
