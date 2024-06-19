@@ -93,34 +93,56 @@
 				</v-container>
 			</v-card-text>
 
-			<div class="text-left pl-6 pr-6">
-				<small>
-					<span class="red--text">
-						<b>*</b>
-					</span>
-					<span class="grey--text text--lighten-1">
-						{{ $t('auth.indicates_required_fields') }}
-					</span>
-				</small>
+			<div class="text-left pl-5 pr-5" v-if="product.force_agree">
+        <small class="grey--text lighten-4">
+          {{ $t('auth.register.agree') }}
+          <Link :path="links[0].link" :title="links[0].title">
+            <span>{{ links[0].title }}</span>
+          </Link>
+          {{ $t('auth.and') }}
+          <Link :path="links[1].link" :title="links[1].title">
+            <span>{{ links[1].title }}</span>
+          </Link>
+        </small>
 			</div>
+      <div class="text-left pl-4 pr-5" v-else>
+        <v-checkbox dense :ripple="false" hide-details v-model="term_agree">
+          <template #label>
+            <small class="grey--text lighten-4">
+              {{ $t('auth.register.checkbox_agree_terms') }}
+              <Link :path="links[0].link" :title="links[0].title">
+                <span>{{links[0].title }}</span>
+              </Link>
+            </small>
+          </template>
+        </v-checkbox>
+        <v-checkbox dense :ripple="false" hide-details v-model="policy_agree">
+          <template #label>
+            <small class="grey--text lighten-4">
+              {{ $t('auth.register.checkbox_agree_policy') }}
+              <Link :path="links[1].link" :title="links[1].title">
+                <span>{{links[1].title }}</span>
+              </Link>
+            </small>
+          </template>
+        </v-checkbox>
+      </div>
 
 			<v-card-actions class="pt-4 pl-6 pr-6">
-				<v-btn color="primary" :loading="loading" :disabled="!valid" block tile @click="register">
+				<v-btn color="primary" :loading="loading" :disabled="!valid || (!product.force_agree && (!term_agree || !policy_agree))" block tile @click="register">
 					{{ $t('auth.register.register_action') }}
 				</v-btn>
 			</v-card-actions>
 
-			<div class="text-left pl-6 pb-4 pr-6">
-				<small class="grey--text lighten-4">
-					{{ $t('auth.register.agree') }}
-                    <Link :path="links[0].link" :title="links[0].title">
-                        <span>{{ links[0].title }}</span>
-                    </Link>
-                    {{ $t('auth.and') }}
-                    <Link :path="links[1].link" :title="links[1].title">
-                        <span>{{ links[1].title }}</span>
-                    </Link>
-				</small>
+			<div class="text-left pl-5 pb-2 pr-5">
+        <small style="font-size: 60%">
+					<span class="red--text">
+						<b>*</b>
+					</span>
+          <span class="grey--text text--lighten-1">
+						{{ $t('auth.indicates_required_fields') }}
+					</span>
+        </small>
 			</div>
 		</v-card>
 
@@ -136,6 +158,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import formValidationRules from '@/mixins/common/formValidationRules';
 import loadingMixin from '@/mixins/common/loadingMixin';
 import Link from "@/components/common/Link.vue";
@@ -150,6 +173,8 @@ export default {
 			valid: true,
 			show: false,
 			show_confirm: false,
+      term_agree: false,
+      policy_agree: false,
 
 			user: {
 				name: '',
@@ -166,6 +191,7 @@ export default {
 		};
 	},
 	computed: {
+    ...mapState('app', ['product']),
 		links() {
 			return [
 				{

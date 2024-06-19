@@ -469,6 +469,8 @@ export default {
 			button: 'Create Account',
 			orsign: 'Or sign up with',
 			agree: 'By signing up, you agree to the',
+			checkbox_agree_terms: 'I`m agree with',
+			checkbox_agree_policy: 'I`m agree with',
 			terms_link: 'Terms of Service',
 			policy_link: 'Privacy Policy',
 			account: 'Already have an account?',
