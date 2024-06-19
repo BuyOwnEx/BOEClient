@@ -13,7 +13,7 @@
 			<template #prepend>
 				<v-list-item class="sidebar-header">
 					<v-list-item-avatar height="48" min-width="48" width="48">
-						<v-img contain :src="Logo"></v-img>
+            <Link path="/" class="logo_link"><v-img contain :src="Logo" /></Link>
 					</v-list-item-avatar>
 					<v-list-item-content>
 						<v-list-item-title>{{ product.name }}</v-list-item-title>
@@ -44,7 +44,7 @@
 						<v-app-bar-nav-icon v-if="isLogged" @click.stop="drawer = !drawer" />
 						<v-list-item v-if="!isLogged" style="padding: 0 4px;">
 							<v-list-item-avatar height="48" min-width="48" width="48" >
-                <Link path="/"><v-img contain :src="Logo" /></Link>
+                <Link path="/" class="logo_link"><v-img contain :src="Logo" /></Link>
 							</v-list-item-avatar>
 							<v-list-item-content class="product-name-version">
 								<v-list-item-title>
@@ -181,6 +181,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.logo_link {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+}
 .container {
 	padding: 5px;
 }
