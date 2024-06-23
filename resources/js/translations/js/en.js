@@ -153,15 +153,44 @@ export default {
 		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
 	fiat: {
+		fiat_only_for_verified: 'To be able to deposit/withdraw funds in fiat, you need to go through the verification procedure',
+		deposited_with_fee: 'The amount of deposit, including the commission',
+		inn: 'INN',
+		bic: 'BIC',
+		acc: 'Account',
+		ind_inn: 'Enter your INN of an individual',
+		comp_inn: 'Enter your company\'s INN',
+		paid: 'Paid',
+		gateways: {
+			qr: 'Payment by bank details via QR code',
+			invoice: 'Request an invoice/Bank details',
+		},
+		statuses: {
+			done: 'Executed',
+			wait: 'In processing',
+			accepted: 'Accepted',
+			fail: 'Rejected',
+			refund: 'Cancelled',
+		},
 		gateway: {
-			names: {
-				qr: 'Payment by bank details via QR code',
-				invoice: 'Request an invoice',
+			replenish: {
+				names: {
+					qr: 'Payment by bank details via QR code',
+					invoice: 'Request an invoice',
+				},
+				descriptions: {
+					qr: 'Payment can be made in any bank application that supports payment by QR code',
+					invoice: 'The invoice will be sent to your email address specified during registration',
+				},
 			},
-			descriptions: {
-				qr: 'Payment can be made in any bank application that supports payment by QR code',
-				invoice: 'The invoice will be sent to your email address specified during registration',
-			},
+			withdraw: {
+				names: {
+					invoice: 'Bank details',
+				},
+				descriptions: {
+					invoice: 'The transfer will be made using the details specified in the next step',
+				},
+			}
 		},
 	},
 	menu: {

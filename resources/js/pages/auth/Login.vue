@@ -50,8 +50,14 @@
 								</template>
 							</v-text-field>
 						</v-col>
-						<v-col cols="12" md="12" class="pt-0 pb-0">
-							<v-checkbox v-model="user.remember" :label="$t('auth.login.remember')" />
+						<v-col cols="12" md="12" class="pt-1 pb-0 pl-2 pr-2">
+              <v-checkbox dense :ripple="false" hide-details v-model="user.remember">
+                <template #label>
+                  <small class="grey--text lighten-4">
+                    {{ $t('auth.login.remember') }}
+                  </small>
+                </template>
+              </v-checkbox>
 						</v-col>
             <v-col cols="12" md="12" class="pt-0 pb-0">
               <div id="captcha"></div>
@@ -60,31 +66,31 @@
 				</v-container>
 			</v-card-text>
 
-			<div class="text-left pl-6 pr-6">
-				<small>
-					<span class="red--text">
-						<b>*</b>
-					</span>
-					<span class="grey--text text--lighten-1">
-						{{ $t('auth.indicates_required_fields') }}
-					</span>
-				</small>
-			</div>
-
-			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
+			<v-card-actions class="pt-2 pl-6 pr-6 pb-2">
 				<v-btn color="primary" :loading="loading" :disabled="!valid || !btn_available" tile block @click="verify">
 					{{ $t('auth.signin') }}
 				</v-btn>
 			</v-card-actions>
 
-			<div class="caption grey--text darken-4 pb-4 pl-6 pr-6">
+			<div class="caption grey--text darken-4 pb-1 pl-6 pr-6">
 				<v-btn class="text-decoration-underline" color="primary" href="/password/reset" :to="this.$spa ? '/password/reset' : null" small plain>
 					{{ $t('auth.login.forgot') }}
 				</v-btn>
 			</div>
+
+      <div class="text-left pl-5 pr-5 pb-2">
+        <small style="font-size: 60%">
+					<span class="red--text">
+						<b>*</b>
+					</span>
+          <span class="grey--text text--lighten-1">
+						{{ $t('auth.indicates_required_fields') }}
+					</span>
+        </small>
+      </div>
 		</v-card>
 
-		<v-alert v-if="verify_block" dense text type="success" class="mt-4">
+    <v-alert v-if="verify_block" dense text type="success" class="mt-4">
 			{{ $t('auth.login.verified_text') }}
 		</v-alert>
 

@@ -167,7 +167,8 @@ export default {
 			done: 'Исполнено',
 			wait: 'В обработке',
 			accepted: 'Принято',
-			fail: 'Отвергнуто'
+			fail: 'Отвергнуто',
+			refund: 'Отмена платежа',
 		},
 		gateway: {
 			replenish: {

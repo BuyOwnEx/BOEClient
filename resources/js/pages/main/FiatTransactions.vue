@@ -71,9 +71,14 @@
       </template>
 
 			<template #item.status="{ item }">
-				<span :class="getStatusColorClass(item.status)">
-					{{ getStatusName(item.status) }}
-				</span>
+        <CommonTooltip :value="item.details" v-if="item.details">
+          <span :class="getStatusColorClass(item.status)">
+					  {{ getStatusName(item.status) }}
+				  </span>
+        </CommonTooltip>
+        <span v-else :class="getStatusColorClass(item.status)">
+          {{ getStatusName(item.status) }}
+        </span>
 			</template>
 
 			<template #item.created_at="{ item }">
@@ -90,6 +95,7 @@ import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import filters from '@/components/filters/FiatTransactions.vue';
+import CommonTooltip from '@/components/common/CommonTooltip.vue';
 import randomColor from 'randomcolor';
 
 export default {
@@ -97,6 +103,7 @@ export default {
 
 	components: {
 		filters,
+    CommonTooltip
 	},
 
 	data() {
@@ -115,9 +122,10 @@ export default {
 			},
 			statuses: [
 				{ value: 'done', name: this.$t('fiat.statuses.done') }, // вывод осуществлен
-				{ value: 'wait', name: this.$t('fiat.statuses.wait') }, // ожидание вывода
+				{ value: 'wait', name: this.$t('fiat.statuses.wait') }, // ожидание вывода/ожидание подтвержения зачисления
 				{ value: 'accepted', name: this.$t('fiat.statuses.accepted') }, // пополнение принято
-				{ value: 'fail', name: this.$t('fiat.statuses.fail') }, // вывод отклонен
+				{ value: 'fail', name: this.$t('fiat.statuses.fail') }, // вывод отклонен/зачисление отклонено
+        { value: 'refund', name: this.$t('fiat.statuses.refund') }, // возврат зачисления
 			],
 			types: [
 				{ value: false, name: this.$t('common.withdrawal') },
@@ -275,7 +283,7 @@ export default {
 		getStatusColorClass(status) {
 			if (status === 'done' || status === 'accepted') return 'success--text';
 			else if (status === 'wait' || status === 'new') return 'warning--text';
-			else if (status === 'fail') return 'error--text';
+			else if (status === 'fail' || status === 'refund') return 'error--text';
 			else return '';
 		},
 
