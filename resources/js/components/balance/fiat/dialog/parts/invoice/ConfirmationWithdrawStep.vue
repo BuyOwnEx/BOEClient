@@ -19,14 +19,14 @@
           <div class="confirmation-item__secret-key">{{ inn }}</div>
         </div>
 
-        <div class="confirmation-item__info-key-wrapper">
+        <div class="confirmation-item__info-key-wrapper" v-if="selectedPlatform.currency !== 'USD'">
           <div class="confirmation-item__header mr-auto">
             {{ $t('fiat.bic') }}
           </div>
           <div class="confirmation-item__secret-key">{{ bic }}</div>
         </div>
 
-        <div class="confirmation-item__info-key-wrapper">
+        <div class="confirmation-item__info-key-wrapper" v-if="selectedPlatform.currency !== 'USD'">
           <div class="confirmation-item__header mr-auto">
             {{ $t('fiat.acc') }}
           </div>

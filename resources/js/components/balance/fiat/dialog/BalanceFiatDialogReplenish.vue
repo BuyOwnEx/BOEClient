@@ -14,7 +14,7 @@
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content pb-1">
-				<v-stepper v-model="step">
+				<v-stepper v-model="step" class="no-transition">
           <v-stepper-header>
             <v-stepper-step :complete="step > 1" step="1">
               {{ $t('balance.select_payment_method') }}
@@ -61,6 +61,8 @@
                   v-if="selected_gateway && selected_gateway.code === 'QR'"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
+                  :fees="fees"
+                  :bank_details="bank_details"
                   @filled="amount_filled"
                   @back_pressed="back"
               />
@@ -69,6 +71,8 @@
                   :trader_status="trader_status"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
+                  :fees="fees"
+                  :bank_details="bank_details"
                   @filled="fields_filled"
                   @back_pressed="back"
               />
@@ -76,15 +80,19 @@
 
             <v-stepper-content class="pa-0" step="3">
               <ShowQr
-                  v-if="selected_gateway && selected_gateway.code === 'QR' && amount !== null"
+                  v-if="selected_gateway && selected_gateway.code === 'QR' && amount !== null && bank_id !== null"
                   :selectedPlatform="selectedPlatfrom"
                   :amount="amount"
+                  :bank_details="bank_details"
+                  :bank_id="bank_id"
                   @back_pressed="back"
                   @success_response="close"
               />
               <ConfirmationStep
                   v-if="selected_gateway && selected_gateway.code === 'INVOICE' && amount !== null && inn !== null && bic !== null && acc !== null"
+                  :banks="banks"
                   :amount="amount"
+                  :bank_id="bank_id"
                   :inn="inn"
                   :bic="bic"
                   :acc="acc"
@@ -148,11 +156,14 @@ export default {
       selectedPlatfrom: null,
       selectedGateway: null,
 			amount: null,
+      bank_id: null,
       inn: null,
       bic: null,
       acc: null,
       gateways: [],
+      banks: [],
       fees: [],
+      bank_details: [],
 			step: 1,
 		};
 	},
@@ -188,14 +199,17 @@ export default {
 
 	methods: {
     fields_filled(data) {
+      this.bank_id = data.bank_id;
       this.amount = data.amount;
       this.inn = data.inn;
       this.bic = data.bic;
       this.acc = data.acc;
+      this.banks = data.banks;
       this.step++;
 		},
-    amount_filled(amount) {
-      this.amount = amount;
+    amount_filled(data) {
+      this.amount = data.amount;
+      this.bank_id = data.bank_id;
       this.step++;
     },
     platformSelected(data) {
@@ -220,6 +234,9 @@ export default {
     });
     axios.get('/trader/ext/all_fiat_fees').then(response => {
       this.fees = response.data.data;
+    });
+    axios.get('/trader/ext/replenish_bank_details').then(response => {
+      this.bank_details = response.data.data;
     });
   }
 };

@@ -15,6 +15,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "pragmarx/google2fa": "^8.0",
         "pragmarx/google2fa-qrcode": "^2.1",
         "predis/predis": "^2.2"

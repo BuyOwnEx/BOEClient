@@ -7,10 +7,20 @@
 
       <div class="balance-fiat-dialog-withdraw__withdraw-info">
         <div v-if="this.is_legal" class="py-2">
-          {{ $t('balance.dialog.fiat_withdrawal_invoice_comp_fill_fields_step_description') }}
+          <span v-if="selectedPlatform.currency ==='USD'">
+            {{ $t('balance.dialog.fiat_usd_withdrawal_invoice_comp_fill_fields_step_description') }}
+          </span>
+          <span v-else>
+            {{ $t('balance.dialog.fiat_withdrawal_invoice_comp_fill_fields_step_description') }}
+          </span>
         </div>
         <div v-else class="py-2">
-          {{ $t('balance.dialog.fiat_withdrawal_invoice_ind_fill_fields_step_description') }}
+          <span v-if="selectedPlatform.currency ==='USD'">
+            {{ $t('balance.dialog.fiat_usd_withdrawal_invoice_ind_fill_fields_step_description') }}
+          </span>
+          <span v-else>
+            {{ $t('balance.dialog.fiat_withdrawal_invoice_ind_fill_fields_step_description') }}
+          </span>
         </div>
 
         <CommonAvailable
@@ -51,7 +61,7 @@
         />
       </div>
 
-      <v-form ref="form" v-model="formValid" lazy-validation>
+      <v-form ref="form" v-model="formValid" lazy-validation v-if="selectedPlatform.currency !== 'USD'">
         <v-row>
           <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
@@ -84,6 +94,50 @@
             />
           </v-col>
           <v-col cols="12" md="12" class="pt-0 pb-0">
+            <v-text-field
+                v-model="acc"
+                :label="$t('fiat.acc')"
+                :rules="[rules.required, rules.acc]"
+                v-mask="'####################'"
+                persistent-hint
+                @paste.prevent
+            />
+          </v-col>
+        </v-row>
+      </v-form>
+      <v-form ref="form" v-model="formValid" lazy-validation v-else>
+        <v-row>
+          <v-col cols="12" md="12" class="pt-0 pb-0">
+            <v-text-field
+                v-model="amount"
+                :label="$t('balance.amount')"
+                :suffix="selectedPlatform.currency"
+                v-mask="numberMask"
+                :rules="amountRules"
+                @paste.prevent
+            />
+          </v-col>
+          <v-col cols="12" md="12" class="pt-0 pb-0">
+            <v-text-field
+                v-model="inn"
+                :label="$t('fiat.inn')"
+                :rules="[rules.required, this.is_legal ? rules.comp_inn : rules.ind_inn]"
+                v-mask="this.is_legal ? '##########' : '############'"
+                persistent-hint
+                @paste.prevent
+            />
+          </v-col>
+          <v-col cols="12" md="12" class="pt-0 pb-0" style="display: none">
+            <v-text-field
+                v-model="bic"
+                :label="$t('fiat.bic')"
+                :rules="[rules.required, rules.bic]"
+                v-mask="'#########'"
+                persistent-hint
+                @paste.prevent
+            />
+          </v-col>
+          <v-col cols="12" md="12" class="pt-0 pb-0" style="display: none">
             <v-text-field
                 v-model="acc"
                 :label="$t('fiat.acc')"
@@ -171,8 +225,8 @@ export default {
       selected_platform: this.selectedPlatform,
       amount: '',
       inn: null,
-      bic: null,
-      acc: null,
+      bic: this.selectedPlatform.currency === 'USD' ? '000000000' : null,
+      acc: this.selectedPlatform.currency === 'USD' ? '00000000000000000000' : null,
       formValid: false,
       gateways: [],
       amountRules:  [

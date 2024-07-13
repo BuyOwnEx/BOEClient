@@ -531,6 +531,8 @@ export default {
 		show_only_not_null_balances: 'Show only not null balances',
 		select_payment_method: 'Select payment method',
 		select_network: 'Select network',
+		select_bank: 'Bank',
+		select_bank_hint: 'Select bank',
 		inn: 'TIN',
 		bic: 'BIC',
 		acc: 'Account no',
@@ -612,7 +614,7 @@ export default {
 				'There is no other way to Deposit, payments sent not through our Deposit form, but in any other way, will not be credited and processed. They will be lost, claims in this case are not accepted.\n' +
 				'By clicking the Next button, you agree to these terms ',
 			fiat_qr_amount_step_description:
-				'Specify the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "Paid" button.',
+				'Specify your preferred bank and the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "Paid" button.',
 			fiat_qr_confirm_step_description:
 				'Scan the QR code in your bank\'s mobile application, make the transfer without changing any data, and click the "Paid" button',
 			fiat_invoice_fill_fields_step_description:

@@ -70,6 +70,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('all_currencies', 'TraderController@getAllCurrencies')->name('all_currencies');
         Route::get('all_fiat_platforms', 'TraderController@getAllFiatPlatforms')->name('all_fiat_platforms');
         Route::get('all_fiat_fees', 'TraderController@getAllFiatFees')->name('all_fiat_fees');
+        Route::get('all_banks', 'TraderController@getAllBanks')->name('all_banks');
         Route::get('health', 'TraderController@getHealth')->name('health');
         Route::get('get_offer_list', 'TraderController@getOfferList')->name('offer_list');
 
@@ -107,6 +108,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('kyc_kontur_data', 'TraderController@getKYCKonturData')->name('kyc_kontur_data');
             Route::get('verification_bank_details', 'TraderController@getVerificationBankDetails')->name('verification_bank_details');
             Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
+
             Route::get('get_image', 'TraderController@getKYCImage')->name('kyc_image');
 
             Route::middleware('check_block_status')->group(function () {

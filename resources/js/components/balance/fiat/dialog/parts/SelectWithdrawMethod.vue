@@ -108,7 +108,7 @@ export default {
     getGatewayLogo(gateway_id)
     {
       let gateway = _.find(this.gateways, item => (item.id === gateway_id));
-      return `/storage/fiat_gateways/${gateway.logo}`;
+      return `${gateway.logo}`;
     },
     getMinAmount(item) {
       return item.minWithdraw;

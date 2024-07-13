@@ -51,7 +51,6 @@ class CheckMobileSign
     {
         ksort($params);
         $postFields = http_build_query($params, '', '&');
-        Log::info($postFields);
         $signature = strtoupper(hash_hmac('sha256', $postFields, $secret));
         return $signature;
     }

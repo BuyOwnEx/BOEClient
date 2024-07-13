@@ -10,7 +10,7 @@
     >
       <template #top>
         <v-toolbar flat dense>
-          <div class="component-title">{{ $t('balance.headers.own_active_withdraw_list') }}</div>
+          <div class="component-title">{{ $t('balance.headers.own_active_fiat_withdraw_list') }}</div>
         </v-toolbar>
       </template>
 

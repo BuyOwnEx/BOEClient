@@ -258,6 +258,17 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getAllBanks()
+    {
+        try {
+            return Cache::remember('all_banks', 60, function (){
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->all_banks();
+            });
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getHealth()
     {
         try {
@@ -1213,6 +1224,7 @@ class TraderController extends Controller
             return $api->notifyFiatQRReplenish(
                 Auth::id(),
                 $request->currency,
+                $request->bank_id,
                 $request->amount,
                 $request->gateway_id
             );
@@ -1230,6 +1242,7 @@ class TraderController extends Controller
                 Auth::id(),
                 $request->currency,
                 $request->amount,
+                $request->bank_id,
                 $request->inn,
                 $request->bic,
                 $request->acc,

@@ -7,6 +7,21 @@
       <div class="confirmation-item__info-wrapper">
         <div class="confirmation-item__info-key-wrapper">
           <div class="confirmation-item__header mr-auto">
+            {{ $t('balance.select_bank') }}
+          </div>
+          <div class="confirmation-item__secret-key">
+            <v-img
+                class="elevation-0 d-inline-flex"
+                style="vertical-align: middle"
+                :src="bank_logo"
+                max-height="16"
+                max-width="16"
+            ></v-img>
+            <span class="ml-1">{{ bank_name }}</span>
+          </div>
+        </div>
+        <div class="confirmation-item__info-key-wrapper">
+          <div class="confirmation-item__header mr-auto">
             {{ $t('common.amount') }}
           </div>
           <div class="confirmation-item__secret-key">{{ amount }} {{ selectedPlatform.currency }}</div>
@@ -83,6 +98,10 @@ export default {
       type: Array,
       required: true,
     },
+    banks: {
+      type: Array,
+      required: true,
+    },
     amount: {
       type: String,
       required: true,
@@ -99,14 +118,14 @@ export default {
       type: String,
       required: true,
     },
+    bank_id: {
+      type: [String, Number],
+      required: true,
+    },
   },
   data() {
     return {
       platform: this.selectedPlatform,
-      d_amount: this.amount,
-      d_inn: this.inn,
-      d_bic: this.bic,
-      d_acc: this.acc
     };
   },
   computed: {
@@ -116,6 +135,20 @@ export default {
     currency() {
       return this.selectedPlatfrom?.currency;
     },
+    bank_logo() {
+      let bank_ind = _.findIndex(this.banks, (item) => {
+        return item.id === this.bank_id
+      });
+      if(bank_ind > 0) return this.banks[bank_ind].logo;
+      else return null;
+    },
+    bank_name() {
+      let bank_ind = _.findIndex(this.banks, (item) => {
+        return item.id === this.bank_id
+      });
+      if(bank_ind > 0) return this.banks[bank_ind].name;
+      else return null;
+    }
   },
   mounted() {
 
@@ -187,10 +220,11 @@ export default {
     finish() {
       axios.post('/trader/ext/notify_fiat_invoice_replenish', {
         currency: this.platform.currency,
-        amount: this.d_amount,
-        inn: this.d_inn,
-        bic: this.d_bic,
-        acc: this.d_acc,
+        amount: this.amount,
+        bank_id: this.bank_id,
+        inn: this.inn,
+        bic: this.bic,
+        acc: this.acc,
         gateway_id: this.platform.gateway_id
       }).then(response => {
         if (response.data.success === true) {

@@ -479,7 +479,7 @@ export default {
           '|KPP='+this.bank_details.kpp+
           '|PayeeINN='+this.bank_details.payee_inn+
           '|Purpose='+this.bank_details.purpose+
-          '|Sum='+this.bank_details.sum.String
+          '|Sum=100'
           : '';
     },
     is_payment_required() {

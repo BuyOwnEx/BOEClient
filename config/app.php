@@ -13,6 +13,7 @@ return [
     'mobile-api-enabled'         => (bool) env('MOBILE_API_ENABLED', false),
     'spa_enabled'         => (bool) env('SPA_ENABLED', false),
     'support_enabled'     => (bool) env('VITE_CONFIG_ENABLED_SUPPORT', false),
+    'kyc_driver'          => env('VITE_KYC_DRIVER', 'local'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

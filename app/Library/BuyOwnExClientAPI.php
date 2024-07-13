@@ -74,6 +74,12 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function all_banks()
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_banks');
+        return response()->json($response->json(),$response->status());
+    }
+
     public function health()
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/health');
@@ -925,13 +931,15 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
-    public function notifyFiatQRReplenish($trader_id, $currency, $amount, $gateway_id)
+    public function notifyFiatQRReplenish($trader_id, $currency, $bank_id, $amount, $gateway_id)
     {
         $params = [
             'trader' => $trader_id,
             'currency' => $currency,
+            'bank_id' => $bank_id,
             'amount' => $amount,
-            'gateway_id' => $gateway_id
+            'gateway_id' => $gateway_id,
+            'kyc_driver' => config('app.kyc_driver')
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -939,16 +947,18 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
-    public function notifyFiatInvoiceReplenish($trader_id, $currency, $amount, $inn, $bic, $acc, $gateway_id)
+    public function notifyFiatInvoiceReplenish($trader_id, $currency, $amount, $bank_id, $inn, $bic, $acc, $gateway_id)
     {
         $params = [
             'trader' => $trader_id,
             'currency' => $currency,
             'amount' => $amount,
+            'bank_id' => $bank_id,
             'inn' => $inn,
             'bic' => $bic,
             'acc' => $acc,
-            'gateway_id' => $gateway_id
+            'gateway_id' => $gateway_id,
+            'kyc_driver' => config('app.kyc_driver')
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -965,7 +975,8 @@ class BuyOwnExClientAPI
             'inn' => $inn,
             'bic' => $bic,
             'acc' => $acc,
-            'gateway_id' => $gateway_id
+            'gateway_id' => $gateway_id,
+            'kyc_driver' => config('app.kyc_driver')
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

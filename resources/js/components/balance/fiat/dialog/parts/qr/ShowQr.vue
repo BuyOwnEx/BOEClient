@@ -5,7 +5,7 @@
         {{ $t('balance.dialog.fiat_qr_confirm_step_description') }}
       </div>
       <div class="text-center">
-        <QrCode v-if="this.bank_details !== null" :value="qr_replenish" :options="{ width: 200 }" />
+        <QrCode v-if="this.details !== null" :value="qr_replenish" :options="{ width: 200 }" />
       </div>
     </v-card-text>
 
@@ -54,12 +54,18 @@ export default {
       type: String,
       required: true,
     },
+    bank_details: {
+      type: Array,
+      required: true,
+    },
+    bank_id: {
+      type: [String, Number],
+      required: true,
+    },
   },
   data() {
     return {
-      bank_details: null,
-      platform: this.selectedPlatform,
-      d_amount: this.amount
+      platform: this.selectedPlatform
     };
   },
   computed: {
@@ -69,24 +75,28 @@ export default {
     currency() {
       return this.selectedPlatfrom?.currency;
     },
+    details() {
+      let find_detail = _.findIndex(this.bank_details, (detail) => {
+        return detail.bank_id === this.bank_id && detail.gateway_id === this.selectedPlatform.gateway_id && detail.is_active === true
+      });
+      return this.bank_details[find_detail];
+    },
     qr_replenish() {
-      return this.bank_details ?
-          'ST00012|Name='+this.bank_details.name+
-          '|PersonalAcc='+this.bank_details.personal_acc+
-          '|BankName='+this.bank_details.bank_name+
-          '|BIC='+this.bank_details.bic+
-          '|CorrespAcc='+this.bank_details.corr_acc+
-          '|KPP='+this.bank_details.kpp+
-          '|PayeeINN='+this.bank_details.payee_inn+
-          '|Purpose='+this.bank_details.purpose.replace('%trader_id%', this.$user.id).replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())+
+      return this.details ?
+          'ST00012|Name='+this.details.name+
+          '|PersonalAcc='+this.details.personal_acc+
+          '|BankName='+this.details.bank_name+
+          '|BIC='+this.details.bic+
+          '|CorrespAcc='+this.details.corr_acc+
+          '|KPP='+this.details.kpp+
+          '|PayeeINN='+this.details.inn+
+          '|Purpose='+this.details.purpose.replace('%trader_id%', this.$user.id).replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())+
           '|Sum='+BigNumber(this.amount).multipliedBy(100).toString()
           : '';
     },
   },
   mounted() {
-    axios.get('/trader/ext/replenish_bank_details').then(response => {
-      this.bank_details = response.data.data;
-    });
+
   },
   methods: {
     next() {
@@ -98,8 +108,9 @@ export default {
     finish() {
       axios.post('/trader/ext/notify_fiat_qr_replenish', {
         currency: this.platform.currency,
-        amount: this.d_amount,
-        gateway_id: this.platform.gateway_id
+        amount: this.amount,
+        gateway_id: this.platform.gateway_id,
+        bank_id: this.bank_id
       }).then(response => {
         if (response.data.success === true) {
           this.$emit('success_response');
