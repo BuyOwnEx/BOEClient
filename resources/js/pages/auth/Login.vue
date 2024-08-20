@@ -230,16 +230,14 @@ export default {
       else if(window.config.captcha_type.toUpperCase() === 'CLOUDFLARE')
       {
         axios.get('/captcha?captcha_type=cloudflare&t='+(new Date()).getTime()).then( res => {
-          turnstile.ready(function () {
-            turnstile.render('#captcha', {
-              sitekey: res.data.captcha_id,
-              language: self.$i18n.locale,
-              theme: self.$vuetify.theme.isDark ? 'dark' : 'light',
-              callback: function(token) {
-                self.captcha_obj = token;
-                self.user.captcha_output = token;
-              },
-            });
+          turnstile.render('#captcha', {
+            sitekey: res.data.captcha_id,
+            language: self.$i18n.locale,
+            theme: self.$vuetify.theme.isDark ? 'dark' : 'light',
+            callback: function(token) {
+              self.captcha_obj = token;
+              self.user.captcha_output = token;
+            },
           });
         })
       }

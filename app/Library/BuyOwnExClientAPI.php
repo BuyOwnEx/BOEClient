@@ -883,12 +883,13 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
-    public function kycKonturCompRequest($trader_id, $inn, $edo_id)
+    public function kycKonturCompRequest($trader_id, $inn, $edo_id, $file_doc)
     {
         $params = [
             'trader' => $trader_id,
             'inn' => $inn,
-            'edo_id' => $edo_id
+            'edo_id' => $edo_id,
+            'file_doc' => $file_doc
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

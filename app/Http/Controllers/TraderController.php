@@ -1016,10 +1016,12 @@ class TraderController extends Controller
     {
         $validator=Validator::make($request->all(), [
             'comp_inn' => 'nullable|string|size:10',
-            'edo_id' => 'required|string|min:35|max:50'
+            'edo_id' => 'required|string|min:35|max:50',
+            'file_doc' => 'required|file|mimes:pdf|max:2048',
         ], [], [
             'comp_inn' => __('kyc.kontur.validation.comp_inn'),
             'edo_id' => __('kyc.kontur.validation.edo_id'),
+            'file_doc' => __('kyc.file_doc'),
         ]);
         if ($validator->fails())
         {
@@ -1032,11 +1034,13 @@ class TraderController extends Controller
         {
             try
             {
+                $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_doc'));
                 $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
                 return $api->kycKonturCompRequest(
                     Auth::id(),
                     $request->comp_inn,
-                    $request->edo_id
+                    $request->edo_id,
+                    $path_doc
                 );
             }
             catch (Exception $e)

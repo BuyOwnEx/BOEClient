@@ -172,6 +172,21 @@
                         persistent-hint
                         outlined
                     />
+
+                    <v-file-input
+                        v-model="comp_data.file_doc"
+                        :label="$t('kyc.file_doc')"
+                        :hint="$t('kyc.file_doc_hint')"
+                        accept="application/pdf"
+                        prepend-icon="mdi-file-pdf-box"
+                        :error-messages="errors.file_doc"
+                        @input="errors.file_doc = []"
+                        :rules="[rules.required]"
+                        persistent-hint
+                        clearable
+                        required
+                        class="required"
+                    ></v-file-input>
                   </v-form>
                 </v-card-text>
               </v-card>
@@ -547,6 +562,7 @@ export default {
       comp_data: {
         comp_inn: null,
         edo_id: null,
+        file_doc: null,
         risk_level: null,
         risk: null,
         created_at: null,
@@ -561,7 +577,8 @@ export default {
         edo_id: [],
         file_ps: [],
         file_ws: [],
-        file_ts: []
+        file_ts: [],
+        file_doc: []
       },
     };
   },
@@ -690,10 +707,34 @@ export default {
           });
     },
     sendCompKYCRequest() {
-      axios.post('/trader/ext/kyc_kontur_comp_request', this.comp_data).then(response => {
+      let self = this;
+      let formData = new FormData();
+      if (this.comp_data['file_doc'] && this.comp_data['file_doc'].name) {
+        formData.append('file_doc', this.comp_data['file_doc'], this.comp_data['file_doc'].name);
+      }
+      _.each(this.comp_data, function (value, key) {
+        if (value !== null) formData.append(key, value);
+      });
+
+      axios.post('/trader/ext/kyc_kontur_comp_request', formData)
+      .then(response => {
         if (response.data.success === true) {
           console.log(response.data);
           this.$store.dispatch('user/getKonturData');
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 422) {
+          let errors = error.response.data.errors;
+          if (errors) {
+            for (let field in errors) {
+              if (errors.hasOwnProperty(field)) {
+                self.errors[field] = errors[field];
+              }
+            }
+          }
+        } else {
+          console.log(error);
         }
       });
     },

@@ -402,11 +402,11 @@ export default {
 				buy_market_order: 'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене',
 				buy_market_order_with_params:
 					'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
-				buy_stop_loss:
+				buy_stop_loss_text:
 					'Продать по рынку в случае, если Best Bid достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
-				buy_take_profit:
+				buy_take_profit_text:
 					'Продать по рынку в случае, если Best Bid достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
-				buy_trailing_stop:
+				buy_trailing_stop_text:
 					'Продать по рынку в случае, если цена актива упадёт одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
 
 				buy_limit_leverage:
@@ -2803,6 +2803,7 @@ export default {
 		file_ps: 'Скан паспорта (фото)',
 		file_ws: 'Скан паспорта (регистрация)',
 		file_ts: 'Селфи с паспортом',
+		file_doc: 'Гарантийное письмо',
 		first_name_hint: 'Введите имя',
 		second_name_hint: 'Введите отчество',
 		surname_hint: 'Введите фамилию',
@@ -2816,6 +2817,7 @@ export default {
 		file_ps_hint: 'Прикрипите скан паспорта (страница с фото). Доступные форматы: .png, .jpg. Макс. рамер файла 2Mb',
 		file_ws_hint: 'Прикрипите скан паспорта (страница с регистрацией). Доступные форматы: .png, .jpg. Макс. рамер файла 2Mb',
 		file_ts_hint: 'Селфи с паспортом в развернутом виде. Доступные форматы: .png, .jpg. Макс. рамер файла 2Mb',
+		file_doc_hint: 'Прикрипите гарантийное письмо организации. Доступные форматы: .pdf. Макс. рамер файла 2Mb',
 		fill_all_fields: 'Заполните все поля',
 		make_payment: 'Произведите оплату по QR коду',
 		bank_detail_description: 'Для совершения оплаты, сканируйте qr-код с помощью мобильного приложения вашего банка (оплата по qr-коду)',

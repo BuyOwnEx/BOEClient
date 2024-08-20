@@ -593,7 +593,11 @@ export default {
 				this.pushErrorNotification(_, 'incorrect');
 				return;
 			}
-
+      this.form.rate = BigNumber(this.form.rate).toString();
+      this.form.amount = BigNumber(this.form.amount).toString();
+      if(this.form.sl_rate) this.form.sl_rate = BigNumber(this.form.sl_rate).toString();
+      if(this.form.tp_rate) this.form.sl_rate = BigNumber(this.form.tp_rate).toString();
+      if(this.form.ts_offset) this.form.sl_rate = BigNumber(this.form.ts_offset).toString();
 			let form = this.additionalParamsEnabled ? this.form : _.omit(this.form, ['sl_rate', 'tp_rate', 'ts_offset']);
 			if (this.marginTradingAvailable) {
 				form.margin = this.useMargin ? 1 : 0;

@@ -11,13 +11,13 @@
 		<template #content>
 			<div>
 				<div v-if="!isLeverage">
-					<div v-if="isBuy && isLimit" v-html="buyLimitText" />
-					<div v-else-if="isBuy && isMarket" v-html="buyMarketText" />
+					<div v-if="isBuy && isLimit && !isAnyAdditionalParamExist" v-html="buyLimitText" />
+					<div v-else-if="isBuy && isMarket && !isAnyAdditionalParamExist" v-html="buyMarketText" />
 					<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyLimitParamsText" />
-					<div v-else-if="isBuy && isLimit && isAnyAdditionalParamExist" v-html="buyMarketParamsText" />
+					<div v-else-if="isBuy && isMarket && isAnyAdditionalParamExist" v-html="buyMarketParamsText" />
 
-					<div v-if="isSell && isLimit" v-html="sellLimitText" />
-					<div v-else-if="isSell && isMarket" v-html="sellMarketText" />
+					<div v-if="isSell && isLimit && !isAnyAdditionalParamExist" v-html="sellLimitText" />
+					<div v-else-if="isSell && isMarket && !isAnyAdditionalParamExist" v-html="sellMarketText" />
 					<div v-else-if="isSell && isLimit && isAnyAdditionalParamExist" v-html="sellLimitParamsText" />
 					<div v-else-if="isSell && isMarket && isAnyAdditionalParamExist" v-html="sellMarketParamsText" />
 				</div>
