@@ -33,22 +33,19 @@
 									<th colspan="2" nowrap="">
 										{{ $t('table_header.daily_withdrawal_limit') }}
 									</th>
-									<th rowspan="2" nowrap="">
-										{{ $t('table_header.blocked_funds_limits') }}
-									</th>
 									<th colspan="5">
 										{{ $t('table_header.platform') }}
 									</th>
 								</tr>
-
 								<tr>
 									<th>
-										KYC
+                    <span v-if="advanced_limit_info">{{ $t('common.individual') }}</span>
+                    <span v-else>KYC</span>
 									</th>
 									<th>
-										{{ $t('table_header.no_kyc') }}
+                    <span v-if="advanced_limit_info">{{ $t('common.legal') }}</span>
+                    <span v-else>{{ $t('table_header.no_kyc') }}</span>
 									</th>
-
 									<th>
 										{{ $t('table_header.network') }}
 									</th>
@@ -77,8 +74,10 @@
 											<td nowrap="">{{ curr.name }}</td>
 											<td class="overline" nowrap="">{{ curr.type }}</td>
 											<td nowrap="">{{ curr.maxVerifyWithdraw }} {{ curr.currency }}</td>
-											<td nowrap="">{{ curr.maxWithdraw }} {{ curr.currency }}</td>
-											<td nowrap="">{{ curr.blockedFundLimit !== 0 ? curr.blockedFundLimit : '-' }} {{ curr.blockedFundLimit !== 0 ? curr.currency : ''}}</td>
+											<td nowrap="">
+                        <span v-if="advanced_limit_info"> - </span>
+                        <span v-else>{{ curr.maxWithdraw }} {{ curr.currency }}</span>
+                      </td>
 											<td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
 											<td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>
 											<td>{{ platform.minReplenish }} {{ curr.currency }}</td>
@@ -119,6 +118,7 @@ export default {
 	data() {
 		return {
 			selectedTab: 0,
+      advanced_limit_info: import.meta.env.VITE_ADVANCED_WITHDRAW_LIMITS === 'true'
 		};
 	},
   computed: {

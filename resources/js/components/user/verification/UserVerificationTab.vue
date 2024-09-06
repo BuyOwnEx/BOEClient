@@ -14,12 +14,10 @@ export default {
 
 	data: () => ({
 		SumSubToken: '',
-		api: 'https://test-api.sumsub.com',
-		flowName: 'scheme',
+		api: 'https://api.sumsub.com',
 
-		email: '',
+		email: null,
 		phone: null,
-		i18n: null,
 
 		customCss: `
 							:root {
@@ -403,29 +401,34 @@ export default {
 			this.SumSubToken = token.data.token;
 			return token.data.token;
 		},
-		launchWebSdk(apiUrl, flowName, accessToken, applicantEmail, applicantPhone, customI18nMessages) {
-			const snsWebSdkInstance = snsWebSdk
-				.Builder(apiUrl, flowName)
-				.withAccessToken(accessToken, newSumSubTokenCallback => {
-					const newSumSubToken = this.newSumSubToken();
-					newSumSubTokenCallback(newSumSubToken);
-				})
-				.withConf({
-					lang: this.userLang,
-					email: applicantEmail,
-					phone: applicantPhone,
-					i18n: customI18nMessages,
-					onMessage: (type, payload) => {
-						console.log('WebSDK onMessage', type, payload);
-					},
-					onError: error => {
-						console.error('WebSDK onError', error);
-					},
-					uiConf: {
-						customCssStr: this.customCss,
-					},
-				})
-				.build();
+		launchWebSdk(accessToken, applicantEmail, applicantPhone) {
+      let snsWebSdkInstance = snsWebSdk
+          .init(accessToken, () => this.newSumSubToken())
+          .withConf({
+            lang: this.userLang,
+            email: applicantEmail,
+            phone: applicantPhone,
+            onMessage: (type, payload) => {
+              console.log("WebSDK onMessage", type, payload);
+            },
+            uiConf: {
+              customCssStr: this.customCss,
+            },
+            onError: (error) => {
+              console.error("WebSDK onError", error);
+            },
+          })
+          .withOptions({ addViewportTag: false, adaptIframeHeight: true })
+          .on("idCheck.stepCompleted", (payload) => {
+            console.log("stepCompleted", payload);
+          })
+          .on("idCheck.onError", (error) => {
+            console.log("onError", error);
+          })
+          .onMessage((type, payload) => {
+            console.log("onMessage", type, payload);
+          })
+				  .build();
 			snsWebSdkInstance.launch('#sumsub');
 		},
 
@@ -434,11 +437,10 @@ export default {
 		},
 	},
 
-	async created() {
+	async mounted() {
 		if (this.$vuetify.theme.dark) this.getDarkStyles();
-
 		const token = await this.newSumSubToken();
-		this.launchWebSdk(this.api, this.flowName, token, this.email, this.phone, this.i18n);
+		this.launchWebSdk(token, this.email, this.phone);
 	},
 };
 </script>

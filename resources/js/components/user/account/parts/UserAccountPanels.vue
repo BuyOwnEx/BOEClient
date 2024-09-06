@@ -8,13 +8,36 @@
 			<v-expansion-panel-content>
 				<v-divider />
 
-				<div class="mt-2">
-					<div class="title">{{ $t('user.info.change_email') }}</div>
-					<div class="subtitle mb-2">
-						{{ $t('user.info.change_email_subtitle') }}
-					</div>
-					<UserAccountDialogChangeEmail :current-email="user.email" :two-fa="user.g2fa" />
-				</div>
+        <div class="d-flex justify-space-between">
+          <div class="mt-2">
+            <div class="title">{{ $t('user.info.change_email') }}</div>
+            <div class="subtitle mb-2">
+              {{ $t('user.info.change_email_subtitle') }}
+            </div>
+            <UserAccountDialogChangeEmail :current-email="user.email" :two-fa="user.g2fa" />
+          </div>
+          <div class="mt-2 ml-2">
+            <div class="title">{{ $t('user.info.account_info_request') }}</div>
+            <div class="subtitle mb-2">
+              {{ $t('user.info.account_info_request_subtitle') }}
+            </div>
+            <UserAccountDialogAccountInfoRequest />
+          </div>
+          <div class="mt-2 ml-2">
+            <div class="title">{{ $t('user.info.statement_request') }}</div>
+            <div class="subtitle mb-2">
+              {{ $t('user.info.statement_request_subtitle') }}
+            </div>
+            <UserAccountDialogStatementRequest />
+          </div>
+          <div class="mt-2 ml-2">
+            <div class="title">{{ $t('user.info.account_delete') }}</div>
+            <div class="subtitle mb-2">
+              {{ $t('user.info.account_delete_subtitle') }}
+            </div>
+            <UserAccountDialogAccountDelete :two-fa="user.g2fa" />
+          </div>
+        </div>
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 
@@ -53,11 +76,18 @@
 import formatDate from '@/mixins/format/formatDate';
 
 import UserAccountDialogChangeEmail from '@/components/user/account/dialog/UserAccountDialogChangeEmail.vue';
+import UserAccountDialogStatementRequest from '@/components/user/account/dialog/UserAccountDialogStatementRequest.vue';
+import UserAccountDialogAccountInfoRequest
+  from '@/components/user/account/dialog/UserAccountDialogAccountInfoRequest.vue';
+import UserAccountDialogAccountDelete from '@/components/user/account/dialog/UserAccountDialogAccountDelete.vue';
 
 export default {
 	name: 'UserAccountPanels',
 
 	components: {
+    UserAccountDialogAccountDelete,
+    UserAccountDialogAccountInfoRequest,
+    UserAccountDialogStatementRequest,
 		UserAccountDialogChangeEmail,
 	},
 

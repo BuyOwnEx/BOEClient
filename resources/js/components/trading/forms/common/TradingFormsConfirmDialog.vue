@@ -1,5 +1,5 @@
 <template>
-	<CommonDialog :confirm-color="getTypeColor" :header-color="getTypeColor" @confirm="confirm">
+	<CommonDialog :confirm-color="getTypeColor" :header-color="getTypeColor" @confirm="confirm" :disabled="!isLogged || (isLogged && (!verifyStatus && !isNonKYCTradingAvailable))">
 		<template #default>
 			<slot></slot>
 		</template>
@@ -9,7 +9,13 @@
 		</template>
 
 		<template #content>
-			<div>
+      <div v-if="!isLogged" class="mt-2 mb-2">
+        <span class="red--text"><b>{{ $t('trading.forms.must_login') }}</b></span>
+      </div>
+      <div v-else-if="isLogged && (!verifyStatus && !isNonKYCTradingAvailable)" class="mt-2 mb-2">
+        <span class="red--text"><b>{{ $t('trading.forms.must_kyc') }}</b></span>
+      </div>
+			<div v-else>
 				<div v-if="!isLeverage">
 					<div v-if="isBuy && isLimit && !isAnyAdditionalParamExist" v-html="buyLimitText" />
 					<div v-else-if="isBuy && isMarket && !isAnyAdditionalParamExist" v-html="buyMarketText" />
@@ -53,6 +59,7 @@
 
 <script>
 import CommonDialog from '@/components/common/CommonDialog.vue';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
 	name: 'TradingFormsConfirmDialog',
@@ -126,6 +133,13 @@ export default {
 	},
 
 	computed: {
+    ...mapGetters({
+      isLogged: 'app/isLogged',
+    }),
+    ...mapState('user', ['verifyStatus']),
+    isNonKYCTradingAvailable() {
+      return import.meta.env.VITE_TRADING_WITHOUT_KYC === 'true';
+    },
 		isLimit() {
 			return this.orderType === 'limit';
 		},

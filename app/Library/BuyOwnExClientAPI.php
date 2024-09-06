@@ -864,6 +864,16 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/register_trader',$params);
         return response()->json($response->json(),$response->status());
     }
+    public function checkTraderName($name)
+    {
+        $params = [
+            'name' => $name
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/check_trader_name',$params);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function kycKonturIndRequest($trader_id, $fio, $birthday, $passport_number, $inn, $file_ps, $file_ws, $file_ts)
     {
@@ -882,7 +892,6 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_kontur_ind_request',$params);
         return response()->json($response->json(),$response->status());
     }
-
     public function kycKonturCompRequest($trader_id, $inn, $edo_id, $file_doc)
     {
         $params = [
@@ -896,7 +905,6 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_kontur_comp_request',$params);
         return response()->json($response->json(),$response->status());
     }
-
     public function verificationRequest($trader_id, $first_name, $second_name, $surname, $sex, $birthday, $birthday_place, $passport_no, $passport_place, $passport_date, $address, $file_ps, $file_ws, $file_ts)
     {
         $params = [
@@ -920,7 +928,6 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/verification_request',$params);
         return response()->json($response->json(),$response->status());
     }
-
     public function verificationPayment($trader_id)
     {
         $params = [
@@ -929,6 +936,20 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/verification_payment',$params);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getKYCKonturData($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/kyc_kontur_data',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getVerification($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/verification_request',[
+            'trader' => $trader_id
+        ]);
         return response()->json($response->json(),$response->status());
     }
 
@@ -947,7 +968,6 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/notify_fiat_qr_replenish',$params);
         return response()->json($response->json(),$response->status());
     }
-
     public function notifyFiatInvoiceReplenish($trader_id, $currency, $amount, $bank_id, $inn, $bic, $acc, $gateway_id)
     {
         $params = [
@@ -966,7 +986,6 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/notify_fiat_invoice_replenish',$params);
         return response()->json($response->json(),$response->status());
     }
-
     public function notifyFiatInvoiceWithdraw($trader_id, $currency, $amount, $inn, $bic, $acc, $gateway_id)
     {
         $params = [
@@ -984,23 +1003,6 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/notify_fiat_invoice_withdraw',$params);
         return response()->json($response->json(),$response->status());
     }
-
-    public function getKYCKonturData($trader_id)
-    {
-        $response = Http::withToken($this->api_key)->get($this->base.'v1/kyc_kontur_data',[
-            'trader' => $trader_id
-        ]);
-        return response()->json($response->json(),$response->status());
-    }
-
-    public function getVerification($trader_id)
-    {
-        $response = Http::withToken($this->api_key)->get($this->base.'v1/verification_request',[
-            'trader' => $trader_id
-        ]);
-        return response()->json($response->json(),$response->status());
-    }
-
     public function getVerificationBankDetails($trader_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/get_verification_bank_details',[
@@ -1016,14 +1018,64 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
-    public function checkTraderName($name)
+    public function accountInfoRequest($trader_id, $lang)
     {
         $params = [
-            'name' => $name
+            'trader' => $trader_id,
+            'lang' => $lang
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
-            ->post($this->base.'v1/check_trader_name',$params);
+            ->post($this->base.'v1/account_info_request',$params);
         return response()->json($response->json(),$response->status());
+    }
+    public function statementRequest($trader_id, $lang, $start, $end)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'lang' => $lang,
+            'start' => $start,
+            'end' => $end
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/statement_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
+    public function accountDeleteRequest($trader_id)
+    {
+        $params = [
+            'trader' => $trader_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/account_delete_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function accountDeleteConfirm(int $trader_id, string $code_email)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'code_email' => $code_email
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/account_delete_confirm',$params);
+        if($response->json()['success'])
+        {
+            $user = User::find($trader_id);
+            $user->deleted = true;
+            $user->save();
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
     }
 }

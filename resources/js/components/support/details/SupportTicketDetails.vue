@@ -14,7 +14,7 @@
 					<v-expansion-panel-header>
 						<template #default="{ open }">
 							<div class="d-flex">
-								<v-avatar size="36" v-html="getGeneratedAvatar(item.author)" />
+								<v-avatar size="36" v-html="generatedAvatar(item.author)" />
 								<div class="mx-2 min-w-0">
 									<div class="font-weight-bold mb-1">
 										{{ item.author }}
@@ -36,7 +36,12 @@
 					</v-expansion-panel-header>
 
 					<v-expansion-panel-content>
-						<div v-html="item.body" />
+            <div>
+              <p>
+                {{ item.body }}
+              </p>
+            </div>
+
 
 						<div
 							v-if="item.attachments.length"
@@ -77,7 +82,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 import CommonLoading from '@/components/common/CommonLoading.vue';
 
 import formatDate from '@/mixins/format/formatDate';
@@ -128,6 +133,10 @@ export default {
 			fetchComments: 'support/fetchCommentsById',
 			addTicketCommentStore: 'support/addTicketComment',
 		}),
+
+    generatedAvatar(seed) {
+      return this.$store.getters['user/getGeneratedAvatar'](import.meta.env.VITE_USER_ICON_TYPE || 'initials', seed);
+    },
 
 		async fetch() {
 			this.comments = await this.fetchComments(this.ticket.id);

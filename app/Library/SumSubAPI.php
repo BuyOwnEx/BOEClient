@@ -22,7 +22,7 @@ class SumSubAPI
             case 2:
                 $this->api_key = $param[0];
                 $this->api_secret = $param[1];
-                $this->base = config('app.sumsub_endpoint','https://test-api.sumsub.com');
+                $this->base = config('kyc.server','https://test-api.sumsub.com');
                 break;
             default:
                 throw new \Exception(__('app.api.errors.BadConstruction'),1000);
@@ -30,12 +30,12 @@ class SumSubAPI
     }
 
     // https://developers.sumsub.com/api-reference/#creating-an-applicant
-    public function createApplicant($externalUserId)
+    public function createApplicant($externalUserId, $levelName)
     {
         $params = [
             'externalUserId' => $externalUserId
         ];
-        $path = '/resources/applicants?levelName=basic-kyc-level';
+        $path = '/resources/applicants?' . http_build_query(['levelName' => $levelName]);
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params,'POST', $path))
             ->post($this->base.$path,$params);
@@ -46,20 +46,21 @@ class SumSubAPI
         // https://developers.sumsub.com/api-reference/#getting-applicant-status-api
     {
         $params = [];
-        $path = "/resources/applicants/" . $applicantId . "/requiredIdDocsStatus";
+        $path = "/resources/applicants/" . urlencode($applicantId) . "/requiredIdDocsStatus";
         $response = Http::withToken($this->api_key)
             ->withHeaders($this->sign($params,'GET', $path))
             ->get($this->base.$path,$params);
         return response()->json($response->json(),$response->status());
     }
 
-    public function getAccessToken($externalUserId)
+    public function getAccessToken($externalUserId, $levelName)
         // https://developers.sumsub.com/api-reference/#access-tokens-for-sdks
     {
         $params = [
-            'userId' => $externalUserId
+            'userId' => $externalUserId,
+            'levelName' => $levelName
         ];
-        $path = "/resources/accessTokens?userId=" . $externalUserId;
+        $path = '/resources/accessTokens?' . http_build_query(['userId' => $externalUserId, 'levelName' => $levelName]);
         $response = Http::withHeaders($this->sign($params,'POST', $path))
             ->post($this->base.$path,$params);
         return response()->json($response->json(),$response->status());

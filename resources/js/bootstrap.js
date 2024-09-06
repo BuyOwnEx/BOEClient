@@ -13,7 +13,7 @@ window.axios.interceptors.response.use(
             let data = response.data;
             let color = 'info';
             if ('success' in data && !data.success) {
-                color = 'danger';
+                color = 'error';
             }
             if ('success' in data && data.success) {
                 color = 'success';

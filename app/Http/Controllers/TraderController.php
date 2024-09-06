@@ -7,6 +7,8 @@ use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
 use App\Library\SumSubAPI;
 use App\Models\PersonalAccessToken;
+use Carbon\Carbon;
+use Carbon\CarbonTimeZone;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -887,7 +889,7 @@ class TraderController extends Controller
     {
         try {
             $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
-            return $api->getAccessToken($request->user()->name);
+            return $api->getAccessToken($request->user()->name, config('kyc.level-name'));
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
@@ -1341,6 +1343,102 @@ class TraderController extends Controller
         }
         catch (Exception $e)
         {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function AccountInfoRequest(Request $request)
+    {
+        if (in_array($request->lang, config('app.locales')))
+        {
+            try
+            {
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->accountInfoRequest(
+                    Auth::id(),
+                    $request->lang
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+        }
+        else {
+            return ['success'=>false, 'message'=>'Language is not supported'];
+        }
+    }
+    public function StatementRequest(Request $request)
+    {
+        if (in_array($request->lang, config('app.locales')))
+        {
+            $request->validate([
+                'start' => 'required|date_format:Y-m-d',
+                'end' => 'required|date_format:Y-m-d'
+            ]);
+            $start = Carbon::createFromFormat('Y-m-d', $request->start, 'UTC');
+            $end = Carbon::createFromFormat('Y-m-d', $request->end, 'UTC');
+            $now = Carbon::now('UTC');
+            if($end->isFuture())
+            {
+                return ['success'=>false, 'message'=>'Wrong period'];
+            }
+            if($start->greaterThan($end))
+            {
+                return ['success'=>false, 'message'=>'Wrong period'];
+            }
+            if($start->addDays(config('app.statement-available-days'))->lessThan($now->startOfDay()))
+            {
+                return ['success'=>false, 'message'=>'Start date must be not less than '. config('app.statement-available-days') .' days ago'];
+            }
+            $start_check_first = Carbon::createFromFormat('Y-m-d', $request->start, 'UTC');
+            $start_check_second = Carbon::createFromFormat('Y-m-d', $request->start, 'UTC');
+            if($start_check_first->addMonth()->lessThan($now->startOfDay()) && $start_check_second->addMonth()->subDay()->greaterThan($end))
+            {
+                return ['success'=>false, 'message'=>'Wrong period'];
+            }
+            $start = Carbon::createFromFormat('Y-m-d', $request->start, 'UTC');
+            try
+            {
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->statementRequest(
+                    Auth::id(),
+                    $request->lang,
+                    $start->format('Y-m-d'),
+                    $end->format('Y-m-d')
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+        }
+        else {
+            return ['success'=>false, 'message'=>'Language is not supported'];
+        }
+    }
+    public function AccountDeleteRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->accountDeleteRequest(
+                Auth::id()
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function AccountDeleteConfirm(Confirm2FARequest $request)
+    {
+        try {
+            //use cache to store token to blacklist
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->accountDeleteConfirm(
+                Auth::id(),
+                $request->code_email
+            );
+        } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }

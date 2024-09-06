@@ -17,7 +17,7 @@
 					</slot>
 				</v-card-title>
 
-				<v-card-text class="common-dialog__content">
+				<v-card-text class="common-dialog__content pb-1">
 					<slot name="content"></slot>
 				</v-card-text>
 
@@ -38,6 +38,7 @@
 						<slot name="confirm">
 							<v-btn
 								:color="confirmColor"
+                :disabled="disabled"
 								small
 								tile
 								text
@@ -75,6 +76,11 @@ export default {
 			required: false,
 			default: '',
 		},
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
 	},
 
 	data() {

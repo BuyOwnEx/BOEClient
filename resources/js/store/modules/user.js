@@ -440,6 +440,14 @@ export default {
 			const { data } = await axios.post('/trader/ext/email/change/confirm', payload);
 			return data.success;
 		},
+		async formAccountDeleteRequest(_) {
+			const { data } = await axios.post('/trader/ext/account/delete/request');
+			return data.success;
+		},
+		async formAccountDeleteConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/account/delete/confirm', payload);
+			return data.success;
+		},
 
 		async logout() {
 			await axios.post('/logout');

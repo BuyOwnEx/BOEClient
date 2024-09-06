@@ -20,7 +20,7 @@
         "@dicebear/core": "^7.0.5",
         "@dicebear/identicon": "^7.0.5",
         "@dicebear/initials": "^7.0.5",
-        "@sumsub/websdk": "^1.1.0",
+        "@sumsub/websdk": "^2.3.4",
         "bignumber.js": "^9.0.1",
         "centrifuge": "^2.7.6",
         "debounce": "^1.2.1",

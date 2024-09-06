@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ Auth::routes(['verify' => true]);
 Route::get('/', function () {
     return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
 });
+
 Route::get('trading/{market}/{currency}', 'TraderController@getTradingView')->name('trading_view');
 Route::get('overview', 'TraderController@getOverviewView')->name('overview_view');
 Route::get('policy', 'TraderController@getPolicyView')->name('policy_view');
@@ -165,6 +167,11 @@ Route::group(['prefix' => 'trader'], function () {
 
                 Route::post('notify_fiat_qr_replenish', 'TraderController@NotifyFiatQRReplenish')->name('notify_fiat_qr_replenish');
                 Route::post('notify_fiat_invoice_replenish', 'TraderController@NotifyFiatInvoiceReplenish')->name('notify_fiat_invoice_replenish');
+
+                Route::post('account_info_request', 'TraderController@AccountInfoRequest')->name('account_info_request');
+                Route::post('statement_request', 'TraderController@StatementRequest')->name('statement_request');
+                Route::post('account/delete/request', 'TraderController@AccountDeleteRequest')->name('account_delete_request');
+                Route::post('account/delete/confirm', 'TraderController@AccountDeleteConfirm')->name('account_delete_confirm');
             });
 
 
