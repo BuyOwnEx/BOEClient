@@ -9,9 +9,11 @@ use App\Rules\CloudFlare;
 use App\Rules\Geetest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -78,6 +80,13 @@ class LoginController extends Controller
     {
         if ($request->ajax())
         {
+            if($user->deleted)
+            {
+                $this->guard()->logout();
+                throw ValidationException::withMessages([
+                    $this->username() => [trans('auth.failed')],
+                ])->status(Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
             if(!$user->hasVerifiedEmail()) {
                 $this->guard()->logout();
                 $request->session()->flash('activation', $user);
