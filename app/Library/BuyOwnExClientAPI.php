@@ -435,6 +435,7 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
+
     public function getBlockStatus(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/block_status',[
@@ -463,6 +464,38 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getVerificationSettings()
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/verification_settings');
+        return response()->json($response->json(),$response->status());
+    }
+    public function getVerificationStatus(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/verification_status',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function setVerificationStatus(int $user_id, bool $is_resident, bool $is_legal_entity, string $kyc_provider)
+    {
+        $params = [
+            'trader' => $user_id,
+            'is_resident' => $is_resident,
+            'is_legal_entity' => $is_legal_entity,
+            'kyc_provider' => $kyc_provider
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/set_verification_status',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+
     public function newLoginNotification(int $user_id, string $ip)
     {
         $params = [
@@ -960,8 +993,7 @@ class BuyOwnExClientAPI
             'currency' => $currency,
             'bank_id' => $bank_id,
             'amount' => $amount,
-            'gateway_id' => $gateway_id,
-            'kyc_driver' => config('app.kyc_driver')
+            'gateway_id' => $gateway_id
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -978,8 +1010,7 @@ class BuyOwnExClientAPI
             'inn' => $inn,
             'bic' => $bic,
             'acc' => $acc,
-            'gateway_id' => $gateway_id,
-            'kyc_driver' => config('app.kyc_driver')
+            'gateway_id' => $gateway_id
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -995,8 +1026,7 @@ class BuyOwnExClientAPI
             'inn' => $inn,
             'bic' => $bic,
             'acc' => $acc,
-            'gateway_id' => $gateway_id,
-            'kyc_driver' => config('app.kyc_driver')
+            'gateway_id' => $gateway_id
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

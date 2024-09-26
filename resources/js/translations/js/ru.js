@@ -45,6 +45,8 @@ export default {
 		info: 'Информация',
 		individual: 'Физ лицо',
 		legal: 'Юр лицо',
+		resident: 'Резидент',
+		non_resident: 'Нерезидент',
 
 		no_data: 'Данных нет',
 		see_all: 'Увидеть все',
@@ -2464,6 +2466,8 @@ export default {
 			basic_info: 'Основная Информация',
 			actions: 'Действия',
 			metadata: 'Метаданные',
+			residence_status: 'Статус резидентства',
+			legal_status: 'Правовой статус',
 			verification: 'Верификация',
 			api: 'API',
 			security: 'Безопасность',
@@ -2808,6 +2812,11 @@ export default {
 				}
 			}
 		},
+		resident_country: {
+			ru: 'Российской Федерации'
+		},
+		resident_step_text: 'Отметьте, являетесь ли вы резидентом',
+		legal_step_text: 'Выберите ваш правовой статус',
 		first_name: 'Имя',
 		second_name: 'Отчество',
 		surname: 'Фамилия',

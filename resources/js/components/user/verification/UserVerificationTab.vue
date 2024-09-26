@@ -2,7 +2,7 @@
 	<v-card class="user-verification-tab tab-fill-height">
 		<v-card-title>{{ $t('user.title.verification') }}</v-card-title>
 
-		<div id="sumsub" />
+		<div id="sumsub" class="fill-height" />
 	</v-card>
 </template>
 
@@ -408,25 +408,15 @@ export default {
             lang: this.userLang,
             email: applicantEmail,
             phone: applicantPhone,
-            onMessage: (type, payload) => {
-              console.log("WebSDK onMessage", type, payload);
-            },
-            uiConf: {
-              customCssStr: this.customCss,
-            },
-            onError: (error) => {
-              console.error("WebSDK onError", error);
-            },
+            theme: this.$vuetify.theme.dark ? 'dark' : 'light',
           })
           .withOptions({ addViewportTag: false, adaptIframeHeight: true })
-          .on("idCheck.stepCompleted", (payload) => {
-            console.log("stepCompleted", payload);
+          // see below what kind of messages WebSDK generates
+          .on("idCheck.onStepCompleted", (payload) => {
+            console.log("onStepCompleted", payload);
           })
           .on("idCheck.onError", (error) => {
             console.log("onError", error);
-          })
-          .onMessage((type, payload) => {
-            console.log("onMessage", type, payload);
           })
 				  .build();
 			snsWebSdkInstance.launch('#sumsub');

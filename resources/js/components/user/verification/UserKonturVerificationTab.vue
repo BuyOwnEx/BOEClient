@@ -1,530 +1,620 @@
 <template>
-  <v-card class="user-verification-tab tab-fill-height d-flex flex-column">
-    <v-card-title>{{ $t('user.title.verification') }}</v-card-title>
-    <v-card-text class="d-flex flex-row flex-grow-1" v-if="loaded">
-      <v-row class="d-flex flex-column flex-grow-1" v-if="kyc_state === null || (kyc_state === 'finish' && !is_verified)">
-        <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-tabs grow v-model="selectedTab">
-            <v-tab :key="1" :disabled="kyc_type === 'legal'">{{ $t('kyc.kontur.type.individual') }}</v-tab>
-            <v-tab :key="2" :disabled="kyc_type === 'individual'">{{ $t('kyc.kontur.type.legal') }}</v-tab>
-          </v-tabs>
-          <v-tabs-items v-model="selectedTab" class="profile-page__tabs-items">
-            <v-tab-item :key="1" :disabled="kyc_type === 'legal'">
-              <v-card class="user-account-tab-verification-description">
-                <v-card-title>{{ $t('kyc.kontur.individual.title') }}</v-card-title>
-                <v-card-subtitle>
-                  <span class="font-italic caption">{{ $t('kyc.kontur.individual.description') }}</span>
-                </v-card-subtitle>
-              </v-card>
-              <v-card>
-                <v-card-text>
-                  <v-form v-model="isValidIndRequestForm">
-                    <v-text-field
-                        class="mb-1 pt-1"
-                        v-model="ind_data.fio"
-                        :label="$t('kyc.kontur.individual.form.fio')"
-                        :hint="$t('kyc.kontur.individual.hints.fio')"
-                        :rules="[rules.required,rules.fio]"
-                        persistent-hint
-                        outlined
-                    />
-                    <v-menu
-                        ref="birthday"
-                        v-model="birthday"
-                        :close-on-content-click="false"
-                        :return-value.sync="ind_data.birthday"
-                        transition="scale-transition"
-                        min-width="290px"
-                        offset-y
-                    >
-                      <template #activator="{ on, attrs }">
+  <v-stepper v-model="step" class="no-transition user-verification-tab tab-fill-height" vertical>
+    <v-stepper-step :complete="step > 1" step="1" :color="step > 1 ? 'success': 'primary'">
+      {{ $t('user.title.residence_status') }}
+      <small v-if="residence && step > 1" class="caption">{{ $t('common.'+residence) }}</small>
+    </v-stepper-step>
+    <v-stepper-content step="1">
+      <v-card class="user-residence-tab ml-2 mb-2">
+        <v-card-text class="pa-0 pl-1">{{ $t('kyc.resident_step_text') }} {{ $t('kyc.resident_country') }}</v-card-text>
+        <v-radio-group
+            v-model="residence"
+            dense
+            mandatory
+        >
+          <v-radio
+              :label="$t('common.resident')"
+              value="resident"
+              :ripple="false"
+          ></v-radio>
+          <v-radio
+              :label="$t('common.non_resident')"
+              value="non_resident"
+              :ripple="false"
+          ></v-radio>
+        </v-radio-group>
+        <v-btn
+            color="primary"
+            class="text-uppercase caption"
+            small
+            depressed
+            tile
+            @click="step = 2">
+          {{ $t('common.continue') }}
+        </v-btn>
+      </v-card>
+    </v-stepper-content>
+    <v-stepper-step :complete="step > 2" step="2" :color="step > 2 ? 'success': 'primary'">
+      {{ $t('user.title.legal_status') }}
+      <small v-if="legality && step > 2" class="caption">{{ $t('common.'+legality) }}</small>
+    </v-stepper-step>
+    <v-stepper-content step="2">
+      <v-card class="user-residence-tab ml-2 mb-2">
+        <v-card-text class="pa-0 pl-1">{{ $t('kyc.legal_step_text') }}</v-card-text>
+        <v-radio-group
+            v-model="legality"
+            dense
+            mandatory
+        >
+          <v-radio
+              :label="$t('common.individual')"
+              value="individual"
+              :ripple="false"
+          ></v-radio>
+          <v-radio
+              :label="$t('common.legal')"
+              value="legal"
+              :ripple="false"
+          ></v-radio>
+        </v-radio-group>
+        <v-btn
+            class="text-uppercase caption"
+            small
+            depressed
+            tile
+            @click="step = 1">
+          {{ $t('common.back') }}
+        </v-btn>
+        <v-btn
+            color="primary"
+            class="text-uppercase caption ml-2"
+            small
+            depressed
+            tile
+            @click="step = 3">
+          {{ $t('common.continue') }}
+        </v-btn>
+      </v-card>
+    </v-stepper-content>
+    <v-stepper-step step="3">
+      {{ $t('user.title.verification') }}
+    </v-stepper-step>
+    <v-stepper-content step="3">
+      <v-card class="user-verification-tab d-flex flex-column">
+        <v-card-text class="d-flex flex-row flex-grow-1" v-if="loaded">
+          <v-row class="d-flex flex-grow-1 justify-space-between" v-if="kyc_state === null || (kyc_state === 'finish' && !is_verified)">
+            <v-col class="pb-1 pt-1" cols="12" md="5">
+              <v-tabs grow v-model="selectedTab">
+                <v-tab :key="1" :disabled="kyc_type === 'legal'">{{ $t('kyc.kontur.type.individual') }}</v-tab>
+                <v-tab :key="2" :disabled="kyc_type === 'individual'">{{ $t('kyc.kontur.type.legal') }}</v-tab>
+              </v-tabs>
+              <v-tabs-items v-model="selectedTab" class="profile-page__tabs-items">
+                <v-tab-item :key="1" :disabled="kyc_type === 'legal'">
+                  <v-card class="user-account-tab-verification-description">
+                    <v-card-title>{{ $t('kyc.kontur.individual.title') }}</v-card-title>
+                    <v-card-subtitle>
+                      <span class="font-italic caption">{{ $t('kyc.kontur.individual.description') }}</span>
+                    </v-card-subtitle>
+                  </v-card>
+                  <v-card>
+                    <v-card-text>
+                      <v-form v-model="isValidIndRequestForm">
                         <v-text-field
-                            v-model="ind_data.birthday"
-                            class="required mb-1"
-                            :label="$t('kyc.kontur.individual.form.birthday')"
-                            :hint="$t('kyc.kontur.individual.hints.birthday')"
-                            :rules="[rules.required, rules.birthday_18years]"
+                            class="mb-1 pt-1"
+                            v-model="ind_data.fio"
+                            :label="$t('kyc.kontur.individual.form.fio')"
+                            :hint="$t('kyc.kontur.individual.hints.fio')"
+                            :rules="[rules.required,rules.fio]"
                             persistent-hint
-                            hide-details="auto"
-                            readonly
+                            outlined
+                        />
+                        <v-menu
+                            ref="birthday"
+                            v-model="birthday"
+                            :close-on-content-click="false"
+                            :return-value.sync="ind_data.birthday"
+                            transition="scale-transition"
+                            min-width="290px"
+                            offset-y
+                        >
+                          <template #activator="{ on, attrs }">
+                            <v-text-field
+                                v-model="ind_data.birthday"
+                                class="required mb-1"
+                                :label="$t('kyc.kontur.individual.form.birthday')"
+                                :hint="$t('kyc.kontur.individual.hints.birthday')"
+                                :rules="[rules.required, rules.birthday_18years]"
+                                persistent-hint
+                                hide-details="auto"
+                                readonly
+                                required
+                                v-bind="attrs"
+                                v-on="on"
+                            ></v-text-field>
+                          </template>
+                          <v-date-picker v-model="ind_data.birthday" no-title scrollable @change="birthdayChange"></v-date-picker>
+                        </v-menu>
+
+                        <v-text-field
+                            v-model="ind_data.passport_number"
+                            :label="$t('kyc.kontur.individual.form.passport_number')"
+                            :hint="$t('kyc.kontur.individual.hints.passport_number')"
+                            :rules="[rules.required, rules.passport_number]"
+                            v-mask="'#### ######'"
+                            :error-messages="errors.passport_number"
+                            persistent-hint
+                            clearable
                             required
-                            v-bind="attrs"
-                            v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker v-model="ind_data.birthday" no-title scrollable @change="birthdayChange"></v-date-picker>
-                    </v-menu>
+                            class="required mb-1"
+                            @input="errors.passport_number = []"
+                        >
+                        </v-text-field>
 
-                    <v-text-field
-                        v-model="ind_data.passport_number"
-                        :label="$t('kyc.kontur.individual.form.passport_number')"
-                        :hint="$t('kyc.kontur.individual.hints.passport_number')"
-                        :rules="[rules.required, rules.passport_number]"
-                        v-mask="'#### ######'"
-                        :error-messages="errors.passport_number"
-                        persistent-hint
-                        clearable
-                        required
-                        class="required mb-1"
-                        @input="errors.passport_number = []"
-                    >
-                    </v-text-field>
+                        <v-text-field
+                            v-model="ind_data.ind_inn"
+                            :label="$t('kyc.kontur.individual.form.inn')"
+                            :hint="$t('kyc.kontur.individual.hints.inn')"
+                            :rules="[rules.ind_inn]"
+                            v-mask="'############'"
+                            :error-messages="errors.ind_inn"
+                            persistent-hint
+                            clearable
+                            class="mb-1"
+                            @input="errors.ind_inn = []"
+                        >
+                        </v-text-field>
 
-                    <v-text-field
-                        v-model="ind_data.ind_inn"
-                        :label="$t('kyc.kontur.individual.form.inn')"
-                        :hint="$t('kyc.kontur.individual.hints.inn')"
-                        :rules="[rules.ind_inn]"
-                        v-mask="'############'"
-                        :error-messages="errors.ind_inn"
-                        persistent-hint
-                        clearable
-                        class="mb-1"
-                        @input="errors.ind_inn = []"
-                    >
-                    </v-text-field>
+                        <v-file-input
+                            v-model="ind_data.file_ps"
+                            :label="$t('kyc.file_ps')"
+                            :hint="$t('kyc.file_ps_hint')"
+                            accept="image/png, image/jpeg"
+                            prepend-icon="mdi-camera"
+                            :error-messages="errors.file_ps"
+                            @input="errors.file_ps = []"
+                            :rules="[rules.required]"
+                            persistent-hint
+                            clearable
+                            required
+                            class="required"
+                        ></v-file-input>
 
-                    <v-file-input
-                        v-model="ind_data.file_ps"
-                        :label="$t('kyc.file_ps')"
-                        :hint="$t('kyc.file_ps_hint')"
-                        accept="image/png, image/jpeg"
-                        prepend-icon="mdi-camera"
-                        :error-messages="errors.file_ps"
-                        @input="errors.file_ps = []"
-                        :rules="[rules.required]"
-                        persistent-hint
-                        clearable
-                        required
-                        class="required"
-                    ></v-file-input>
+                        <v-file-input
+                            v-model="ind_data.file_ws"
+                            :label="$t('kyc.file_ws')"
+                            :hint="$t('kyc.file_ws_hint')"
+                            accept="image/png, image/jpeg"
+                            prepend-icon="mdi-camera"
+                            :error-messages="errors.file_ws"
+                            @input="errors.file_ws = []"
+                            :rules="[rules.required]"
+                            persistent-hint
+                            clearable
+                            required
+                            class="required"
+                        ></v-file-input>
 
-                    <v-file-input
-                        v-model="ind_data.file_ws"
-                        :label="$t('kyc.file_ws')"
-                        :hint="$t('kyc.file_ws_hint')"
-                        accept="image/png, image/jpeg"
-                        prepend-icon="mdi-camera"
-                        :error-messages="errors.file_ws"
-                        @input="errors.file_ws = []"
-                        :rules="[rules.required]"
-                        persistent-hint
-                        clearable
-                        required
-                        class="required"
-                    ></v-file-input>
+                        <v-file-input
+                            v-model="ind_data.file_ts"
+                            :label="$t('kyc.file_ts')"
+                            :hint="$t('kyc.file_ts_hint')"
+                            accept="image/png, image/jpeg"
+                            prepend-icon="mdi-camera"
+                            :error-messages="errors.file_ts"
+                            @input="errors.file_ts = []"
+                            :rules="[rules.required]"
+                            persistent-hint
+                            clearable
+                            required
+                            class="required"
+                        ></v-file-input>
+                      </v-form>
+                    </v-card-text>
+                  </v-card>
+                  <v-card>
+                    <v-card-actions class="common-dialog__actions">
+                      <v-spacer />
+                      <v-btn color="success" :disabled="!indRequestAvailable" tile block @click="sendIndKYCRequest">
+                        {{ $t('common.send') }}
+                      </v-btn>
+                      <v-spacer />
+                    </v-card-actions>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item :key="2" :disabled="kyc_type === 'individual'">
+                  <v-card class="user-account-tab-verification-description">
+                    <v-card-title>{{ $t('kyc.kontur.legal.title') }}</v-card-title>
+                    <v-card-subtitle>
+                      <span class="font-italic caption">{{ $t('kyc.kontur.legal.description') }}</span>
+                    </v-card-subtitle>
+                  </v-card>
+                  <v-card>
+                    <v-card-text>
+                      <v-form v-model="isValidCompRequestForm">
+                        <v-text-field
+                            class="mb-1 pt-1"
+                            v-model="comp_data.comp_inn"
+                            :label="$t('kyc.kontur.legal.form.inn')"
+                            :hint="$t('kyc.kontur.legal.hints.inn')"
+                            :rules="[rules.required, rules.comp_inn]"
+                            v-mask="'##########'"
+                            persistent-hint
+                            outlined
+                        />
 
-                    <v-file-input
-                        v-model="ind_data.file_ts"
-                        :label="$t('kyc.file_ts')"
-                        :hint="$t('kyc.file_ts_hint')"
-                        accept="image/png, image/jpeg"
-                        prepend-icon="mdi-camera"
-                        :error-messages="errors.file_ts"
-                        @input="errors.file_ts = []"
-                        :rules="[rules.required]"
-                        persistent-hint
-                        clearable
-                        required
-                        class="required"
-                    ></v-file-input>
-                  </v-form>
-                </v-card-text>
-              </v-card>
-              <v-card>
-                <v-card-actions class="common-dialog__actions">
-                  <v-spacer />
-                  <v-btn color="success" :disabled="!indRequestAvailable" tile block @click="sendIndKYCRequest">
-                    {{ $t('common.send') }}
-                  </v-btn>
-                  <v-spacer />
-                </v-card-actions>
-              </v-card>
-            </v-tab-item>
-            <v-tab-item :key="2" :disabled="kyc_type === 'individual'">
-              <v-card class="user-account-tab-verification-description">
-                <v-card-title>{{ $t('kyc.kontur.legal.title') }}</v-card-title>
+                        <v-text-field
+                            class="mb-1 pt-1"
+                            v-model="comp_data.edo_id"
+                            :label="$t('kyc.kontur.legal.form.edo_id')"
+                            :hint="$t('kyc.kontur.legal.hints.edo_id')"
+                            :rules="[rules.required, rules.edo_id]"
+                            v-mask="'NNN-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'"
+                            persistent-hint
+                            outlined
+                        />
+
+                        <v-file-input
+                            v-model="comp_data.file_doc"
+                            :label="$t('kyc.file_doc')"
+                            :hint="$t('kyc.file_doc_hint')"
+                            accept="application/pdf"
+                            prepend-icon="mdi-file-pdf-box"
+                            :error-messages="errors.file_doc"
+                            @input="errors.file_doc = []"
+                            :rules="[rules.required]"
+                            persistent-hint
+                            clearable
+                            required
+                            class="required"
+                        ></v-file-input>
+                      </v-form>
+                    </v-card-text>
+                  </v-card>
+                  <v-card>
+                    <v-card-actions class="common-dialog__actions">
+                      <v-spacer />
+                      <v-btn color="success" :disabled="!compRequestAvailable" tile block @click="sendCompKYCRequest">
+                        {{ $t('common.send') }}
+                      </v-btn>
+                      <v-spacer />
+                    </v-card-actions>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-col>
+            <v-col class="pb-1 pt-1" cols="12" md="2">
+            </v-col>
+            <v-col class="pb-1 pt-1" cols="12" md="5">
+              <v-card class="user-account-tab-result" v-if="kyc_state === 'finish' && !is_verified">
                 <v-card-subtitle>
-                  <span class="font-italic caption">{{ $t('kyc.kontur.legal.description') }}</span>
+                  <v-alert
+                      :icon="kyc_state_icon(kyc_state, is_verified)"
+                      text
+                      :type="kyc_state_alert_type(kyc_state, is_verified)"
+                      class="mb-0"
+                  >
+                    {{ kyc_state_alert_text(kyc_state, is_verified) }}
+                  </v-alert>
                 </v-card-subtitle>
-              </v-card>
-              <v-card>
-                <v-card-text>
-                  <v-form v-model="isValidCompRequestForm">
-                    <v-text-field
-                        class="mb-1 pt-1"
-                        v-model="comp_data.comp_inn"
-                        :label="$t('kyc.kontur.legal.form.inn')"
-                        :hint="$t('kyc.kontur.legal.hints.inn')"
-                        :rules="[rules.required, rules.comp_inn]"
-                        v-mask="'##########'"
-                        persistent-hint
-                        outlined
-                    />
+                <v-card-text v-if="kyc_type === 'individual'">
+                  <div class="kyc-kontur-item__info-wrapper">
 
-                    <v-text-field
-                        class="mb-1 pt-1"
-                        v-model="comp_data.edo_id"
-                        :label="$t('kyc.kontur.legal.form.edo_id')"
-                        :hint="$t('kyc.kontur.legal.hints.edo_id')"
-                        :rules="[rules.required, rules.edo_id]"
-                        v-mask="'NNN-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'"
-                        persistent-hint
-                        outlined
-                    />
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.fio_brief') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.fio }}</div>
+                    </div>
 
-                    <v-file-input
-                        v-model="comp_data.file_doc"
-                        :label="$t('kyc.file_doc')"
-                        :hint="$t('kyc.file_doc_hint')"
-                        accept="application/pdf"
-                        prepend-icon="mdi-file-pdf-box"
-                        :error-messages="errors.file_doc"
-                        @input="errors.file_doc = []"
-                        :rules="[rules.required]"
-                        persistent-hint
-                        clearable
-                        required
-                        class="required"
-                    ></v-file-input>
-                  </v-form>
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.birthday') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.birthday }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.passport_number') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.passport_number }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.inn') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.ind_inn }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        <v-icon small color="green darken-2">
+                          mdi-check
+                        </v-icon>
+                        <span class="ml-1">{{ $t('kyc.kontur.ps_file_uploaded') }}</span>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        <v-icon small color="green darken-2">
+                          mdi-check
+                        </v-icon>
+                        <span class="ml-1">{{ $t('kyc.kontur.ws_file_uploaded') }}</span>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        <v-icon small color="green darken-2">
+                          mdi-check
+                        </v-icon>
+                        <span class="ml-1">{{ $t('kyc.kontur.ts_file_uploaded') }}</span>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.created_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__created">
+                        {{ formatDate(kontur_ind_data.created_at) }}
+                      </div>
+                    </div>
+                    <div class="kyc-kontur-item__updated-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.updated_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__updated">
+                        {{ formatDate(kontur_ind_data.updated_at) }}
+                      </div>
+                    </div>
+
+                  </div>
+                </v-card-text>
+                <v-card-text v-else>
+                  <div class="kyc-kontur-item__info-wrapper">
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.company_name') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.company_name }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.form.inn') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.comp_inn }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.form.edo_id') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.edo_id }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.risk_level') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">
+                        <v-chip
+                            label
+                            :color="kyc_risk_level_color(kontur_comp_data.risk_level)"
+                            class="mt-1"
+                        >
+                          {{ kyc_risk_level_text(kontur_comp_data.risk_level) }}
+                        </v-chip>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.risk') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.risk !== '-' ? BigNumber(kontur_comp_data.risk).multipliedBy(100).toString() : kontur_comp_data.risk }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.created_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__created">
+                        {{ formatDate(kontur_comp_data.created_at) }}
+                      </div>
+                    </div>
+                    <div class="kyc-kontur-item__updated-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.updated_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__updated">
+                        {{ formatDate(kontur_comp_data.updated_at) }}
+                      </div>
+                    </div>
+
+                  </div>
                 </v-card-text>
               </v-card>
-              <v-card>
-                <v-card-actions class="common-dialog__actions">
-                  <v-spacer />
-                  <v-btn color="success" :disabled="!compRequestAvailable" tile block @click="sendCompKYCRequest">
-                    {{ $t('common.send') }}
-                  </v-btn>
-                  <v-spacer />
-                </v-card-actions>
+            </v-col>
+          </v-row>
+          <v-row class="d-flex flex-grow-1 justify-space-between" v-else-if="(kyc_state === 'finish' && is_verified) || kyc_state === 'processing' || kyc_state === 'new'">
+            <v-col class="pb-1 pt-1" cols="12" md="5">
+              <v-card class="user-account-tab-result">
+                <v-card-subtitle>
+                  <v-alert
+                      :icon="kyc_state_icon(kyc_state, is_verified)"
+                      text
+                      :type="kyc_state_alert_type(kyc_state, is_verified)"
+                      class="mb-0"
+                  >
+                    {{ kyc_state_alert_text(kyc_state, is_verified) }}
+                  </v-alert>
+                </v-card-subtitle>
+                <v-card-text v-if="kyc_type === 'individual'">
+                  <div class="kyc-kontur-item__info-wrapper">
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.fio_brief') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.fio }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.birthday') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.birthday }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.passport_number') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.passport_number }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.individual.form.inn') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.ind_inn }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        <v-icon small color="green darken-2">
+                          mdi-check
+                        </v-icon>
+                        <span class="ml-1">{{ $t('kyc.kontur.ps_file_uploaded') }}</span>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        <v-icon small color="green darken-2">
+                          mdi-check
+                        </v-icon>
+                        <span class="ml-1">{{ $t('kyc.kontur.ws_file_uploaded') }}</span>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        <v-icon small color="green darken-2">
+                          mdi-check
+                        </v-icon>
+                        <span class="ml-1">{{ $t('kyc.kontur.ts_file_uploaded') }}</span>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.created_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__created">
+                        {{ formatDate(kontur_ind_data.created_at) }}
+                      </div>
+                    </div>
+                    <div class="kyc-kontur-item__updated-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.updated_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__updated">
+                        {{ formatDate(kontur_ind_data.updated_at) }}
+                      </div>
+                    </div>
+
+                  </div>
+                </v-card-text>
+                <v-card-text v-else>
+                  <div class="kyc-kontur-item__info-wrapper">
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.company_name') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.company_name }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.form.inn') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.comp_inn }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.form.edo_id') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.edo_id }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.risk_level') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">
+                        <v-chip
+                            label
+                            :color="kyc_risk_level_color(kontur_comp_data.risk_level)"
+                            class="mt-1"
+                        >
+                          {{ kyc_risk_level_text(kontur_comp_data.risk_level) }}
+                        </v-chip>
+                      </div>
+                    </div>
+
+                    <div class="kyc-kontur-item__secret-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.legal.risk') }}
+                      </div>
+                      <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.risk !== '-' ? BigNumber(kontur_comp_data.risk).multipliedBy(100).toString() : kontur_comp_data.risk }}</div>
+                    </div>
+
+                    <div class="kyc-kontur-item__created-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.created_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__created">
+                        {{ formatDate(kontur_comp_data.created_at) }}
+                      </div>
+                    </div>
+                    <div class="kyc-kontur-item__updated-key-wrapper">
+                      <div class="kyc-kontur-item__header">
+                        {{ $t('kyc.kontur.updated_at') }}
+                      </div>
+                      <div class="kyc-kontur-item__updated">
+                        {{ formatDate(kontur_comp_data.updated_at) }}
+                      </div>
+                    </div>
+
+                  </div>
+                </v-card-text>
               </v-card>
-            </v-tab-item>
-          </v-tabs-items>
-        </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="2">
-        </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card class="user-account-tab-result" v-if="kyc_state === 'finish' && !is_verified">
-            <v-card-subtitle>
-              <v-alert
-                  :icon="kyc_state_icon(kyc_state, is_verified)"
-                  text
-                  :type="kyc_state_alert_type(kyc_state, is_verified)"
-                  class="mb-0"
-              >
-                {{ kyc_state_alert_text(kyc_state, is_verified) }}
-              </v-alert>
-            </v-card-subtitle>
-            <v-card-text v-if="kyc_type === 'individual'">
-              <div class="kyc-kontur-item__info-wrapper">
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.fio_brief') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.fio }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.birthday') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.birthday }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.passport_number') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.passport_number }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.inn') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.ind_inn }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ $t('kyc.kontur.ps_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ $t('kyc.kontur.ws_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ $t('kyc.kontur.ts_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.created_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__created">
-                    {{ formatDate(kontur_ind_data.created_at) }}
-                  </div>
-                </div>
-                <div class="kyc-kontur-item__updated-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.updated_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__updated">
-                    {{ formatDate(kontur_ind_data.updated_at) }}
-                  </div>
-                </div>
-
-              </div>
-            </v-card-text>
-            <v-card-text v-else>
-              <div class="kyc-kontur-item__info-wrapper">
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.company_name') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.company_name }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.form.inn') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.comp_inn }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.form.edo_id') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.edo_id }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.risk_level') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">
-                    <v-chip
-                        label
-                        :color="kyc_risk_level_color(kontur_comp_data.risk_level)"
-                        class="mt-1"
-                    >
-                      {{ kyc_risk_level_text(kontur_comp_data.risk_level) }}
-                    </v-chip>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.risk') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.risk !== '-' ? BigNumber(kontur_comp_data.risk).multipliedBy(100).toString() : kontur_comp_data.risk }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.created_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__created">
-                    {{ formatDate(kontur_comp_data.created_at) }}
-                  </div>
-                </div>
-                <div class="kyc-kontur-item__updated-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.updated_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__updated">
-                    {{ formatDate(kontur_comp_data.updated_at) }}
-                  </div>
-                </div>
-
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row class="d-flex flex-column flex-grow-1" v-else-if="(kyc_state === 'finish' && is_verified) || kyc_state === 'processing' || kyc_state === 'new'">
-        <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card class="user-account-tab-result">
-            <v-card-subtitle>
-              <v-alert
-                  :icon="kyc_state_icon(kyc_state, is_verified)"
-                  text
-                  :type="kyc_state_alert_type(kyc_state, is_verified)"
-                  class="mb-0"
-              >
-                {{ kyc_state_alert_text(kyc_state, is_verified) }}
-              </v-alert>
-            </v-card-subtitle>
-            <v-card-text v-if="kyc_type === 'individual'">
-              <div class="kyc-kontur-item__info-wrapper">
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.fio_brief') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.fio }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.birthday') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.birthday }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.passport_number') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.passport_number }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.individual.form.inn') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_ind_data.ind_inn }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ $t('kyc.kontur.ps_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ $t('kyc.kontur.ws_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ $t('kyc.kontur.ts_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.created_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__created">
-                    {{ formatDate(kontur_ind_data.created_at) }}
-                  </div>
-                </div>
-                <div class="kyc-kontur-item__updated-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.updated_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__updated">
-                    {{ formatDate(kontur_ind_data.updated_at) }}
-                  </div>
-                </div>
-
-              </div>
-            </v-card-text>
-            <v-card-text v-else>
-              <div class="kyc-kontur-item__info-wrapper">
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.company_name') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.company_name }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.form.inn') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.comp_inn }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.form.edo_id') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.edo_id }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.risk_level') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">
-                    <v-chip
-                        label
-                        :color="kyc_risk_level_color(kontur_comp_data.risk_level)"
-                        class="mt-1"
-                    >
-                      {{ kyc_risk_level_text(kontur_comp_data.risk_level) }}
-                    </v-chip>
-                  </div>
-                </div>
-
-                <div class="kyc-kontur-item__secret-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.legal.risk') }}
-                  </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.risk !== '-' ? BigNumber(kontur_comp_data.risk).multipliedBy(100).toString() : kontur_comp_data.risk }}</div>
-                </div>
-
-                <div class="kyc-kontur-item__created-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.created_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__created">
-                    {{ formatDate(kontur_comp_data.created_at) }}
-                  </div>
-                </div>
-                <div class="kyc-kontur-item__updated-key-wrapper">
-                  <div class="kyc-kontur-item__header">
-                    {{ $t('kyc.kontur.updated_at') }}
-                  </div>
-                  <div class="kyc-kontur-item__updated">
-                    {{ formatDate(kontur_comp_data.updated_at) }}
-                  </div>
-                </div>
-
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="2">
-        </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="5">
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+            </v-col>
+            <v-col class="pb-1 pt-1" cols="12" md="2">
+            </v-col>
+            <v-col class="pb-1 pt-1" cols="12" md="5">
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-btn
+            class="text-uppercase caption"
+            small
+            depressed
+            tile
+            @click="step = 2">
+          {{ $t('common.back') }}
+        </v-btn>
+      </v-card>
+    </v-stepper-content>
+  </v-stepper>
 </template>
 
 <script>
@@ -542,7 +632,10 @@ export default {
   ],
   data() {
     return {
+      step: 1,
       selectedTab: 0,
+      residence: null,
+      legality: null,
       isValidIndRequestForm: false,
       isValidCompRequestForm: false,
       birthday: false,

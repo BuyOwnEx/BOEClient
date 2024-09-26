@@ -13,9 +13,7 @@
             </v-tab-item>
 
             <v-tab-item v-if="trader" :key="2">
-                <UserVerificationTab v-if="kyc_driver === 'sumsub'" />
-                <UserKonturVerificationTab v-else-if="kyc_driver === 'kontur'" />
-                <UserLocalVerificationTab v-else />
+              <VerificationSteps></VerificationSteps>
             </v-tab-item>
 
             <v-tab-item v-if="trader" :key="3">
@@ -36,6 +34,7 @@
 <script>
 import { mapState } from 'vuex';
 import UserAccountTab from '@/components/user/account/UserAccountTab.vue';
+import VerificationSteps from '@/components/user/verification/VerificationSteps.vue';
 import UserVerificationTab from '@/components/user/verification/UserVerificationTab.vue';
 import UserLocalVerificationTab from '@/components/user/verification/UserLocalVerificationTab.vue';
 import UserKonturVerificationTab from '@/components/user/verification/UserKonturVerificationTab.vue';
@@ -48,6 +47,7 @@ export default {
 
 	components: {
 		UserAccountTab,
+    VerificationSteps,
 		UserVerificationTab,
     UserLocalVerificationTab,
     UserKonturVerificationTab,
@@ -59,7 +59,6 @@ export default {
 	data() {
 		return {
 			selectedTab: this.selectedTabStore,
-      kyc_driver: null
 		};
 	},
 
@@ -97,7 +96,6 @@ export default {
 			else if (tabName === '#security') this.selectedTab = 3;
 			else if (tabName === '#settings') this.selectedTab = 4;
 		}
-    this.kyc_driver = import.meta.env.VITE_KYC_DRIVER || 'local';
 	},
 };
 </script>

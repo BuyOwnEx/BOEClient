@@ -885,11 +885,52 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-    public function getSumSubToken(Request $request)
+    public function getVerificationSettings()
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getVerificationSettings();
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getVerificationStatus(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getVerificationStatus(Auth::id());
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function setVerificationStatus(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->setVerificationStatus(
+                Auth::id(),
+                $request->is_resident,
+                $request->is_legal_entity,
+                $request->kyc_provider
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getKYCSumSubToken(Request $request)
     {
         try {
             $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
-            return $api->getAccessToken($request->user()->name, config('kyc.level-name'));
+            return $api->getAccessToken($request->user()->name, config('kyc.kyc-level-name'));
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getKYBSumSubToken(Request $request)
+    {
+        try {
+            $api = new SumSubAPI(config('kyc.api-public-key'), config('kyc.api-secret-key'));
+            return $api->getAccessToken($request->user()->name, config('kyc.kyb-level-name'));
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }

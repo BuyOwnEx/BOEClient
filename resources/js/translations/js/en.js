@@ -44,7 +44,9 @@ export default {
 		amount: 'Amount',
 		info: 'Info',
 		individual: 'Individual',
-		legal: 'Entity',
+		legal: 'Legal entity',
+		resident: 'Resident',
+		non_resident: 'Non-resident',
 
 		no_data: 'No data',
 		see_all: 'See all',
@@ -2461,6 +2463,8 @@ make our system processes as transparent as possible.`,
 			basic_info: 'Basic Information',
 			actions: 'Actions',
 			metadata: 'Metadata',
+			residence_status: 'Residence status',
+			legal_status: 'Legal status',
 			verification: 'Verification',
 			api: 'API',
 			security: 'Security',
@@ -2802,6 +2806,11 @@ make our system processes as transparent as possible.`,
 				}
 			}
 		},
+		resident_country: {
+			ru: 'Russian Federation'
+		},
+		resident_step_text: 'Check if you are a resident of',
+		legal_step_text: 'Choose your legal status',
 		first_name: 'First name',
 		second_name: 'Second name',
 		surname: 'Surname',

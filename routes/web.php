@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('support', 'TraderController@getSupportView')->name('support_view');
     Route::get('profile', 'TraderController@getProfileView')->name('profile_view');
     Route::get('notifications', 'TraderController@getNotificationsView')->name('notifications_view');
+    Route::get('get_verification_settings', 'TraderController@getVerificationSettings')->name('get_verification_settings');
 });
 
 Route::group(['prefix' => 'trader'], function () {
@@ -104,7 +104,9 @@ Route::group(['prefix' => 'trader'], function () {
 
             Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
             Route::get('get_address', 'TraderController@getAddress')->name('get_address');
-            Route::get('sumsub_token', 'TraderController@getSumSubToken')->name('sumsub_token');
+            Route::get('get_verification_status', 'TraderController@getVerificationStatus')->name('get_verification_status');
+            Route::get('kyc_sumsub_token', 'TraderController@getKYCSumSubToken')->name('kyc_sumsub_token');
+            Route::get('kyb_sumsub_token', 'TraderController@getKYBSumSubToken')->name('kyb_sumsub_token');
             Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');
             Route::get('kyc_request', 'TraderController@getKYCRequest')->name('kyc_request');
             Route::get('kyc_kontur_data', 'TraderController@getKYCKonturData')->name('kyc_kontur_data');
@@ -142,6 +144,8 @@ Route::group(['prefix' => 'trader'], function () {
                 Route::post('email/change/confirm', 'TraderController@emailChangeConfirm')->name('email_change_confirm');
 
                 Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
+
+                Route::post('set_verification_status', 'TraderController@setVerificationStatus')->name('set_verification_status');
 
                 Route::post('notification/read', 'TraderController@setNotificationRead')->name('set_notification_read');
                 Route::post('notification/delete', 'TraderController@deleteNotification')->name('delete_notification');

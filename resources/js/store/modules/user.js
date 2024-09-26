@@ -17,6 +17,7 @@ export default {
 		fees: null,
 		positions: null,
 		notificationStatus: null,
+		verificationStatus: null,
 		blockStatus: null,
 		verifyStatus: null,
 		status: null,
@@ -75,6 +76,9 @@ export default {
 		},
 		setNotificationSettings(state, notificationStatus) {
 			state.notificationStatus = notificationStatus;
+		},
+		setVerificationStatus(state, verificationStatus) {
+			state.verificationStatus = verificationStatus;
 		},
 		setBlockStatus(state, blockStatus) {
 			state.blockStatus = blockStatus;
@@ -384,6 +388,25 @@ export default {
 		},
 		async updateNotificationSettings(_, payload) {
 			const { data } = await axios.post('/trader/ext/notification/status', payload);
+			return data.success;
+		},
+
+		getVerificationStatus({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/get_verification_status')
+					.then(response => {
+						commit('setVerificationStatus', response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+		async updateVerificationStatus(_, payload) {
+			const { data } = await axios.post('/trader/ext/set_verification_status', payload);
 			return data.success;
 		},
 

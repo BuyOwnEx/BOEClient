@@ -66,10 +66,16 @@
 							v-model="verifyStatus"
 							:ripple="false"
 							:label="$t('user.info.kyc_status')"
+              :messages="getVerifiedLabel"
 							readonly
-							hide-details
+              :hide-details="'auto'"
+              error-count="2"
 							dense
-						/>
+            >
+              <template #message="{ key, message }">
+                <span class="text-lowercase caption ml-4">{{message}}</span>
+              </template>
+            </v-checkbox>
 					</div>
 				</div>
 			</div>
@@ -94,13 +100,40 @@ export default {
 	},
 
 	computed: {
-		...mapState('user', ['verifyStatus']),
+		...mapState('user', ['verifyStatus','status']),
 		generatedAvatar() {
 			return this.$store.getters['user/getGeneratedAvatar'](import.meta.env.VITE_USER_ICON_TYPE || 'initials');
 		},
 		refLink() {
       return `${window.location.origin}?ref=${this.user.id}`;
 		},
+    isIndividual() {
+      return (this.status & 2) > 0;
+    },
+    isLegal() {
+      return (this.status & 4) > 0;
+    },
+    isResident() {
+      return (this.status & 32) > 0;
+    },
+    isNonResident() {
+      return (this.status & 64) > 0;
+    },
+    getVerifiedLabel() {
+      if(this.verifyStatus)
+      {
+        if(this.isLegal) {
+          if(this.isResident) return [this.$t('common.legal'), this.$t('common.resident')];
+          else return [this.$t('common.legal'), this.$t('common.non_resident')];
+        }
+        else
+        {
+          if(this.isResident) return [this.$t('common.individual'), this.$t('common.resident')];
+          else return [this.$t('common.individual'), this.$t('common.non_resident')];
+        }
+      }
+      else return [];
+    }
 	},
 };
 </script>

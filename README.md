@@ -108,9 +108,6 @@ Specific variables to this project:
     # Web socket server. Use this demo server for test purposes
     VITE_WS_SERVER=wss://ws.buyownex.com/ws
     
-    # verification driver choice. Possible values: local or sumsub
-    VITE_KYC_DRIVER=local
-    
     # payment for verification option: false - payment excluded, true - payment included
     VITE_VERIFICATION_PAYMENT_REQUIRED=false
     
