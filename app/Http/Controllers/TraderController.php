@@ -1093,6 +1093,59 @@ class TraderController extends Controller
 
         }
     }
+    public function sendKYCLocalIndRequest(Request $request)
+    {
+        $validator=Validator::make($request->all(), [
+            'fio' => 'required|string|min:1|max:256',
+            'birthday' => 'required|date_format:"Y-m-d"',
+            'document_number' => 'required|string|min:10|max:11',
+            'ind_inn' => 'nullable|string|size:12',
+            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+        ], [], [
+            'fio' => __('kyc.local.validation.fio'),
+            'birthday' => __('kyc.local.validation.birthday'),
+            'document_number' => __('kyc.local.validation.document_number'),
+            'ind_inn' => __('kyc.local.validation.ind_inn'),
+            'file_ps' => __('kyc.file_ps'),
+            'file_ws' => __('kyc.file_ws'),
+            'file_ts' => __('kyc.file_ts'),
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->getMessages(),
+            ],422);
+        }
+        else
+        {
+            try
+            {
+                $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
+                $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
+                $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->kycLocalIndRequest(
+                    Auth::id(),
+                    $request->fio,
+                    $request->birthday,
+                    $request->document_number,
+                    $request->ind_inn,
+                    $path_ps,
+                    $path_ws,
+                    $path_ts
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+
+        }
+    }
+
     public function sendKYCRequest(Request $request)
     {
         $validator=Validator::make($request->all(), [
@@ -1306,6 +1359,32 @@ class TraderController extends Controller
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->getKYCKonturData(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getKYCLocalIndData(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getKYCLocalIndData(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getKYCLocalCompData(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getKYCLocalCompData(
                 Auth::id()
             );
         }

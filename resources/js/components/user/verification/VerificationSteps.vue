@@ -140,8 +140,8 @@ import KonturIndividual from '@/components/user/verification/KonturIndividual.vu
 import KonturCompany from '@/components/user/verification/KonturCompany.vue';
 import SumSubKyc from '@/components/user/verification/SumSubKyc.vue';
 import SumSubKyb from '@/components/user/verification/SumSubKyb.vue';
-import LocalIndividual from '@/components/user/verification/UserLocalVerificationTab.vue';
-import LocalLegal from '@/components/user/verification/UserLocalVerificationTab.vue';
+import LocalIndividual from '@/components/user/verification/LocalIndividual.vue';
+import LocalLegal from '@/components/user/verification/LocalCompany.vue';
 import { mapActions, mapState } from 'vuex';
 export default {
   name: 'VerificationSteps',

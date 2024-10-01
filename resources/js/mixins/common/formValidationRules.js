@@ -9,6 +9,7 @@ export default {
 				fio: v => (v && /([а-яА-Я-/.'])+(\s)+([а-яА-Я-/.'])+(\s)*([а-яА-Я-/.'])*/.test(v)) || this.$t('forms_validation.fio_invalid'),
 				birthday_18years: v => !v || Math.floor((new Date() - new Date(v).getTime()) / 3.15576e+10) >= 18 || this.$t('forms_validation.birthday_18years'),
 				passport_number: v => (v && /\d{4}\s\d{6}/.test(v)) || this.$t('forms_validation.passport_number_invalid'),
+				document_number: v => (v && /\w{5,40}/.test(v)) || this.$t('forms_validation.document_number_invalid'),
 				edo_id: v => (v && /\w{3}-\w{32}/.test(v)) || this.$t('forms_validation.edo_id_invalid'),
 				ind_inn: v => !v || /\d{12}/.test(v) || this.$t('forms_validation.ind_inn_invalid'),
 				comp_inn: v => (v && /\d{10}/.test(v)) || this.$t('forms_validation.comp_inn_invalid'),

@@ -110,6 +110,8 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');
             Route::get('kyc_request', 'TraderController@getKYCRequest')->name('kyc_request');
             Route::get('kyc_kontur_data', 'TraderController@getKYCKonturData')->name('kyc_kontur_data');
+            Route::get('kyc_local_ind_data', 'TraderController@getKYCLocalIndData')->name('kyc_local_ind_data');
+            Route::get('kyc_local_comp_data', 'TraderController@getKYCLocalCompData')->name('kyc_local_comp_data');
             Route::get('verification_bank_details', 'TraderController@getVerificationBankDetails')->name('verification_bank_details');
             Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
 
@@ -165,6 +167,8 @@ Route::group(['prefix' => 'trader'], function () {
 
                 Route::post('kyc_kontur_ind_request', 'TraderController@sendKYCKonturIndRequest')->name('send_kyc_kontur_ind_request');
                 Route::post('kyc_kontur_comp_request', 'TraderController@sendKYCKonturCompRequest')->name('send_kyc_kontur_comp_request');
+                Route::post('kyc_local_ind_request', 'TraderController@sendKYCLocalIndRequest')->name('send_kyc_local_ind_request');
+                Route::post('kyc_local_comp_request', 'TraderController@sendKYCLocalCompRequest')->name('send_kyc_local_comp_request');
                 Route::post('kyc_request', 'TraderController@sendKYCRequest')->name('send_kyc_request');
                 Route::post('kyc_fix', 'TraderController@sendKYCFix')->name('send_kyc_fix');
                 Route::post('kyc_payment', 'TraderController@setKYCPayment')->name('set_kyc_payment');

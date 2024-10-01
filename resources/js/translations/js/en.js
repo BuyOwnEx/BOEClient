@@ -2804,7 +2804,43 @@ make our system processes as transparent as possible.`,
 					success: 'Remote identification has been successfully completed',
 					error: 'Remote identification failed'
 				}
-			}
+			},
+		},
+		manual: {
+			legal: {
+				title: 'Company verification',
+				description: 'Verification as a legal entity for the selected residency status is temporarily unavailable',
+			},
+			individual: {
+				title: 'Individual verification',
+				description: 'When passing verification as a physical person, you will need a Russian passport and your TIN (TIN is optional to fill in, but significantly reduces the risk of erroneous blocking)',
+				form: {
+					fio: 'Full name',
+					fio_brief: 'Full name',
+					birthday: 'Date of birth',
+					document_number: 'Document ID',
+					inn: 'TaxID'
+				},
+				hints: {
+					fio: 'Specify your full name as it is written in the passport',
+					birthday: 'Specify your date of birth',
+					document_number: 'Enter the number of the identity document',
+					inn: 'Specify your individual tax id'
+				}
+			},
+			state: {
+				new: 'The verification request has been successfully created',
+				processing: 'The verification request is being processed',
+				finish: {
+					success: 'Remote identification has been successfully completed',
+					error: 'Remote identification failed'
+				}
+			},
+			created_at: 'Verification request date',
+			updated_at: 'Verification processing date',
+			ps_file_uploaded: 'Document scan (photo) is uploaded',
+			ws_file_uploaded: 'Document scan (address) is uploaded',
+			ts_file_uploaded: 'Selfie with document is uploaded',
 		},
 		resident_country: {
 			ru: 'Russian Federation'
@@ -2863,6 +2899,7 @@ make our system processes as transparent as possible.`,
 		fio_invalid: 'Make sure that the field contains at least the last name and first name, does not contain numbers and characters other than: "-" (hyphen), "." (dot), "\'" (apostrophe)',
 		birthday_18years: 'You must be 18 years old or older',
 		passport_number_invalid: 'Enter the passport number in the format #### ######',
+		document_number_invalid: 'The document number must be at least 5 and no more than 40 characters',
 		edo_id_invalid: 'Enter the EDO number in the format [EDO operator code (3 characters)]-[EDO number (32 characters)]',
 		ind_inn_invalid: 'Enter a 12-digit TIN',
 		comp_inn_invalid: 'Enter the 10-digit TIN of the organization',

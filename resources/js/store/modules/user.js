@@ -42,6 +42,31 @@ export default {
 			company_name: null,
 			created_at: null,
 			updated_at: null
+		},
+
+		kyc_local_ind: {
+			id: null,
+			fio: null,
+			birthday: null,
+			document_number: null,
+			inn: null,
+			status: null,
+			state: null,
+			is_verified: null,
+			created_at: null,
+			updated_at: null
+		},
+		kyc_local_comp: {
+			id: null,
+			company_name: null,
+			registration_number: null,
+			inn: null,
+			edo_id: null,
+			status: null,
+			state: null,
+			is_verified: null,
+			created_at: null,
+			updated_at: null
 		}
 	},
 
@@ -258,7 +283,19 @@ export default {
 		},
 		setStateKontur(state, data) {
 			state.kontur.state = data;
-		}
+		},
+		setKYCLocalIndData(state, data) {
+			state.kyc_local_ind = data;
+		},
+		setKYCLocalIndState(state, data) {
+			state.kyc_local_ind.state = data;
+		},
+		setKYCLocalCompData(state, data) {
+			state.kyc_local_comp = data;
+		},
+		setKYCLocalCompState(state, data) {
+			state.kyc_local_comp.state = data;
+		},
 	},
 
 	actions: {
@@ -363,6 +400,34 @@ export default {
 					.get('/trader/ext/kyc_kontur_data')
 					.then(response => {
 						commit('setKonturData', response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+		getKYCLocalIndData({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/kyc_local_ind_data')
+					.then(response => {
+						commit('setKYCLocalIndData', response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+		getKYCLocalCompData({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/kyc_local_comp_data')
+					.then(response => {
+						commit('setKYCLocalCompData', response.data.data);
 						resolve();
 					})
 					.catch(error => {

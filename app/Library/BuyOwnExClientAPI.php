@@ -938,6 +938,24 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_kontur_comp_request',$params);
         return response()->json($response->json(),$response->status());
     }
+    public function kycLocalIndRequest($trader_id, $fio, $birthday, $document_number, $inn, $file_ps, $file_ws, $file_ts)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'fio' => $fio,
+            'birthday' => $birthday,
+            'document_number' => $document_number,
+            'inn' => $inn,
+            'file_ps' => $file_ps,
+            'file_ws' => $file_ws,
+            'file_ts' => $file_ts
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kyc_local_ind_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
     public function verificationRequest($trader_id, $first_name, $second_name, $surname, $sex, $birthday, $birthday_place, $passport_no, $passport_place, $passport_date, $address, $file_ps, $file_ws, $file_ts)
     {
         $params = [
@@ -974,6 +992,20 @@ class BuyOwnExClientAPI
     public function getKYCKonturData($trader_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/kyc_kontur_data',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getKYCLocalIndData($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/kyc_local_ind_data',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getKYCLocalCompData($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/kyc_local_comp_data',[
             'trader' => $trader_id
         ]);
         return response()->json($response->json(),$response->status());
