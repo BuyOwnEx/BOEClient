@@ -47,6 +47,7 @@
                 :trader_status="trader_status"
                 :block_status="block_status"
                 :platforms="platforms"
+                :bank_details="bank_details"
                 :gateways="withdrawGateways"
                 :fees="fees"
 								@select_platform="platformSelected"
@@ -66,6 +67,7 @@
                   v-if="selected_gateway && selected_gateway.code === 'INVOICE'"
                   :trader_status="trader_status"
                   :selectedPlatform="selectedPlatfrom"
+                  :bank_details="bank_details"
                   :currency_obj="currencyObj"
                   :fees="fees"
                   @filled="fields_filled"
@@ -82,6 +84,7 @@
                   :acc="acc"
                   :fees="fees"
                   :selected-platform="selectedPlatfrom"
+                  :bank_details="bank_details"
                   @back_pressed="back"
                   @success_response="success_confirmation"
               ></ConfirmationWithdrawStep>
@@ -160,6 +163,7 @@ export default {
       bic: null,
       acc: null,
       gateways: [],
+      bank_details: [],
       fees: [],
 			step: 1,
 		};
@@ -170,6 +174,9 @@ export default {
     });
     axios.get('/trader/ext/all_fiat_fees').then(response => {
       this.fees = response.data.data;
+    });
+    axios.get('/trader/ext/withdraw_bank_details').then(response => {
+      this.bank_details = response.data.data;
     });
   },
 	computed: {

@@ -1079,6 +1079,13 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getWithdrawBankDetails($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_withdraw_bank_details',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function accountInfoRequest($trader_id, $lang)
     {

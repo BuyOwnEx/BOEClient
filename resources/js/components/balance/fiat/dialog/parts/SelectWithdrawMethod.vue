@@ -49,6 +49,10 @@ export default {
       type: Array,
       required: true,
     },
+    bank_details: {
+      type: Array,
+      required: true,
+    },
     fees: {
       type: Array,
       required: true,
@@ -114,7 +118,8 @@ export default {
       return item.minWithdraw;
     },
     getFee(gateway_id, currency) {
-      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency));
+      let active_withdraw_bank_detail = _.find(this.bank_details, item => (item.gateway_id === gateway_id && item.type === 'withdraw' && item.is_active === true));
+      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency && item.bank_id === active_withdraw_bank_detail.bank_id));
       return this.getWithdrawFee(gateway_fee);
     },
     getWithdrawFee(fee) {

@@ -114,6 +114,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('kyc_local_comp_data', 'TraderController@getKYCLocalCompData')->name('kyc_local_comp_data');
             Route::get('verification_bank_details', 'TraderController@getVerificationBankDetails')->name('verification_bank_details');
             Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
+            Route::get('withdraw_bank_details', 'TraderController@getWithdrawBankDetails')->name('withdraw_bank_details');
 
             Route::get('get_image', 'TraderController@getKYCImage')->name('kyc_image');
 

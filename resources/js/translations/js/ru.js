@@ -51,7 +51,7 @@ export default {
 		no_data: 'Данных нет',
 		see_all: 'Увидеть все',
 	},
-  titles: {
+    titles: {
         "2fa": 'Проверка 2FA',
         "2fa_forget": 'Восстановление 2FA',
         api: 'API',
@@ -198,7 +198,6 @@ export default {
 			}
 		},
 	},
-
 	menu: {
 		trading: 'Торговля',
 		overview: 'Обзор рынка',
@@ -2924,6 +2923,17 @@ export default {
 			cancelled: 'Отменен'
 		}
 	},
+    transactions: {
+        types: {
+            withdrawal: 'Вывод',
+            replenish: 'Пополнение'
+        },
+        statuses: {
+            executed: 'Исполнен',
+            pending: 'В обработке',
+            accepted: 'Принят'
+        }
+    },
 	deals: {
 		sides: {
 			sell: 'Продажа',

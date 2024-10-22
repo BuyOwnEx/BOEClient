@@ -100,13 +100,13 @@ export default {
 				'items-per-page-all-text': '500',
 			},
 			statuses: [
-				{ value: 'done', name: 'Executed' },
-				{ value: 'wait', name: 'Pending' },
-				{ value: 'accepted', name: 'Accepted' },
+				{ value: 'done', name: this.$t('transactions.statuses.executed') },
+				{ value: 'wait', name: this.$t('transactions.statuses.pending') },
+				{ value: 'accepted', name: this.$t('transactions.statuses.accepted') },
 			],
 			types: [
-				{ value: false, name: 'Withdrawal' },
-				{ value: true, name: 'Replenish' },
+				{ value: false, name: this.$t('transactions.types.withdrawal') },
+				{ value: true, name: this.$t('transactions.types.replenish') },
 			],
 			currencies: [],
 		};

@@ -79,6 +79,10 @@ export default {
       type: Object,
       required: true,
     },
+    bank_details: {
+      type: Array,
+      required: true,
+    },
     fees: {
       type: Array,
       required: true,
@@ -110,8 +114,8 @@ export default {
     };
   },
   computed: {
-    minReplenish() {
-      return this.selectedPlatfrom?.minReplenish;
+    minWithdraw() {
+      return this.selectedPlatfrom?.minWithdraw;
     },
     currency() {
       return this.selectedPlatfrom?.currency;
@@ -125,19 +129,20 @@ export default {
       formFiatWithdrawRequestStore: 'balance/formFiatWithdrawRequest',
     }),
     getFee(gateway_id, currency) {
-      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency));
-      return this.getReplenishFee(gateway_fee);
+      let active_withdraw_bank_detail = _.find(this.bank_details, item => (item.gateway_id === gateway_id && item.type === 'withdraw' && item.is_active === true));
+      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency && item.bank_id === active_withdraw_bank_detail.bank_id));
+      return this.getWithdawFee(gateway_fee);
     },
-    getReplenishFee(fee) {
+    getWithdawFee(fee) {
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_replenish_fix_fee).eq(0) || !BigNumber(fee.replenish_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_withdraw_fix_fee).eq(0) || !BigNumber(fee.withdraw_fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_replenish_fix_fee).plus(fee.replenish_fix_fee).toString() + ' ' + fee.currency;
+        fix_part = BigNumber(fee.bank_withdraw_fix_fee).plus(fee.withdraw_fix_fee).toString() + ' ' + fee.currency;
       }
-      if(!BigNumber(fee.bank_replenish_percent_fee).eq(0) || !BigNumber(fee.replenish_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_withdraw_percent_fee).eq(0) || !BigNumber(fee.withdraw_percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_replenish_percent_fee).plus(fee.replenish_percent_fee).toString() + '%';
+        percent_part = BigNumber(fee.bank_withdraw_percent_fee).plus(fee.withdraw_percent_fee).toString() + '%';
       }
       if(fix_part !== '' && percent_part !== '')
       {
@@ -158,16 +163,17 @@ export default {
       return BigNumber(amount).minus(fee).toString() + " " + curr;
     },
     getAmountWithFee(amount, gateway_id, curr) {
-      let fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === curr));
+      let active_withdraw_bank_detail = _.find(this.bank_details, item => (item.gateway_id === gateway_id && item.type === 'withdraw' && item.is_active === true));
+      let fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === curr && item.bank_id === active_withdraw_bank_detail.bank_id));
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_replenish_fix_fee).eq(0) || !BigNumber(fee.replenish_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_withdraw_fix_fee).eq(0) || !BigNumber(fee.withdraw_fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_replenish_fix_fee).plus(fee.replenish_fix_fee);
+        fix_part = BigNumber(fee.bank_withdraw_fix_fee).plus(fee.withdraw_fix_fee);
       }
-      if(!BigNumber(fee.bank_replenish_percent_fee).eq(0) || !BigNumber(fee.replenish_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_withdraw_percent_fee).eq(0) || !BigNumber(fee.withdraw_percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_replenish_percent_fee).plus(fee.replenish_percent_fee);
+        percent_part = BigNumber(fee.bank_withdraw_percent_fee).plus(fee.withdraw_percent_fee);
       }
       if(fix_part !== '' && percent_part !== '')
       {

@@ -199,6 +199,10 @@ export default {
       type: Object,
       required: true,
     },
+    bank_details: {
+      type: Array,
+      required: true,
+    },
     currency_obj: {
       type: Object,
       required: true,
@@ -278,7 +282,8 @@ export default {
       this.$emit('back_pressed');
     },
     getFee(gateway_id, currency) {
-      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency));
+      let active_withdraw_bank_detail = _.find(this.bank_details, item => (item.gateway_id === gateway_id && item.type === 'withdraw' && item.is_active === true));
+      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency && item.bank_id === active_withdraw_bank_detail.bank_id));
       return this.getWithdrawFee(gateway_fee);
     },
     getWithdrawFee(fee) {

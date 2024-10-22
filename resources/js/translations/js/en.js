@@ -2893,6 +2893,48 @@ make our system processes as transparent as possible.`,
 			support: 'Please correct the reasons why your verification request was rejected and send the data again, or if the reasons are not clear, then contact the support team to find out additional information.',
 		},
 	},
+    transfers: {
+        sides: {
+            to_trade: 'From main wallet to trade wallet',
+            to_safe: 'From trade wallet to main wallet'
+        }
+    },
+    orders: {
+        sides: {
+            sell: 'Sell',
+            buy: 'Buy'
+        },
+        types: {
+            limit: 'Limit',
+            market: 'Market',
+            stop_loss: 'Stop loss',
+            take_profit: 'Take profit',
+            trailing_stop: 'Trailing stop',
+        },
+        statuses: {
+            filled: 'Filled',
+            partially_filled: 'Partially filled',
+            accepted: 'Accepted',
+            cancelled: 'Cancelled'
+        }
+    },
+    transactions: {
+        types: {
+            withdrawal: 'Withdrawal',
+            replenish: 'Replenish'
+        },
+        statuses: {
+            executed: 'Executed',
+            pending: 'Pending',
+            accepted: 'Accepted'
+        }
+    },
+    deals: {
+        sides: {
+            sell: 'Sell',
+            buy: 'Buy'
+        },
+    },
 	forms_validation: {
 		required: 'Required field',
 		email_invalid: 'Invalid E-mail',
