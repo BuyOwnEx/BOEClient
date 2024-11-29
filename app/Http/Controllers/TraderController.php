@@ -271,6 +271,17 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getAllCountries()
+    {
+        try {
+            return Cache::remember('all_countries', 60, function (){
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->all_countries();
+            });
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getHealth()
     {
         try {
@@ -1097,14 +1108,16 @@ class TraderController extends Controller
     {
         $validator=Validator::make($request->all(), [
             'fio' => 'required|string|min:1|max:256',
+            'country' => 'required|string|size:2',
             'birthday' => 'required|date_format:"Y-m-d"',
-            'document_number' => 'required|string|min:10|max:11',
-            'ind_inn' => 'nullable|string|size:12',
+            'document_number' => 'required|string|min:8|max:40',
+            'ind_inn' => 'nullable|string|min:8|max:40',
             'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
         ], [], [
             'fio' => __('kyc.local.validation.fio'),
+            'country' => __('kyc.local.validation.country'),
             'birthday' => __('kyc.local.validation.birthday'),
             'document_number' => __('kyc.local.validation.document_number'),
             'ind_inn' => __('kyc.local.validation.ind_inn'),
@@ -1130,6 +1143,7 @@ class TraderController extends Controller
                 return $api->kycLocalIndRequest(
                     Auth::id(),
                     $request->fio,
+                    $request->country,
                     $request->birthday,
                     $request->document_number,
                     $request->ind_inn,

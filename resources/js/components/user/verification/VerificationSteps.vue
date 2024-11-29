@@ -6,7 +6,7 @@
     </v-stepper-step>
     <v-stepper-content step="1">
       <v-card class="user-residence-tab ml-2 mb-2">
-        <v-card-text class="pa-0 pl-1">{{ $t('kyc.resident_step_text') }} {{ $t('kyc.resident_country.'+verification_settings.resident_country) }}</v-card-text>
+        <v-card-text class="pa-0 pl-1">{{ $t('kyc.resident_step_text') }} {{ $t('kyc.resident_country.'+verification_settings.resident_country.toLowerCase()) }}</v-card-text>
         <v-radio-group
             v-model="residence"
             dense
@@ -95,13 +95,6 @@
           v-if="residence === 'resident' && legality === 'legal' && verification_settings.resident_legal_kyc_provider	 === 'sumsub'"
           @set_reason="set_reason"
       ></sum-sub-kyb>
-      <local-individual
-          v-if="residence === 'resident' && legality === 'individual' && verification_settings.resident_individual_kyc_provider === 'local'"
-      ></local-individual>
-      <local-legal
-          v-if="residence === 'resident' && legality === 'legal' && verification_settings.resident_legal_kyc_provider	 === 'local'"
-      ></local-legal>
-
       <kontur-individual
           v-if="residence === 'non_resident' && legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'kontur'"
       ></kontur-individual>
@@ -117,10 +110,14 @@
           @set_reason="set_reason"
       ></sum-sub-kyb>
       <local-individual
-          v-if="residence === 'non_resident' && legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'local'"
+          v-if="legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'local'"
+          :resident-country="verification_settings.resident_country"
+          :resident="residence"
       ></local-individual>
       <local-legal
-          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local'"
+          v-if="legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local'"
+          :resident-contry="verification_settings.resident_country"
+          :resident="residence"
       ></local-legal>
       <v-btn
           v-if="verifyStatus === 'new'"

@@ -12,12 +12,55 @@
           <v-card>
             <v-card-text>
               <v-form v-model="isValidIndRequestForm">
+                <v-select
+                    v-if="resident === 'non_resident'"
+                    v-model="ind_data.country"
+                    :items="countries_available"
+                    :item-text="(item) => { return $t('countries.'+item.iso.toLowerCase())}"
+                    item-value="iso"
+                    :label="$t('kyc.country')"
+                    :hint="$t('kyc.select_resident_country')"
+                    :rules="[rules.required]"
+                    autofocus
+                    persistent-hint
+                    hide-details="auto"
+                    required
+                    class="required mb-1"
+                >
+                  <template #item="{item, on, attr}">
+                    <v-list-item v-bind="attr" v-on="on">
+                      <v-list-item-icon>
+                        <v-img
+                            class="elevation-0 d-inline-flex"
+                            style="vertical-align: middle"
+                            :src="item.logo"
+                            max-height="16"
+                            max-width="16"
+                        ></v-img>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title v-text="$t('countries.'+item.iso.toLowerCase())"></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </template>
+                  <template v-slot:selection="{item}">
+                    <v-img
+                        class="elevation-0 d-inline-flex"
+                        style="vertical-align: middle"
+                        :src="item.logo"
+                        max-height="16"
+                        max-width="16"
+                    ></v-img>
+                    <span class="ml-1">{{ $t('countries.'+item.iso.toLowerCase()) }}</span>
+                  </template>
+                </v-select>
+
                 <v-text-field
                     class="mb-1 pt-1"
                     v-model="ind_data.fio"
                     :label="$t('kyc.manual.individual.form.fio')"
                     :hint="$t('kyc.manual.individual.hints.fio')"
-                    :rules="[rules.required,rules.fio]"
+                    :rules="[rules.required, show_global_form ? rules.fio_global : rules.fio]"
                     persistent-hint
                     outlined
                 />
@@ -52,8 +95,8 @@
                     v-model="ind_data.document_number"
                     :label="$t('kyc.manual.individual.form.document_number')"
                     :hint="$t('kyc.manual.individual.hints.document_number')"
-                    :rules="[rules.required, rules.document_number]"
-                    v-mask="'#### ######'"
+                    :rules="[rules.required, show_global_form ? rules.document_number : rules.passport_number]"
+                    v-mask="document_mask"
                     :error-messages="errors.document_number"
                     persistent-hint
                     clearable
@@ -67,8 +110,8 @@
                     v-model="ind_data.ind_inn"
                     :label="$t('kyc.manual.individual.form.inn')"
                     :hint="$t('kyc.manual.individual.hints.inn')"
-                    :rules="[rules.ind_inn]"
-                    v-mask="'############'"
+                    :rules="[show_global_form ? rules.ind_inn_global : rules.ind_inn]"
+                    v-mask="tax_id_mask"
                     :error-messages="errors.ind_inn"
                     persistent-hint
                     clearable
@@ -340,13 +383,23 @@ export default {
     formValidationRules,
     formatDate
   ],
+  props: {
+    residentCountry: {
+      type: String,
+      required: true
+    },
+    resident: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       isValidIndRequestForm: false,
       birthday: false,
       loaded: false,
-
       ind_data: {
+        country: this.resident === 'resident' ? this.residentCountry : null,
         fio: null,
         birthday: null,
         document_number: null,
@@ -366,13 +419,16 @@ export default {
         file_ws: [],
         file_ts: []
       },
+      countries: [],
     };
   },
   computed: {
     ...mapState({
       kyc_local_ind: state => state.user.kyc_local_ind,
     }),
-
+    countries_available() {
+      return _.filter(this.countries, (item) => { return item.iso !== this.residentCountry});
+    },
     kyc_state() {
       return this.kyc_local_ind.id !== null ? this.kyc_local_ind.state : null
     },
@@ -392,6 +448,15 @@ export default {
         updated_at: this.kyc_local_ind.updated_at
       }
     },
+    show_global_form() {
+      return (this.residentCountry === 'RU' && this.resident === 'non_resident') || (this.residentCountry !== 'RU' && this.ind_data.country !== 'RU')
+    },
+    document_mask() {
+      return !this.show_global_form ? '#### ######' : null;
+    },
+    tax_id_mask() {
+      return !this.show_global_form ? '############' : null;
+    }
   },
   methods: {
     ...mapMutations({
@@ -455,6 +520,9 @@ export default {
 
   },
   mounted() {
+    axios.get('/trader/ext/all_countries').then(response => {
+      this.countries = response.data.data;
+    });
     this.$store.dispatch('user/getKYCLocalIndData').then( res => {
       this.loaded = true;
     });

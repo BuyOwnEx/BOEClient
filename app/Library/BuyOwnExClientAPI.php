@@ -79,6 +79,11 @@ class BuyOwnExClientAPI
         $response = Http::withToken($this->api_key)->get($this->base.'v1/all_banks');
         return response()->json($response->json(),$response->status());
     }
+    public function all_countries()
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_countries');
+        return response()->json($response->json(),$response->status());
+    }
 
     public function health()
     {
@@ -938,11 +943,12 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_kontur_comp_request',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function kycLocalIndRequest($trader_id, $fio, $birthday, $document_number, $inn, $file_ps, $file_ws, $file_ts)
+    public function kycLocalIndRequest($trader_id, $fio, $country, $birthday, $document_number, $inn, $file_ps, $file_ws, $file_ts)
     {
         $params = [
             'trader' => $trader_id,
             'fio' => $fio,
+            'country' => $country,
             'birthday' => $birthday,
             'document_number' => $document_number,
             'inn' => $inn,

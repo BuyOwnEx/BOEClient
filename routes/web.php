@@ -73,6 +73,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('all_fiat_platforms', 'TraderController@getAllFiatPlatforms')->name('all_fiat_platforms');
         Route::get('all_fiat_fees', 'TraderController@getAllFiatFees')->name('all_fiat_fees');
         Route::get('all_banks', 'TraderController@getAllBanks')->name('all_banks');
+        Route::get('all_countries', 'TraderController@getAllCountries')->name('all_countries');
         Route::get('health', 'TraderController@getHealth')->name('health');
         Route::get('get_offer_list', 'TraderController@getOfferList')->name('offer_list');
 
