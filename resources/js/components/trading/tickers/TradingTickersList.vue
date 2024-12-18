@@ -1,27 +1,32 @@
 <template>
 	<v-card class="trading-tickers-list pa-1">
-		<div class="trading-tickers-list__header">
-			<div v-if="!isSearch" class="trading-tickers-list__header-markets">
-				<v-btn
-					v-if="marketsFromStorage !== null"
-					v-for="market in markets"
-					class="mr-1"
-					:key="market"
-					:class="{ selected: market === selectedMarket }"
-					:input-value="selectedMarket === market"
-					text
-					small
-					@click="selectedMarket = market"
-				>
-					<span>{{ market }}</span>
-				</v-btn>
-			</div>
-
+		<div class="trading-tickers-list__header d-flex">
+      <div v-if="!isSearch" class="trading-tickers-list__header-markets d-flex" style="max-width: 100%">
+        <v-slide-group show-arrows >
+          <v-slide-item
+              v-if="marketsFromStorage !== null"
+              v-for="market in markets"
+              :key="market"
+              v-slot="{ active, toggle }"
+          >
+            <v-btn
+                class="mr-1 align-self-center"
+                :class="{ selected: market === selectedMarket }"
+                :input-value="selectedMarket === market"
+                text
+                :small="markets.length <= 4"
+                :x-small="markets.length > 4"
+                @click="selectedMarket = market"
+            >
+              <span>{{ market }}</span>
+            </v-btn>
+          </v-slide-item>
+        </v-slide-group>
+      </div>
 			<div v-if="isSearch" class="trading-tickers-list__header-search">
 				<v-text-field v-model="tickersSearchQuery" :label="$t('trading.search')" hide-details outlined dense>
 				</v-text-field>
 			</div>
-
 			<div class="trading-tickers-list__header-actions">
 				<span class="trading-tickers-list__search-action">
 					<v-btn icon @click="switchSearchShowAndClearField">
