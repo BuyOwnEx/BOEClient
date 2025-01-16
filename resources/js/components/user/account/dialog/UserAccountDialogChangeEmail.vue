@@ -1,10 +1,12 @@
 <template>
 	<v-dialog v-model="dialog" width="600" :persistent="step === 3">
 		<template #activator="{ on, attrs }">
-			<v-btn class="mb-2" v-bind="attrs" v-on="on">
-				<v-icon left small>mdi-email</v-icon>
+      <span>
+				<v-btn class="mb-2" v-bind="attrs" v-on="on">
+				  <v-icon left small>mdi-email</v-icon>
 				{{ $t('common.change') }}
-			</v-btn>
+			  </v-btn>
+			</span>
 		</template>
 
 		<v-card>

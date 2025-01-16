@@ -4,6 +4,7 @@
       :confirm-text="$t('common.send_request')"
       header-color="success"
       @confirm="makeRequest"
+      :disabled="!has_accounts || req_count > 1"
   >
     <template #default>
       <v-btn class="mb-2">
@@ -18,7 +19,18 @@
 
     <template #content class="pb-1">
       {{ $t('user.info.statement_request_description') }}
-      <v-row no-gutters>
+      <div class="mt-2 mb-2" v-if="!has_accounts || req_count > 1">
+        <small class="text--secondary d-block" v-if="!has_accounts">
+          <span class="red--text">{{ $t('user.info.no_accounts') }}</span>
+        </small>
+        <small class="text--secondary d-block" v-if="req_count > 1">
+          <span class="red--text">{{ $t('user.info.statement_limit') }}: <b>{{ req_count }}</b></span>
+        </small>
+        <small class="text--secondary d-block" v-if="req_count > 1">
+          <span class="red--text">{{ $t('user.info.statement_limit_info') }}: <b>{{ get_date_plus_month(last_date) }}</b></span>
+        </small>
+      </div>
+      <v-row no-gutters v-else>
         <v-col class="px-1" cols="12" sm="12" md="6">
           <v-menu
               ref="menu_start_date"
@@ -101,6 +113,23 @@
 import CommonDialog from '@/components/common/CommonDialog.vue';
 export default {
   name: 'UserAccountDialogStatementRequest',
+  props: {
+    last_date: {
+      type: String,
+      required: false,
+      default: null
+    },
+    has_accounts: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    req_count: {
+      type: Number,
+      required: false,
+      default: 0
+    }
+  },
   components: { CommonDialog },
   data() {
     return {
@@ -147,6 +176,9 @@ export default {
         end: this.form.to,
         lang: this.$vuetify.lang.current
       });
+    },
+    get_date_plus_month(date) {
+      return this.$moment(date).add(1, 'month').utc().format('YYYY-MM-DD HH:mm:ss')
     },
   },
 };

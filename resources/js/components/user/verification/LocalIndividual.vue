@@ -110,12 +110,13 @@
                     v-model="ind_data.ind_inn"
                     :label="$t('kyc.manual.individual.form.inn')"
                     :hint="$t('kyc.manual.individual.hints.inn')"
-                    :rules="[show_global_form ? rules.ind_inn_global : rules.ind_inn]"
+                    :rules="[rules.required, show_global_form ? rules.ind_inn_global : rules.ind_inn]"
                     v-mask="tax_id_mask"
                     :error-messages="errors.ind_inn"
                     persistent-hint
                     clearable
-                    class="mb-1"
+                    required
+                    class="required mb-1"
                     @input="errors.ind_inn = []"
                 >
                 </v-text-field>

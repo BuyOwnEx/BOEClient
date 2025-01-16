@@ -8,7 +8,7 @@
 		<template v-else>
 			<UserAccountBlockedAlert v-if="blockStatus" :status="blockStatus" />
 			<UserAccountBasicInfo :user="user" />
-			<UserAccountPanels :user="user" />
+			<UserAccountPanels :user="user" :doc_statuses="doc_statuses" />
 		</template>
 	</div>
 </template>
@@ -44,11 +44,11 @@ export default {
 	},
 
 	computed: {
-		...mapState('user', ['blockStatus','verifyStatus','status']),
+		...mapState('user', ['blockStatus','verifyStatus','status', 'doc_statuses']),
 	},
 
 	async created() {
-		await Promise.all([this.getVerificationStatusStore(), this.getBlockStatusStore(), this.getStatusStore()]);
+		await Promise.all([this.getVerificationStatusStore(), this.getBlockStatusStore(), this.getStatusStore(), this.getDocRequestStatusStore()]);
 		this.isLoading = false;
 	},
 
@@ -57,6 +57,7 @@ export default {
 			getBlockStatusStore: 'user/getBlockStatus',
 			getVerificationStatusStore: 'user/getVerifyStatus',
       getStatusStore: 'user/getStatus',
+      getDocRequestStatusStore: 'user/getDocRequestStatus',
 		}),
 	},
 };

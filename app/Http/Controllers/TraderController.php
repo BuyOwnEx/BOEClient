@@ -608,6 +608,17 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getDocRequestsStatus()
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getDocRequestStatus(
+                Auth::id()
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getStatus()
     {
         try {
@@ -1020,7 +1031,7 @@ class TraderController extends Controller
             'fio' => 'required|string|min:1|max:256',
             'birthday' => 'required|date_format:"Y-m-d"',
             'passport_number' => 'required|string|min:10|max:11',
-            'ind_inn' => 'nullable|string|size:12',
+            'ind_inn' => 'required|string|size:12',
             'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
@@ -1111,7 +1122,7 @@ class TraderController extends Controller
             'country' => 'required|string|size:2',
             'birthday' => 'required|date_format:"Y-m-d"',
             'document_number' => 'required|string|min:8|max:40',
-            'ind_inn' => 'nullable|string|min:8|max:40',
+            'ind_inn' => 'required|string|min:8|max:40',
             'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
             'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
@@ -1494,6 +1505,27 @@ class TraderController extends Controller
         }
     }
 
+    public function ContractRequest(Request $request)
+    {
+        if (in_array($request->lang, config('app.locales')))
+        {
+            try
+            {
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->contractRequest(
+                    Auth::id(),
+                    $request->lang
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+        }
+        else {
+            return ['success'=>false, 'message'=>'Language is not supported'];
+        }
+    }
     public function AccountInfoRequest(Request $request)
     {
         if (in_array($request->lang, config('app.locales')))

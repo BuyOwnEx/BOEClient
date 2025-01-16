@@ -92,6 +92,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('balance/all-fiat-withdrawals', 'TraderController@getFiatWithdrawalList')->name('fiat_withdrawal_list');
             Route::get('block/status', 'TraderController@getBlockStatus')->name('get_block_status');
             Route::get('verify/status', 'TraderController@getVerifyStatus')->name('get_verify_status');
+            Route::get('doc_requests/status', 'TraderController@getDocRequestsStatus')->name('get_doc_requests_status');
             Route::get('status', 'TraderController@getStatus')->name('get_status');
             Route::get('notification/status', 'TraderController@getNotificationStatus')->name('get_notification_status');
             Route::get('all_orders', 'TraderController@getAllOrders')->name('all_orders');
@@ -180,6 +181,7 @@ Route::group(['prefix' => 'trader'], function () {
 
                 Route::post('account_info_request', 'TraderController@AccountInfoRequest')->name('account_info_request');
                 Route::post('statement_request', 'TraderController@StatementRequest')->name('statement_request');
+                Route::post('contract_request', 'TraderController@ContractRequest')->name('contract_request');
                 Route::post('account/delete/request', 'TraderController@AccountDeleteRequest')->name('account_delete_request');
                 Route::post('account/delete/confirm', 'TraderController@AccountDeleteConfirm')->name('account_delete_confirm');
             });

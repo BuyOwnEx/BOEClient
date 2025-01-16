@@ -9,28 +9,49 @@
 				<v-divider />
 
         <div class="d-flex justify-space-between">
-          <div class="mt-2">
+          <div class="mt-2 d-flex flex-column justify-space-between">
             <div class="title">{{ $t('user.info.change_email') }}</div>
             <div class="subtitle mb-2">
               {{ $t('user.info.change_email_subtitle') }}
             </div>
             <UserAccountDialogChangeEmail :current-email="user.email" :two-fa="user.g2fa" />
           </div>
-          <div class="mt-2 ml-2">
+          <div class="mt-2 ml-2 d-flex flex-column justify-space-between" v-if="is_contract_request_enabled">
+            <div class="title">{{ $t('user.info.contract_request') }}</div>
+            <small class="font-italic text--secondary" v-if="doc_statuses.last_dates.last_contract_date"> {{ $t('user.info.last_date_request') }} : {{ get_date(doc_statuses.last_dates.last_contract_date) }}</small>
+            <div class="subtitle mb-2">
+              {{ $t('user.info.contract_request_subtitle') }}
+            </div>
+            <UserAccountDialogContractRequest
+                :last_date="doc_statuses.last_dates.last_contract_date"
+                :is_verified="verifyStatus"
+            />
+          </div>
+          <div class="mt-2 ml-2 d-flex flex-column justify-space-between">
             <div class="title">{{ $t('user.info.account_info_request') }}</div>
+            <small class="font-italic text--secondary" v-if="doc_statuses.last_dates.last_info_date"> {{ $t('user.info.last_date_request') }} : {{ get_date(doc_statuses.last_dates.last_info_date) }}</small>
             <div class="subtitle mb-2">
               {{ $t('user.info.account_info_request_subtitle') }}
             </div>
-            <UserAccountDialogAccountInfoRequest />
+            <UserAccountDialogAccountInfoRequest
+                :req_count="doc_statuses.info_req_count"
+                :has_wallets="doc_statuses.has_wallets"
+                :last_date="doc_statuses.last_dates.last_info_date"
+            />
           </div>
-          <div class="mt-2 ml-2">
+          <div class="mt-2 ml-2 d-flex flex-column justify-space-between">
             <div class="title">{{ $t('user.info.statement_request') }}</div>
+            <small class="font-italic text--secondary" v-if="doc_statuses.last_dates.last_statement_date"> {{ $t('user.info.last_date_request') }} : {{ get_date(doc_statuses.last_dates.last_statement_date) }}</small>
             <div class="subtitle mb-2">
               {{ $t('user.info.statement_request_subtitle') }}
             </div>
-            <UserAccountDialogStatementRequest />
+            <UserAccountDialogStatementRequest
+                :req_count="doc_statuses.statement_req_count"
+                :has_accounts="doc_statuses.has_accounts"
+                :last_date="doc_statuses.last_dates.last_statement_date"
+            />
           </div>
-          <div class="mt-2 ml-2">
+          <div class="mt-2 ml-2 d-flex flex-column justify-space-between">
             <div class="title">{{ $t('user.info.account_delete') }}</div>
             <div class="subtitle mb-2">
               {{ $t('user.info.account_delete_subtitle') }}
@@ -80,6 +101,8 @@ import UserAccountDialogStatementRequest from '@/components/user/account/dialog/
 import UserAccountDialogAccountInfoRequest
   from '@/components/user/account/dialog/UserAccountDialogAccountInfoRequest.vue';
 import UserAccountDialogAccountDelete from '@/components/user/account/dialog/UserAccountDialogAccountDelete.vue';
+import UserAccountDialogContractRequest from '@/components/user/account/dialog/UserAccountDialogContractRequest.vue';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'UserAccountPanels',
@@ -89,6 +112,7 @@ export default {
     UserAccountDialogAccountInfoRequest,
     UserAccountDialogStatementRequest,
 		UserAccountDialogChangeEmail,
+    UserAccountDialogContractRequest
 	},
 
 	mixins: [formatDate],
@@ -98,12 +122,37 @@ export default {
 			type: Object,
 			required: true,
 		},
+    doc_statuses: {
+      type: Object,
+      required: true,
+    },
+    is_verified: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
 	},
+
+  computed: {
+    ...mapState('user', ['status','verifyStatus']),
+    ...mapState('app', ['product']),
+    is_legal() {
+      return (this.status & 4) === 4;
+    },
+    is_contract_request_enabled() {
+      return this.product.enabledContactRequest
+    },
+  },
 
 	data() {
 		return {
 			panel: [0, 1],
 		};
 	},
+  methods: {
+    get_date(date) {
+      return this.$moment(date).utc().format('YYYY-MM-DD HH:mm:ss')
+    },
+  }
 };
 </script>

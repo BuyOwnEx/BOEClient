@@ -67,12 +67,13 @@
                     v-model="ind_data.ind_inn"
                     :label="$t('kyc.kontur.individual.form.inn')"
                     :hint="$t('kyc.kontur.individual.hints.inn')"
-                    :rules="[rules.ind_inn]"
+                    :rules="[rules.required, rules.ind_inn]"
                     v-mask="'############'"
                     :error-messages="errors.ind_inn"
                     persistent-hint
                     clearable
-                    class="mb-1"
+                    required
+                    class="required mb-1"
                     @input="errors.ind_inn = []"
                 >
                 </v-text-field>

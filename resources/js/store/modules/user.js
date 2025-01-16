@@ -21,6 +21,17 @@ export default {
 		blockStatus: null,
 		verifyStatus: null,
 		status: null,
+		doc_statuses: {
+			has_wallets: null,
+			has_accounts: null,
+			info_req_count: null,
+			statement_req_count: null,
+			last_dates: {
+				last_info_date: null,
+				last_statement_date: null,
+				last_contract_date: null
+			}
+		},
 		marginCall: {
 			status: false,
 			positions: [],
@@ -113,6 +124,15 @@ export default {
 		},
 		setStatus(state, status) {
 			state.status = status;
+		},
+		setDocRequestStatus(state, data) {
+			state.doc_statuses.has_wallets = data.has_wallets;
+			state.doc_statuses.has_accounts = data.has_accounts;
+			state.doc_statuses.info_req_count = data.info_req_count;
+			state.doc_statuses.statement_req_count = data.statement_req_count;
+			state.doc_statuses.last_dates.last_info_date = data.last_dates.last_info_date;
+			state.doc_statuses.last_dates.last_statement_date = data.last_dates.last_statement_date;
+			state.doc_statuses.last_dates.last_contract_date = data.last_dates.last_contract_date;
 		},
 		setOrders(state, orders) {
 			state.orders = orders;
@@ -511,6 +531,21 @@ export default {
 					.get('/trader/ext/status')
 					.then(response => {
 						commit('setStatus', response.data.status);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+
+		getDocRequestStatus({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/doc_requests/status')
+					.then(response => {
+						commit('setDocRequestStatus', response.data.data);
 						resolve();
 					})
 					.catch(error => {

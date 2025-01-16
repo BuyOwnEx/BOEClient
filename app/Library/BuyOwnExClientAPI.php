@@ -455,6 +455,13 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getDocRequestStatus(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/doc_request_status',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
     public function getStatus(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/status',[
@@ -1093,6 +1100,17 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+    public function contractRequest($trader_id, $lang)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'lang' => $lang
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/contract_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
     public function accountInfoRequest($trader_id, $lang)
     {
         $params = [
