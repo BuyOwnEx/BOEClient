@@ -968,6 +968,22 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_local_ind_request',$params);
         return response()->json($response->json(),$response->status());
     }
+    public function kycLocalCompRequest($trader_id, $country, $company_name, $address, $reg_number, $tax_id, $file_doc)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'country' => $country,
+            'company_name' => $company_name,
+            'address' => $address,
+            'reg_number' => $reg_number,
+            'tax_id' => $tax_id,
+            'file_doc' => $file_doc
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kyc_local_comp_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function verificationRequest($trader_id, $first_name, $second_name, $surname, $sex, $birthday, $birthday_place, $passport_no, $passport_place, $passport_date, $address, $file_ps, $file_ws, $file_ts)
     {

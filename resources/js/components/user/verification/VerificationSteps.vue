@@ -114,11 +114,11 @@
           :resident-country="verification_settings.resident_country"
           :resident="residence"
       ></local-individual>
-      <local-legal
+      <local-company
           v-if="legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local'"
-          :resident-contry="verification_settings.resident_country"
+          :resident-country="verification_settings.resident_country"
           :resident="residence"
-      ></local-legal>
+      ></local-company>
       <v-btn
           v-if="verifyStatus === 'new'"
           class="text-uppercase caption"
@@ -138,7 +138,7 @@ import KonturCompany from '@/components/user/verification/KonturCompany.vue';
 import SumSubKyc from '@/components/user/verification/SumSubKyc.vue';
 import SumSubKyb from '@/components/user/verification/SumSubKyb.vue';
 import LocalIndividual from '@/components/user/verification/LocalIndividual.vue';
-import LocalLegal from '@/components/user/verification/LocalCompany.vue';
+import LocalCompany from '@/components/user/verification/LocalCompany.vue';
 import { mapActions, mapState } from 'vuex';
 export default {
   name: 'VerificationSteps',
@@ -148,7 +148,7 @@ export default {
     SumSubKyc,
     SumSubKyb,
     LocalIndividual,
-    LocalLegal
+    LocalCompany
   },
   data() {
     return {

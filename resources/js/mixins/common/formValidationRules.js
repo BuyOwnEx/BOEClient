@@ -8,6 +8,8 @@ export default {
 				email: v => (v && /.+@.+\..+/.test(v)) || this.$t('forms_validation.email_invalid'),
 				fio: v => (v && /([а-яА-Я-/.'])+(\s)+([а-яА-Я-/.'])+(\s)*([а-яА-Я-/.'])*/.test(v)) || this.$t('forms_validation.fio_invalid'),
 				fio_global: v => (v && /([a-zA-Zа-яА-Я-/.'])+(\s)+([a-zA-Zа-яА-Я-/.'])+(\s)*([a-zA-Zа-яА-Я-/.'])*/.test(v)) || this.$t('forms_validation.fio_invalid'),
+				company_name: v => (v && /(['\\"А-Яа-я\w\s-]+)/.test(v)) || this.$t('forms_validation.company_name_invalid'),
+				company_name_global: v => (v && /([\S\s]{3,256})/.test(v)) || this.$t('forms_validation.company_name_invalid'),
 				birthday_18years: v => !v || Math.floor((new Date() - new Date(v).getTime()) / 3.15576e+10) >= 18 || this.$t('forms_validation.birthday_18years'),
 				passport_number: v => (v && /\d{4}\s\d{6}/.test(v)) || this.$t('forms_validation.passport_number_invalid'),
 				document_number: v => (v && /\w{8,40}/.test(v)) || this.$t('forms_validation.document_number_invalid'),

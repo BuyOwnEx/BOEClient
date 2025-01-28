@@ -187,10 +187,11 @@
                   :icon="kyc_state_icon(kyc_state, is_verified)"
                   text
                   :type="kyc_state_alert_type(kyc_state, is_verified)"
-                  class="mb-0"
+                  class="mb-1"
               >
                 {{ kyc_state_alert_text(kyc_state, is_verified) }}
               </v-alert>
+              <span class="font-italic caption red--text" v-if="local_ind_data.reason"> {{ $t('kyc.rejected_alert.reason') }}: {{ local_ind_data.reason }}</span>
             </v-card-subtitle>
             <v-card-text>
               <div class="kyc-local-item__info-wrapper">
@@ -446,7 +447,8 @@ export default {
         document_number: this.kyc_local_ind.document_number,
         ind_inn: this.kyc_local_ind.inn ? this.kyc_local_ind.inn : '-',
         created_at: this.kyc_local_ind.created_at,
-        updated_at: this.kyc_local_ind.updated_at
+        updated_at: this.kyc_local_ind.updated_at,
+        reason: this.kyc_local_ind.reason ? this.kyc_local_ind.reason : null,
       }
     },
     show_global_form() {

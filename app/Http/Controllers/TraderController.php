@@ -1115,6 +1115,53 @@ class TraderController extends Controller
 
         }
     }
+    public function sendKYCLocalCompRequest(Request $request)
+    {
+        $validator=Validator::make($request->all(), [
+            'country' => 'required|string|size:2',
+            'reg_number' => 'required|string|min:8|max:40',
+            'address' => 'required|string|min:8|max:256',
+            'tax_number' => 'nullable|string|size:10',
+            'name' => 'required|string|min:3|max:256',
+            'file_doc' => 'required|file|mimes:pdf|max:2048',
+        ], [], [
+            'country' => __('kyc.local.validation.country'),
+            'reg_number' => __('kyc.local.validation.reg_number'),
+            'address' => __('kyc.local.validation.address'),
+            'tax_number' => __('kyc.kontur.validation.tax_number'),
+            'name' => __('kyc.kontur.validation.company_name'),
+            'file_doc' => __('kyc.file_doc'),
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->getMessages(),
+            ],422);
+        }
+        else
+        {
+            try
+            {
+                $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_doc'));
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->kycLocalCompRequest(
+                    Auth::id(),
+                    $request->country,
+                    $request->name,
+                    $request->address,
+                    $request->reg_number,
+                    $request->tax_number,
+                    $path_doc
+                );
+            }
+            catch (Exception $e)
+            {
+                return ['success'=>false, 'message'=>$e->getMessage()];
+            }
+        }
+    }
+
     public function sendKYCLocalIndRequest(Request $request)
     {
         $validator=Validator::make($request->all(), [
