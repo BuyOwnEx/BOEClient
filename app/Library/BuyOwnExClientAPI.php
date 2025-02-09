@@ -5,6 +5,7 @@ namespace App\Library;
 use App\Exceptions\ExceptionBuyOwnExAPI;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class BuyOwnExClientAPI
 {
@@ -622,7 +623,7 @@ class BuyOwnExClientAPI
                 return response()->json(['success' => true],$response->status());
             }
             else {
-                return response()->json(['success' => false, 'message'=> $response->json()['message'] ? $response->json()['message'] : 'Unknown error'],500);
+                return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
             }
         }
         else
@@ -642,7 +643,7 @@ class BuyOwnExClientAPI
                 return response()->json(['success' => true],$response->status());
             }
             else {
-                return response()->json(['success' => false, 'message'=> $response->json()['message'] ? $response->json()['message'] : 'Unknown error'],500);
+                return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
             }
         }
 
@@ -1115,6 +1116,20 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getRubProps($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_rub_props',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getSwiftProps($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_swift_props',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function contractRequest($trader_id, $lang)
     {
@@ -1185,6 +1200,196 @@ class BuyOwnExClientAPI
         }
         else {
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function rubPropsAddRequest($trader_id, $name, $bic, $acc, $inn, $kpp)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'name' => $name,
+            'bic' => $bic,
+            'acc' => $acc,
+            'inn' => $inn,
+            'kpp' => $kpp
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/rub_props_add_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function rubPropsAddConfirm(int $trader_id, string $code)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/rub_props_add_confirm',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function rubPropsEditName($trader_id, $prop_id, $name)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'prop_id' => $prop_id,
+            'name' => $name
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/rub_props_edit_name',$params);
+        Log::info($response->json());
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else
+        {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function rubPropsDeleteRequest($trader_id, $prop_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'prop_id' => $prop_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/rub_props_delete_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function rubPropsDeleteConfirm(int $trader_id, string $code)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/rub_props_delete_confirm',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+
+    public function swiftPropsAddRequest($trader_id, $name, $currency, $ben_name, $ben_address, $ben_swift, $ben_acc, $inn, $kpp, $inter_swift, $inter_acc)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'name' => $name,
+            'currency' => $currency,
+            'ben_name' => $ben_name,
+            'ben_address' => $ben_address,
+            'ben_swift' => $ben_swift,
+            'ben_acc' => $ben_acc,
+            'inn' => $inn,
+            'kpp' => $kpp,
+            'inter_swift' => $inter_swift,
+            'inter_acc' => $inter_acc
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/swift_props_add_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function swiftPropsAddConfirm(int $trader_id, string $code)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/swift_props_add_confirm',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function swiftPropsEditName($trader_id, $prop_id, $name)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'prop_id' => $prop_id,
+            'name' => $name
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/swift_props_edit_name',$params);
+        Log::info($response->json());
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else
+        {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function swiftPropsDeleteRequest($trader_id, $prop_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'prop_id' => $prop_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/swift_props_delete_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function swiftPropsDeleteConfirm(int $trader_id, string $code)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/swift_props_delete_confirm',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
         }
     }
 }

@@ -1552,6 +1552,33 @@ class TraderController extends Controller
         }
     }
 
+    public function getRubProps(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getRubProps(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getSwiftProps(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getSwiftProps(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
     public function ContractRequest(Request $request)
     {
         if (in_array($request->lang, config('app.locales')))
@@ -1661,6 +1688,232 @@ class TraderController extends Controller
             Cache::add(Auth::id().':'.$request->totp, true, 4);
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->accountDeleteConfirm(
+                Auth::id(),
+                $request->code_email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function RubPropsAddRequest(Request $request)
+    {
+        $this->validate($request, [
+            'name' => ['required','string','regex:/([a-zA-Zа-яА-Я0-9-_\s])+/','max:64'],
+            'bic' => ['required','string','regex:/^(\d){9}$/','size:9'],
+            'acc' => ['required','string','regex:/^(\d){20}$/','size:20'],
+            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
+        ]);
+        if($request->is_legal)
+        {
+            if($request->is_resident)
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){10}$/','size:10']
+                ]);
+            }
+            else
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
+                ]);
+            }
+        }
+        else
+        {
+            if($request->is_resident)
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){12}$/','size:12']
+                ]);
+            }
+            else
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
+                ]);
+            }
+        }
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->rubPropsAddRequest(
+                Auth::id(),
+                $request->name,
+                $request->bic,
+                $request->acc,
+                $request->inn,
+                $request->kpp
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function RubPropsAddConfirm(Confirm2FARequest $request)
+    {
+        try {
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->rubPropsAddConfirm(
+                Auth::id(),
+                $request->code_email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function RubPropsEditName(Request $request)
+    {
+        $this->validate($request, [
+            'id' => ['required','integer'],
+            'name' => ['required','string','max:64']
+        ]);
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->rubPropsEditName(
+                Auth::id(),
+                $request->id,
+                $request->name
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function RubPropsDeleteRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->rubPropsDeleteRequest(
+                Auth::id(),
+                $request->prop_id
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function RubPropsDeleteConfirm(Confirm2FARequest $request)
+    {
+        try {
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->rubPropsDeleteConfirm(
+                Auth::id(),
+                $request->code_email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function SwiftPropsAddRequest(Request $request)
+    {
+        $this->validate($request, [
+            'name' => ['required','string','regex:/([a-zA-Zа-яА-Я0-9-_\s])+/','max:64'],
+            'currency' => ['required','alpha_num','min:2','max:10'],
+            'beneficiary_name' => ['required','string','regex:/^[a-zA-Z0-9\s\/—?:().,‘+]{1,34}$/','max:34'],
+            'beneficiary_address' => ['required','string','regex:/^[a-zA-Z0-9\s\/—?:().,‘+]{1,102}$/','max:102'],
+            'beneficiary_acc_iban' => ['required','string','regex:/^[A-Z0-9]{1,34}$/','max:34'],
+            'beneficiary_bank_swift' => ['required','string','regex:/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/'],
+            'intermediary_bank_swift' => ['nullable','string','regex:/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/'],
+            'intermediary_bank_acc_iban' => ['nullable','string','regex:/^[A-Z0-9]{1,34}$/','max:34'],
+            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
+        ]);
+        if($request->is_legal)
+        {
+            if($request->is_resident)
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){10}$/','size:10']
+                ]);
+            }
+            else
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
+                ]);
+            }
+        }
+        else
+        {
+            if($request->is_resident)
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){12}$/','size:12']
+                ]);
+            }
+            else
+            {
+                $this->validate($request, [
+                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
+                ]);
+            }
+        }
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->swiftPropsAddRequest(
+                Auth::id(),
+                $request->name,
+                $request->currency,
+                $request->beneficiary_name,
+                $request->beneficiary_address,
+                $request->beneficiary_bank_swift,
+                $request->beneficiary_acc_iban,
+                $request->inn,
+                $request->kpp,
+                $request->intermediary_bank_swift,
+                $request->intermediary_bank_acc_iban
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function SwiftPropsAddConfirm(Confirm2FARequest $request)
+    {
+        try {
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->swiftPropsAddConfirm(
+                Auth::id(),
+                $request->code_email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function SwiftPropsEditName(Request $request)
+    {
+        $this->validate($request, [
+            'id' => ['required','integer'],
+            'name' => ['required','string','max:64']
+        ]);
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->swiftPropsEditName(
+                Auth::id(),
+                $request->id,
+                $request->name
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function SwiftPropsDeleteRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->swiftPropsDeleteRequest(
+                Auth::id(),
+                $request->prop_id
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function SwiftPropsDeleteConfirm(Confirm2FARequest $request)
+    {
+        try {
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->swiftPropsDeleteConfirm(
                 Auth::id(),
                 $request->code_email
             );

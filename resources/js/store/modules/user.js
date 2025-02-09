@@ -16,6 +16,8 @@ export default {
 		deals: null,
 		fees: null,
 		positions: null,
+		rub_props: null,
+		swift_props: null,
 		notificationStatus: null,
 		verificationStatus: null,
 		blockStatus: null,
@@ -142,6 +144,12 @@ export default {
 		},
 		setPositions(state, positions) {
 			state.positions = positions;
+		},
+		setRubProps(state, props) {
+			state.rub_props = props;
+		},
+		setSwiftProps(state, props) {
+			state.swift_props = props;
 		},
 		setOwnFees(state, fees) {
 			state.fees = fees;
@@ -386,6 +394,34 @@ export default {
 					});
 			});
 		},
+		getRubPropsFromServer({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/rub_props')
+					.then(response => {
+						commit('setRubProps', response.data.data === null ? [] : response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
+		getSwiftPropsFromServer({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/swift_props')
+					.then(response => {
+						commit('setSwiftProps', response.data.data === null ? [] : response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
 		getTraderTokenFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -569,6 +605,46 @@ export default {
 		},
 		async formAccountDeleteConfirm(_, payload) {
 			const { data } = await axios.post('/trader/ext/account/delete/confirm', payload);
+			return data.success;
+		},
+		async editRubPropsName(_, payload) {
+			const { data } = await axios.post('/trader/ext/rub_props/edit_name', payload);
+			return data.success;
+		},
+		async formAddRubPropsRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/rub_props/add/request', payload);
+			return data.success;
+		},
+		async formAddRubPropsConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/rub_props/add/confirm', payload);
+			return data.success;
+		},
+		async formDeleteRubPropsRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/rub_props/delete/request', payload);
+			return data.success;
+		},
+		async formDeleteRubPropsConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/rub_props/delete/confirm', payload);
+			return data.success;
+		},
+		async editSwiftPropsName(_, payload) {
+			const { data } = await axios.post('/trader/ext/swift_props/edit_name', payload);
+			return data.success;
+		},
+		async formAddSwiftPropsRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/swift_props/add/request', payload);
+			return data.success;
+		},
+		async formAddSwiftPropsConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/swift_props/add/confirm', payload);
+			return data.success;
+		},
+		async formDeleteSwiftPropsRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/swift_props/delete/request', payload);
+			return data.success;
+		},
+		async formDeleteSwiftPropsConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/swift_props/delete/confirm', payload);
 			return data.success;
 		},
 

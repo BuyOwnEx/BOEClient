@@ -46,45 +46,50 @@ import { mapMutations, mapActions } from 'vuex';
 
 export default {
 	name: 'ToolbarUser',
-
 	computed: {
 		generatedAvatar() {
 			return this.$store.getters['user/getGeneratedAvatar'](import.meta.env.VITE_USER_ICON_TYPE || 'initials');
 		},
-        items() {
-            return [
-                {
-                    icon: 'mdi-account-box-outline',
-                    text: this.$t('user.title.profile'),
-                    link: '/profile#account',
-                    tabIndex: 0,
-                },
-                {
-                    icon: 'mdi-email-outline',
-                    text: this.$t('user.title.verification'),
-                    link: '/profile#verification',
-                    tabIndex: 1,
-                },
-                {
-                    icon: 'mdi-format-list-checkbox',
-                    text: this.$t('user.title.api'),
-                    link: '/profile#api',
-                    tabIndex: 2,
-                },
-                {
-                    icon: 'mdi-shield-key-outline',
-                    text: this.$t('user.title.security'),
-                    link: '/profile#security',
-                    tabIndex: 3,
-                },
-                {
-                    icon: 'mdi-cog-outline',
-                    text: this.$t('user.title.settings'),
-                    link: '/profile#settings',
-                    tabIndex: 4,
-                },
-            ];
-        }
+      items() {
+        return [
+          {
+            icon: 'mdi-account-box-outline',
+            text: this.$t('user.title.profile'),
+            link: '/profile#account',
+            tabIndex: 0,
+          },
+          {
+            icon: 'mdi-email-outline',
+            text: this.$t('user.title.verification'),
+            link: '/profile#verification',
+            tabIndex: 1,
+          },
+          {
+            icon: 'mdi-bank',
+            text: this.$t('user.title.props'),
+            link: '/profile#props',
+            tabIndex: 2,
+          },
+          {
+            icon: 'mdi-format-list-checkbox',
+            text: this.$t('user.title.api'),
+            link: '/profile#api',
+            tabIndex: 3,
+          },
+          {
+            icon: 'mdi-shield-key-outline',
+            text: this.$t('user.title.security'),
+            link: '/profile#security',
+            tabIndex: 4,
+          },
+          {
+            icon: 'mdi-cog-outline',
+            text: this.$t('user.title.settings'),
+            link: '/profile#settings',
+            tabIndex: 5,
+          },
+        ];
+      }
 	},
 
 	methods: {

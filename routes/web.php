@@ -118,6 +118,9 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
             Route::get('withdraw_bank_details', 'TraderController@getWithdrawBankDetails')->name('withdraw_bank_details');
 
+            Route::get('rub_props','TraderController@getRubProps')->name('rub_props');
+            Route::get('swift_props','TraderController@getSwiftProps')->name('swift_props');
+
             Route::get('get_image', 'TraderController@getKYCImage')->name('kyc_image');
 
             Route::middleware('check_block_status')->group(function () {
@@ -184,6 +187,18 @@ Route::group(['prefix' => 'trader'], function () {
                 Route::post('contract_request', 'TraderController@ContractRequest')->name('contract_request');
                 Route::post('account/delete/request', 'TraderController@AccountDeleteRequest')->name('account_delete_request');
                 Route::post('account/delete/confirm', 'TraderController@AccountDeleteConfirm')->name('account_delete_confirm');
+
+                Route::post('rub_props/add/request', 'TraderController@RubPropsAddRequest')->name('rub_props_add_request');
+                Route::post('rub_props/add/confirm', 'TraderController@RubPropsAddConfirm')->name('rub_props_add_confirm');
+                Route::post('rub_props/edit_name', 'TraderController@RubPropsEditName')->name('rub_props_edit_name');
+                Route::post('rub_props/delete/request', 'TraderController@RubPropsDeleteRequest')->name('rub_props_delete_request');
+                Route::post('rub_props/delete/confirm', 'TraderController@RubPropsDeleteConfirm')->name('rub_props_delete_confirm');
+
+                Route::post('swift_props/add/request', 'TraderController@SwiftPropsAddRequest')->name('swift_props_add_request');
+                Route::post('swift_props/add/confirm', 'TraderController@SwiftPropsAddConfirm')->name('swift_props_add_confirm');
+                Route::post('swift_props/edit_name', 'TraderController@SwiftPropsEditName')->name('swift_props_edit_name');
+                Route::post('swift_props/delete/request', 'TraderController@SwiftPropsDeleteRequest')->name('swift_props_delete_request');
+                Route::post('swift_props/delete/confirm', 'TraderController@SwiftPropsDeleteConfirm')->name('swift_props_delete_confirm');
             });
 
 

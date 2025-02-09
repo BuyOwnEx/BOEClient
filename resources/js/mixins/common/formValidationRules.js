@@ -17,6 +17,7 @@ export default {
 				ind_inn: v => !v || /\d{12}/.test(v) || this.$t('forms_validation.ind_inn_invalid'),
 				ind_inn_global: v => (v && /\w{8,40}/.test(v)) || this.$t('forms_validation.ind_inn_global_invalid'),
 				comp_inn: v => (v && /\d{10}/.test(v)) || this.$t('forms_validation.comp_inn_invalid'),
+				comp_kpp: v => (v && /\d{9}/.test(v)) || this.$t('forms_validation.comp_kpp_invalid'),
 				bic: v => !v || v.length === 9 || this.$t('forms_validation.bic_invalid'),
 				acc: v => !v || v.length === 20 || this.$t('forms_validation.acc_invalid'),
 				passMatch: v => (v && v === this.user.password) || this.$t('auth.forgot.passwords_not_match'),
@@ -34,6 +35,11 @@ export default {
 
 				latinAndNumbers: v =>
 					!v || (v && /^[a-zA-Z0-9-_]+$/g.test(v)) || this.$t('forms_validation.unsupported_char_latinAndNumbers'),
+				propName: v => !v || (v && /^[\p{L}\p{N}\p{Zs}\p{Pd}\p{Pc}]+$/u.test(v)) || this.$t('forms_validation.unsupported_char_prop_name'),
+				beneficiary_name: v => !v || (v && /^[a-zA-Z0-9\s\/—?:().,‘+]{1,34}$/g.test(v)) || this.$t('forms_validation.unsupported_beneficiary_name'),
+				beneficiary_address: v => !v || (v && /^[a-zA-Z0-9\s\/—?:().,‘+]{1,102}$/g.test(v)) || this.$t('forms_validation.unsupported_beneficiary_address'),
+				beneficiary_acc_iban: v => !v || (v && /^[A-Z0-9]{1,34}$/g.test(v)) || this.$t('forms_validation.unsupported_beneficiary_acc_iban'),
+				bank_swift: v => !v || (v && /^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/g.test(v)) || this.$t('forms_validation.unsupported_bank_swift'),
 				numbers: v => !v || /^[0-9]+$/.test(v) || this.$t('forms_validation.unsupported_char_numbers'),
 				positive: v => !v || BigNumber(v).gt(0) || this.$t('forms_validation.positive'),
 
