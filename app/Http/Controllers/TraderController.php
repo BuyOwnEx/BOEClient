@@ -1699,7 +1699,7 @@ class TraderController extends Controller
     public function RubPropsAddRequest(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required','string','regex:/([a-zA-Zа-яА-Я0-9-_\s])+/','max:64'],
+            'name' => ['required','string','max:64'],
             'bic' => ['required','string','regex:/^(\d){9}$/','size:9'],
             'acc' => ['required','string','regex:/^(\d){20}$/','size:20'],
             'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
@@ -1807,7 +1807,7 @@ class TraderController extends Controller
     public function SwiftPropsAddRequest(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required','string','regex:/([a-zA-Zа-яА-Я0-9-_\s])+/','max:64'],
+            'name' => ['required','string','max:64'],
             'currency' => ['required','alpha_num','min:2','max:10'],
             'beneficiary_name' => ['required','string','regex:/^[a-zA-Z0-9\s\/—?:().,‘+]{1,34}$/','max:34'],
             'beneficiary_address' => ['required','string','regex:/^[a-zA-Z0-9\s\/—?:().,‘+]{1,102}$/','max:102'],
