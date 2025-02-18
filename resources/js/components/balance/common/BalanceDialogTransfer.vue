@@ -185,8 +185,8 @@ export default {
 
   &__actions
     .v-btn
-    text-transform: uppercase !important
-    letter-spacing: 1px !important
+      text-transform: uppercase !important
+      letter-spacing: 1px !important
 
 .theme--dark
   .common-dialog

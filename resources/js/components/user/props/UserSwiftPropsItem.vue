@@ -292,16 +292,16 @@ fieldset
 
   &__owner-wrapper
     .props-item__header
-    padding-top: 0
-  ::v-deep.CommonCopyLabel
-    font-size: 1rem
-  ::v-deep span.copy-label
-    border-bottom: none
-    text-decoration-line: underline
-    text-decoration-thickness: 1px
-    text-decoration-style: dashed
-    text-underline-offset: 4px
-    text-decoration-color: rgba(0, 0, 0, 0.5)
+      padding-top: 0
+      ::v-deep.CommonCopyLabel
+        font-size: 1rem
+      ::v-deep span.copy-label
+        border-bottom: none
+        text-decoration-line: underline
+        text-decoration-thickness: 1px
+        text-decoration-style: dashed
+        text-underline-offset: 4px
+        text-decoration-color: rgba(0, 0, 0, 0.5)
 
   &__swift-props
     display: flex

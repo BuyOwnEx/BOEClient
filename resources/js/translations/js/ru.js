@@ -2819,7 +2819,7 @@ export default {
 		props: {
 			rub_props: 'Рублевые реквизиты',
 			swift_props: 'Валютные реквизиты',
-			props_empty: 'Реквизиты отсутствуеют',
+			props_empty: 'Реквизиты отсутствуют',
 			rub_props_title: 'Список рублевых реквизитов',
 			swift_props_title: 'Список реквизитов SWIFT',
 			states: {
