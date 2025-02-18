@@ -117,9 +117,13 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('verification_bank_details', 'TraderController@getVerificationBankDetails')->name('verification_bank_details');
             Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
             Route::get('withdraw_bank_details', 'TraderController@getWithdrawBankDetails')->name('withdraw_bank_details');
+            Route::get('replenish_pay_templates', 'TraderController@getReplenishPayTemplates')->name('replenish_pay_templates');
+            Route::get('withdraw_pay_templates', 'TraderController@getWithdrawPayTemplates')->name('withdraw_pay_templates');
+
 
             Route::get('rub_props','TraderController@getRubProps')->name('rub_props');
             Route::get('swift_props','TraderController@getSwiftProps')->name('swift_props');
+            Route::get('qr_bank_details','TraderController@getQRBankDetails')->name('qr_bank_details');
 
             Route::get('get_image', 'TraderController@getKYCImage')->name('kyc_image');
 

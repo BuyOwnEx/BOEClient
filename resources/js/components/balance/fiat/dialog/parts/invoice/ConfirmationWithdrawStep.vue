@@ -7,37 +7,25 @@
       <div class="confirmation-item__info-wrapper">
         <div class="confirmation-item__info-key-wrapper">
           <div class="confirmation-item__header mr-auto">
+            {{ $t('balance.select_prop') }}
+          </div>
+          <div class="confirmation-item__secret-key">
+            <span class="ml-1">{{ propName }}</span>
+          </div>
+        </div>
+
+        <div class="confirmation-item__info-key-wrapper">
+          <div class="confirmation-item__header mr-auto">
             {{ $t('common.amount') }}
           </div>
           <div class="confirmation-item__secret-key">{{ amount }} {{ selectedPlatform.currency }}</div>
         </div>
 
-        <div class="confirmation-item__info-key-wrapper">
-          <div class="confirmation-item__header mr-auto">
-            {{ $t('fiat.inn') }}
-          </div>
-          <div class="confirmation-item__secret-key">{{ inn }}</div>
-        </div>
-
-        <div class="confirmation-item__info-key-wrapper" v-if="selectedPlatform.currency !== 'USD'">
-          <div class="confirmation-item__header mr-auto">
-            {{ $t('fiat.bic') }}
-          </div>
-          <div class="confirmation-item__secret-key">{{ bic }}</div>
-        </div>
-
-        <div class="confirmation-item__info-key-wrapper" v-if="selectedPlatform.currency !== 'USD'">
-          <div class="confirmation-item__header mr-auto">
-            {{ $t('fiat.acc') }}
-          </div>
-          <div class="confirmation-item__secret-key">{{ acc }}</div>
-        </div>
-
         <div class="confirmation-item__info-amount-wrapper mt-2">
           <div class="confirmation-item__header">
-            {{ $t('fiat.deposited_with_fee') }} ({{ getFee(selectedPlatform.gateway_id, selectedPlatform.currency) }})
+            {{ $t('fiat.withdrawal_with_fee') }} ({{ getFee(pay_template_id) }})
           </div>
-          <div class="confirmation-item__amount-key green--text text--darken-2">{{ getAmountWithoutFee(amount, selectedPlatform.gateway_id, selectedPlatform.currency) }}</div>
+          <div class="confirmation-item__amount-key green--text text--darken-2">{{ getAmountWithoutFee(amount, pay_template_id, selectedPlatform.currency) }}</div>
         </div>
       </div>
     </v-card-text>
@@ -79,39 +67,36 @@ export default {
       type: Object,
       required: true,
     },
-    bank_details: {
-      type: Array,
-      required: true,
-    },
-    fees: {
-      type: Array,
-      required: true,
-    },
     amount: {
       type: String,
       required: true,
     },
-    inn: {
+    prop_id: {
+      type: Number,
+      required: true,
+    },
+    prop_type: {
       type: String,
       required: true,
     },
-    bic: {
-      type: String,
+    pay_templates: {
+      type: Array,
       required: true,
     },
-    acc: {
-      type: String,
+    pay_template_id: {
+      type: Number,
       required: true,
     },
-  },
-  data() {
-    return {
-      platform: this.selectedPlatform,
-      d_amount: this.amount,
-      d_inn: this.inn,
-      d_bic: this.bic,
-      d_acc: this.acc
-    };
+    rub_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    swift_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
   },
   computed: {
     minWithdraw() {
@@ -120,6 +105,19 @@ export default {
     currency() {
       return this.selectedPlatfrom?.currency;
     },
+    propName() {
+      if(this.prop_type === 'ufebs')
+      {
+        let prop = _.find(this.rub_props, item => (item.id === this.prop_id));
+        return prop.name;
+      }
+      else if(this.prop_type === 'swift')
+      {
+        let prop = _.find(this.swift_props, item => (item.id === this.prop_id));
+        return prop.name;
+      }
+      else return '-';
+    }
   },
   mounted() {
 
@@ -128,21 +126,26 @@ export default {
     ...mapActions({
       formFiatWithdrawRequestStore: 'balance/formFiatWithdrawRequest',
     }),
-    getFee(gateway_id, currency) {
-      let active_withdraw_bank_detail = _.find(this.bank_details, item => (item.gateway_id === gateway_id && item.type === 'withdraw' && item.is_active === true));
-      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency && item.bank_id === active_withdraw_bank_detail.bank_id));
-      return this.getWithdawFee(gateway_fee);
+    getLogo(pay_template_id) {
+      return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_logo;
     },
-    getWithdawFee(fee) {
+    getName(pay_template_id) {
+      return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_name;
+    },
+    getFee(pay_template_id) {
+      let fee = _.find(this.pay_templates, item => (item.id === pay_template_id));
+      return this.getWithdrawFee(fee);
+    },
+    getWithdrawFee(fee) {
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_withdraw_fix_fee).eq(0) || !BigNumber(fee.withdraw_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_fix_fee).eq(0) || !BigNumber(fee.fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_withdraw_fix_fee).plus(fee.withdraw_fix_fee).toString() + ' ' + fee.currency;
+        fix_part = BigNumber(fee.bank_fix_fee).plus(fee.fix_fee).toString() + ' ' + fee.currency;
       }
-      if(!BigNumber(fee.bank_withdraw_percent_fee).eq(0) || !BigNumber(fee.withdraw_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_percent_fee).eq(0) || !BigNumber(fee.percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_withdraw_percent_fee).plus(fee.withdraw_percent_fee).toString() + '%';
+        percent_part = BigNumber(fee.bank_percent_fee).plus(fee.percent_fee).toString() + '%';
       }
       if(fix_part !== '' && percent_part !== '')
       {
@@ -158,22 +161,21 @@ export default {
         if(percent_part !== '') return percent_part;
       }
     },
-    getAmountWithoutFee(amount, gateway_id, curr) {
-      let fee = this.getAmountWithFee(amount, gateway_id, curr);
+    getAmountWithoutFee(amount, pay_template_id, curr) {
+      let fee = this.getAmountWithFee(amount, pay_template_id);
       return BigNumber(amount).minus(fee).toString() + " " + curr;
     },
-    getAmountWithFee(amount, gateway_id, curr) {
-      let active_withdraw_bank_detail = _.find(this.bank_details, item => (item.gateway_id === gateway_id && item.type === 'withdraw' && item.is_active === true));
-      let fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === curr && item.bank_id === active_withdraw_bank_detail.bank_id));
+    getAmountWithFee(amount, pay_template_id) {
+      let fee = _.find(this.pay_templates, item => (item.id === pay_template_id));
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_withdraw_fix_fee).eq(0) || !BigNumber(fee.withdraw_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_fix_fee).eq(0) || !BigNumber(fee.fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_withdraw_fix_fee).plus(fee.withdraw_fix_fee);
+        fix_part = BigNumber(fee.bank_fix_fee).plus(fee.fix_fee);
       }
-      if(!BigNumber(fee.bank_withdraw_percent_fee).eq(0) || !BigNumber(fee.withdraw_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_percent_fee).eq(0) || !BigNumber(fee.percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_withdraw_percent_fee).plus(fee.withdraw_percent_fee);
+        percent_part = BigNumber(fee.bank_percent_fee).plus(fee.percent_fee);
       }
       if(fix_part !== '' && percent_part !== '')
       {
@@ -195,12 +197,10 @@ export default {
     },
     async finish() {
       const payload = {
-        currency: this.platform.currency,
-        amount: this.d_amount,
-        inn: this.d_inn,
-        bic: this.d_bic,
-        acc: this.d_acc,
-        gateway_id: this.platform.gateway_id
+        amount: this.amount,
+        pay_template_id: this.pay_template_id,
+        prop_id: this.prop_id,
+        prop_type: this.prop_type
       };
       const isSuccess = await this.formFiatWithdrawRequestStore(payload);
 

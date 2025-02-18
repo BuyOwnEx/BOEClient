@@ -117,7 +117,7 @@ export default {
 					text: this.$t('table_header.actions'),
 					value: 'action',
 					sortable: false,
-					align: 'center',
+					align: 'end',
 				},
 			];
 		},

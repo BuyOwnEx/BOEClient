@@ -1,7 +1,7 @@
 <template>
 	<CommonDialog
 		confirm-color="error"
-		confirm-text="Удалить"
+    :confirm-text="$t('common.delete')"
 		header-color="error"
 		@confirm="deleteOne"
 	>

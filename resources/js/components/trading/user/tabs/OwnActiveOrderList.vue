@@ -35,7 +35,13 @@
 				</template>
 
 				<v-list dense>
-					<CommonDialog v-for="item in cancelOptions" :key="item.text" @confirm="handleCancelConfirm(item)">
+					<CommonDialog
+              confirm-color="error"
+              header-color="error"
+              v-for="item in cancelOptions"
+              :key="item.text"
+              @confirm="handleCancelConfirm(item)"
+          >
 						<template #default>
 							<v-list-item @click="closeCancelMenu">
 								<v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -126,7 +132,11 @@
 				</template>
 
 				<template #item.action="{ item }">
-					<CommonDialog @confirm="orderCancel(item)">
+					<CommonDialog
+              confirm-color="error"
+              header-color="error"
+              @confirm="orderCancel(item)"
+          >
 						<template #default>
 							<v-btn color="#a5a5a5c4" outlined depressed tile x-small>
 								{{ $t('common.cancel') }}

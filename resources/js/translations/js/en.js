@@ -407,8 +407,11 @@ export default {
 		min_number_of_network_confirmation: 'Min. number of network confirmations',
 	},
 	fiat: {
+		replenish_calculate_fee: 'Depending on the bank and the amount',
+		withdraw_calculate_fee: 'Depending on the amount of withdrawal',
 		fiat_only_for_verified: 'To be able to deposit/withdraw funds in fiat, you need to go through the verification procedure',
 		deposited_with_fee: 'The amount of deposit, including the commission',
+		withdrawal_with_fee: 'The amount of withdrawal, including the commission',
 		inn: 'INN',
 		kpp: 'KPP',
 		bic: 'BIC',
@@ -429,6 +432,7 @@ export default {
 		},
 		gateway: {
 			replenish: {
+				not_found: 'There are currently no payment methods for making a deposit for this currency',
 				names: {
 					qr: 'Payment by bank details via QR code',
 					invoice: 'Request an invoice',
@@ -439,6 +443,7 @@ export default {
 				},
 			},
 			withdraw: {
+				not_found: 'There are currently no payment methods for withdrawing funds for this currency',
 				names: {
 					invoice: 'Bank details',
 				},
@@ -790,6 +795,8 @@ export default {
 		select_network: 'Select network',
 		select_bank: 'Bank',
 		select_bank_hint: 'Select bank',
+		select_prop: 'Props',
+		select_prop_hint: 'Select the props from the approved list',
 		inn: 'TIN',
 		bic: 'BIC',
 		acc: 'Account no',
@@ -875,7 +882,7 @@ export default {
 			fiat_qr_confirm_step_description:
 				'Scan the QR code in your bank\'s mobile application, make the transfer without changing any data, and click the "Paid" button',
 			fiat_invoice_fill_fields_step_description:
-				'Specify the amount and your banking details from which you are going to make a payment on the invoice. This invoice will be sent to your e-mail address specified during registration',
+				'Select the recipient\'s preferred bank from the list of available ones, and also specify the amount and your banking details from which you are going to make the payment on the invoice. This invoice will be sent to your e-mail address specified during registration.',
 			fiat_invoice_confirm_step_description:
 				'Check your details, and if everything is correct, click the "Confirm" button',
 			fiat_replenishment_description:
@@ -885,8 +892,8 @@ export default {
 				'Attention!\n' +
 				"If the recipient's wallet has restrictions on the amount of the accepted amount, and the payment is rejected for this reason, we will not be able to credit it back. By clicking the Send button, you confirm that you have made sure that the recipient's wallet in this system is able to accept the payment being sent. ",
 			fiat_withdrawal_description:
-				'To withdraw funds, specify the amount you want to withdraw and the available method. Please note: it is necessary to specify your details, otherwise the transfer will not be credited.',
-
+				'To withdraw funds, specify the amount you want to withdraw and the available method. Please note: it is necessary to specify your details, otherwise the transfer will not be credited',
+			fiat_withdrawal_invoice_fill_fields_step_description: 'To withdraw funds, specify the amount you want to withdraw, as well as the banking details to which this transfer will be made. Attention: Before sending a request, make sure that your banking details are correct and up-to-date',
 			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
 

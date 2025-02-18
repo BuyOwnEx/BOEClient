@@ -722,12 +722,10 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->notifyFiatInvoiceWithdraw(
                 Auth::id(),
-                $request->currency,
                 $request->amount,
-                $request->inn,
-                $request->bic,
-                $request->acc,
-                $request->gateway_id
+                $request->pay_template_id,
+                $request->prop_id,
+                $request->prop_type
             );
         }
         catch (Exception $e)
@@ -1395,10 +1393,8 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->notifyFiatQRReplenish(
                 Auth::id(),
-                $request->currency,
-                $request->bank_id,
                 $request->amount,
-                $request->gateway_id
+                $request->pay_template_id
             );
         }
         catch (Exception $e)
@@ -1412,13 +1408,10 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->notifyFiatInvoiceReplenish(
                 Auth::id(),
-                $request->currency,
                 $request->amount,
-                $request->bank_id,
-                $request->inn,
-                $request->bic,
-                $request->acc,
-                $request->gateway_id
+                $request->pay_template_id,
+                $request->prop_id,
+                $request->prop_type
             );
         }
         catch (Exception $e)
@@ -1551,6 +1544,32 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getReplenishPayTemplates(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getReplenishPayTemplates(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getWithdrawPayTemplates(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getWithdrawPayTemplates(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
 
     public function getRubProps(Request $request)
     {
@@ -1575,6 +1594,20 @@ class TraderController extends Controller
         }
         catch (Exception $e)
         {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
+    public function getQRBankDetails(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getQRBankDetails(
+                Auth::id(),
+                $request->pay_template_id,
+                $request->prop_id
+            );
+        } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }

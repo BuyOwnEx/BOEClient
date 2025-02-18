@@ -13,11 +13,11 @@
             <v-img
                 class="elevation-0 d-inline-flex"
                 style="vertical-align: middle"
-                :src="bank_logo"
+                :src="getLogo(pay_template_id)"
                 max-height="16"
                 max-width="16"
             ></v-img>
-            <span class="ml-1">{{ bank_name }}</span>
+            <span class="ml-1">{{ getName(pay_template_id) }}</span>
           </div>
         </div>
         <div class="confirmation-item__info-key-wrapper">
@@ -27,32 +27,11 @@
           <div class="confirmation-item__secret-key">{{ amount }} {{ selectedPlatform.currency }}</div>
         </div>
 
-        <div class="confirmation-item__info-key-wrapper">
-          <div class="confirmation-item__header mr-auto">
-            {{ $t('fiat.inn') }}
-          </div>
-          <div class="confirmation-item__secret-key">{{ inn }}</div>
-        </div>
-
-        <div class="confirmation-item__info-key-wrapper">
-          <div class="confirmation-item__header mr-auto">
-            {{ $t('fiat.bic') }}
-          </div>
-          <div class="confirmation-item__secret-key">{{ bic }}</div>
-        </div>
-
-        <div class="confirmation-item__info-key-wrapper">
-          <div class="confirmation-item__header mr-auto">
-            {{ $t('fiat.acc') }}
-          </div>
-          <div class="confirmation-item__secret-key">{{ acc }}</div>
-        </div>
-
         <div class="confirmation-item__info-amount-wrapper mt-2">
           <div class="confirmation-item__header">
-            {{ $t('fiat.deposited_with_fee') }} ({{ getFee(selectedPlatform.gateway_id, selectedPlatform.currency) }})
+            {{ $t('fiat.deposited_with_fee') }} ({{ getFee(pay_template_id) }})
           </div>
-          <div class="confirmation-item__amount-key green--text text--darken-2">{{ getAmountWithoutFee(amount, selectedPlatform.gateway_id, selectedPlatform.currency) }}</div>
+          <div class="confirmation-item__amount-key green--text text--darken-2">{{ getAmountWithoutFee(amount, pay_template_id, selectedPlatform.currency) }}</div>
         </div>
       </div>
 
@@ -94,80 +73,58 @@ export default {
       type: Object,
       required: true,
     },
-    fees: {
-      type: Array,
-      required: true,
-    },
-    banks: {
-      type: Array,
-      required: true,
-    },
     amount: {
       type: String,
       required: true,
     },
-    inn: {
+    prop_id: {
+      type: Number,
+      required: true,
+    },
+    prop_type: {
       type: String,
       required: true,
     },
-    bic: {
-      type: String,
+    pay_templates: {
+      type: Array,
       required: true,
     },
-    acc: {
-      type: String,
+    pay_template_id: {
+      type: Number,
       required: true,
     },
-    bank_id: {
-      type: [String, Number],
+    rub_props: {
+      type: Array,
       required: true,
+      default: () => []
     },
-  },
-  data() {
-    return {
-      platform: this.selectedPlatform,
-    };
-  },
-  computed: {
-    minReplenish() {
-      return this.selectedPlatfrom?.minReplenish;
-    },
-    currency() {
-      return this.selectedPlatfrom?.currency;
-    },
-    bank_logo() {
-      let bank_ind = _.findIndex(this.banks, (item) => {
-        return item.id === this.bank_id
-      });
-      if(bank_ind > 0) return this.banks[bank_ind].logo;
-      else return null;
-    },
-    bank_name() {
-      let bank_ind = _.findIndex(this.banks, (item) => {
-        return item.id === this.bank_id
-      });
-      if(bank_ind > 0) return this.banks[bank_ind].name;
-      else return null;
+    swift_props: {
+      type: Array,
+      required: true,
+      default: () => []
     }
   },
-  mounted() {
-
-  },
   methods: {
-    getFee(gateway_id, currency) {
-      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency));
-      return this.getReplenishFee(gateway_fee);
+    getLogo(pay_template_id) {
+      return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_logo;
+    },
+    getName(pay_template_id) {
+      return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_name;
+    },
+    getFee(pay_template_id) {
+      let fee = _.find(this.pay_templates, item => (item.id === pay_template_id));
+      return this.getReplenishFee(fee);
     },
     getReplenishFee(fee) {
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_replenish_fix_fee).eq(0) || !BigNumber(fee.replenish_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_fix_fee).eq(0) || !BigNumber(fee.fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_replenish_fix_fee).plus(fee.replenish_fix_fee).toString() + ' ' + fee.currency;
+        fix_part = BigNumber(fee.bank_fix_fee).plus(fee.fix_fee).toString() + ' ' + fee.currency;
       }
-      if(!BigNumber(fee.bank_replenish_percent_fee).eq(0) || !BigNumber(fee.replenish_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_percent_fee).eq(0) || !BigNumber(fee.percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_replenish_percent_fee).plus(fee.replenish_percent_fee).toString() + '%';
+        percent_part = BigNumber(fee.bank_percent_fee).plus(fee.percent_fee).toString() + '%';
       }
       if(fix_part !== '' && percent_part !== '')
       {
@@ -183,21 +140,21 @@ export default {
         if(percent_part !== '') return percent_part;
       }
     },
-    getAmountWithoutFee(amount, gateway_id, curr) {
-      let fee = this.getAmountWithFee(amount, gateway_id, curr);
+    getAmountWithoutFee(amount, pay_template_id, curr) {
+      let fee = this.getAmountWithFee(amount, pay_template_id);
       return BigNumber(amount).minus(fee).toString() + " " + curr;
     },
-    getAmountWithFee(amount, gateway_id, curr) {
-      let fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === curr));
+    getAmountWithFee(amount, pay_template_id) {
+      let fee = _.find(this.pay_templates, item => (item.id === pay_template_id));
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_replenish_fix_fee).eq(0) || !BigNumber(fee.replenish_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_fix_fee).eq(0) || !BigNumber(fee.fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_replenish_fix_fee).plus(fee.replenish_fix_fee);
+        fix_part = BigNumber(fee.bank_fix_fee).plus(fee.fix_fee);
       }
-      if(!BigNumber(fee.bank_replenish_percent_fee).eq(0) || !BigNumber(fee.replenish_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_percent_fee).eq(0) || !BigNumber(fee.percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_replenish_percent_fee).plus(fee.replenish_percent_fee);
+        percent_part = BigNumber(fee.bank_percent_fee).plus(fee.percent_fee);
       }
       if(fix_part !== '' && percent_part !== '')
       {
@@ -219,13 +176,10 @@ export default {
     },
     finish() {
       axios.post('/trader/ext/notify_fiat_invoice_replenish', {
-        currency: this.platform.currency,
         amount: this.amount,
-        bank_id: this.bank_id,
-        inn: this.inn,
-        bic: this.bic,
-        acc: this.acc,
-        gateway_id: this.platform.gateway_id
+        pay_template_id: this.pay_template_id,
+        prop_id: this.prop_id,
+        prop_type: this.prop_type
       }).then(response => {
         if (response.data.success === true) {
           this.$emit('success_response');

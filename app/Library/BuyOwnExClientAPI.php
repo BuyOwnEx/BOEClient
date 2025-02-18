@@ -1048,47 +1048,40 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
-    public function notifyFiatQRReplenish($trader_id, $currency, $bank_id, $amount, $gateway_id)
+    public function notifyFiatQRReplenish($trader_id, $amount, $pay_template_id)
     {
         $params = [
             'trader' => $trader_id,
-            'currency' => $currency,
-            'bank_id' => $bank_id,
             'amount' => $amount,
-            'gateway_id' => $gateway_id
+            'pay_template_id' => $pay_template_id
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/notify_fiat_qr_replenish',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function notifyFiatInvoiceReplenish($trader_id, $currency, $amount, $bank_id, $inn, $bic, $acc, $gateway_id)
+    public function notifyFiatInvoiceReplenish($trader_id, $amount, $pay_template_id, $prop_id, $prop_type)
     {
         $params = [
             'trader' => $trader_id,
-            'currency' => $currency,
             'amount' => $amount,
-            'bank_id' => $bank_id,
-            'inn' => $inn,
-            'bic' => $bic,
-            'acc' => $acc,
-            'gateway_id' => $gateway_id
+            'pay_template_id' => $pay_template_id,
+            'prop_id' => $prop_id,
+            'prop_type' => $prop_type
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/notify_fiat_invoice_replenish',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function notifyFiatInvoiceWithdraw($trader_id, $currency, $amount, $inn, $bic, $acc, $gateway_id)
+    public function notifyFiatInvoiceWithdraw($trader_id, $amount, $pay_template_id, $prop_id, $prop_type)
     {
         $params = [
             'trader' => $trader_id,
-            'currency' => $currency,
             'amount' => $amount,
-            'inn' => $inn,
-            'bic' => $bic,
-            'acc' => $acc,
-            'gateway_id' => $gateway_id
+            'pay_template_id' => $pay_template_id,
+            'prop_id' => $prop_id,
+            'prop_type' => $prop_type
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -1116,6 +1109,20 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getReplenishPayTemplates($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_replenish_pay_templates',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getWithdrawPayTemplates($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_withdraw_pay_templates',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
     public function getRubProps($trader_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/get_rub_props',[
@@ -1130,6 +1137,18 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getQRBankDetails($trader_id, $pay_template_id, $prop_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'pay_template_id' => $pay_template_id,
+            'prop_id' => $prop_id
+        ];
+        $response = Http::withToken($this->api_key)
+            ->get($this->base.'v1/qr_bank_details',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
 
     public function contractRequest($trader_id, $lang)
     {

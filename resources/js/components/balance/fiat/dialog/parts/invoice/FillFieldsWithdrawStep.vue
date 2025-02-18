@@ -6,21 +6,8 @@
       </BalanceFiatDialogAlert>
 
       <div class="balance-fiat-dialog-withdraw__withdraw-info">
-        <div v-if="this.is_legal" class="py-2">
-          <span v-if="selectedPlatform.currency ==='USD'">
-            {{ $t('balance.dialog.fiat_usd_withdrawal_invoice_comp_fill_fields_step_description') }}
-          </span>
-          <span v-else>
-            {{ $t('balance.dialog.fiat_withdrawal_invoice_comp_fill_fields_step_description') }}
-          </span>
-        </div>
-        <div v-else class="py-2">
-          <span v-if="selectedPlatform.currency ==='USD'">
-            {{ $t('balance.dialog.fiat_usd_withdrawal_invoice_ind_fill_fields_step_description') }}
-          </span>
-          <span v-else>
-            {{ $t('balance.dialog.fiat_withdrawal_invoice_ind_fill_fields_step_description') }}
-          </span>
+        <div class="py-2">
+          <span>{{ $t('balance.dialog.fiat_withdrawal_invoice_fill_fields_step_description') }}</span>
         </div>
 
         <CommonAvailable
@@ -47,8 +34,7 @@
         />
 
         <CommonAvailable
-            :available="getFee(selectedPlatform.gateway_id, selectedPlatform.currency)"
-            :currency="selectedPlatform.currency"
+            :available="getFee(pay_template_id)"
             :available-text="$t('balance.fee')"
             non-clickable
         />
@@ -61,7 +47,7 @@
         />
       </div>
 
-      <v-form ref="form" v-model="formValid" lazy-validation v-if="selectedPlatform.currency !== 'USD'">
+      <v-form ref="form" v-model="formValid" lazy-validation>
         <v-row>
           <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
@@ -74,78 +60,20 @@
             />
           </v-col>
           <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="inn"
-                :label="$t('fiat.inn')"
-                :rules="[rules.required, this.is_legal ? rules.comp_inn : rules.ind_inn]"
-                v-mask="this.is_legal ? '##########' : '############'"
+            <v-select
+                v-model="prop_id"
+                :items="selectedPlatform.currency === 'RUB' ? available_rub_props : available_swift_props"
+                item-text="name"
+                item-value="id"
+                :label="$t('balance.select_prop')"
+                :hint="$t('balance.select_prop_hint')"
+                :rules="[rules.required]"
                 persistent-hint
-                @paste.prevent
-            />
-          </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="bic"
-                :label="$t('fiat.bic')"
-                :rules="[rules.required, rules.bic]"
-                v-mask="'#########'"
-                persistent-hint
-                @paste.prevent
-            />
-          </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="acc"
-                :label="$t('fiat.acc')"
-                :rules="[rules.required, rules.acc]"
-                v-mask="'####################'"
-                persistent-hint
-                @paste.prevent
-            />
-          </v-col>
-        </v-row>
-      </v-form>
-      <v-form ref="form" v-model="formValid" lazy-validation v-else>
-        <v-row>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="amount"
-                :label="$t('balance.amount')"
-                :suffix="selectedPlatform.currency"
-                v-mask="numberMask"
-                :rules="amountRules"
-                @paste.prevent
-            />
-          </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="inn"
-                :label="$t('fiat.inn')"
-                :rules="[rules.required, this.is_legal ? rules.comp_inn : rules.ind_inn]"
-                v-mask="this.is_legal ? '##########' : '############'"
-                persistent-hint
-                @paste.prevent
-            />
-          </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0" style="display: none">
-            <v-text-field
-                v-model="bic"
-                :label="$t('fiat.bic')"
-                :rules="[rules.required, rules.bic]"
-                v-mask="'#########'"
-                persistent-hint
-                @paste.prevent
-            />
-          </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0" style="display: none">
-            <v-text-field
-                v-model="acc"
-                :label="$t('fiat.acc')"
-                :rules="[rules.required, rules.acc]"
-                v-mask="'####################'"
-                persistent-hint
-                @paste.prevent
-            />
+                hide-details="auto"
+                required
+                class="required"
+            >
+            </v-select>
           </v-col>
         </v-row>
       </v-form>
@@ -159,7 +87,7 @@
       <v-spacer />
       <v-btn
           :loading="loading"
-          :disabled="!amount || !inn || !bic || !acc || !formValid"
+          :disabled="!pay_template_id || !amount || !prop_id || !formValid"
           color="primary"
           tile
           text
@@ -199,7 +127,7 @@ export default {
       type: Object,
       required: true,
     },
-    bank_details: {
+    pay_templates: {
       type: Array,
       required: true,
     },
@@ -211,9 +139,15 @@ export default {
       type: Number,
       required: true,
     },
-    fees: {
+    rub_props: {
       type: Array,
       required: true,
+      default: () => []
+    },
+    swift_props: {
+      type: Array,
+      required: true,
+      default: () => []
     }
   },
   data() {
@@ -228,11 +162,8 @@ export default {
       }),
       selected_platform: this.selectedPlatform,
       amount: '',
-      inn: null,
-      bic: this.selectedPlatform.currency === 'USD' ? '000000000' : null,
-      acc: this.selectedPlatform.currency === 'USD' ? '00000000000000000000' : null,
+      prop_id: null,
       formValid: false,
-      gateways: [],
       amountRules:  [
         v => !!v || this.$t('forms_validation.required'),
         v => !v || BigNumber(v).gte(this.minWithdraw) || this.$t('balance.less_min'),
@@ -243,17 +174,29 @@ export default {
     };
   },
   computed: {
-    is_legal() {
-      return (this.trader_status & 4) === 4;
+    available_pay_templates() {
+      return _.find(this.pay_templates, item => {
+        return (
+            item.type	 === 'withdraw' && item.is_active === true && item.gateway_id  === this.selectedPlatform.gateway_id && item.currency === this.selectedPlatform.currency
+        );
+      });
     },
-    is_individual() {
-      return (this.trader_status & 2) === 2;
+    pay_template_id() {
+      return this.available_pay_templates.id;
     },
-
-    totalAmount() {
-      const total = Number(this.amount) - this.selected_platform?.withdrawFee;
-      if (!total || total < 0) return 0;
-      return total;
+    available_rub_props() {
+      return _.filter(this.rub_props, item => {
+        return (
+            item.state === 'RP_CONFIRMED'
+        );
+      });
+    },
+    available_swift_props() {
+      return _.filter(this.swift_props, item => {
+        return (
+            item.currency === this.selectedPlatform.currency && item.state === 'SP_CONFIRMED'
+        );
+      });
     },
     safe() {
       return BigNumber(this.currency_obj.safe);
@@ -276,26 +219,25 @@ export default {
   },
   methods: {
     next() {
-      this.$emit('filled', {amount: this.amount, inn: this.inn, bic: this.bic, acc: this.acc});
+      this.$emit('filled', {pay_template_id: this.pay_template_id, amount: this.amount, prop_id: this.prop_id, prop_type: this.selectedPlatform.currency === 'RUB' ? 'ufebs' : 'swift'});
     },
     back() {
       this.$emit('back_pressed');
     },
-    getFee(gateway_id, currency) {
-      let active_withdraw_bank_detail = _.find(this.bank_details, item => (item.gateway_id === gateway_id && item.type === 'withdraw' && item.is_active === true));
-      let gateway_fee = _.find(this.fees, item => (item.gateway_id === gateway_id && item.currency === currency && item.bank_id === active_withdraw_bank_detail.bank_id));
-      return this.getWithdrawFee(gateway_fee);
+    getFee(pay_template_id) {
+      let template = _.find(this.pay_templates, item => (item.id === pay_template_id));
+      return this.getWithdrawFee(template);
     },
     getWithdrawFee(fee) {
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_withdraw_fix_fee).eq(0) || !BigNumber(fee.withdraw_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_fix_fee).eq(0) || !BigNumber(fee.fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_withdraw_fix_fee).plus(fee.withdraw_fix_fee).toString() + ' ' + fee.currency;
+        fix_part = BigNumber(fee.bank_fix_fee).plus(fee.fix_fee).toString() + ' ' + fee.currency;
       }
-      if(!BigNumber(fee.bank_withdraw_percent_fee).eq(0) || !BigNumber(fee.withdraw_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_percent_fee).eq(0) || !BigNumber(fee.percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_withdraw_percent_fee).plus(fee.withdraw_percent_fee).toString() + '%';
+        percent_part = BigNumber(fee.bank_percent_fee).plus(fee.percent_fee).toString() + '%';
       }
       if(fix_part !== '' && percent_part !== '')
       {

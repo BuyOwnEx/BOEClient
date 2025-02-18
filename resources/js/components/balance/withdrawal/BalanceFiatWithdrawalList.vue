@@ -104,7 +104,7 @@ export default {
         { text: this.$t('table_header.date'), value: 'date' },
         { text: this.$t('table_header.currency'), value: 'currency' },
         { text: this.$t('table_header.amount'), value: 'amount' },
-        { text: this.$t('table_header.actions'), value: 'action', sortable: false, align: 'center' },
+        { text: this.$t('table_header.actions'), value: 'action', sortable: false, align: 'end' },
       ];
     },
   },

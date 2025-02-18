@@ -9,7 +9,7 @@
 		</template>
 
 		<v-card class="balance-crypto-dialog-withdraw">
-			<v-card-title class="common-dialog__title pb-0">
+			<v-card-title class="common-dialog__title common-dialog__title--error pb-0">
 				<span>
 					{{ $t('common.withdrawal_funds') }}
 					{{ currencyObj.currency }}
@@ -312,18 +312,14 @@ import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceCryptoDialogWithdraw',
-
+  props: {
+    currencyObj: {
+      type: Object,
+      required: true,
+    },
+  },
 	components: { BalanceCryptoDialogSelectSystem, CommonTooltip, CommonAvailable },
-
 	mixins: [loadingMixin, showNotificationMixin, validateInputMixin, dialogMethodsMixin],
-
-	props: {
-		currencyObj: {
-			type: Object,
-			required: true,
-		},
-	},
-
 	data() {
 		return {
       selectedPlatform: null,
@@ -352,7 +348,6 @@ export default {
       ]
 		};
 	},
-
 	computed: {
     ...mapState('user', ['status']),
     ...mapState('app', ['product']),
@@ -402,28 +397,25 @@ export default {
 			const dividedEmail = this.$store.state.app.trader.email.split('@');
 			const encryptedName = dividedEmail[0].slice(0, 2) + '***';
 			const domain = dividedEmail[1];
-
 			return `${encryptedName}@${domain}`;
 		},
 	},
-
 	mounted() {
 		this.$store.subscribe(mutation => {
-            if (mutation.type === 'user/setAddressValidation') {
-                const { address, currency, platform } = mutation.payload;
-                if (currency === this.currency && platform.toLowerCase() === this.selectedPlatform.base_currency.toLowerCase()) {
-                    if (address === true) {
-                        this.step = 3;
-                        this.stopLoading();
-                    } else if (address === false) {
-                        this.stopLoading();
-                        this.pushErrorNotification(_, 'incorrect');
-                    }
-                }
-            }
+      if (mutation.type === 'user/setAddressValidation') {
+        const { address, currency, platform } = mutation.payload;
+        if (currency === this.currency && platform.toLowerCase() === this.selectedPlatform.base_currency.toLowerCase()) {
+          if (address === true) {
+            this.step = 3;
+            this.stopLoading();
+          } else if (address === false) {
+            this.stopLoading();
+            this.pushErrorNotification(_, 'incorrect');
+          }
+        }
+      }
 		});
 	},
-
 	methods: {
 		...mapActions({
 			getBalancesFromServerStore: 'user/getBalancesFromServer',
@@ -445,21 +437,17 @@ export default {
 				this.pushErrorNotification();
 				return;
 			}
-
 			this.startLoading();
 			const payload = {
 				currency: this.currency,
 				address: this.address,
         platform_id: this.selectedPlatform.id
 			};
-
 			await this.validateAddressStore(payload);
 		},
-
 		async formWithdrawRequest() {
 			try {
 				this.startLoading();
-
 				let payload = {
 					currency: this.currency.toUpperCase(),
 					amount: this.amount,
@@ -468,7 +456,6 @@ export default {
           platform_id: this.selectedPlatform.id
 				};
 				const isSuccess = await this.formCryptoWithdrawRequestStore(this.is_legal ? payload : _.omit(payload, ['reason_id']));
-
 				if (isSuccess) {
 					this.step++;
 				}
@@ -476,17 +463,14 @@ export default {
 				this.stopLoading();
 			}
 		},
-
 		async finish() {
 			try {
 				this.startLoading();
-
 				const payload = {
 					code: this.emailCode,
 					totp: this.user2FA ? this.twoFACode : null,
 				};
 				const isSuccess = await this.confirmCryptoWithdrawStore(payload);
-
 				if (isSuccess) {
 					this.isSuccessWithdraw = true;
           await this.getBalancesFromServerStore();
@@ -496,19 +480,16 @@ export default {
 				this.stopLoading();
 			}
 		},
-
 		setMinPossibleAmount() {
 			this.amount = BigNumber(this.selectedPlatform.minWithdraw).toString();
 		},
 		setAvailableForWithdrawAmount() {
 			this.amount = this.availableForWithdraw;
 		},
-
 		refreshWithdrawalDataIfConfirmCodeError() {
 			const confirmCodeStep = 4;
 			const neededStep = this.step === confirmCodeStep;
 			const unsuccessfulWithdraw = !this.isSuccessWithdraw;
-
 			if (neededStep && unsuccessfulWithdraw) {
 				this.fetchWithdrawalsStore();
 			}
@@ -545,4 +526,30 @@ export default {
       min-height: 24px
 .balance-crypto-dialog-withdraw__address-wrapper
   gap: 4px
+
+.common-dialog
+  &__title
+    font-weight: 600 !important
+    padding: 8px 24px 8px !important
+
+    &--success
+      background-color: var(--v-success-base)
+    &--error
+      background-color: var(--v-error-base)
+
+  &__content
+    padding-top: 8px !important
+
+  &__actions
+    .v-btn
+    text-transform: uppercase !important
+    letter-spacing: 1px !important
+
+.theme--dark
+  .common-dialog
+    &__title
+      &--success
+        background-color: var(--v-success-darken1)
+      &--error
+        background-color: var(--v-error-darken1)
 </style>

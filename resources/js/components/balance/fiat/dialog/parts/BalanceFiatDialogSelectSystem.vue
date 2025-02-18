@@ -119,13 +119,13 @@ export default {
     getReplenishFee(fee) {
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_replenish_fix_fee).eq(0) || !BigNumber(fee.replenish_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_fix_fee).eq(0) || !BigNumber(fee.fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_replenish_fix_fee).plus(fee.replenish_fix_fee).toString() + ' ' + fee.currency;
+        fix_part = BigNumber(fee.bank_fix_fee).plus(fee.fix_fee).toString() + ' ' + fee.currency;
       }
-      if(!BigNumber(fee.bank_replenish_percent_fee).eq(0) || !BigNumber(fee.replenish_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_percent_fee).eq(0) || !BigNumber(fee.percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_replenish_percent_fee).plus(fee.replenish_percent_fee).toString() + '%';
+        percent_part = BigNumber(fee.bank_percent_fee).plus(fee.percent_fee).toString() + '%';
       }
       if(fix_part !== '' && percent_part !== '')
       {
@@ -140,13 +140,13 @@ export default {
     getWithdrawFee(fee) {
       let fix_part = '';
       let percent_part = '';
-      if(!BigNumber(fee.bank_withdraw_fix_fee).eq(0) || !BigNumber(fee.withdraw_fix_fee).eq(0))
+      if(!BigNumber(fee.bank_fix_fee).eq(0) || !BigNumber(fee.fix_fee).eq(0))
       {
-        fix_part = BigNumber(fee.bank_withdraw_fix_fee).plus(fee.withdraw_fix_fee).toString() + ' ' + fee.currency;
+        fix_part = BigNumber(fee.bank_fix_fee).plus(fee.fix_fee).toString() + ' ' + fee.currency;
       }
-      if(!BigNumber(fee.bank_withdraw_percent_fee).eq(0) || !BigNumber(fee.withdraw_percent_fee).eq(0))
+      if(!BigNumber(fee.bank_percent_fee).eq(0) || !BigNumber(fee.percent_fee).eq(0))
       {
-        percent_part = BigNumber(fee.bank_withdraw_percent_fee).plus(fee.withdraw_percent_fee).toString() + '%';
+        percent_part = BigNumber(fee.bank_percent_fee).plus(fee.percent_fee).toString() + '%';
       }
       if(fix_part !== '' && percent_part !== '')
       {

@@ -9,7 +9,7 @@
 		</template>
 
 		<v-card>
-			<v-card-title class="common-dialog__title">
+			<v-card-title class="common-dialog__title common-dialog__title--success">
 				{{ $t('common.replenishment_funds') }} {{ currencyObj.currency }}
 			</v-card-title>
 
@@ -101,35 +101,28 @@
 </template>
 
 <script>
-
 import QrCode from '@chenfengyuan/vue-qrcode';
 import CommonLoading from '@/components/common/CommonLoading.vue';
 import CommonCopyLabel from '@/components/common/CommonCopyLabel.vue';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 import BalanceCryptoDialogSelectSystem from '@/components/balance/crypto/dialog/parts/BalanceCryptoDialogSelectSystem.vue';
 import { mapActions } from 'vuex';
-
 export default {
 	name: 'BalanceCryptoDialogReplenish',
-
-	components: { BalanceCryptoDialogSelectSystem, CommonLoading, CommonCopyLabel, QrCode },
-
-	mixins: [dialogMethodsMixin],
-
 	props: {
 		currencyObj: {
 			type: Object,
 			required: true,
 		},
 	},
-
-    data() {
-        return {
-          selectedPlatform: null,
-          step: 1,
-        };
-    },
-
+  components: { BalanceCryptoDialogSelectSystem, CommonLoading, CommonCopyLabel, QrCode },
+  mixins: [dialogMethodsMixin],
+  data() {
+      return {
+        selectedPlatform: null,
+        step: 1,
+      };
+  },
 	computed: {
 		address() {
 			return this.selectedPlatform ? this.selectedPlatform.address : '-';
@@ -141,19 +134,46 @@ export default {
       };
     },
 	},
-
 	methods: {
-        ...mapActions({
-          getAddressStore: 'balance/getAddress',
-        }),
-        selectPlatform(platform) {
-          this.selectedPlatform = platform;
-          this.getAddressStore(this.selectedPlatform);
-          this.step++;
-        },
-        back() {
-          this.step--;
-        },
+    ...mapActions({
+      getAddressStore: 'balance/getAddress',
+    }),
+    selectPlatform(platform) {
+      this.selectedPlatform = platform;
+      this.getAddressStore(this.selectedPlatform);
+      this.step++;
+    },
+    back() {
+      this.step--;
+    },
 	},
 };
 </script>
+
+<style lang="sass">
+.common-dialog
+  &__title
+    font-weight: 600 !important
+    padding: 8px 24px 8px !important
+
+    &--success
+      background-color: var(--v-success-base)
+    &--error
+      background-color: var(--v-error-base)
+
+  &__content
+    padding-top: 8px !important
+
+  &__actions
+    .v-btn
+    text-transform: uppercase !important
+    letter-spacing: 1px !important
+
+.theme--dark
+  .common-dialog
+    &__title
+      &--success
+        background-color: var(--v-success-darken1)
+      &--error
+        background-color: var(--v-error-darken1)
+</style>

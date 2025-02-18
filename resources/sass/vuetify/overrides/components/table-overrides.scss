@@ -94,3 +94,23 @@ td {
 		text-align: start;
 	}
 }
+
+.v-data-table__wrapper {
+	.v-btn::before {
+		background-color: transparent;
+	}
+}
+.theme--light {
+	.v-data-table__wrapper {
+		.v-btn--text {
+			color: #595959 !important;
+		}
+	}
+}
+.theme--dark {
+	.v-data-table__wrapper {
+		.v-btn--text {
+			color: #b9b9b9 !important;
+		}
+	}
+}

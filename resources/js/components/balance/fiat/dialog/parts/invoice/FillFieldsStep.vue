@@ -5,20 +5,17 @@
         {{ $t('balance.dialog.fiat_replenishment_alert') }}
       </BalanceFiatDialogAlert>
 
-      <div v-if="this.is_legal" class="balance-fiat-dialog-replenish__replenish-info pt-2 mb-2">
-        {{ $t('balance.dialog.fiat_invoice_comp_fill_fields_step_description') }}
-      </div>
-      <div v-else class="balance-fiat-dialog-replenish__replenish-info pt-2 mb-2">
-        {{ $t('balance.dialog.fiat_invoice_ind_fill_fields_step_description') }}
+      <div class="balance-fiat-dialog-replenish__replenish-info pt-2 mb-2">
+        {{ $t('balance.dialog.fiat_invoice_fill_fields_step_description') }}
       </div>
 
       <v-form v-model="formValid">
         <v-row>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
+          <v-col cols="12" md="12" class="pt-0 pb-2">
             <v-select
-                v-model="bank_id"
-                :items="available_banks"
-                item-text="name"
+                v-model="pay_template_id"
+                :items="available_pay_templates"
+                item-text="bank_name"
                 item-value="id"
                 :label="$t('balance.select_bank')"
                 :hint="$t('balance.select_bank_hint')"
@@ -35,13 +32,13 @@
                     <v-img
                         class="elevation-0 d-inline-flex"
                         style="vertical-align: middle"
-                        :src="item.logo"
+                        :src="item.bank_logo"
                         max-height="16"
                         max-width="16"
                     ></v-img>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <v-list-item-title v-text="item.bank_name"></v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </template>
@@ -49,11 +46,11 @@
                 <v-img
                     class="elevation-0 d-inline-flex"
                     style="vertical-align: middle"
-                    :src="item.logo"
+                    :src="item.bank_logo"
                     max-height="16"
                     max-width="16"
                 ></v-img>
-                <span class="ml-1">{{ item.name }}</span>
+                <span class="ml-1">{{ item.bank_name }}</span>
               </template>
             </v-select>
           </v-col>
@@ -68,34 +65,20 @@
             />
           </v-col>
           <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="inn"
-                :label="$t('fiat.inn')"
-                :rules="[rules.required, this.is_legal ? rules.comp_inn : rules.ind_inn]"
-                v-mask="this.is_legal ? '##########' : '############'"
+            <v-select
+                v-model="prop_id"
+                :items="selectedPlatform.currency === 'RUB' ? available_rub_props : available_swift_props"
+                item-text="name"
+                item-value="id"
+                :label="$t('balance.select_prop')"
+                :hint="$t('balance.select_prop_hint')"
+                :rules="[rules.required]"
                 persistent-hint
-                @paste.prevent
-            />
-          </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="bic"
-                :label="$t('fiat.bic')"
-                :rules="[rules.required, rules.bic]"
-                v-mask="'#########'"
-                persistent-hint
-                @paste.prevent
-            />
-          </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
-            <v-text-field
-                v-model="acc"
-                :label="$t('fiat.acc')"
-                :rules="[rules.required, rules.acc]"
-                v-mask="'####################'"
-                persistent-hint
-                @paste.prevent
-            />
+                hide-details="auto"
+                required
+                class="required"
+            >
+            </v-select>
           </v-col>
         </v-row>
       </v-form>
@@ -109,7 +92,7 @@
       <v-spacer />
       <v-btn
           :loading="loading"
-          :disabled="!bank_id ||!amount || !inn || !bic || !acc || !formValid"
+          :disabled="!pay_template_id ||!amount || !prop_id || !formValid"
           color="primary"
           tile
           text
@@ -155,14 +138,20 @@ export default {
       type: Number,
       required: true,
     },
-    fees: {
+    pay_templates: {
       type: Array,
       required: true,
     },
-    bank_details: {
+    rub_props: {
       type: Array,
       required: true,
+      default: () => []
     },
+    swift_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -174,51 +163,45 @@ export default {
         decimalLimit: this.currency_scale,
         integerLimit: 23
       }),
-      bank_id: null,
+      pay_template_id: null,
       amount: '',
-      inn: null,
-      bic: null,
-      acc: null,
+      prop_id: null,
       formValid: false,
-      gateways: [],
-      banks: [],
       amountRules: v => !v || BigNumber(v).gte(this.selectedPlatform.minReplenish) || this.$t('balance.less_min'),
     };
   },
   computed: {
-    is_legal() {
-      return (this.trader_status & 4) === 4;
+    available_pay_templates() {
+      return _.filter(this.pay_templates, item => {
+        return (
+            item.type	 === 'replenish' && item.is_active === true && item.gateway_id  === this.selectedPlatform.gateway_id && item.currency === this.selectedPlatform.currency
+        );
+      });
     },
-    is_individual() {
-      return (this.trader_status & 2) === 2;
+    available_rub_props() {
+      return _.filter(this.rub_props, item => {
+        return (
+            item.state === 'RP_CONFIRMED'
+        );
+      });
     },
-    available_banks() {
-      return _.filter(this.banks, item => {
-        let find_detail = _.findIndex(this.bank_details, (detail) => {
-          return detail.bank_id === item.id && detail.gateway_id === this.selectedPlatform.gateway_id && detail.is_active === true
-        });
-        let find_fee = _.findIndex(this.fees, (fee) => {
-          return fee.bank_id === item.id && fee.gateway_id === this.selectedPlatform.gateway_id && fee.currency === this.selectedPlatform.currency
-        });
-        return find_detail !== -1 && find_fee !== -1;
+    available_swift_props() {
+      return _.filter(this.swift_props, item => {
+        return (
+            item.currency === this.selectedPlatform.currency && item.state === 'SP_CONFIRMED'
+        );
       });
     },
   },
   mounted() {
-    axios.get('/trader/ext/all_banks').then(response => {
-      this.banks = response.data.data;
-      this.bank_id = this.available_banks[0].id ?? null;
-    });
+
   },
   methods: {
     next() {
-      this.$emit('filled', {bank_id: this.bank_id, amount: this.amount, inn: this.inn, bic: this.bic, acc: this.acc, banks: this.banks});
+      this.$emit('filled', {pay_template_id: this.pay_template_id, amount: this.amount, prop_id: this.prop_id, prop_type: this.selectedPlatform.currency === 'RUB' ? 'ufebs' : 'swift'});
     },
     back() {
       this.$emit('back_pressed');
-    },
-    isCorrectPrecision(v) {
-      return !new RegExp('\\d+\\.\\d{' + (this.currency_scale + 1) + ',}', 'i').test(v);
     },
   }
 };

@@ -9,7 +9,7 @@
 		</template>
 
 		<v-card>
-			<v-card-title class="common-dialog__title">
+			<v-card-title class="common-dialog__title common-dialog__title--success">
 				{{ $t('common.replenishment_funds') }} {{ currency }}
 			</v-card-title>
 
@@ -36,16 +36,18 @@
 					<v-stepper-items>
 						<v-stepper-content step="1">
 							<SelectReplenishMethod
+                v-if="platforms.length > 0"
 								class="mb-6"
                 :is_verified="is_verified"
                 :trader_status="trader_status"
                 :block_status="block_status"
 								:platforms="platforms"
-                :gateways="replenishGateways"
-                :fees="fees"
 								type="replenish"
 								@select_platform="platformSelected"
 							/>
+              <div class="d-flex align-center justify-center mb-3 red--text" style="height: 100px" v-else>
+                <span>{{ $t('fiat.gateway.replenish.not_found') }}</span>
+              </div>
 
 							<v-divider />
 
@@ -58,21 +60,21 @@
 
 						<v-stepper-content step="2">
               <FillAmountStep
-                  v-if="selected_gateway && selected_gateway.code === 'QR'"
+                  v-if="selected_platform && selected_platform.gateway_code === 'QR'"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
-                  :fees="fees"
-                  :bank_details="bank_details"
+                  :pay_templates="pay_templates"
                   @filled="amount_filled"
                   @back_pressed="back"
               />
               <FillFieldsStep
-                  v-if="selected_gateway && selected_gateway.code === 'INVOICE'"
+                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE'"
                   :trader_status="trader_status"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
-                  :fees="fees"
-                  :bank_details="bank_details"
+                  :pay_templates="pay_templates"
+                  :rub_props="rub_props"
+                  :swift_props="swift_props"
                   @filled="fields_filled"
                   @back_pressed="back"
               />
@@ -80,24 +82,24 @@
 
             <v-stepper-content class="pa-0" step="3">
               <ShowQr
-                  v-if="selected_gateway && selected_gateway.code === 'QR' && amount !== null && bank_id !== null"
-                  :selectedPlatform="selectedPlatfrom"
+                  v-if="selected_platform && selected_platform.gateway_code === 'QR' && amount !== null && pay_template_id !== null && qr_bank_details !== null"
                   :amount="amount"
-                  :bank_details="bank_details"
-                  :bank_id="bank_id"
+                  :pay_templates="pay_templates"
+                  :pay_template_id="pay_template_id"
+                  :qr_bank_details="qr_bank_details"
                   @back_pressed="back"
                   @success_response="close"
               />
               <ConfirmationStep
-                  v-if="selected_gateway && selected_gateway.code === 'INVOICE' && amount !== null && inn !== null && bic !== null && acc !== null"
-                  :banks="banks"
+                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE' && amount !== null && prop_id !== null && pay_template_id !== null"
                   :amount="amount"
-                  :bank_id="bank_id"
-                  :inn="inn"
-                  :bic="bic"
-                  :acc="acc"
+                  :pay_templates="pay_templates"
+                  :pay_template_id="pay_template_id"
+                  :prop_id="prop_id"
+                  :prop_type="prop_type"
+                  :rub_props="rub_props"
+                  :swift_props="swift_props"
                   :selected-platform="selectedPlatfrom"
-                  :fees="fees"
                   @back_pressed="back"
                   @success_response="close"
               ></ConfirmationStep>
@@ -118,6 +120,7 @@ import ConfirmationStep from '@/components/balance/fiat/dialog/parts/invoice/Con
 
 import loadingMixin from '@/mixins/common/loadingMixin';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
+import BigNumber from 'bignumber.js';
 export default {
 	name: 'BalanceFiatDialogReplenish',
   props: {
@@ -137,6 +140,16 @@ export default {
       type: Number,
       required: true,
     },
+    rub_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    swift_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
   },
 	components: {
     SelectReplenishMethod,
@@ -154,25 +167,16 @@ export default {
 	data() {
 		return {
       selectedPlatfrom: null,
-      selectedGateway: null,
 			amount: null,
-      bank_id: null,
-      inn: null,
-      bic: null,
-      acc: null,
-      gateways: [],
-      banks: [],
-      fees: [],
-      bank_details: [],
+      pay_template_id: null,
+      prop_id: null,
+      prop_type: null,
+      pay_templates: [],
+      qr_bank_details: null,
 			step: 1,
 		};
 	},
-
 	computed: {
-		totalAmount() {
-			const total = Number(this.amount) - this.selectedPlatfrom?.withdrawFee;
-			return total || 0;
-		},
 		minWithdraw() {
 			return this.selectedPlatfrom?.minWithdraw;
 		},
@@ -185,36 +189,35 @@ export default {
     platforms() {
       return this.currencyObj.platforms;
     },
-    replenishGateways() {
-      return _.filter(this.gateways, item => {
-        return (
-            item.is_replenish === true
-        );
-      });
-    },
-    selected_gateway() {
-      return this.selectedGateway;
+    selected_platform() {
+      return this.selectedPlatfrom;
     }
 	},
 
 	methods: {
     fields_filled(data) {
-      this.bank_id = data.bank_id;
+      this.pay_template_id = data.pay_template_id;
       this.amount = data.amount;
-      this.inn = data.inn;
-      this.bic = data.bic;
-      this.acc = data.acc;
-      this.banks = data.banks;
+      this.prop_id = data.prop_id;
+      this.prop_type = data.prop_type;
       this.step++;
 		},
     amount_filled(data) {
       this.amount = data.amount;
-      this.bank_id = data.bank_id;
-      this.step++;
+      this.pay_template_id = data.pay_template_id;
+      let template = _.find(this.pay_templates, item => (item.id === data.pay_template_id))
+      axios.get('/trader/ext/qr_bank_details',{
+        params: {
+          pay_template_id: data.pay_template_id,
+          prop_id: template.prop_id
+        },
+      }).then(response => {
+        this.qr_bank_details = response.data.props;
+        this.step++;
+      });
     },
     platformSelected(data) {
 			this.selectedPlatfrom = data.platform;
-      this.selectedGateway = data.gateway;
 			this.step++;
 		},
 
@@ -224,20 +227,41 @@ export default {
 		clearData() {
 			this.amount = '';
 			this.selectedPlatfrom = null;
-      this.selectedGateway = null;
 			this.step = 1;
 		},
 	},
   mounted() {
-    axios.get('/trader/ext/all_fiat_platforms').then(response => {
-      this.gateways = response.data.data;
-    });
-    axios.get('/trader/ext/all_fiat_fees').then(response => {
-      this.fees = response.data.data;
-    });
-    axios.get('/trader/ext/replenish_bank_details').then(response => {
-      this.bank_details = response.data.data;
+    axios.get('/trader/ext/replenish_pay_templates').then(response => {
+      this.pay_templates = response.data.data;
     });
   }
 };
 </script>
+
+<style lang="sass">
+.common-dialog
+  &__title
+    font-weight: 600 !important
+    padding: 8px 24px 8px !important
+
+    &--success
+      background-color: var(--v-success-base)
+    &--error
+      background-color: var(--v-error-base)
+
+  &__content
+    padding-top: 8px !important
+
+  &__actions
+    .v-btn
+      text-transform: uppercase !important
+      letter-spacing: 1px !important
+
+.theme--dark
+  .common-dialog
+    &__title
+      &--success
+        background-color: var(--v-success-darken1)
+      &--error
+        background-color: var(--v-error-darken1)
+</style>

@@ -1,19 +1,17 @@
 <template>
 	<div>
 		<span>{{ availableText || $t('trading.order.available') }}:</span>
-
 		<b :class="getAvailableClasses" @click="setAmount">
 			{{ available }}
-			{{ currency.toUpperCase() }}
+			{{ currency ? currency.toUpperCase() : '' }}
 		</b>
-		<small v-if='smallText'> ({{ smallText }}: {{ small }} {{ currency }}) </small>
+		<small v-if='smallText'> ({{ smallText }}: {{ small }} {{ currency ? currency : '' }}) </small>
 	</div>
 </template>
 
 <script>
 export default {
 	name: 'CommonAvailable',
-
 	props: {
 		available: {
 			type: [String, Number],
@@ -25,9 +23,8 @@ export default {
 		},
 		currency: {
 			type: String,
-			required: true,
+			required: false,
 		},
-
 		availableText: {
 			type: String,
 			required: false,

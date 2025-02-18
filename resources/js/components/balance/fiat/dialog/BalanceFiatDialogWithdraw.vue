@@ -9,7 +9,7 @@
 		</template>
 
 		<v-card>
-			<v-card-title class="common-dialog__title">
+			<v-card-title class="common-dialog__title common-dialog__title--error">
         {{ $t('common.withdrawal_funds') }} {{ currency }}
       </v-card-title>
 
@@ -42,17 +42,17 @@
 					<v-stepper-items>
 						<v-stepper-content step="1">
 							<SelectWithdrawMethod
+                v-if="platforms.length > 0"
 								class="mb-6"
+                :platforms="platforms"
                 :is_verified="is_verified"
                 :trader_status="trader_status"
                 :block_status="block_status"
-                :platforms="platforms"
-                :bank_details="bank_details"
-                :gateways="withdrawGateways"
-                :fees="fees"
 								@select_platform="platformSelected"
 							/>
-
+              <div class="d-flex align-center justify-center mb-3 red--text" style="height: 100px" v-else>
+                <span>{{ $t('fiat.gateway.withdraw.not_found') }}</span>
+              </div>
 							<v-divider />
 
 							<div class="common-dialog__actions d-flex pt-1">
@@ -64,12 +64,13 @@
 
 						<v-stepper-content step="2">
               <FillFieldsWithdrawStep
-                  v-if="selected_gateway && selected_gateway.code === 'INVOICE'"
+                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE'"
                   :trader_status="trader_status"
                   :selectedPlatform="selectedPlatfrom"
-                  :bank_details="bank_details"
                   :currency_obj="currencyObj"
-                  :fees="fees"
+                  :pay_templates="pay_templates"
+                  :rub_props="rub_props"
+                  :swift_props="swift_props"
                   @filled="fields_filled"
                   @back_pressed="back"
               />
@@ -77,14 +78,15 @@
 
             <v-stepper-content class="pa-0" step="3">
               <ConfirmationWithdrawStep
-                  v-if="selected_gateway && selected_gateway.code === 'INVOICE' && amount !== null && inn !== null && bic !== null && acc !== null"
+                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE' && amount !== null && prop_id !== null && pay_template_id !== null"
                   :amount="amount"
-                  :inn="inn"
-                  :bic="bic"
-                  :acc="acc"
-                  :fees="fees"
+                  :pay_templates="pay_templates"
+                  :pay_template_id="pay_template_id"
+                  :prop_id="prop_id"
+                  :prop_type="prop_type"
+                  :rub_props="rub_props"
+                  :swift_props="swift_props"
                   :selected-platform="selectedPlatfrom"
-                  :bank_details="bank_details"
                   @back_pressed="back"
                   @success_response="success_confirmation"
               ></ConfirmationWithdrawStep>
@@ -137,6 +139,16 @@ export default {
       type: Number,
       required: true,
     },
+    rub_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    swift_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    }
   },
 	components: {
     SelectWithdrawMethod,
@@ -157,29 +169,23 @@ export default {
 	data() {
 		return {
       selectedPlatfrom: null,
-      selectedGateway: null,
-			amount: '',
-      inn: null,
-      bic: null,
-      acc: null,
-      gateways: [],
-      bank_details: [],
-      fees: [],
+      pay_templates: [],
+      amount: null,
+      pay_template_id: null,
+      prop_id: null,
+      prop_type: null,
 			step: 1,
 		};
 	},
   mounted() {
-    axios.get('/trader/ext/all_fiat_platforms').then(response => {
-      this.gateways = response.data.data;
-    });
-    axios.get('/trader/ext/all_fiat_fees').then(response => {
-      this.fees = response.data.data;
-    });
-    axios.get('/trader/ext/withdraw_bank_details').then(response => {
-      this.bank_details = response.data.data;
+    axios.get('/trader/ext/withdraw_pay_templates').then(response => {
+      this.pay_templates = response.data.data;
     });
   },
 	computed: {
+    available_pay_templates() {
+      return this.pay_templates;
+    },
 		totalAmount() {
 			const total = Number(this.amount) - this.selectedPlatfrom?.withdrawFee;
 			if (!total || total < 0) return 0;
@@ -215,24 +221,17 @@ export default {
     platforms() {
       return this.currencyObj.platforms;
     },
-    selected_gateway() {
-      return this.selectedGateway;
+    selected_platform() {
+      return this.selectedPlatfrom;
     },
-    withdrawGateways() {
-      return _.filter(this.gateways, item => {
-        return (
-            item.is_withdrawal === true
-        );
-      });
-    }
   },
 
 	methods: {
     fields_filled(data) {
+      this.pay_template_id = data.pay_template_id;
       this.amount = data.amount;
-      this.inn = data.inn;
-      this.bic = data.bic;
-      this.acc = data.acc;
+      this.prop_id = data.prop_id;
+      this.prop_type = data.prop_type;
       this.step++;
     },
     success_confirmation() {
@@ -240,7 +239,6 @@ export default {
     },
     platformSelected(data) {
       this.selectedPlatfrom = data.platform;
-      this.selectedGateway = data.gateway;
       this.step++;
     },
     back() {
@@ -252,17 +250,40 @@ export default {
       this.bic = null;
       this.acc = null;
       this.selectedPlatfrom = null;
-      this.selectedGateway = null;
       this.step = 1;
     },
 
 		setAvailableForWithdrawAmount() {
 			this.amount = this.availableForWithdraw;
 		},
-
-
-
-
 	},
 };
 </script>
+
+<style lang="sass">
+.common-dialog
+  &__title
+    font-weight: 600 !important
+    padding: 8px 24px 8px !important
+
+    &--success
+      background-color: var(--v-success-base)
+    &--error
+      background-color: var(--v-error-base)
+
+  &__content
+    padding-top: 8px !important
+
+  &__actions
+    .v-btn
+      text-transform: uppercase !important
+      letter-spacing: 1px !important
+
+.theme--dark
+  .common-dialog
+    &__title
+      &--success
+        background-color: var(--v-success-darken1)
+      &--error
+        background-color: var(--v-error-darken1)
+</style>

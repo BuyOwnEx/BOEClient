@@ -11,11 +11,11 @@
 
       <v-form v-model="formValid">
         <v-row>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
+          <v-col cols="12" md="12" class="pt-0 pb-2">
             <v-select
-                v-model="bank_id"
-                :items="available_banks"
-                item-text="name"
+                v-model="pay_template_id"
+                :items="available_pay_templates"
+                item-text="bank_name"
                 item-value="id"
                 :label="$t('balance.select_bank')"
                 :hint="$t('balance.select_bank_hint')"
@@ -32,13 +32,13 @@
                     <v-img
                         class="elevation-0 d-inline-flex"
                         style="vertical-align: middle"
-                        :src="item.logo"
+                        :src="item.bank_logo"
                         max-height="16"
                         max-width="16"
                     ></v-img>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <v-list-item-title v-text="item.bank_name"></v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </template>
@@ -46,21 +46,21 @@
                 <v-img
                     class="elevation-0 d-inline-flex"
                     style="vertical-align: middle"
-                    :src="item.logo"
+                    :src="item.bank_logo"
                     max-height="16"
                     max-width="16"
                 ></v-img>
-                <span class="ml-1">{{ item.name }}</span>
+                <span class="ml-1">{{ item.bank_name }}</span>
               </template>
             </v-select>
           </v-col>
           <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
                 v-model="amount"
-                :placeholder="$t('balance.amount')"
+                :label="$t('balance.amount')"
                 :suffix="selectedPlatform.currency"
-                :rules="amountRules"
-                @keydown="validateNumber"
+                v-mask="numberMask"
+                :rules="[rules.required,amountRules]"
                 @paste.prevent
             />
           </v-col>
@@ -76,7 +76,7 @@
       <v-spacer />
       <v-btn
           :loading="loading"
-          :disabled="!amount || !bank_id || !formValid"
+          :disabled="!amount || !pay_template_id || !formValid"
           color="primary"
           tile
           text
@@ -97,6 +97,7 @@ import BigNumber from 'bignumber.js';
 import loadingMixin from '@/mixins/common/loadingMixin.js';
 import validateInputMixin from '@/mixins/common/validateInputMixin.js';
 import formValidationRules from '@/mixins/common/formValidationRules';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 export default {
   name: 'FillAmountStep',
   components: {
@@ -116,56 +117,42 @@ export default {
       type: [String, Number],
       required: true,
     },
-    fees: {
-      type: Array,
-      required: true,
-    },
-    bank_details: {
+    pay_templates: {
       type: Array,
       required: true,
     },
   },
   data() {
     return {
+      numberMask: createNumberMask({
+        prefix: '',
+        includeThousandsSeparator: false,
+        thousandsSeparatorSymbol: ' ',
+        allowDecimal: true,
+        decimalLimit: this.currency_scale,
+        integerLimit: 23
+      }),
+      pay_template_id: null,
       amount: '',
-      bank_id: null,
       formValid: false,
-      gateways: [],
-      banks: [],
-      amountRules: [
-        v => !v || BigNumber(v).gte(this.selectedPlatform.minReplenish) || this.$t('balance.less_min'),
-        v => !v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
-      ],
+      amountRules: v => !v || BigNumber(v).gte(this.selectedPlatform.minReplenish) || this.$t('balance.less_min'),
     };
   },
-  mounted() {
-    axios.get('/trader/ext/all_banks').then(response => {
-      this.banks = response.data.data;
-      this.bank_id = this.available_banks[0].id ?? null;
-    });
-  },
   computed: {
-    available_banks() {
-      return _.filter(this.banks, item => {
-        let find_detail = _.findIndex(this.bank_details, (detail) => {
-          return detail.bank_id === item.id && detail.gateway_id === this.selectedPlatform.gateway_id && detail.is_active === true
-        });
-        let find_fee = _.findIndex(this.fees, (fee) => {
-          return fee.bank_id === item.id && fee.gateway_id === this.selectedPlatform.gateway_id && fee.currency === this.selectedPlatform.currency
-        });
-        return find_detail !== -1 && find_fee !== -1;
+    available_pay_templates() {
+      return _.filter(this.pay_templates, item => {
+        return (
+            item.type	 === 'replenish' && item.is_active === true && item.gateway_id  === this.selectedPlatform.gateway_id && item.currency === this.selectedPlatform.currency
+        );
       });
     },
   },
   methods: {
     next() {
-      this.$emit('filled', {amount: this.amount, bank_id: this.bank_id});
+      this.$emit('filled', {amount: this.amount, pay_template_id: this.pay_template_id});
     },
     back() {
       this.$emit('back_pressed');
-    },
-    isCorrectPrecision(v) {
-      return !new RegExp('\\d+\\.\\d{' + (this.currency_scale + 1) + ',}', 'i').test(v);
     },
   }
 };

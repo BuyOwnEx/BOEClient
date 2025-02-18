@@ -9,7 +9,7 @@
 		</template>
 
 		<v-card class="balance-dialog-transfer">
-			<v-card-title class="common-dialog__title">
+			<v-card-title class="common-dialog__title common-dialog__title--primary">
 				{{ dialogTitle }}
 			</v-card-title>
 
@@ -73,49 +73,42 @@ import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'BalanceDialogTransfer',
-
+  props: {
+    currencyObj: {
+      type: Object,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+      validator(val) {
+        return ['trade', 'safe'].indexOf(val) !== -1;
+      },
+    },
+    wallet: {
+      type: String,
+      required: true,
+      validator(val) {
+        return ['crypto', 'fiat'].indexOf(val) !== -1;
+      },
+    },
+  },
 	components: { CommonAvailable },
-
 	mixins: [loadingMixin, formValidationRules, showNotificationMixin, validateInputMixin, dialogMethodsMixin],
-
-	props: {
-		currencyObj: {
-			type: Object,
-			required: true,
-		},
-		type: {
-			type: String,
-			required: true,
-			validator(val) {
-				return ['trade', 'safe'].indexOf(val) !== -1;
-			},
-		},
-		wallet: {
-			type: String,
-			required: true,
-			validator(val) {
-				return ['crypto', 'fiat'].indexOf(val) !== -1;
-			},
-		},
-	},
-
 	data() {
 		return {
 			valid: false,
-
 			localRules: {
 				numberWithScalePrecision: v =>
 					!v || this.isCorrectPrecision(v) || this.$t('forms_validation.unsupported_precision'),
 				lessAvailable: v => !v || BigNumber(v).lte(this.availableBalance) || this.$t('balance.more_available'),
 			},
-
 			form: {
 				currency: this.currencyObj.currency.toUpperCase(),
 				amount: '',
 			},
 		};
 	},
-
 	computed: {
 		isAuth() {
 			return this.$store.getters['app/isLogged'];
@@ -123,12 +116,9 @@ export default {
 		balances() {
 			return this.$store.state.user.balances;
 		},
-
 		availableBalance() {
 			if (!this.isAuth) return 0;
-
 			const scale = this.currencyObj.scale;
-
 			const isCrypto = this.wallet === 'crypto';
 			const safeAvailable = isCrypto
 				? BigNumber(this.currencyObj.available).dp(scale, 1)
@@ -136,12 +126,10 @@ export default {
 			const tradeAvailable = isCrypto
 				? BigNumber(this.currencyObj.safe).dp(scale, 1)
 				: BigNumber(this.currencyObj.safe);
-
 			if (this.type === 'safe') return safeAvailable.toString();
 			else if (this.type === 'trade') return tradeAvailable.toString();
 			else return 0;
 		},
-
 		menuTitle() {
 			const path = `balance.dialog.${this.type}.menu_title`;
 			return this.$t(path);
@@ -149,29 +137,23 @@ export default {
 		dialogTitle() {
 			const path = `balance.dialog.${this.type}.title`;
 			const currency = this.currencyObj.currency;
-
 			return this.$t(path, { currency });
 		},
 	},
-
 	methods: {
 		...mapActions({
 			getBalancesFromServerStore: 'user/getBalancesFromServer',
 		}),
-
 		async apply() {
 			try {
 				this.startLoading();
-
 				await axios.post(`/trader/ext/transfer/${this.type}`, this.form);
-
 				this.close();
-				this.getBalancesFromServerStore();
+				await this.getBalancesFromServerStore();
 			} finally {
 				this.stopLoading();
 			}
 		},
-
 		isCorrectPrecision(v) {
 			return !new RegExp('\\d+\\.\\d{' + (this.currencyObj.scale + 1) + ',}', 'i').test(v);
 		},
@@ -186,7 +168,33 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.balance-dialog-transfer
-	.v-text-field input
-		padding-top: 0
+.common-dialog
+  &__title
+    font-weight: 600 !important
+    padding: 8px 24px 8px !important
+
+    &--success
+      background-color: var(--v-success-base)
+    &--error
+      background-color: var(--v-error-base)
+    &--primary
+      background-color: var(--v-primary-base)
+
+  &__content
+    padding-top: 8px !important
+
+  &__actions
+    .v-btn
+    text-transform: uppercase !important
+    letter-spacing: 1px !important
+
+.theme--dark
+  .common-dialog
+    &__title
+      &--success
+        background-color: var(--v-success-darken1)
+      &--error
+        background-color: var(--v-error-darken1)
+      &--primary
+        background-color: var(--v-primary-darken1)
 </style>

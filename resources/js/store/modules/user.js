@@ -22,6 +22,7 @@ export default {
 		verificationStatus: null,
 		blockStatus: null,
 		verifyStatus: null,
+		verifyEntity: null,
 		status: null,
 		doc_statuses: {
 			has_wallets: null,
@@ -123,6 +124,9 @@ export default {
 		},
 		setVerifyStatus(state, verifyStatus) {
 			state.verifyStatus = verifyStatus;
+		},
+		setVerifyEntity(state, entity) {
+			state.verifyEntity = entity;
 		},
 		setStatus(state, status) {
 			state.status = status;
@@ -552,6 +556,7 @@ export default {
 					.get('/trader/ext/verify/status')
 					.then(response => {
 						commit('setVerifyStatus', response.data.status);
+						commit('setVerifyEntity', response.data.entity);
 						resolve();
 					})
 					.catch(error => {
