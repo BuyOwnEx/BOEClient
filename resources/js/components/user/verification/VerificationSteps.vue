@@ -110,12 +110,22 @@
           @set_reason="set_reason"
       ></sum-sub-kyb>
       <local-individual
-          v-if="legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'local'"
+          v-if="residence === 'non_resident' && legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'local'"
           :resident-country="verification_settings.resident_country"
           :resident="residence"
       ></local-individual>
       <local-company
-          v-if="legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local'"
+          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local'"
+          :resident-country="verification_settings.resident_country"
+          :resident="residence"
+      ></local-company>
+      <local-individual
+          v-if="residence === 'resident' && legality === 'individual' && verification_settings.resident_individual_kyc_provider === 'local'"
+          :resident-country="verification_settings.resident_country"
+          :resident="residence"
+      ></local-individual>
+      <local-company
+          v-if="residence === 'resident' && legality === 'legal' && verification_settings.resident_legal_kyc_provider	 === 'local'"
           :resident-country="verification_settings.resident_country"
           :resident="residence"
       ></local-company>
