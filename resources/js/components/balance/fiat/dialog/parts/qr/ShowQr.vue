@@ -97,7 +97,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('user', ['verifyEntity']),
+    ...mapState('user', ['verifyEntity','inn']),
     details() {
       let find_index = _.findIndex(this.pay_templates, (item) => {
         return item.id === this.pay_template_id
@@ -109,12 +109,14 @@ export default {
         return this.qr_bank_details.ext_purpose
             .replace('%trader_id%', this.$user.id)
             .replace('%fio%', this.verifyEntity)
+            .replace('%inn%', this.inn)
             .replace('%company_name%', this.verifyEntity)
             .replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())
       else
         return this.details.purpose
             .replace('%trader_id%', this.$user.id)
             .replace('%fio%', this.verifyEntity)
+            .replace('%inn%', this.inn)
             .replace('%company_name%', this.verifyEntity)
             .replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())
     },

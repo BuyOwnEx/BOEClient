@@ -8,7 +8,7 @@
 			<v-expansion-panel-content>
 				<v-divider />
 
-        <div class="d-flex justify-space-between">
+        <div :class="isMobile ? 'd-flex flex-column justify-space-between' : 'd-flex justify-space-between'">
           <div class="mt-2 d-flex flex-column justify-space-between">
             <div class="title">{{ $t('user.info.change_email') }}</div>
             <div class="subtitle mb-2">
@@ -16,7 +16,7 @@
             </div>
             <UserAccountDialogChangeEmail :current-email="user.email" :two-fa="user.g2fa" />
           </div>
-          <div class="mt-2 ml-2 d-flex flex-column justify-space-between" v-if="is_contract_request_enabled">
+          <div :class="{ 'ml-2': !isMobile, 'mt-2 d-flex flex-column justify-space-between': true }" v-if="is_contract_request_enabled">
             <div class="title">{{ $t('user.info.contract_request') }}</div>
             <small class="font-italic text--secondary" v-if="doc_statuses.last_dates.last_contract_date"> {{ $t('user.info.last_date_request') }} : {{ get_date(doc_statuses.last_dates.last_contract_date) }}</small>
             <div class="subtitle mb-2">
@@ -27,7 +27,7 @@
                 :is_verified="verifyStatus"
             />
           </div>
-          <div class="mt-2 ml-2 d-flex flex-column justify-space-between">
+          <div :class="{ 'ml-2': !isMobile, 'mt-2 d-flex flex-column justify-space-between': true }">
             <div class="title">{{ $t('user.info.account_info_request') }}</div>
             <small class="font-italic text--secondary" v-if="doc_statuses.last_dates.last_info_date"> {{ $t('user.info.last_date_request') }} : {{ get_date(doc_statuses.last_dates.last_info_date) }}</small>
             <div class="subtitle mb-2">
@@ -39,7 +39,7 @@
                 :last_date="doc_statuses.last_dates.last_info_date"
             />
           </div>
-          <div class="mt-2 ml-2 d-flex flex-column justify-space-between">
+          <div :class="{ 'ml-2': !isMobile, 'mt-2 d-flex flex-column justify-space-between': true }">
             <div class="title">{{ $t('user.info.statement_request') }}</div>
             <small class="font-italic text--secondary" v-if="doc_statuses.last_dates.last_statement_date"> {{ $t('user.info.last_date_request') }} : {{ get_date(doc_statuses.last_dates.last_statement_date) }}</small>
             <div class="subtitle mb-2">
@@ -51,7 +51,7 @@
                 :last_date="doc_statuses.last_dates.last_statement_date"
             />
           </div>
-          <div class="mt-2 ml-2 d-flex flex-column justify-space-between">
+          <div :class="{ 'ml-2': !isMobile, 'mt-2 d-flex flex-column justify-space-between': true }">
             <div class="title">{{ $t('user.info.account_delete') }}</div>
             <div class="subtitle mb-2">
               {{ $t('user.info.account_delete_subtitle') }}
@@ -141,6 +141,9 @@ export default {
     },
     is_contract_request_enabled() {
       return this.product.enabledContactRequest
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.smAndDown;
     },
   },
 

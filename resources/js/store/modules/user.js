@@ -23,6 +23,7 @@ export default {
 		blockStatus: null,
 		verifyStatus: null,
 		verifyEntity: null,
+		inn: null,
 		status: null,
 		doc_statuses: {
 			has_wallets: null,
@@ -127,6 +128,9 @@ export default {
 		},
 		setVerifyEntity(state, entity) {
 			state.verifyEntity = entity;
+		},
+		setInn(state, inn) {
+			state.inn = inn;
 		},
 		setStatus(state, status) {
 			state.status = status;
@@ -557,6 +561,7 @@ export default {
 					.then(response => {
 						commit('setVerifyStatus', response.data.status);
 						commit('setVerifyEntity', response.data.entity);
+						commit('setInn', response.data.inn);
 						resolve();
 					})
 					.catch(error => {
