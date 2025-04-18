@@ -1078,7 +1078,7 @@ class TraderController extends Controller
     public function sendKYCKonturCompRequest(Request $request)
     {
         $validator=Validator::make($request->all(), [
-            'comp_inn' => 'nullable|string|size:10',
+            'comp_inn' => 'nullable|string|min:10|max:12',
             'edo_id' => 'required|string|min:35|max:50',
             'file_doc' => 'required|file|mimes:pdf|max:2048',
         ], [], [
@@ -1119,7 +1119,7 @@ class TraderController extends Controller
             'country' => 'required|string|size:2',
             'reg_number' => 'required|string|min:8|max:40',
             'address' => 'required|string|min:8|max:256',
-            'tax_number' => 'nullable|string|size:10',
+            'tax_number' => 'nullable|string|min:8|max:40',
             'name' => 'required|string|min:3|max:256',
             'file_doc' => 'required|file|mimes:pdf|max:2048',
         ], [], [
@@ -1742,7 +1742,7 @@ class TraderController extends Controller
             if($request->is_resident)
             {
                 $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){10}$/','size:10']
+                    'inn' => ['required','string','regex:/^(\d{10}|\d{12})$/']
                 ]);
             }
             else
@@ -1855,7 +1855,7 @@ class TraderController extends Controller
             if($request->is_resident)
             {
                 $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){10}$/','size:10']
+                    'inn' => ['required','string','regex:/^(\d{10}|\d{12})$/']
                 ]);
             }
             else

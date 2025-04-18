@@ -83,8 +83,8 @@
                   <v-col cols="12" md="12" class="pt-0 pb-0 mt-2">
                     <v-text-field
                         v-model="form.inn"
-                        :rules="[rules.required, this.is_legal ? rules.comp_inn : rules.ind_inn]"
-                        v-mask="this.is_legal ? '##########' : '############'"
+                        :rules="[rules.required, this.is_legal ? rules.comp_ip_inn : rules.ind_inn]"
+                        v-mask="'############'"
                         :hint="this.is_legal ? $t('user.props.dialog.add.comp_inn_hint') : $t('user.props.dialog.add.ind_inn_hint')"
                         persistent-hint
                         @paste.prevent

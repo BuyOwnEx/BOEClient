@@ -11,14 +11,44 @@
           </v-card>
           <v-card>
             <v-card-text>
+              <v-radio-group
+                  v-model="isFormLegalEntity"
+                  :label="$t('kyc.kontur.legal_form')"
+                  dense
+                  mandatory
+                  class="mt-0"
+              >
+                <v-radio
+                    :label="$t('kyc.kontur.legal_sub_type.form_legal')"
+                    :value="true"
+                    :ripple="false"
+                ></v-radio>
+                <v-radio
+                    :label="$t('kyc.kontur.legal_sub_type.no_form_legal')"
+                    :value="false"
+                    :ripple="false"
+                ></v-radio>
+              </v-radio-group>
               <v-form v-model="isValidCompRequestForm">
                 <v-text-field
-                    class="mb-1 pt-1"
-                    v-model="comp_data.comp_inn"
+                    class="mb-1 pt-1 "
+                    :class="{'d-none': !is_legal_form }"
+                    v-model="inn_comp"
                     :label="$t('kyc.kontur.legal.form.inn')"
-                    :hint="$t('kyc.kontur.legal.hints.inn')"
-                    :rules="[rules.required, rules.comp_inn]"
+                    :rules="is_legal_form ? [rules.required, rules.comp_inn] : []"
                     v-mask="'##########'"
+                    :hint="$t('kyc.kontur.legal.hints.inn')"
+                    persistent-hint
+                    outlined
+                />
+                <v-text-field
+                    class="mb-1 pt-1"
+                    :class="{'d-none': is_legal_form }"
+                    v-model="inn_ip"
+                    :label="$t('kyc.kontur.legal.form.inn')"
+                    :rules="!is_legal_form ? [rules.required, rules.ind_inn] : []"
+                    v-mask="'############'"
+                    :hint="$t('kyc.kontur.legal.hints.inn_ip')"
                     persistent-hint
                     outlined
                 />
@@ -163,7 +193,7 @@
                   <div class="kyc-kontur-item__header">
                     {{ $t('kyc.kontur.legal.company_name') }}
                   </div>
-                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.company_name }}</div>
+                  <div class="kyc-kontur-item__secret-key">{{ kontur_comp_data.comp_inn.length === 12 && kontur_comp_data.company_name !== '-' ? ($t('kyc.kontur.legal_sub_type.no_form_legal_short') + ' ' + kontur_comp_data.company_name) : kontur_comp_data.company_name }}</div>
                 </div>
 
                 <div class="kyc-kontur-item__secret-key-wrapper">
@@ -248,8 +278,10 @@ export default {
   data() {
     return {
       isValidCompRequestForm: false,
-
       loaded: false,
+      isFormLegalEntity: true,
+      inn_comp: null,
+      inn_ip: null,
       comp_data: {
         comp_inn: null,
         edo_id: null,
@@ -279,6 +311,9 @@ export default {
     },
     compRequestAvailable() {
       return this.isValidCompRequestForm;
+    },
+    is_legal_form() {
+      return this.isFormLegalEntity;
     },
     kontur_comp_data() {
       return {
@@ -337,6 +372,8 @@ export default {
       _.each(this.comp_data, function (value, key) {
         if (value !== null) formData.append(key, value);
       });
+      if(this.is_legal_form) formData.append('comp_inn', this.inn_comp)
+      else formData.append('comp_inn', this.inn_ip)
 
       axios.post('/trader/ext/kyc_kontur_comp_request', formData)
           .then(response => {

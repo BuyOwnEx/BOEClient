@@ -17,6 +17,7 @@ export default {
 				ind_inn: v => !v || /\d{12}/.test(v) || this.$t('forms_validation.ind_inn_invalid'),
 				ind_inn_global: v => (v && /\w{8,40}/.test(v)) || this.$t('forms_validation.ind_inn_global_invalid'),
 				comp_inn: v => (v && /\d{10}/.test(v)) || this.$t('forms_validation.comp_inn_invalid'),
+				comp_ip_inn: v => (v && /^(\d{10}|\d{12})$/.test(v)) || this.$t('forms_validation.comp_inn_invalid'),
 				comp_kpp: v => (v && /\d{9}/.test(v)) || this.$t('forms_validation.comp_kpp_invalid'),
 				bic: v => !v || v.length === 9 || this.$t('forms_validation.bic_invalid'),
 				acc: v => !v || v.length === 20 || this.$t('forms_validation.acc_invalid'),

@@ -40,9 +40,6 @@
 import { mapActions, mapState } from 'vuex';
 import UserAccountTab from '@/components/user/account/UserAccountTab.vue';
 import VerificationSteps from '@/components/user/verification/VerificationSteps.vue';
-import UserVerificationTab from '@/components/user/verification/UserVerificationTab.vue';
-import UserLocalVerificationTab from '@/components/user/verification/UserLocalVerificationTab.vue';
-import UserKonturVerificationTab from '@/components/user/verification/UserKonturVerificationTab.vue';
 import UserPropsTab from '@/components/user/props/UserPropsTab.vue';
 import UserApiTab from '@/components/user/api/UserApiTab.vue';
 import UserSecurityTab from '@/components/user/security/UserSecurityTab.vue';
@@ -54,9 +51,6 @@ export default {
 	components: {
 		UserAccountTab,
     VerificationSteps,
-		UserVerificationTab,
-    UserLocalVerificationTab,
-    UserKonturVerificationTab,
     UserPropsTab,
 		UserApiTab,
 		UserSecurityTab,
