@@ -796,7 +796,10 @@ export default {
 		select_bank: 'Bank',
 		select_bank_hint: 'Select bank',
 		select_prop: 'Props',
-		select_prop_hint: 'Select the props from the approved list',
+		select_prop_hint: 'Select your props from the approved list',
+		select_system_prop_hint: 'Select the props from the list',
+		select_recipient_prop: 'Recipient props',
+		select_recipient_prop_hint: 'Select recipient props from the list',
 		inn: 'TIN',
 		bic: 'BIC',
 		acc: 'Account no',
@@ -879,10 +882,14 @@ export default {
 				'By clicking the Next button, you agree to these terms ',
 			fiat_qr_amount_step_description:
 				'Specify your preferred bank and the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "Paid" button.',
+			fiat_qr_amount_step_with_prop_description:
+				'Specify recipient props and the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "Paid" button.',
 			fiat_qr_confirm_step_description:
 				'Scan the QR code in your bank\'s mobile application, make the transfer without changing any data, and click the "Paid" button',
 			fiat_invoice_fill_fields_step_description:
 				'Select the recipient\'s preferred bank from the list of available ones, and also specify the amount and your banking details from which you are going to make the payment on the invoice. This invoice will be sent to your e-mail address specified during registration.',
+			fiat_invoice_fill_fields_step_with_prop_description:
+				'Select the recipient\'s props, and also specify the amount and your banking details from which you are going to make the payment on the invoice. This invoice will be sent to your e-mail address specified during registration.',
 			fiat_invoice_confirm_step_description:
 				'Check your details, and if everything is correct, click the "Confirm" button',
 			fiat_replenishment_description:
@@ -893,7 +900,7 @@ export default {
 				"If the recipient's wallet has restrictions on the amount of the accepted amount, and the payment is rejected for this reason, we will not be able to credit it back. By clicking the Send button, you confirm that you have made sure that the recipient's wallet in this system is able to accept the payment being sent. ",
 			fiat_withdrawal_description:
 				'To withdraw funds, specify the amount you want to withdraw and the available method. Please note: it is necessary to specify your details, otherwise the transfer will not be credited',
-			fiat_withdrawal_invoice_fill_fields_step_description: 'To withdraw funds, specify the amount you want to withdraw, as well as the banking details to which this transfer will be made. Attention: Before sending a request, make sure that your banking details are correct and up-to-date',
+			fiat_withdrawal_invoice_fill_fields_step_description: 'To withdraw funds, specify the amount you want to withdraw, as well as your approved banking details to which this transfer will be made. Attention: Before sending a request, make sure that your banking details are correct and up-to-date',
 			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
 
@@ -2758,7 +2765,7 @@ make our system processes as transparent as possible.`,
 			change_email_subtitle: 'Send email change request',
 			contract_request: 'Contract request',
 			contract_request_subtitle: 'Send a request to generate a contract',
-			contract_request_description: 'The contract will be formed and sent to you on Public Services, where you can read and sign it',
+			contract_request_description: 'The contract will be formed and sent to the email address specified during registration',
 			contract_request_conditions: 'You can request a contract only once',
 			account_info_request: 'Account info request',
 			account_info_request_subtitle: 'Send a request to generate a certificate of account availability',
@@ -2767,7 +2774,7 @@ make our system processes as transparent as possible.`,
 			statement_request: 'Statement request',
 			statement_request_subtitle: 'Send a request to generate statement for a certain period',
 			statement_request_description: 'Statement, containing transactions on the main and trading account, will be generated for the period specified by you and sent to the email address specified during registration as soon as your request is processed',
-			statement_request_conditions: 'The maximum statement period is 1 month. The minimum starting date of statement is {0}. Statement request is possible no more than 2 times a month. The statement is generated in the UTC time zone',
+			statement_request_conditions: 'The maximum statement period is 1 month. The minimum starting date of statement is {0}. Statement request is possible no more than 4 times a month. The statement is generated in the UTC time zone',
 			account_delete: 'Delete account',
 			account_delete_subtitle: 'Delete account from system',
 			account_delete_description: 'If you delete your account, you will no longer be able to log in. All funds will be irretrievably lost',

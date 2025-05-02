@@ -98,18 +98,14 @@ export default {
     ...mapState('trading', ['all_currencies','allCurrencyListInit']),
     ...mapState('app', ['product']),
 		filteredNavItems() {
-			if((this.all_currencies?.filter(c => c.type === 'fiat')?.length || 0) > 0)
-      {
-        if(!this.product.enabledSupport)
-          return this.items.filter(item => item.key !== 'menu.support');
-        else return this.items;
-      }
-			else
-      {
-        if(!this.product.enabledSupport)
-				  return this.items.filter(item => (item.key !== 'menu.fiat_transactions' && item.key !== 'menu.support'));
-        else return this.items.filter(item => item.key !== 'menu.fiat_transactions');
-			}
+      let filtered = this.items;
+			if((this.all_currencies?.filter(c => c.type === 'fiat')?.length || 0) === 0)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.fiat_transactions'; });
+      if(!this.product.enabledSupport)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.support'; });
+      if(this.product.disabledMarketsShow)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.overview'; });
+      return filtered;
 		},
     hasCurrencies() {
       return this.allCurrencyListInit;

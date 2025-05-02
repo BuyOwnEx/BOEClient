@@ -6,7 +6,7 @@
       </BalanceFiatDialogAlert>
 
       <div class="balance-fiat-dialog-replenish__replenish-info pt-2 mb-2">
-        {{ $t('balance.dialog.fiat_invoice_fill_fields_step_description') }}
+        {{ use_props ? $t('balance.dialog.fiat_invoice_fill_fields_step_with_prop_description') : $t('balance.dialog.fiat_invoice_fill_fields_step_description') }}
       </div>
 
       <v-form v-model="formValid">
@@ -15,10 +15,10 @@
             <v-select
                 v-model="pay_template_id"
                 :items="available_pay_templates"
-                item-text="bank_name"
+                :item-text="use_props ? 'prop_name' : 'bank_name'"
                 item-value="id"
-                :label="$t('balance.select_bank')"
-                :hint="$t('balance.select_bank_hint')"
+                :label="use_props ? $t('balance.select_recipient_prop') : $t('balance.select_bank')"
+                :hint="use_props ? $t('balance.select_recipient_prop_hint') : $t('balance.select_bank_hint')"
                 :rules="[rules.required]"
                 autofocus
                 persistent-hint
@@ -28,7 +28,7 @@
             >
               <template #item="{item, on, attr}">
                 <v-list-item v-bind="attr" v-on="on">
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="!use_props">
                     <v-img
                         class="elevation-0 d-inline-flex"
                         style="vertical-align: middle"
@@ -38,19 +38,20 @@
                     ></v-img>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title v-text="item.bank_name"></v-list-item-title>
+                    <v-list-item-title v-text="use_props ? item.prop_name : item.bank_name"></v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </template>
               <template v-slot:selection="{item}">
                 <v-img
+                    v-if="!use_props"
                     class="elevation-0 d-inline-flex"
                     style="vertical-align: middle"
                     :src="item.bank_logo"
                     max-height="16"
                     max-width="16"
                 ></v-img>
-                <span class="ml-1">{{ item.bank_name }}</span>
+                <span :class="use_props ? '' : 'ml-1'">{{ use_props ? item.prop_name : item.bank_name }}</span>
               </template>
             </v-select>
           </v-col>
@@ -115,6 +116,7 @@ import loadingMixin from '@/mixins/common/loadingMixin.js';
 import formValidationRules from '@/mixins/common/formValidationRules.js';
 import validateInputMixin from '@/mixins/common/validateInputMixin.js';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import { mapState } from 'vuex';
 export default {
   name: 'FillFieldsStep',
   components: {
@@ -171,6 +173,10 @@ export default {
     };
   },
   computed: {
+    ...mapState('app', ['product']),
+    use_props() {
+      return this.product.fiatReplenishUseProps
+    },
     available_pay_templates() {
       return _.filter(this.pay_templates, item => {
         return (
@@ -198,7 +204,12 @@ export default {
   },
   methods: {
     next() {
-      this.$emit('filled', {pay_template_id: this.pay_template_id, amount: this.amount, prop_id: this.prop_id, prop_type: this.selectedPlatform.currency === 'RUB' ? 'ufebs' : 'swift'});
+      this.$emit('filled', {
+        pay_template_id: this.pay_template_id,
+        amount: this.amount,
+        prop_id: this.prop_id,
+        prop_type: this.selectedPlatform.currency === 'RUB' ? 'ufebs' : 'swift'
+      });
     },
     back() {
       this.$emit('back_pressed');

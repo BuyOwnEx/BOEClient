@@ -7,10 +7,11 @@
       <div class="confirmation-item__info-wrapper">
         <div class="confirmation-item__info-key-wrapper">
           <div class="confirmation-item__header mr-auto">
-            {{ $t('balance.select_bank') }}
+            {{ use_props ? $t('balance.select_recipient_prop') : $t('balance.select_bank') }}
           </div>
           <div class="confirmation-item__secret-key">
             <v-img
+                v-if="!use_props"
                 class="elevation-0 d-inline-flex"
                 style="vertical-align: middle"
                 :src="getLogo(pay_template_id)"
@@ -25,6 +26,14 @@
             {{ $t('common.amount') }}
           </div>
           <div class="confirmation-item__secret-key">{{ amount }} {{ selectedPlatform.currency }}</div>
+        </div>
+        <div class="confirmation-item__info-key-wrapper">
+          <div class="confirmation-item__header mr-auto">
+            {{ $t('balance.select_prop') }}
+          </div>
+          <div class="confirmation-item__secret-key">
+            <span class="ml-1">{{ getChosenPropName(prop_type, prop_id) }}</span>
+          </div>
         </div>
 
         <div class="confirmation-item__info-amount-wrapper mt-2">
@@ -63,6 +72,7 @@
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import loadingMixin from '@/mixins/common/loadingMixin.js';
+import { mapState } from 'vuex';
 export default {
   name: 'ConfirmationStep',
   mixins: [
@@ -104,12 +114,28 @@ export default {
       default: () => []
     }
   },
+  computed: {
+    ...mapState('app', ['product']),
+    use_props() {
+      return this.product.fiatReplenishUseProps
+    },
+  },
   methods: {
     getLogo(pay_template_id) {
       return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_logo;
     },
     getName(pay_template_id) {
-      return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_name;
+      if(this.use_props)
+        return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.prop_name;
+      else
+        return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_name;
+    },
+    getChosenPropName(prop_type, prop_id) {
+      if(prop_type === 'ufebs')
+        return _.find(this.rub_props, item => ( item.id === prop_id))?.name;
+      else if(prop_type === 'swift')
+        return _.find(this.swift_props, item => ( item.id === prop_id))?.name;
+      else return '-';
     },
     getFee(pay_template_id) {
       let fee = _.find(this.pay_templates, item => (item.id === pay_template_id));

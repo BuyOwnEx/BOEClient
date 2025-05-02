@@ -57,7 +57,7 @@ export default {
 	},
 	props: {
 		menu: {
-			type: Array,
+			type: [Array, Object],
 			default: () => [],
 		},
 	},

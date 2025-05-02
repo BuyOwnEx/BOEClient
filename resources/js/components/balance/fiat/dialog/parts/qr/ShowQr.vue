@@ -7,10 +7,11 @@
           <div>
             <div class="confirmation-item__info-key-wrapper">
               <div class="confirmation-item__header mr-auto">
-                {{ $t('balance.select_bank') }}
+                {{ use_props ? $t('balance.select_prop') : $t('balance.select_bank') }}
               </div>
               <div class="confirmation-item__secret-key">
                 <v-img
+                    v-if="!use_props"
                     class="elevation-0 d-inline-flex"
                     style="vertical-align: middle"
                     :src="getLogo(pay_template_id)"
@@ -98,6 +99,10 @@ export default {
   },
   computed: {
     ...mapState('user', ['verifyEntity','inn']),
+    ...mapState('app', ['product']),
+    use_props() {
+      return this.product.fiatReplenishUseProps
+    },
     details() {
       let find_index = _.findIndex(this.pay_templates, (item) => {
         return item.id === this.pay_template_id
@@ -148,7 +153,10 @@ export default {
       return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_logo;
     },
     getName(pay_template_id) {
-      return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_name;
+      if(this.use_props)
+        return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.prop_name;
+      else
+        return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_name;
     },
     getFee(pay_template_id) {
       let fee = _.find(this.pay_templates, item => (item.id === pay_template_id));
