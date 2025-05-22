@@ -15,13 +15,27 @@
 		</template>
 
 		<v-card class="user-api-dialog-edit">
-			<v-card-title class="common-dialog__title">
+			<v-card-title class="common-dialog__title common-dialog__title--primary">
 				{{ $t('user.api.dialog.edit.title') }}
 			</v-card-title>
 
 			<v-card-text class="common-dialog__content pt-0">
 				<v-form ref="form">
-					<v-checkbox v-model="form.trading" :ripple="false" :label="$t('menu.trading')" hide-details dense />
+          <v-checkbox
+              v-model="form.info"
+              :ripple="false"
+              :label="$t('common.info')"
+              disabled
+              hide-details
+              dense
+          />
+					<v-checkbox
+              v-model="form.trading"
+              :ripple="false"
+              :label="$t('menu.trading')"
+              hide-details
+              dense
+          />
 					<v-checkbox
 						v-model="form.withdraw"
 						:ripple="false"
@@ -29,7 +43,7 @@
 						hide-details
 						dense
 					/>
-					<v-checkbox :input-value='true' :ripple="false" :label="$t('common.info')" disabled hide-details dense />
+
 				</v-form>
 			</v-card-text>
 
@@ -77,6 +91,7 @@ export default {
 	data() {
 		return {
 			form: {
+        info: false,
 				trading: false,
 				withdraw: false,
 			},
@@ -85,21 +100,26 @@ export default {
 
 	computed: {
 		isNoChanges() {
+      const isInfoNoChange = this.beforeEditInfoValue === this.form.info;
 			const isTradingNoChange = this.beforeEditTradingValue === this.form.trading;
 			const isWithdrawNoChange = this.beforeEditWithdrawValue === this.form.withdraw;
 
-			return isTradingNoChange && isWithdrawNoChange;
+			return isTradingNoChange && isWithdrawNoChange && isInfoNoChange;
 		},
 
 		enabledAbilities() {
 			const result = [];
 
+      if (this.form.info) result.push('info');
 			if (this.form.trading) result.push('trading');
 			if (this.form.withdraw) result.push('withdraw');
 
 			return result;
 		},
 
+    beforeEditInfoValue() {
+      return this.apiItem.abilities.indexOf('info') !== -1;
+    },
 		beforeEditTradingValue() {
 			return this.apiItem.abilities.indexOf('trading') !== -1;
 		},
@@ -132,6 +152,7 @@ export default {
 	},
 
 	mounted() {
+    this.form.info = this.beforeEditInfoValue;
 		this.form.trading = this.beforeEditTradingValue;
 		this.form.withdraw = this.beforeEditWithdrawValue;
 	},

@@ -59,8 +59,8 @@
                 <v-text-field
                     v-model="emailCode"
                     :rules="[rules.required]"
-                    :hint="$t('user.info.email_code_hint')"
-                    :placeholder="$t('user.info.email_code')"
+                    :hint="$t('user.code_hint')"
+                    :placeholder="$t('user.code')"
                     persistent-hint
                     validate-on-blur
                 />

@@ -36,23 +36,31 @@
 				</div>
 
 				<div class="user-api-item__abilities-key-wrapper">
-					<v-checkbox v-model="tradingItemValue" class="mt-0" :label="$t('menu.trading')" hide-details disabled dense />
+          <v-checkbox
+              class="mt-0"
+              v-model="infoItemValue"
+              :label="$t('common.info')"
+              hide-details
+              disabled
+              dense
+          />
 					<v-checkbox
-						v-model="withdrawItemValue"
-						class="mt-0"
-						:label="$t('common.withdrawal_funds')"
-						hide-details
-						disabled
-						dense
-					/>
+              class="mt-0"
+              v-model="tradingItemValue"
+              :label="$t('menu.trading')"
+              hide-details
+              disabled
+              dense
+          />
 					<v-checkbox
-						class="mt-0"
-						:input-value="true"
-						:label="$t('common.info')"
-						hide-details
-						disabled
-						dense
+              class="mt-0"
+						  v-model="withdrawItemValue"
+              :label="$t('common.withdrawal_funds')"
+              hide-details
+              disabled
+              dense
 					/>
+
 				</div>
 
 				<div class="user-api-item__created-key-wrapper">
@@ -113,6 +121,9 @@ export default {
 	},
 
 	computed: {
+    infoItemValue() {
+      return this.api.abilities.indexOf('info') !== -1;
+    },
 		tradingItemValue() {
 			return this.api.abilities.indexOf('trading') !== -1;
 		},

@@ -15,6 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -957,22 +958,133 @@ class TraderController extends Controller
     }
     public function newAPIToken(Request $request)
     {
+        $request->validate([
+            'name' => 'required|alpha_num|min:1|max:255',
+            'abilities' => 'required|array',
+            'abilities.*' => 'string|in:info,trading,withdraw'
+        ]);
         try {
+            DB::beginTransaction();
             Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
             $token = $request->user()->createToken($request->name, $request->abilities);
-            return ['success'=>true, 'data'=>$token];
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $res = $api->newAPIToken(
+                Auth::id(),
+                $request->name,
+                $request->abilities,
+                hash('sha256', $token->plainTextToken),
+                $token->plainTextSecretToken
+            );
+            if($res->isSuccessful())
+            {
+                DB::commit();
+                return ['success'=>true, 'data'=>$token];
+            }
+            else {
+                DB::rollBack();
+                return ['success'=>false, 'message'=>$res->getData(true)['message']];
+            }
         } catch (\Exception $e) {
+            DB::rollBack();
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
     public function editAPIToken(Request $request)
     {
-        try {
+        $request->validate([
+            'id' => 'required|integer|numeric|exists:personal_access_tokens,id',
+            'abilities' => 'required|array',
+            'abilities.*' => 'string|in:info,trading,withdraw'
+        ]);
+        try
+        {
+            DB::beginTransaction();
             $token = PersonalAccessToken::findOrFail($request->id);
             $token->abilities = $request->abilities;
             $token->save();
-            return ['success'=>true, 'data'=>$token];
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $res = $api->editAPIToken(
+                Auth::id(),
+                $token->name,
+                $request->abilities,
+                $token->token
+            );
+            if($res->isSuccessful())
+            {
+                DB::commit();
+                return ['success'=>true, 'data'=>$token];
+            }
+            else {
+                DB::rollBack();
+                return ['success'=>false, 'message'=>$res->getData(true)['message']];
+            }
         } catch (\Exception $e) {
+            DB::rollBack();
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function deleteAPIToken(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|numeric|exists:personal_access_tokens,id'
+        ]);
+        try
+        {
+            DB::beginTransaction();
+            $token = PersonalAccessToken::findOrFail($request->id);
+            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
+            $request->user()->tokens()->where('id', $request->id)->delete();
+
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $res = $api->deleteAPIToken(
+                Auth::id(),
+                $token->name,
+                $token->token
+            );
+            if($res->isSuccessful())
+            {
+                DB::commit();
+                return ['success'=>true];
+            }
+            else {
+                DB::rollBack();
+                return ['success'=>false, 'message'=>$res->getData(true)['message']];
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function deleteAllAPITokens(Request $request)
+    {
+        try
+        {
+            DB::beginTransaction();
+            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
+            if($request->user()->tokens()->count() == 0)
+            {
+                DB::rollBack();
+                return ['success'=>false, 'message'=>'API keys not found'];
+            }
+            else
+            {
+                $request->user()->tokens()->delete();
+                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                $res = $api->deleteAllAPITokens(
+                    Auth::id()
+                );
+                if($res->isSuccessful())
+                {
+                    DB::commit();
+                    return ['success'=>true];
+                }
+                else {
+                    DB::rollBack();
+                    return ['success'=>false, 'message'=>$res->getData(true)['message']];
+                }
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
@@ -986,26 +1098,7 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-    public function deleteAPIToken(Request $request)
-    {
-        try {
-            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
-            $request->user()->tokens()->where('id', $request->id)->delete();
-            return ['success'=>true];
-        } catch (\Exception $e) {
-            return ['success'=>false, 'message'=>$e->getMessage()];
-        }
-    }
-    public function deleteAllAPITokens(Request $request)
-    {
-        try {
-            Sanctum::usePersonalAccessTokenModel('App\PersonalAccessToken');
-            $request->user()->tokens()->delete();
-            return ['success'=>true];
-        } catch (\Exception $e) {
-            return ['success'=>false, 'message'=>$e->getMessage()];
-        }
-    }
+
     public function setLocale(Request $request)
     {
         if (in_array($request->lang, config('app.locales'))) {   # Проверяем, что у пользователя выбран доступный язык

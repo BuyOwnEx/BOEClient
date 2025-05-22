@@ -23,7 +23,7 @@ class CheckBlockStatus
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->getBlockStatus(Auth::id())->getOriginalContent();
         });
-        if (($status['status'] & 4) === 4)
+        if (($status['status'] & 4) === 4) // check for system block
         {
             return response()->json([
                 'code' => '102',

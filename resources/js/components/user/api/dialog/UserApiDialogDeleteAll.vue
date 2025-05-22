@@ -31,8 +31,8 @@ export default {
 
 	methods: {
 		async deleteAll() {
-			this.$emit('delete');
-			await axios.post('/trader/ext/delete_all_api_tokens');
+      const { data } = await axios.post('/trader/ext/delete_all_api_tokens');
+      if(data.success) this.$emit('delete');
 		},
 	},
 };

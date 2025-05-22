@@ -442,6 +442,80 @@ class BuyOwnExClientAPI
         }
     }
 
+    public function newAPIToken(int $user_id, string $token_name, array $abilities, string $api_key, string $api_secret)
+    {
+        $params = [
+            'trader' => $user_id,
+            'name' => $token_name,
+            'abilities' => '["'. implode('","', $abilities) . '"]',
+            'api_key' => $api_key,
+            'api_secret' => $api_secret
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/new_api_token',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function editAPIToken(int $user_id, string $token_name, array $abilities, string $api_key)
+    {
+        $params = [
+            'trader' => $user_id,
+            'name' => $token_name,
+            'abilities' => '["'. implode('","', $abilities) . '"]',
+            'api_key' => $api_key
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/edit_api_token',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function deleteAPIToken(int $user_id, string $token_name, string $api_key)
+    {
+        $params = [
+            'trader' => $user_id,
+            'name' => $token_name,
+            'api_key' => $api_key
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/delete_api_token',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function deleteAllAPITokens(int $user_id)
+    {
+        $params = [
+            'trader' => $user_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/delete_all_api_tokens',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+
     public function getBlockStatus(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/block_status',[

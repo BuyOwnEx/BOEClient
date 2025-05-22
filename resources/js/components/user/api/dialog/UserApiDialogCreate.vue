@@ -23,7 +23,15 @@
 							dense
 							autofocus
 						/>
-
+            <v-checkbox
+                v-model="form.abilities"
+                value="info"
+                :ripple="false"
+                :label="$t('common.info')"
+                hide-details
+                disabled
+                dense
+            />
 						<v-checkbox
 							v-model="form.abilities"
 							:ripple="false"
@@ -40,7 +48,6 @@
 							hide-details
 							dense
 						/>
-						<v-checkbox :input-value="true" :ripple="false" :label="$t('common.info')" hide-details disabled dense />
 					</v-form>
 				</v-card-text>
 
@@ -114,7 +121,7 @@ export default {
 
 			form: {
 				name: '',
-				abilities: [],
+				abilities: ['info'],
 			},
 		};
 	},
@@ -149,7 +156,7 @@ export default {
 
 		clearData() {
 			this.form.name = '';
-			this.form.abilities = [];
+			this.form.abilities = ['info'];
 			this.token = null;
 			this.secretToken = null;
 		},

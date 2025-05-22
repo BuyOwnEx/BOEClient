@@ -116,28 +116,32 @@ export default {
 
 <style lang="sass">
 .common-dialog
-	&__title
-		font-weight: 600 !important
-		padding: 8px 24px 8px !important
+  &__title
+    font-weight: 600 !important
+    padding: 8px 24px 8px !important
 
-		&--success
-			background-color: var(--v-success-base)
-		&--error
-			background-color: var(--v-error-base)
+    &--success
+      background-color: var(--v-success-base)
+    &--error
+      background-color: var(--v-error-base)
+    &--primary
+      background-color: var(--v-primary-base)
 
-	&__content
-		padding-top: 8px !important
+  &__content
+    padding-top: 8px !important
 
-	&__actions
-		.v-btn
-			text-transform: uppercase !important
-			letter-spacing: 1px !important
+  &__actions
+    .v-btn
+      text-transform: uppercase !important
+      letter-spacing: 1px !important
 
 .theme--dark
-	.common-dialog
-			&__title
-				&--success
-					background-color: var(--v-success-darken1)
-				&--error
-					background-color: var(--v-error-darken1)
+  .common-dialog
+    &__title
+      &--success
+        background-color: var(--v-success-darken1)
+      &--error
+        background-color: var(--v-error-darken1)
+      &--primary
+        background-color: var(--v-primary-darken1)
 </style>

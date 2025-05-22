@@ -5,7 +5,7 @@
 
 			<div class="user-api-tab__actions">
 				<UserApiDialogCreate @create="addCreatedAPI" />
-				<UserApiDialogDeleteAll @delete="deleteAllAPI" />
+				<UserApiDialogDeleteAll @delete="deleteAllAPI" v-if="api && api.length" />
 			</div>
 		</v-card-title>
 
