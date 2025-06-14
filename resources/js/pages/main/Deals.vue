@@ -66,6 +66,12 @@
 				</span>
 				<span v-else>{{ BigNumber(item.fee) + ' ' + item.currency }}</span>
 			</template>
+      <template #item.fee_market="{ item }">
+				<span v-if="item.side === false">
+					{{ getVolume(item.fee, item.price) + ' ' + item.market }}
+				</span>
+        <span v-else>{{ BigNumber(item.fee) + ' ' + item.market }}</span>
+      </template>
 		</v-data-table>
 	</v-card>
 </template>
@@ -76,6 +82,7 @@ import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import filters from '@/components/filters/Deals.vue';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'Deals',
@@ -106,6 +113,10 @@ export default {
 	},
 
 	computed: {
+    ...mapState('app', ['product']),
+    showing_fee_in_market() {
+      return this.product.deals_show_fee_in_market
+    },
 		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
@@ -113,6 +124,7 @@ export default {
 				{ text: this.$t('table_header.pair'), value: 'pair', sortable: false },
 				{ text: this.$t('table_header.order'), value: 'order_id', sortable: false },
 				{ text: this.$t('table_header.fee'), value: 'fee' },
+        { text: this.$t('table_header.fee_market'), value: 'fee_market', align: !this.showing_fee_in_market ? ' d-none' : '' },
 				{ text: this.$t('table_header.size'), value: 'size' },
 				{ text: this.$t('table_header.price'), value: 'price' },
 				{ text: this.$t('table_header.volume'), value: 'volume', sortable: false },

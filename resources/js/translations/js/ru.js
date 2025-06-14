@@ -378,6 +378,7 @@ export default {
 		approves: 'Одобрено',
 		order: 'Ордер',
 		fee: 'Комиссия',
+		fee_market: 'Комиссия, рынок',
 		market: 'Рынок',
 		amount: 'Кол-во',
 		rate: 'Цена',

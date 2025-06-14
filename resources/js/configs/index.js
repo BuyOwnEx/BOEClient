@@ -24,6 +24,7 @@ export default {
 		policy_all_expanded: import.meta.env.VITE_POLICY_ALL_EXPANDED === "true",
 		api_all_expanded: import.meta.env.VITE_API_ALL_EXPANDED === "true",
 		contacts_all_expanded: import.meta.env.VITE_CONTACTS_ALL_EXPANDED === "true",
+		deals_show_fee_in_market: import.meta.env.VITE_DEALS_SHOW_FEE_IN_MARKET === "true",
 	},
 	icons,
 	theme,

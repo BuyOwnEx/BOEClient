@@ -378,6 +378,7 @@ export default {
 		approves: 'Approves',
 		order: 'Order',
 		fee: 'Fee',
+		fee_market: 'Fee, market',
 		market: 'Market',
 		amount: 'Amount',
 		rate: 'Price',
