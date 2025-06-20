@@ -5,7 +5,7 @@
         {{ $t('fiat.fiat_only_for_verified') }}
       </BalanceFiatDialogAlert>
     </v-card>
-    <div class="balance-fiat-dialog-select-system__item" v-else v-for="item in onlyReplenishPlatforms" :key="item.id">
+    <div class="balance-fiat-dialog-select-system__item" v-else v-for="item in available_platforms" :key="item.id">
       <img
           class="align-self-center balance-fiat-dialog-select-system__item-img pa-2"
           :src="item.gateway_logo"
@@ -19,7 +19,12 @@
       </div>
       <div class="align-self-center balance-fiat-dialog-select-system__item-info pa-2" style="min-width: 200px">
         <div> {{ $t('balance.min_amount') }}: <b>{{ getMinAmount(item) }} {{ item.currency }}</b> </div>
-        <div> {{ $t('balance.fee') }}: <i class="text-lowercase">{{ $t('fiat.replenish_calculate_fee') }}</i> </div>
+        <div v-if="item.gateway_code === 'OFFICE'">
+          {{ $t('balance.fee') }}: <i class="text-lowercase">{{ $t('fiat.replenish_office_fee') }}</i>
+        </div>
+        <div v-else>
+          {{ $t('balance.fee') }}: <i class="text-lowercase">{{ $t('fiat.replenish_calculate_fee') }}</i>
+        </div>
         <div> {{ $t('balance.status') }}: <b :class="getStateColor(item.state)">{{ getStateName(item.state) }}</b> </div>
       </div>
       <div class="align-self-center balance-fiat-dialog-select-system__item-action pa-2">
@@ -76,6 +81,16 @@ export default {
             item.gateway_is_replenish === true
         );
       });
+    },
+    available_platforms() {
+      if((this.trader_status & 4) === 4)
+      {
+        return _.filter(this.onlyReplenishPlatforms, item => {
+          return (
+              item.gateway_code !== 'OFFICE'
+          );
+        });
+      } else return this.onlyReplenishPlatforms;
     }
   },
 

@@ -1148,6 +1148,34 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/notify_fiat_invoice_replenish',$params);
         return response()->json($response->json(),$response->status());
     }
+    public function notifyFiatOfficeReplenish($trader_id, $office_id, $visit_date, $visit_from, $visit_till)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'office_id' => $office_id,
+            'visit_date' => $visit_date,
+            'visit_from' => $visit_from,
+            'visit_till' => $visit_till
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notify_fiat_office_replenish',$params);
+        return response()->json($response->json(),$response->status());
+    }
+    public function notifyFiatOfficeWithdraw($trader_id, $office_id, $visit_date, $visit_from, $visit_till)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'office_id' => $office_id,
+            'visit_date' => $visit_date,
+            'visit_from' => $visit_from,
+            'visit_till' => $visit_till
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/notify_fiat_office_withdraw',$params);
+        return response()->json($response->json(),$response->status());
+    }
     public function notifyFiatInvoiceWithdraw($trader_id, $amount, $pay_template_id, $prop_id, $prop_type)
     {
         $params = [
@@ -1222,7 +1250,22 @@ class BuyOwnExClientAPI
             ->get($this->base.'v1/qr_bank_details',$params);
         return response()->json($response->json(),$response->status());
     }
-
+    public function getOffices($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_offices',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function getOfficeSlots($trader_id, $office_id, $visit_date)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_office_slots',[
+            'trader' => $trader_id,
+            'office_id' => $office_id,
+            'visit_date' => $visit_date
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function contractRequest($trader_id, $lang)
     {

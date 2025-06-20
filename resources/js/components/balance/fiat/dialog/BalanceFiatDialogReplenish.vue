@@ -78,6 +78,16 @@
                   @filled="fields_filled"
                   @back_pressed="back"
               />
+              <FillOfficeStep
+                  v-if="selected_platform && selected_platform.gateway_code === 'OFFICE'"
+                  :trader_status="trader_status"
+                  :selectedPlatform="selectedPlatfrom"
+                  :currency_scale="currencyObj.scale"
+                  :pay_templates="pay_templates"
+                  :available_offices="available_offices"
+                  @office_filled="office_fields_filled"
+                  @back_pressed="back"
+              />
 						</v-stepper-content>
 
             <v-stepper-content class="pa-0" step="3">
@@ -103,6 +113,16 @@
                   @back_pressed="back"
                   @success_response="close"
               ></ConfirmationStep>
+              <ConfirmationOfficeStep
+                  v-if="selected_platform && selected_platform.gateway_code === 'OFFICE' && office !== null && visit_date !== null && visit_from !== null && visit_till !== null"
+                  :office="office"
+                  :visit_date="visit_date"
+                  :visit_from="visit_from"
+                  :visit_till="visit_till"
+                  :selected-platform="selectedPlatfrom"
+                  @back_pressed="back"
+                  @success_response="close"
+              ></ConfirmationOfficeStep>
             </v-stepper-content>
 					</v-stepper-items>
 				</v-stepper>
@@ -117,10 +137,11 @@ import FillAmountStep from '@/components/balance/fiat/dialog/parts/qr/FillAmount
 import ShowQr from '@/components/balance/fiat/dialog/parts/qr/ShowQr.vue';
 import FillFieldsStep from '@/components/balance/fiat/dialog/parts/invoice/FillFieldsStep.vue';
 import ConfirmationStep from '@/components/balance/fiat/dialog/parts/invoice/ConfirmationStep.vue';
+import ConfirmationOfficeStep from '@/components/balance/fiat/dialog/parts/office/ConfirmationOfficeStep.vue';
+import FillOfficeStep from '@/components/balance/fiat/dialog/parts/office/FillOfficeStep.vue';
 
 import loadingMixin from '@/mixins/common/loadingMixin';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
-import BigNumber from 'bignumber.js';
 export default {
 	name: 'BalanceFiatDialogReplenish',
   props: {
@@ -156,7 +177,9 @@ export default {
     FillAmountStep,
     ShowQr,
     FillFieldsStep,
-    ConfirmationStep
+    ConfirmationStep,
+    FillOfficeStep,
+    ConfirmationOfficeStep
   },
 
 	mixins: [
@@ -172,7 +195,12 @@ export default {
       prop_id: null,
       prop_type: null,
       pay_templates: [],
+      available_offices: [],
       qr_bank_details: null,
+      office: null,
+      visit_date: null,
+      visit_from: null,
+      visit_till: null,
 			step: 1,
 		};
 	},
@@ -202,6 +230,13 @@ export default {
       this.prop_type = data.prop_type;
       this.step++;
 		},
+    office_fields_filled(data) {
+      this.office = data.office;
+      this.visit_date = data.visit_date;
+      this.visit_from = data.visit_period[0];
+      this.visit_till = data.visit_period[1];
+      this.step++;
+    },
     amount_filled(data) {
       this.amount = data.amount;
       this.pay_template_id = data.pay_template_id;
@@ -233,6 +268,9 @@ export default {
   mounted() {
     axios.get('/trader/ext/replenish_pay_templates').then(response => {
       this.pay_templates = response.data.data;
+    });
+    axios.get('/trader/ext/offices').then(response => {
+      this.available_offices = response.data.data;
     });
   }
 };

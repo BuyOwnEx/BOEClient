@@ -1512,6 +1512,40 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function NotifyFiatOfficeReplenish(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->notifyFiatOfficeReplenish(
+                Auth::id(),
+                $request->office_id,
+                $request->visit_date,
+                $request->visit_from,
+                $request->visit_till
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function NotifyFiatOfficeWithdraw(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->notifyFiatOfficeWithdraw(
+                Auth::id(),
+                $request->office_id,
+                $request->visit_date,
+                $request->visit_from,
+                $request->visit_till
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getKYCKonturData(Request $request)
     {
         try {
@@ -1656,6 +1690,34 @@ class TraderController extends Controller
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->getWithdrawPayTemplates(
                 Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getOfficeList(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getOffices(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getOfficeSlots(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getOfficeSlots(
+                Auth::id(),
+                $request->office_id,
+                $request->visit_date
             );
         }
         catch (Exception $e)

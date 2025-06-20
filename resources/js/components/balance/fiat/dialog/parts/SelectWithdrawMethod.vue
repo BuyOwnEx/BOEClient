@@ -5,7 +5,7 @@
         {{ $t('fiat.fiat_only_for_verified') }}
       </BalanceFiatDialogAlert>
     </v-card>
-    <div class="balance-fiat-dialog-select-system__item" v-else v-for="item in onlyWithdrawPlatforms" :key="item.id">
+    <div class="balance-fiat-dialog-select-system__item" v-else v-for="item in available_platforms" :key="item.id">
       <img
           class="align-self-center balance-fiat-dialog-select-system__item-img pa-2"
           :src="item.gateway_logo"
@@ -13,7 +13,7 @@
           height="90"
           width="90"
       />
-      <div class="align-self-center">
+      <div class="align-self-center" style="width: 500px">
         <div class="font-weight-bold text-uppercase"> {{ $t('fiat.gateway.withdraw.names.' + item.gateway_code.toLowerCase()) }} </div>
         <div> {{ $t('fiat.gateway.withdraw.descriptions.' + item.gateway_code.toLowerCase()) }} </div>
       </div>
@@ -68,7 +68,6 @@ export default {
       minAmount: '',
     };
   },
-
   computed: {
     onlyWithdrawPlatforms() {
       return _.filter(this.platforms, item => {
@@ -76,6 +75,16 @@ export default {
             item.gateway_is_withdrawal === true
         );
       });
+    },
+    available_platforms() {
+      if((this.trader_status & 4) === 4)
+      {
+        return _.filter(this.onlyWithdrawPlatforms, item => {
+          return (
+              item.gateway_code !== 'OFFICE'
+          );
+        });
+      } else return this.onlyWithdrawPlatforms;
     }
   },
 

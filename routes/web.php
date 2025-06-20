@@ -119,6 +119,8 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('withdraw_bank_details', 'TraderController@getWithdrawBankDetails')->name('withdraw_bank_details');
             Route::get('replenish_pay_templates', 'TraderController@getReplenishPayTemplates')->name('replenish_pay_templates');
             Route::get('withdraw_pay_templates', 'TraderController@getWithdrawPayTemplates')->name('withdraw_pay_templates');
+            Route::get('offices', 'TraderController@getOfficeList')->name('offices');
+            Route::get('office_slots', 'TraderController@getOfficeSlots')->name('office_slots');
 
 
             Route::get('rub_props','TraderController@getRubProps')->name('rub_props');
@@ -185,6 +187,9 @@ Route::group(['prefix' => 'trader'], function () {
 
                 Route::post('notify_fiat_qr_replenish', 'TraderController@NotifyFiatQRReplenish')->name('notify_fiat_qr_replenish');
                 Route::post('notify_fiat_invoice_replenish', 'TraderController@NotifyFiatInvoiceReplenish')->name('notify_fiat_invoice_replenish');
+                Route::post('notify_fiat_office_replenish', 'TraderController@NotifyFiatOfficeReplenish')->name('notify_fiat_office_replenish');
+                Route::post('notify_fiat_office_withdraw', 'TraderController@NotifyFiatOfficeWithdraw')->name('notify_fiat_office_withdraw');
+
 
                 Route::post('account_info_request', 'TraderController@AccountInfoRequest')->name('account_info_request');
                 Route::post('statement_request', 'TraderController@StatementRequest')->name('statement_request');

@@ -48,6 +48,15 @@ export default {
 		resident: 'Resident',
 		non_resident: 'Non-resident',
 
+		country: 'Country',
+		city: 'City',
+		address: 'Location',
+		note: 'Note',
+		work_mode: 'Operating mode',
+		office: 'Office',
+		visit_date: 'Visit date',
+		visit_period: 'Appointment period',
+
 		no_data: 'No data',
 		see_all: 'See all',
 	},
@@ -343,6 +352,7 @@ export default {
 	error: {
 		notfound: 'Page Not Found',
 		other: 'An Error Ocurred',
+		visit_time_expired: 'Chosen time of visit has already expired',
 	},
 	utility: {
 		maintenance: 'In Maintenance',
@@ -409,6 +419,7 @@ export default {
 	},
 	fiat: {
 		replenish_calculate_fee: 'Depending on the bank and the amount',
+		replenish_office_fee: 'Depending on the amount',
 		withdraw_calculate_fee: 'Depending on the amount of withdrawal',
 		fiat_only_for_verified: 'To be able to deposit/withdraw funds in fiat, you need to go through the verification procedure',
 		deposited_with_fee: 'The amount of deposit, including the commission',
@@ -437,19 +448,23 @@ export default {
 				names: {
 					qr: 'Payment by bank details via QR code',
 					invoice: 'Request an invoice',
+					office: 'In cash at the office',
 				},
 				descriptions: {
 					qr: 'Payment can be made in any bank application that supports payment by QR code',
 					invoice: 'The invoice will be sent to your email address specified during registration',
+					office: 'Cash deposit is carried out at an office convenient for you by appointment',
 				},
 			},
 			withdraw: {
 				not_found: 'There are currently no payment methods for withdrawing funds for this currency',
 				names: {
 					invoice: 'Bank details',
+					office: 'In cash at the office',
 				},
 				descriptions: {
 					invoice: 'The transfer will be made using the details specified in the next step',
+					office: 'Cash withdrawal is carried out at an office convenient for you by appointment',
 				},
 			}
 		},
@@ -801,6 +816,8 @@ export default {
 		select_system_prop_hint: 'Select the props from the list',
 		select_recipient_prop: 'Recipient props',
 		select_recipient_prop_hint: 'Select recipient props from the list',
+		select_office: 'Office',
+		select_office_hint: 'Choose an office that suits you',
 		inn: 'TIN',
 		bic: 'BIC',
 		acc: 'Account no',
@@ -880,7 +897,14 @@ export default {
 			fiat_replenishment_alert:
 				'Only payments made through the Deposit form on the exchange are accepted and processed.\n' +
 				'There is no other way to Deposit, payments sent not through our Deposit form, but in any other way, will not be credited and processed. They will be lost, claims in this case are not accepted.\n' +
-				'By clicking the Next button, you agree to these terms ',
+				'By clicking the Next button, you agree to these terms',
+			office_replenishment_alert: 'Please note that the limit on cash turnover is 600,000 rubles.\n' +
+				'To deposit funds above this limit, you must provide the following documents:',
+			office_withdrawal_alert: 'Please note that the limit on cash turnover is 600,000 rubles.\n' +
+				'To withdraw funds above this limit, you must provide the following documents:',
+			office_document_1: 'document 1',
+			office_document_2: 'document 2',
+			office_document_3: 'document 3',
 			fiat_qr_amount_step_description:
 				'Specify your preferred bank and the amount you want to add to your account. After that, you will be redirected to the QR code scanning form. After completing the payment, be sure to click the "Paid" button.',
 			fiat_qr_amount_step_with_prop_description:
@@ -902,6 +926,8 @@ export default {
 			fiat_withdrawal_description:
 				'To withdraw funds, specify the amount you want to withdraw and the available method. Please note: it is necessary to specify your details, otherwise the transfer will not be credited',
 			fiat_withdrawal_invoice_fill_fields_step_description: 'To withdraw funds, specify the amount you want to withdraw, as well as your approved banking details to which this transfer will be made. Attention: Before sending a request, make sure that your banking details are correct and up-to-date',
+			fiat_office_step_description: 'Choose an office that is convenient for you to visit, as well as an available date and time from the suggested list',
+			fiat_office_confirmation_step_description: 'Check all the details: office, date and time of the visit, and if everything is correct, confirm the entry',
 			hint: 'Enter amount to transfer',
 			more_available_balance: 'More available balance',
 

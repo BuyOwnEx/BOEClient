@@ -29,12 +29,13 @@
             <v-divider />
 
             <v-stepper-step :complete="step > 3" step="3">
-              {{ $t('balance.stepper.withdrawal_params.title') }}
+              <span v-if="selected_platform && selected_platform.gateway_code === 'INVOICE'">{{ $t('balance.stepper.withdrawal_params.title') }}</span>
+              <span v-else>{{ $t('common.confirmation') }}</span>
             </v-stepper-step>
 
             <v-divider />
 
-            <v-stepper-step :complete="step > 4" step="4">
+            <v-stepper-step :complete="step > 4" step="4" v-if="selected_platform && selected_platform.gateway_code === 'INVOICE'">
               {{ $t('common.confirmation') }}
             </v-stepper-step>
           </v-stepper-header>
@@ -74,6 +75,15 @@
                   @filled="fields_filled"
                   @back_pressed="back"
               />
+              <FillOfficeWithdrawStep
+                  v-if="selected_platform && selected_platform.gateway_code === 'OFFICE'"
+                  :trader_status="trader_status"
+                  :selectedPlatform="selectedPlatfrom"
+                  :pay_templates="pay_templates"
+                  :available_offices="available_offices"
+                  @office_filled="office_fields_filled"
+                  @back_pressed="back"
+              />
 						</v-stepper-content>
 
             <v-stepper-content class="pa-0" step="3">
@@ -90,6 +100,16 @@
                   @back_pressed="back"
                   @success_response="success_confirmation"
               ></ConfirmationWithdrawStep>
+              <ConfirmationOfficeWithdrawStep
+                  v-if="selected_platform && selected_platform.gateway_code === 'OFFICE' && office !== null && visit_date !== null && visit_from !== null && visit_till !== null"
+                  :office="office"
+                  :visit_date="visit_date"
+                  :visit_from="visit_from"
+                  :visit_till="visit_till"
+                  :selected-platform="selectedPlatfrom"
+                  @back_pressed="back"
+                  @success_response="close"
+              ></ConfirmationOfficeWithdrawStep>
             </v-stepper-content>
 
             <v-stepper-content class="pa-0" step="4">
@@ -119,6 +139,9 @@ import CheckCodeStep from '@/components/balance/fiat/dialog/parts/invoice/CheckC
 import loadingMixin from '@/mixins/common/loadingMixin';
 import validateInputMixin from '@/mixins/common/validateInputMixin';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
+import FillOfficeWithdrawStep from '@/components/balance/fiat/dialog/parts/office/FillOfficeWithdrawStep.vue';
+import ConfirmationOfficeWithdrawStep
+  from '@/components/balance/fiat/dialog/parts/office/ConfirmationOfficeWithdrawStep.vue';
 
 export default {
 	name: 'BalanceFiatDialogWithdraw',
@@ -151,6 +174,8 @@ export default {
     }
   },
 	components: {
+    ConfirmationOfficeWithdrawStep,
+    FillOfficeWithdrawStep,
     SelectWithdrawMethod,
     BalanceFiatDialogSelectSystem,
     BalanceFiatDialogAlert,
@@ -170,16 +195,24 @@ export default {
 		return {
       selectedPlatfrom: null,
       pay_templates: [],
+      available_offices: [],
       amount: null,
       pay_template_id: null,
       prop_id: null,
       prop_type: null,
+      office: null,
+      visit_date: null,
+      visit_from: null,
+      visit_till: null,
 			step: 1,
 		};
 	},
   mounted() {
     axios.get('/trader/ext/withdraw_pay_templates').then(response => {
       this.pay_templates = response.data.data;
+    });
+    axios.get('/trader/ext/offices').then(response => {
+      this.available_offices = response.data.data;
     });
   },
 	computed: {
@@ -232,6 +265,13 @@ export default {
       this.amount = data.amount;
       this.prop_id = data.prop_id;
       this.prop_type = data.prop_type;
+      this.step++;
+    },
+    office_fields_filled(data) {
+      this.office = data.office;
+      this.visit_date = data.visit_date;
+      this.visit_from = data.visit_period[0];
+      this.visit_till = data.visit_period[1];
       this.step++;
     },
     success_confirmation() {

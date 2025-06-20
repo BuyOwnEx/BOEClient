@@ -54,11 +54,12 @@
 <script>
 import validateInputMixin from '@/mixins/common/validateInputMixin';
 import loadingMixin from '@/mixins/common/loadingMixin.js';
+import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 import { mapActions } from 'vuex';
 
 export default {
   name: 'CheckCodeStep',
-  mixins: [loadingMixin,validateInputMixin],
+  mixins: [loadingMixin,validateInputMixin,dialogMethodsMixin],
   data() {
     return {
       emailCode: '',
