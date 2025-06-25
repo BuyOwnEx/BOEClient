@@ -133,7 +133,8 @@ export default {
 			],
 			gateways: [
         { id: 1, name: this.$t('fiat.gateways.qr') },
-        { id: 2, name: this.$t('fiat.gateways.invoice') }
+        { id: 2, name: this.$t('fiat.gateways.invoice') },
+        { id: 3, name: this.$t('fiat.gateways.office') }
       ],
 		};
 	},
@@ -187,11 +188,13 @@ export default {
       {
         if(gateway_id === 1) return this.$t('fiat.gateway.replenish.names.qr')
         else if(gateway_id === 2) return this.$t('fiat.gateway.replenish.names.invoice')
+        else if(gateway_id === 3) return this.$t('fiat.gateway.replenish.names.office')
         else return '-';
       }
       else
       {
         if(gateway_id === 2) return this.$t('fiat.gateway.withdraw.names.invoice')
+        else if(gateway_id === 3) return this.$t('fiat.gateway.withdraw.names.office')
         else return '-';
       }
     },

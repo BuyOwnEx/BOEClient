@@ -434,6 +434,7 @@ export default {
 		gateways: {
 			qr: 'Payment by bank details via QR code',
 			invoice: 'Request an invoice/Bank details',
+			office: 'Cash replenishment/withdrawal at the office',
 		},
 		statuses: {
 			done: 'Executed',
@@ -448,7 +449,7 @@ export default {
 				names: {
 					qr: 'Payment by bank details via QR code',
 					invoice: 'Request an invoice',
-					office: 'In cash at the office',
+					office: 'Cash replenishment at the office',
 				},
 				descriptions: {
 					qr: 'Payment can be made in any bank application that supports payment by QR code',
@@ -460,7 +461,7 @@ export default {
 				not_found: 'There are currently no payment methods for withdrawing funds for this currency',
 				names: {
 					invoice: 'Bank details',
-					office: 'In cash at the office',
+					office: 'Cash withdrawal at the office',
 				},
 				descriptions: {
 					invoice: 'The transfer will be made using the details specified in the next step',
