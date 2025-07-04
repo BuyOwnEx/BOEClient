@@ -17,12 +17,15 @@ export default {
 		fees: null,
 		positions: null,
 		rub_props: null,
+		kgs_props: null,
 		swift_props: null,
 		notificationStatus: null,
 		verificationStatus: null,
 		blockStatus: null,
 		verifyStatus: null,
 		verifyEntity: null,
+		verifyResidentCountry: null,
+		verifyType: null,
 		inn: null,
 		status: null,
 		doc_statuses: {
@@ -76,7 +79,7 @@ export default {
 			company_name: null,
 			registration_number: null,
 			address: null,
-			inn: null,
+			tax_id: null,
 			status: null,
 			state: null,
 			is_verified: null,
@@ -132,6 +135,12 @@ export default {
 		setInn(state, inn) {
 			state.inn = inn;
 		},
+		setResidentCountry(state, country) {
+			state.verifyResidentCountry = country;
+		},
+		setVerifyType(state, type) {
+			state.verifyType = type;
+		},
 		setStatus(state, status) {
 			state.status = status;
 		},
@@ -155,6 +164,9 @@ export default {
 		},
 		setRubProps(state, props) {
 			state.rub_props = props;
+		},
+		setKgsProps(state, props) {
+			state.kgs_props = props;
 		},
 		setSwiftProps(state, props) {
 			state.swift_props = props;
@@ -416,6 +428,20 @@ export default {
 					});
 			});
 		},
+		getKgsPropsFromServer({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get('/trader/ext/kgs_props')
+					.then(response => {
+						commit('setKgsProps', response.data.data === null ? [] : response.data.data);
+						resolve();
+					})
+					.catch(error => {
+						console.log(error);
+						reject();
+					});
+			});
+		},
 		getSwiftPropsFromServer({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -562,6 +588,8 @@ export default {
 						commit('setVerifyStatus', response.data.status);
 						commit('setVerifyEntity', response.data.entity);
 						commit('setInn', response.data.inn);
+						commit('setResidentCountry', response.data.country);
+						commit('setVerifyType', response.data.type);
 						resolve();
 					})
 					.catch(error => {
@@ -635,6 +663,26 @@ export default {
 		},
 		async formDeleteRubPropsConfirm(_, payload) {
 			const { data } = await axios.post('/trader/ext/rub_props/delete/confirm', payload);
+			return data.success;
+		},
+		async editKgsPropsName(_, payload) {
+			const { data } = await axios.post('/trader/ext/kgs_props/edit_name', payload);
+			return data.success;
+		},
+		async formAddKgsPropsRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/kgs_props/add/request', payload);
+			return data.success;
+		},
+		async formAddKgsPropsConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/kgs_props/add/confirm', payload);
+			return data.success;
+		},
+		async formDeleteKgsPropsRequest(_, payload) {
+			const { data } = await axios.post('/trader/ext/kgs_props/delete/request', payload);
+			return data.success;
+		},
+		async formDeleteKgsPropsConfirm(_, payload) {
+			const { data } = await axios.post('/trader/ext/kgs_props/delete/confirm', payload);
 			return data.success;
 		},
 		async editSwiftPropsName(_, payload) {

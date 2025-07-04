@@ -92,6 +92,11 @@ export default {
       required: true,
       default: () => []
     },
+    kgs_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     swift_props: {
       type: Array,
       required: true,
@@ -109,6 +114,11 @@ export default {
       if(this.prop_type === 'ufebs')
       {
         let prop = _.find(this.rub_props, item => (item.id === this.prop_id));
+        return prop.name;
+      }
+      if(this.prop_type === 'kg_props')
+      {
+        let prop = _.find(this.kgs_props, item => (item.id === this.prop_id));
         return prop.name;
       }
       else if(this.prop_type === 'swift')

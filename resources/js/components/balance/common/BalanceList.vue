@@ -40,6 +40,7 @@
               :block_status="block_status"
               :trader_status="trader_status"
               :rub_props="rub_props"
+              :kgs_props="kgs_props"
               :swift_props="swift_props"
               @close-menu="closeMenu(item)"
             />
@@ -50,6 +51,7 @@
               :block_status="block_status"
               :trader_status="trader_status"
               :rub_props="rub_props"
+              :kgs_props="kgs_props"
               :swift_props="swift_props"
               @close-menu="closeMenu(item)"
             />
@@ -158,6 +160,9 @@ export default {
     rub_props() {
       return this.$store.state.user.rub_props === null ? [] : this.$store.state.user.rub_props;
     },
+    kgs_props() {
+      return this.$store.state.user.kgs_props === null ? [] : this.$store.state.user.kgs_props;
+    },
     swift_props() {
       return this.$store.state.user.swift_props === null ? [] : this.$store.state.user.swift_props;
     },
@@ -180,6 +185,7 @@ export default {
   },
   created() {
     this.$store.dispatch('user/getRubPropsFromServer');
+    this.$store.dispatch('user/getKgsPropsFromServer');
     this.$store.dispatch('user/getSwiftPropsFromServer');
   },
   methods: {

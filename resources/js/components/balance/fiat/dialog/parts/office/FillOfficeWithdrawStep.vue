@@ -102,8 +102,10 @@
               <div class="mr-2">
                 <v-date-picker
                     v-model="visit_date"
+                    :first-day-of-week="1"
                     :min="minDate"
                     :max="maxDate"
+                    :allowed-dates="allowed_dates"
                     color="primary"
                     no-title
                     @change="getSlots"
@@ -231,6 +233,9 @@ export default {
     this.getSlots();
   },
   methods: {
+    allowed_dates(date) {
+      return this.$moment(date).day() !== 0 && this.$moment(date).day() !== 6
+    },
     isSlotDisabled(slot) {
       if (this.is_current_date_selected && slot.visit_from <= this.$moment().format('HH:mm'))
         return true;

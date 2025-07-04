@@ -108,6 +108,11 @@ export default {
       required: true,
       default: () => []
     },
+    kgs_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     swift_props: {
       type: Array,
       required: true,
@@ -133,6 +138,8 @@ export default {
     getChosenPropName(prop_type, prop_id) {
       if(prop_type === 'ufebs')
         return _.find(this.rub_props, item => ( item.id === prop_id))?.name;
+      else if(prop_type === 'kg_props')
+        return _.find(this.kgs_props, item => ( item.id === prop_id))?.name;
       else if(prop_type === 'swift')
         return _.find(this.swift_props, item => ( item.id === prop_id))?.name;
       else return '-';

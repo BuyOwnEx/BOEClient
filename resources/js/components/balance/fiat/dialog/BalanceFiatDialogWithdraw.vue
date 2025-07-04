@@ -71,6 +71,7 @@
                   :currency_obj="currencyObj"
                   :pay_templates="pay_templates"
                   :rub_props="rub_props"
+                  :kgs_props="kgs_props"
                   :swift_props="swift_props"
                   @filled="fields_filled"
                   @back_pressed="back"
@@ -88,13 +89,14 @@
 
             <v-stepper-content class="pa-0" step="3">
               <ConfirmationWithdrawStep
-                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE' && amount !== null && prop_id !== null && pay_template_id !== null"
+                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE' && amount !== null && prop_id !== null && pay_template_id !== null && prop_type !== null"
                   :amount="amount"
                   :pay_templates="pay_templates"
                   :pay_template_id="pay_template_id"
                   :prop_id="prop_id"
                   :prop_type="prop_type"
                   :rub_props="rub_props"
+                  :kgs_props="kgs_props"
                   :swift_props="swift_props"
                   :selected-platform="selectedPlatfrom"
                   @back_pressed="back"
@@ -163,6 +165,11 @@ export default {
       required: true,
     },
     rub_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
+    kgs_props: {
       type: Array,
       required: true,
       default: () => []

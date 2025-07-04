@@ -124,6 +124,7 @@ Route::group(['prefix' => 'trader'], function () {
 
 
             Route::get('rub_props','TraderController@getRubProps')->name('rub_props');
+            Route::get('kgs_props','TraderController@getKgsProps')->name('kgs_props');
             Route::get('swift_props','TraderController@getSwiftProps')->name('swift_props');
             Route::get('qr_bank_details','TraderController@getQRBankDetails')->name('qr_bank_details');
 
@@ -202,6 +203,12 @@ Route::group(['prefix' => 'trader'], function () {
                 Route::post('rub_props/edit_name', 'TraderController@RubPropsEditName')->name('rub_props_edit_name');
                 Route::post('rub_props/delete/request', 'TraderController@RubPropsDeleteRequest')->name('rub_props_delete_request');
                 Route::post('rub_props/delete/confirm', 'TraderController@RubPropsDeleteConfirm')->name('rub_props_delete_confirm');
+
+                Route::post('kgs_props/add/request', 'TraderController@KgsPropsAddRequest')->name('kgs_props_add_request');
+                Route::post('kgs_props/add/confirm', 'TraderController@KgsPropsAddConfirm')->name('kgs_props_add_confirm');
+                Route::post('kgs_props/edit_name', 'TraderController@KgsPropsEditName')->name('kgs_props_edit_name');
+                Route::post('kgs_props/delete/request', 'TraderController@KgsPropsDeleteRequest')->name('kgs_props_delete_request');
+                Route::post('kgs_props/delete/confirm', 'TraderController@KgsPropsDeleteConfirm')->name('kgs_props_delete_confirm');
 
                 Route::post('swift_props/add/request', 'TraderController@SwiftPropsAddRequest')->name('swift_props_add_request');
                 Route::post('swift_props/add/confirm', 'TraderController@SwiftPropsAddConfirm')->name('swift_props_add_confirm');

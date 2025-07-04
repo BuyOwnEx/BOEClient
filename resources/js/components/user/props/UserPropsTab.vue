@@ -1,13 +1,16 @@
 <template>
   <div>
     <v-tabs v-model="selectedTab" show-arrows align-with-title>
-      <v-tab :key="1">
+      <v-tab v-if="use_ru_props" :key="1">
         <v-icon left>
           mdi-currency-rub
         </v-icon>
-        {{ $t('user.props.rub_props') }}
+        {{ $t('user.props.rub_props')  }}
       </v-tab>
-      <v-tab :key="2">
+      <v-tab v-if="use_kg_props" :key="2">
+        {{ $t('user.props.kgs_props')  }}
+      </v-tab>
+      <v-tab v-if="use_swift_props" :key="3">
         <v-icon left>
           mdi-web
         </v-icon>
@@ -15,10 +18,13 @@
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="selectedTab">
-      <v-tab-item :key="1">
+      <v-tab-item v-if="use_ru_props" :key="1">
         <UserRubPropsTab :user="user" :trader_status="trader_status"></UserRubPropsTab>
       </v-tab-item>
-      <v-tab-item :key="2">
+      <v-tab-item v-if="use_kg_props" :key="2">
+        <UserKgsPropsTab :user="user" :trader_status="trader_status"></UserKgsPropsTab>
+      </v-tab-item>
+      <v-tab-item v-if="use_swift_props" :key="3">
         <UserSwiftPropsTab :user="user" :trader_status="trader_status"></UserSwiftPropsTab>
       </v-tab-item>
     </v-tabs-items>
@@ -27,7 +33,9 @@
 
 <script>
 import UserRubPropsTab from '@/components/user/props/UserRubPropsTab.vue';
+import UserKgsPropsTab from '@/components/user/props/UserKgsPropsTab.vue';
 import UserSwiftPropsTab from '@/components/user/props/UserSwiftPropsTab.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'UserPropsTab',
@@ -43,12 +51,25 @@ export default {
   },
   components: {
     UserRubPropsTab,
+    UserKgsPropsTab,
     UserSwiftPropsTab,
   },
   data() {
     return {
       selectedTab: 0,
     };
+  },
+  computed: {
+    ...mapState('app', ['product']),
+    use_ru_props() {
+      return this.product.fiatUseRUProps
+    },
+    use_kg_props() {
+      return this.product.fiatUseKGProps
+    },
+    use_swift_props() {
+      return this.product.fiatUseSwiftProps
+    },
   },
 };
 </script>

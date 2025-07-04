@@ -68,7 +68,7 @@
           <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-select
                 v-model="prop_id"
-                :items="selectedPlatform.currency === 'RUB' ? available_rub_props : available_swift_props"
+                :items="available_props"
                 item-text="name"
                 item-value="id"
                 :label="$t('balance.select_prop')"
@@ -149,6 +149,11 @@ export default {
       required: true,
       default: () => []
     },
+    kgs_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     swift_props: {
       type: Array,
       required: true,
@@ -180,23 +185,56 @@ export default {
     available_pay_templates() {
       return _.filter(this.pay_templates, item => {
         return (
-            item.type	 === 'replenish' && item.is_active === true && item.gateway_id  === this.selectedPlatform.gateway_id && item.currency === this.selectedPlatform.currency
+            item.type	 === 'replenish' &&
+            item.is_active === true &&
+            item.gateway_id  === this.selectedPlatform.gateway_id &&
+            item.currency === this.selectedPlatform.currency
         );
       });
     },
-    available_rub_props() {
-      return _.filter(this.rub_props, item => {
-        return (
-            item.state === 'RP_CONFIRMED'
-        );
-      });
+    selected_prop_type() {
+      let ind = _.findIndex(this.pay_templates, item => item.id === this.pay_template_id);
+      return ind > -1 ? this.pay_templates[ind].prop_type : null;
     },
-    available_swift_props() {
-      return _.filter(this.swift_props, item => {
-        return (
-            item.currency === this.selectedPlatform.currency && item.state === 'SP_CONFIRMED'
-        );
-      });
+    available_props() {
+      if(this.selected_prop_type === 'ufebs')
+      {
+        let props = _.filter(this.rub_props, item => {
+          return (
+              item.state === 'RP_CONFIRMED'
+          );
+        });
+        if(props.length > 0) this.prop_id = props[0].id
+        else this.prop_id = null
+        return props;
+      }
+      else if(this.selected_prop_type === 'kg_props')
+      {
+        let props = _.filter(this.kgs_props, item => {
+          return (
+              item.state === 'KP_CONFIRMED'
+          );
+        });
+        if(props.length > 0) this.prop_id = props[0].id
+        else this.prop_id = null
+        return props;
+      }
+      else if(this.selected_prop_type === 'swift')
+      {
+        let props = _.filter(this.swift_props, item => {
+          return (
+              item.currency === this.selectedPlatform.currency &&
+              item.state === 'SP_CONFIRMED'
+          );
+        });
+        if(props.length > 0) this.prop_id = props[0].id
+        else this.prop_id = null
+        return props;
+      }
+      else {
+        this.prop_id = null;
+        return [];
+      }
     },
   },
   mounted() {
@@ -208,7 +246,7 @@ export default {
         pay_template_id: this.pay_template_id,
         amount: this.amount,
         prop_id: this.prop_id,
-        prop_type: this.selectedPlatform.currency === 'RUB' ? 'ufebs' : 'swift'
+        prop_type: this.selected_prop_type
       });
     },
     back() {

@@ -60,7 +60,7 @@
                     v-model="comp_data.name"
                     :label="getCompNameLabel"
                     :hint="getCompNameHint"
-                    :rules="[rules.required, show_global_form ? rules.company_name_global : rules.company_name]"
+                    :rules="compNameRules"
                     persistent-hint
                     outlined
                 />
@@ -69,7 +69,7 @@
                     v-model="comp_data.reg_number"
                     :label="getCompRegNoLabel"
                     :hint="getCompRegNoHint"
-                    :rules="[rules.required, show_global_form ? rules.document_number : rules.comp_inn]"
+                    :rules="regNoRules"
                     v-mask="document_mask"
                     :error-messages="errors.reg_number"
                     persistent-hint
@@ -77,6 +77,21 @@
                     required
                     class="required mb-1"
                     @input="errors.reg_number = []"
+                >
+                </v-text-field>
+
+                <v-text-field
+                    v-model="comp_data.tax_number"
+                    :label="$t('kyc.manual.legal.form.inn')"
+                    :hint="$t('kyc.manual.legal.hints.inn')"
+                    :rules="taxNoRules"
+                    v-mask="tax_id_mask"
+                    :error-messages="errors.tax_number"
+                    persistent-hint
+                    clearable
+                    required
+                    class="required mb-1"
+                    @input="errors.tax_number = []"
                 >
                 </v-text-field>
 
@@ -92,20 +107,7 @@
                     class="required mb-1"
                     @input="errors.address = []"
                 />
-<!--                <v-text-field
-                    v-model="comp_data.tax_number"
-                    :label="$t('kyc.manual.individual.form.tax_number')"
-                    :hint="$t('kyc.manual.individual.hints.tax_number')"
-                    :rules="[rules.required, show_global_form ? rules.ind_inn_global : rules.ind_inn]"
-                    v-mask="tax_id_mask"
-                    :error-messages="errors.ind_inn"
-                    persistent-hint
-                    clearable
-                    required
-                    class="required mb-1"
-                    @input="errors.ind_inn = []"
-                >
-                </v-text-field>-->
+
                 <v-file-input
                     v-model="comp_data.file_doc"
                     :label="$t('kyc.file_doc')"
@@ -160,7 +162,7 @@
 
                 <div class="kyc-local-item__secret-key-wrapper">
                   <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.reg_number') }}
+                    {{ $t('kyc.manual.legal.form.reg_no') }}
                   </div>
                   <div class="kyc-local-item__secret-key">{{ local_comp_data.registration_number }}</div>
                 </div>
@@ -172,12 +174,12 @@
                   <div class="kyc-local-item__secret-key">{{ local_comp_data.address }}</div>
                 </div>
 
-                <!--                <div class="kyc-local-item__secret-key-wrapper">
-                                  <div class="kyc-local-item__header">
-                                    {{ $t('kyc.manual.legal.form.inn') }}
-                                  </div>
-                                  <div class="kyc-local-item__secret-key">{{ local_comp_data.inn }}</div>
-                                </div>-->
+                <div class="kyc-local-item__secret-key-wrapper">
+                  <div class="kyc-local-item__header">
+                    {{ $t('kyc.manual.legal.form.inn') }}
+                  </div>
+                  <div class="kyc-local-item__secret-key">{{ local_comp_data.tax_id }}</div>
+                </div>
 
                 <div class="kyc-local-item__created-key-wrapper">
                   <div class="kyc-local-item__header">
@@ -236,9 +238,16 @@
 
                 <div class="kyc-local-item__secret-key-wrapper">
                   <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.reg_number') }}
+                    {{ $t('kyc.manual.legal.form.reg_no') }}
                   </div>
                   <div class="kyc-local-item__secret-key">{{ local_comp_data.registration_number }}</div>
+                </div>
+
+                <div class="kyc-local-item__secret-key-wrapper">
+                  <div class="kyc-local-item__header">
+                    {{ $t('kyc.manual.legal.form.inn') }}
+                  </div>
+                  <div class="kyc-local-item__secret-key">{{ local_comp_data.tax_id }}</div>
                 </div>
 
                 <div class="kyc-local-item__secret-key-wrapper">
@@ -247,13 +256,6 @@
                   </div>
                   <div class="kyc-local-item__secret-key">{{ local_comp_data.address }}</div>
                 </div>
-
-<!--                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.inn') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.inn }}</div>
-                </div>-->
 
                 <div class="kyc-local-item__created-key-wrapper">
                   <div class="kyc-local-item__header">
@@ -343,9 +345,30 @@ export default {
     ...mapState({
       kyc_local_comp: state => state.user.kyc_local_comp,
     }),
+    isRU() {
+      return (this.residentCountry === 'RU' && this.resident === 'resident') || (this.residentCountry !== 'RU' && this.comp_data.country === 'RU')
+    },
+    isKG() {
+      return (this.residentCountry === 'KG' && this.resident === 'resident') || (this.residentCountry !== 'KG' && this.comp_data.country === 'KG')
+    },
+    compNameRules() {
+      if(this.isRU) return [this.rules.required, this.rules.company_name];
+      else if(this.isKG) return [this.rules.required, this.rules.company_name_global];
+      else return [this.rules.required, this.rules.company_name_global];
+    },
+    regNoRules() {
+      if(this.isRU) return [this.rules.required, this.rules.reg_no_ru];
+      else if(this.isKG) return [this.rules.required, this.rules.reg_no_kg];
+      else return [this.rules.required, this.rules.min8char, this.rules.max64char];
+    },
+    taxNoRules() {
+      if(this.isRU) return [this.rules.required, this.rules.comp_ip_inn];
+      else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
+      else return [this.rules.required, this.rules.min8char, this.rules.max40char];
+    },
     getCompNameLabel() {
       if(this.comp_data.country === 'AU') return this.$t('kyc.manual.legal.form.abn');
-      else if(this.comp_data.country === 'KG') return this.$t('kyc.manual.legal.form.okpo');
+      else if(this.comp_data.country === 'KG' || this.residentCountry === 'KG' && this.resident === 'resident') return this.$t('kyc.manual.legal.form.kg');
       else if(this.comp_data.country === 'EE') return this.$t('kyc.manual.legal.form.vat_or_name');
       else if(this.comp_data.country === 'JP') return this.$t('kyc.manual.legal.form.corp_no');
       else if(this.comp_data.country === 'HK' ||
@@ -397,7 +420,7 @@ export default {
       else if(this.comp_data.country === 'HK') return this.$t('kyc.manual.legal.hints.brn_name');
       else if(this.comp_data.country === 'GE') return this.$t('kyc.manual.legal.hints.ge_name');
       else if(this.comp_data.country === 'IL') return this.$t('kyc.manual.legal.hints.il_name');
-      else if(this.comp_data.country === 'KG') return this.$t('kyc.manual.legal.hints.okpo');
+      else if(this.comp_data.country === 'KG') return this.$t('kyc.manual.legal.hints.kg');
       else if(this.comp_data.country === 'SG') return this.$t('kyc.manual.legal.hints.sg_name');
       else if(this.comp_data.country === 'TW') return this.$t('kyc.manual.legal.hints.tw_name');
       else if(this.comp_data.country === 'EE') return this.$t('kyc.manual.legal.hints.vat_or_name');
@@ -444,13 +467,11 @@ export default {
       if(this.comp_data.country === 'AU') return this.$t('kyc.manual.legal.form.acn');
       else if(this.comp_data.country === 'BY') return this.$t('kyc.manual.legal.form.unp');
       else if(this.comp_data.country === 'HK') return this.$t('kyc.manual.legal.form.brn');
-      else if(this.comp_data.country === 'GE' || this.comp_data.country === 'RU' || this.comp_data.country === 'KG') return this.$t('kyc.manual.legal.form.inn');
       else if(this.comp_data.country === 'IL') return this.$t('kyc.manual.legal.form.vat');
       else if(this.comp_data.country === 'KZ') return this.$t('kyc.manual.legal.form.bin');
       else if(this.comp_data.country === 'SG') return this.$t('kyc.manual.legal.form.uen');
       else if(this.comp_data.country === 'TW') return this.$t('kyc.manual.legal.form.ubn');
       else if(this.comp_data.country === 'UA') return this.$t('kyc.manual.legal.form.egrpou');
-      else if(this.comp_data.country === 'EE') return this.$t('kyc.manual.legal.form.reg_no');
       else if(this.comp_data.country === 'JP') return this.$t('kyc.manual.legal.form.comp_no');
       else if(this.comp_data.country === 'AT' ||
           this.comp_data.country === 'BE' ||
@@ -484,19 +505,18 @@ export default {
           this.comp_data.country === 'CH' ||
           this.comp_data.country === 'SE'
       ) return this.$t('kyc.manual.legal.form.id');
-      else return this.$t('kyc.manual.legal.form.reg_number');
+      else return this.$t('kyc.manual.legal.form.reg_no');
     },
     getCompRegNoHint() {
       if(this.comp_data.country === 'AU') return this.$t('kyc.manual.legal.hints.acn');
+      else if(this.comp_data.country === 'KG') return this.$t('kyc.manual.legal.hints.reg_no_kg');
       else if(this.comp_data.country === 'BY') return this.$t('kyc.manual.legal.hints.unp');
       else if(this.comp_data.country === 'HK') return this.$t('kyc.manual.legal.hints.brn');
-      else if(this.comp_data.country === 'GE' || this.comp_data.country === 'RU' || this.comp_data.country === 'KG') return this.$t('kyc.manual.legal.hints.inn');
       else if(this.comp_data.country === 'IL') return this.$t('kyc.manual.legal.hints.vat');
       else if(this.comp_data.country === 'KZ') return this.$t('kyc.manual.legal.hints.bin');
       else if(this.comp_data.country === 'SG') return this.$t('kyc.manual.legal.hints.uen');
       else if(this.comp_data.country === 'TW') return this.$t('kyc.manual.legal.hints.ubn');
       else if(this.comp_data.country === 'UA') return this.$t('kyc.manual.legal.hints.egrpou');
-      else if(this.comp_data.country === 'EE') return this.$t('kyc.manual.legal.hints.reg_no');
       else if(this.comp_data.country === 'JP') return this.$t('kyc.manual.legal.hints.comp_no');
       else if(this.comp_data.country === 'AT' ||
           this.comp_data.country === 'BE' ||
@@ -530,7 +550,7 @@ export default {
           this.comp_data.country === 'CH' ||
           this.comp_data.country === 'SE'
       ) return this.$t('kyc.manual.legal.hints.id');
-      else return this.$t('kyc.manual.legal.hints.reg_number');
+      else return this.$t('kyc.manual.legal.hints.reg_no');
     },
     countries_available() {
       return _.filter(this.countries, (item) => { return item.iso !== this.residentCountry});
@@ -549,20 +569,25 @@ export default {
         company_name: this.kyc_local_comp.company_name,
         registration_number: this.kyc_local_comp.registration_number,
         address: this.kyc_local_comp.address,
-        inn: this.kyc_local_comp.inn ? this.kyc_local_comp.inn : '-',
+        tax_id: this.kyc_local_comp.tax_id ? this.kyc_local_comp.tax_id : '-',
         created_at: this.kyc_local_comp.created_at,
         updated_at: this.kyc_local_comp.updated_at,
         reason: this.kyc_local_comp.reason ? this.kyc_local_comp.reason : null,
       }
     },
+
     show_global_form() {
       return (this.residentCountry === 'RU' && this.resident === 'non_resident') || (this.residentCountry !== 'RU' && this.comp_data.country !== 'RU')
     },
     document_mask() {
-      return !this.show_global_form ? '#### ######' : null;
+      if(this.isRU) return '#############??';
+      else if(this.isKG) return '######-####-XXX';
+      else return null;
     },
     tax_id_mask() {
-      return !this.show_global_form ? '############' : null;
+      if(this.isRU) return '##########??';
+      else if(this.isKG) return '##############';
+      else return null;
     }
   },
   methods: {

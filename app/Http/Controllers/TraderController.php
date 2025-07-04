@@ -1210,7 +1210,7 @@ class TraderController extends Controller
     {
         $validator=Validator::make($request->all(), [
             'country' => 'required|string|size:2',
-            'reg_number' => 'required|string|min:8|max:40',
+            'reg_number' => 'required|string|min:8|max:64',
             'address' => 'required|string|min:8|max:256',
             'tax_number' => 'nullable|string|min:8|max:40',
             'name' => 'required|string|min:3|max:256',
@@ -1739,6 +1739,19 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getKgsProps(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getKgsProps(
+                Auth::id()
+            );
+        }
+        catch (Exception $e)
+        {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getSwiftProps(Request $request)
     {
         try {
@@ -1992,6 +2005,83 @@ class TraderController extends Controller
         }
     }
 
+    public function KgsPropsAddRequest(Request $request)
+    {
+        $this->validate($request, [
+            'name' => ['required','string','max:64'],
+            'bic' => ['required','string','regex:/^(\d){6}$/','size:6'],
+            'inn' => ['required','string','regex:/^(\d){14}$/','size:14'],
+            'acc' => ['required','string','regex:/^(\d){16}$/','size:16']
+        ]);
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->kgsPropsAddRequest(
+                Auth::id(),
+                $request->name,
+                $request->bic,
+                $request->acc,
+                $request->inn
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function KgsPropsAddConfirm(Confirm2FARequest $request)
+    {
+        try {
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->kgsPropsAddConfirm(
+                Auth::id(),
+                $request->code_email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function KgsPropsEditName(Request $request)
+    {
+        $this->validate($request, [
+            'id' => ['required','integer'],
+            'name' => ['required','string','max:64']
+        ]);
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->kgsPropsEditName(
+                Auth::id(),
+                $request->id,
+                $request->name
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function KgsPropsDeleteRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->kgsPropsDeleteRequest(
+                Auth::id(),
+                $request->prop_id
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function KgsPropsDeleteConfirm(Confirm2FARequest $request)
+    {
+        try {
+            Cache::add(Auth::id().':'.$request->totp, true, 4);
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->kgsPropsDeleteConfirm(
+                Auth::id(),
+                $request->code_email
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
     public function SwiftPropsAddRequest(Request $request)
     {
         $this->validate($request, [
@@ -2003,38 +2093,9 @@ class TraderController extends Controller
             'beneficiary_bank_swift' => ['required','string','regex:/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/'],
             'intermediary_bank_swift' => ['nullable','string','regex:/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/'],
             'intermediary_bank_acc_iban' => ['nullable','string','regex:/^[A-Z0-9]{1,34}$/','max:34'],
+            'inn' => ['nullable','string','min:8','max:40'],
             'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
         ]);
-        if($request->is_legal)
-        {
-            if($request->is_resident)
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d{10}|\d{12})$/']
-                ]);
-            }
-            else
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
-                ]);
-            }
-        }
-        else
-        {
-            if($request->is_resident)
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){12}$/','size:12']
-                ]);
-            }
-            else
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
-                ]);
-            }
-        }
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->swiftPropsAddRequest(

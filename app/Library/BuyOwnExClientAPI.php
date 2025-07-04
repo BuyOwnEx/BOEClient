@@ -1232,6 +1232,13 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function getKgsProps($trader_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_kgs_props',[
+            'trader' => $trader_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
     public function getSwiftProps($trader_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/get_swift_props',[
@@ -1422,6 +1429,98 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/rub_props_delete_confirm',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+
+    public function kgsPropsAddRequest($trader_id, $name, $bic, $acc, $inn)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'name' => $name,
+            'bic' => $bic,
+            'acc' => $acc,
+            'inn' => $inn
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kgs_props_add_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function kgsPropsAddConfirm(int $trader_id, string $code)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kgs_props_add_confirm',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function kgsPropsEditName($trader_id, $prop_id, $name)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'prop_id' => $prop_id,
+            'name' => $name
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kgs_props_edit_name',$params);
+        Log::info($response->json());
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else
+        {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function kgsPropsDeleteRequest($trader_id, $prop_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'prop_id' => $prop_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kgs_props_delete_request',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
+        }
+    }
+    public function kgsPropsDeleteConfirm(int $trader_id, string $code)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'code' => $code
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kgs_props_delete_confirm',$params);
         if($response->json()['success'])
         {
             return response()->json(['success' => true],$response->status());

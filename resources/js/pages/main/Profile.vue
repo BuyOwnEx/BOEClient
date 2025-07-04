@@ -3,7 +3,7 @@
 		<v-tabs v-model="selectedTab" :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">{{ $t('user.title.account') }}</v-tab>
 			<v-tab :key="2">{{ $t('user.title.verification') }}</v-tab>
-      <v-tab :key="3">{{ $t('user.title.props') }}</v-tab>
+      <v-tab v-if="(use_kg_props || use_ru_props || use_swift_props)" :key="3">{{ $t('user.title.props') }}</v-tab>
 			<v-tab :key="4">{{ $t('user.title.api') }}</v-tab>
 			<v-tab :key="5">{{ $t('user.title.security') }}</v-tab>
 			<v-tab :key="6">{{ $t('user.title.settings') }}</v-tab>
@@ -17,19 +17,19 @@
           <VerificationSteps v-if="!isLoading"></VerificationSteps>
         </v-tab-item>
 
-        <v-tab-item v-if="trader" :key="3">
-          <UserPropsTab v-if="!isLoading" :user="trader" :trader_status="status"></UserPropsTab>
+        <v-tab-item v-if="trader && show_props" :key="3">
+          <UserPropsTab v-if="!isLoading" :user="trader" :trader_status="trader_status"></UserPropsTab>
         </v-tab-item>
 
-        <v-tab-item v-if="trader" :key="4">
+        <v-tab-item v-if="trader" :key="show_props ? 4: 3">
           <UserApiTab v-if="!isLoading" />
         </v-tab-item>
 
-        <v-tab-item v-if="trader" :key="5">
+        <v-tab-item v-if="trader" :key="show_props ? 5: 4">
           <UserSecurityTab v-if="!isLoading" :g2fa="trader.g2fa" />
         </v-tab-item>
 
-        <v-tab-item v-if="trader" :key="6">
+        <v-tab-item v-if="trader" :key="show_props ? 6: 5">
           <UserSettingsTab v-if="!isLoading" :user-ref-program="trader.refProgram || 1" />
         </v-tab-item>
       </v-tabs-items>
@@ -70,6 +70,22 @@ export default {
       selectedTabStore: state => state.user.profileSelectedTab,
     }),
     ...mapState('user', ['blockStatus','verifyStatus','status', 'doc_statuses']),
+    ...mapState('app', ['product']),
+    trader_status() {
+      return this.status;
+    },
+    use_ru_props() {
+      return this.product.fiatUseRUProps
+    },
+    use_kg_props() {
+      return this.product.fiatUseKGProps
+    },
+    use_swift_props() {
+      return this.product.fiatUseSwiftProps
+    },
+    show_props() {
+      return this.use_kg_props || this.use_ru_props || this.use_swift_props;
+    },
   },
 
   async created() {

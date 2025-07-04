@@ -12,7 +12,16 @@ class TrustProxies extends Middleware
      *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    protected $proxies = [
+        '77.220.207.0/24', // Replace with ddos-guard IP ranges
+        '45.10.240.0/24',
+        '45.10.241.0/24',
+        '45.10.242.0/24',
+        '186.2.160.0/24',
+        '186.2.164.0/24',
+        '186.2.167.0/24',
+        '186.2.168.0/24'
+    ];
 
     /**
      * The headers that should be used to detect proxies.

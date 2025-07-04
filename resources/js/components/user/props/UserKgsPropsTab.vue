@@ -2,23 +2,23 @@
   <v-card class="user-props-tab tab-fill-height">
     <v-card-title class="user-props-tab__title-wrapper">
       <div class="user-props-tab__title">
-        {{ $t('user.props.rub_props_title') }}
+        {{ $t('user.props.kgs_props_title') }}
       </div>
       <div class="user-props-tab__actions">
         <add :two-fa="user.g2fa" :trader_status="trader_status" />
       </div>
     </v-card-title>
 
-    <CommonLoading v-if="!rub_props" page-margin />
+    <CommonLoading v-if="!kgs_props" page-margin />
 
-    <div v-else-if="rub_props && !rub_props.length" class="user-props-tab__empty">
+    <div v-else-if="kgs_props && !kgs_props.length" class="user-props-tab__empty">
       <span>{{ $t('user.props.props_empty') }}</span>
     </div>
 
     <v-card-text v-else>
-      <UserRubPropsItem
+      <UserKgsPropsItem
           class="user-props__item"
-          v-for="item in rub_props"
+          v-for="item in kgs_props"
           :key="item.id"
           :prop-item="item"
           :two-fa="user.g2fa"
@@ -28,12 +28,11 @@
 </template>
 
 <script>
-import Add from '@/components/user/props/dialog/AddRubProps.vue';
+import Add from '@/components/user/props/dialog/AddKgsProps.vue';
 import CommonLoading from '@/components/common/CommonLoading.vue';
-import UserRubPropsItem from '@/components/user/props/UserRubPropsItem.vue';
-
+import UserKgsPropsItem from '@/components/user/props/UserKgsPropsItem.vue';
 export default {
-  name: 'UserRubPropsTab',
+  name: 'UserKgsPropsTab',
   props: {
     user: {
       type: Object,
@@ -47,15 +46,15 @@ export default {
   components: {
     Add,
     CommonLoading,
-    UserRubPropsItem
+    UserKgsPropsItem
   },
   computed: {
-    rub_props() {
-      return this.$store.state.user.rub_props === null ? [] : this.$store.state.user.rub_props;
+    kgs_props() {
+      return this.$store.state.user.kgs_props === null ? [] : this.$store.state.user.kgs_props;
     },
   },
   created() {
-    this.$store.dispatch('user/getRubPropsFromServer');
+    this.$store.dispatch('user/getKgsPropsFromServer');
   },
 };
 </script>

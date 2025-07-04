@@ -49,6 +49,34 @@
 
       <v-form ref="form" v-model="formValid" lazy-validation>
         <v-row>
+          <v-col cols="12" md="12" class="pt-0 pb-2" v-if="selectedPlatform.currency === 'KGS'">
+            <v-select
+                v-model="selected_prop_type"
+                :items="available_pay_templates"
+                :item-text="(item) => { return $t('fiat.prop_types.'+item.prop_type)}"
+                item-value="prop_type"
+                :label="$t('balance.select_sender_prop')"
+                :hint="$t('balance.select_sender_prop_hint')"
+                :rules="[rules.required]"
+                autofocus
+                persistent-hint
+                hide-details="auto"
+                required
+                class="required"
+            >
+              <template #item="{item, on, attr}">
+                <v-list-item v-bind="attr" v-on="on">
+                  <v-list-item-content>
+                    <v-list-item-title v-text="$t('fiat.prop_types.'+item.prop_type)"></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+              <template v-slot:selection="{item}">
+                <span>{{ $t('fiat.prop_types.'+item.prop_type) }}</span>
+              </template>
+            </v-select>
+          </v-col>
+
           <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-text-field
                 v-model="amount"
@@ -62,7 +90,7 @@
           <v-col cols="12" md="12" class="pt-0 pb-0">
             <v-select
                 v-model="prop_id"
-                :items="selectedPlatform.currency === 'RUB' ? available_rub_props : available_swift_props"
+                :items="available_props"
                 item-text="name"
                 item-value="id"
                 :label="$t('balance.select_prop')"
@@ -111,6 +139,7 @@ import loadingMixin from '@/mixins/common/loadingMixin.js';
 import formValidationRules from '@/mixins/common/formValidationRules.js';
 import validateInputMixin from '@/mixins/common/validateInputMixin.js';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import { mapState } from 'vuex';
 export default {
   name: 'FillFieldsWithdrawStep',
   components: {
@@ -144,6 +173,11 @@ export default {
       required: true,
       default: () => []
     },
+    kgs_props: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     swift_props: {
       type: Array,
       required: true,
@@ -161,6 +195,7 @@ export default {
         integerLimit: 23
       }),
       selected_platform: this.selectedPlatform,
+      selected_prop_type: null,
       amount: '',
       prop_id: null,
       formValid: false,
@@ -170,33 +205,83 @@ export default {
         v => !v || BigNumber(v).lte(this.maxWithdraw) || this.$t('balance.more_max'),
         v => !v || BigNumber(v).lte(this.currency_obj.safe) || this.$t('balance.more_available'),
         v => !v || BigNumber(v).lte(this.maxDailyAvailable) || this.$t('balance.more_withdraw_available')
-      ]
+      ],
     };
   },
   computed: {
     available_pay_templates() {
-      return _.find(this.pay_templates, item => {
+      return _.filter(this.pay_templates, item => {
         return (
-            item.type	 === 'withdraw' && item.is_active === true && item.gateway_id  === this.selectedPlatform.gateway_id && item.currency === this.selectedPlatform.currency
+            item.type	 === 'withdraw' &&
+            item.is_active === true &&
+            item.gateway_id  === this.selectedPlatform.gateway_id &&
+            item.currency === this.selectedPlatform.currency
         );
       });
+    },
+    selected_pay_template() {
+      if(this.selectedPlatform.currency === 'KGS' && this.available_pay_templates.length > 1)
+      {
+        return _.find(this.pay_templates, item => {
+          return (
+              item.type	 === 'withdraw' &&
+              item.is_active === true &&
+              item.gateway_id  === this.selectedPlatform.gateway_id &&
+              item.currency === this.selectedPlatform.currency &&
+              item.prop_type === this.selected_prop_type
+          );
+        });
+      }
+      else
+      {
+        return this.pay_templates[0];
+      }
     },
     pay_template_id() {
-      return this.available_pay_templates.id;
+      return this.selected_pay_template?.id
     },
-    available_rub_props() {
-      return _.filter(this.rub_props, item => {
-        return (
-            item.state === 'RP_CONFIRMED'
-        );
-      });
+    pay_template_prop_type() {
+      return this.selected_pay_template?.prop_type
     },
-    available_swift_props() {
-      return _.filter(this.swift_props, item => {
-        return (
-            item.currency === this.selectedPlatform.currency && item.state === 'SP_CONFIRMED'
-        );
-      });
+    available_props() {
+      if(this.pay_template_prop_type === 'ufebs')
+      {
+        let props = _.filter(this.rub_props, item => {
+          return (
+              item.state === 'RP_CONFIRMED'
+          );
+        });
+        if(props.length > 0) this.prop_id = props[0].id
+        else this.prop_id = null
+        return props;
+      }
+      else if(this.pay_template_prop_type === 'kg_props')
+      {
+        let props = _.filter(this.kgs_props, item => {
+          return (
+              item.state === 'KP_CONFIRMED'
+          );
+        });
+        if(props.length > 0) this.prop_id = props[0].id
+        else this.prop_id = null
+        return props;
+      }
+      else if(this.pay_template_prop_type === 'swift')
+      {
+        let props = _.filter(this.swift_props, item => {
+          return (
+              item.currency === this.selectedPlatform.currency &&
+              item.state === 'SP_CONFIRMED'
+          );
+        });
+        if(props.length > 0) this.prop_id = props[0].id
+        else this.prop_id = null
+        return props;
+      }
+      else {
+        this.prop_id = null;
+        return [];
+      }
     },
     safe() {
       return BigNumber(this.currency_obj.safe);
@@ -219,14 +304,23 @@ export default {
   },
   methods: {
     next() {
-      this.$emit('filled', {pay_template_id: this.pay_template_id, amount: this.amount, prop_id: this.prop_id, prop_type: this.selectedPlatform.currency === 'RUB' ? 'ufebs' : 'swift'});
+      this.$emit('filled', {
+        pay_template_id: this.pay_template_id,
+        amount: this.amount,
+        prop_id: this.prop_id,
+        prop_type: this.pay_template_prop_type
+      });
     },
     back() {
       this.$emit('back_pressed');
     },
     getFee(pay_template_id) {
-      let template = _.find(this.pay_templates, item => (item.id === pay_template_id));
-      return this.getWithdrawFee(template);
+      if(pay_template_id)
+      {
+        let template = _.find(this.pay_templates, item => (item.id === pay_template_id));
+        return this.getWithdrawFee(template);
+      }
+      else return '-';
     },
     getWithdrawFee(fee) {
       let fix_part = '';
