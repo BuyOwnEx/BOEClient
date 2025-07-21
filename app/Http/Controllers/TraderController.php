@@ -23,6 +23,12 @@ use Laravel\Sanctum\Sanctum;
 
 class TraderController extends Controller
 {
+    public function getLandingView(Request $request)
+    {
+        return view('landing', [
+            'user' => $request->user()
+        ]);
+    }
     public function getTradingView(Request $request, $market = null, $currency = null)
     {
         if (!isset($market)) {
@@ -1213,15 +1219,13 @@ class TraderController extends Controller
             'reg_number' => 'required|string|min:8|max:64',
             'address' => 'required|string|min:8|max:256',
             'tax_number' => 'nullable|string|min:8|max:40',
-            'name' => 'required|string|min:3|max:256',
-            'file_doc' => 'required|file|mimes:pdf|max:2048',
+            'name' => 'required|string|min:3|max:256'
         ], [], [
             'country' => __('kyc.local.validation.country'),
             'reg_number' => __('kyc.local.validation.reg_number'),
             'address' => __('kyc.local.validation.address'),
             'tax_number' => __('kyc.kontur.validation.tax_number'),
-            'name' => __('kyc.kontur.validation.company_name'),
-            'file_doc' => __('kyc.file_doc'),
+            'name' => __('kyc.kontur.validation.company_name')
         ]);
         if ($validator->fails())
         {
@@ -1232,6 +1236,17 @@ class TraderController extends Controller
         }
         else
         {
+            if(env('VITE_CONFIG_KYB_LOCAL_UPLOAD_TYPE','letter') === 'letter') {
+                $request->validate([
+                    'file_doc' => 'required|file|mimes:pdf|max:2048'
+                ]);
+            }
+            else
+            {
+                $request->validate([
+                    'file_doc' => 'required|file|mimes:zip|max:15360'
+                ]);
+            }
             try
             {
                 $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_doc'));
@@ -1903,38 +1918,9 @@ class TraderController extends Controller
             'name' => ['required','string','max:64'],
             'bic' => ['required','string','regex:/^(\d){9}$/','size:9'],
             'acc' => ['required','string','regex:/^(\d){20}$/','size:20'],
+            'inn' => ['nullable','string','min:8','max:40'],
             'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
         ]);
-        if($request->is_legal)
-        {
-            if($request->is_resident)
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d{10}|\d{12})$/']
-                ]);
-            }
-            else
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
-                ]);
-            }
-        }
-        else
-        {
-            if($request->is_resident)
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){12}$/','size:12']
-                ]);
-            }
-            else
-            {
-                $this->validate($request, [
-                    'inn' => ['required','string','regex:/^(\d){3,40}$/','max:40']
-                ]);
-            }
-        }
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->rubPropsAddRequest(
@@ -2010,8 +1996,9 @@ class TraderController extends Controller
         $this->validate($request, [
             'name' => ['required','string','max:64'],
             'bic' => ['required','string','regex:/^(\d){6}$/','size:6'],
-            'inn' => ['required','string','regex:/^(\d){14}$/','size:14'],
-            'acc' => ['required','string','regex:/^(\d){16}$/','size:16']
+            'acc' => ['required','string','regex:/^(\d){16}$/','size:16'],
+            'inn' => ['nullable','string','min:8','max:40'],
+            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
         ]);
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
@@ -2020,7 +2007,8 @@ class TraderController extends Controller
                 $request->name,
                 $request->bic,
                 $request->acc,
-                $request->inn
+                $request->inn,
+                $request->kpp
             );
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];

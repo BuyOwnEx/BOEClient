@@ -5,7 +5,8 @@ export default [{
     component: () => import(/* webpackChunkName: "login" */ '@/pages/auth/Login.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.login'
+        title: 'titles.login',
+        requiresAuth: false
     }
 }, {
     path: '/register',
@@ -13,7 +14,8 @@ export default [{
     component: () => import(/* webpackChunkName: "register" */ '@/pages/auth/Register.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.register'
+        title: 'titles.register',
+        requiresAuth: false
     }
 }, {
     path: '/password/reset',
@@ -21,7 +23,8 @@ export default [{
     component: () => import(/* webpackChunkName: "email" */ '@/pages/auth/Email.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.email'
+        title: 'titles.email',
+        requiresAuth: false
     }
 }, {
     path: '/password/reset/:token',
@@ -29,7 +32,8 @@ export default [{
     component: () => import(/* webpackChunkName: "reset" */ '@/pages/auth/Reset.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.reset'
+        title: 'titles.reset',
+        requiresAuth: false
     }
 }, {
     path: '/email/verify',
@@ -37,7 +41,8 @@ export default [{
     component: () => import(/* webpackChunkName: "verify" */ '@/pages/auth/Verify.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.verify'
+        title: 'titles.verify',
+        requiresAuth: false
     }
 }, {
     path: '/2fa',
@@ -45,6 +50,7 @@ export default [{
     component: () => import(/* webpackChunkName: "verify" */ '@/pages/auth/G2FA.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.2fa'
+        title: 'titles.2fa',
+        requiresAuth: false
     }
 }]

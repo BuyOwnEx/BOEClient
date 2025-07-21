@@ -5,15 +5,20 @@ export default [{
     component: () => import(/* webpackChunkName: "overview" */ '@/pages/overview/Overview.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.overview'
+        title: 'titles.overview',
+        requiresAuth: false
     }
+}, {
+    path: '/trading',
+    redirect: '/trading/'+import.meta.env.VITE_DEFAULT_MARKET+'/'+import.meta.env.VITE_DEFAULT_CURRENCY
 }, {
     path: '/trading/:market([A-Z0-9]{1,10})/:currency([A-Z0-9]{1,10})',
     name: 'trading',
     component: () => import(/* webpackChunkName: "trading" */ '@/pages/trading/Trading.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.trading'
+        title: 'titles.trading',
+        requiresAuth: false
     }
 }, {
     path: '/api',
@@ -21,7 +26,8 @@ export default [{
     component: () => import(/* webpackChunkName: "api" */ '@/pages/main/Api.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.api'
+        title: 'titles.api',
+        requiresAuth: false
     }
 }, {
     path: '/balance',
@@ -29,7 +35,8 @@ export default [{
     component: () => import(/* webpackChunkName: "balance" */ '@/pages/main/Balance.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.balance'
+        title: 'titles.balance',
+        requiresAuth: true
     }
 }, {
     path: '/contacts',
@@ -37,7 +44,8 @@ export default [{
     component: () => import(/* webpackChunkName: "contacts" */ '@/pages/main/Contacts.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.contacts'
+        title: 'titles.contacts',
+        requiresAuth: false
     }
 }, {
     path: '/deals',
@@ -45,7 +53,8 @@ export default [{
     component: () => import(/* webpackChunkName: "deals" */ '@/pages/main/Deals.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.deals'
+        title: 'titles.deals',
+        requiresAuth: true
     }
 }, {
     path: '/fees',
@@ -53,7 +62,8 @@ export default [{
     component: () => import(/* webpackChunkName: "fees" */ '@/pages/main/Fees.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.fees'
+        title: 'titles.fees',
+        requiresAuth: false
     }
 }, {
     path: '/fiat_transactions',
@@ -61,7 +71,8 @@ export default [{
     component: () => import(/* webpackChunkName: "fiat_transactions" */ '@/pages/main/FiatTransactions.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.fiat_transactions'
+        title: 'titles.fiat_transactions',
+        requiresAuth: true
     }
 }, {
     path: '/notifications',
@@ -69,7 +80,8 @@ export default [{
     component: () => import(/* webpackChunkName: "notifications" */ '@/pages/main/Notifications.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.notifications'
+        title: 'titles.notifications',
+        requiresAuth: true
     }
 }, {
     path: '/orders',
@@ -77,7 +89,8 @@ export default [{
     component: () => import(/* webpackChunkName: "orders" */ '@/pages/main/Orders.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.orders'
+        title: 'titles.orders',
+        requiresAuth: true
     }
 }, {
     path: '/policy',
@@ -85,7 +98,8 @@ export default [{
     component: () => import(/* webpackChunkName: "policy" */ '@/pages/main/Policy.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.policy'
+        title: 'titles.policy',
+        requiresAuth: false
     }
 }, {
     path: '/profile',
@@ -93,7 +107,8 @@ export default [{
     component: () => import(/* webpackChunkName: "profile" */ '@/pages/main/Profile.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.profile'
+        title: 'titles.profile',
+        requiresAuth: true
     }
 }, {
     path: '/ref_payments',
@@ -101,7 +116,8 @@ export default [{
     component: () => import(/* webpackChunkName: "ref_payments" */ '@/pages/main/RefPayments.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.ref_payments'
+        title: 'titles.ref_payments',
+        requiresAuth: true
     }
 }, {
     path: '/status',
@@ -109,7 +125,8 @@ export default [{
     component: () => import(/* webpackChunkName: "status" */ '@/pages/main/Status.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.status'
+        title: 'titles.status',
+        requiresAuth: false
     }
 }, {
     path: '/support',
@@ -117,7 +134,8 @@ export default [{
     component: () => import(/* webpackChunkName: "support" */ '@/pages/main/Support.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.support'
+        title: 'titles.support',
+        requiresAuth: false
     }
 }, {
     path: '/terms',
@@ -125,7 +143,8 @@ export default [{
     component: () => import(/* webpackChunkName: "terms" */ '@/pages/main/Terms.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.terms'
+        title: 'titles.terms',
+        requiresAuth: false
     }
 }, {
     path: '/transactions',
@@ -133,7 +152,8 @@ export default [{
     component: () => import(/* webpackChunkName: "transactions" */ '@/pages/main/Transactions.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.transactions'
+        title: 'titles.transactions',
+        requiresAuth: true
     }
 }, {
     path: '/transfers',
@@ -141,6 +161,7 @@ export default [{
     component: () => import(/* webpackChunkName: "transfers" */ '@/pages/main/Transfers.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.transfers'
+        title: 'titles.transfers',
+        requiresAuth: true
     }
 }]

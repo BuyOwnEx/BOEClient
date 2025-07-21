@@ -118,6 +118,7 @@
 import formValidationRules from '@/mixins/common/formValidationRules';
 import loadingMixin from '@/mixins/common/loadingMixin';
 import waves from "@/plugins/hero-canvas";
+import { mapState } from 'vuex';
 
 export default {
 	name: 'Login',
@@ -130,7 +131,6 @@ export default {
 				email: '',
 				password: '',
 				remember: false,
-        captcha: window.config.captcha_enabled,
         lot_number: null,
         captcha_output: null,
         pass_token: null,
@@ -149,12 +149,19 @@ export default {
 		};
 	},
   computed: {
+    ...mapState('app', ['product']),
     btn_available() {
-      return window.config.captcha_enabled ? (this.captcha_obj !== null) : true;
+      return this.product.captcha_enabled ? (this.captcha_obj !== null) : true;
+    },
+    theme() {
+      return this.$vuetify.theme.isDark ? 'dark' : 'light'
+    },
+    captcha_id() {
+      return this.product.captcha_id
     }
   },
 	created() {
-    if (this.user.captcha && !this.$spa)
+    if (this.product.captcha_enabled && !this.$spa)
     {
       this.initCaptcha();
     }
@@ -194,10 +201,21 @@ export default {
           return 'eng';
       }
     },
+    getCloudToken() {
+      turnstile.render('#captcha', {
+        sitekey: '0x4AAAAAAATMiBJa0thQZ7E4',
+        language: this.$i18n.locale,
+        theme: this.$vuetify.theme.isDark ? 'dark' : 'light',
+        callback: function(token) {
+          self.captcha_obj = token;
+          self.user.captcha_output = token;
+        },
+      });
+    },
 		initCaptcha: function() {
       let self = this;
       let handler;
-      if(window.config.captcha_type.toUpperCase() === 'GEETEST')
+      if(this.product.captcha_type.toUpperCase() === 'GEETEST')
       {
         handler = function (captcha_obj) {
           captcha_obj.onReady(function () {
@@ -216,7 +234,7 @@ export default {
           })
         };
       }
-      if(window.config.captcha_type.toUpperCase() === 'GEETEST')
+      if(this.product.captcha_type.toUpperCase() === 'GEETEST')
       {
         axios.get('/captcha?captcha_type=geetest&t='+(new Date()).getTime()).then( res => {
           initGeetest4({
@@ -227,7 +245,7 @@ export default {
           }, handler);
         })
       }
-      else if(window.config.captcha_type.toUpperCase() === 'CLOUDFLARE')
+      else if(this.product.captcha_type.toUpperCase() === 'CLOUDFLARE')
       {
         axios.get('/captcha?captcha_type=cloudflare&t='+(new Date()).getTime()).then( res => {
           turnstile.render('#captcha', {
@@ -239,13 +257,13 @@ export default {
               self.user.captcha_output = token;
             },
           });
-        })
+        });
       }
 		},
 		verify() {
-      if (this.user.captcha)
+      if (this.product.captcha_enabled)
       {
-        if(window.config.captcha_type.toUpperCase() === 'GEETEST')
+        if(this.product.captcha_type.toUpperCase() === 'GEETEST')
           this.captcha_obj.showCaptcha();
         else this.login();
       }
@@ -256,16 +274,11 @@ export default {
 			const form = this.user.remember ? this.user : _.omit(this.user, ['remember']);
 			axios.post('/login', form).then(response => {
         if (response.data.auth) {
-          if(response.data.intended === '/')
-          {
+          this.$store.commit('app/setAuthUser', { user: response.data.user, vm: this });
+          if(this.$spa)
+            this.$router.push(response.data.intended);
+          else
             window.location.href = response.data.intended;
-          }
-          else {
-            if(this.$spa)
-              this.$router.push(response.data.intended);
-            else
-              window.location.href = response.data.intended;
-          }
         }
       }).catch(error => {
         if (error.response.status === 422) {
@@ -289,7 +302,7 @@ export default {
       handler(to, from) {
         if(to.name === 'login')
         {
-          if (this.captcha_obj === null && window.config.captcha_enabled)
+          if (this.captcha_obj === null && this.product.captcha_enabled)
             this.initCaptcha();
         }
       }

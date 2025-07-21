@@ -112,18 +112,18 @@ export default {
     purpose_text() {
       if(this.qr_bank_details.ext_purpose)
         return this.qr_bank_details.ext_purpose
-            .replace('%trader_id%', this.$user.id)
+            .replace('%trader_id%', this.$store.state.app.trader.id)
             .replace('%fio%', this.verifyEntity)
             .replace('%inn%', this.inn)
             .replace('%company_name%', this.verifyEntity)
-            .replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())
+            .replace('%email_verified_at%', new Date(this.$store.state.app.trader.email_verified_at).toLocaleDateString())
       else
         return this.details.purpose
-            .replace('%trader_id%', this.$user.id)
+            .replace('%trader_id%', this.$store.state.app.trader.id)
             .replace('%fio%', this.verifyEntity)
             .replace('%inn%', this.inn)
             .replace('%company_name%', this.verifyEntity)
-            .replace('%email_verified_at%', new Date(this.$user.email_verified_at).toLocaleDateString())
+            .replace('%email_verified_at%', new Date(this.$store.state.app.trader.email_verified_at).toLocaleDateString())
     },
     qr_replenish() {
       return this.details ?

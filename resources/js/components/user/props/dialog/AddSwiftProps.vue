@@ -384,9 +384,7 @@ export default {
         intermediary_bank_swift: null,
         intermediary_bank_acc_iban: null,
         inn: null,
-        kpp: null,
-        is_legal: this.is_legal,
-        is_resident: this.is_resident
+        kpp: null
       },
       errors: {
         name: [],
@@ -421,7 +419,7 @@ export default {
       return (!(this.verifyType === 'sumsub' && !this.is_legal));
     },
     check_kpp() {
-      return (this.verifyType === 'kontur' && this.is_legal);
+      return (this.verifyType === 'kontur' && this.is_legal && this.isRU);
     },
     isRU() {
       return this.verifyResidentCountry === 'RU';

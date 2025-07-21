@@ -65,7 +65,7 @@
 							<ToolbarCurrency />
 						</div>
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']">
-							<ToolbarApps />
+							<ToolbarApps v-if="!product.disabledTradingShow" />
 						</div>
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged">
 							<ToolbarNotifications />
@@ -92,11 +92,11 @@
 		</v-main>
 		<v-footer class="footer overline" :height="calculateFooterHeight" inset app>
 			<span>
-        <Link class="footer__link" path="/status">{{ $t('status.title') }}</Link>
-        <Link class="footer__link" path="/fees">{{ $t('fees.title') }}</Link>
-        <Link v-if="isWidthMore400px" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
-        <Link class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
-        <Link v-if="isWidthMore400px" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
+        <Link v-if="!product.disabledStatusPageShow" class="footer__link" path="/status">{{ $t('status.title') }}</Link>
+        <Link v-if="!product.disabledFeesPageShow" class="footer__link" path="/fees">{{ $t('fees.title') }}</Link>
+        <Link v-if="isWidthMore400px && !product.disabledContactsPageShow" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
+        <Link v-if="!product.disabledMarketsShow" class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
+        <Link v-if="isWidthMore400px && !product.disabledApiPageShow" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
         <Link v-if="isWidthMore400px" class="footer__link" path="/terms">{{ $t('docs.terms.title') }}</Link>
         <Link v-if="isWidthMore400px" class="footer__link" path="/policy">{{ $t('docs.policy.title') }}</Link>
 			</span>
@@ -165,11 +165,11 @@ export default {
 		},
 	},
 
-	created() {
-		this.$eventHub.$on('set-user', this.getNotifications);
-	},
+  mounted() {
+    this.getNotifications();
+  },
 
-	methods: {
+  methods: {
 		...mapActions({
 			fetchNotificationsStore: 'notifications/fetchNotifications',
 		}),

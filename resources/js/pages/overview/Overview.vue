@@ -57,8 +57,8 @@ export default {
 				market: this.$trading_market,
 			});
 		}
-        if (this.$spa)
-            this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+    //    if (this.$spa)
+    //        this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 	}
 };
 </script>

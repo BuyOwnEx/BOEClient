@@ -4,7 +4,7 @@ export default {
 		key: '',
 		items: [
 			{ icon: 'mdi-view-dashboard-outline', key: 'menu.dashboard', text: 'Dashboard', link: '/dashboard' },
-			{ icon: 'mdi-finance', key: 'menu.trading', text: 'Trading', link: '/' },
+			{ icon: 'mdi-finance', key: 'menu.trading', text: 'Trading', link: '/trading' },
 			{ icon: 'mdi-home', key: 'menu.overview', text: 'Market overview', link: '/overview' },
 			{ icon: 'mdi-autorenew', key: 'menu.transactions', text: 'Transactions', link: '/transactions' },
 			{

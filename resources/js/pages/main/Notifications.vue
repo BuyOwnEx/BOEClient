@@ -43,7 +43,7 @@ export default {
 		};
 	},
     created() {
-        this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+        //this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
     },
     mounted() {
 		this.loadSavedTab();

@@ -5,7 +5,8 @@ export default [{
     component: () => import(/* webpackChunkName: "error_not_found" */ '@/pages/error/NotFoundPage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error_not_found'
+        title: 'titles.error_not_found',
+        requiresAuth: false
     }
 }, {
     path: '/unexpected',
@@ -13,7 +14,8 @@ export default [{
     component: () => import(/* webpackChunkName: "error_unexpected" */ '@/pages/error/UnexpectedPage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error_unexpected'
+        title: 'titles.error_unexpected',
+        requiresAuth: false
     }
 }, {
     path: '/maintenance',
@@ -21,7 +23,8 @@ export default [{
     component: () => import(/* webpackChunkName: "error_maintenance" */ '@/pages/error/MaintenancePage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error_maintenance'
+        title: 'titles.error_maintenance',
+        requiresAuth: false
     }
 }, {
     path: '*',
@@ -29,6 +32,7 @@ export default [{
     component: () => import(/* webpackChunkName: "error" */ '@/pages/error/NotFoundPage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error'
+        title: 'titles.error',
+        requiresAuth: false
     }
 }]

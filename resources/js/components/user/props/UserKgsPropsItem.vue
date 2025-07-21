@@ -207,7 +207,7 @@ export default {
 
   &__owner-wrapper
     .props-item__header
-    padding-top: 0
+      padding-top: 0
   ::v-deep.CommonCopyLabel
     font-size: 1rem
   ::v-deep span.copy-label

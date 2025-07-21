@@ -110,12 +110,13 @@
 
                 <v-file-input
                     v-model="comp_data.file_doc"
-                    :label="$t('kyc.file_doc')"
-                    :hint="$t('kyc.file_doc_hint')"
-                    accept="application/pdf"
-                    prepend-icon="mdi-file-pdf-box"
+                    :label="getFileDocLabel"
+                    :hint="getFileDocHint"
+                    :accept="getFileDocAccept"
+                    :prepend-icon="getFileDocIcon"
                     :error-messages="errors.file_doc"
                     @input="errors.file_doc = []"
+                    @change="errors.file_doc = []"
                     :rules="[rules.required]"
                     persistent-hint
                     clearable
@@ -186,7 +187,7 @@
                     <v-icon small color="green darken-2">
                       mdi-check
                     </v-icon>
-                    <span class="ml-1">{{ $t('kyc.manual.doc_file_uploaded') }}</span>
+                    <span class="ml-1">{{ product.kybLocalUploadType === 'zip_docs'? $t('kyc.manual.zip_file_uploaded') : $t('kyc.manual.doc_file_uploaded') }}</span>
                   </div>
                 </div>
 
@@ -262,7 +263,7 @@
                     <v-icon small color="green darken-2">
                       mdi-check
                     </v-icon>
-                    <span class="ml-1">{{ $t('kyc.manual.doc_file_uploaded') }}</span>
+                    <span class="ml-1">{{ product.kybLocalUploadType === 'zip_docs'? $t('kyc.manual.zip_file_uploaded') : $t('kyc.manual.doc_file_uploaded') }}</span>
                   </div>
                 </div>
 
@@ -345,6 +346,7 @@ export default {
     ...mapState({
       kyc_local_comp: state => state.user.kyc_local_comp,
     }),
+    ...mapState('app', ['product']),
     isRU() {
       return (this.residentCountry === 'RU' && this.resident === 'resident') || (this.residentCountry !== 'RU' && this.comp_data.country === 'RU')
     },
@@ -354,7 +356,7 @@ export default {
     compNameRules() {
       if(this.isRU) return [this.rules.required, this.rules.company_name];
       else if(this.isKG) return [this.rules.required, this.rules.company_name_global];
-      else return [this.rules.required, this.rules.company_name_global];
+      else return [this.rules.required, this.rules.min5char, this.rules.max256char, this.rules.company_name_global];
     },
     regNoRules() {
       if(this.isRU) return [this.rules.required, this.rules.reg_no_ru];
@@ -365,6 +367,38 @@ export default {
       if(this.isRU) return [this.rules.required, this.rules.comp_ip_inn];
       else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
       else return [this.rules.required, this.rules.min8char, this.rules.max40char];
+    },
+    getFileDocLabel() {
+      if(this.product.kybLocalUploadType)
+      {
+        if(this.product.kybLocalUploadType === 'letter') return this.$t('kyc.file_doc')
+        else if(this.product.kybLocalUploadType === 'zip_docs') return this.$t('kyc.zip_file_doc')
+        else return this.$t('kyc.file_doc')
+      } else return this.$t('kyc.file_doc')
+    },
+    getFileDocHint() {
+      if(this.product.kybLocalUploadType)
+      {
+        if(this.product.kybLocalUploadType === 'letter') return this.$t('kyc.file_doc_hint')
+        else if(this.product.kybLocalUploadType === 'zip_docs') return this.$t('kyc.zip_file_doc_hint')
+        else return this.$t('kyc.file_doc_hint')
+      } else return this.$t('kyc.file_doc_hint')
+    },
+    getFileDocAccept() {
+      if(this.product.kybLocalUploadType)
+      {
+        if(this.product.kybLocalUploadType === 'letter') return 'application/pdf'
+        else if(this.product.kybLocalUploadType === 'zip_docs') return 'application/zip'
+        else return 'application/pdf'
+      } else return 'application/pdf'
+    },
+    getFileDocIcon() {
+      if(this.product.kybLocalUploadType)
+      {
+        if(this.product.kybLocalUploadType === 'letter') return 'mdi-file-pdf-box'
+        else if(this.product.kybLocalUploadType === 'zip_docs') return 'mdi-zip-box'
+        else return 'mdi-file-pdf-box'
+      } else return 'mdi-file-pdf-box'
     },
     getCompNameLabel() {
       if(this.comp_data.country === 'AU') return this.$t('kyc.manual.legal.form.abn');

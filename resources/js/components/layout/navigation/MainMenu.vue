@@ -22,7 +22,7 @@ export default {
 					icon: 'mdi-finance',
 					key: 'menu.trading',
 					text: 'Trading',
-					link: '/',
+					link: '/trading',
 				},
 				{
 					icon: 'mdi-home',
@@ -105,6 +105,16 @@ export default {
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.support'; });
       if(this.product.disabledMarketsShow)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.overview'; });
+      if(this.product.disabledTradingShow)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.trading'; });
+      if(this.product.disabledBalanceShow)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.balance'; });
+      if(this.product.disabledOrdersShow)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.orders'; });
+      if(this.product.disabledDealsShow)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.deals'; });
+      if(this.product.disabledRefsShow)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.refs'; });
       return filtered;
 		},
     hasCurrencies() {

@@ -19,11 +19,11 @@ export default {
 	data: () => ({
 		component: null,
 	}),
-    computed: {
-        loader() {
-            return () => import(`./pages/main/${this.$component}`+`.vue`);
-        },
+  computed: {
+    loader() {
+      return () => import(`./pages/main/${this.$component}`+`.vue`);
     },
+  },
 	head: {
 		link: [
 			// adds config/icons into the html head tag
@@ -37,8 +37,8 @@ export default {
         })
 	},
 	mounted() {
-		this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
-		this.$store.commit('app/setConfig', { config: this.$config, vm: this });
+		//this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+		//this.$store.commit('app/setConfig', { config: this.$config, vm: this });
 	},
 };
 </script>

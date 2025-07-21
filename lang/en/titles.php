@@ -9,6 +9,7 @@ return [
 
     '2fa' => 'Check 2FA',
     '2fa_forget' => 'Forget 2FA',
+    'landing' => 'Crypto Asset Exchange Service',
     'api'   => 'API',
     'balance' => 'Balance',
     'confirm' => 'Email confirm',

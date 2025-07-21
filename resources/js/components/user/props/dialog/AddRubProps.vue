@@ -55,7 +55,7 @@
                         v-mask="'#########'"
                         :hint="$t('user.props.dialog.add.bic_hint')"
                         persistent-hint
-                        @paste.prevent
+
                         required
                         dense
                     >
@@ -80,12 +80,12 @@
                       </template>
                     </v-text-field>
                   </v-col>
-                  <v-col cols="12" md="12" class="pt-0 pb-0 mt-2">
+                  <v-col cols="12" md="12" class="pt-0 pb-0 mt-2" v-if="check_inn">
                     <v-text-field
                         v-model="form.inn"
-                        :rules="[rules.required, this.is_legal ? rules.comp_ip_inn : rules.ind_inn]"
-                        v-mask="'############'"
-                        :hint="this.is_legal ? $t('user.props.dialog.add.comp_inn_hint') : $t('user.props.dialog.add.ind_inn_hint')"
+                        :rules="taxNoRules"
+                        v-mask="tax_id_mask"
+                        :hint="getTaxIDHint"
                         persistent-hint
                         @paste.prevent
                         required
@@ -96,7 +96,7 @@
                       </template>
                     </v-text-field>
                   </v-col>
-                  <v-col cols="12" md="12" class="pt-0 pb-0 mt-2" v-if="is_legal && is_resident">
+                  <v-col cols="12" md="12" class="pt-0 pb-0 mt-2" v-if="check_kpp">
                     <v-text-field
                         v-model="form.kpp"
                         :rules="[rules.required, rules.comp_kpp]"
@@ -200,7 +200,7 @@ import loadingMixin from '@/mixins/common/loadingMixin';
 import showNotificationMixin from '@/mixins/common/showNotificationMixin';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 import validateInputMixin from '@/mixins/common/validateInputMixin.js';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'Add',
@@ -228,9 +228,7 @@ export default {
         bic: null,
         acc: null,
         inn: null,
-        kpp: null,
-        is_legal: this.is_legal,
-        is_resident: this.is_resident
+        kpp: null
       },
       errors: {
         name: [],
@@ -242,6 +240,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('user', ['verifyResidentCountry','verifyType']),
     emptyName() {
       return !this.form.name?.trim();
     },
@@ -251,6 +250,41 @@ export default {
     is_resident() {
       return (this.trader_status & 32) === 32;
     },
+    check_inn() {
+      return (!(this.verifyType === 'sumsub' && !this.is_legal));
+    },
+    check_kpp() {
+      return (this.verifyType === 'kontur' && this.is_legal && this.isRU);
+    },
+    isRU() {
+      return this.verifyResidentCountry === 'RU';
+    },
+    isKG() {
+      return this.verifyResidentCountry === 'KG';
+    },
+    taxNoRules() {
+      if(this.isRU)
+      {
+        if(this.is_legal) return [this.rules.required, this.rules.comp_ip_inn];
+        else return [this.rules.required, this.rules.ind_inn];
+      }
+      else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
+      else return [this.rules.required, this.rules.min8char, this.rules.max40char];
+    },
+    tax_id_mask() {
+      if(this.isRU) return '##########??';
+      else if(this.isKG) return '##############';
+      else return null;
+    },
+    getTaxIDHint() {
+      if(this.isRU)
+      {
+        if(this.is_legal) return this.$t('user.props.dialog.add.comp_inn_hint');
+        else return this.$t('user.props.dialog.add.ind_inn_hint');
+      }
+      else if(this.isKG) return this.$t('user.props.dialog.add.inn_kg_hint');
+      else return this.$t('user.props.dialog.add.inn_hint');
+    }
   },
   methods: {
     ...mapActions({

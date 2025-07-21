@@ -22,12 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('config', [
-            'fiat' => true,
-            'leverageLevel' => 5,
-            'captcha_enabled' => config('captcha.enabled'),
-            'captcha_type' => config('captcha.type')
-        ]);
+
     }
 
     private function initializeSettingsContainer()

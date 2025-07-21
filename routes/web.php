@@ -16,9 +16,25 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::get('/', function () {
+    if(Auth::guest())
+    {
+        if(config('app.start-page') === 'trading')
+            return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
+        else if(config('app.start-page') === 'landing')
+            return view('landing');
+        else return redirect(config('app.start-page'));
+    }
+    else
+    {
+        if(config('app.start-authed-page') === 'trading')
+            return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
+        else return redirect(config('app.start-authed-page'));
+    }
+});
+Route::get('trading', function () {
     return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
 });
-
+Route::get('landing', 'TraderController@getLandingView')->name('landing_view');
 Route::get('trading/{market}/{currency}', 'TraderController@getTradingView')->name('trading_view');
 Route::get('overview', 'TraderController@getOverviewView')->name('overview_view');
 Route::get('policy', 'TraderController@getPolicyView')->name('policy_view');

@@ -1438,14 +1438,15 @@ class BuyOwnExClientAPI
         }
     }
 
-    public function kgsPropsAddRequest($trader_id, $name, $bic, $acc, $inn)
+    public function kgsPropsAddRequest($trader_id, $name, $bic, $acc, $inn, $kpp)
     {
         $params = [
             'trader' => $trader_id,
             'name' => $name,
             'bic' => $bic,
             'acc' => $acc,
-            'inn' => $inn
+            'inn' => $inn,
+            'kpp' => $kpp
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

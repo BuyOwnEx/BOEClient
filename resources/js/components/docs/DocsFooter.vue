@@ -1,5 +1,5 @@
 <template>
-	<div class="caption mt-2 text-center">
+	<div class="caption mt-2 text-center" v-if="!product.disabledStatusPageShow">
 		<slot>
 			<span>{{ $t('common.have_questions') }}</span>
       <br>
@@ -10,10 +10,14 @@
 
 <script>
 import Link from "@/components/common/Link.vue";
+import { mapState } from 'vuex';
 export default {
 	name: 'DocsFooter',
-    components: {
-        Link
-    },
+  components: {
+      Link
+  },
+  computed: {
+    ...mapState('app', ['product']),
+  }
 };
 </script>

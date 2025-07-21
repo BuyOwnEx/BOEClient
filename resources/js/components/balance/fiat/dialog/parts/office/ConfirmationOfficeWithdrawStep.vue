@@ -4,9 +4,9 @@
       <BalanceFiatDialogAlert>
         {{ $t('balance.dialog.office_withdrawal_alert') }}
         <ul>
-          <li>{{ $t('balance.dialog.office_document_1') }}</li>
-          <li>{{ $t('balance.dialog.office_document_2') }}</li>
-          <li>{{ $t('balance.dialog.office_document_3') }}</li>
+          <li>{{ $t('balance.dialog.office_withdraw_document_1') }}</li>
+          <li>{{ $t('balance.dialog.office_withdraw_document_2') }}</li>
+          <li>{{ $t('balance.dialog.office_withdraw_document_3') }}</li>
         </ul>
       </BalanceFiatDialogAlert>
 

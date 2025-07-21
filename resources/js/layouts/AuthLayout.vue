@@ -14,10 +14,10 @@
 			</div>
 			<div class="auth-layout__links overline pa-1 mb-1">
 				<span>
-          <Link path="/">{{ $t('menu.trading') }}</Link>
-          <Link class="white--text" path="/fees">{{ $t('fees.title') }}</Link>
-          <Link class="white--text" path="/status">{{ $t('status.title') }}</Link>
-          <Link class="white--text" path="/api">{{ $t('menu.api') }}</Link>
+          <Link v-if="!product.disabledTradingShow" class="white--text" path="/trading">{{ $t('menu.trading') }}</Link>
+          <Link v-if="!product.disabledFeesPageShow" class="white--text" path="/fees">{{ $t('fees.title') }}</Link>
+          <Link v-if="!product.disabledStatusPageShow" class="white--text" path="/status">{{ $t('status.title') }}</Link>
+          <Link v-if="!product.disabledApiPageShow" class="white--text" path="/api">{{ $t('menu.api') }}</Link>
 				</span>
 			</div>
 		</v-sheet>
@@ -29,10 +29,10 @@
 
 			<div class="overline mt-4">
 				<div v-if="$vuetify.breakpoint.smAndDown" class="auth-layout__links mb-1">
-          <Link path="/">{{ $t('menu.trading') }}</Link>
-          <Link path="/fees">{{ $t('fees.title') }}</Link>
-          <Link path="/status">{{ $t('status.title') }}</Link>
-          <Link path="/api">{{ $t('menu.api') }}</Link>
+          <Link v-if="!product.disabledTradingShow" path="/trading">{{ $t('menu.trading') }}</Link>
+          <Link v-if="!product.disabledFeesPageShow" path="/fees">{{ $t('fees.title') }}</Link>
+          <Link v-if="!product.disabledStatusPageShow" path="/status">{{ $t('status.title') }}</Link>
+          <Link v-if="!product.disabledApiPageShow" path="/api">{{ $t('menu.api') }}</Link>
 				</div>
 				<div>{{ product.name }} - {{ product.version }}</div>
 			</div>
@@ -49,14 +49,14 @@ import Link from "@/components/common/Link.vue";
 
 export default {
 	components: {
-        Link,
-        ToolbarThemeChanger,
-        ToolbarLanguage
-    },
+    Link,
+    ToolbarThemeChanger,
+    ToolbarLanguage
+  },
 	data() {
 		return {
-            LogoFull
-        };
+      LogoFull
+    };
 	},
 	computed: {
 		...mapState('app', ['product']),

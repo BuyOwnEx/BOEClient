@@ -37,13 +37,13 @@ export default {
 					title: this.$t('apps.exchange.title'),
 					subtitle: this.$t('apps.exchange.subtitle'),
 					icon: 'mdi-apps',
-					to: '/',
+					to: '/trading',
 				},
 			];
 		},
-        isSPA() {
-            return this.$spa;
-        }
+    isSPA() {
+        return this.$spa;
+    }
 	},
 };
 </script>

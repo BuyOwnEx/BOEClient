@@ -35,11 +35,11 @@ export default {
 	},
 	setAuthUser: (state, data) => {
 		state.trader = data.user;
-		data.vm.$eventHub.$emit('set-user', { user: data.user });
+		//data.vm.$eventHub.$emit('set-user', { user: data.user });
 	},
 	setConfig: (state, data) => {
 		state.config = data.config;
-		data.vm.$eventHub.$emit('set-config', { config: data.config });
+		//data.vm.$eventHub.$emit('set-config', { config: data.config });
 	},
 	setUser2FA: (state, status) => {
 		state.trader.g2fa = status;

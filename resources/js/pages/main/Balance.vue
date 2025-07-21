@@ -72,7 +72,7 @@ export default {
 	},
 
   async created() {
-    this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+    //this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
     await Promise.all([this.getVerificationStatusStore(), this.getBlockStatusStore(), this.getStatusStore(), this.fetchWithdrawals(), this.fetchFiatWithdrawals()]);
     this.isLoading = false;
 	},
@@ -83,7 +83,7 @@ export default {
       fetchFiatWithdrawalsStore: 'balance/fetchFiatWithdrawals',
       getBlockStatusStore: 'user/getBlockStatus',
       getVerificationStatusStore: 'user/getVerifyStatus',
-      getStatusStore: 'user/getStatus',
+      getStatusStore: 'user/getStatus'
 		}),
 
 		async fetchWithdrawals() {

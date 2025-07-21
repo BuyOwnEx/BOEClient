@@ -35,7 +35,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo =  RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -56,7 +56,7 @@ class LoginController extends Controller
                 $request->validate([
                     $this->username() => 'required|string',
                     'password' => 'required|string',
-                    'captcha' => ['required',new Geetest()]
+                    'captcha_output' => ['required',new Geetest()]
                 ]);
             }
             elseif (mb_strtoupper(config('captcha.type')) === 'CLOUDFLARE')
@@ -64,7 +64,7 @@ class LoginController extends Controller
                 $request->validate([
                     $this->username() => 'required|string',
                     'password' => 'required|string',
-                    'captcha' => ['required',new CloudFlare()]
+                    'captcha_output' => ['required',new CloudFlare()]
                 ]);
             }
         }
@@ -105,8 +105,9 @@ class LoginController extends Controller
                 ]);
             }
             return response()->json([
-                'auth' => auth()->check(),
-                'intended' => $this->redirectPath(),
+                'auth' => true,
+                'user' => $user,
+                'intended' => config('app.start-authed-page') === 'trading' ? $this->redirectPath() : '/'.config('app.start-authed-page'),
             ]);
         }
         return true;

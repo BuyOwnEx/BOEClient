@@ -187,12 +187,13 @@ export default {
 	},
 	mounted() {
 		//this.$eventHub.$on('set-user', this.initWSConnection);
+		this.initWSConnection();
 	},
 	created() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
 	},
 	beforeDestroy() {
-		this.$eventHub.$off('set-user', this.initWSConnection);
+		//this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 	beforeRouteLeave(to, from, next) {
 			this.$eventHub.$emit('overviewChartLeave');

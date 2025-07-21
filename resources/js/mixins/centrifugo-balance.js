@@ -106,13 +106,15 @@ export default {
 
 	mounted() {
 		//this.$eventHub.$on('set-user', this.initWSConnection);
+		this.initWSConnection();
 	},
 	created() {
 		//console.log('centrifugo balance created...');
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.initWSConnection();
 	},
 	beforeDestroy() {
-		this.$eventHub.$off('set-user', this.initWSConnection);
+		//this.$eventHub.$off('set-user', this.initWSConnection);
 	},
 	beforeRouteLeave(to, from, next) {
 		this.disconnect();

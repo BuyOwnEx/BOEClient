@@ -24,10 +24,14 @@ export default {
 			...config.icons.map(href => ({ rel: 'stylesheet', href })),
 		]
 	},
-    watch: {
+    /*watch: {
         $route: {
             immediate: true,
             handler(to, from) {
+                if(to.name === 'login')
+                {
+                  if(this.$user) this.$router.push('/'+import.meta.env.VITE_CONFIG_START_AUTHED_PAGE);
+                }
                 if(to.name === 'trading')
                 {
                     document.title = config.product.name + ' - ' + this.$trading_currency + '/' + this.$trading_market;
@@ -40,9 +44,9 @@ export default {
                     document.title = config.product.name + ' - ' + this.$t(to.meta.title) || config.product.name;
             }
         },
-    },
+    },*/
     mounted() {
-        this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
+        //this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
         this.$store.commit('app/setConfig', { config: this.$config, vm: this });
     },
 };

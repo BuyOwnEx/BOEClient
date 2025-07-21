@@ -5,6 +5,8 @@ use Illuminate\Support\ServiceProvider;
 
 return [
     'server'              => env('SERVER'),
+    'start-page'          => env('VITE_CONFIG_START_PAGE','trading'),
+    'start-authed-page'          => env('VITE_CONFIG_START_AUTHED_PAGE','trading'),
     'api-public-key'      => env('API_PUBLIC_KEY'),
     'api-secret-key'      => env('API_SECRET_KEY'),
     'client_id'           => env('CLIENT_ID'),

@@ -21,8 +21,8 @@ Vue.prototype.$vuetify = vuetify.framework;
 Vue.prototype.$eventHub = new Vue();
 Vue.prototype.$trading_currency = window.trading_currency;
 Vue.prototype.$trading_market = window.trading_market;
-Vue.prototype.$user = window.user;
-Vue.prototype.$config = window.config;
+//Vue.prototype.$user = window.user;
+//Vue.prototype.$config = window.config;
 Vue.prototype.$spa = false;
 
 //import HighchartsVue from 'highcharts-vue';

@@ -113,26 +113,26 @@ export default {
 			}
 		},
 		subscribePublic() {
-            if(this.sub_markets === null)
-            {
-                this.$store.dispatch('tickers/getMarketDataFromServer').then(resp => {
-                    this.sub_markets = this.centrifuge.subscribe('public:markets');
-                    this.sub_markets.on('subscribe', this.channelSubscribeHandler);
-                    this.sub_markets.on('publish', this.marketsPubHandler);
-                    this.sub_markets.on('error', this.channelErrorHandler);
-                    this.sub_markets.on('unsubscribe', this.channelUnsubscribeHandler);
-                });
-            }
+			if(this.sub_markets === null)
+			{
+				this.$store.dispatch('tickers/getMarketDataFromServer').then(resp => {
+					this.sub_markets = this.centrifuge.subscribe('public:markets');
+					this.sub_markets.on('subscribe', this.channelSubscribeHandler);
+					this.sub_markets.on('publish', this.marketsPubHandler);
+					this.sub_markets.on('error', this.channelErrorHandler);
+					this.sub_markets.on('unsubscribe', this.channelUnsubscribeHandler);
+				});
+			}
 			if(this.sub_tickers === null)
-            {
-                this.$store.dispatch('tickers/getTickersListFromServer').then(resp => {
-                    this.sub_tickers = this.centrifuge.subscribe('public:tickers');
-                    this.sub_tickers.on('subscribe', this.channelSubscribeHandler);
-                    this.sub_tickers.on('publish', this.tickersPubHandler);
-                    this.sub_tickers.on('error', this.channelErrorHandler);
-                    this.sub_tickers.on('unsubscribe', this.channelUnsubscribeHandler);
-                });
-            }
+			{
+				this.$store.dispatch('tickers/getTickersListFromServer').then(resp => {
+					this.sub_tickers = this.centrifuge.subscribe('public:tickers');
+					this.sub_tickers.on('subscribe', this.channelSubscribeHandler);
+					this.sub_tickers.on('publish', this.tickersPubHandler);
+					this.sub_tickers.on('error', this.channelErrorHandler);
+					this.sub_tickers.on('unsubscribe', this.channelUnsubscribeHandler);
+				});
+			}
 
 			this.$store.dispatch('trading/getOrderBookFromServer').then(resp => {
 				if (resp.asks_list.length !== 0) {
@@ -414,9 +414,11 @@ export default {
 	},
 	mounted() {
 		//this.$eventHub.$on('set-user', this.initWSConnection);
+		this.initWSConnection();
 	},
 	created() {
-		this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.$eventHub.$on('set-user', this.initWSConnection);
+		//this.initWSConnection();
 	},
 	beforeDestroy() {
 		this.$eventHub.$off('set-user', this.initWSConnection);

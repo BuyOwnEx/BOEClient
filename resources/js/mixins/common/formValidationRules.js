@@ -35,6 +35,7 @@ export default {
 				max6char: v => !v || v.length <= 6 || this.$t('forms_validation.max_6char'),
 				max40char: v => !v || v.length <= 40 || this.$t('forms_validation.max_40char'),
 				max64char: v => !v || v.length <= 64 || this.$t('forms_validation.max_64char'),
+				max256char: v => !v || v.length <= 256 || this.$t('forms_validation.max_256char'),
 
 				only9char: v => !v || v.length === 9 || this.$t('forms_validation.only9char'),
 				only20char: v => !v || v.length === 20 || this.$t('forms_validation.only20char'),
