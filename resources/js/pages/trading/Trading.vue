@@ -213,8 +213,8 @@ export default {
 	created() {
 		if (!this.$store.state.trading.selectedMarket || !this.$store.state.trading.selectedCurrency) {
 			this.$store.commit('trading/setPair', {
-				currency: this.$trading_currency,
-				market: this.$trading_market,
+        currency: this.$route.params.currency,
+        market: this.$route.params.market,
 			});
 		}
     if ('localStorage' in window) {
@@ -222,8 +222,6 @@ export default {
       if(candlePeriod) this.$store.commit('trading/setGraphPeriod', candlePeriod);
       else this.$store.commit('trading/setGraphPeriod', '1m');
     }
-    //if (this.$spa)
-    //    this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 	},
 
 	mounted() {

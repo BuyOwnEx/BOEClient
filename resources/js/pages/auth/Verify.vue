@@ -54,7 +54,7 @@
 				{{ $t('auth.verify.already_activated') }}
 			</div>
 
-			<v-btn block small text tile href="/login" :to="this.$spa ? '/login' : null" color="primary darken-1">
+			<v-btn block small text tile href="/login" :to="'/login'" color="primary darken-1">
 				{{ $t('auth.signin') }}
 			</v-btn>
 		</div>
@@ -68,13 +68,19 @@ import waves from '@/plugins/hero-canvas';
 
 export default {
 	name: 'Verify',
+  props: {
+    email: {
+      type: String,
+      required: true,
+    },
+  },
 	mixins: [formValidationRules, loadingMixin],
 	data() {
 		return {
 			valid: true,
 			loading: false,
 			user: {
-				email: window.activation.email,
+				email: this.email,
 			},
 			errors: {
 				email: [],
@@ -95,7 +101,6 @@ export default {
 			axios.post('/email/resend', this.user)
             .then(response => {
                 if (response.data.resend) this.resend_alert = true;
-                //else this.$store.commit('snackbars/showSnackbar',{ text: response.data.message, success: false});
             })
             .catch(error => {
                 this.resend_alert = false;

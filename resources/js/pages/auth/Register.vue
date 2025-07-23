@@ -150,7 +150,7 @@
 			<div class="caption grey--text darken-4">
 				{{ $t('auth.register.account') }}
 			</div>
-            <v-btn block small text tile href="/login" :to="this.$spa ? '/login' : null" color="primary darken-1">
+            <v-btn block small text tile href="/login" :to="'/login'" color="primary darken-1">
                 {{ $t('auth.signin') }}
             </v-btn>
 		</div>
@@ -218,7 +218,9 @@ export default {
 			axios
 				.post('/register', this.user)
 				.then(response => {
-					if (response.data.registered) window.location.href = response.data.intended;
+          if(response.data.registered && response.data.intended === 'verify')
+            this.$router.push({ name: response.data.intended, params: { email: response.data.email } });
+					else this.$router.push({ name: response.data.intended});
 				})
 				.catch(error => {
 					if (error.response.status === 422) {

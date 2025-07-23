@@ -85,7 +85,7 @@
 				{{ reset_text }}
 			</v-alert>
 			<v-card-actions class="pt-4 pl-6 pr-6 pb-4">
-				<v-btn color="primary" block tile href="/login" :to="this.$spa ? '/login' : null">
+				<v-btn color="primary" block tile href="/login" :to="'/login'">
 					{{ $t('auth.signin') }}
 				</v-btn>
 			</v-card-actions>
@@ -108,8 +108,8 @@ export default {
 			show: false,
 			show_confirm: false,
 			user: {
-				email: window.reset.email,
-				token: window.reset.token,
+				email: this.$route.query.email,
+				token: this.$route.params.token,
 				password: '',
 				password_confirmation: '',
 			},

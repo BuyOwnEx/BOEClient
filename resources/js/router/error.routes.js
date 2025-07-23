@@ -1,11 +1,12 @@
 import Layout from '@/layouts/ErrorLayout.vue'
+import i18n from '@/plugins/vue-i18n.js';
 export default [{
     path: '/not-found',
     name: 'error_not_found',
     component: () => import(/* webpackChunkName: "error_not_found" */ '@/pages/error/NotFoundPage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error_not_found',
+        title: i18n.t('titles.error_not_found'),
         requiresAuth: false
     }
 }, {
@@ -14,7 +15,7 @@ export default [{
     component: () => import(/* webpackChunkName: "error_unexpected" */ '@/pages/error/UnexpectedPage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error_unexpected',
+        title: i18n.t('titles.error_unexpected'),
         requiresAuth: false
     }
 }, {
@@ -23,7 +24,7 @@ export default [{
     component: () => import(/* webpackChunkName: "error_maintenance" */ '@/pages/error/MaintenancePage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error_maintenance',
+        title: i18n.t('titles.error_maintenance'),
         requiresAuth: false
     }
 }, {
@@ -32,7 +33,7 @@ export default [{
     component: () => import(/* webpackChunkName: "error" */ '@/pages/error/NotFoundPage.vue'),
     meta: {
         layout: Layout,
-        title: 'titles.error',
+        title: i18n.t('titles.error'),
         requiresAuth: false
     }
 }]

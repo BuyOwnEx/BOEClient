@@ -22,6 +22,11 @@ class ForgotPasswordController extends Controller
 
     use SendsPasswordResetEmails;
 
+    public function showLinkRequestForm()
+    {
+        return view('spa');
+    }
+
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return $request->wantsJson()

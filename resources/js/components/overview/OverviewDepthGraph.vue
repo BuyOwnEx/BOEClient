@@ -7,7 +7,7 @@
 				:label="$t('overview.select_pair')"
 				:hint="$t('overview.select_pair_hint')"
 				item-text="name"
-				item-value="id"
+				item-value="name"
 				persistent-hint
 				hide-details
 				@change="changePair"
@@ -58,12 +58,11 @@ export default {
 			required: true,
 		},
 	},
-
 	data() {
 		return {
 			hcInstanceOverview: Highcharts,
 			graphHeight: 450,
-			sp: 1,
+			sp: this.currency.toUpperCase() + '/' + this.market.toUpperCase(),
 			options: {
 				chart: {
 					animation: false,
@@ -147,7 +146,6 @@ export default {
 					footerFormat: '</table>',
 					valueDecimals: 2,
 				},
-
 				series: [
 					{
 						name: 'Bids',
@@ -164,11 +162,11 @@ export default {
 						xAxis: 1,
 					},
 				],
-                stockTools: {
-                    gui: {
-                        enabled: false
-                    }
-                }
+        stockTools: {
+          gui: {
+            enabled: false
+          }
+        }
 			},
 		};
 	},
@@ -198,13 +196,13 @@ export default {
 	},
 
 	methods: {
-        leaveHandler() {
-            this.$eventHub.$off('updateDepth', this.updateDepthHandler);
-            this.$eventHub.$off('overviewChartLeave', this.leaveHandler);
-        },
-		changePair(data) {
-			console.log(data);
-			const market = this.pairs ? _.find(this.pairs, item => item.id === data) : null;
+    leaveHandler() {
+      this.$eventHub.$off('updateDepth', this.updateDepthHandler);
+      this.$eventHub.$off('overviewChartLeave', this.leaveHandler);
+    },
+		changePair(name) {
+			console.log(name);
+			const market = this.pairs ? _.find(this.pairs, item => item.name === name) : null;
 			if (market) {
 				const pair = market.name.split('/');
 				this.$store.commit('trading/setPair', {
@@ -238,10 +236,9 @@ export default {
 			depth_chart.chart.redraw();
 		},
 	},
-
 	mounted() {
 		this.$eventHub.$on('updateDepth', this.updateDepthHandler);
-        this.$eventHub.$on('overviewChartLeave', this.leaveHandler);
+    this.$eventHub.$on('overviewChartLeave', this.leaveHandler);
 	},
 };
 </script>

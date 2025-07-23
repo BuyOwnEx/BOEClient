@@ -53,12 +53,10 @@ export default {
 			this.$store.state.trading.selectedCurrency === null
 		) {
 			this.$store.commit('trading/setPair', {
-				currency: this.$trading_currency,
-				market: this.$trading_market,
+				currency: import.meta.env.VITE_DEFAULT_CURRENCY,
+				market: import.meta.env.VITE_DEFAULT_MARKET,
 			});
 		}
-    //    if (this.$spa)
-    //        this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
 	}
 };
 </script>

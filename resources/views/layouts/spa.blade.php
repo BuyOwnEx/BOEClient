@@ -15,8 +15,18 @@
 </head>
 <body>
 <div id="app">
-
 </div>
+<script>
+    @if(session()->has('error'))
+        window.flash = @json(session()->get('error'));
+    @endif
+        @if(session()->has('verified'))
+        window.verified = @json(session()->get('verified'));
+    @endif
+    @if(isset($user))
+	    window.user = @json($user);
+    @endif
+</script>
 @yield('scripts')
 </body>
 </html>

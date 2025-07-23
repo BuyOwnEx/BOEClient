@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
+import config from '@/configs'
+import i18n from '@/plugins/vue-i18n';
 // Routes
 import AuthRoutes from './auth.routes'
 import ErrorRoutes from './error.routes'
@@ -15,7 +17,7 @@ export const routes = [{
         component: () => import(/* webpackChunkName: "landing" */ '@/pages/landing/Home.vue'),
         meta: {
             layout: Layout,
-            title: 'titles.landing'
+            title: i18n.t('titles.landing')
         },
         alias: '/landing',
     },
@@ -80,7 +82,7 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next() // make sure to always call next()!
+    next()
   }
 })
 
@@ -88,6 +90,8 @@ router.beforeEach((to, from, next) => {
  * After each route update
  */
 router.afterEach((to, from) => {
+  if(to.name === 'trading') document.title = config.product.name + ' - ' + to.params.currency + '/' + to.params.market;
+  else document.title = config.product.name + ' - ' + to.meta.title;
 })
 
 export default router

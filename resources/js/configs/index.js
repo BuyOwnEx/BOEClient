@@ -12,6 +12,7 @@ export default {
 		company_address: import.meta.env.VITE_COMPANY_ADDRESS,
 		company_phone: import.meta.env.VITE_COMPANY_PHONE,
 		company_email: import.meta.env.VITE_COMPANY_EMAIL,
+		company_telegram: import.meta.env.VITE_COMPANY_TELEGRAM,
 		type: import.meta.env.VITE_CONFIG_PRODUCT_TYPE, // possible values: "start", "startPlus", "full"
 		startPage: import.meta.env.VITE_CONFIG_START_PAGE, // possible values: "trading", "login", "landing"
 		startAuthedPage: import.meta.env.VITE_CONFIG_START_AUTHED_PAGE, // possible values: "trading", "profile"

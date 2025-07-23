@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -45,6 +46,11 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function showLoginForm()
+    {
+        return view('spa');
     }
 
     protected function validateLogin(Request $request)
@@ -89,10 +95,10 @@ class LoginController extends Controller
             }
             if(!$user->hasVerifiedEmail()) {
                 $this->guard()->logout();
-                $request->session()->flash('activation', $user);
                 return response()->json([
-                    'auth' => true,
-                    'intended' => '/email/verify',
+                    'auth' => false,
+                    'intended' => 'verify',
+                    'email' => $user->email
                 ]);
             }
             elseif($user->g2fa)
@@ -100,14 +106,14 @@ class LoginController extends Controller
                 $this->guard()->logout();
                 $request->session()->put('2fa:user:id', $user->id);
                 return response()->json([
-                    'auth' => true,
+                    'auth' => false,
                     'intended' => '2fa',
                 ]);
             }
             return response()->json([
                 'auth' => true,
                 'user' => $user,
-                'intended' => config('app.start-authed-page') === 'trading' ? $this->redirectPath() : '/'.config('app.start-authed-page'),
+                'intended' => config('app.start-authed-page'),
             ]);
         }
         return true;
@@ -116,7 +122,7 @@ class LoginController extends Controller
     public function getValidateToken()
     {
         if (session('2fa:user:id')) {
-            return view('auth/2fa');
+            return view('spa');
         }
         return redirect('login');
     }
@@ -154,8 +160,8 @@ class LoginController extends Controller
         Auth::loginUsingId($userId);
         return response()->json([
             'auth' => auth()->check(),
-            'intended' => $this->redirectPath(),
+            'user' => auth()->user(),
+            'intended' => config('app.start-authed-page'),
         ]);
     }
-
 }

@@ -118,17 +118,8 @@ export default {
 			logout: 'user/logout'
 		}),
 		navigatePage(item) {
-      if(this.$spa)
-      {
-        this.$router.push(item.link);
-        this.setProfileTab(item.tabIndex);
-      }
-      else
-      {
-        const isProfilePage = window.location.pathname === '/profile';
-        if (isProfilePage) this.setProfileTab(item.tabIndex);
-        else window.location = item.link;
-      }
+      this.$router.push(item.link);
+      this.setProfileTab(item.tabIndex);
 		},
 	},
 };

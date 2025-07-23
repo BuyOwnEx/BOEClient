@@ -43,6 +43,11 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        return view('spa');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -84,7 +89,8 @@ class RegisterController extends Controller
             $request->session()->flash('activation', $user);
             return response()->json([
                 'registered' => true,
-                'intended' => '/email/verify',
+                'email' => $user->email,
+                'intended' => 'verify',
             ]);
         }
         return true;

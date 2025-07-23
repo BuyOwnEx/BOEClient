@@ -1,6 +1,7 @@
 import configs from '../../configs';
 import mutations from './mutations';
 import getters from './getters';
+import actions from './actions';
 
 const { product, time, theme, currencies } = configs;
 
@@ -21,6 +22,7 @@ const state = {
 	isRTL,
 
 	trader: null,
+	flash: null
 };
 
 export default {
@@ -28,4 +30,5 @@ export default {
 	state,
 	mutations,
 	getters,
+	actions
 };

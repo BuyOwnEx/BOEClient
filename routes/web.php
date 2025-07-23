@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Auth::routes(['verify' => true]);
 
 Route::get('/', function () {
@@ -21,7 +22,7 @@ Route::get('/', function () {
         if(config('app.start-page') === 'trading')
             return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
         else if(config('app.start-page') === 'landing')
-            return view('landing');
+            return view('spa');
         else return redirect(config('app.start-page'));
     }
     else
@@ -34,33 +35,33 @@ Route::get('/', function () {
 Route::get('trading', function () {
     return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
 });
-Route::get('landing', 'TraderController@getLandingView')->name('landing_view');
+Route::get('landing', 'TraderController@getSpaView')->name('landing_view');
 Route::get('trading/{market}/{currency}', 'TraderController@getTradingView')->name('trading_view');
-Route::get('overview', 'TraderController@getOverviewView')->name('overview_view');
-Route::get('policy', 'TraderController@getPolicyView')->name('policy_view');
-Route::get('terms', 'TraderController@getTermsView')->name('terms_view');
-Route::get('api', 'TraderController@getApiView')->name('api_view');
-Route::get('fees', 'TraderController@getFeesView')->name('fees_view');
-Route::get('status', 'TraderController@getStatusView')->name('status_view');
-Route::get('contacts', 'TraderController@getContactsView')->name('contacts_view');
+Route::get('overview', 'TraderController@getSpaView')->name('overview_view');
+Route::get('policy', 'TraderController@getSpaView')->name('policy_view');
+Route::get('terms', 'TraderController@getSpaView')->name('terms_view');
+Route::get('api', 'TraderController@getSpaView')->name('api_view');
+Route::get('fees', 'TraderController@getSpaView')->name('fees_view');
+Route::get('status', 'TraderController@getSpaView')->name('status_view');
+Route::get('contacts', 'TraderController@getSpaView')->name('contacts_view');
 Route::get('2fa', 'Auth\LoginController@getValidateToken');
 Route::get('captcha', 'Auth\LoginController@getCaptchaConfig');
 Route::post('2fa_validate', ['middleware' => 'throttle:5', 'uses' => 'Auth\LoginController@postValidateToken']);
-Route::get('forget_2fa','Google2FAController@forgetTwoFactor');
+Route::get('forget_2fa','TraderController@getSpaView');
 Route::post('set_locale', 'TraderController@setLocale');
 
 Route::middleware('auth')->group(function () {
-    Route::get('balance', 'TraderController@getBalanceView')->name('balance_view');
-    Route::get('transactions', 'TraderController@getTransactionsView')->name('transactions_view');
-    Route::get('fiat_transactions', 'TraderController@getFiatTransactionsView')->name('fiat_transactions_view');
-    Route::get('transfers', 'TraderController@getTransfersView')->name('transfers_view');
-    Route::get('orders', 'TraderController@getOrdersView')->name('orders_view');
-    Route::get('deals', 'TraderController@getDealsView')->name('deals_view');
-    Route::get('ref_payments', 'TraderController@getRefPaymentsView')->name('referrals_view');
-    Route::get('support', 'TraderController@getSupportView')->name('support_view');
-    Route::get('profile', 'TraderController@getProfileView')->name('profile_view');
-    Route::get('notifications', 'TraderController@getNotificationsView')->name('notifications_view');
-    Route::get('get_verification_settings', 'TraderController@getVerificationSettings')->name('get_verification_settings');
+    Route::get('balance', 'TraderController@getSpaView')->name('balance_view');
+    Route::get('transactions', 'TraderController@getSpaView')->name('transactions_view');
+    Route::get('fiat_transactions', 'TraderController@getSpaView')->name('fiat_transactions_view');
+    Route::get('transfers', 'TraderController@getSpaView')->name('transfers_view');
+    Route::get('orders', 'TraderController@getSpaView')->name('orders_view');
+    Route::get('deals', 'TraderController@getSpaView')->name('deals_view');
+    Route::get('ref_payments', 'TraderController@getSpaView')->name('referrals_view');
+    Route::get('support', 'TraderController@getSpaView')->name('support_view');
+    Route::get('profile', 'TraderController@getSpaView')->name('profile_view');
+    Route::get('notifications', 'TraderController@getSpaView')->name('notifications_view');
+    Route::get('get_verification_settings', 'TraderController@getSpaView')->name('get_verification_settings');
 });
 
 Route::group(['prefix' => 'trader'], function () {

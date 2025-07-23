@@ -27,9 +27,9 @@ let locale = import.meta.env.VITE_CONFIG_DEFAULT_LOCALE;
 
 try {
 	// get locale from backend
-	if(window.locale)
+	if(document.documentElement.lang)
 	{
-		locale = window.locale;
+		locale = document.documentElement.lang;
 	}
 	else // get browser default language
 	{

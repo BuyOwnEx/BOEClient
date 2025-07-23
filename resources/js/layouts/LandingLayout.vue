@@ -33,18 +33,18 @@
               <div style="width: 80px; height: 2px" class="mb-5 mt-1 primary" />
               <div class="d-flex mb-2 font-weight-bold">
                 <v-icon dark color="primary lighten-1" class="mr-2">mdi-map-marker-outline</v-icon>
-                {{ config.product.company_address }}
+                {{ product.company_address }}
               </div>
               <div class="d-flex mb-2">
                 <v-icon dark color="primary lighten-1" class="mr-2">mdi-phone-outline</v-icon>
                 <a href="#" class="text-decoration-none text--primary">
-                  {{ config.product.company_phone }}
+                  {{ product.company_phone }}
                 </a>
               </div>
               <div class="d-flex mb-2">
                 <v-icon dark color="primary lighten-1" class="mr-2">mdi-email-outline</v-icon>
                 <a href="#" class="text-decoration-none text--primary">
-                  {{ config.product.company_email }}
+                  {{ product.company_email }}
                 </a>
               </div>
             </v-col>
@@ -74,7 +74,7 @@
           </v-row>
           <v-divider class="my-3"></v-divider>
           <div class="text-center caption">
-            {{ config.product.copyright }} {{ config.product.copy_start_year }} - {{ new Date().getFullYear() }}. {{ config.product.all_rights_text }}
+            {{ product.copyright }} {{ product.copy_start_year }} - {{ new Date().getFullYear() }}. {{ product.all_rights_text }}
           </div>
         </v-container>
       </v-footer>
@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import config from '@/configs'
 import Link from "@/components/common/Link.vue";
 import { mapState } from 'vuex';
 export default {
@@ -92,14 +91,16 @@ export default {
   },
   computed: {
     ...mapState('app', ['product']),
+    socials() {
+      return [ {
+        label: 'Telegram',
+        to: this.product.company_telegram
+      }];
+    },
   },
   data() {
     return {
-      config,
-      socials: [ {
-        label: 'Telegram',
-        to: 'https://ya.ru'
-      }],
+
       links: [{
         label: this.$t('menu.trading'),
         to: '/trading'

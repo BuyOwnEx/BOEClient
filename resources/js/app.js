@@ -26,13 +26,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$store = store;
 Vue.prototype.$vuetify = vuetify.framework;
 Vue.prototype.$eventHub = new Vue();
-Vue.prototype.$trading_currency = window.trading_currency || import.meta.env.VITE_DEFAULT_CURRENCY;
-Vue.prototype.$trading_market = window.trading_market || import.meta.env.VITE_DEFAULT_MARKET ;
 store.commit('app/setAuthUser', { user: window.user || null, vm: this })
-//Vue.prototype.$user = window.user || null;
-//Vue.prototype.$config = window.config || null;
-Vue.prototype.$component = window.component;
-Vue.prototype.$spa = true;
 
 Vue.use(i18n);
 Vue.use(VueRouter)

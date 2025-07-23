@@ -44,7 +44,7 @@
 				{{ $t('auth.g2fa.problem') }}
 			</div>
 
-			<v-btn block small text tile href="/contacts" :to="this.$spa ? '/contacts' : null" color="primary darken-1">
+			<v-btn block small text tile href="/contacts" :to="'/contacts'" color="primary darken-1">
 				{{ $t('auth.g2fa.contact') }}
 			</v-btn>
 		</div>
@@ -88,7 +88,11 @@ export default {
 			this.startLoading()
 			axios.post('/2fa_validate', this.form)
             .then(response => {
-                if (response.data.auth) window.location.href = response.data.intended;
+                if (response.data.auth)
+                {
+                  this.$store.commit('app/setAuthUser', { user: response.data.user, vm: this });
+                  this.$router.push({ name: response.data.intended});
+                }
                 else this.$store.commit('snackbars/showSnackbar', { text: response.data.message, success: false });
             })
             .catch(error => {

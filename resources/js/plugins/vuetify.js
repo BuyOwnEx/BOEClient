@@ -22,6 +22,9 @@ Vue.use(Vuetify, {
 
 export default new Vuetify({
 	rtl: config.theme.isRTL,
+	icons: {
+		iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+	},
 	theme: {
 		dark: config.theme.globalTheme === 'dark',
 		options: {

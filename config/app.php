@@ -13,7 +13,6 @@ return [
     'api-mobile-public-key'      => env('API_MOBILE_PUBLIC_KEY', null),
     'api-mobile-secret-key'      => env('API_MOBILE_SECRET_KEY', null),
     'mobile-api-enabled'         => (bool) env('MOBILE_API_ENABLED', false),
-    'spa_enabled'         => (bool) env('SPA_ENABLED', false),
     'support_enabled'     => (bool) env('VITE_CONFIG_ENABLED_SUPPORT', false),
     'statement-available-days' => (int) env('VITE_AVAILABLE_STATEMENT_DAYS', 365),
     /*

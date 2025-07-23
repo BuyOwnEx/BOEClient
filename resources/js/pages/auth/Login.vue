@@ -73,7 +73,7 @@
 			</v-card-actions>
 
 			<div class="caption grey--text darken-4 pb-1 pl-6 pr-6">
-				<v-btn class="text-decoration-underline" color="primary" href="/password/reset" :to="this.$spa ? '/password/reset' : null" small plain>
+				<v-btn class="text-decoration-underline" color="primary" href="/password/reset" :to="'/password/reset'" small plain>
 					{{ $t('auth.login.forgot') }}
 				</v-btn>
 			</div>
@@ -107,7 +107,7 @@
 				{{ $t('auth.login.noaccount') }}
 			</div>
 
-			<v-btn block small text tile href="/register" :to="this.$spa ? '/register' : null" color="primary darken-1">
+			<v-btn block small text tile href="/register" :to="'/register'" color="primary darken-1">
 				{{ $t('auth.login.create') }}
 			</v-btn>
 		</div>
@@ -122,6 +122,23 @@ import { mapState } from 'vuex';
 
 export default {
 	name: 'Login',
+  props: {
+    isCaptchaEnabled: {
+      type: Boolean,
+      required: true,
+    },
+    captchaType: {
+      type: String,
+      required: false
+    },
+  },
+  head: {
+    script: function () {
+      return this.isCaptchaEnabled ?
+          (this.captchaType.toUpperCase() === 'CLOUDFLARE' ? [{src:'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'}] :
+              [{src: 'https://static.geetest.com/v4/gt4.js'}]) : []
+    },
+  },
 	mixins: [formValidationRules, loadingMixin],
 	data() {
 		return {
@@ -145,7 +162,7 @@ export default {
       captcha_obj: null,
       captcha_init: false,
 			verify_block: window.verified,
-			verify_error: window.v_error,
+			verify_error: window.flash
 		};
 	},
   computed: {
@@ -158,12 +175,6 @@ export default {
     },
     captcha_id() {
       return this.product.captcha_id
-    }
-  },
-	created() {
-    if (this.product.captcha_enabled && !this.$spa)
-    {
-      this.initCaptcha();
     }
   },
   mounted() {
@@ -200,17 +211,6 @@ export default {
         default:
           return 'eng';
       }
-    },
-    getCloudToken() {
-      turnstile.render('#captcha', {
-        sitekey: '0x4AAAAAAATMiBJa0thQZ7E4',
-        language: this.$i18n.locale,
-        theme: this.$vuetify.theme.isDark ? 'dark' : 'light',
-        callback: function(token) {
-          self.captcha_obj = token;
-          self.user.captcha_output = token;
-        },
-      });
     },
 		initCaptcha: function() {
       let self = this;
@@ -275,11 +275,11 @@ export default {
 			axios.post('/login', form).then(response => {
         if (response.data.auth) {
           this.$store.commit('app/setAuthUser', { user: response.data.user, vm: this });
-          if(this.$spa)
-            this.$router.push(response.data.intended);
-          else
-            window.location.href = response.data.intended;
         }
+        if(response.data.intended === 'verify')
+          this.$router.push({ name: response.data.intended, params: { email: response.data.email } });
+        else
+          this.$router.push({ name: response.data.intended});
       }).catch(error => {
         if (error.response.status === 422) {
           let errors = error.response.data.errors;

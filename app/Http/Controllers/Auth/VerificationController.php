@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class VerificationController extends Controller
 {
@@ -53,7 +54,7 @@ class VerificationController extends Controller
     public function show(Request $request)
     {
         return $request->session()->has('activation')
-            ? view('auth.verify')
+            ? view('spa')
             : redirect($this->redirectPath());
     }
 
@@ -112,6 +113,7 @@ class VerificationController extends Controller
         }
         catch (Exception $exception)
         {
+            Log::error($exception->getMessage());
             DB::rollBack();
             return $request->wantsJson()
                 ? new JsonResponse([], 204)
@@ -141,7 +143,6 @@ class VerificationController extends Controller
 
             return response()->json([
                 'resend' => true,
-                'message' => __('app.auth.already_verified')
             ]);
         }
         return $request->wantsJson()

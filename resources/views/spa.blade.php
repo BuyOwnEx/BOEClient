@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.spa')
 @section('title')
     {{ __('titles.main') }}
 @endsection
@@ -12,9 +12,5 @@
     @vite('resources/css/app.css')
 @endsection
 @section('scripts')
-    <script>
-        window.user = {!! json_encode($user); !!};
-        window.locale = {!! json_encode(str_replace('_', '-', app()->getLocale())) !!};
-    </script>
     @vite('resources/js/app.js')
 @endsection

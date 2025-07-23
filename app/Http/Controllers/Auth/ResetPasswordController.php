@@ -32,6 +32,15 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    public function showResetForm(Request $request)
+    {
+        $token = $request->route()->parameter('token');
+
+        return view('spa')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
+
     protected function sendResetResponse(Request $request, $response)
     {
         if ($request->wantsJson()) {

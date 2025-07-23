@@ -23,149 +23,40 @@ use Laravel\Sanctum\Sanctum;
 
 class TraderController extends Controller
 {
-    public function getLandingView(Request $request)
+    public function getSpaView(Request $request)
     {
-        return view('landing', [
+        return view('spa', [
             'user' => $request->user()
         ]);
     }
     public function getTradingView(Request $request, $market = null, $currency = null)
     {
         if (!isset($market)) {
-            return response(view('errors.404'), 404);
+            return redirect('not-found');
         }
         if (!isset($currency)) {
-            return response(view('errors.404'), 404);
+            return redirect('not-found');
         }
         $validator = Validator::make(['market'=>$market,'currency'=>$currency], [
             'market' => 'required|alpha_num|min:2|max:10',
             'currency' => 'required|alpha_num|min:2|max:10',
         ]);
         if ($validator->fails()) {
-            return response(view('errors.404'), 404);
+            return redirect('not-found');
         }
         $find_pair = Arr::where(app('all-pairs'), function ($value, $key) use ($currency, $market){
             return $value['currency'] === mb_strtoupper($currency) && $value['market'] === mb_strtoupper($market);
         });
         if(!$find_pair)
         {
-            return response(view('errors.404'), 404);
+            return redirect('not-found');
         }
-        return view('trading', [
+        return view('spa', [
             'currency'=>$currency,
             'market'=>$market,
             'user' => $request->user()
         ]);
     }
-    public function getBalanceView(Request $request)
-    {
-        return view('balance', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getOverviewView(Request $request)
-    {
-        return view('overview', [
-            'user' => $request->user(),
-            'currency' => env('VITE_DEFAULT_CURRENCY', 'BTC'),
-            'market' => env('VITE_DEFAULT_MARKET', 'USDT')
-        ]);
-    }
-    public function getTransactionsView(Request $request)
-    {
-        return view('transactions', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getFiatTransactionsView(Request $request)
-    {
-        return view('fiat_transactions', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getTransfersView(Request $request)
-    {
-        return view('transfers', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getOrdersView(Request $request)
-    {
-        return view('orders', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getDealsView(Request $request)
-    {
-        return view('deals', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getRefPaymentsView(Request $request)
-    {
-        return view('ref_payments', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getSupportView(Request $request)
-    {
-        if(config('app.support_enabled'))
-        {
-            return view('support', [
-                'user' => $request->user()
-            ]);
-        }
-        else return view('errors.404');
-    }
-    public function getProfileView(Request $request)
-    {
-        return view('profile', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getNotificationsView(Request $request)
-    {
-        return view('notifications', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getPolicyView(Request $request)
-    {
-        return view('policy', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getTermsView(Request $request)
-    {
-        return view('terms', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getApiView(Request $request)
-    {
-        return view('api', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getFeesView(Request $request)
-    {
-        return view('fees', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getStatusView(Request $request)
-    {
-        return view('status', [
-            'user' => $request->user()
-        ]);
-    }
-    public function getContactsView(Request $request)
-    {
-        return view('contacts', [
-            'user' => $request->user()
-        ]);
-    }
-
 
     public function getTickers()
     {

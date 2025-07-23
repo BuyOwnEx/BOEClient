@@ -162,9 +162,6 @@ Specific variables to this project:
     API_PUBLIC_KEY=9ayqB8BIUTyhDkEFxoNzyAVCQv523Fx9ynUhlHvOka7PUCOn91PMbh560wROb66Gu8rgm3gqoJkrbCgv // demo public key for SERVER
     API_SECRET_KEY=q2e78LdPopmKPVCaAwxrrNmXb1qWMD3WoY77F7glTzByWD4d8zQHcyPLunBJ5I2szzzrbbsQGG141yeO // demo secret key for SERVER
     
-    # Choice between SPA application and common application
-    SPA_ENABLED=true
-    
     # Test server and credentials of KYC provider Sum&Substance. You can get own test account at https://sumsub.com/contact-us/
     SUMSUB_SERVER=https://test-api.sumsub.com
     SUMSUB_PUBLIC_KEY=
@@ -176,10 +173,10 @@ Specific variables to this project:
     ZENDESK_TOKEN=
     
     # Is to use Captcha or not. It is recommended to use it. Disable it only if test purposes
-    CAPTCHA_ENABLED=true
+    VITE_CAPTCHA_ENABLED=true
 
     # Captcha type. Available implementations: Geetest, CloudFlare
-    CAPTCHA_TYPE=Geetest
+    VITE_CAPTCHA_TYPE=Geetest
 
     # Captcha ID and secret key. Get your own at official resources (https://www.geetest.com/en/ - Geetest; https://www.cloudflare.com/products/turnstile - CloudFlare)
     CAPTCHA_ID=

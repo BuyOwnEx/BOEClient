@@ -1,10 +1,7 @@
 <template>
-    <router-link :to="path" v-if="this.$spa">
+    <router-link :to="path">
         <slot></slot>
     </router-link>
-    <a :href="path" v-else>
-        <slot></slot>
-    </a>
 </template>
 
 <script>

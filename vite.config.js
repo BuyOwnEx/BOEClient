@@ -15,14 +15,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js',
-                'resources/js/auth.js',
-                'resources/js/trading.js',
-                'resources/js/overview.js',
-                'resources/js/main.js',
-                'resources/js/error.js',
-                'resources/js/plugins/gt4.js',
-                'resources/js/plugins/hero-canvas.js'
+                'resources/js/app.js'
             ],
             refresh: true,
         }),

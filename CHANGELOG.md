@@ -17,4 +17,3 @@
 
 - Support new version of Laravel Framework (v.10.x)
 - Vite front end build tool instead of mix
-- Support SPA version (see SPA_ENABLED param in .env file)

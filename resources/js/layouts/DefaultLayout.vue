@@ -71,13 +71,13 @@
 							<ToolbarNotifications />
 						</div>
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged">
-							<v-btn href="/login" :to="this.$spa ? '/login' : null" tile>{{ $t('menu.login') }}</v-btn>
+							<v-btn href="/login" :to="'/login'" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
 						<div v-if="isLogged">
 							<ToolbarUser />
 						</div>
 						<div v-else>
-							<v-btn color="primary" href="/register" :to="this.$spa ? '/register' : null" tile dark>{{ $t('menu.register') }}</v-btn>
+							<v-btn color="primary" href="/register" :to="'/register'" tile dark>{{ $t('menu.register') }}</v-btn>
 						</div>
 					</div>
 				</div>

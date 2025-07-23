@@ -113,10 +113,7 @@ export default {
 			if (!notification.read) this.readNotificationStore(notification.id);
 		},
 		navigateToNotificationsPage() {
-            if (this.$spa)
-                this.$router.push('/notifications');
-            else
-			    window.location.href = '/notifications';
+      this.$router.push('/notifications');
 		},
 	},
 };

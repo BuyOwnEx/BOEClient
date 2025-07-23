@@ -51,11 +51,6 @@ class Google2FAController extends Controller
         return ['success'=> true];
     }
 
-    public function forgetTwoFactor()
-    {
-        return view('2fa_forget');
-    }
-
     public function generateTwoFactor(Request $request)
     {
         if(Auth::user())
