@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::get('support', 'TraderController@getSpaView')->name('support_view');
     Route::get('profile', 'TraderController@getSpaView')->name('profile_view');
     Route::get('notifications', 'TraderController@getSpaView')->name('notifications_view');
-    Route::get('get_verification_settings', 'TraderController@getSpaView')->name('get_verification_settings');
+    Route::get('get_verification_settings', 'TraderController@getVerificationSettings')->name('get_verification_settings');
 });
 
 Route::group(['prefix' => 'trader'], function () {

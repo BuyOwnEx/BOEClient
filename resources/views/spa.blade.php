@@ -1,16 +1,32 @@
-@extends('layouts.spa')
-@section('title')
-    {{ __('titles.main') }}
-@endsection
-@section('keywords')
-    {{ __('keywords.main') }}
-@endsection
-@section('description')
-    {{ __('descriptions.main') }}
-@endsection
-@section('styles')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="keywords" content="{{ __('keywords.main') }}">
+    <meta name="description" content="{{ __('descriptions.main') }}">
+    <title>{{config('app.name')}} - {{ __('titles.main') }}</title>
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
-@endsection
-@section('scripts')
-    @vite('resources/js/app.js')
-@endsection
+</head>
+<body>
+<div id="app">
+</div>
+<script>
+    @if(session()->has('error'))
+			window.flash = @json(session()->get('error'));
+    @endif
+            @if(session()->has('verified'))
+			window.verified = @json(session()->get('verified'));
+    @endif
+            @if(isset($user))
+			window.user = @json($user);
+    @endif
+</script>
+@vite('resources/js/app.js')
+</body>
+</html>

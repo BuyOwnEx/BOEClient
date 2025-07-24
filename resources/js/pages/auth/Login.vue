@@ -185,6 +185,21 @@ export default {
     next();
   },
   methods: {
+    debouncedTurnstileRender: _.debounce(function (e) {
+      this.turnstileRender();
+    }, 500),
+    turnstileRender() {
+      let self = this;
+      turnstile.render('#captcha', {
+        sitekey: import.meta.env.VITE_CAPTCHA_ID,
+        language: this.$i18n.locale,
+        theme: this.$vuetify.theme.isDark ? 'dark' : 'light',
+        callback: function(token) {
+          self.captcha_obj = token;
+          self.user.captcha_output = token;
+        },
+      });
+    },
     getGeetestLang(lang) {
       switch (lang)
       {
@@ -212,7 +227,7 @@ export default {
           return 'eng';
       }
     },
-		initCaptcha: function() {
+		initCaptcha() {
       let self = this;
       let handler;
       if(this.product.captcha_type.toUpperCase() === 'GEETEST')
@@ -247,17 +262,7 @@ export default {
       }
       else if(this.product.captcha_type.toUpperCase() === 'CLOUDFLARE')
       {
-        axios.get('/captcha?captcha_type=cloudflare&t='+(new Date()).getTime()).then( res => {
-          turnstile.render('#captcha', {
-            sitekey: res.data.captcha_id,
-            language: self.$i18n.locale,
-            theme: self.$vuetify.theme.isDark ? 'dark' : 'light',
-            callback: function(token) {
-              self.captcha_obj = token;
-              self.user.captcha_output = token;
-            },
-          });
-        });
+        this.debouncedTurnstileRender();
       }
 		},
 		verify() {
