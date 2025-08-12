@@ -2,7 +2,6 @@
 	<v-form>
 		<v-container class="pa-0" fluid>
 			<FiltersTitle :show="show" @toggle-filters="show = !show" />
-
 			<v-row class="filter-main" v-if="show" no-gutters>
 				<v-col class="px-1" cols="12" sm="6" md="3">
 					<v-menu
@@ -160,9 +159,8 @@
 					</v-menu>
 				</v-col>
 			</v-row>
-
 			<v-row class="filter-main mt-1" v-if="show" no-gutters>
-				<v-col class="px-1" cols="12" sm="4" md="4">
+				<v-col class="px-1" cols="12" sm="3" md="3">
 					<v-text-field
 						v-model="filters.id"
 						:label="$t('reports.transfer_id')"
@@ -173,8 +171,7 @@
 						@change="setEnabled"
 					/>
 				</v-col>
-
-				<v-col class="px-1" cols="12" sm="4" md="4">
+				<v-col class="px-1" cols="12" sm="3" md="3">
 					<v-select
 						v-model="filters.currency"
 						:items="all_currencies"
@@ -188,8 +185,21 @@
 						@change="setEnabled"
 					/>
 				</v-col>
-
-				<v-col class="px-1" cols="12" sm="4" md="4">
+        <v-col class="px-1" cols="12" sm="3" md="3">
+          <v-select
+              v-model="filters.type"
+              @change="setEnabled"
+              :items="all_types"
+              :label="$t('reports.type')"
+              :hint="$t('reports.type_hint')"
+              item-text="name"
+              item-value="value"
+              hide-details="auto"
+              persistent-hint
+              clearable
+          />
+        </v-col>
+				<v-col class="px-1" cols="12" sm="3" md="3">
 					<v-select
 						v-model="filters.side"
 						@change="setEnabled"
@@ -204,7 +214,6 @@
 					/>
 				</v-col>
 			</v-row>
-
 			<FiltersFooter v-if="show" :disabled="disabled" @reset="resetFilter" @set="setFilter" />
 		</v-container>
 	</v-form>
@@ -219,7 +228,7 @@ export default {
 
 	components: { FiltersFooter, FiltersTitle },
 
-	props: ['all_currencies', 'all_sides'],
+	props: ['all_currencies', 'all_sides', 'all_types'],
 
 	data() {
 		return {
@@ -238,10 +247,12 @@ export default {
 				end_time: '23:59:59',
 				id: null,
 				currency: null,
+        type: null,
 				side: null,
 			},
 			currencies: this.all_currencies,
 			sides: this.all_sides,
+      types: this.all_types,
 		};
 	},
 
@@ -258,6 +269,7 @@ export default {
 				end: this.filters.end_date + ' ' + this.filters.end_time,
 				id: this.filters.id === '' ? null : this.filters.id,
 				currency: this.filters.currency,
+        type: this.filters.type,
 				side: this.filters.side,
 			};
 		},
@@ -281,6 +293,7 @@ export default {
 			this.filters.end_time = '23:59:59';
 			this.filters.id = null;
 			this.filters.currency = null;
+      this.filters.type = null;
 			this.filters.side = null;
 			this.$emit('reset-table-filter', this.filterData);
 			this.disabled = true;
@@ -297,6 +310,7 @@ export default {
 			this.filters.end_time = saved_filters.end_time;
 			this.filters.id = saved_filters.id;
 			this.filters.currency = saved_filters.currency;
+      this.filters.type = saved_filters.type;
 			this.filters.side = saved_filters.side;
 			this.$emit('table-filter', this.filterData);
 		}

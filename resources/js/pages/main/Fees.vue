@@ -7,7 +7,7 @@
 					{{ $t('status.currencies_tab') }}
 				</v-tab>
 
-				<v-tab :key="2">
+				<v-tab :key="2" v-if="!isHideTrading">
 					{{ $t('status.pairs_tab') }}
 				</v-tab>
 			</v-tabs>
@@ -91,7 +91,7 @@
 					</div>
 				</v-tab-item>
 
-				<v-tab-item :key="2">
+				<v-tab-item :key="2" v-if="!isHideTrading">
 					<FeesTradingTab />
 				</v-tab-item>
 
@@ -123,6 +123,10 @@ export default {
 	},
   computed: {
     ...mapState('trading', ['all_currencies','allCurrencyListInit']),
+    ...mapState('user', ['blockStatus']),
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
+    },
     currencies() {
       return this.allCurrencyListInit ? this.all_currencies : []
     },

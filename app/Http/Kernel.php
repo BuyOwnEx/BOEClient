@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check_api_signature' => \App\Http\Middleware\CheckSign::class,
         'check_block_status' => \App\Http\Middleware\CheckBlockStatus::class,
+        'check_trade_ui_block_status' => \App\Http\Middleware\CheckTradeUIBlockStatus::class,
         'check_mobile_sign' => \App\Http\Middleware\CheckMobileSign::class
     ];
 }

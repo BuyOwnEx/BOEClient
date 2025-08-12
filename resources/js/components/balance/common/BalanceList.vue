@@ -36,9 +36,6 @@
             <BalanceFiatDialogReplenish
               v-if="item.type === 'fiat'"
               :currency-obj="item"
-              :is_verified="is_verified"
-              :block_status="block_status"
-              :trader_status="trader_status"
               :rub_props="rub_props"
               :kgs_props="kgs_props"
               :swift_props="swift_props"
@@ -47,9 +44,6 @@
             <BalanceFiatDialogWithdraw
               v-if="item.type === 'fiat'"
               :currency-obj="item"
-              :is_verified="is_verified"
-              :block_status="block_status"
-              :trader_status="trader_status"
               :rub_props="rub_props"
               :kgs_props="kgs_props"
               :swift_props="swift_props"
@@ -57,8 +51,10 @@
             />
             <BalanceCryptoDialogReplenish v-if="item.type === 'crypto'" :currency-obj="item" @close-menu="closeMenu(item)" />
             <BalanceCryptoDialogWithdraw v-if="item.type === 'crypto'" :currency-obj="item" @close-menu="closeMenu(item)" />
-            <BalanceDialogTransfer type="trade" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
-            <BalanceDialogTransfer type="safe" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
+            <BalanceDialogTransfer v-if="!isHideTrading" type="trade" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
+            <BalanceDialogTransfer v-if="!isHideTrading" type="safe" wallet="crypto" :currency-obj="item" @close-menu="closeMenu(item)" />
+            <BalanceDialogOTCTransfer v-if="isOTCEnabled" type="safe_otc" :currency-obj="item" @close-menu="closeMenu(item)" />
+            <BalanceDialogOTCTransfer v-if="isOTCEnabled" type="otc_safe" :currency-obj="item" @close-menu="closeMenu(item)" />
           </v-list>
         </v-menu>
       </template>
@@ -87,6 +83,12 @@
       <template #item.trade="{ item }">
         {{ BigNumber(item.available).toFixed(item.scale, 1).toString() }}
       </template>
+      <template #item.otc_main="{ item }">
+        {{ BigNumber(item.otc_main).toFixed(item.scale, 1).toString() }}
+      </template>
+      <template #item.otc_blocked="{ item }">
+        {{ BigNumber(item.otc_blocked).toFixed(item.scale, 1).toString() }}
+      </template>
       <template #item.withdraw="{ item }">
         {{ BigNumber(item.withdraw).toFixed(item.scale, 1).toString() }}
       </template>
@@ -103,29 +105,17 @@ BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import balanceStateMethodsMixin from '@/mixins/balance/balanceStateMethodsMixin';
 import BalanceFiatDialogWithdraw from '@/components/balance/fiat/dialog/BalanceFiatDialogWithdraw.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'BalanceList',
-  props: {
-    is_verified: {
-      type: Boolean,
-      required: true,
-    },
-    block_status: {
-      type: Number,
-      required: true,
-    },
-    trader_status: {
-      type: Number,
-      required: true,
-    },
-  },
   components: {
     BalanceFiatDialogWithdraw,
     BalanceFiatDialogReplenish: () => import('@/components/balance/fiat/dialog/BalanceFiatDialogReplenish.vue'),
     BalanceCryptoDialogReplenish: () => import('@/components/balance/crypto/dialog/BalanceCryptoDialogReplenish.vue'),
     BalanceCryptoDialogWithdraw: () => import('@/components/balance/crypto/dialog/BalanceCryptoDialogWithdraw.vue'),
     BalanceDialogTransfer: () => import('@/components/balance/common/BalanceDialogTransfer.vue'),
+    BalanceDialogOTCTransfer: () => import('@/components/balance/common/BalanceDialogOTCTransfer.vue'),
     CommonTooltip: () => import('@/components/common/CommonTooltip.vue'),
   },
 
@@ -143,16 +133,26 @@ export default {
     };
   },
   computed: {
+    ...mapState('app', ['product']),
+    ...mapState('user', ['blockStatus']),
     headers() {
       return [
         { text: this.$t('table_header.currency'), align: 'start', sortable: true, value: 'currency' },
         { text: this.$t('table_header.name'), value: 'name' },
         { text: this.$t('table_header.safe'), value: 'safe' },
-        { text: this.$t('table_header.trade'), value: 'trade' },
+        { text: this.$t('table_header.trade'), value: 'trade', align: !this.isHideTrading ? ''  : ' d-none' },
+        { text: this.$t('table_header.otc'), value: 'otc_main', align: this.isOTCEnabled ? ''  : ' d-none' },
+        { text: this.$t('table_header.otc_blocked'), value: 'otc_blocked', align: this.isOTCEnabled ? ''  : ' d-none' },
         { text: this.$t('table_header.withdraw'), value: 'withdraw' },
-        { text: this.$t('table_header.blocked'), value: 'blocked' },
+        { text: this.$t('table_header.blocked'), value: 'blocked', align: !this.isHideTrading ? ''  : ' d-none' },
         { text: this.$t('table_header.actions'), value: 'action', sortable: false, align: 'end' },
       ];
+    },
+    isOTCEnabled() {
+      return this.product.enabledOTC
+    },
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
     },
     balances() {
       return this.$store.state.user.balances;
@@ -167,20 +167,43 @@ export default {
       return this.$store.state.user.swift_props === null ? [] : this.$store.state.user.swift_props;
     },
     showedBalances() {
-      return this.showOnlyNotNullBalances
-        ? _.filter(this.balances, item => {
-          return (
-              (!BigNumber(item.safe).isZero() ||
+      if(this.showOnlyNotNullBalances)
+      {
+        if(this.isOTCEnabled)
+        {
+          return _.filter(this.balances, item => {
+            return (
+                (!BigNumber(item.safe).isZero() ||
                   !BigNumber(item.available).isZero() ||
                   !BigNumber(item.blocked).isZero() ||
-                  !BigNumber(item.withdraw).isZero()) && item.status === 'active'
-          );
-        })
-        : _.filter(this.balances, item => {
+                  !BigNumber(item.withdraw).isZero() ||
+                  !BigNumber(item.otc_main).isZero() ||
+                  !BigNumber(item.otc_blocked).isZero()) &&
+                item.status === 'active'
+            );
+          });
+        }
+        else
+        {
+          return _.filter(this.balances, item => {
+            return (
+              (!BigNumber(item.safe).isZero() ||
+                !BigNumber(item.available).isZero() ||
+                !BigNumber(item.blocked).isZero() ||
+                !BigNumber(item.withdraw).isZero()) &&
+                item.status === 'active'
+            );
+          });
+        }
+      }
+      else
+      {
+        return _.filter(this.balances, item => {
           return (
               item.status === 'active'
           );
         });
+      }
     },
   },
   created() {

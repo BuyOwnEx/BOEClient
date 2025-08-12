@@ -1,36 +1,18 @@
 <template>
-	<div class="profile-page flex-grow-1">
+	<div class="profile-page flex-grow-1" v-if="blockStatus !== null">
 		<v-tabs v-model="selectedTab" :key="$i18n.locale" show-arrows>
-			<v-tab :key="1">{{ $t('user.title.account') }}</v-tab>
-			<v-tab :key="2">{{ $t('user.title.verification') }}</v-tab>
-      <v-tab v-if="(use_kg_props || use_ru_props || use_swift_props)" :key="3">{{ $t('user.title.props') }}</v-tab>
-			<v-tab :key="4">{{ $t('user.title.api') }}</v-tab>
-			<v-tab :key="5">{{ $t('user.title.security') }}</v-tab>
-			<v-tab :key="6">{{ $t('user.title.settings') }}</v-tab>
+      <v-tab v-for="item in available_items" :key="item.text" @click="setHash(item.hash)">
+        {{ item.text }}
+      </v-tab>
 		</v-tabs>
       <v-tabs-items v-model="selectedTab" class="profile-page__tabs-items">
-        <v-tab-item v-if="trader" :key="1">
-          <UserAccountTab v-if="!isLoading" :user="trader" :block_status="blockStatus" :doc_statuses="doc_statuses" :trader_status="status"  />
-        </v-tab-item>
-
-        <v-tab-item v-if="trader" :key="2">
-          <VerificationSteps v-if="!isLoading"></VerificationSteps>
-        </v-tab-item>
-
-        <v-tab-item v-if="trader && show_props" :key="3">
-          <UserPropsTab v-if="!isLoading" :user="trader" :trader_status="trader_status"></UserPropsTab>
-        </v-tab-item>
-
-        <v-tab-item v-if="trader" :key="show_props ? 4: 3">
-          <UserApiTab v-if="!isLoading" />
-        </v-tab-item>
-
-        <v-tab-item v-if="trader" :key="show_props ? 5: 4">
-          <UserSecurityTab v-if="!isLoading" :g2fa="trader.g2fa" />
-        </v-tab-item>
-
-        <v-tab-item v-if="trader" :key="show_props ? 6: 5">
-          <UserSettingsTab v-if="!isLoading" :user-ref-program="trader.refProgram || 1" />
+        <v-tab-item v-for="item in available_items" :key="item.text" v-if="trader">
+          <UserAccountTab v-if="!isLoading && item.hash === '#account'" :user="trader" />
+          <VerificationSteps v-if="!isLoading && item.hash === '#verification'"></VerificationSteps>
+          <UserPropsTab v-if="!isLoading && item.hash === '#props'" :user="trader" :trader_status="status"></UserPropsTab>
+          <UserApiTab v-if="!isLoading && item.hash === '#api'" />
+          <UserSecurityTab v-if="!isLoading && item.hash === '#security'" :g2fa="trader.g2fa" />
+          <UserSettingsTab v-if="!isLoading && item.hash === '#settings'" :is-hide-trading="isHideTrading" :user-ref-program="trader.refProgram || 1" />
         </v-tab-item>
       </v-tabs-items>
 	</div>
@@ -47,7 +29,6 @@ import UserSettingsTab from '@/components/user/settings/UserSettingsTab.vue';
 
 export default {
 	name: 'Profile',
-
 	components: {
 		UserAccountTab,
     VerificationSteps,
@@ -56,23 +37,22 @@ export default {
 		UserSecurityTab,
 		UserSettingsTab,
 	},
-
 	data() {
 		return {
 			selectedTab: this.selectedTabStore,
       isLoading: true,
 		};
 	},
-
   computed: {
     ...mapState({
       trader: state => state.app.trader,
       selectedTabStore: state => state.user.profileSelectedTab,
+      selectedTabHash: state => state.user.profileSelectedHash,
     }),
     ...mapState('user', ['blockStatus','verifyStatus','status', 'doc_statuses']),
     ...mapState('app', ['product']),
-    trader_status() {
-      return this.status;
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
     },
     use_ru_props() {
       return this.product.fiatUseRUProps
@@ -86,48 +66,86 @@ export default {
     show_props() {
       return this.use_kg_props || this.use_ru_props || this.use_swift_props;
     },
+    items() {
+      return [
+        {
+          icon: 'mdi-account-box-outline',
+          text: this.$t('user.title.profile'),
+          link: '/profile#account',
+          hash: '#account',
+        },
+        {
+          icon: 'mdi-email-outline',
+          text: this.$t('user.title.verification'),
+          link: '/profile#verification',
+          hash: '#verification',
+        },
+        {
+          icon: 'mdi-bank',
+          text: this.$t('user.title.props'),
+          link: '/profile#props',
+          hash: '#props',
+        },
+        {
+          icon: 'mdi-format-list-checkbox',
+          text: this.$t('user.title.api'),
+          link: '/profile#api',
+          hash: '#api',
+        },
+        {
+          icon: 'mdi-shield-key-outline',
+          text: this.$t('user.title.security'),
+          link: '/profile#security',
+          hash: '#security',
+        },
+        {
+          icon: 'mdi-cog-outline',
+          text: this.$t('user.title.settings'),
+          link: '/profile#settings',
+          hash: '#settings',
+        },
+      ];
+    },
+    available_items() {
+      let available = this.items;
+      if(!this.use_ru_props && !this.use_kg_props && !this.use_swift_props)
+        available = _.filter(this.items, function(item) { return item.link !== '/profile#props'; });
+      if(this.isHideTrading)
+        available = _.filter(this.items, function(item) { return item.link !== '/profile#api'; });
+      return available;
+    },
   },
-
   async created() {
-    await Promise.all([this.getVerificationStatusStore(), this.getBlockStatusStore(), this.getStatusStore(), this.getDocRequestStatusStore()]);
+    await Promise.all([this.getDocRequestStatusStore()]);
     this.isLoading = false;
+    const tabName = window.location.hash;
+    if (tabName) {
+      let index = _.findIndex(this.available_items, function(item) { return item.hash === tabName; });
+      if(index > -1) {
+        this.selectedTab = index;
+      }
+    }
   },
-
 	watch: {
 		selectedTabStore(value) {
 			this.selectedTab = value;
 		},
-		selectedTab(value) {
-			this.setHash(value);
-		},
+    selectedTabHash(value) {
+      this.setHash(value);
+    },
 	},
-
 	methods: {
     ...mapActions({
-      getBlockStatusStore: 'user/getBlockStatus',
-      getVerificationStatusStore: 'user/getVerifyStatus',
-      getStatusStore: 'user/getStatus',
       getDocRequestStatusStore: 'user/getDocRequestStatus',
     }),
 		setHash(tabIndex) {
-			if (tabIndex === 0) history.replaceState(null, null, ' ');
-			else if (tabIndex === 1) window.location.hash = '#verification';
-      else if (tabIndex === 2) window.location.hash = '#props';
-			else if (tabIndex === 3) window.location.hash = '#api';
-			else if (tabIndex === 4) window.location.hash = '#security';
-			else if (tabIndex === 5) window.location.hash = '#settings';
+			if (tabIndex === '#account') history.replaceState(null, null, ' ');
+			else if (tabIndex === '#verification') window.location.hash = '#verification';
+      else if (tabIndex === '#props') window.location.hash = '#props';
+			else if (tabIndex === '#api') window.location.hash = '#api';
+			else if (tabIndex === '#security') window.location.hash = '#security';
+			else if (tabIndex === '#settings') window.location.hash = '#settings';
 		},
-	},
-
-	mounted() {
-		const tabName = window.location.hash;
-		if (tabName) {
-			if (tabName === '#verification') this.selectedTab = 1;
-      else if (tabName === '#props') this.selectedTab = 2;
-			else if (tabName === '#api') this.selectedTab = 3;
-			else if (tabName === '#security') this.selectedTab = 4;
-			else if (tabName === '#settings') this.selectedTab = 5;
-		}
 	},
 };
 </script>

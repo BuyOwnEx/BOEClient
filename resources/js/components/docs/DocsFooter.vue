@@ -1,5 +1,5 @@
 <template>
-	<div class="caption mt-2 text-center" v-if="!product.disabledStatusPageShow">
+	<div class="caption mt-2 text-center" v-if="is_show_contacts">
 		<slot>
 			<span>{{ $t('common.have_questions') }}</span>
       <br>
@@ -10,7 +10,7 @@
 
 <script>
 import Link from "@/components/common/Link.vue";
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 export default {
 	name: 'DocsFooter',
   components: {
@@ -18,6 +18,12 @@ export default {
   },
   computed: {
     ...mapState('app', ['product']),
+    ...mapGetters({
+      isLogged: 'app/isLogged',
+    }),
+    is_show_contacts() {
+      return (this.isLogged && this.product.authedShowContacts) || (!this.isLogged && this.product.guestShowContacts)
+    }
   }
 };
 </script>

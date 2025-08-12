@@ -38,9 +38,9 @@
 							<SelectReplenishMethod
                 v-if="platforms.length > 0"
 								class="mb-6"
-                :is_verified="is_verified"
-                :trader_status="trader_status"
-                :block_status="block_status"
+                :is_verified="verifyStatus"
+                :trader_status="status"
+                :block_status="blockStatus"
 								:platforms="platforms"
 								type="replenish"
 								@select_platform="platformSelected"
@@ -69,7 +69,7 @@
               />
               <FillFieldsStep
                   v-if="selected_platform && selected_platform.gateway_code === 'INVOICE'"
-                  :trader_status="trader_status"
+                  :trader_status="status"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
                   :pay_templates="pay_templates"
@@ -81,7 +81,7 @@
               />
               <FillOfficeStep
                   v-if="selected_platform && selected_platform.gateway_code === 'OFFICE'"
-                  :trader_status="trader_status"
+                  :trader_status="status"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_scale="currencyObj.scale"
                   :pay_templates="pay_templates"
@@ -144,23 +144,12 @@ import FillOfficeStep from '@/components/balance/fiat/dialog/parts/office/FillOf
 
 import loadingMixin from '@/mixins/common/loadingMixin';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
+import { mapState } from 'vuex';
 export default {
 	name: 'BalanceFiatDialogReplenish',
   props: {
     currencyObj: {
       type: Object,
-      required: true,
-    },
-    is_verified: {
-      type: Boolean,
-      required: true,
-    },
-    block_status: {
-      type: Number,
-      required: true,
-    },
-    trader_status: {
-      type: Number,
       required: true,
     },
     rub_props: {
@@ -212,6 +201,7 @@ export default {
 		};
 	},
 	computed: {
+    ...mapState('user', ['blockStatus','verifyStatus','status']),
 		minWithdraw() {
 			return this.selectedPlatfrom?.minWithdraw;
 		},

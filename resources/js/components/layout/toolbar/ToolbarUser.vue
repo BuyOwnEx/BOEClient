@@ -10,10 +10,9 @@
 
 		<v-list dense nav>
 			<v-list-item
-				v-for="item in available_items"
+				v-for="(item, index) in available_items"
 				:key="item.text"
-				:disabled="item.disabled"
-				@click="navigatePage(item)"
+				@click="navigatePage(item, index)"
 			>
 				<v-list-item-icon>
 					<v-icon small :class="{ 'grey--text': item.disabled }">
@@ -48,6 +47,10 @@ export default {
 	name: 'ToolbarUser',
 	computed: {
     ...mapState('app', ['product']),
+    ...mapState('user', ['blockStatus']),
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
+    },
     use_ru_props() {
       return this.product.fiatUseRUProps
     },
@@ -69,44 +72,46 @@ export default {
           icon: 'mdi-account-box-outline',
           text: this.$t('user.title.profile'),
           link: '/profile#account',
-          tabIndex: 0,
+          hash: '#account',
         },
         {
           icon: 'mdi-email-outline',
           text: this.$t('user.title.verification'),
           link: '/profile#verification',
-          tabIndex: 1,
+          hash: '#verification',
         },
         {
           icon: 'mdi-bank',
           text: this.$t('user.title.props'),
           link: '/profile#props',
-          tabIndex: 2,
+          hash: '#props',
         },
         {
           icon: 'mdi-format-list-checkbox',
           text: this.$t('user.title.api'),
           link: '/profile#api',
-          tabIndex: this.show_props ? 3 : 2,
+          hash: '#api',
         },
         {
           icon: 'mdi-shield-key-outline',
           text: this.$t('user.title.security'),
           link: '/profile#security',
-          tabIndex: this.show_props ? 4 : 3,
+          hash: '#security',
         },
         {
           icon: 'mdi-cog-outline',
           text: this.$t('user.title.settings'),
           link: '/profile#settings',
-          tabIndex: this.show_props ? 5 : 4,
+          hash: '#settings',
         },
       ];
     },
     available_items() {
       let available = this.items;
       if(!this.use_ru_props && !this.use_kg_props && !this.use_swift_props)
-        available = _.omitBy(available, function(item) { return item.link === '/profile#props'; });
+        available = _.filter(this.items, function(item) { return item.link !== '/profile#props'; });
+      if(this.isHideTrading)
+        available = _.filter(this.items, function(item) { return item.link !== '/profile#api'; });
       return available;
     },
 	},
@@ -117,9 +122,9 @@ export default {
 		...mapActions({
 			logout: 'user/logout'
 		}),
-		navigatePage(item) {
+		navigatePage(item, index) {
       this.$router.push(item.link);
-      this.setProfileTab(item.tabIndex);
+      this.setProfileTab({index: Number(index), hash: item.hash});
 		},
 	},
 };

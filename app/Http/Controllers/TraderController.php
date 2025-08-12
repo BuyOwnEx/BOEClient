@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Confirm2FARequest;
 use App\Library\APIToken;
 use App\Library\BuyOwnExClientAPI;
+use App\Library\BuyOwnExOtcAPI;
 use App\Library\SumSubAPI;
 use App\Models\PersonalAccessToken;
 use Carbon\Carbon;
@@ -58,6 +59,39 @@ class TraderController extends Controller
         ]);
     }
 
+    public function getExchangeView(Request $request, $currency_out = null, $currency_in = null)
+    {
+        if(!config('app.otc_enabled'))
+        {
+            return redirect('not-found');
+        }
+        if (!isset($currency_out)) {
+            return redirect('not-found');
+        }
+        if (!isset($currency_in)) {
+            return redirect('not-found');
+        }
+        $validator = Validator::make(['currency_out'=>$currency_out,'currency_in'=>$currency_in], [
+            'currency_out' => 'required|alpha_num|min:2|max:10',
+            'currency_in' => 'required|alpha_num|min:2|max:10',
+        ]);
+        if ($validator->fails()) {
+            return redirect('not-found');
+        }
+        $find_pair = Arr::where(app('all-otc-pairs'), function ($value, $key) use ($currency_out, $currency_in){
+            return $value['currency_out'] === mb_strtoupper($currency_out) && $value['currency_in'] === mb_strtoupper($currency_in);
+        });
+        if(!$find_pair)
+        {
+            return redirect('not-found');
+        }
+        return view('spa', [
+            'currency_out'=>$currency_out,
+            'currency_in'=>$currency_in,
+            'user' => $request->user()
+        ]);
+    }
+
     public function getTickers()
     {
         try {
@@ -81,6 +115,15 @@ class TraderController extends Controller
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->depth($request->currency, $request->market);
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getOtcDepth(Request $request)
+    {
+        try {
+            $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->exchange_depth($request->currency_out, $request->currency_in);
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
@@ -180,6 +223,11 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getExchangeDirs()
+    {
+        return app('all-otc-pairs');
+    }
+
     public function getHealth()
     {
         try {
@@ -212,6 +260,15 @@ class TraderController extends Controller
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
             return $api->deals(Auth::id());
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function getExchanges(Request $request)
+    {
+        try {
+            $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->all_exchanges(Auth::id(), $request->page, $request->itemsPerPage, $request->sortBy, $request->sortDesc, $request->mustSort, $request->multiSort, $request->filters);
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
@@ -452,6 +509,48 @@ class TraderController extends Controller
                 Auth::id(),
                 $request->currency,
                 $request->amount
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function OTCReplenish(Request $request)
+    {
+        try {
+            $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->otc_replenish(
+                Auth::id(),
+                $request->currency,
+                $request->amount
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function OTCWithdraw(Request $request)
+    {
+        try {
+            $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->otc_withdraw(
+                Auth::id(),
+                $request->currency,
+                $request->amount
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+    public function OTCAddExchangeRequest(Request $request)
+    {
+        try {
+            $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->add_exchange_request(
+                Auth::id(),
+                $request->currency_out,
+                $request->currency_in,
+                $request->amount,
+                $request->rate_type,
+                $request->rate
             );
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];

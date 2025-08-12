@@ -71,6 +71,8 @@ export default {
         "2fa": 'Check 2FA',
         "2fa_forget": 'Forget 2FA',
 				landing: 'Crypto Asset Exchange Service',
+				exchange: 'Asset exchange',
+				exchange_history: 'Exchange history',
         api: 'API',
         balance: 'Balance',
         confirm: 'Email confirm',
@@ -341,9 +343,13 @@ export default {
 		ax: 'Aland Islands'
 	},
 	apps: {
+		trading: {
+			title: 'Trading',
+			subtitle: 'Spot trading',
+		},
 		exchange: {
 			title: 'Exchange',
-			subtitle: 'Crypto-asset trading',
+			subtitle: 'Crypto-asset exchange',
 		},
 	},
 	copy: {
@@ -365,6 +371,8 @@ export default {
 		currencies: 'Currencies',
 		name: 'Name',
 		safe: 'Safe',
+		otc: 'OTC',
+		otc_blocked: 'OTC, blocked',
 		trade: 'Trade',
 		withdraw: 'Withdraw',
 		blocked: 'Blocked',
@@ -479,6 +487,7 @@ export default {
 	},
 	menu: {
 		trading: 'Trading',
+		exchange_history: 'Exchange requests',
 		overview: 'Market overview',
 		system_status: 'System status',
 		transactions: 'Transactions',
@@ -721,6 +730,44 @@ export default {
 
 		your_message: 'Your message...',
 	},
+	exchange: {
+		select_currency_out: 'Give',
+		select_currency_in: 'Take',
+		amount: 'Paid amount',
+		amount_hint: 'Enter the amount you want to exchange',
+		set_rate: 'Set the rate manually',
+		rate: 'Rate per 1 {0}',
+		rate_hint: 'Enter the desired exchange rate per 1 {0}',
+		volume: 'Amount to be received',
+		exchange_action: 'Exchange',
+		available: 'Available',
+		confirm: 'Exchange Confirmation',
+		confirm_text: 'You are going to make an exchange with the following parameters:',
+		confirm_text_finally: 'The operation is non-cancellable, so by clicking the Confirm button, check that all the data is filled in correctly',
+		exchange_form: 'Exchange request',
+		suspended_title: 'The exchange is unavailable',
+		suspended_sub_title: 'The exchange in this direction has been suspended',
+		request_success: 'The request was sent successfully',
+		req_id: 'Request ID',
+		navigate_exchange_list: 'Go to exchange history',
+		repeat_exchange: 'Create another request',
+		request_date: 'Request date',
+		proceed_date: 'Processing date',
+		exchange_dir: 'Exchange direction',
+		rate_type: 'Rate type',
+		rate_header: 'Rate',
+		amount_out: 'Give',
+		amount_in: 'Take',
+		rate_types: {
+			calc: 'Auto',
+			fixed: 'Manual',
+		},
+		statuses: {
+			new: 'In processing',
+			accepted: 'Completed',
+			rejected: 'Rejected'
+		}
+	},
 	auth: {
 		signin: 'Login',
 		username: 'Username',
@@ -897,12 +944,20 @@ export default {
 
 		dialog: {
 			safe: {
-				title: 'Transfer {currency} to safe account',
-				menu_title: 'Transfer to safe account',
+				title: 'Transfer {currency} to safe wallet',
+				menu_title: 'Transfer from trade to safe wallet',
 			},
 			trade: {
-				title: 'Transfer {currency} to trade account',
-				menu_title: 'Transfer to trade account',
+				title: 'Transfer {currency} to trade wallet',
+				menu_title: 'Transfer from safe to trade wallet',
+			},
+			safe_otc: {
+				title: 'Transfer {currency} to OTC wallet',
+				menu_title: 'Transfer from safe to OTC wallet',
+			},
+			otc_safe: {
+				title: 'Transfer {currency} to safe wallet',
+				menu_title: 'Transfer from OTC to safe wallet',
 			},
 
 			fiat_replenishment_alert:
@@ -3145,6 +3200,9 @@ make our system processes as transparent as possible.`,
 		transfer_id: 'Transfer ID',
 		transfer_id_hint: 'Find by transfer ID',
 
+		exchange_request_id: 'Request ID',
+		exchange_request_id_hint: 'Find by exchange request ID',
+
 		pair: 'Select pair',
 		pair_hint: 'Select pair from available options',
 		side: 'Select side',
@@ -3163,6 +3221,7 @@ make our system processes as transparent as possible.`,
 		address_hint: 'Find by recipient address',
 
 		deals_title: 'Deals',
+		exchange_history_title: 'Exchange requests',
 		fiat_transactions_title: 'Fiat transactions',
 		orders_title: 'Orders',
 		ref_payments_title: 'Referral payments',
@@ -3377,12 +3436,23 @@ make our system processes as transparent as possible.`,
 			reason: 'Reason',
 			support: 'Please correct the reasons why your verification request was rejected and send the data again, or if the reasons are not clear, then contact the support team to find out additional information.',
 		},
+		forbidden: {
+			caption: 'Verification is unavailable',
+			resident_legal: 'The verification procedure is currently unavailable for residents of legal entities',
+			resident_individual: 'The verification procedure is currently unavailable for residents of individuals',
+			no_resident_legal: 'The verification procedure is currently unavailable for non-residents of legal entities',
+			no_resident_individual: 'The verification procedure is currently unavailable for non-residents of individuals',
+		},
 	},
 	transfers: {
-			sides: {
-					to_trade: 'From main wallet to trade wallet',
-					to_safe: 'From trade wallet to main wallet'
-			}
+		sides: {
+				to_trade: 'From main wallet to trade wallet',
+				to_safe: 'From trade wallet to main wallet'
+		},
+		types: {
+			transfer: 'Transfer, trade',
+			otc_transfer: 'Transfer, OTC'
+		}
 	},
 	orders: {
 			sides: {
@@ -3441,7 +3511,9 @@ make our system processes as transparent as possible.`,
 		acc_invalid: 'Enter the 20-digit account number',
 		acc_kg_invalid: 'Enter the 16-digit account number',
 		passwords_not_match: "Passwords don't match",
+		max_filesize_2MB: 'Max. file size 2 MB',
 		max_filesize_5MB: 'Max. file size 5 MB',
+		max_filesize_15MB: 'Max. file size 15 MB',
 		fill_all_fields: 'Fill all fields',
 		incorrect_data: 'Incorrect data',
 

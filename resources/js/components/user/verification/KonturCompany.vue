@@ -72,7 +72,7 @@
                     prepend-icon="mdi-file-pdf-box"
                     :error-messages="errors.file_doc"
                     @input="errors.file_doc = []"
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable
                     required
@@ -366,11 +366,14 @@ export default {
     sendCompKYCRequest() {
       let self = this;
       let formData = new FormData();
-      if (this.comp_data['file_doc'] && this.comp_data['file_doc'].name) {
-        formData.append('file_doc', this.comp_data['file_doc'], this.comp_data['file_doc'].name);
-      }
+
       _.each(this.comp_data, function (value, key) {
-        if (value !== null) formData.append(key, value);
+        if (key === 'file_doc' && value.name) {
+          formData.append(key, value, value.name);
+        }
+        else {
+          if (value !== null) formData.append(key, value);
+        }
       });
       if(this.is_legal_form) formData.append('comp_inn', this.inn_comp)
       else formData.append('comp_inn', this.inn_ip)

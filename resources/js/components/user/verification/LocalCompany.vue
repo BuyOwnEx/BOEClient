@@ -3,13 +3,13 @@
     <v-card-text class="d-flex flex-column flex-grow-1" v-if="loaded">
       <v-row class="d-flex flex-grow-1 justify-space-between" v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified)">
         <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card class="user-account-tab-verification-description">
+          <v-card flat class="user-account-tab-verification-description">
             <v-card-title>{{ $t('kyc.manual.legal.title') }}</v-card-title>
             <v-card-subtitle class="pb-0">
               <span class="font-italic caption">{{ $t('kyc.manual.legal.description') }}</span>
             </v-card-subtitle>
           </v-card>
-          <v-card>
+          <v-card flat>
             <v-card-text>
               <v-form v-model="isValidCompRequestForm">
                 <v-select
@@ -117,7 +117,7 @@
                     :error-messages="errors.file_doc"
                     @input="errors.file_doc = []"
                     @change="errors.file_doc = []"
-                    :rules="[rules.required]"
+                    :rules="product.kybLocalUploadType === 'letter' ? [rules.required, rules.maxFileSize2MB] : [rules.required, rules.maxFileSize15MB]"
                     persistent-hint
                     clearable
                     required
@@ -126,7 +126,7 @@
               </v-form>
             </v-card-text>
           </v-card>
-          <v-card>
+          <v-card flat>
             <v-card-actions class="common-dialog__actions">
               <v-spacer />
               <v-btn color="success" :disabled="!compRequestAvailable" tile block @click="sendCompKYCRequest">
@@ -139,7 +139,7 @@
         <v-col class="pb-1 pt-1" cols="12" md="2">
         </v-col>
         <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card class="user-account-tab-result" v-if="kyc_state === 'rejected' && !is_verified">
+          <v-card flat class="user-account-tab-result" v-if="kyc_state === 'rejected' && !is_verified">
             <v-card-subtitle>
               <v-alert
                   :icon="kyc_state_icon(kyc_state, is_verified)"
@@ -216,7 +216,7 @@
       </v-row>
       <v-row class="d-flex flex-grow-1 justify-space-between" v-else-if="(kyc_state === 'accepted' && is_verified) || kyc_state === 'new'">
         <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card class="user-account-tab-result">
+          <v-card flat class="user-account-tab-result">
             <v-card-subtitle>
               <v-alert
                   :icon="kyc_state_icon(kyc_state, is_verified)"
@@ -646,11 +646,14 @@ export default {
     sendCompKYCRequest() {
       let self = this;
       let formData = new FormData();
-      if (this.comp_data['file_doc'] && this.comp_data['file_doc'].name) {
-        formData.append('file_doc', this.comp_data['file_doc'], this.comp_data['file_doc'].name);
-      }
+
       _.each(this.comp_data, function (value, key) {
-        if (value !== null) formData.append(key, value);
+        if (key === 'file_doc' && value.name) {
+          formData.append(key, value, value.name);
+        }
+        else {
+          if (value !== null) formData.append(key, value);
+        }
       });
 
       axios.post('/trader/ext/kyc_local_comp_request', formData)

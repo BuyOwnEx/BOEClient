@@ -19,6 +19,7 @@
 			<template #top>
 				<filters
 					:all_sides="sides"
+          :all_types="types"
 					:all_currencies="currencies"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
@@ -27,33 +28,26 @@
 				/>
 				<v-divider class="pb-2" />
 			</template>
-
-			<template #item.currency="{ item }">
-				<v-img
-					v-if="getLogo(item.currency)"
-					class="elevation-0 d-inline-flex vertical-middle"
-					:src="getLogo(item.currency)"
-					max-height="22"
-					max-width="22"
-				/>
-
-				<v-avatar class="white--text subtitle-2" :color="item.color" size="22" v-else>
-					{{ item.currency.charAt(0) }}
-				</v-avatar>
-
-				<span class="ml-1">{{ item.currency }}</span>
-			</template>
-
+      <template #item.currency="{ item }">
+        <item-with-logo
+            :cell_text="item.currency"
+            :logo="getLogo(item.currency)"
+            :size="18"
+        ></item-with-logo>
+      </template>
+      <template #item.type="{ item }">
+        <span>{{ $t('transfers.types.'+item.type) }}</span>
+      </template>
 			<template #item.side="{ item }">
-				<span>{{ getSideName(item.side) }}</span>
+        <span :class="item.side === true ? 'success--text' : 'error--text'">
+					{{ getSideName(item.side) }}
+				</span>
 			</template>
-
 			<template #item.created_at="{ item }">
 				<span>{{ getDate(item.created_at) }}</span>
 			</template>
-
 			<template #item.amount="{ item }">
-				<span>{{ BigNumber(item.amount) }}</span>
+				<span>{{ getNumber(item.amount) }}</span>
 			</template>
 		</v-data-table>
 	</v-card>
@@ -61,20 +55,17 @@
 
 <script>
 import { mapState } from 'vuex';
-
-import BigNumber from 'bignumber.js';
-import randomColor from 'randomcolor';
-BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
-
+import thousands from '@/plugins/thousands.js';
+import bignumber from '@/mixins/format/bignumber.js';
 import filters from '@/components/filters/Transfers.vue';
-
+import ItemWithLogo from '@/components/common/ItemWithLogo.vue';
 export default {
 	name: 'Transfers',
-
 	components: {
 		filters,
+    ItemWithLogo
 	},
-
+  mixins: [bignumber],
 	data() {
 		return {
 			isFiltersShow: true,
@@ -90,18 +81,26 @@ export default {
 				'items-per-page-all-text': '500',
 			},
 			sides: [
-				{ value: false, name: this.$t('transfers.sides.to_trade') },
-				{ value: true, name: this.$t('transfers.sides.to_safe') },
+        { value: false, name: this.$t('common.withdrawal') },
+        { value: true, name: this.$t('common.replenishment') },
 			],
 		};
 	},
-
 	computed: {
+    ...mapState('app', ['product']),
     ...mapState('trading', ['all_currencies','allCurrencyListInit']),
+    ...mapState('user', ['blockStatus']),
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
+    },
+    isOTCEnabled() {
+      return this.product.enabledOTC
+    },
 		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
 				{ text: this.$t('table_header.date'), value: 'created_at' },
+        { text: this.$t('table_header.type'), value: 'type' },
 				{ text: this.$t('table_header.side'), value: 'side' },
 				{ text: this.$t('table_header.currency'), value: 'currency' },
 				{ text: this.$t('table_header.amount'), value: 'amount' },
@@ -110,8 +109,28 @@ export default {
     currencies() {
       return this.allCurrencyListInit ? this.all_currencies : []
     },
+    types() {
+      if(this.isOTCEnabled && !this.isHideTrading)
+      {
+        return [
+          { value: 'transfer', name: this.$t('transfers.types.transfer') },
+          { value: 'otc_transfer', name: this.$t('transfers.types.otc_transfer') },
+        ]
+      }
+      else if(this.isOTCEnabled && this.isHideTrading)
+      {
+        return [
+          { value: 'otc_transfer', name: this.$t('transfers.types.otc_transfer') },
+        ]
+      }
+      else
+      {
+        return [
+          { value: 'transfer', name: this.$t('transfers.types.transfer') }
+        ]
+      }
+    }
 	},
-
 	watch: {
 		options: {
 			handler() {
@@ -123,27 +142,19 @@ export default {
 			deep: true,
 		},
 	},
-
 	methods: {
-		BigNumber: function(item) {
-			return BigNumber(item).toString();
-		},
 		getLogo(currency) {
 			return this.currencies.find(item => item.currency === currency).logo;
 		},
+    getNumber(number) {
+      return thousands(this.BigNumber(number), ' ')
+    },
 		getDate(date) {
 			return date ? this.$moment(date).format('YYYY-MM-DD HH:mm:ss') : '-';
 		},
 		getSideName(side) {
 			let index = _.findIndex(this.sides, item => item.value === side);
 			return this.sides[index].name;
-		},
-		getRandomColor() {
-			return randomColor({
-				luminosity: 'dark',
-				format: 'rgba',
-				alpha: 0.5,
-			});
 		},
 		onFilterApply(data) {
 			this.options.filters = data;
@@ -174,10 +185,6 @@ export default {
 				let result = await this.getItems(this.options);
 				let items = result.data;
 				const total = result.total;
-				let self = this;
-				_.forEach(items, function(value) {
-					_.assign(value, { color: self.getRandomColor() });
-				});
 				setTimeout(() => {
 					this.loading = false;
 					resolve({
@@ -213,11 +220,9 @@ export default {
 		getImage(img) {
 			return '/' + img;
 		},
-
 		toggleFiltersShow() {
 			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
-
 };
 </script>

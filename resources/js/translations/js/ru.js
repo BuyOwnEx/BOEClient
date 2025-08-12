@@ -71,6 +71,8 @@ export default {
         "2fa": 'Проверка 2FA',
         "2fa_forget": 'Восстановление 2FA',
 				landing: 'Сервис обмена крипто активами',
+		    exchange: 'Обмен активами',
+				exchange_history: 'История обменов',
         api: 'API',
         balance: 'Баланс',
         confirm: 'Подтверждение email',
@@ -341,9 +343,13 @@ export default {
 		ve: 'Венесуэла (Боливарианская Республика)'
 	},
 	apps: {
+		trading: {
+			title: 'Торговля',
+			subtitle: 'Спотовая торговля',
+		},
 		exchange: {
 			title: 'Обмен',
-			subtitle: 'Торговля криптоактивами',
+			subtitle: 'Обмен криптовалют',
 		},
 	},
 	copy: {
@@ -364,7 +370,9 @@ export default {
 		currency: 'Валюта',
 		currencies: 'Валюты',
 		name: 'Название',
-		safe: 'Внешний',
+		safe: 'Основной',
+		otc: 'OTC',
+		otc_blocked: 'OTC, заблокировано',
 		trade: 'Торговый',
 		withdraw: 'Вывод',
 		blocked: 'Заблокировано',
@@ -477,6 +485,7 @@ export default {
 	},
 	menu: {
 		trading: 'Торговля',
+		exchange_history: 'Заявки на обмен',
 		overview: 'Обзор рынка',
 		system_status: 'Состояние системы',
 		transactions: 'Транзакции',
@@ -722,6 +731,44 @@ export default {
 
 		your_message: 'Ваше сообщение...',
 	},
+	exchange: {
+		select_currency_out: 'Отдаёте',
+		select_currency_in: 'Получаете',
+		amount: 'Отдаваемая сумма',
+		amount_hint: 'Введите сумму, которую вы хотите обменять',
+		set_rate: 'Установить курс вручную',
+		rate: 'Курс за 1 {0}',
+		rate_hint: 'Введите желаемый курс обмена за 1 {0}',
+		volume: 'Сумма к получению',
+		exchange_action: 'Обменять',
+		available: 'Доступно',
+		confirm: 'Подтверждение обмена',
+		confirm_text: 'Вы собираетесь совершить обмен со следующими параметрами:',
+		confirm_text_finally: 'Операция является неотменяемой, поэтому нажимая кнопку Подтвердить, проверьте правильность заполнения всех данных',
+		exchange_form: 'Заявка на обмен',
+		suspended_title: 'Обмен недоступен',
+		suspended_sub_title: 'Обмен по данному направлению преостановлен',
+		request_success: 'Запрос успешно отправлен',
+		req_id: 'Номер заявки',
+		navigate_exchange_list: 'Перейти в список заявок',
+		repeat_exchange: 'Создать еще заявку',
+		request_date: 'Дата запроса',
+		proceed_date: 'Дата обработки',
+		exchange_dir: 'Направление обмена',
+		rate_type: 'Тип курса',
+		rate_header: 'Курс',
+		amount_out: 'Отдаете',
+		amount_in: 'Получаете',
+		rate_types: {
+			calc: 'Авто',
+			fixed: 'Ручной',
+		},
+		statuses: {
+			new: 'В обработке',
+			accepted: 'Исполнена',
+			rejected: 'Отвергнута'
+		}
+	},
 	auth: {
 		signin: 'Войти',
 		username: 'Имя пользователя',
@@ -892,12 +939,20 @@ export default {
 
 		dialog: {
 			safe: {
-				title: 'Перевести {currency} на внешний счет',
-				menu_title: 'Перевести на внешний счет',
+				title: 'Перевести {currency} на основной счет',
+				menu_title: 'Перевод с торгового на основной счет',
 			},
 			trade: {
 				title: 'Перевести {currency} на торговый счет',
-				menu_title: 'Перевести на торговый счет',
+				menu_title: 'Перевод с основного на торговый счет',
+			},
+			safe_otc: {
+				title: 'Перевести {currency} на OTC счет',
+				menu_title: 'Перевод с основного на OTC счет',
+			},
+			otc_safe: {
+				title: 'Перевести {currency} на основной счет',
+				menu_title: 'Перевод с OTC на основной счет',
 			},
 
 			fiat_replenishment_alert:
@@ -2386,7 +2441,7 @@ export default {
 						'                        </p>\n' +
 						'                        <ul>\n' +
 						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                            <li><strong>safe</strong> – доступные средства на внешнем счете</li>\n' +
+						'                            <li><strong>safe</strong> – доступные средства на основном счете</li>\n' +
 						'                            <li><strong>withdraw</strong> – заблокированные средства для вывода</li>\n' +
 						'                            <li><strong>trade</strong> – доступные средства на торговом счете</li>\n' +
 						'                            <li><strong>blocked</strong> – заблокированные под ордера средства</li>\n' +
@@ -2529,7 +2584,7 @@ export default {
 						'                            <li><strong>transfers</strong> – массив переводов</li>\n' +
 						'                            <li><strong>id</strong> – уникальный идентификатор перевода</li>\n' +
 						'                            <li><strong>amount</strong> – сумма перевода</li>\n' +
-						'                            <li><strong>side</strong> – тип перевода (<strong>true</strong> - с внешнего счета на торговый, <strong>false</strong> - с торгового счета на внешний)</li>\n' +
+						'                            <li><strong>side</strong> – тип перевода (<strong>true</strong> - с основного счета на торговый, <strong>false</strong> - с торгового счета на основной)</li>\n' +
 						'                            <li><strong>time</strong> – время создания перевода в формате UNIX timestamp</li>\n' +
 						'                        </ul>',
 				},
@@ -3145,6 +3200,9 @@ export default {
 		transfer_id: 'ID перевода',
 		transfer_id_hint: 'Найти по ID перевода',
 
+		exchange_request_id: 'ID запроса',
+		exchange_request_id_hint: 'Найти по ID запроса на обмен',
+
 		pair: 'Торговая пара',
 		pair_hint: 'Выберите пару из списка',
 		side: 'Направленность',
@@ -3163,6 +3221,7 @@ export default {
 		address_hint: 'Найти по адресу получателя',
 
 		deals_title: 'Сделки',
+		exchange_history_title: 'Заявки на обмен',
 		fiat_transactions_title: 'Фиатные транзакции',
 		orders_title: 'Ордера',
 		ref_payments_title: 'Реферальные платежи',
@@ -3377,11 +3436,22 @@ export default {
 			reason: 'Причина',
 			support: 'Пожалуйста, исправьте причины по которым ваш запрос на верификацию был отклонен и отправьте данные снова, либо если причины не понятны, то свяжитесь с командой поддержки для выяснения доп. информации',
 		},
+		forbidden: {
+			caption: 'Верификация недоступна',
+			resident_legal: 'Процедура верификации для резидентов юридических лиц на данный момент недоступна',
+			resident_individual: 'Процедура верификации для резидентов физических лиц на данный момент недоступна',
+			no_resident_legal: 'Процедура верификации для нерезидентов юридических лиц на данный момент недоступна',
+			no_resident_individual: 'Процедура верификации для нерезидентов физических лиц на данный момент недоступна',
+		},
 	},
 	transfers: {
 		sides: {
 			to_trade: 'С основного счета на торговый',
 			to_safe: 'С торгового счета на основной'
+		},
+		types: {
+			transfer: 'Перевод, торговля',
+			otc_transfer: 'Перевод, OTC'
 		}
 	},
 	orders: {
@@ -3441,7 +3511,9 @@ export default {
 		acc_invalid: 'Введите 20-ти значный номер счета',
 		acc_kg_invalid: 'Введите 16-ти значный номер счета',
 		passwords_not_match: 'Пароли не совпадают',
+		max_filesize_2MB: 'Макс. размер файла 2 МБ',
 		max_filesize_5MB: 'Макс. размер файла 5 МБ',
+		max_filesize_15MB: 'Макс. размер файла 15 МБ',
 		fill_all_fields: 'Заполните все поля',
 		incorrect_data: 'Некорректные данные',
 

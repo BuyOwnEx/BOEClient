@@ -91,7 +91,7 @@ export default {
                 if (response.data.auth)
                 {
                   this.$store.commit('app/setAuthUser', { user: response.data.user, vm: this });
-                  this.$router.push({ name: response.data.intended});
+                  this.$router.push({ path: response.data.intended});
                 }
                 else this.$store.commit('snackbars/showSnackbar', { text: response.data.message, success: false });
             })

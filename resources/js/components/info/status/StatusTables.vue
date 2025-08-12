@@ -2,7 +2,7 @@
 	<div class="status-page__tables-wrapper">
 		<v-tabs v-model="selectedTab" class="small-tabs" :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">{{ $t('status.currencies_tab') }}</v-tab>
-			<v-tab :key="2"> {{ $t('status.pairs_tab') }} </v-tab>
+			<v-tab :key="2" v-if="!isHideTrading"> {{ $t('status.pairs_tab') }} </v-tab>
 		</v-tabs>
 
 		<v-tabs-items v-model="selectedTab" class="profile-page__tabs-items pt-1">
@@ -83,7 +83,7 @@
 				</div>
 			</v-tab-item>
 
-			<v-tab-item :key="2">
+			<v-tab-item :key="2" v-if="!isHideTrading">
 				<div class="status-page__pairs-table">
 					<div class="component-title py-1">
 						{{ $t('status.pairs_status') }}
@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import CommonTooltip from '@/components/common/CommonTooltip.vue';
 
 import balanceStateMethodsMixin from '@/mixins/balance/balanceStateMethodsMixin';
@@ -157,6 +157,10 @@ export default {
 
 	computed: {
 		...mapGetters('balance', ['getIcons']),
+    ...mapState('user', ['blockStatus']),
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
+    },
 	},
 
 	methods: {

@@ -39,12 +39,25 @@ const router = new Router({
  * Before each route update
  */
 router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.needTradeUIStatus)) {
+    if (store.getters['user/isTradeHidden']) {
+      next({
+        path: '/not-found',
+      })
+    }
+  }
   if(to.path === '/' && store.getters['app/isLogged'])
   {
     if(import.meta.env.VITE_CONFIG_START_AUTHED_PAGE === 'profile')
     {
       next({
         path: '/profile',
+      })
+    }
+    else if(import.meta.env.VITE_CONFIG_START_AUTHED_PAGE === 'exchange')
+    {
+      next({
+        path: '/exchange',
       })
     }
     else
@@ -64,6 +77,12 @@ router.beforeEach((to, from, next) => {
     {
       next({
         path: '/login',
+      })
+    }
+    else if(import.meta.env.VITE_CONFIG_START_PAGE === 'exchange')
+    {
+      next({
+        path: '/exchange',
       })
     }
     else

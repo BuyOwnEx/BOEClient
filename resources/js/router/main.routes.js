@@ -7,11 +7,15 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.overview'),
+        needTradeUIStatus: true,
         requiresAuth: false
     }
 }, {
     path: '/trading',
-    redirect: '/trading/'+import.meta.env.VITE_DEFAULT_MARKET+'/'+import.meta.env.VITE_DEFAULT_CURRENCY
+    redirect: '/trading/'+import.meta.env.VITE_DEFAULT_MARKET+'/'+import.meta.env.VITE_DEFAULT_CURRENCY,
+    meta: {
+        needTradeUIStatus: true
+    }
 }, {
     path: '/trading/:market([A-Z0-9]{1,10})/:currency([A-Z0-9]{1,10})',
     name: 'trading',
@@ -19,6 +23,19 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.trading'),
+        requiresAuth: false,
+        needTradeUIStatus: true,
+    }
+}, {
+    path: '/exchange',
+    redirect: import.meta.env.VITE_CONFIG_ENABLED_OTC ? '/exchange/'+import.meta.env.VITE_DEFAULT_OTC_CURRENCY_OUT+'/'+import.meta.env.VITE_DEFAULT_OTC_CURRENCY_IN : '/not-found'
+}, {
+    path: '/exchange/:currency_out([A-Z0-9]{1,10})/:currency_in([A-Z0-9]{1,10})',
+    name: 'exchange',
+    component: () => import(/* webpackChunkName: "exchange" */ '@/pages/exchange/Exchange.vue'),
+    meta: {
+        layout: Layout,
+        title: i18n.t('titles.exchange'),
         requiresAuth: false
     }
 }, {
@@ -28,6 +45,7 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.api'),
+        needTradeUIStatus: true,
         requiresAuth: false
     }
 }, {
@@ -55,6 +73,17 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.deals'),
+        needTradeUIStatus: true,
+        requiresAuth: true
+    }
+}, {
+    path: '/exchange/history',
+    name: 'exchange_history',
+    component: () => import(/* webpackChunkName: "deals" */ '@/pages/main/ExchangeHistory.vue'),
+    meta: {
+        layout: Layout,
+        title: i18n.t('titles.exchange_history'),
+        needTradeUIStatus: false,
         requiresAuth: true
     }
 }, {
@@ -91,6 +120,7 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.orders'),
+        needTradeUIStatus: true,
         requiresAuth: true
     }
 }, {
@@ -118,6 +148,7 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.ref_payments'),
+        needTradeUIStatus: true,
         requiresAuth: true
     }
 }, {

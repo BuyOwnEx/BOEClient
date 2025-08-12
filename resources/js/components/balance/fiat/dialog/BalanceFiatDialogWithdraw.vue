@@ -46,9 +46,9 @@
                 v-if="platforms.length > 0"
 								class="mb-6"
                 :platforms="platforms"
-                :is_verified="is_verified"
-                :trader_status="trader_status"
-                :block_status="block_status"
+                :is_verified="verifyStatus"
+                :trader_status="status"
+                :block_status="blockStatus"
 								@select_platform="platformSelected"
 							/>
               <div class="d-flex align-center justify-center mb-3 red--text" style="height: 100px" v-else>
@@ -66,7 +66,7 @@
 						<v-stepper-content step="2">
               <FillFieldsWithdrawStep
                   v-if="selected_platform && selected_platform.gateway_code === 'INVOICE'"
-                  :trader_status="trader_status"
+                  :trader_status="status"
                   :selectedPlatform="selectedPlatfrom"
                   :currency_obj="currencyObj"
                   :pay_templates="pay_templates"
@@ -78,7 +78,7 @@
               />
               <FillOfficeWithdrawStep
                   v-if="selected_platform && selected_platform.gateway_code === 'OFFICE'"
-                  :trader_status="trader_status"
+                  :trader_status="status"
                   :selectedPlatform="selectedPlatfrom"
                   :pay_templates="pay_templates"
                   :available_offices="available_offices"
@@ -144,24 +144,13 @@ import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 import FillOfficeWithdrawStep from '@/components/balance/fiat/dialog/parts/office/FillOfficeWithdrawStep.vue';
 import ConfirmationOfficeWithdrawStep
   from '@/components/balance/fiat/dialog/parts/office/ConfirmationOfficeWithdrawStep.vue';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'BalanceFiatDialogWithdraw',
   props: {
     currencyObj: {
       type: Object,
-      required: true,
-    },
-    is_verified: {
-      type: Boolean,
-      required: true,
-    },
-    block_status: {
-      type: Number,
-      required: true,
-    },
-    trader_status: {
-      type: Number,
       required: true,
     },
     rub_props: {
@@ -223,6 +212,7 @@ export default {
     });
   },
 	computed: {
+    ...mapState('user', ['blockStatus','verifyStatus','status']),
     available_pay_templates() {
       return this.pay_templates;
     },

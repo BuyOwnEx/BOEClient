@@ -124,7 +124,7 @@ export default {
 				{ text: this.$t('table_header.pair'), value: 'pair', sortable: false },
 				{ text: this.$t('table_header.order'), value: 'order_id', sortable: false },
 				{ text: this.$t('table_header.fee'), value: 'fee' },
-        { text: this.$t('table_header.fee_market'), value: 'fee_market', align: !this.showing_fee_in_market ? ' d-none' : '' },
+        { text: this.$t('table_header.fee_market'), value: 'fee_market', sortable: false, align: !this.showing_fee_in_market ? ' d-none' : '' },
 				{ text: this.$t('table_header.size'), value: 'size' },
 				{ text: this.$t('table_header.price'), value: 'price' },
 				{ text: this.$t('table_header.volume'), value: 'volume', sortable: false },

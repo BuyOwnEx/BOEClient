@@ -23,24 +23,34 @@ Route::get('/', function () {
             return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
         else if(config('app.start-page') === 'landing')
             return view('spa');
+        else if(config('app.start-page') === 'exchange')
+            return view('spa');
         else return redirect(config('app.start-page'));
     }
     else
     {
         if(config('app.start-authed-page') === 'trading')
             return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
+        else if(config('app.start-authed-page') === 'exchange')
+            return redirect('exchange/'.env('VITE_DEFAULT_OTC_CURRENCY_OUT', 'USDT').'/'.env('VITE_DEFAULT_OTC_CURRENCY_IN', 'BTC'));
         else return redirect(config('app.start-authed-page'));
     }
 });
 Route::get('trading', function () {
     return redirect('trading/'.env('VITE_DEFAULT_MARKET', 'USDT').'/'.env('VITE_DEFAULT_CURRENCY', 'BTC'));
 });
+Route::get('exchange', function () {
+    if(config('app.otc_enabled'))
+        return redirect('exchange/'.env('VITE_DEFAULT_OTC_CURRENCY_OUT', 'USDT').'/'.env('VITE_DEFAULT_OTC_CURRENCY_IN', 'BTC'));
+    else return redirect('not-found');
+});
 Route::get('landing', 'TraderController@getSpaView')->name('landing_view');
-Route::get('trading/{market}/{currency}', 'TraderController@getTradingView')->name('trading_view');
-Route::get('overview', 'TraderController@getSpaView')->name('overview_view');
+Route::get('trading/{market}/{currency}', 'TraderController@getTradingView')->middleware('check_trade_ui_block_status')->name('trading_view');
+Route::get('exchange/{currency_out}/{currency_in}', 'TraderController@getExchangeView')->name('exchange_view');
+Route::get('overview', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('overview_view');
 Route::get('policy', 'TraderController@getSpaView')->name('policy_view');
 Route::get('terms', 'TraderController@getSpaView')->name('terms_view');
-Route::get('api', 'TraderController@getSpaView')->name('api_view');
+Route::get('api', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('api_view');
 Route::get('fees', 'TraderController@getSpaView')->name('fees_view');
 Route::get('status', 'TraderController@getSpaView')->name('status_view');
 Route::get('contacts', 'TraderController@getSpaView')->name('contacts_view');
@@ -55,9 +65,10 @@ Route::middleware('auth')->group(function () {
     Route::get('transactions', 'TraderController@getSpaView')->name('transactions_view');
     Route::get('fiat_transactions', 'TraderController@getSpaView')->name('fiat_transactions_view');
     Route::get('transfers', 'TraderController@getSpaView')->name('transfers_view');
-    Route::get('orders', 'TraderController@getSpaView')->name('orders_view');
-    Route::get('deals', 'TraderController@getSpaView')->name('deals_view');
-    Route::get('ref_payments', 'TraderController@getSpaView')->name('referrals_view');
+    Route::get('exchange/history', 'TraderController@getSpaView')->name('orders_view');
+    Route::get('orders', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('orders_view');
+    Route::get('deals', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('deals_view');
+    Route::get('ref_payments', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('referrals_view');
     Route::get('support', 'TraderController@getSpaView')->name('support_view');
     Route::get('profile', 'TraderController@getSpaView')->name('profile_view');
     Route::get('notifications', 'TraderController@getSpaView')->name('notifications_view');
@@ -82,6 +93,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('tickers', 'TraderController@getTickers')->name('tickers');
         Route::get('market_data', 'TraderController@getMarketData')->name('market_data');
         Route::get('depth', 'TraderController@getDepth')->name('depth');
+        Route::get('otc_depth', 'TraderController@getOtcDepth')->name('otc_depth');
         Route::get('history/deals', 'TraderController@HistoryDealList')->name('history_deal_list');
         Route::get('graph', 'TraderController@getChart')->name('chart');
         Route::get('crypto_currencies', 'TraderController@getCryptoCurrencies')->name('crypto_currencies');
@@ -91,6 +103,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('all_fiat_fees', 'TraderController@getAllFiatFees')->name('all_fiat_fees');
         Route::get('all_banks', 'TraderController@getAllBanks')->name('all_banks');
         Route::get('all_countries', 'TraderController@getAllCountries')->name('all_countries');
+        Route::get('exchange_dirs', 'TraderController@getExchangeDirs')->name('exchange_dirs');
         Route::get('health', 'TraderController@getHealth')->name('health');
         Route::get('get_offer_list', 'TraderController@getOfferList')->name('offer_list');
 
@@ -102,6 +115,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('balances', 'TraderController@getBalances')->name('balances');
             Route::get('orders', 'TraderController@getOrders')->name('orders');
             Route::get('deals', 'TraderController@getDeals')->name('deals');
+            Route::get('exchanges', 'TraderController@getExchanges')->name('exchanges');
             Route::get('fees', 'TraderController@getOwnFees')->name('own_fees');
             Route::get('positions', 'TraderController@getPositions')->name('positions');
 
@@ -164,6 +178,10 @@ Route::group(['prefix' => 'trader'], function () {
 
                 Route::post('transfer/trade', 'TraderController@transferToTradeWallet')->name('transfer_to_trade');
                 Route::post('transfer/safe', 'TraderController@transferToSafeWallet')->name('transfer_to_safe');
+
+                Route::post('otc/replenish', 'TraderController@OTCReplenish')->name('otc_replenish');
+                Route::post('otc/withdraw', 'TraderController@OTCWithdraw')->name('otc_withdraw');
+                Route::post('otc/exchange_request/add', 'TraderController@OTCAddExchangeRequest')->name('otc_exchange_request_add');
 
                 Route::post('withdraw/crypto/request', 'TraderController@withdrawCryptoRequest')->name('withdraw_crypto_request');
                 Route::post('withdraw/fiat/request', 'TraderController@withdrawFiatRequest')->name('withdraw_fiat_request');

@@ -129,7 +129,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ps"
                     @input="errors.file_ps = []"
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable
                     required
@@ -144,7 +144,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ws"
                     @input="errors.file_ws = []"
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable
                     required
@@ -159,7 +159,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ts"
                     @input="errors.file_ts = []"
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable
                     required
@@ -486,17 +486,14 @@ export default {
     sendIndKYCRequest() {
       let self = this;
       let formData = new FormData();
-      if (this.ind_data['file_ps'] && this.ind_data['file_ps'].name) {
-        formData.append('file_ps', this.ind_data['file_ps'], this.ind_data['file_ps'].name);
-      }
-      if (this.ind_data['file_ws'] && this.ind_data['file_ws'].name) {
-        formData.append('file_ws', this.ind_data['file_ws'], this.ind_data['file_ws'].name);
-      }
-      if (this.ind_data['file_ts'] && this.ind_data['file_ts'].name) {
-        formData.append('file_ts', this.ind_data['file_ts'], this.ind_data['file_ts'].name);
-      }
+
       _.each(this.ind_data, function (value, key) {
-        if (value !== null) formData.append(key, value);
+        if ((key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value.name) {
+          formData.append(key, value, value.name);
+        }
+        else {
+          if (value !== null) formData.append(key, value);
+        }
       });
 
       axios.post('/trader/ext/kyc_local_ind_request', formData)

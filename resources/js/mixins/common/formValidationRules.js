@@ -51,7 +51,9 @@ export default {
 				numbers: v => !v || /^[0-9]+$/.test(v) || this.$t('forms_validation.unsupported_char_numbers'),
 				positive: v => !v || BigNumber(v).gt(0) || this.$t('forms_validation.positive'),
 
-				maxFileSize5MB: v => !v || v.size < 5000000 || this.$t('forms_validation.max_filesize_5MB'),
+				maxFileSize2MB: v => !v || v.size < 2097152 || this.$t('forms_validation.max_filesize_2MB'),
+				maxFileSize5MB: v => !v || v.size < 5242880 || this.$t('forms_validation.max_filesize_5MB'),
+				maxFileSize15MB: v => !v || v.size < 15728640 || this.$t('forms_validation.max_filesize_15MB'),
 			},
 		};
 	},

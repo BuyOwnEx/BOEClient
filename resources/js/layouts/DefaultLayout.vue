@@ -64,8 +64,8 @@
 						<div v-if="product.showCurrencies" class="hidden-xs-only mx-1">
 							<ToolbarCurrency />
 						</div>
-						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']">
-							<ToolbarApps v-if="!product.disabledTradingShow" />
+						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="is_show_toolbar_app">
+							<ToolbarApps :is-show-trading="is_show_trading" :is-otc-enabled="isOTCEnabled" />
 						</div>
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged">
 							<ToolbarNotifications />
@@ -91,12 +91,12 @@
 			</v-container>
 		</v-main>
 		<v-footer class="footer overline" :height="calculateFooterHeight" inset app>
-			<span>
-        <Link v-if="!product.disabledStatusPageShow" class="footer__link" path="/status">{{ $t('status.title') }}</Link>
-        <Link v-if="!product.disabledFeesPageShow" class="footer__link" path="/fees">{{ $t('fees.title') }}</Link>
-        <Link v-if="isWidthMore400px && !product.disabledContactsPageShow" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
-        <Link v-if="!product.disabledMarketsShow" class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
-        <Link v-if="isWidthMore400px && !product.disabledApiPageShow" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
+			<span v-if="!isLogged || (isLogged && blockStatus !== null)">
+        <Link v-if="is_show_status_page" class="footer__link" path="/status">{{ $t('status.title') }}</Link>
+        <Link v-if="is_show_fees_page" class="footer__link" path="/fees">{{ $t('fees.title') }}</Link>
+        <Link v-if="isWidthMore400px && is_show_contacts" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
+        <Link v-if="is_show_markets" class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
+        <Link v-if="isWidthMore400px && is_show_api_page" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
         <Link v-if="isWidthMore400px" class="footer__link" path="/terms">{{ $t('docs.terms.title') }}</Link>
         <Link v-if="isWidthMore400px" class="footer__link" path="/policy">{{ $t('docs.policy.title') }}</Link>
 			</span>
@@ -133,26 +133,53 @@ export default {
 		ToolbarThemeChanger,
 		CommonNotification,
 		CommonSnackbar,
-        Link
+    Link
 	},
-
 	data() {
 		return {
       Logo,
 			drawer: null,
 			isDarkTheme: true,
       mini: true,
+      isLoading: true,
 		};
 	},
-
 	computed: {
 		...mapState('app', ['product', 'isContentBoxed', 'menuTheme', 'toolbarTheme', 'isToolbarDetached', 'trader']),
+    ...mapState('user', ['blockStatus','verifyStatus','status']),
 		...mapState('notifications', ['notifications']),
 		...mapGetters({
 			isLogged: 'app/isLogged',
 		}),
 
-		calculateFooterHeight() {
+    is_show_trading() {
+      return (this.isLogged && !this.isHideTrading) || (!this.isLogged && this.product.guestShowTrading)
+    },
+    is_show_toolbar_app() {
+      return this.is_show_trading || this.isOTCEnabled
+    },
+    is_show_status_page() {
+      return (this.isLogged && this.product.authedShowStatusPage) || (!this.isLogged && this.product.guestShowStatusPage)
+    },
+    is_show_fees_page() {
+      return (this.isLogged && this.product.authedShowFeesPage) || (!this.isLogged && this.product.guestShowFeesPage)
+    },
+    is_show_contacts() {
+      return (this.isLogged && this.product.authedShowContacts) || (!this.isLogged && this.product.guestShowContacts)
+    },
+    is_show_api_page() {
+      return (this.isLogged && this.product.authedShowAPIPage && !this.isHideTrading) || (!this.isLogged && this.product.guestShowAPIPage)
+    },
+    is_show_markets() {
+      return (this.isLogged && this.product.authedShowMarkets && !this.isHideTrading) || (!this.isLogged && this.product.guestShowMarkets)
+    },
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
+    },
+    isOTCEnabled() {
+      return this.product.enabledOTC
+    },
+    calculateFooterHeight() {
 			const width = this.$vuetify.breakpoint.width;
 			const isMediumBreakpoint = width < 1264 && width > 960;
 			const isMobile = this.$vuetify.breakpoint.smAndDown;
@@ -164,18 +191,18 @@ export default {
 			return this.$vuetify.breakpoint.width >= 400;
 		},
 	},
-
-  mounted() {
-    this.getNotifications();
+  async created() {
+    if(this.isLogged)
+      await Promise.all([this.getBlockStatusStore(), this.getVerificationStatusStore(), this.getStatusStore(), this.fetchNotificationsStore()]);
+    this.isLoading = false;
   },
-
   methods: {
 		...mapActions({
 			fetchNotificationsStore: 'notifications/fetchNotifications',
+      getBlockStatusStore: 'user/getBlockStatus',
+      getVerificationStatusStore: 'user/getVerifyStatus',
+      getStatusStore: 'user/getStatus',
 		}),
-		getNotifications() {
-			if (!this.notifications && this.isLogged) this.fetchNotificationsStore();
-		}
 	},
 };
 </script>

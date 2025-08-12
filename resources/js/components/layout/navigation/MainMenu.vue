@@ -1,6 +1,6 @@
 <template>
 	<v-list nav dense>
-		<nav-menu :menu="filteredNavItems" />
+		<nav-menu v-if="blockStatus !== null && hasCurrencies" :menu="filteredNavItems" />
 	</v-list>
 </template>
 
@@ -24,6 +24,12 @@ export default {
 					text: 'Trading',
 					link: '/trading',
 				},
+        {
+          icon: 'mdi-human-greeting-proximity',
+          key: 'menu.exchange_history',
+          text: 'Exchange history',
+          link: '/exchange/history',
+        },
 				{
 					icon: 'mdi-home',
 					key: 'menu.overview',
@@ -97,23 +103,30 @@ export default {
 	computed: {
     ...mapState('trading', ['all_currencies','allCurrencyListInit']),
     ...mapState('app', ['product']),
+    ...mapState('user', ['blockStatus']),
+    isHideTrading() {
+      return (this.blockStatus & 8) > 0
+    },
+    isOTCEnabled() {
+      return this.product.enabledOTC
+    },
 		filteredNavItems() {
       let filtered = this.items;
 			if((this.all_currencies?.filter(c => c.type === 'fiat')?.length || 0) === 0)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.fiat_transactions'; });
       if(!this.product.enabledSupport)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.support'; });
-      if(this.product.disabledMarketsShow)
+      if(!this.product.authedShowMarkets || this.isHideTrading)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.overview'; });
-      if(this.product.disabledTradingShow)
+      if(this.isHideTrading)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.trading'; });
-      if(this.product.disabledBalanceShow)
-        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.balance'; });
-      if(this.product.disabledOrdersShow)
+      if(!this.isOTCEnabled)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.exchange_history'; });
+      if(this.isHideTrading)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.orders'; });
-      if(this.product.disabledDealsShow)
+      if(this.isHideTrading)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.deals'; });
-      if(this.product.disabledRefsShow)
+      if(this.isHideTrading)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.refs'; });
       return filtered;
 		},

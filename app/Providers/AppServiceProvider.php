@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Library\BuyOwnExClientAPI;
+use App\Library\BuyOwnExOtcAPI;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -55,5 +55,17 @@ class AppServiceProvider extends ServiceProvider
                 return data_get($data, 'data.*.*');
             });
         });
+
+        if(config('app.otc_enabled'))
+        {
+            $this->app->singleton('all-otc-pairs', function () {
+                return Cache::remember('all_otc_pairs', 60, function () {
+                    $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    $data = $api->exchange_dirs()->getOriginalContent();
+                    return data_get($data, 'data.*');
+                });
+            });
+        }
+
     }
 }

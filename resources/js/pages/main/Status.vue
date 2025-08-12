@@ -25,6 +25,7 @@ import CommonLoading from '@/components/common/CommonLoading.vue';
 import StatusSupportCurrencyText from '@/components/info/status/StatusSupportCurrencyText.vue';
 import StatusDefinitionText from '@/components/info/status/StatusDefinitionText.vue';
 import StatusTables from '@/components/info/status/StatusTables.vue';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'Status',

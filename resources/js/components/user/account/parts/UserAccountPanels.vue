@@ -126,11 +126,6 @@ export default {
       type: Object,
       required: true,
     },
-    is_verified: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
 	},
 
   computed: {

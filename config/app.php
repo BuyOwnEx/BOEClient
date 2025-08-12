@@ -4,17 +4,19 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-    'server'              => env('SERVER'),
-    'start-page'          => env('VITE_CONFIG_START_PAGE','trading'),
+    'server'                     => env('SERVER'),
+    'otc_server'                 => env('OTC_SERVER'),
+    'start-page'                 => env('VITE_CONFIG_START_PAGE','trading'),
     'start-authed-page'          => env('VITE_CONFIG_START_AUTHED_PAGE','trading'),
-    'api-public-key'      => env('API_PUBLIC_KEY'),
-    'api-secret-key'      => env('API_SECRET_KEY'),
-    'client_id'           => env('CLIENT_ID'),
+    'api-public-key'             => env('API_PUBLIC_KEY'),
+    'api-secret-key'             => env('API_SECRET_KEY'),
+    'client_id'                  => env('CLIENT_ID'),
     'api-mobile-public-key'      => env('API_MOBILE_PUBLIC_KEY', null),
     'api-mobile-secret-key'      => env('API_MOBILE_SECRET_KEY', null),
     'mobile-api-enabled'         => (bool) env('MOBILE_API_ENABLED', false),
-    'support_enabled'     => (bool) env('VITE_CONFIG_ENABLED_SUPPORT', false),
-    'statement-available-days' => (int) env('VITE_AVAILABLE_STATEMENT_DAYS', 365),
+    'support_enabled'            => (bool) env('VITE_CONFIG_ENABLED_SUPPORT', false),
+    'otc_enabled'                => (bool) env('VITE_CONFIG_ENABLED_OTC', false),
+    'statement-available-days'   => (int) env('VITE_AVAILABLE_STATEMENT_DAYS', 365),
     /*
     |--------------------------------------------------------------------------
     | Application Name

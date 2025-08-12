@@ -5,7 +5,7 @@
       :size="size"
       :tile="tile"
     ></overlap-images>
-    <span class="ml-1 align-self-center">{{ cell_text }}</span>
+    <span class="ml-1 align-self-center" :style="large_text ? 'font-size:30px' :''">{{ cell_text }}</span>
   </div>
 </template>
 
@@ -23,6 +23,11 @@ export default {
       required: false,
     },
     tile: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    large_text: {
       type: Boolean,
       required: false,
       default: false

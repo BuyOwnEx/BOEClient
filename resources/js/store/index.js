@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import app from './app';
 
 import trading from './modules/trading';
+import exchange from './modules/exchange';
 import tickers from './modules/tickers';
 import ordersTooltip from './modules/ordersTooltip';
 import chat from './modules/chat';
@@ -21,6 +22,7 @@ const store = new Vuex.Store({
 	modules: {
 		app,
 		trading,
+		exchange,
 		tickers,
 		tooltip: ordersTooltip,
 		chat,

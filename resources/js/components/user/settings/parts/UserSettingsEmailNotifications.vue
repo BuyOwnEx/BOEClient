@@ -4,11 +4,10 @@
 			<div class="user-settings-tab__header">
 				{{ $t('user.settings.headers.managing_email_notifications') }}
 			</div>
-
 			<div>
 				<v-checkbox
 					v-model="selectedTypes"
-					v-for="item in notificationsKinds"
+					v-for="item in available_notifications"
 					:key="item.id"
 					:ripple="false"
 					:label="item.title"
@@ -16,7 +15,6 @@
 					hide-details
 				/>
 			</div>
-
 			<v-btn type="submit" class="mt-3" :loading="isSaveNotificationsLoading">
 				{{ $t('common.save') }}
 			</v-btn>
@@ -30,32 +28,43 @@ import showNotificationMixin from '@/mixins/common/showNotificationMixin';
 
 export default {
 	name: 'UserSettingsEmailNotifications',
-
+  props: {
+    showTradeNotifications: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
 	mixins: [showNotificationMixin],
-
 	data() {
 		return {
 			selectedTypes: [],
 			isSaveNotificationsLoading: false,
 		};
 	},
-
 	computed: {
 		...mapState('user', ['notificationStatus']),
 		...mapGetters({
 			notificationsKinds: 'notifications/notificationsKinds',
 		}),
+    available_notifications() {
+      if(!this.showTradeNotifications) {
+        return _.filter(this.notificationsKinds, function(item) { return (
+            item.key !== 'tradingBlock' &&
+            item.key !== 'ref' &&
+            item.key !== 'positionLiquidationWarn' &&
+            item.key !== 'positionLiquidation'
+        )})
+      } else return this.notificationsKinds;
+    },
 	},
-
 	created() {
 		this.selectedTypes = this.getSelectedFromBinary();
 	},
-
 	methods: {
 		...mapActions({
 			updateNotificationSettingsStore: 'user/updateNotificationSettings',
 		}),
-
 		async saveNotificationsSettings() {
 			try {
 				this.isSaveNotificationsLoading = true;
@@ -70,28 +79,23 @@ export default {
 				this.isSaveNotificationsLoading = false;
 			}
 		},
-
 		calculateDigitStatus() {
 			const binaryArr = new Array(this.notificationsKinds.length).fill('0');
-
 			this.selectedTypes.forEach(id => {
 				const index = id - 1;
 				binaryArr[index] = '1';
 			});
 			binaryArr.reverse();
 			const binaryStr = binaryArr.join('');
-
 			return parseInt(binaryStr, 2);
 		},
 		getSelectedFromBinary() {
 			const res = [];
-
 			const binary = Number(this.notificationStatus).toString(2);
 			const binaryArr = binary.split('').reverse();
 			binaryArr.forEach((num, index) => {
 				if (num === '1') res.push(index + 1);
 			});
-
 			return res;
 		},
 	},

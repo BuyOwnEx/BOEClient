@@ -23,11 +23,11 @@ export default {
 		verificationStatus: null,
 		blockStatus: null,
 		verifyStatus: null,
+		status: null,
 		verifyEntity: null,
 		verifyResidentCountry: null,
 		verifyType: null,
 		inn: null,
-		status: null,
 		doc_statuses: {
 			has_wallets: null,
 			has_accounts: null,
@@ -44,6 +44,7 @@ export default {
 			positions: [],
 		},
 		profileSelectedTab: 0,
+		profileSelectedHash: null,
 		kontur: {
 			id: null,
 			kyc_type: null,
@@ -111,6 +112,9 @@ export default {
 				return avatar.toString();
 			}
 		},
+		isTradeHidden: (state) => {
+			return (state.blockStatus & 8) > 0;
+		},
 	},
 
 	mutations: {
@@ -177,8 +181,14 @@ export default {
 		updateBalance(state, data) {
 			if (state.balances) {
 				if (data.currency in state.balances) {
-					state.balances[data.currency].available = data.balance;
-					state.balances[data.currency].blocked = data.blocked;
+					if(data.balance)
+						state.balances[data.currency].available = data.balance;
+					if(data.blocked)
+						state.balances[data.currency].blocked = data.blocked;
+					if(data.otc_main)
+						state.balances[data.currency].otc_main = data.otc_main;
+					if(data.otc_blocked)
+						state.balances[data.currency].otc_blocked = data.otc_blocked;
 				}
 			}
 		},
@@ -316,8 +326,9 @@ export default {
 			state.marginCall.positions.push(data.position.id);
 		},
 
-		SET_PROFILE_TAB(state, tabIndex) {
-			state.profileSelectedTab = tabIndex;
+		SET_PROFILE_TAB(state, data) {
+			state.profileSelectedTab = data.index;
+			state.profileSelectedHash = data.hash;
 		},
 		UPDATE_CURRENCY_AMOUNT(state, { currency, amount }) {
 			if (state.balances && currency in state.balances) {

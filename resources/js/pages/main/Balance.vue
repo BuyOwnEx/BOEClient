@@ -18,7 +18,7 @@
 
 		<v-tabs-items v-model="selectedTab" touchless>
 			<v-tab-item :key="1">
-				<BalanceList v-if="!isLoading" :is_verified="this.verifyStatus" :block_status="this.blockStatus" :trader_status="this.status" />
+				<BalanceList v-if="!isLoading" />
 			</v-tab-item>
 
 			<v-tab-item :key="2">
@@ -34,33 +34,27 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-
 import CommonPageTitle from '@/components/common/CommonPageTitle.vue';
 import BalanceList from '@/components/balance/common/BalanceList.vue';
 import BalanceWithdrawalList from '@/components/balance/withdrawal/BalanceWithdrawalList.vue';
 import BalanceFiatWithdrawalList from '@/components/balance/withdrawal/BalanceFiatWithdrawalList.vue';
-
 import CentrifugeBalanceMixin from '@/mixins/centrifugo-balance';
 
 export default {
 	name: 'Balance',
-
 	mixins: [CentrifugeBalanceMixin],
-
 	components: {
 		CommonPageTitle,
 		BalanceList,
 		BalanceWithdrawalList,
     BalanceFiatWithdrawalList
 	},
-
 	data() {
 		return {
 			selectedTab: 0,
       isLoading: true,
 		};
 	},
-
 	computed: {
 		...mapState({
 			withdrawalList: state => state.balance.withdrawals || [],
@@ -68,24 +62,16 @@ export default {
     ...mapState({
       withdrawalFiatList: state => state.balance.fiat_withdrawals || [],
     }),
-    ...mapState('user', ['blockStatus','verifyStatus','status']),
 	},
-
   async created() {
-    //this.$store.commit('app/setAuthUser', { user: this.$user, vm: this });
-    await Promise.all([this.getVerificationStatusStore(), this.getBlockStatusStore(), this.getStatusStore(), this.fetchWithdrawals(), this.fetchFiatWithdrawals()]);
+    await Promise.all([this.fetchWithdrawals(), this.fetchFiatWithdrawals()]);
     this.isLoading = false;
 	},
-
 	methods: {
 		...mapActions({
 			fetchWithdrawalsStore: 'balance/fetchWithdrawals',
       fetchFiatWithdrawalsStore: 'balance/fetchFiatWithdrawals',
-      getBlockStatusStore: 'user/getBlockStatus',
-      getVerificationStatusStore: 'user/getVerifyStatus',
-      getStatusStore: 'user/getStatus'
 		}),
-
 		async fetchWithdrawals() {
 			await this.fetchWithdrawalsStore();
 		},

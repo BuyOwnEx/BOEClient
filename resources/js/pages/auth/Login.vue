@@ -284,7 +284,7 @@ export default {
         if(response.data.intended === 'verify')
           this.$router.push({ name: response.data.intended, params: { email: response.data.email } });
         else
-          this.$router.push({ name: response.data.intended});
+          this.$router.push({ path: '/'+response.data.intended});
       }).catch(error => {
         if (error.response.status === 422) {
           let errors = error.response.data.errors;

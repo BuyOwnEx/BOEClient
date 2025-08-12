@@ -6,9 +6,9 @@
 		</v-card>
 
 		<template v-else>
-			<UserAccountBlockedAlert v-if="block_status" :status="block_status" />
+			<UserAccountBlockedAlert v-if="has_locks" :status="blockStatus" />
 			<UserAccountBasicInfo :user="user" />
-			<UserAccountPanels :user="user" :doc_statuses="doc_statuses" :trader_status="trader_status" />
+			<UserAccountPanels :user="user" :doc_statuses="doc_statuses" />
 		</template>
 	</div>
 </template>
@@ -17,6 +17,7 @@
 import CommonLoading from '@/components/common/CommonLoading.vue';
 import UserAccountBasicInfo from '@/components/user/account/parts/UserAccountBasicInfo.vue';
 import UserAccountPanels from '@/components/user/account/parts/UserAccountPanels.vue';
+import { mapState } from 'vuex';
 
 export default {
 	name: 'UserAccountTab',
@@ -32,23 +33,21 @@ export default {
 			type: Object,
 			required: true,
 		},
-    block_status: {
-      type: Number,
-      required: true,
-    },
-    doc_statuses: {
-      type: Object,
-      required: true,
-    },
-    trader_status: {
-      type: Number,
-      required: true,
-    },
 	},
-	data() {
-		return {
-
-		};
-	},
+  computed: {
+    ...mapState('user', ['blockStatus', 'doc_statuses']),
+    has_locks() {
+      return this.isTradeBlocked || this.isWithdrawBlocked || this.isSystemBlocked;
+    },
+    isTradeBlocked() {
+      return (this.blockStatus & 1) > 0;
+    },
+    isWithdrawBlocked() {
+      return (this.blockStatus & 2) > 0;
+    },
+    isSystemBlocked() {
+      return (this.blockStatus & 4) > 0;
+    },
+  },
 };
 </script>

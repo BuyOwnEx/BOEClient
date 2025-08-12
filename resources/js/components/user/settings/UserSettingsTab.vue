@@ -5,8 +5,8 @@
 		<CommonLoading v-if="isLoading" page-margin />
 
 		<v-card-text v-else>
-			<UserSettingsRef :all-ref-types="allRefTypes" :user-ref-program-id="userRefProgram" />
-			<UserSettingsEmailNotifications />
+			<UserSettingsRef v-if="!isHideTrading" :all-ref-types="allRefTypes" :user-ref-program-id="userRefProgram" />
+			<UserSettingsEmailNotifications :show-trade-notifications="!isHideTrading" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -21,37 +21,36 @@ import CommonLoading from '@/components/common/CommonLoading.vue';
 
 export default {
 	name: 'UserSettingsTab',
-
 	components: {
 		UserSettingsRef,
 		UserSettingsEmailNotifications,
 		CommonLoading,
 	},
-
 	props: {
 		userRefProgram: {
 			type: Number,
 			required: true,
 		},
+    isHideTrading: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
 	},
-
 	data() {
 		return {
 			allRefTypes: null,
 			isLoading: true,
 		};
 	},
-
 	async created() {
 		await Promise.all([this.fetchRefTypes(), this.getNotificationSettingsStore()]);
 		this.isLoading = false;
 	},
-
 	methods: {
 		...mapActions({
 			getNotificationSettingsStore: 'user/getNotificationSettings',
 		}),
-
 		async fetchRefTypes() {
 			const { data } = await axios.get('/trader/ext/all_referral_types');
 			this.allRefTypes = data.data;
