@@ -109,6 +109,7 @@
                 />
 
                 <v-file-input
+                    v-if="product.kybLocalUploadType !== 'multiple_docs'"
                     v-model="comp_data.file_doc"
                     :label="getFileDocLabel"
                     :hint="getFileDocHint"
@@ -118,6 +119,25 @@
                     @input="errors.file_doc = []"
                     @change="errors.file_doc = []"
                     :rules="product.kybLocalUploadType === 'letter' ? [rules.required, rules.maxFileSize2MB] : [rules.required, rules.maxFileSize15MB]"
+                    persistent-hint
+                    clearable
+                    required
+                    class="required"
+                ></v-file-input>
+                <v-file-input
+                    v-else
+                    v-model="comp_data.file_doc"
+                    :label="getFileDocLabel"
+                    :hint="getFileDocHint"
+                    :accept="getFileDocAccept"
+                    :prepend-icon="getFileDocIcon"
+                    :error-messages="errors.file_doc"
+                    @input="errors.file_doc = []"
+                    @change="errors.file_doc = []"
+                    :rules="[rules.required, rules.max20files, rules.maxMultiFilesSize15MB, rules.uploadDocTypes]"
+                    multiple
+                    :counter="20"
+                    :show-size="1000"
                     persistent-hint
                     clearable
                     required
@@ -373,6 +393,7 @@ export default {
       {
         if(this.product.kybLocalUploadType === 'letter') return this.$t('kyc.file_doc')
         else if(this.product.kybLocalUploadType === 'zip_docs') return this.$t('kyc.zip_file_doc')
+        else if(this.product.kybLocalUploadType === 'multiple_docs') return this.$t('kyc.multiple_doc')
         else return this.$t('kyc.file_doc')
       } else return this.$t('kyc.file_doc')
     },
@@ -381,6 +402,7 @@ export default {
       {
         if(this.product.kybLocalUploadType === 'letter') return this.$t('kyc.file_doc_hint')
         else if(this.product.kybLocalUploadType === 'zip_docs') return this.$t('kyc.zip_file_doc_hint')
+        else if(this.product.kybLocalUploadType === 'multiple_docs') return this.$t('kyc.multiple_doc_hint')
         else return this.$t('kyc.file_doc_hint')
       } else return this.$t('kyc.file_doc_hint')
     },
@@ -389,6 +411,7 @@ export default {
       {
         if(this.product.kybLocalUploadType === 'letter') return 'application/pdf'
         else if(this.product.kybLocalUploadType === 'zip_docs') return 'application/zip'
+        else if(this.product.kybLocalUploadType === 'multiple_docs') return 'image/jpeg,image/png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip'
         else return 'application/pdf'
       } else return 'application/pdf'
     },
@@ -397,6 +420,7 @@ export default {
       {
         if(this.product.kybLocalUploadType === 'letter') return 'mdi-file-pdf-box'
         else if(this.product.kybLocalUploadType === 'zip_docs') return 'mdi-zip-box'
+        else if(this.product.kybLocalUploadType === 'multiple_docs') return 'mdi-paperclip'
         else return 'mdi-file-pdf-box'
       } else return 'mdi-file-pdf-box'
     },
@@ -646,17 +670,34 @@ export default {
     sendCompKYCRequest() {
       let self = this;
       let formData = new FormData();
-
-      _.each(this.comp_data, function (value, key) {
-        if (key === 'file_doc' && value.name) {
-          formData.append(key, value, value.name);
-        }
-        else {
-          if (value !== null) formData.append(key, value);
-        }
-      });
-
-      axios.post('/trader/ext/kyc_local_comp_request', formData)
+      let url = '/trader/ext/kyc_local_comp_request';
+      if(this.product.kybLocalUploadType === 'multiple_docs')
+      {
+        url = '/trader/ext/kyc_local_comp_request_md'
+        _.each(this.comp_data, function (value, key) {
+          if (key === 'file_doc' && value.length > 0) {
+            for(let i=0; i < value.length; i++)
+            {
+              formData.append(key+'['+i+']', value[i], value[i].name);
+            }
+          }
+          else {
+            if (value !== null) formData.append(key, value);
+          }
+        });
+      }
+      else
+      {
+        _.each(this.comp_data, function (value, key) {
+          if (key === 'file_doc' && value.name) {
+            formData.append(key, value, value.name);
+          }
+          else {
+            if (value !== null) formData.append(key, value);
+          }
+        });
+      }
+      axios.post(url, formData)
           .then(response => {
             if (response.data.success === true) {
               this.$store.dispatch('user/getKYCLocalCompData');

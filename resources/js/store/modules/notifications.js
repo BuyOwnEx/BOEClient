@@ -47,24 +47,28 @@ export default {
 					key: 'login',
 					subject: VueI18n.t('notifications.kinds.login.subject'),
 					title: VueI18n.t('notifications.kinds.login.title'),
+					selectable: true
 				},
 				{
 					id: 2,
 					key: 'tradingBlock',
 					subject: VueI18n.t('notifications.kinds.trading_block.subject'),
 					title: VueI18n.t('notifications.kinds.trading_block.title'),
+					selectable: true
 				},
 				{
 					id: 3,
 					key: 'moneyBlock',
 					subject: VueI18n.t('notifications.kinds.money_block.subject'),
 					title: VueI18n.t('notifications.kinds.money_block.title'),
+					selectable: true
 				},
 				{
 					id: 4,
 					key: 'systemBlock',
 					subject: VueI18n.t('notifications.kinds.system_block.subject'),
 					title: VueI18n.t('notifications.kinds.system_block.title'),
+					selectable: true
 				},
 
 				{
@@ -72,18 +76,21 @@ export default {
 					key: 'ref',
 					subject: VueI18n.t('notifications.kinds.ref.subject'),
 					title: VueI18n.t('notifications.kinds.ref.title'),
+					selectable: true
 				},
 				{
 					id: 6,
 					key: 'positionLiquidationWarn',
 					subject: VueI18n.t('notifications.kinds.position_liquidation_warn.subject'),
 					title: VueI18n.t('notifications.kinds.position_liquidation_warn.title'),
+					selectable: true
 				},
 				{
 					id: 7,
 					key: 'positionLiquidation',
 					subject: VueI18n.t('notifications.kinds.position_liquidation.subject'),
 					title: VueI18n.t('notifications.kinds.position_liquidation.title'),
+					selectable: true
 				},
 
 				{
@@ -91,12 +98,21 @@ export default {
 					key: 'addMoney',
 					subject: VueI18n.t('notifications.kinds.add_money.subject'),
 					title: VueI18n.t('notifications.kinds.add_money.title'),
+					selectable: true
 				},
 				{
 					id: 9,
 					key: 'withdrawMoney',
 					subject: VueI18n.t('notifications.kinds.withdraw_money.subject'),
 					title: VueI18n.t('notifications.kinds.withdraw_money.title'),
+					selectable: true
+				},
+				{
+					id: 13,
+					key: 'exchangeRequest',
+					subject: VueI18n.t('notifications.kinds.exchange_request.subject'),
+					title: VueI18n.t('notifications.kinds.exchange_request.title'),
+					selectable: false
 				},
 			];
 		},
@@ -168,6 +184,8 @@ export default {
 						return VueI18n.t('notifications.kinds.withdraw_money.text', [obj.amount, obj.currency]);
 					case 12:
 						return VueI18n.t('notifications.kinds.withdraw_money.text', [obj.amount, obj.currency]);
+					case 13:
+						return VueI18n.t('notifications.kinds.exchange_request.text', [obj.req_id, obj.amount, obj.currency_out, obj.volume, obj.currency_in, obj.rate, obj.currency_rate]);
 					default:
 						return '';
 				}

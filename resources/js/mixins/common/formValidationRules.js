@@ -5,6 +5,7 @@ export default {
 		return {
 			rules: {
 				required: v => !!v || this.$t('forms_validation.required'),
+				max20files: v => !v || v.length <= 20 || this.$t('forms_validation.max_20_files'),
 				email: v => (v && /.+@.+\..+/.test(v)) || this.$t('forms_validation.email_invalid'),
 				fio: v => (v && /([а-яА-Я-/.'])+(\s)+([а-яА-Я-/.'])+(\s)*([а-яА-Я-/.'])*/.test(v)) || this.$t('forms_validation.fio_invalid'),
 				fio_global: v => (v && /([a-zA-Zа-яА-Я-/.'])+(\s)+([a-zA-Zа-яА-Я-/.'])+(\s)*([a-zA-Zа-яА-Я-/.'])*/.test(v)) || this.$t('forms_validation.fio_invalid'),
@@ -54,6 +55,8 @@ export default {
 				maxFileSize2MB: v => !v || v.size < 2097152 || this.$t('forms_validation.max_filesize_2MB'),
 				maxFileSize5MB: v => !v || v.size < 5242880 || this.$t('forms_validation.max_filesize_5MB'),
 				maxFileSize15MB: v => !v || v.size < 15728640 || this.$t('forms_validation.max_filesize_15MB'),
+				maxMultiFilesSize15MB: v => !v || _.sumBy(v, 'size') < 15728640 || this.$t('forms_validation.max_multi_filesize_15MB'),
+				uploadDocTypes: v => !v || _.findIndex(v, item => { return item.type !== 'image/jpeg' && item.type !== 'image/png' && item.type !== 'application/pdf' && item.type !== 'application/msword' && item.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && item.type !== 'application/zip' && item.type !== 'application/x-zip-compressed' }) === -1 || this.$t('forms_validation.unsupported_doc_type'),
 			},
 		};
 	},

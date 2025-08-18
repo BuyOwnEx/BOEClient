@@ -3139,6 +3139,11 @@ make our system processes as transparent as possible.`,
 				subject: 'News',
 				text: '{0}',
 			},
+			exchange_request: {
+				title: 'Notify about the creation of an exchange request',
+				subject: 'New exchange request',
+				text: 'A new exchange request has been created # {0} with the following parameters: give {1} {2}, receive {3} {4}. Exchange rate is {5} {6}',
+			},
 		},
 	},
 	support: {

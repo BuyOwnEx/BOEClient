@@ -47,15 +47,20 @@ export default {
 		...mapGetters({
 			notificationsKinds: 'notifications/notificationsKinds',
 		}),
+    available_notification_kinds() {
+      return _.filter(this.notificationsKinds, function(item) { return (
+          item.selectable === true
+      )})
+    },
     available_notifications() {
       if(!this.showTradeNotifications) {
-        return _.filter(this.notificationsKinds, function(item) { return (
+        return _.filter(this.available_notification_kinds, function(item) { return (
             item.key !== 'tradingBlock' &&
             item.key !== 'ref' &&
             item.key !== 'positionLiquidationWarn' &&
             item.key !== 'positionLiquidation'
         )})
-      } else return this.notificationsKinds;
+      } else return this.available_notification_kinds;
     },
 	},
 	created() {

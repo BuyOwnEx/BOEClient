@@ -34,7 +34,7 @@
 export default {
   data() {
     return {
-      deal_min_fee: 0.07,
+      deal_min_fee: 0.05,
       fiat_replenish_min_fee: 0,
       fee_logo: '/storage/landing/landing-fees.png'
     }
