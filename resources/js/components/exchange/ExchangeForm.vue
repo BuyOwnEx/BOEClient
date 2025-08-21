@@ -16,11 +16,9 @@
               :hint="$t('exchange.select_currency_out_hint')"
               :rules="[rules.required]"
               outlined
-              rounded
               prepend-icon="mdi-arrow-bottom-right-thick"
               hide-details
               required
-              filled
               class="required"
               @change="setCurrencyIn"
           >
@@ -74,10 +72,8 @@
               :rules="[rules.required]"
               outlined
               prepend-icon="mdi-arrow-top-right-thick"
-              rounded
               hide-details
               required
-              filled
               class="required"
               @change="setPair"
           >

@@ -335,7 +335,7 @@ export default {
       }
       if(fix_part !== '' && percent_part !== '')
       {
-        if(fee.type === 'OR') return percent_part + '; ' + this.$t('common.min') + ' ' + fix_part;
+        if(fee.fee_type === 'OR') return percent_part + '; ' + this.$t('common.min') + ' ' + fix_part;
         else return fix_part + ' + ' + percent_part;
       }
       else if(fix_part === '' && percent_part === '')

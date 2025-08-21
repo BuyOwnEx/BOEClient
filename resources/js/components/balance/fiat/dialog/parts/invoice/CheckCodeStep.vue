@@ -98,6 +98,8 @@ export default {
 
         if (isSuccess) {
           this.isSuccessWithdraw = true;
+          this.emailCode = '';
+          this.twoFACode = '';
           await this.getBalancesFromServerStore();
           this.close();
         }

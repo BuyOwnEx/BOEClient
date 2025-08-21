@@ -638,12 +638,12 @@ export default {
       return (this.residentCountry === 'RU' && this.resident === 'non_resident') || (this.residentCountry !== 'RU' && this.comp_data.country !== 'RU')
     },
     document_mask() {
-      if(this.isRU) return '#############??';
+      if(this.isRU) return '##############?#?';
       else if(this.isKG) return '######-####-XXX';
       else return null;
     },
     tax_id_mask() {
-      if(this.isRU) return '##########??';
+      if(this.isRU) return '###########?#?';
       else if(this.isKG) return '##############';
       else return null;
     }

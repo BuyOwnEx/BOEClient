@@ -17,6 +17,7 @@ export default {
 		transfer: 'Transfer',
 		confirm: 'Confirm',
 		select: 'Select',
+		set: 'Set',
 		apply: 'Apply',
 		reset: 'Reset',
 		change: 'Change',

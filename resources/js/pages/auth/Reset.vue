@@ -1,6 +1,6 @@
 <template>
 	<div class="layout-content auth ma-auto">
-		<v-card>
+		<v-card v-if="!reset_alert">
 			<v-card-title class="justify-center">
 				<span class="overline mb-2" style="font-size: 1.25rem !important">
 					{{ $t('auth.check.title') }}
@@ -21,8 +21,8 @@
 								:rules="[rules.required, rules.email]"
 								:error-messages="errors.email"
 								@input="errors.email = []"
-								hide-details
-								disabled
+								hide-details="auto"
+								readonly
 								required
 							>
 								<template #label>

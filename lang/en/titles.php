@@ -6,7 +6,7 @@ return [
     | Языковые ресурсы наименования страниц
     |--------------------------------------------------------------------------
     */
-
+    'main' => 'Crypto Asset Exchange Service',
     '2fa' => 'Check 2FA',
     '2fa_forget' => 'Forget 2FA',
     'landing' => 'Crypto Asset Exchange Service',

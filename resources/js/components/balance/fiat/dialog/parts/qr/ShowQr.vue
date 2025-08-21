@@ -175,7 +175,7 @@ export default {
       }
       if(fix_part !== '' && percent_part !== '')
       {
-        if(fee.type === 'OR') return percent_part + '; ' + this.$t('common.min') + ' ' + fix_part;
+        if(fee.fee_type === 'OR') return percent_part + '; ' + this.$t('common.min') + ' ' + fix_part;
         else return fix_part + ' + ' + percent_part;
       }
       else if(fix_part === '' && percent_part === '')
@@ -205,7 +205,7 @@ export default {
       }
       if(fix_part !== '' && percent_part !== '')
       {
-        if(fee.type === 'OR') return  BigNumber(amount).times(percent_part).div(100).dp(2,4).gt(fix_part) ? BigNumber(amount).times(percent_part).div(100).dp(2,4).toString() : fix_part.toString();
+        if(fee.fee_type === 'OR') return  BigNumber(amount).times(percent_part).div(100).dp(2,4).gt(fix_part) ? BigNumber(amount).times(percent_part).div(100).dp(2,4).toString() : fix_part.toString();
         else return BigNumber(BigNumber(amount).times(percent_part).div(100).dp(2,4)).plus(fix_part).toString();
       }
       else if(fix_part === '' && percent_part === '')
