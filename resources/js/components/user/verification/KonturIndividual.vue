@@ -86,6 +86,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ps"
                     @input="errors.file_ps = []"
+                    @change="errors.file_ps = []"
                     :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable
@@ -101,6 +102,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ws"
                     @input="errors.file_ws = []"
+                    @change="errors.file_ws = []"
                     :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable
@@ -116,6 +118,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ts"
                     @input="errors.file_ts = []"
+                    @change="errors.file_ts = []"
                     :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable

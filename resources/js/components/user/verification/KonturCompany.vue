@@ -72,6 +72,7 @@
                     prepend-icon="mdi-file-pdf-box"
                     :error-messages="errors.file_doc"
                     @input="errors.file_doc = []"
+                    @change="errors.file_doc = []"
                     :rules="[rules.required, rules.maxFileSize2MB]"
                     persistent-hint
                     clearable
