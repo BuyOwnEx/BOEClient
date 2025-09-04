@@ -1012,13 +1012,20 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_kontur_ind_request',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function kycKonturCompRequest($trader_id, $inn, $edo_id, $file_doc)
+    public function kycKonturCompRequest($trader_id, $inn, $edo_id, $file_doc, $fio, $birthday, $passport_number, $head_inn, $file_ps, $file_ws, $file_ts)
     {
         $params = [
             'trader' => $trader_id,
             'inn' => $inn,
             'edo_id' => $edo_id,
-            'file_doc' => $file_doc
+            'file_doc' => $file_doc,
+            'fio' => $fio,
+            'birthday' => $birthday,
+            'passport_number' => $passport_number,
+            'head_inn' => $head_inn,
+            'file_ps' => $file_ps,
+            'file_ws' => $file_ws,
+            'file_ts' => $file_ts
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

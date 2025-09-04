@@ -80,7 +80,7 @@
       {{ $t('user.title.verification') }}
       <small v-if="reason" class="caption">{{ reason }}</small>
     </v-stepper-step>
-    <v-stepper-content step="3">
+    <v-stepper-content step="3" class="ml-0">
       <forbidden-alert
           v-if="residence === 'resident' && legality === 'individual' && verification_settings.resident_individual_kyc_provider === 'forbidden'"
           :is_resident="true"

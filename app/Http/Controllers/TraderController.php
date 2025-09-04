@@ -1170,10 +1170,24 @@ class TraderController extends Controller
             'comp_inn' => 'nullable|string|min:10|max:12',
             'edo_id' => 'required|string|min:35|max:50',
             'file_doc' => 'required|file|mimes:pdf|max:2048',
+            'fio' => 'required|string|min:1|max:256',
+            'birthday' => 'required|date_format:"Y-m-d"',
+            'passport_number' => 'required|string|min:10|max:11',
+            'ind_inn' => 'required|string|size:12',
+            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
         ], [], [
             'comp_inn' => __('kyc.kontur.validation.comp_inn'),
             'edo_id' => __('kyc.kontur.validation.edo_id'),
             'file_doc' => __('kyc.file_doc'),
+            'fio' => __('kyc.kontur.validation.fio'),
+            'birthday' => __('kyc.kontur.validation.birthday'),
+            'passport_number' => __('kyc.kontur.validation.passport_number'),
+            'ind_inn' => __('kyc.kontur.validation.ind_inn'),
+            'file_ps' => __('kyc.file_ps'),
+            'file_ws' => __('kyc.file_ws'),
+            'file_ts' => __('kyc.file_ts'),
         ]);
         if ($validator->fails())
         {
@@ -1187,12 +1201,22 @@ class TraderController extends Controller
             try
             {
                 $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_doc'));
+                $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
+                $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
+                $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
                 $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
                 return $api->kycKonturCompRequest(
                     Auth::id(),
                     $request->comp_inn,
                     $request->edo_id,
-                    $path_doc
+                    $path_doc,
+                    $request->fio,
+                    $request->birthday,
+                    $request->passport_number,
+                    $request->ind_inn,
+                    $path_ps,
+                    $path_ws,
+                    $path_ts
                 );
             }
             catch (Exception $e)

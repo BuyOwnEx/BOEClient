@@ -92,8 +92,11 @@ export default {
 			}
 		},
 		unsubscribeAll() {
-			this.sub_depth.unsubscribe();
-			this.sub_depth.removeAllListeners();
+			if(this.sub_depth)
+			{
+				this.sub_depth.unsubscribe();
+				this.sub_depth.removeAllListeners();
+			}
 		},
 		privatePubHandler(data) {
 			console.log(data);

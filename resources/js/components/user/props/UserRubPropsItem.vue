@@ -127,7 +127,7 @@ export default {
       return this.$t('user.props.states.'+this.propItem.state.toLowerCase());
     },
     getBankName() {
-      if (this.$i18n.locale === 'ru') return this.propItem.bank_name;
+      if (this.$i18n.locale === 'ru' || !this.propItem.bank_name_en) return this.propItem.bank_name;
       else return this.propItem.bank_name_en;
     },
     getBackgroundClassColor() {

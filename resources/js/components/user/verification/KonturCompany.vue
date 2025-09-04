@@ -1,89 +1,207 @@
 <template>
-  <v-card class="user-verification-tab d-flex flex-column">
+  <v-card class="user-verification-tab d-flex flex-column" outlined>
     <v-card-text class="d-flex flex-row flex-grow-1" v-if="loaded">
       <v-row class="d-flex flex-grow-1 justify-space-between" v-if="kyc_state === null || (kyc_state === 'finish' && !is_verified)">
         <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card class="user-account-tab-verification-description">
-            <v-card-title>{{ $t('kyc.kontur.legal.title') }}</v-card-title>
-            <v-card-subtitle>
+          <v-card class="user-account-tab-verification-description" tile flat>
+            <v-card-title class="px-0 pt-0">{{ $t('kyc.kontur.legal.title') }}</v-card-title>
+            <v-card-subtitle class="px-0">
               <span class="font-italic caption">{{ $t('kyc.kontur.legal.description') }}</span>
             </v-card-subtitle>
           </v-card>
-          <v-card>
-            <v-card-text>
-              <v-radio-group
-                  v-model="isFormLegalEntity"
-                  :label="$t('kyc.kontur.legal_form')"
-                  dense
-                  mandatory
-                  class="mt-0"
-              >
-                <v-radio
-                    :label="$t('kyc.kontur.legal_sub_type.form_legal')"
-                    :value="true"
-                    :ripple="false"
-                ></v-radio>
-                <v-radio
-                    :label="$t('kyc.kontur.legal_sub_type.no_form_legal')"
-                    :value="false"
-                    :ripple="false"
-                ></v-radio>
-              </v-radio-group>
+          <v-card flat>
+            <v-card-text class="pa-0">
               <v-form v-model="isValidCompRequestForm">
-                <v-text-field
-                    class="mb-1 pt-1 "
-                    :class="{'d-none': !is_legal_form }"
-                    v-model="inn_comp"
-                    :label="$t('kyc.kontur.legal.form.inn')"
-                    :rules="is_legal_form ? [rules.required, rules.comp_inn] : []"
-                    v-mask="'##########'"
-                    :hint="$t('kyc.kontur.legal.hints.inn')"
-                    persistent-hint
-                    outlined
-                />
-                <v-text-field
-                    class="mb-1 pt-1"
-                    :class="{'d-none': is_legal_form }"
-                    v-model="inn_ip"
-                    :label="$t('kyc.kontur.legal.form.inn')"
-                    :rules="!is_legal_form ? [rules.required, rules.ind_inn] : []"
-                    v-mask="'############'"
-                    :hint="$t('kyc.kontur.legal.hints.inn_ip')"
-                    persistent-hint
-                    outlined
-                />
+                <fieldset class="pa-2">
+                  <legend class="pr-1 pl-1 mt-1">
+                    {{ $t('kyc.kontur.company_part') }}
+                  </legend>
+                  <v-radio-group
+                      v-model="isFormLegalEntity"
+                      :label="$t('kyc.kontur.legal_form')"
+                      dense
+                      mandatory
+                      class="mt-0"
+                  >
+                    <v-radio
+                        :label="$t('kyc.kontur.legal_sub_type.form_legal')"
+                        :value="true"
+                        :ripple="false"
+                    ></v-radio>
+                    <v-radio
+                        :label="$t('kyc.kontur.legal_sub_type.no_form_legal')"
+                        :value="false"
+                        :ripple="false"
+                    ></v-radio>
+                  </v-radio-group>
 
-                <v-text-field
-                    class="mb-1 pt-1"
-                    v-model="comp_data.edo_id"
-                    :label="$t('kyc.kontur.legal.form.edo_id')"
-                    :hint="$t('kyc.kontur.legal.hints.edo_id')"
-                    :rules="[rules.required, rules.edo_id]"
-                    v-mask="'NNN-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'"
-                    persistent-hint
-                    outlined
-                />
+                  <v-text-field
+                      class="mb-1 pt-1 "
+                      :class="{'d-none': !is_legal_form }"
+                      v-model="inn_comp"
+                      :label="$t('kyc.kontur.legal.form.inn')"
+                      :rules="is_legal_form ? [rules.required, rules.comp_inn] : []"
+                      v-mask="'##########'"
+                      :hint="$t('kyc.kontur.legal.hints.inn')"
+                      persistent-hint
+                      outlined
+                  />
+                  <v-text-field
+                      class="mb-1 pt-1"
+                      :class="{'d-none': is_legal_form }"
+                      v-model="inn_ip"
+                      :label="$t('kyc.kontur.legal.form.inn')"
+                      :rules="!is_legal_form ? [rules.required, rules.ind_inn] : []"
+                      v-mask="'############'"
+                      :hint="$t('kyc.kontur.legal.hints.inn_ip')"
+                      persistent-hint
+                      outlined
+                  />
+                  <v-text-field
+                      class="mb-1 pt-1"
+                      v-model="comp_data.edo_id"
+                      :label="$t('kyc.kontur.legal.form.edo_id')"
+                      :hint="$t('kyc.kontur.legal.hints.edo_id')"
+                      :rules="[rules.required, rules.edo_id]"
+                      v-mask="'NNN-NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'"
+                      persistent-hint
+                      outlined
+                  />
+                  <v-file-input
+                      v-model="comp_data.file_doc"
+                      :label="$t('kyc.file_doc')"
+                      :hint="$t('kyc.file_doc_hint')"
+                      accept="application/pdf"
+                      prepend-icon="mdi-file-pdf-box"
+                      :error-messages="errors.file_doc"
+                      @input="errors.file_doc = []"
+                      @change="errors.file_doc = []"
+                      :rules="[rules.required, rules.maxFileSize2MB]"
+                      persistent-hint
+                      clearable
+                      required
+                      class="required"
+                  ></v-file-input>
+                </fieldset>
 
-                <v-file-input
-                    v-model="comp_data.file_doc"
-                    :label="$t('kyc.file_doc')"
-                    :hint="$t('kyc.file_doc_hint')"
-                    accept="application/pdf"
-                    prepend-icon="mdi-file-pdf-box"
-                    :error-messages="errors.file_doc"
-                    @input="errors.file_doc = []"
-                    @change="errors.file_doc = []"
-                    :rules="[rules.required, rules.maxFileSize2MB]"
-                    persistent-hint
-                    clearable
-                    required
-                    class="required"
-                ></v-file-input>
+                <fieldset class="pa-2">
+                  <legend class="pr-1 pl-1 mt-1">
+                    {{ $t('kyc.kontur.head_part') }}
+                  </legend>
+                  <v-text-field
+                      class="mb-1 pt-1"
+                      v-model="comp_data.fio"
+                      :label="$t('kyc.kontur.individual.form.fio')"
+                      :hint="$t('kyc.kontur.legal.hints.fio')"
+                      :rules="[rules.required,rules.fio]"
+                      persistent-hint
+                      outlined
+                  />
+                  <v-menu
+                      ref="birthday"
+                      v-model="birthday"
+                      :close-on-content-click="false"
+                      :return-value.sync="comp_data.birthday"
+                      transition="scale-transition"
+                      min-width="290px"
+                      offset-y
+                  >
+                    <template #activator="{ on, attrs }">
+                      <v-text-field
+                          v-model="comp_data.birthday"
+                          class="required mb-1"
+                          :label="$t('kyc.kontur.individual.form.birthday')"
+                          :hint="$t('kyc.kontur.legal.hints.birthday')"
+                          :rules="[rules.required, rules.birthday_18years]"
+                          persistent-hint
+                          hide-details="auto"
+                          readonly
+                          required
+                          v-bind="attrs"
+                          v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="comp_data.birthday" no-title scrollable @change="birthdayChange"></v-date-picker>
+                  </v-menu>
+                  <v-text-field
+                      v-model="comp_data.passport_number"
+                      :label="$t('kyc.kontur.individual.form.passport_number')"
+                      :hint="$t('kyc.kontur.legal.hints.passport_number')"
+                      :rules="[rules.required, rules.passport_number]"
+                      v-mask="'#### ######'"
+                      :error-messages="errors.passport_number"
+                      persistent-hint
+                      clearable
+                      required
+                      class="required mb-1"
+                      @input="errors.passport_number = []"
+                  >
+                  </v-text-field>
+                  <v-text-field
+                      v-model="comp_data.ind_inn"
+                      :label="$t('kyc.kontur.individual.form.inn')"
+                      :hint="$t('kyc.kontur.legal.hints.head_inn')"
+                      :rules="[rules.required, rules.ind_inn]"
+                      v-mask="'############'"
+                      :error-messages="errors.ind_inn"
+                      persistent-hint
+                      clearable
+                      required
+                      class="required mb-1"
+                      @input="errors.ind_inn = []"
+                  >
+                  </v-text-field>
+                  <v-file-input
+                      v-model="comp_data.file_ps"
+                      :label="$t('kyc.file_ps')"
+                      :hint="$t('kyc.file_ps_hint')"
+                      accept="image/png, image/jpeg"
+                      prepend-icon="mdi-camera"
+                      :error-messages="errors.file_ps"
+                      @input="errors.file_ps = []"
+                      @change="errors.file_ps = []"
+                      :rules="[rules.required, rules.maxFileSize2MB]"
+                      persistent-hint
+                      clearable
+                      required
+                      class="required"
+                  ></v-file-input>
+                  <v-file-input
+                      v-model="comp_data.file_ws"
+                      :label="$t('kyc.file_ws')"
+                      :hint="$t('kyc.file_ws_hint')"
+                      accept="image/png, image/jpeg"
+                      prepend-icon="mdi-camera"
+                      :error-messages="errors.file_ws"
+                      @input="errors.file_ws = []"
+                      @change="errors.file_ws = []"
+                      :rules="[rules.required, rules.maxFileSize2MB]"
+                      persistent-hint
+                      clearable
+                      required
+                      class="required"
+                  ></v-file-input>
+                  <v-file-input
+                      v-model="comp_data.file_ts"
+                      :label="$t('kyc.file_ts')"
+                      :hint="$t('kyc.file_ts_hint')"
+                      accept="image/png, image/jpeg"
+                      prepend-icon="mdi-camera"
+                      :error-messages="errors.file_ts"
+                      @input="errors.file_ts = []"
+                      @change="errors.file_ts = []"
+                      :rules="[rules.required, rules.maxFileSize2MB]"
+                      persistent-hint
+                      clearable
+                      required
+                      class="required"
+                  ></v-file-input>
+                </fieldset>
               </v-form>
             </v-card-text>
           </v-card>
           <v-card>
-            <v-card-actions class="common-dialog__actions">
+            <v-card-actions class="common-dialog__actions mt-2">
               <v-spacer />
               <v-btn color="success" :disabled="!compRequestAvailable" tile block @click="sendCompKYCRequest">
                 {{ $t('common.send') }}
@@ -283,10 +401,18 @@ export default {
       isFormLegalEntity: true,
       inn_comp: null,
       inn_ip: null,
+      birthday: false,
       comp_data: {
         comp_inn: null,
         edo_id: null,
         file_doc: null,
+        fio: null,
+        birthday: null,
+        passport_number: null,
+        ind_inn: null,
+        file_ps: null,
+        file_ws: null,
+        file_ts: null,
         risk_level: null,
         risk: null,
         created_at: null,
@@ -295,7 +421,14 @@ export default {
       errors: {
         comp_inn: [],
         edo_id: [],
-        file_doc: []
+        file_doc: [],
+        fio: [],
+        birthday: [],
+        passport_number: [],
+        ind_inn: [],
+        file_ps: [],
+        file_ws: [],
+        file_ts: []
       },
     };
   },
@@ -332,6 +465,9 @@ export default {
     ...mapMutations({
       setStateKonturStore: 'user/setStateKontur',
     }),
+    birthdayChange() {
+      this.$refs.birthday.save(this.comp_data.birthday);
+    },
     kyc_state_icon(state, is_verified) {
       if(state === 'finish' && is_verified) return 'mdi-account-check'
       else if(state === 'finish' && !is_verified) return 'mdi-account-cancel'
@@ -369,7 +505,7 @@ export default {
       let formData = new FormData();
 
       _.each(this.comp_data, function (value, key) {
-        if (key === 'file_doc' && value.name) {
+        if ((key === 'file_doc' || key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value.name) {
           formData.append(key, value, value.name);
         }
         else {

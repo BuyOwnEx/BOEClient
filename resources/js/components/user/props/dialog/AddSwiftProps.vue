@@ -138,7 +138,6 @@
                         v-mask="tax_id_mask"
                         :hint="getTaxIDHint"
                         persistent-hint
-                        @paste.prevent
                         required
                         dense
                     >
@@ -154,7 +153,6 @@
                         v-mask="'#########'"
                         :hint="$t('user.props.dialog.add.kpp_hint')"
                         persistent-hint
-                        @paste.prevent
                         required
                         dense
                     >

@@ -3236,6 +3236,8 @@ make our system processes as transparent as possible.`,
 	},
 	kyc: {
 		kontur: {
+			company_part: 'Organization',
+			head_part: 'Head',
 			ps_file_uploaded: 'Document scan (photo) is uploaded',
 			ws_file_uploaded: 'Document scan (address) is uploaded',
 			ts_file_uploaded: 'Selfie with document is uploaded',
@@ -3287,7 +3289,11 @@ make our system processes as transparent as possible.`,
 				hints: {
 					inn: 'Specify the individual taxpayer number of your organization',
 					inn_ip: 'Specify your individual taxpayer number as an individual entrepreneur',
-					edo_id: 'Specify the EDO number issued to your organization by the electronic document management operator'
+					edo_id: 'Specify the EDO number issued to your organization by the electronic document management operator',
+					fio: 'Specify full name of organization head',
+					birthday: 'Specify date of birth of organization head',
+					passport_number: 'Enter the passport series and number of organization head',
+					head_inn: 'Specify the individual taxpayer number of the head of the organization'
 				}
 			},
 			state: {
