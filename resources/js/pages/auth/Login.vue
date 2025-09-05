@@ -98,7 +98,7 @@
 			{{ verify_error }}
 		</v-alert>
 
-		<v-alert v-if="errors.captcha.length !== 0" dense text type="error" class="mt-4">
+		<v-alert v-if="errors.captcha_output.length !== 0" dense text type="error" class="mt-4">
 			{{ $t('auth.login.captcha_error') }}
 		</v-alert>
 
@@ -135,7 +135,7 @@ export default {
   head: {
     script: function () {
       return this.isCaptchaEnabled ?
-          (this.captchaType.toUpperCase() === 'CLOUDFLARE' ? [{src:'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'}] :
+          (this.captchaType.toUpperCase() === 'CLOUDFLARE' ? [{src:'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=_turnstileCb' }] :
               [{src: 'https://static.geetest.com/v4/gt4.js'}]) : []
     },
   },
@@ -157,12 +157,13 @@ export default {
 				email: [],
 				password: [],
 				remember: [],
-        captcha: []
+        captcha_output: []
 			},
       captcha_obj: null,
       captcha_init: false,
 			verify_block: window.verified,
-			verify_error: window.flash
+			verify_error: window.flash,
+      widgetId: null,
 		};
 	},
   computed: {
@@ -179,27 +180,27 @@ export default {
   },
   mounted() {
     waves.ClassicalNoise.prototype.start();
+    if(this.isCaptchaEnabled && this.product.captcha_type.toUpperCase() === 'CLOUDFLARE')
+    {
+      let self = this;
+      window._turnstileCb = function() {
+        self.widgetId = window.turnstile.render('#captcha', {
+          sitekey: import.meta.env.VITE_CAPTCHA_ID,
+          language: self.$i18n.locale,
+          theme: self.$vuetify.theme.isDark ? 'dark' : 'light',
+          callback: function(token) {
+            self.captcha_obj = token;
+            self.user.captcha_output = token;
+          },
+        });
+      }
+    }
   },
   beforeRouteLeave(to, from, next) {
     waves.ClassicalNoise.prototype.stop();
     next();
   },
   methods: {
-    debouncedTurnstileRender: _.debounce(function (e) {
-      this.turnstileRender();
-    }, 500),
-    turnstileRender() {
-      let self = this;
-      turnstile.render('#captcha', {
-        sitekey: import.meta.env.VITE_CAPTCHA_ID,
-        language: this.$i18n.locale,
-        theme: this.$vuetify.theme.isDark ? 'dark' : 'light',
-        callback: function(token) {
-          self.captcha_obj = token;
-          self.user.captcha_output = token;
-        },
-      });
-    },
     getGeetestLang(lang) {
       switch (lang)
       {
@@ -260,10 +261,6 @@ export default {
           }, handler);
         })
       }
-      else if(this.product.captcha_type.toUpperCase() === 'CLOUDFLARE')
-      {
-        this.debouncedTurnstileRender();
-      }
 		},
 		verify() {
       if (this.product.captcha_enabled)
@@ -298,6 +295,8 @@ export default {
         }
       }).finally(() => {
         this.stopLoading();
+        if(this.product.captcha_enabled && this.product.captcha_type.toUpperCase() === 'CLOUDFLARE')
+          window.turnstile.reset(this.widgetId);
       });
 		},
 	},
@@ -307,7 +306,7 @@ export default {
       handler(to, from) {
         if(to.name === 'login')
         {
-          if (this.captcha_obj === null && this.product.captcha_enabled)
+          if (this.captcha_obj === null && this.product.captcha_enabled && this.product.captcha_type.toUpperCase() === 'GEETEST')
             this.initCaptcha();
         }
       }
