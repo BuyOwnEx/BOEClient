@@ -5,8 +5,8 @@
 		<CommonLoading v-if="isLoading" page-margin />
 
 		<v-card-text v-else>
-			<UserSettingsRef v-if="!isHideTrading" :all-ref-types="allRefTypes" :user-ref-program-id="userRefProgram" />
-			<UserSettingsEmailNotifications :show-trade-notifications="!isHideTrading" />
+			<UserSettingsRef v-if="!isHideTrading && isRefEnabled" :all-ref-types="allRefTypes" :user-ref-program-id="userRefProgram" />
+			<UserSettingsEmailNotifications :show-trade-notifications="!isHideTrading" :show-ref-notifications="isRefEnabled" />
 		</v-card-text>
 	</v-card>
 </template>
@@ -35,7 +35,12 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    isRefEnabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
 	},
 	data() {
 		return {

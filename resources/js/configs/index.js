@@ -19,6 +19,7 @@ export default {
 		showCurrencies: import.meta.env.VITE_CONFIG_SHOW_CURRENCIES === "true",
 		enabledSupport: import.meta.env.VITE_CONFIG_ENABLED_SUPPORT === "true",
 		enabledOTC: import.meta.env.VITE_CONFIG_ENABLED_OTC === "true",
+		enabledReferral: import.meta.env.VITE_CONFIG_ENABLED_REF === "true",
 
 		guestShowTrading: import.meta.env.VITE_CONFIG_GUEST_SHOW_TRADING === "true",
 		guestShowMarkets: import.meta.env.VITE_CONFIG_GUEST_SHOW_MARKETS === "true",

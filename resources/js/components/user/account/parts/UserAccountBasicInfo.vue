@@ -37,7 +37,7 @@
 						readonly
 					/>
 
-					<div class="mt-1 mb-2">
+					<div class="mt-1 mb-2" v-if="is_ref_enabled">
 						<div>{{ $t('user.info.ref_link') }}</div>
 						<CommonCopyLabel :text="refLink" />
 					</div>
@@ -101,9 +101,13 @@ export default {
 
 	computed: {
 		...mapState('user', ['verifyStatus','status']),
+    ...mapState('app', ['product']),
 		generatedAvatar() {
 			return this.$store.getters['user/getGeneratedAvatar'](import.meta.env.VITE_USER_ICON_TYPE || 'initials');
 		},
+    is_ref_enabled() {
+      return this.product.enabledReferral
+    },
 		refLink() {
       return `${window.location.origin}?ref=${this.user.id}`;
 		},

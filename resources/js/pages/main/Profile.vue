@@ -12,7 +12,7 @@
           <UserPropsTab v-if="!isLoading && item.hash === '#props'" :user="trader" :trader_status="status"></UserPropsTab>
           <UserApiTab v-if="!isLoading && item.hash === '#api'" />
           <UserSecurityTab v-if="!isLoading && item.hash === '#security'" :g2fa="trader.g2fa" />
-          <UserSettingsTab v-if="!isLoading && item.hash === '#settings'" :is-hide-trading="isHideTrading" :user-ref-program="trader.refProgram || 1" />
+          <UserSettingsTab v-if="!isLoading && item.hash === '#settings'" :is-hide-trading="isHideTrading" :is-ref-enabled="is_ref_enabled" :user-ref-program="trader.refProgram || 1" />
         </v-tab-item>
       </v-tabs-items>
 	</div>
@@ -53,6 +53,9 @@ export default {
     ...mapState('app', ['product']),
     isHideTrading() {
       return (this.blockStatus & 8) > 0
+    },
+    is_ref_enabled() {
+      return this.product.enabledReferral;
     },
     use_ru_props() {
       return this.product.fiatUseRUProps

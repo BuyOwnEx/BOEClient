@@ -33,6 +33,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    showRefNotifications: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 	mixins: [showNotificationMixin],
@@ -54,13 +59,21 @@ export default {
     },
     available_notifications() {
       if(!this.showTradeNotifications) {
-        return _.filter(this.available_notification_kinds, function(item) { return (
+        return _.filter(this.available_notification_kinds, function(item) {
+          return (
             item.key !== 'tradingBlock' &&
             item.key !== 'ref' &&
             item.key !== 'positionLiquidationWarn' &&
             item.key !== 'positionLiquidation'
         )})
-      } else return this.available_notification_kinds;
+      }
+      else if(!this.showRefNotifications) {
+        return _.filter(this.available_notification_kinds, function(item) {
+          return (
+              item.key !== 'ref'
+          )})
+      }
+      else return this.available_notification_kinds;
     },
 	},
 	created() {

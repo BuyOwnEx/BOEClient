@@ -126,7 +126,7 @@ export default {
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.orders'; });
       if(this.isHideTrading)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.deals'; });
-      if(this.isHideTrading)
+      if(this.isHideTrading || !this.product.enabledReferral)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.refs'; });
       return filtered;
 		},

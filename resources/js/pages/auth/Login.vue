@@ -59,7 +59,7 @@
                 </template>
               </v-checkbox>
 						</v-col>
-            <v-col cols="12" md="12" class="pt-0 pb-0">
+            <v-col cols="12" md="12" class="pt-2 pb-0">
               <div id="captcha"></div>
             </v-col>
 					</v-row>
@@ -136,6 +136,7 @@ export default {
     script: function () {
       return this.isCaptchaEnabled ?
           (this.captchaType.toUpperCase() === 'CLOUDFLARE' ? [{src:'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=_turnstileCb' }] :
+              this.captchaType.toUpperCase() === 'YANDEX' ? [{src:'https://smartcaptcha.yandexcloud.net/captcha.js?render=onload&onload=_yandexCb' }] :
               [{src: 'https://static.geetest.com/v4/gt4.js'}]) : []
     },
   },
@@ -187,6 +188,21 @@ export default {
         self.widgetId = window.turnstile.render('#captcha', {
           sitekey: import.meta.env.VITE_CAPTCHA_ID,
           language: self.$i18n.locale,
+          theme: self.$vuetify.theme.isDark ? 'dark' : 'light',
+          callback: function(token) {
+            self.captcha_obj = token;
+            self.user.captcha_output = token;
+          },
+        });
+      }
+    }
+    else if(this.isCaptchaEnabled && this.product.captcha_type.toUpperCase() === 'YANDEX')
+    {
+      let self = this;
+      window._yandexCb = function() {
+        self.widgetId = window.smartCaptcha.render('captcha', {
+          sitekey: import.meta.env.VITE_CAPTCHA_ID,
+          hl: self.$i18n.locale,
           theme: self.$vuetify.theme.isDark ? 'dark' : 'light',
           callback: function(token) {
             self.captcha_obj = token;
@@ -297,6 +313,8 @@ export default {
         this.stopLoading();
         if(this.product.captcha_enabled && this.product.captcha_type.toUpperCase() === 'CLOUDFLARE')
           window.turnstile.reset(this.widgetId);
+        else if(this.product.captcha_enabled && this.product.captcha_type.toUpperCase() === 'YANDEX')
+          window.smartCaptcha.reset(this.widgetId);
       });
 		},
 	},

@@ -7,6 +7,7 @@ use App\Http\Requests\ValidateSecretRequest;
 use App\Providers\RouteServiceProvider;
 use App\Rules\CloudFlare;
 use App\Rules\Geetest;
+use App\Rules\YandexSmartCaptcha;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -71,6 +72,14 @@ class LoginController extends Controller
                     $this->username() => 'required|string',
                     'password' => 'required|string',
                     'captcha_output' => ['required',new CloudFlare()]
+                ]);
+            }
+            elseif (mb_strtoupper(config('captcha.type')) === 'YANDEX')
+            {
+                $request->validate([
+                    $this->username() => 'required|string',
+                    'password' => 'required|string',
+                    'captcha_output' => ['required',new YandexSmartCaptcha()]
                 ]);
             }
         }
