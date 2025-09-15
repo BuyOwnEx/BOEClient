@@ -42,6 +42,16 @@
 		<v-alert v-if="send_alert" dense text type="warning" class="mt-4">
 			{{ send_text }}
 		</v-alert>
+
+    <div class="text-center mt-6" style="position: relative; z-index: 2">
+      <div class="caption grey--text darken-4">
+        {{ $t('auth.login.noaccount') }}
+      </div>
+
+      <v-btn block small text tile href="/register" :to="'/register'" color="primary darken-1">
+        {{ $t('auth.login.create') }}
+      </v-btn>
+    </div>
 	</div>
 </template>
 

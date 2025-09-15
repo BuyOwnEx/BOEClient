@@ -70,14 +70,17 @@
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged">
 							<ToolbarNotifications />
 						</div>
-						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged">
+						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged && isWidthMore450px">
 							<v-btn href="/login" :to="'/login'" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
+            <div v-else>
+              <Link path="/login"><v-icon color="primary">mdi-login</v-icon></Link>
+            </div>
 						<div v-if="isLogged">
 							<ToolbarUser />
 						</div>
 						<div v-else>
-							<v-btn color="primary" href="/register" :to="'/register'" tile dark>{{ $t('menu.register') }}</v-btn>
+							<v-btn v-if="!isLogged && isWidthMore450px" color="primary" href="/register" :to="'/register'" tile dark>{{ $t('menu.register') }}</v-btn>
 						</div>
 					</div>
 				</div>
@@ -190,6 +193,9 @@ export default {
 		isWidthMore400px() {
 			return this.$vuetify.breakpoint.width >= 400;
 		},
+    isWidthMore450px() {
+      return this.$vuetify.breakpoint.width >= 450;
+    },
 	},
   async created() {
     if(this.isLogged)
@@ -259,5 +265,13 @@ export default {
 			margin-left: 10px !important;
 		}
 	}
+}
+@media screen and (max-width: 400px) {
+  .login-btn {
+
+  }
+  .register-btn {
+    display: none;
+  }
 }
 </style>
