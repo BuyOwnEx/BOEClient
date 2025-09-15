@@ -266,12 +266,4 @@ export default {
 		}
 	}
 }
-@media screen and (max-width: 400px) {
-  .login-btn {
-
-  }
-  .register-btn {
-    display: none;
-  }
-}
 </style>
