@@ -73,7 +73,7 @@
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged && isWidthMore450px">
 							<v-btn href="/login" :to="'/login'" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
-            <div v-else>
+            <div v-else-if="!isLogged && !isWidthMore450px">
               <Link path="/login"><v-icon color="primary">mdi-login</v-icon></Link>
             </div>
 						<div v-if="isLogged">
