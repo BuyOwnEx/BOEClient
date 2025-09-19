@@ -1,5 +1,5 @@
 <template>
-	<v-card class="fiat-transactions">
+	<v-card class="fiat-transactions fill-height">
 		<v-data-table
 			class="pa-1 pa-sm-2"
 			:style="`width:100%`"

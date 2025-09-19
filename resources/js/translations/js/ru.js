@@ -73,6 +73,7 @@ export default {
 				landing: 'Сервис обмена крипто активами',
 		    exchange: 'Обмен активами',
 				exchange_history: 'История обменов',
+		    history: 'История транзакций',
         api: 'API',
         balance: 'Баланс',
         confirm: 'Подтверждение email',
@@ -485,6 +486,8 @@ export default {
 	},
 	menu: {
 		trading: 'Торговля',
+		exchange: 'Обмен',
+		history: 'История транзакций',
 		exchange_history: 'Заявки на обмен',
 		overview: 'Обзор рынка',
 		system_status: 'Состояние системы',

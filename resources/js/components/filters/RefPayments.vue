@@ -201,8 +201,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="sass">
-.filter-top__title
-	font-size: 1rem
-</style>

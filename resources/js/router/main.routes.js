@@ -77,7 +77,7 @@ export default [{
         requiresAuth: true
     }
 }, {
-    path: '/exchange/history',
+    path: '/exchange_history',
     name: 'exchange_history',
     component: () => import(/* webpackChunkName: "deals" */ '@/pages/main/ExchangeHistory.vue'),
     meta: {
@@ -139,6 +139,15 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.profile'),
+        requiresAuth: true
+    }
+}, {
+    path: '/history',
+    name: 'history',
+    component: () => import(/* webpackChunkName: "profile" */ '@/pages/main/History.vue'),
+    meta: {
+        layout: Layout,
+        title: i18n.t('titles.history'),
         requiresAuth: true
     }
 }, {

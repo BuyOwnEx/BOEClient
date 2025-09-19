@@ -74,6 +74,7 @@ export default {
 				landing: 'Crypto Asset Exchange Service',
 				exchange: 'Asset exchange',
 				exchange_history: 'Exchange history',
+		    history: 'Transaction history',
         api: 'API',
         balance: 'Balance',
         confirm: 'Email confirm',
@@ -488,6 +489,8 @@ export default {
 	},
 	menu: {
 		trading: 'Trading',
+		exchange: 'Exchange',
+		history: 'Transaction history',
 		exchange_history: 'Exchange requests',
 		overview: 'Market overview',
 		system_status: 'System status',

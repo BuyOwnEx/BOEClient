@@ -8,7 +8,7 @@
 
 		<v-card>
       <v-list two-line dense>
-        <v-list-item v-for="item in filtered_items" :key="item.title" :href="item.to" :to="item.to" dense>
+        <v-list-item v-for="item in filtered_items" :key="item.title" :href="item.to" :to="item.to" dense active-class='primary--text'>
           <v-list-item-avatar size="20">
             <v-icon color="primary">{{ item.icon }}</v-icon>
           </v-list-item-avatar>

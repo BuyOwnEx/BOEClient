@@ -74,7 +74,7 @@
 							<v-btn href="/login" :to="'/login'" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
             <div v-else-if="!isLogged && !isWidthMore450px">
-              <Link path="/login"><v-icon color="primary">mdi-login</v-icon></Link>
+              <Link path="/login"><v-icon>mdi-login</v-icon></Link>
             </div>
 						<div v-if="isLogged">
 							<ToolbarUser />
@@ -199,7 +199,17 @@ export default {
 	},
   async created() {
     if(this.isLogged)
-      await Promise.all([this.getBlockStatusStore(), this.getVerificationStatusStore(), this.getStatusStore(), this.fetchNotificationsStore()]);
+      await Promise.all([
+        this.getBlockStatusStore(),
+        this.getVerificationStatusStore(),
+        this.getStatusStore(),
+        this.fetchNotificationsStore(),
+        this.getAllCurrencies()
+      ]);
+    else
+      await Promise.all([
+        this.getAllCurrencies()
+      ]);
     this.isLoading = false;
   },
   methods: {
@@ -208,6 +218,7 @@ export default {
       getBlockStatusStore: 'user/getBlockStatus',
       getVerificationStatusStore: 'user/getVerifyStatus',
       getStatusStore: 'user/getStatus',
+      getAllCurrencies: 'trading/getAllCurrencyListFromServer'
 		}),
 	},
 };

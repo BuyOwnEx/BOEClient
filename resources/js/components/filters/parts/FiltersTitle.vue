@@ -1,6 +1,6 @@
 <template>
 	<v-row class="filter-top px-1" align="center" no-gutters>
-		<span class="filter-top__title text-overline">
+		<span class="filter-top__title">
 			{{ $t('reports.filters') }}
 		</span>
 
@@ -32,5 +32,9 @@ export default {
 
 <style scoped lang="sass">
 .filter-top__title
-	font-size: 1rem !important
+  font-size: 1rem !important
+  font-weight: 400
+  line-height: 1rem
+  letter-spacing: .1666666667em !important
+  text-transform: uppercase !important
 </style>

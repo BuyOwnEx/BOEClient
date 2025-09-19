@@ -1,5 +1,5 @@
 <template>
-	<v-card class="transfers">
+	<v-card class="transfers fill-height">
 		<v-data-table
 			class="pa-1 pa-sm-2"
 			:style="`width:100%`"

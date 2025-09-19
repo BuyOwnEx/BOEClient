@@ -1,6 +1,6 @@
 <template>
 	<v-list nav dense>
-		<nav-menu v-if="blockStatus !== null && hasCurrencies" :menu="filteredNavItems" />
+		<nav-menu v-if="blockStatus !== null" :menu="filteredNavItems" />
 	</v-list>
 </template>
 
@@ -25,34 +25,22 @@ export default {
 					link: '/trading',
 				},
         {
+          icon: 'mdi-swap-horizontal',
+          key: 'menu.exchange',
+          text: 'Exchange',
+          link: '/exchange',
+        },
+        {
           icon: 'mdi-human-greeting-proximity',
           key: 'menu.exchange_history',
           text: 'Exchange history',
-          link: '/exchange/history',
+          link: '/exchange_history',
         },
 				{
 					icon: 'mdi-home',
 					key: 'menu.overview',
 					text: 'Market overview',
 					link: '/overview',
-				},
-				{
-					icon: 'mdi-autorenew',
-					key: 'menu.transactions',
-					text: 'Transactions',
-					link: '/transactions',
-				},
-				{
-					icon: 'mdi-cached',
-					key: 'menu.fiat_transactions',
-					text: 'Transactions (fiat)',
-					link: '/fiat_transactions',
-				},
-				{
-					icon: 'mdi-swap-horizontal',
-					key: 'menu.transfers',
-					text: 'Transfers',
-					link: '/transfers',
 				},
 				{
 					icon: 'mdi-file-document-outline',
@@ -90,6 +78,12 @@ export default {
 					text: 'Profile',
 					link: '/profile',
 				},
+        {
+          icon: 'mdi-history',
+          key: 'menu.history',
+          text: 'History',
+          link: '/history',
+        },
 				{
 					icon: 'mdi-information-outline',
 					key: 'menu.notifications',
@@ -101,7 +95,6 @@ export default {
 	},
 
 	computed: {
-    ...mapState('trading', ['all_currencies','allCurrencyListInit']),
     ...mapState('app', ['product']),
     ...mapState('user', ['blockStatus']),
     isHideTrading() {
@@ -112,8 +105,6 @@ export default {
     },
 		filteredNavItems() {
       let filtered = this.items;
-			if((this.all_currencies?.filter(c => c.type === 'fiat')?.length || 0) === 0)
-        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.fiat_transactions'; });
       if(!this.product.enabledSupport)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.support'; });
       if(!this.product.authedShowMarkets || this.isHideTrading)
@@ -122,6 +113,8 @@ export default {
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.trading'; });
       if(!this.isOTCEnabled)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.exchange_history'; });
+      if(!this.isOTCEnabled)
+        filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.exchange'; });
       if(this.isHideTrading)
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.orders'; });
       if(this.isHideTrading)
@@ -130,13 +123,6 @@ export default {
         filtered = _.omitBy(filtered, function(item) { return item.key === 'menu.refs'; });
       return filtered;
 		},
-    hasCurrencies() {
-      return this.allCurrencyListInit;
-    },
 	},
-  mounted() {
-    if(!this.hasCurrencies)
-      this.$store.dispatch('trading/getAllCurrencyListFromServer');
-  },
 };
 </script>

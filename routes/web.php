@@ -65,12 +65,13 @@ Route::middleware('auth')->group(function () {
     Route::get('transactions', 'TraderController@getSpaView')->name('transactions_view');
     Route::get('fiat_transactions', 'TraderController@getSpaView')->name('fiat_transactions_view');
     Route::get('transfers', 'TraderController@getSpaView')->name('transfers_view');
-    Route::get('exchange/history', 'TraderController@getSpaView')->name('orders_view');
+    Route::get('exchange_history', 'TraderController@getSpaView')->name('exchange_history');
     Route::get('orders', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('orders_view');
     Route::get('deals', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('deals_view');
     Route::get('ref_payments', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('referrals_view');
     Route::get('support', 'TraderController@getSpaView')->name('support_view');
     Route::get('profile', 'TraderController@getSpaView')->name('profile_view');
+    Route::get('history', 'TraderController@getSpaView')->name('history_view');
     Route::get('notifications', 'TraderController@getSpaView')->name('notifications_view');
     Route::get('get_verification_settings', 'TraderController@getVerificationSettings')->name('get_verification_settings');
 });
