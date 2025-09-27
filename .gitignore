@@ -20,3 +20,15 @@ composer.phar
 /.idea
 /.vscode
 /composer_2.phar
+/resources/js/translations/js/custom/
+/lang/zh_CN/custom/
+/lang/ru/custom/
+/lang/pt/custom/
+/lang/pl/custom/
+/lang/ko/custom/
+/lang/ja/custom/
+/lang/fr/custom/
+/lang/es/custom/
+/lang/en/custom/
+/lang/de/custom/
+/lang/ar/custom/
