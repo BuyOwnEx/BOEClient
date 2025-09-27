@@ -5,11 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="{{ __('keywords.main') }}">
-    <meta name="description" content="{{ __('descriptions.main') }}">
-    <title>{{config('app.name')}} - {{ __('titles.main') }}</title>
+    <meta name="keywords" content="{{ config('app.use_custom_keywords') ? __('custom/keywords.main') : __('keywords.main') }}">
+    <meta name="description" content="{{ config('app.use_custom_descriptions') ? __('custom/descriptions.main') : __('descriptions.main') }}">
+    <title>{{config('app.name')}}</title>
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
 </head>

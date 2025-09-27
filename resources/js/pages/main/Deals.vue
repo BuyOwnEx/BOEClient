@@ -1,7 +1,7 @@
 <template>
 	<v-card class="deals">
 		<v-data-table
-			class="pa-1 pa-sm-2"
+			class="pt-1 px-1 pt-sm-2 px-sm-2"
 			:style="`width:100%`"
 			:calculate-widths="true"
 			:headers="headers"
@@ -75,22 +75,17 @@
 		</v-data-table>
 	</v-card>
 </template>
-
 <script>
-import BigNumber from 'bignumber.js';
 import randomColor from 'randomcolor';
-BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
-
 import filters from '@/components/filters/Deals.vue';
 import { mapState } from 'vuex';
-
+import BigNumber from 'bignumber.js';
+BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 export default {
 	name: 'Deals',
-
 	components: {
 		filters,
 	},
-
 	data() {
 		return {
 			isFiltersShow: true,
@@ -111,7 +106,6 @@ export default {
 			],
 		};
 	},
-
 	computed: {
     ...mapState('app', ['product']),
     showing_fee_in_market() {
@@ -135,7 +129,6 @@ export default {
 			return this.$store.state.tickers.markets;
 		},
 	},
-
 	watch: {
 		options: {
 			handler() {
@@ -147,7 +140,6 @@ export default {
 			deep: true,
 		},
 	},
-
 	methods: {
 		BigNumber(item) {
 			return BigNumber(item).toString();
@@ -245,7 +237,6 @@ export default {
 			});
 			return response.data;
 		},
-
 		toggleFiltersShow() {
 			this.isFiltersShow = !this.isFiltersShow;
 		},

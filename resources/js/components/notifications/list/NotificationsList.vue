@@ -18,7 +18,7 @@
 
 				<CommonTooltip :value="$t('notifications.delete_all')">
 					<v-btn color="error" icon @click="deleteSelected">
-						<v-icon>bx-trash-alt</v-icon>
+						<v-icon>mdi-delete</v-icon>
 					</v-btn>
 				</CommonTooltip>
 			</div>

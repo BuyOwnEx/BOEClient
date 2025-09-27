@@ -137,7 +137,7 @@ export default {
 <style lang="sass">
 .fees-page
 	&__search
-		max-width: 15%
+		max-width: 15% !important
 		margin-left: auto
 
 	@media screen and (max-width: 1300px)

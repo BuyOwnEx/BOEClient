@@ -59,7 +59,7 @@ export default {
         },
 				chart: {
 					style: {
-						fontFamily: '"Quicksand", "Roboto", sans-serif',
+						fontFamily: '"Roboto", sans-serif',
 						letterSpacing: '0.0071428571em',
 						fontSize: '11px',
 					},

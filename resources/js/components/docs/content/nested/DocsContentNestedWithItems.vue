@@ -6,7 +6,7 @@
 			:id="item.id"
 		>
 			<v-expansion-panel-header>
-				{{ item.title }}
+				{{ item.title.toUpperCase() }}
 			</v-expansion-panel-header>
 			<v-expansion-panel-content v-html='item.content'>
 			</v-expansion-panel-content>

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import en from '../translations/js/en.js';
 import es from '../translations/js/es.js';
 import pt from '../translations/js/pt.js';
@@ -34,95 +35,91 @@ try {
 	else // get browser default language
 	{
 		const { 0: browserLang } = navigator.language.split('-');
-
 		if (supported.includes(browserLang)) locale = browserLang;
 	}
-
 } catch (e) {
 	console.log(e);
 }
 
 export default {
 	locale,
-
 	fallbackLocale: import.meta.env.VITE_CONFIG_FALLBACK_LOCALE,
-
 	availableLocales: [{
 		code: 'en',
 		flag: 'us',
 		label: 'English',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_en: en,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(en, custom_en): en,
 		used: supported.includes('en'),
 	}, {
 		code: 'es',
 		flag: 'es',
 		label: 'Español',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_es: es,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(es, custom_es): es,
 		used: supported.includes('es'),
 	}, {
 		code: 'pt',
 		flag: 'pt',
 		label: 'Português',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_pt: pt,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(pt, custom_pt): pt,
 		used: supported.includes('pt'),
 	}, {
 		code: 'de',
 		flag: 'de',
 		label: 'Deutsche',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_de: de,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(de, custom_de): de,
 		used: supported.includes('de'),
 	}, {
 		code: 'fr',
 		flag: 'fr',
 		label: 'Français',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_fr: fr,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(fr, custom_fr): fr,
 		used: supported.includes('fr'),
 	}, {
 		code: 'ar',
 		flag: 'sa',
 		label: 'العربية',
 		isRtl: true,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_ar: ar,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(ar, custom_ar): ar,
 		used: supported.includes('ar'),
 	}, {
 		code: 'ko',
 		flag: 'kr',
 		label: '한국어',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_ko: ko,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(ko, custom_ko): ko,
 		used: supported.includes('ko'),
 	}, {
 		code: 'ru',
 		flag: 'ru',
 		label: 'Русский',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_ru: ru,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(ru, custom_ru): ru,
 		used: supported.includes('ru'),
 	}, {
 		code: 'zh',
 		flag: 'cn',
 		label: '中文',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_zh: zh,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(zh, custom_zh): zh,
 		used: supported.includes('zh'),
 	}, {
 		code: 'ja',
 		flag: 'jp',
 		label: '日本語',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_ja: ja,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(ja, custom_ja): ja,
 		used: supported.includes('ja'),
 	}, {
 		code: 'pl',
 		flag: 'pl',
 		label: 'Polskie',
 		isRtl: false,
-		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? custom_pl: pl,
+		messages: import.meta.env.VITE_CONFIG_USE_CUSTOM_TRANSLATE === 'true' ? _.merge(pl, custom_pl): pl,
 		used: supported.includes('pl'),
 	}],
 };

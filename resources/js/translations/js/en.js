@@ -692,9 +692,12 @@ export default {
 		forms: {
 			best_bid: 'Best Bid',
 			best_ask: 'Best Ask',
-			stop_loss_info: 'Stop Loss Info',
-			take_profit_info: 'Take Profit Info',
-			trailing_stop_info: 'Trailing Stop Info',
+			bid_stop_loss_info: 'A linked Stop Loss order will be placed to sell on the market if the best buy price turns out to be less than or reaches the specified value',
+			ask_stop_loss_info: 'A linked Stop Loss order will be placed to buy on the market if the best sell price turns out to be higher or reaches the specified value',
+			bid_take_profit_info: 'A linked Take Profit order will be placed to sell on the market if the best buy price turns out to be higher or reaches the specified value',
+			ask_take_profit_info: 'A linked Take Profit order will be placed to buy on the market if the best sell price turns out to be less than or reaches the specified value',
+			bid_trailing_stop_info: 'A linked Trailing Stop order will placed to sell on the market only if the best buy price drops sharply by the specified value',
+			ask_trailing_stop_info: 'A linked Trailing Stop order will be placed to buy the market only if the best sell price rises sharply by the specified value',
 			must_login: 'You must sign-in to have opportunity to trade',
 			must_kyc: 'You must proceed KYC verification to have opportunity to trade',
 			dialog: {

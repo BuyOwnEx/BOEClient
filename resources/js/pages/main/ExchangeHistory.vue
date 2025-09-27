@@ -1,7 +1,7 @@
 <template>
   <v-card class="exchange-history">
     <v-data-table
-        class="pa-1 pa-sm-2"
+        class="pt-1 px-1 pt-sm-2 px-sm-2"
         :style="`width:100%`"
         :calculate-widths="true"
         :headers="headers"

@@ -2,7 +2,7 @@
 	<span class="docs-content-nested-without-items">
 		<v-expansion-panel :id="dataItem.id">
 			<v-expansion-panel-header>
-				{{ dataItem.title }}
+				{{ dataItem.title.toUpperCase() }}
 			</v-expansion-panel-header>
 			<v-expansion-panel-content v-html='dataItem.content'>
 			</v-expansion-panel-content>

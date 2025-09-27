@@ -11,24 +11,28 @@ import TradingChatMessage from '@/components/trading/chat/TradingChatMessage.vue
 
 export default {
 	name: 'TradingChatContent',
-
 	components: { TradingChatMessage },
-
 	props: {
 		messagesData: {
 			type: Array,
 			required: true,
 		},
 	},
-
-	watch: {
-		messagesData(val, oldVal) {
-			if (!oldVal.length) {
-				this.$nextTick(() => {
-					const element = this.$refs.chatContent.$el;
-					element.scrollTop = element.scrollHeight;
-				});
-			}
+  computed: {
+    msg_count() {
+      return this.messagesData.length;
+    }
+  },
+  mounted() {
+    const element = this.$refs.chatContent.$el;
+    element.scrollTop = element.scrollHeight;
+  },
+  watch: {
+    msg_count() {
+      this.$nextTick(() => {
+        const element = this.$refs.chatContent.$el;
+        element.scrollTop = element.scrollHeight;
+      });
 		},
 	},
 };

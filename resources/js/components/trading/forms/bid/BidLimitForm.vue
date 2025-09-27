@@ -104,7 +104,7 @@
 						</template>
 					</v-text-field>
 					<template #text>
-						{{ $t('trading.forms.stop_loss_info') }}
+						{{ $t('trading.forms.bid_stop_loss_info') }}
 					</template>
 				</CommonTooltip>
 
@@ -128,7 +128,7 @@
 						</template>
 					</v-text-field>
 					<template #text>
-						{{ $t('trading.forms.take_profit_info') }}
+						{{ $t('trading.forms.bid_take_profit_info') }}
 					</template>
 				</CommonTooltip>
 
@@ -150,7 +150,7 @@
 						</template>
 					</v-text-field>
 					<template #text>
-						{{ $t('trading.forms.trailing_stop_info') }}
+						{{ $t('trading.forms.bid_trailing_stop_info') }}
 					</template>
 				</CommonTooltip>
 			</div>
@@ -202,7 +202,7 @@
 					</v-btn>
 				</TradingFormsConfirmDialog>
 
-				<div class="blf__footer__available text-center">
+				<div class="blf__footer__available text-center mt-1">
 					{{ $t('trading.order.available') }}
 					<span class="blf__footer__balance" @click="setAmount(100)">
 						{{ formatWithScaleInAllCurrencies(balance, market) }}

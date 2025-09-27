@@ -31,12 +31,14 @@ export default {
         content: this.$t('docs.contacts.general.content', ctx),
       }];
       let paragraph = 1;
-      while (this.$te('docs.contacts.p'+paragraph+'.title'))
+      let p_name = 'p';
+      if(config.product.use_custom_contacts_translate) p_name = 'cp'
+      while (this.$te('docs.contacts.'+p_name+paragraph+'.title'))
       {
         content.push({
-          id: 'p'+paragraph,
-          title: this.$t('docs.contacts.p'+paragraph+'.title', ctx),
-          content: this.$t('docs.contacts.p'+paragraph+'.content', ctx),
+          id: p_name+paragraph,
+          title: this.$t('docs.contacts.'+p_name+paragraph+'.title', ctx),
+          content: this.$t('docs.contacts.'+p_name+paragraph+'.content', ctx),
         });
         paragraph++;
       }
@@ -45,9 +47,11 @@ export default {
     expanded_items() {
       let exp_array = [[0]];
       let paragraph = 1;
+      let p_name = 'p';
+      if(config.product.use_custom_contacts_translate) p_name = 'cp'
       if(config.product.contacts_all_expanded)
       {
-        while (this.$te('docs.contacts.p'+paragraph+'.title'))
+        while (this.$te('docs.contacts.'+p_name+paragraph+'.title'))
         {
           exp_array.push([0]);
           paragraph++;

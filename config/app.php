@@ -17,6 +17,9 @@ return [
     'support_enabled'            => (bool) env('VITE_CONFIG_ENABLED_SUPPORT', false),
     'otc_enabled'                => (bool) env('VITE_CONFIG_ENABLED_OTC', false),
     'statement-available-days'   => (int) env('VITE_AVAILABLE_STATEMENT_DAYS', 365),
+    'use_custom_descriptions'    => (bool) env('USE_CUSTOM_DESCRIPTIONS', false),
+    'use_custom_keywords'        => (bool) env('USE_CUSTOM_KEYWORDS', false),
+    'use_custom_titles'          => (bool) env('USE_CUSTOM_TITLES', false),
     /*
     |--------------------------------------------------------------------------
     | Application Name
