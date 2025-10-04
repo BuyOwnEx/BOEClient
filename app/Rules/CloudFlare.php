@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class CloudFlare implements DataAwareRule, ValidationRule
 {

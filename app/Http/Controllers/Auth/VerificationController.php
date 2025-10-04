@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Library\BuyOwnExClientAPI;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;

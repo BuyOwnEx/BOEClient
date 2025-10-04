@@ -5,9 +5,7 @@ namespace App\Listeners;
 use App\Library\BuyOwnExClientAPI;
 use Carbon\Carbon;
 use hisorange\BrowserDetect\Facade as Browser;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
-use Illuminate\Queue\InteractsWithQueue;
 
 class UserLoggined
 {
