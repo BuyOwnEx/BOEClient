@@ -19,10 +19,10 @@
       <template #top>
         <filters
             :all_statuses="statuses"
+            :is_show="is_show_filters"
             @apply-table-filter="onFilterApply"
             @reset-table-filter="onFilterReset"
             @table-filter="onUseFilter"
-            @toggleFiltersShow="toggleFiltersShow"
         />
         <v-divider class="pb-2" />
       </template>
@@ -77,6 +77,7 @@ import CommonTooltip from '@/components/common/CommonTooltip.vue';
 import bignumber from '@/mixins/format/bignumber.js';
 import { mapState } from 'vuex';
 import ItemWithLogo from '@/components/common/ItemWithLogo.vue';
+import config from "@/configs/index.js";
 
 export default {
   name: 'ExchangeHistory',
@@ -88,7 +89,6 @@ export default {
   mixins: [bignumber],
   data() {
     return {
-      isFiltersShow: true,
       totalItems: 0,
       items: [],
       loading: true,
@@ -104,8 +104,8 @@ export default {
   },
   computed: {
     ...mapState('app', ['product']),
-    showing_fee_in_market() {
-      return this.product.deals_show_fee_in_market
+    is_show_filters() {
+      return this.product.filters_all_expanded
     },
     statuses() {
       return [
@@ -169,12 +169,6 @@ export default {
         this.totalItems = data.total;
       });
     },
-    onReload() {
-      this.getDataFromApi().then(data => {
-        this.items = data.items;
-        this.totalItems = data.total;
-      });
-    },
     async getDataFromApi() {
       this.loading = true;
       return new Promise(async (resolve, reject) => {
@@ -206,10 +200,6 @@ export default {
         params: parameters,
       });
       return response.data;
-    },
-
-    toggleFiltersShow() {
-      this.isFiltersShow = !this.isFiltersShow;
     },
   },
 };

@@ -22,10 +22,10 @@
 					:all_gateways="gateways"
 					:all_currencies="currencies"
 					:all_statuses="statuses"
+          :is_show="is_show_filters"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
 					@table-filter="onUseFilter"
-					@toggleFiltersShow="toggleFiltersShow"
 				/>
 				<v-divider class="pb-2" />
 			</template>
@@ -91,7 +91,6 @@
 
 <script>
 import { mapState } from 'vuex';
-
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 import filters from '@/components/filters/FiatTransactions.vue';
@@ -100,15 +99,12 @@ import randomColor from 'randomcolor';
 
 export default {
 	name: 'FiatTransactions',
-
 	components: {
 		filters,
     CommonTooltip
 	},
-
 	data() {
 		return {
-			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -141,6 +137,10 @@ export default {
 
 	computed: {
     ...mapState('trading', ['all_currencies','allCurrencyListInit']),
+    ...mapState('app', ['product']),
+    is_show_filters() {
+      return this.product.filters_all_expanded
+    },
 		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
@@ -226,12 +226,6 @@ export default {
 				this.totalItems = data.total;
 			});
 		},
-		onReload() {
-			this.getDataFromApi().then(data => {
-				this.items = data.items;
-				this.totalItems = data.total;
-			});
-		},
 		async getDataFromApi() {
 			this.loading = true;
 			return new Promise(async (resolve, reject) => {
@@ -288,10 +282,6 @@ export default {
 			else if (status === 'wait' || status === 'new') return 'warning--text';
 			else if (status === 'fail' || status === 'refund') return 'error--text';
 			else return '';
-		},
-
-		toggleFiltersShow() {
-			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 };

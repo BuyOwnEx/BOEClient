@@ -3605,72 +3605,58 @@ make our system processes as transparent as possible.`,
 		faq: {
 			main_title: 'FAQ',
 			questions: {
-				1: 'What operations are available on {0}?',
-				2: 'How do I buy a digital currency?',
-				3: 'What are the limits?',
-				4: 'Do I need an identity check?',
-				5: 'What about AML and AML/CFT?',
-				6: 'Documents for individuals?',
-				7: 'Documents for legal entities?',
-				8: 'Financial security of the parties?',
+				p1: 'What operations are available on {0}?',
+				p2: 'How do I buy a digital currency?',
+				p3: 'What are the limits?',
+				p4: 'Do I need an identity check?',
+				p5: 'What about AML and AML/CFT?',
+				p6: 'How will corporate income tax be levied on digital currency transactions starting in 2025?',
+				p7: 'Documents for legal entities?',
+				p8: 'How to fill out a corporate income tax return for transactions with digital currency?',
 			},
 			answers: {
-				1: 'The possibility of performing civil law (purchase, sale, exchange) operations with digital currencies, as well as the possibility of cashless deposit and withdrawal of funds through bank accounts of the Russian Federation.',
-				2: 'Top up your account balance by bank transfer through any mobile application of a Russian bank by scanning a QR code or requesting an account, wait for funds to be credited to the balance. After that, you can place requests and perform operations.',
-				3: 'The established limits for individuals can be viewed in the "Commissions and Limits" section. But this does not mean that you should not have documents confirming the origin of funds in the amount of more than 600,000 rubles. To increase the limits, contact support and complete extended identification. This will require a verified account on the PUBLIC SERVICES portal. The procedure is remote and takes 5-10 minutes. In more detail, we recommend that you familiarize yourself with the Federal Law "On Countering the Legalization (Laundering) of Proceeds from Crime and the Financing of Terrorism" dated 08/07/2001 No. 115-FZ. There are no limits set for legal entities, but there are a number of restrictions on the types of activities, so be prepared to explain the economic meaning of your operations.',
-				4: 'Prior to the start of operations, the identification procedure is strictly mandatory. Our organization complies with and fulfills all the obligations of 115-FZ in relation to individuals and organizations, without exceptions.',
-				5: 'The operator of the information system {0} implements AML procedures for digital currencies and risk assessment by aggregating data from various sources. For more information about risk levels and data sources, see the "Data Processing" section. We also constantly monitor the risk level of our users. For more information, see the "System Regulations" section.',
-				6: 'doc_ind',
-				7: 'All documents of primary and strict accounting reporting. The documents are provided electronically and signed with a qualified electronic signature (CAP) certified by the Federal Tax Service of Russia, no matter who your EDI operator is, we have roaming with all operators, including international ones. For organizations participating in foreign economic activity, a service is provided for organizing international EDI with counterparties.',
-				8: 'fin_sec',
-			},
-			doc_ind: {
-				main_text: 'At the request of the client, a certificate of account ownership is provided containing the addresses of the Blockchain networks assigned to the user during registration and an operational statement. Documents are provided only in electronic form. To carry out electronic document management, individuals will need a Verified account on the PUBLIC SERVICES portal. An Unqualified Electronic Signature (NEP) certificate for signing documents is issued free of charge and remotely. A signature is equivalent to a handwritten one. She confirms who signed the document, and also that it was not changed after signing.',
-				questions: {
-					1: {
-						text: 'How does it work?',
-						answers: {
-							1: 'A message is sent to the email address specified by the user during registration',
-							2: 'The user confirms his identity on the Public Services portal and receives a NEP to work with {0}',
-							3: 'After receiving the NEP, he will be able to review and sign the document',
-						},
-					},
-					2: {
-						text: 'On what basis are the documents legally significant?',
-						answers: {
-							1: 'Tsch. 2, Article 6 of Federal Law No. 63-FZ "On Electronic Signatures"',
-							2: 'Paragraph 1 of Article 160 of the Civil Code of the Russian Federation',
-						},
-					},
-					3: {
-						text: 'Will the tax service accept documents signed with {0}?',
-						answers: {
-							text: 'Yes, we organize the EDI in compliance with all legal requirements. During verification, you can provide a printed document with a signature mark.',
-							1: 'Article 9 No. 402-FZ "On Accounting"',
-							2: 'Letter from the Federal Tax Service of the Russian Federation dated 02/20/2018 N ED-4-15/3372',
-						},
-					},
-				},
-			},
-			fin_sec: {
-				main_text: 'We work under a commission agreement, as defined by art. 990 of the Civil Code of the Russian Federation.',
-				questions: {
-					1: {
-						text: 'How does it work?',
-						answers: {
-							1: 'After registration, the user undergoes identification and compliance verification',
-							2: 'The user makes a security payment in a non-cash form by bank transfer in favor of the information system',
-							3: 'The funds received are reflected on the user\'s balance in his personal account',
-							4: 'The user independently places an order (order) for the purchase of digital currency',
-							5: 'Funds are blocked until the transaction is executed',
-							6: 'When the transaction is executed, an entry is made in the transaction registry at the node of the blockchain network, the purchased digital currency is reflected on your balance, and funds are debited from your bank account. All operations take place in real time and are reflected in the web interface of the system, they are also registered in the register of user operations and are reflected in the personal account',
-							7: 'The transaction can be cancelled by the user independently until its completion',
-							8: 'After making a successful transaction, it is not possible to cancel it due to the technical features of the user\'s interaction with blockchain networks',
-							9: 'The commission is deducted automatically only for successful transactions',
-							10: 'Replenishment and withdrawal of funds and/or digital currency is carried out through the user\'s personal account of {0}',
-						},
-					},
-				},
+				p1: '<div><p>The possibility of performing civil law (purchase, sale, exchange) operations with digital currencies, as well as the possibility of cashless deposit and withdrawal of funds through bank accounts of the Russian Federation.</p></div>',
+				p2: '<div><p>Top up your account balance by bank transfer through any mobile application of a Russian bank by scanning a QR code or requesting an account, wait for funds to be credited to the balance. After that, you can place requests and perform operations.</p></div>',
+				p3: '<div><p>The established limits for individuals can be viewed in the "Commissions and Limits" section. But this does not mean that you should not have documents confirming the origin of funds in the amount of more than 600,000 rubles. To increase the limits, contact support and complete extended identification. This will require a verified account on the PUBLIC SERVICES portal. The procedure is remote and takes 5-10 minutes. In more detail, we recommend that you familiarize yourself with the Federal Law "On Countering the Legalization (Laundering) of Proceeds from Crime and the Financing of Terrorism" dated 08/07/2001 No. 115-FZ. There are no limits set for legal entities, but there are a number of restrictions on the types of activities, so be prepared to explain the economic meaning of your operations.</p></div>',
+				p4: '<div><p>Prior to the start of operations, the identification procedure is strictly mandatory. Our organization complies with and fulfills all the obligations of 115-FZ in relation to individuals and organizations, without exceptions.</p></div>',
+				p5: '<div><p>The operator of the information system {0} implements AML procedures for digital currencies and risk assessment by aggregating data from various sources. For more information about risk levels and data sources, see the "Data Processing" section. We also constantly monitor the risk level of our users. For more information, see the "System Regulations" section.</p></div>',
+				p6: '<div><p>The Tax Code of the Russian Federation defines the specifics of taxation of income from mining and operations with digital currency, effective January 1, 2025. These amendments were introduced into the Tax Code of the Russian Federation by Federal Law No. 418-FZ dated 11/29/2024.' +
+                '</p><p>For the purposes of the Tax Code of the Russian Federation, digital currency is recognized as property and is not subject to depreciation (paragraph 3, paragraph 2, Article 38, paragraph 2, Article 256 of the Tax Code).' +
+                '</p><p>The specifics of determining the corporate income tax base for operations with digital currency are defined in Article 282.3 of the Tax Code of the Russian Federation (effective 01.01.2025).' +
+                '</p><p>The tax base for digital currency transactions is determined separately from the general corporate income tax base (Article 282.3 of the Tax Code of the Russian Federation). The following income from digital currency transactions is taken into account when taxing profits:' +
+                '</p><ul>' +
+                '<li>non-operating income - income in the form of digital currency received as a result of mining digital currency (Clause 32 of Article 250 of the Tax Code of the Russian Federation) is determined based on the market quotation of such digital currency on the date of income recognition - on the date on which the person mining digital currency has the right to dispose of such digital currency. currency (clause 2 of Article 282.3, clause 20 of Clause 4 of Article 271 of the Tax Code of the Russian Federation). The market quotation of a digital currency is the closing price calculated by a foreign trade organizer (including an exchange) for transactions made through it during the trading day. A foreign trade organizer (including an exchange) may be a person whose trading volume for digital currency transactions exceeds 100 billion rubles for the relevant trading day, provided that information on digital currency market quotations is posted on its official website on the Internet information and telecommunications network for three years preceding the date of transactions. with digital currency.</li>' +
+                '<li>income (revenue) from the sale of digital currency is determined based on the actual selling price of the digital currency, but not lower than the market quotation of such digital currency, reduced by 20% (clause 3 of Article 282.3).</li>' +
+                '</ul><br>' +
+                '<p>In case of gratuitous transfer, the income from the sale of digital currency is determined based on the market quotation of such digital currency on the date of transfer.' +
+                '</p><p>In the case of the sale (gratuitous transfer) of digital currency, the taxpayer defines the tax base as income (revenue) from the sale of digital currency, reduced by its value and the cost of selling such digital currency.' +
+                '</p><p>When selling or otherwise disposing of digital currency, the taxpayer independently, in accordance with the accounting policy adopted for tax purposes, chooses one of the following methods of writing off the cost of the disposed digital currency:' +
+                '</p><ul>' +
+                '<li>at the cost of the first purchase at the time (FIFO);</li>' +
+                '<li>by unit cost.</li>' +
+                '</ul><br>' +
+                '<p>The taxpayer\'s expenses related to the implementation of digital currency mining are recognized as indirect expenses.' +
+                '</p><p>There is no current revaluation of the digital currency for tax purposes.' +
+                '</p><p>The value of the digital currency obtained as a result of mining and accepted for tax accounting before 01.01.2025 is equal to the amount of the taxpayer\'s expenses related to the mining of such digital currency, which were not recognized for tax purposes on the specified date in accordance with the provisions of Chapter 25 of the Tax Code of the Russian Federation.' +
+                '</p><p>The recommendations of the Federal Tax Service of Russia on filling out corporate income tax returns for transactions with digital currency are set out in letter No. SD-4-3/14625@ dated 12/25/2024:' +
+                '</p><p>In the corporate income tax return, it is recommended that transactions with digital currency be reflected in a separate Sheet 02 (Tax Calculation) with the taxpayer identification code "13".' +
+                '</p><p>Income (revenue) from the sale of digital currency, including income recognized for the gratuitous transfer of digital currency, should be reflected in line 014 of Appendix No. 1 to Sheet 02 (Revenue from the sale of other property).' +
+                '</p><p>Expenses in the form of the value of the digital currency, as well as the costs of its sale, should be reflected in line 060 of Appendix No. 2 to Sheet 02 (The purchase price of the sold other property and the costs associated with its sale).' +
+                '</p><p>Expenses related to digital currency mining are included in line 040 of Appendix No. 2 to Sheet 02 (Indirect expenses, total).' +
+                '</p><p>The taxpayer\'s non-operating income in the form of digital currency obtained as a result of mining should be reflected in the indicator line 100 of Appendix No. 1 to Sheet 02 (Non-operating income, total).' +
+                '</p><p>The Federal Tax Service OF THE Russian Federation https://www.nalog.gov.ru/rn03/ifns/imns03_01/15599506 /'+
+                '</p></div>',
+				p7: '<div><p>All documents of primary and strict accounting reporting. The documents are provided electronically and signed with a qualified electronic signature (CAP) certified by the Federal Tax Service of Russia, no matter who your EDI operator is, we have roaming with all operators, including international ones. For organizations participating in foreign economic activity, a service is provided for organizing international EDI with counterparties.</p></div>',
+				p8: '<div><p>The Federal Tax Service of Russia, in order to implement the provisions of Federal Law No. 418-FZ dated 11/29/2024 "On Amendments to Parts One and Two of the Tax Code of the Russian Federation and Certain Legislative Acts of the Russian Federation," informs about the following. Before making appropriate changes to the order of the Federal Tax Service of Russia dated 02.10.2024 No. ED-7-3/830@, which approved the form and procedure for filling out the corporate income tax return, the following recommendations should be taken into account.' +
+                '</p><p>In accordance with paragraph 1 of Article 2823 of the Tax Code of the Russian Federation (hereinafter referred to as the Code), the tax base for digital currency transactions is determined in accordance with the provisions of this article and separately from the general tax base (unless otherwise provided for in this article).' +
+                '</p><p>When a taxpayer performs transactions with digital currency, a separate Sheet 02 (including appendices to it) is included in the tax return. When calculating profit or loss on digital currency transactions in the specified sheet, it is recommended to use the code "13" in the "Taxpayer identification (code)" details.' +
+                '</p><p>Income (revenue) from the sale of digital currency, including income recognized for the gratuitous transfer of digital currency, for the reporting (tax) period is reflected in line 014 of Appendix No. 1 to Sheet 02.' +
+                '</p><p>Expenses in the form of the value of the digital currency, as well as the costs of its sale for the reporting (tax) period, are reflected in line 060 of Appendix No. 2 to Sheet 02.' +
+                '</p><p>Expenses related to digital currency mining for the reporting (tax) period are included in line 040 of Appendix No. 2 to Sheet 02.' +
+                '</p><p>The taxpayer\'s non-operating income in the form of digital currency obtained as a result of mining (paragraph 32 of Article 250 of the Code) for the reporting (tax) period is reflected in line 100 of Appendix No. 1 to Sheet 02.'+
+                '</p><p>Other indicators of Sheet 02 and its appendices using the code "13" in the "Taxpayer identification (code)" details are filled in by the organization performing operations with digital currency, in accordance with the procedure for filling out the declaration approved by Order of the Federal Tax Service of Russia dated 02.10.2024 No. ED-7-3/830@.' +
+                '</p><p>The Federal Tax Service OF THE Russian Federation https://www.nalog.gov.ru/rn77/about_fts/about_nalog/15584166 /'+
+                '</p></div>',
 			},
 		},
 		features: {

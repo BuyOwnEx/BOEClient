@@ -80,14 +80,11 @@ import FiltersFooter from '@/components/filters/parts/FiltersFooter.vue';
 
 export default {
 	name: 'RefPayments',
-
 	components: { FiltersFooter, FiltersTitle },
-
-	props: ['all_currencies'],
-
+	props: ['all_currencies', 'is_show'],
 	data() {
 		return {
-			show: true,
+			show: this.is_show,
 			disabled: true,
 			menu: false,
 			filters: {
@@ -106,7 +103,6 @@ export default {
 			currencies: this.all_currencies,
 		};
 	},
-
 	computed: {
 		computedDateFormatted() {
 			return this.formatDate(this.filters.dates);
@@ -120,7 +116,6 @@ export default {
 			};
 		},
 	},
-
 	watch: {
 		searchFollowers(value) {
 			if (!value) {
@@ -128,11 +123,7 @@ export default {
 			}
 			debounce(this.makeFollowerSearch, 300)(value, this);
 		},
-		show() {
-			this.$emit('toggleFiltersShow');
-		},
 	},
-
 	methods: {
 		makeFollowerSearch: async (value, self) => {
 			// Handle empty value
@@ -189,7 +180,6 @@ export default {
 			localStorage.removeItem('referralPaymentFilters');
 		},
 	},
-
 	mounted() {
 		if (localStorage.referralPaymentFilters) {
 			let saved_filters = JSON.parse(localStorage.referralPaymentFilters);

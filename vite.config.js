@@ -11,6 +11,14 @@ export default defineConfig({
             '@': '/resources/js',
         },
     },
+    server: {
+        hmr: {
+            host: "localhost",
+        },
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+    },
     plugins: [
         laravel({
             input: [

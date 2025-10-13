@@ -227,14 +227,11 @@ import FiltersFooter from '@/components/filters/parts/FiltersFooter.vue';
 
 export default {
 	name: 'Deals',
-
 	components: { FiltersFooter, FiltersTitle },
-
-	props: ['all_sides'],
-
+	props: ['all_sides', 'is_show'],
 	data() {
 		return {
-			show: true,
+			show: this.is_show,
 			disabled: true,
 			menu_start_date: false,
 			menu_start_time: false,
@@ -254,13 +251,6 @@ export default {
 			sides: this.all_sides,
 		};
 	},
-
-	watch: {
-		show() {
-			this.$emit('toggleFiltersShow');
-		},
-	},
-
 	computed: {
 		filterData() {
 			return {

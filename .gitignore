@@ -32,3 +32,4 @@ composer.phar
 /lang/en/custom/
 /lang/de/custom/
 /lang/ar/custom/
+/phpstorm.config.js

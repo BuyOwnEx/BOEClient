@@ -262,14 +262,11 @@ import FiltersFooter from '@/components/filters/parts/FiltersFooter.vue';
 
 export default {
 	name: 'Transactions',
-
 	components: { FiltersFooter, FiltersTitle },
-
-	props: ['all_currencies', 'all_types', 'all_statuses'],
-
+	props: ['all_currencies', 'all_types', 'all_statuses', 'is_show'],
 	data() {
 		return {
-			show: true,
+			show: this.is_show,
 			disabled: true,
 			menu_start_date: false,
 			menu_start_time: false,
@@ -294,13 +291,6 @@ export default {
 			currencies: this.all_currencies,
 		};
 	},
-
-	watch: {
-		show() {
-			this.$emit('toggleFiltersShow');
-		},
-	},
-
 	computed: {
 		filterData() {
 			return {
@@ -315,7 +305,6 @@ export default {
 			};
 		},
 	},
-
 	methods: {
 		setEnabled() {
 			this.disabled = false;
@@ -343,7 +332,6 @@ export default {
 			localStorage.removeItem('transactionFilters');
 		},
 	},
-
 	mounted() {
 		if (localStorage.transactionFilters) {
 			let saved_filters = JSON.parse(localStorage.transactionFilters);

@@ -21,10 +21,10 @@
 					:all_sides="sides"
           :all_types="types"
 					:all_currencies="currencies"
+          :is_show="is_show_filters"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
 					@table-filter="onUseFilter"
-					@toggleFiltersShow="toggleFiltersShow"
 				/>
 				<v-divider class="pb-2" />
 			</template>
@@ -68,7 +68,6 @@ export default {
   mixins: [bignumber],
 	data() {
 		return {
-			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -90,6 +89,9 @@ export default {
     ...mapState('app', ['product']),
     ...mapState('trading', ['all_currencies','allCurrencyListInit']),
     ...mapState('user', ['blockStatus']),
+    is_show_filters() {
+      return this.product.filters_all_expanded
+    },
     isHideTrading() {
       return (this.blockStatus & 8) > 0
     },
@@ -173,12 +175,6 @@ export default {
 				this.totalItems = data.total;
 			});
 		},
-		onReload() {
-			this.getDataFromApi().then(data => {
-				this.items = data.items;
-				this.totalItems = data.total;
-			});
-		},
 		async getDataFromApi() {
 			this.loading = true;
 			return new Promise(async (resolve, reject) => {
@@ -219,9 +215,6 @@ export default {
 		},
 		getImage(img) {
 			return '/' + img;
-		},
-		toggleFiltersShow() {
-			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 };

@@ -19,10 +19,10 @@
 			<template #top>
 				<filters
 					:all_currencies="currencies"
+          :is_show="is_show_filters"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
 					@table-filter="onUseFilter"
-					@toggleFiltersShow="toggleFiltersShow"
 				/>
 				<v-divider class="pb-2" />
 			</template>
@@ -56,23 +56,18 @@
 
 <script>
 import { mapState } from 'vuex';
-
 import BigNumber from 'bignumber.js';
 import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
-
 import filters from '@/components/filters/RefPayments.vue';
 
 export default {
 	name: 'RefPayments',
-
 	components: {
 		filters,
 	},
-
 	data() {
 		return {
-			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -89,6 +84,10 @@ export default {
 
 	computed: {
     ...mapState('trading', ['all_currencies','allCurrencyListInit']),
+    ...mapState('app', ['product']),
+    is_show_filters() {
+      return this.product.filters_all_expanded
+    },
 		headers() {
 			return [
 				{ text: 'ID', value: 'id' },
@@ -150,12 +149,6 @@ export default {
 				this.totalItems = data.total;
 			});
 		},
-		onReload() {
-			this.getDataFromApi().then(data => {
-				this.items = data.items;
-				this.totalItems = data.total;
-			});
-		},
 		async getDataFromApi() {
 			this.loading = true;
 			return new Promise(async (resolve, reject) => {
@@ -202,10 +195,6 @@ export default {
 		},
 		getImage(img) {
 			return '/' + img;
-		},
-
-		toggleFiltersShow() {
-			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 

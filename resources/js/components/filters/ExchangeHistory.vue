@@ -200,10 +200,10 @@ import FiltersFooter from '@/components/filters/parts/FiltersFooter.vue';
 export default {
   name: 'ExchangeHistory',
   components: { FiltersFooter, FiltersTitle },
-  props: ['all_statuses'],
+  props: ['all_statuses', 'is_show'],
   data() {
     return {
-      show: true,
+      show: this.is_show,
       disabled: true,
       menu_start_date: false,
       menu_start_time: false,
@@ -219,11 +219,6 @@ export default {
       },
       statuses: this.all_statuses,
     };
-  },
-  watch: {
-    show() {
-      this.$emit('toggleFiltersShow');
-    },
   },
   computed: {
     filterData() {

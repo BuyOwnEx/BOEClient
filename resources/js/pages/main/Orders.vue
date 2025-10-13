@@ -21,10 +21,10 @@
 					:all_sides="sides"
 					:all_types="filteredTypes"
 					:all_statuses="statuses"
+          :is_show="is_show_filters"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
 					@table-filter="onUseFilter"
-					@toggleFiltersShow="toggleFiltersShow"
 				/>
 				<v-divider class="pb-2" />
 			</template>
@@ -90,6 +90,7 @@
 <script>
 import BigNumber from 'bignumber.js';
 import randomColor from 'randomcolor';
+import qs from 'qs';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import config from '@/configs';
@@ -97,14 +98,11 @@ import filters from '@/components/filters/Orders.vue';
 
 export default {
 	name: 'Orders',
-
 	components: {
 		filters,
 	},
-
 	data() {
 		return {
-			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -135,9 +133,11 @@ export default {
 			],
 		};
 	},
-
 	computed: {
-		pairs() {
+		is_show_filters() {
+      return config.product.filters_all_expanded
+    },
+    pairs() {
 			return this.$store.state.tickers.markets;
 		},
 		headers() {
@@ -163,7 +163,6 @@ export default {
 			else return this.types;
 		}
 	},
-
 	watch: {
 		options: {
 			handler() {
@@ -175,7 +174,6 @@ export default {
 			deep: true,
 		},
 	},
-
 	methods: {
 		BigNumber(item) {
 			return BigNumber(item).toString();
@@ -234,12 +232,6 @@ export default {
 				this.totalItems = data.total;
 			});
 		},
-		onReload() {
-			this.getDataFromApi().then(data => {
-				this.items = data.items;
-				this.totalItems = data.total;
-			});
-		},
 		async getDataFromApi() {
 			this.loading = true;
 			return new Promise(async (resolve, reject) => {
@@ -265,12 +257,7 @@ export default {
 			if (opts.filters === undefined) {
 				let dates = {
 					filters: {
-						start:
-                this.$moment()
-								.startOf('month')
-								.format('YYYY-MM-DD') +
-							' ' +
-							'00:00:00',
+						start: this.$moment().startOf('month').format('YYYY-MM-DD') + ' ' + '00:00:00',
 						end: this.$moment().format('YYYY-MM-DD') + ' ' + '23:59:59',
 					},
 				};
@@ -287,10 +274,6 @@ export default {
 			else if (status === 'partiallyFilled') return 'warning--text';
 			else if (status === 'cancelled') return 'error--text';
 			else return '';
-		},
-
-		toggleFiltersShow() {
-			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 };

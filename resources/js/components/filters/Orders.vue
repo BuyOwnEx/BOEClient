@@ -257,14 +257,11 @@ import FiltersFooter from '@/components/filters/parts/FiltersFooter.vue';
 
 export default {
 	name: 'Orders',
-
 	components: { FiltersFooter, FiltersTitle },
-
-	props: ['all_sides', 'all_types', 'all_statuses'],
-
+	props: ['all_sides', 'all_types', 'all_statuses', 'is_show'],
 	data() {
 		return {
-			show: true,
+			show: this.is_show,
 			disabled: true,
 			menu_start_date: false,
 			menu_start_time: false,
@@ -287,12 +284,6 @@ export default {
 			types: this.all_types,
 			statuses: this.all_statuses,
 		};
-	},
-
-	watch: {
-		show() {
-			this.$emit('toggleFiltersShow');
-		},
 	},
 
 	computed: {
@@ -326,7 +317,6 @@ export default {
 			return result;
 		},
 	},
-
 	methods: {
 		setEnabled() {
 			this.disabled = false;
@@ -353,11 +343,9 @@ export default {
 			localStorage.removeItem('orderFilters');
 		},
 	},
-
 	created() {
 		this.$store.dispatch('tickers/getMarketDataFromServer');
 	},
-
 	mounted() {
 		if (localStorage.orderFilters) {
 			let saved_filters = JSON.parse(localStorage.orderFilters);

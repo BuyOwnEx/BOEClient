@@ -19,10 +19,10 @@
 			<template #top>
 				<filters
 					:all_sides="sides"
+          :is_show="is_show_filters"
 					@apply-table-filter="onFilterApply"
 					@reset-table-filter="onFilterReset"
 					@table-filter="onUseFilter"
-					@toggleFiltersShow="toggleFiltersShow"
 				/>
 				<v-divider class="pb-2" />
 			</template>
@@ -88,7 +88,6 @@ export default {
 	},
 	data() {
 		return {
-			isFiltersShow: true,
 			totalItems: 0,
 			items: [],
 			loading: true,
@@ -108,6 +107,9 @@ export default {
 	},
 	computed: {
     ...mapState('app', ['product']),
+    is_show_filters() {
+      return this.product.filters_all_expanded
+    },
     showing_fee_in_market() {
       return this.product.deals_show_fee_in_market
     },
@@ -190,12 +192,6 @@ export default {
 				this.totalItems = data.total;
 			});
 		},
-		onReload() {
-			this.getDataFromApi().then(data => {
-				this.items = data.items;
-				this.totalItems = data.total;
-			});
-		},
 		async getDataFromApi() {
 			this.loading = true;
 			return new Promise(async (resolve, reject) => {
@@ -236,9 +232,6 @@ export default {
 				params: parameters,
 			});
 			return response.data;
-		},
-		toggleFiltersShow() {
-			this.isFiltersShow = !this.isFiltersShow;
 		},
 	},
 };

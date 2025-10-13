@@ -225,14 +225,11 @@ import FiltersFooter from '@/components/filters/parts/FiltersFooter.vue';
 
 export default {
 	name: 'Transfers',
-
 	components: { FiltersFooter, FiltersTitle },
-
-	props: ['all_currencies', 'all_sides', 'all_types'],
-
+	props: ['all_currencies', 'all_sides', 'all_types', 'is_show'],
 	data() {
 		return {
-			show: true,
+			show: this.is_show,
 			disabled: true,
 			menu_start_date: false,
 			menu_start_time: false,
@@ -255,13 +252,6 @@ export default {
       types: this.all_types,
 		};
 	},
-
-	watch: {
-		show() {
-			this.$emit('toggleFiltersShow');
-		},
-	},
-
 	computed: {
 		filterData() {
 			return {
@@ -274,7 +264,6 @@ export default {
 			};
 		},
 	},
-
 	methods: {
 		setEnabled() {
 			this.disabled = false;
@@ -300,7 +289,6 @@ export default {
 			localStorage.removeItem('transferFilters');
 		},
 	},
-
 	mounted() {
 		if (localStorage.transferFilters) {
 			let saved_filters = JSON.parse(localStorage.transferFilters);
