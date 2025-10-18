@@ -1,7 +1,17 @@
 <template>
 	<v-card-text>
-		<div v-if="fiatCount > 0" v-html="userCryptoAndFiatText" />
-		<div v-else v-html="userOnlyCryptoText" />
+    <div v-if="fiatCount > 0">
+      {{ $t('status.supported_currencies_all_prepend') }}
+      <b>{{ allCount }}</b>
+      {{ $t('status.supported_currencies_all_append') }}:
+      <b>{{ cryptoCount }}</b> {{ $t('status.supported_crypto') }} {{ $t('status.supported_and') }}
+      <b>{{ fiatCount }}</b> {{ $t('status.supported_fiat') }}
+    </div>
+    <div v-else>
+      {{ $t('status.supported_currencies_all_prepend') }}
+      <b>{{ cryptoCount }}</b>
+      {{ $t('status.supported_crypto_only') }}
+    </div>
 	</v-card-text>
 </template>
 
@@ -21,12 +31,9 @@ export default {
 	},
 
 	computed: {
-		userCryptoAndFiatText() {
-			return this.$t('status.support_currencies_fiat_and_crypto',[this.cryptoCount+ this.fiatCount, this.cryptoCount, this.fiatCount]);
-		},
-		userOnlyCryptoText() {
-			return this.$t('status.support_currencies_only_crypto',[this.cryptoCount]);
-		},
+    allCount() {
+      return this.cryptoCount+ this.fiatCount;
+    },
 	},
 };
 </script>

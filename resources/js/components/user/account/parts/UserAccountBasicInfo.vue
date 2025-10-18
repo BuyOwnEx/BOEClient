@@ -6,11 +6,9 @@
 			<div class="d-flex flex-column flex-sm-row">
 				<div>
 					<span>
-						<v-avatar
-							class="user-account-tab-basic-info__avatar rounded"
-							size="90"
-							v-html="generatedAvatar"
-						/>
+            <v-avatar class="user-account-tab-basic-info__avatar rounded" size="90">
+              <img :src="generatedAvatar" alt="Avatar" />
+            </v-avatar>
 					</span>
 				</div>
 

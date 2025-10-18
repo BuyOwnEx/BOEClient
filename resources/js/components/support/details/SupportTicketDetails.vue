@@ -14,16 +14,16 @@
 					<v-expansion-panel-header>
 						<template #default="{ open }">
 							<div class="d-flex">
-								<v-avatar size="36" v-html="generatedAvatar(item.author)" />
+                <v-avatar size="36">
+                  <img :src="generatedAvatar(item.author)" :alt="item.author" />
+                </v-avatar>
 								<div class="mx-2 min-w-0">
 									<div class="font-weight-bold mb-1">
 										{{ item.author }}
 									</div>
-									<div
-										v-show="!open"
-										class="support-ticket-details__item-text text-truncate"
-										v-html="item.body"
-									></div>
+									<div v-show="!open" class="support-ticket-details__item-text text-truncate">
+                    {{ item.body }}
+                  </div>
 								</div>
 							</div>
 						</template>

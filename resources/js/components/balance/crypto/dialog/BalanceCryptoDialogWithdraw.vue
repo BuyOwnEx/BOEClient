@@ -53,6 +53,7 @@
               <BalanceCryptoDialogSelectSystem
                   class="mb-2"
                   :platforms="currencyObj.platforms"
+                  :is_verified="verifyStatus"
                   type="withdraw"
                   @select="selectPlatform"
               />
@@ -349,7 +350,7 @@ export default {
 		};
 	},
 	computed: {
-    ...mapState('user', ['status']),
+    ...mapState('user', ['status','verifyStatus']),
     ...mapState('app', ['product']),
     is_legal() {
       return (this.status & 4) === 4;

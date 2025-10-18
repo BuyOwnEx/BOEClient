@@ -96,20 +96,20 @@ export default {
 				const avatar = createAvatar(identicon, {
 					seed: seed ?? rootState.app.trader.name,
 				});
-				return avatar.toString();
+				return avatar.toDataUriSync();
 			}
 			else if(type === 'initials')
 			{
 				const avatar = createAvatar(initials, {
 					seed: seed ?? rootState.app.trader.name,
 				});
-				return avatar.toString();
+				return avatar.toDataUriSync();
 			}
 			else {
 				const avatar = createAvatar(identicon, {
 					seed: seed ?? rootState.app.trader.name,
 				});
-				return avatar.toString();
+				return avatar.toDataUriSync();
 			}
 		},
 		isTradeHidden: (state) => {

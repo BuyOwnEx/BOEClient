@@ -1249,7 +1249,7 @@ class TraderController extends Controller
         }
         else
         {
-            if(env('VITE_CONFIG_KYB_LOCAL_UPLOAD_TYPE','letter') === 'letter') {
+            if(config('app.kyb_local_upload_type') === 'letter') {
                 $request->validate([
                     'file_doc' => 'required|file|mimes:pdf|max:2048'
                 ]);
@@ -1257,7 +1257,7 @@ class TraderController extends Controller
             else
             {
                 $request->validate([
-                    'file_doc' => 'required|file|mimes:zip|max:15360'
+                    'file_doc' => 'required|file|mimes:zip|max:102400'
                 ]);
             }
             try
@@ -1312,7 +1312,6 @@ class TraderController extends Controller
             {
                 $pathes = [];
                 if ($request->file('file_doc')) {
-                    Log::info('has');
                     foreach($request->file('file_doc') as $key => $file)
                     {
                         $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $file);

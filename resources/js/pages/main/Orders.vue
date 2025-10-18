@@ -90,7 +90,6 @@
 <script>
 import BigNumber from 'bignumber.js';
 import randomColor from 'randomcolor';
-import qs from 'qs';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 
 import config from '@/configs';

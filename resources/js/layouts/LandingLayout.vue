@@ -111,13 +111,13 @@ export default {
         label: this.$t('menu.fees'),
         to: '/fees'
       }, {
-        label: this.$t('menu.system_status'),
+        label: this.$t('landing.footer.menu.system_status'),
         to: '/status'
       }, {
         label: this.$t('menu.api'),
         to: '/api'
       }, {
-        label: this.$t('menu.terms'),
+        label: this.$t('landing.footer.menu.terms'),
         to: '/terms'
       }, {
         label: this.$t('menu.policy'),

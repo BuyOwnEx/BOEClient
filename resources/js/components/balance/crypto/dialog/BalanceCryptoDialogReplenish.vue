@@ -20,6 +20,7 @@
               <BalanceCryptoDialogSelectSystem
                   class="mb-2"
                   :platforms="currencyObj.platforms"
+                  :is_verified="verifyStatus"
                   type="replenish"
                   @select="selectPlatform"
               />
@@ -106,7 +107,7 @@ import CommonLoading from '@/components/common/CommonLoading.vue';
 import CommonCopyLabel from '@/components/common/CommonCopyLabel.vue';
 import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 import BalanceCryptoDialogSelectSystem from '@/components/balance/crypto/dialog/parts/BalanceCryptoDialogSelectSystem.vue';
-import { mapActions } from 'vuex';
+import {mapActions, mapState} from 'vuex';
 export default {
 	name: 'BalanceCryptoDialogReplenish',
 	props: {
@@ -124,6 +125,7 @@ export default {
       };
   },
 	computed: {
+    ...mapState('user', ['verifyStatus']),
 		address() {
 			return this.selectedPlatform ? this.selectedPlatform.address : '-';
 		},

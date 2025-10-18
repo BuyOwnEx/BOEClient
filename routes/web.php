@@ -216,9 +216,9 @@ Route::group(['prefix' => 'trader'], function () {
 
                 Route::post('kyc_kontur_ind_request', 'TraderController@sendKYCKonturIndRequest')->name('send_kyc_kontur_ind_request');
                 Route::post('kyc_kontur_comp_request', 'TraderController@sendKYCKonturCompRequest')->name('send_kyc_kontur_comp_request');
-                Route::post('kyc_local_ind_request', 'TraderController@sendKYCLocalIndRequest')->name('send_kyc_local_ind_request');
-                Route::post('kyc_local_comp_request', 'TraderController@sendKYCLocalCompRequest')->name('send_kyc_local_comp_request');
-                Route::post('kyc_local_comp_request_md', 'TraderController@sendKYCLocalCompRequestMD')->name('send_kyc_local_comp_request_md');
+                Route::post('kyc_local_ind_request', ['middleware' => 'throttle:5', 'uses' => 'TraderController@sendKYCLocalIndRequest'])->name('send_kyc_local_ind_request');
+                Route::post('kyc_local_comp_request', ['middleware' => 'throttle:5', 'uses' => 'TraderController@sendKYCLocalCompRequest'])->name('send_kyc_local_comp_request');
+                Route::post('kyc_local_comp_request_md', ['middleware' => 'throttle:5', 'uses' => 'TraderController@sendKYCLocalCompRequestMD'])->name('send_kyc_local_comp_request_md');
                 Route::post('kyc_request', 'TraderController@sendKYCRequest')->name('send_kyc_request');
                 Route::post('kyc_fix', 'TraderController@sendKYCFix')->name('send_kyc_fix');
                 Route::post('kyc_payment', 'TraderController@setKYCPayment')->name('set_kyc_payment');

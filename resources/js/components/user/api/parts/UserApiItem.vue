@@ -13,7 +13,9 @@
 
 		<div class="user-api-item__content pa-2">
 			<div class="user-api-item__icon-wrapper">
-				<v-avatar class="user-api-item__icon" size="150" v-html="generatedAvatar(api.name)" />
+        <v-avatar class="user-api-item__icon" size="150">
+          <img :src="generatedAvatar(api.name)" :alt="api.name" />
+        </v-avatar>
 			</div>
 
 			<div class="user-api-item__info-wrapper">

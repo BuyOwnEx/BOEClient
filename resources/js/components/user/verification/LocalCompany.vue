@@ -118,7 +118,7 @@
                     :error-messages="errors.file_doc"
                     @input="errors.file_doc = []"
                     @change="errors.file_doc = []"
-                    :rules="product.kybLocalUploadType === 'letter' ? [rules.required, rules.maxFileSize2MB] : [rules.required, rules.maxFileSize15MB]"
+                    :rules="product.kybLocalUploadType === 'letter' ? [rules.required, rules.maxFileSize2MB] : [rules.required, rules.maxFileSize100MB]"
                     persistent-hint
                     clearable
                     required

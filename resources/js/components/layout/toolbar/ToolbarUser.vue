@@ -3,7 +3,9 @@
 		<template #activator="{ on }">
 			<v-btn icon plain tile v-on="on">
 				<v-badge color="success"  dot >
-					<v-avatar tile v-html="generatedAvatar" size="35" />
+          <v-avatar tile size="35">
+            <img :src="generatedAvatar" alt="Avatar" />
+          </v-avatar>
 				</v-badge>
 			</v-btn>
 		</template>

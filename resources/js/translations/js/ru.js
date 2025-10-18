@@ -914,7 +914,7 @@ export default {
 			sync: 'Нода в процессе синхронизации',
 			maintenance: 'Нода на тех. обслуживании',
 		},
-
+        only_for_verified: 'Для возможности ввода/вывода средств, необходимо пройти процедуру верификации',
 		stepper: {
 			address: 'Адрес',
 
@@ -2803,9 +2803,12 @@ export default {
 		currency_status: 'Состояние системы по валютам',
 		pairs_status: 'Состояние системы по парам',
 
-		support_currencies_only_crypto: 'Поддерживаются <b>{0}</b> криптовалют (монет/токенов)',
-		support_currencies_fiat_and_crypto:
-			'Поддерживаются <b>{0}</b> валют: <b>{1}</b> криптовалют (монет/токенов) и <b>{2}</b> фиатных валют',
+        supported_currencies_all_prepend: 'Всего поддерживаются',
+        supported_currencies_all_append: 'валют',
+        supported_crypto: 'криптовалют (монет/токенов)',
+        supported_crypto_only: 'криптовалют (монет/токенов)',
+        supported_and: 'и',
+        supported_fiat: 'фиатных валют',
 
 		fiat_tab: 'Фиатные валюты',
 		currencies_tab: 'Валюты',
@@ -3531,6 +3534,7 @@ export default {
 		max_filesize_2MB: 'Макс. размер файла 2 МБ',
 		max_filesize_5MB: 'Макс. размер файла 5 МБ',
 		max_filesize_15MB: 'Макс. размер файла 15 МБ',
+        max_filesize_100MB: 'Макс. размер файла 100 МБ',
 		fill_all_fields: 'Заполните все поля',
 		incorrect_data: 'Некорректные данные',
 
@@ -3751,6 +3755,10 @@ export default {
 			navigation: {
 				title: 'Навигация',
 			},
+            menu: {
+                system_status: 'Состояние',
+                terms: 'Документы',
+            },
 			newsletter: 'Новостная подписка',
 			newsletter_label: 'Ваш email',
 			subscribe: 'Подписаться',

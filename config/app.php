@@ -20,6 +20,7 @@ return [
     'use_custom_descriptions'    => (bool) env('USE_CUSTOM_DESCRIPTIONS', false),
     'use_custom_keywords'        => (bool) env('USE_CUSTOM_KEYWORDS', false),
     'use_custom_titles'          => (bool) env('USE_CUSTOM_TITLES', false),
+    'kyb_local_upload_type'      => env('VITE_CONFIG_KYB_LOCAL_UPLOAD_TYPE', 'letter'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

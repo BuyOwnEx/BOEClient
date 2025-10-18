@@ -1,45 +1,51 @@
 <template>
   <div class="balance-crypto-dialog-select-system">
-    <div class="pb-1">{{ $t('balance.select_network') }}</div>
+    <v-card v-if="!is_verified && !isCryptoOpAvailableForNonKyc" class="mt-2 mb-4">
+      <BalanceFiatDialogAlert>
+        {{ $t('balance.only_for_verified') }}
+      </BalanceFiatDialogAlert>
+    </v-card>
+    <div v-else>
+      <div class="pb-1">{{ $t('balance.select_network') }}</div>
+      <div
+          class="balance-crypto-dialog-select-system__item"
+          v-for="item in platforms"
+          :key="item.id"
+      >
+        <img
+            class="align-self-center balance-crypto-dialog-select-system__item-img pa-1"
+            :src="getSystemImage(item.base_currency)"
+            :alt="item.base_currency"
+            height="90"
+            width="90"
+        />
+        <div class="align-self-center">
+          {{item.platform !== null ? item.platform : item.currency }}
+        </div>
 
-    <div
-        class="balance-crypto-dialog-select-system__item"
-        v-for="item in platforms"
-        :key="item.id"
-    >
-      <img
-          class="align-self-center balance-crypto-dialog-select-system__item-img pa-1"
-          :src="getSystemImage(item.base_currency)"
-          :alt="item.base_currency"
-          height="90"
-          width="90"
-      />
-      <div class="align-self-center">
-        {{item.platform !== null ? item.platform : item.currency }}
-      </div>
-
-      <div class="align-self-center balance-crypto-dialog-select-system__item-info pa-2">
-        <div>
-          {{ $t('balance.min_amount') }}: <b>{{ getMinAmount(item) }} {{ item.currency }}</b>
+        <div class="align-self-center balance-crypto-dialog-select-system__item-info pa-2">
+          <div>
+            {{ $t('balance.min_amount') }}: <b>{{ getMinAmount(item) }} {{ item.currency }}</b>
+          </div>
+          <div>
+            {{ $t('balance.fee') }}: <b>{{ getFee(item) }} {{ item.currency }}</b>
+          </div>
+          <div>
+            {{ $t('balance.status') }}: <b :class="getStateColor(item.state)">{{ getStateName(item.state) }}</b>
+          </div>
         </div>
-        <div>
-          {{ $t('balance.fee') }}: <b>{{ getFee(item) }} {{ item.currency }}</b>
+        <div class="align-self-center balance-crypto-dialog-select-system__item-action pa-2">
+          <v-btn
+              :disabled="(!(item.state === 1 || item.state === 3) && isReplenish) || (!(item.state === 1 || item.state === 2) && !isReplenish)"
+              :color="((item.state === 1 || item.state === 3) && isReplenish) || ((item.state === 1 || item.state === 2) && !isReplenish) ? 'success' : ''"
+              tile
+              text
+              small
+              @click="select(item)"
+          >
+            {{ $t('common.select') }}
+          </v-btn>
         </div>
-        <div>
-          {{ $t('balance.status') }}: <b :class="getStateColor(item.state)">{{ getStateName(item.state) }}</b>
-        </div>
-      </div>
-      <div class="align-self-center balance-crypto-dialog-select-system__item-action pa-2">
-        <v-btn
-            :disabled="(!(item.state === 1 || item.state === 3) && isReplenish) || (!(item.state === 1 || item.state === 2) && !isReplenish)"
-            :color="((item.state === 1 || item.state === 3) && isReplenish) || ((item.state === 1 || item.state === 2) && !isReplenish) ? 'success' : ''"
-            tile
-            text
-            small
-            @click="select(item)"
-        >
-          {{ $t('common.select') }}
-        </v-btn>
       </div>
     </div>
   </div>
@@ -47,11 +53,18 @@
 
 <script>
 
+import BalanceFiatDialogAlert from "@/components/balance/fiat/dialog/parts/BalanceFiatDialogAlert.vue";
+
 export default {
   name: 'BalanceCryptoDialogSelectSystem',
+  components: {BalanceFiatDialogAlert},
   props: {
     platforms: {
       type: Array,
+      required: true,
+    },
+    is_verified: {
+      type: Boolean,
       required: true,
     },
     type: {
@@ -70,6 +83,9 @@ export default {
   },
 
   computed: {
+    isCryptoOpAvailableForNonKyc() {
+      return import.meta.env.VITE_CRYPTO_OPERATIONS_WITHOUT_KYC === 'true';
+    },
     isReplenish() {
       return this.type === 'replenish';
     },

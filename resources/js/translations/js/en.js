@@ -920,7 +920,7 @@ export default {
 			sync: 'Node in sync',
 			maintenance: 'Node is under maintenance',
 		},
-
+        only_for_verified: 'To be able to deposit/withdraw funds, you need to go through the verification procedure',
 		stepper: {
 			address: 'Address',
 
@@ -2807,9 +2807,12 @@ make our system processes as transparent as possible.`,
 		currency_status: 'System status for currencies',
 		pairs_status: 'System status for pairs',
 
-		support_currencies_only_crypto: '<b>{0}</b> cryptocurrencies (coins / tokens) supported',
-		support_currencies_fiat_and_crypto:
-			'<b>{0}</b> currencies are supported: <b>{1}</b> cryptocurrencies (coins / tokens) and <b>{2}</b> fiat currencies',
+        supported_currencies_all_prepend: 'A total of',
+        supported_currencies_all_append: 'currencies are supported',
+        supported_crypto: 'cryptocurrencies (coins/tokens)',
+        supported_crypto_only: 'cryptocurrencies (coins/tokens) are supported',
+        supported_and: 'and',
+        supported_fiat: 'fiat currencies',
 
 		fiat_tab: 'Fiat currencies',
 		currencies_tab: 'Currencies',
@@ -3532,6 +3535,7 @@ make our system processes as transparent as possible.`,
 		max_filesize_2MB: 'Max. file size 2 MB',
 		max_filesize_5MB: 'Max. file size 5 MB',
 		max_filesize_15MB: 'Max. file size 15 MB',
+        max_filesize_100MB: 'Max. file size 100 MB',
 		fill_all_fields: 'Fill all fields',
 		incorrect_data: 'Incorrect data',
 
@@ -3690,6 +3694,10 @@ make our system processes as transparent as possible.`,
 			navigation: {
 				title: 'Navigation',
 			},
+            menu: {
+                system_status: 'Status',
+                terms: 'Documents',
+            },
 			newsletter: 'Newsletter',
 			newsletter_label: 'Your email',
 			subscribe: 'Subscribe',

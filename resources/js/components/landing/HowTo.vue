@@ -31,7 +31,6 @@
           <div class="d-flex flex-column mr-10">
             <div class="d-flex justify-space-between mb-4">
               <span class="step-text primary--text">01</span>
-              <img class="arrow-img" :src="landing_arrow_right_logo" alt="">
             </div>
             <div class="step-text-detail text-left">{{ $t('landing.how_to.step_1_text') }}</div>
             <div>
@@ -41,7 +40,6 @@
           <div class="d-flex flex-column mr-10">
             <div class="d-flex justify-space-between mb-4">
               <span class="step-text primary--text">02</span>
-              <img class="arrow-img" :src="landing_arrow_right_logo" alt="">
             </div>
             <div class="step-text-detail text-left">{{ $t('landing.how_to.step_2_text') }}</div>
             <div>
