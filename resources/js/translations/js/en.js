@@ -702,35 +702,24 @@ export default {
 			must_kyc: 'You must proceed KYC verification to have opportunity to trade',
 			dialog: {
 				title: 'Confirm order',
-				buy_limit_order: 'You are going to <b>buy {amount} {currency}</b> at price of <b>{price} {market}</b>',
-				buy_limit_order_with_params:
-					'You are going to <b>buy {amount} {currency}</b> at price of <b>{price} {market}</b> with the following associated conditional orders',
-				buy_market_order: 'You are going to <b> buy {amount} {currency}</b> at the market price',
-				buy_market_order_with_params:
-					'You are going to <b> buy {amount} {currency}</b> at the market price with the following associated conditional orders',
-				buy_stop_loss_text: 'Sell by market if Best Bid reaches <b>{stopLoss} {market}</b> (SL order)',
-				buy_take_profit_text: 'Sell by market if Best Bid reaches <b>{takeProfit} {market}</b> (TP order)',
-				buy_trailing_stop_text: 'Sell by market if the asset price drops by <b>{trailingStop}</b> points (TS order)',
-
-				buy_limit_leverage:
-					'You are going to <b>buy {amount} {currency}</b> at price of <b>{price} {market}</b> using <b>{leverageLevel}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
-				buy_market_leverage:
-					'You are going to <b>buy {amount} {currency}</b> at the market price, using <b>{leverageLevel}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
-				sell_limit_leverage:
-					'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b> using <b>{leverageLevel}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
-				sell_market_leverage:
-					'You are going to <b>sell {amount} {currency}</b> at the market price, using <b>{leverageLevel}x</b> leverage. Daily fee is <b>{offerPercent}%</b>. Position validity:  <b>{offerDays}</b> days',
-
-				sell_limit_order: 'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b>',
-				sell_limit_order_with_params:
-					'You are going to <b>sell {amount} {currency}</b> at price of <b>{price} {market}</b> with the following associated conditional orders',
-				sell_market_order: 'You are going to <b>sell {amount} {currency}</b> at the market price',
-				sell_market_order_with_params:
-					'You are going to <b>sell {amount} {currency}</b> at the market price with the following associated conditional orders',
-				sell_stop_loss_text: 'Buy by market if Best Ask reaches the value <b>{stopLoss} {market}</b> (SL order)',
-				sell_take_profit_text: 'Buy by market if Best Ask reaches the value <b>{takeProfit} {market}</b> (TP order)',
-				sell_trailing_stop_text:
-					'Buy by market if the price of an asset rises by <b>{trailingStop}</b> points (TS order)',
+                going_to: 'You are going to',
+                buy: 'buy',
+                sell: 'sell',
+                at_limit_price: 'at price of',
+                at_market_price: 'at the market price',
+                with_cond_orders: 'with the following associated conditional orders',
+                buy_cond_text: 'Sell by market if Best Bid reaches',
+                buy_cond_ts_text: 'Sell by market if the asset price drops by',
+                sell_cond_text: 'Buy by market if Best Ask reaches',
+                sell_cond_ts_text: 'Buy by market if the asset price rises by',
+                points: 'points',
+                sl_order: '(SL order)',
+                tp_order: '(TP order)',
+                ts_order: '(TS order)',
+                use_leverage: 'using the leverage in the size of',
+                daily_fee: 'Daily fee is',
+                expiration_text: 'Position expiration period:',
+                days: 'days',
 				only_one_conditional_orders_trigger: 'Only one of the conditional orders will be triggered',
 			},
 		},

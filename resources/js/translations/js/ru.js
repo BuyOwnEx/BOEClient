@@ -697,40 +697,24 @@ export default {
 			must_kyc: 'Пройдите верификацию для возможности осуществлять торговлю',
 			dialog: {
 				title: 'Подтверждение ордера',
-				buy_limit_order: 'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b>',
-				buy_limit_order_with_params:
-					'Вы собираетесь купить <b>{amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
-				buy_market_order: 'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене',
-				buy_market_order_with_params:
-					'Вы собираетесь <b> купить {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
-				buy_stop_loss_text:
-					'Продать по рынку в случае, если Best Bid достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
-				buy_take_profit_text:
-					'Продать по рынку в случае, если Best Bid достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
-				buy_trailing_stop_text:
-					'Продать по рынку в случае, если цена актива упадёт одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
-
-				buy_limit_leverage:
-					'Вы собираетесь <b>купить {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
-				buy_market_leverage:
-					'Вы собираетесь <b>купить {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
-				sell_limit_leverage:
-					'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
-				sell_market_leverage:
-					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене, задействовав плечо в размере <b>{leverageLevel}x</b>. Размер ежедневной комиссии составит <b>{offerPercent}%</b>. Срок действия позиции:  <b>{offerDays}</b> дней',
-
-				sell_limit_order: 'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b>',
-				sell_limit_order_with_params:
-					'Вы собираетесь <b>продать {amount} {currency}</b> по цене <b>{price} {market}</b> со следующими связанными условными ордерами',
-				sell_market_order: ' <b>продать {amount} {currency}</b> по рыночной цене',
-				sell_market_order_with_params:
-					'Вы собираетесь <b>продать {amount} {currency}</b> по рыночной цене со следующими связанными условными ордерами',
-				sell_stop_loss_text:
-					'Купить по рынку в случае, если Best Ask достигнет значения <b>{stopLoss} {market}</b> (SL ордер)',
-				sell_take_profit_text:
-					'Купить по рынку в случае, если Best Ask достигнет значения <b>{takeProfit} {market}</b> (TP ордер)',
-				sell_trailing_stop_text:
-					'Купить по рынку в случае, если цена актива поднимется одномоментно на <b>{trailingStop}</b> пунктов (TS ордер)',
+                going_to: 'Вы собираетесь',
+                buy: 'купить',
+                sell: 'продать',
+                at_limit_price: 'по цене',
+                at_market_price: 'по рыночной цене',
+                with_cond_orders: 'со следующими связанными условными ордерами',
+                buy_cond_text: 'Продать по рынку в случае, если Best Bid достигнет значения',
+                buy_cond_ts_text: 'Продать по рынку в случае, если цена актива упадёт одномоментно на',
+                sell_cond_text: 'Купить по рынку в случае, если Best Ask достигнет значения',
+                sell_cond_ts_text: 'Купить по рынку в случае, если цена актива поднимется одномоментно на',
+                points: 'пунктов',
+                sl_order: '(SL ордер)',
+                tp_order: '(TP ордер)',
+                ts_order: '(TS ордер)',
+                use_leverage: 'задействовав плечо в размере',
+                daily_fee: 'Размер ежедневной комиссии составит',
+                expiration_text: 'Срок действия позиции:',
+                days: 'дней',
 				only_one_conditional_orders_trigger: 'Сработает только один из условных ордеров',
 			},
 		},
