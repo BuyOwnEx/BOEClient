@@ -149,7 +149,7 @@
           <v-card flat>
             <v-card-actions class="common-dialog__actions">
               <v-spacer />
-              <v-btn color="success" :disabled="!compRequestAvailable" tile block @click="sendCompKYCRequest">
+              <v-btn color="success" :loading="loading" :disabled="!compRequestAvailable || loading" tile block @click="sendCompKYCRequest">
                 {{ $t('common.send') }}
               </v-btn>
               <v-spacer />
@@ -341,6 +341,7 @@ export default {
     return {
       isValidCompRequestForm: false,
       loaded: false,
+      loading: false,
       comp_data: {
         country: this.resident === 'resident' ? this.residentCountry : null,
         reg_number: null,
@@ -668,6 +669,7 @@ export default {
       else if(state === 'new') return this.$t('kyc.manual.state.new')
     },
     sendCompKYCRequest() {
+      this.loading = true;
       let self = this;
       let formData = new FormData();
       let url = '/trader/ext/kyc_local_comp_request';
@@ -698,25 +700,27 @@ export default {
         });
       }
       axios.post(url, formData)
-          .then(response => {
-            if (response.data.success === true) {
-              this.$store.dispatch('user/getKYCLocalCompData');
-            }
-          })
-          .catch((error) => {
-            if (error.response.status === 422) {
-              let errors = error.response.data.errors;
-              if (errors) {
-                for (let field in errors) {
-                  if (errors.hasOwnProperty(field)) {
-                    self.errors[field] = errors[field];
-                  }
-                }
+      .then(response => {
+        if (response.data.success === true) {
+          this.$store.dispatch('user/getKYCLocalCompData');
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 422) {
+          let errors = error.response.data.errors;
+          if (errors) {
+            for (let field in errors) {
+              if (errors.hasOwnProperty(field)) {
+                self.errors[field] = errors[field];
               }
-            } else {
-              console.log(error);
             }
-          });
+          }
+        } else {
+          console.log(error);
+        }
+      }).finally(() => {
+        self.loading = false;
+      });
     },
 
   },

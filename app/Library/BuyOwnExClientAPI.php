@@ -417,7 +417,7 @@ class BuyOwnExClientAPI
             return response()->json(['success' => true],$response->status());
         }
         else {
-            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+            return response()->json(['success' => false, 'message'=> isset($response->json()['message']) ? $response->json()['message'] : 'Unknown error'],500);
         }
     }
     public function emailChangeConfirm(int $user_id, string $code_old_email, string $code_new_email)
