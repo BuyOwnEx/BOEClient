@@ -77,7 +77,7 @@ class TraderController extends Controller
         if ($validator->fails()) {
             return redirect('not-found');
         }
-        $find_pair = Arr::where(app('all-otc-pairs'), function ($value, $key) use ($currency_out, $currency_in){
+        $find_pair = Arr::where(app('all-otc-pairs')['pairs'], function ($value, $key) use ($currency_out, $currency_in) {
             return $value['currency_out'] === mb_strtoupper($currency_out) && $value['currency_in'] === mb_strtoupper($currency_in);
         });
         if(!$find_pair)

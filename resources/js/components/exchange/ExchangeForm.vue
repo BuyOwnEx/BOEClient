@@ -97,14 +97,20 @@
               </v-list-item>
             </template>
             <template v-slot:selection="{item}">
-              <v-img
-                  class="elevation-0 d-inline-flex"
-                  style="vertical-align: middle"
-                  :src="'/'+item.currency_in_logo"
-                  max-height="16"
-                  max-width="16"
-              ></v-img>
-              <span class="ml-1">{{ item.currency_in }}</span>
+              <div class="d-flex justify-space-between" style="width: 100%">
+                <div>
+                  <v-img
+                      class="elevation-0 d-inline-flex vertical-middle"
+                      :src="'/'+item.currency_in_logo"
+                      max-height="16"
+                      max-width="16"
+                  ></v-img>
+                  <span class="ml-1 vertical-middle">{{ item.currency_in }}</span>
+                </div>
+                <div class="align-self-center" v-if="use_limits">
+                  <span class="ml-2 overline"> {{ $t('exchange.reserve') }}: {{ item.reserve_in !== null ? BigNumber(item.reserve_in).toString() : 0 }}</span>
+                </div>
+              </div>
             </template>
           </v-select>
         </v-col>
@@ -113,8 +119,8 @@
               ref="exchange_amount"
               v-model="form.amount"
               :label="$t('exchange.amount')"
-              :rules="[rules.required, rules.positive, localRules.lessAvailable]"
-              :hint="$t('exchange.amount_hint')"
+              :rules="use_limits && min_amount !== null ? [rules.required, rules.positive, localRules.lessAvailable, localRules.minLimit] : [rules.required, rules.positive, localRules.lessAvailable]"
+              :hint="use_limits && min_amount !== null ? $t('exchange.amount_with_limit_hint',[min_amount, selected_exchange_dir.currency_out]) : $t('exchange.amount_hint')"
               :error-messages="errors.amount"
               :suffix="form.currency_out"
               persistent-hint
@@ -183,16 +189,19 @@
         </v-col>
         <v-col cols="12" md="12" class="pt-2 pb-1">
           <div class="d-flex justify-space-between">
-            <span class="overline align-self-center"> {{ $t('exchange.volume') }} </span>
-            <span class="overline green--text text-no-wrap">
-                      <item-with-logo
-                          :cell_text="get_volume_text"
-                          large_text
-                          :logo="selected_exchange_currency_in_logo"
-                          :size="24"
-                          :tile="true"
-                      ></item-with-logo>
-                    </span>
+            <div class="d-flex flex-column">
+              <span class="overline align-self-start"> {{ $t('exchange.volume') }} </span>
+              <span v-if="BigNumber(get_volume).gt(max_reserve) && use_limits" class="overline red--text align-self-start"> {{ $t('exchange.reserve_exceed') }} </span>
+            </div>
+            <span class="overline text-no-wrap" :class="[BigNumber(get_volume).gt(max_reserve) && use_limits ? 'red--text' : 'green--text']">
+              <item-with-logo
+                  :cell_text="get_volume_text"
+                  large_text
+                  :logo="selected_exchange_currency_in_logo"
+                  :size="24"
+                  :tile="true"
+              ></item-with-logo>
+            </span>
           </div>
         </v-col>
         <v-col cols="12" md="12" class="pt-4 pb-1">
@@ -205,7 +214,7 @@
               :rate_per_one_currency="is_reverse_depth ? form.currency_in : form.currency_out"
               :rate_currency="is_reverse_depth ? form.currency_out : form.currency_in"
               :rate_currency_logo="is_reverse_depth ? selected_exchange_currency_out_logo : selected_exchange_currency_in_logo"
-              :is_disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended"
+              :is_disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended || (BigNumber(get_volume).gt(max_reserve) && use_limits)"
               :currency_out_logo="selected_exchange_currency_out_logo"
               :currency_in_logo="selected_exchange_currency_in_logo"
               :volume="get_volume_text"
@@ -215,7 +224,7 @@
                 block
                 class="exchange_button"
                 color="primary"
-                :disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended"
+                :disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended || (BigNumber(get_volume).gt(max_reserve) && use_limits)"
             >
               {{ $t('exchange.exchange_action') }}
             </v-btn>
@@ -252,6 +261,11 @@ export default {
       type: String,
       required: true
     },
+    use_limits: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
   },
   mixins: [formValidationRules, showNotificationMixin, bignumber],
   components: {
@@ -274,6 +288,7 @@ export default {
       },
       localRules: {
         lessAvailable: v => !v || this.BigNumber(v).lte(this.available_balance) || this.$t('balance.more_available'),
+        minLimit: v => !v || this.BigNumber(v).gte(this.min_amount) || this.$t('exchange.more_than_min_limit'),
       },
       is_manual_rate: false,
       valid: false,
@@ -324,6 +339,12 @@ export default {
     },
     is_calc_rate_available() {
       return this.selected_exchange_dir ? this.selected_exchange_dir.calc_rate : false;
+    },
+    min_amount() {
+      return this.selected_exchange_dir ? this.selected_exchange_dir.min_out : null;
+    },
+    max_reserve() {
+      return this.selected_exchange_dir ? this.selected_exchange_dir.reserve_in : 0;
     },
     auto_rate() {
       if(this.is_calc_rate_available && !this.is_manual_rate)
@@ -444,7 +465,7 @@ export default {
     },
     currency_in_list() {
       return _.filter(this.exchange_dirs, item => item.currency_out === this.form.currency_out).map(obj => {
-        return _.pick(obj, ['currency_in','currency_in_logo','state']);
+        return _.pick(obj, ['currency_in','currency_in_logo','state','reserve_in']);
       });
     },
   },

@@ -59,11 +59,8 @@ class AppServiceProvider extends ServiceProvider
         if(config('app.otc_enabled'))
         {
             $this->app->singleton('all-otc-pairs', function () {
-                return Cache::remember('all_otc_pairs', 60, function () {
-                    $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                    $data = $api->exchange_dirs()->getOriginalContent();
-                    return data_get($data, 'data.*');
-                });
+                $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                return $api->exchange_dirs()->getData(true);
             });
         }
 

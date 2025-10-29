@@ -65,7 +65,7 @@
 							</thead>
 
 							<tbody>
-								<template v-for="curr in currencies">
+								<template v-for="curr in available_currencies">
 									<template v-for="platform in curr.platforms">
 										<tr>
 											<td nowrap="">
@@ -78,7 +78,7 @@
                         <span v-if="advanced_limit_info"> - </span>
                         <span v-else>{{ curr.maxWithdraw }} {{ curr.currency }}</span>
                       </td>
-											<td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
+											<td nowrap="">{{ platform.platform || platform.base_currency || $t('fiat.gateways.'+platform.gateway_code.toLowerCase()) || '-' }}</td>
 											<td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>
 											<td>{{ platform.minReplenish }} {{ curr.currency }}</td>
 											<td>{{ platform.minWithdraw }} {{ curr.currency }}</td>
@@ -129,6 +129,9 @@ export default {
     },
     currencies() {
       return this.allCurrencyListInit ? this.all_currencies : []
+    },
+    available_currencies() {
+      return _.filter(this.currencies, item => { return item.status === 'active' });
     },
   },
 };

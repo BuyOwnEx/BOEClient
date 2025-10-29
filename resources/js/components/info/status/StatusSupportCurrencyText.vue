@@ -3,14 +3,14 @@
     <div v-if="fiatCount > 0">
       {{ $t('status.supported_currencies_all_prepend') }}
       <b>{{ allCount }}</b>
-      {{ $t('status.supported_currencies_all_append') }}:
-      <b>{{ cryptoCount }}</b> {{ $t('status.supported_crypto') }} {{ $t('status.supported_and') }}
-      <b>{{ fiatCount }}</b> {{ $t('status.supported_fiat') }}
+      {{ $tc('status.supported_currencies_all_append', allCount) }}:
+      <b>{{ cryptoCount }}</b> {{ $tc('status.supported_crypto', cryptoCount) }} {{ $t('status.supported_and') }}
+      <b>{{ fiatCount }}</b> {{ $tc('status.supported_fiat', fiatCount) }}
     </div>
     <div v-else>
       {{ $t('status.supported_currencies_all_prepend') }}
       <b>{{ cryptoCount }}</b>
-      {{ $t('status.supported_crypto_only') }}
+      {{ $tc('status.supported_crypto_only', cryptoCount) }}
     </div>
 	</v-card-text>
 </template>

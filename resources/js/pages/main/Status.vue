@@ -50,10 +50,10 @@ export default {
 			return Boolean(this.currencies && this.pairsData);
 		},
 		cryptoCount() {
-			return this.currencies?.filter(c => c.type === 'crypto')?.length || 0;
+			return this.currencies?.filter(c => c.type === 'crypto' && c.status === 'active')?.length || 0;
 		},
 		fiatCount() {
-			return this.currencies?.filter(c => c.type === 'fiat')?.length || 0;
+			return this.currencies?.filter(c => c.type === 'fiat' && c.status === 'active')?.length || 0;
 		},
 	},
 

@@ -43,7 +43,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<template v-for="curr in currencies">
+							<template v-for="curr in available_currencies">
 								<template v-for="platform in curr.platforms">
 									<tr>
 										<td nowrap="">
@@ -51,7 +51,7 @@
 										</td>
 										<td nowrap="">{{ curr.name }}</td>
 										<td class="overline" nowrap="">{{ curr.type }}</td>
-										<td nowrap="">{{ platform.platform || platform.base_currency || '-' }}</td>
+										<td nowrap="">{{ platform.platform || platform.base_currency || $t('fiat.gateways.'+platform.gateway_code.toLowerCase()) || '-' }}</td>
 										<td class="overline" nowrap="">{{ platform.type || 'Fiat' }}</td>
 										<td>
 											<CommonTooltip>
@@ -104,7 +104,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="item in pairsData" :key="item.id">
+								<tr v-for="item in available_pairs" :key="item.id">
 									<td>{{ item.currency }}/{{ item.market }}</td>
 									<td>
 										<v-icon :color="getStatusIcon(item.trade).color">
@@ -160,6 +160,12 @@ export default {
     ...mapState('user', ['blockStatus']),
     isHideTrading() {
       return (this.blockStatus & 8) > 0
+    },
+    available_currencies() {
+      return _.filter(this.currencies, item => { return item.status === 'active' });
+    },
+    available_pairs() {
+      return _.filter(this.pairsData, item => { return item.interface === true });
     },
 	},
 

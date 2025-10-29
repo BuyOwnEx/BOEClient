@@ -1,6 +1,6 @@
 <template>
 	<div class="fees-trading-tab">
-		<v-data-table :headers="headers" :items="pairs" :search="search" :items-per-page="itemsPerPage" :footer-props="footer_props" dense>
+		<v-data-table :headers="headers" :items="available_pairs" :search="search" :items-per-page="itemsPerPage" :footer-props="footer_props" dense>
 			<template #top>
 				<v-toolbar flat dense>
 					<div class="component-title grey--text text--darken-2">{{ $t('fees.trading_fee') }}</div>
@@ -91,11 +91,15 @@ export default {
 						takerFee: item.takerFee,
 						minAmount: item.minAmount,
 						minReverseAmount: item.minReverseAmount,
+            interface: item.interface
 					});
 				});
 			});
 			return result;
 		},
+    available_pairs() {
+      return _.filter(this.pairs, item => { return item.interface === true });
+    },
 	},
 	created() {
 		this.$store.dispatch('tickers/getMarketDataFromServer');
