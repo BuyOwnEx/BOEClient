@@ -18,6 +18,8 @@ export default {
 		startAuthedPage: import.meta.env.VITE_CONFIG_START_AUTHED_PAGE, // possible values: "trading", "profile"
 		showCurrencies: import.meta.env.VITE_CONFIG_SHOW_CURRENCIES === "true",
 		enabledSupport: import.meta.env.VITE_CONFIG_ENABLED_SUPPORT === "true",
+        showTelegramSupport: import.meta.env.VITE_CONFIG_SHOW_TELEGRAM_SUPPORT === "true",
+        telegramSupportLink: import.meta.env.VITE_CONFIG_TELEGRAM_SUPPORT_LINK,
 		enabledOTC: import.meta.env.VITE_CONFIG_ENABLED_OTC === "true",
 		enabledReferral: import.meta.env.VITE_CONFIG_ENABLED_REF === "true",
 

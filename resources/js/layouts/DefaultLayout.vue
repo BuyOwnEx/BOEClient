@@ -70,6 +70,9 @@
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged">
 							<ToolbarNotifications />
 						</div>
+            <div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="isLogged && is_show_telegram_support">
+              <v-btn icon :href="support_telegram_link"><v-icon>mdi-headset</v-icon></v-btn>
+            </div>
 						<div :class="[$vuetify.rtl ? 'ml-1' : 'mr-1']" v-if="!isLogged && isWidthMore450px">
 							<v-btn href="/login" :to="'/login'" tile>{{ $t('menu.login') }}</v-btn>
 						</div>
@@ -155,6 +158,12 @@ export default {
 			isLogged: 'app/isLogged',
 		}),
 
+    is_show_telegram_support() {
+      return this.product.showTelegramSupport
+    },
+    support_telegram_link() {
+      return this.product.telegramSupportLink
+    },
     is_show_trading() {
       return (this.isLogged && !this.isHideTrading) || (!this.isLogged && this.product.guestShowTrading)
     },
