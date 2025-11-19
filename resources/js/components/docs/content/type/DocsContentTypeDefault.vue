@@ -17,16 +17,17 @@
 </template>
 
 <script>
+
+import Vue from "vue";
+
 export default {
 	name: 'DocsContentTypeDefault',
-
 	data() {
 		return {
 			openedPanels: this.expArray,
 		};
 	},
-
-	props: {
+  props: {
 		dataArray: {
 			type: Array,
 			required: true,
@@ -39,5 +40,13 @@ export default {
       },
     }
 	},
+  mounted() {
+    if (this.$route.hash) {
+      this.$nextTick(() => {
+        const element = document.getElementById(this.$route.hash.replace('#', ''));
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  },
 };
 </script>

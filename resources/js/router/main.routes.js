@@ -188,6 +188,15 @@ export default [{
         requiresAuth: false
     }
 }, {
+    path: '/knowledge',
+    name: 'knowledge',
+    component: () => import(/* webpackChunkName: "terms" */ '@/pages/main/Knowledge.vue'),
+    meta: {
+        layout: Layout,
+        title: i18n.t('titles.knowledge'),
+        requiresAuth: false
+    }
+}, {
     path: '/transactions',
     name: 'transactions',
     component: () => import(/* webpackChunkName: "transactions" */ '@/pages/main/Transactions.vue'),

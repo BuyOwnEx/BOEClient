@@ -5,7 +5,7 @@
         {{ $t('user.props.rub_props_title') }}
       </div>
       <div class="user-props-tab__actions">
-        <add :two-fa="user.g2fa" :trader_status="trader_status" />
+        <add :two-fa="user.g2fa" :trader_status="trader_status" :check_tax_id="check_tax_id" />
       </div>
     </v-card-title>
 
@@ -42,6 +42,11 @@ export default {
     trader_status: {
       type: Number,
       required: true,
+    },
+    check_tax_id: {
+      type: Boolean,
+      required: false,
+      default: false
     },
   },
   components: {

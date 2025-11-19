@@ -1,6 +1,11 @@
 <template>
   <v-form v-model="valid" class="bordered" ref="exchange_form">
     <v-container>
+      <v-row v-if="show_verify_notice && is_verify_status_loaded && !is_verified">
+        <v-col cols="12" md="12" class="pt-1 pb-1">
+          <verify-alert></verify-alert>
+        </v-col>
+      </v-row>
       <v-row v-if="selected_is_suspended">
         <v-col cols="12" md="12" class="pt-1 pb-1">
           <suspended-alert></suspended-alert>
@@ -243,7 +248,9 @@ import bignumber from '@/mixins/format/bignumber.js';
 import ItemWithLogo from '@/components/common/ItemWithLogo.vue';
 import ConfirmDialog from '@/components/exchange/ConfirmDialog.vue';
 import SuspendedAlert from '@/components/exchange/SuspendedAlert.vue';
+import VerifyAlert from '@/components/exchange/VerifyAlert.vue';
 import thousands from '@/plugins/thousands.js';
+import {mapState} from "vuex";
 
 export default {
   name: 'ExchangeForm',
@@ -271,7 +278,8 @@ export default {
   components: {
     ItemWithLogo,
     ConfirmDialog,
-    SuspendedAlert
+    SuspendedAlert,
+    VerifyAlert
   },
   data() {
     return {
@@ -295,8 +303,18 @@ export default {
     };
   },
   computed: {
+    ...mapState('app', ['product']),
+    show_verify_notice() {
+      return this.product.otcShowVerifyNotice;
+    },
     balances() {
       return this.$store.state.user.balances;
+    },
+    is_verify_status_loaded() {
+      return this.$store.state.user.verifyStatus !== null;
+    },
+    is_verified() {
+      return this.$store.state.user.verifyStatus;
     },
     ask_list() {
       return this.$store.state.exchange.ask_list;

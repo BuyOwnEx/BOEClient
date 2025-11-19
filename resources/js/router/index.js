@@ -109,8 +109,8 @@ router.beforeEach((to, from, next) => {
  * After each route update
  */
 router.afterEach((to, from) => {
-  if(to.name === 'trading') document.title = config.product.name + ' - ' + to.params.currency + '/' + to.params.market;
-  else document.title = config.product.name + ' - ' + to.meta.title;
+    if(to.name === 'trading') document.title = config.product.name + ' - ' + to.params.currency + '/' + to.params.market;
+    else document.title = config.product.name + ' - ' + to.meta.title;
 })
 
 export default router

@@ -29,6 +29,12 @@ export default {
 		verifyType: null,
 		inn: null,
 		doc_statuses: {
+            statement_req_period_name: null,
+            statement_req_period: null,
+            statement_req_limit: null,
+            info_req_period_name: null,
+            info_req_period: null,
+            info_req_limit: null,
 			has_wallets: null,
 			has_accounts: null,
 			info_req_count: null,
@@ -37,7 +43,12 @@ export default {
 				last_info_date: null,
 				last_statement_date: null,
 				last_contract_date: null
-			}
+			},
+            first_period_dates: {
+                first_info_date: null,
+                first_statement_date: null,
+                first_contract_date: null
+            },
 		},
 		marginCall: {
 			status: false,
@@ -156,6 +167,15 @@ export default {
 			state.doc_statuses.last_dates.last_info_date = data.last_dates.last_info_date;
 			state.doc_statuses.last_dates.last_statement_date = data.last_dates.last_statement_date;
 			state.doc_statuses.last_dates.last_contract_date = data.last_dates.last_contract_date;
+            state.doc_statuses.first_period_dates.first_info_date = data.first_period_dates.first_info_date;
+            state.doc_statuses.first_period_dates.first_statement_date = data.first_period_dates.first_statement_date;
+            state.doc_statuses.first_period_dates.first_contract_date = data.first_period_dates.first_contract_date;
+            state.doc_statuses.statement_req_period_name = data.periods.statement_req_period_name;
+            state.doc_statuses.statement_req_period = data.periods.statement_req_period;
+            state.doc_statuses.statement_req_limit = data.periods.statement_req_limit;
+            state.doc_statuses.info_req_period_name = data.periods.info_req_period_name;
+            state.doc_statuses.info_req_period = data.periods.info_req_period;
+            state.doc_statuses.info_req_limit = data.periods.info_req_limit;
 		},
 		setOrders(state, orders) {
 			state.orders = orders;

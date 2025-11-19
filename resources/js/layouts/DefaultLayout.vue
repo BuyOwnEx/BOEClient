@@ -103,6 +103,7 @@
         <Link v-if="isWidthMore400px && is_show_contacts" class="footer__link" path="/contacts">{{ $t('menu.contacts') }}</Link>
         <Link v-if="is_show_markets" class="footer__link" path="/overview">{{ $t('menu.overview') }}</Link>
         <Link v-if="isWidthMore400px && is_show_api_page" class="footer__link" path="/api">{{ $t('menu.api') }}</Link>
+        <Link v-if="isWidthMore400px && is_show_knowledge_page" class="footer__link" path="/knowledge">{{ $t('docs.knowledge.title') }}</Link>
         <Link v-if="isWidthMore400px" class="footer__link" path="/terms">{{ $t('docs.terms.title') }}</Link>
         <Link v-if="isWidthMore400px" class="footer__link" path="/policy">{{ $t('docs.policy.title') }}</Link>
 			</span>
@@ -181,6 +182,9 @@ export default {
     },
     is_show_api_page() {
       return (this.isLogged && this.product.authedShowAPIPage && !this.isHideTrading) || (!this.isLogged && this.product.guestShowAPIPage)
+    },
+    is_show_knowledge_page() {
+      return (this.isLogged && this.product.authedShowKnowledgePage) || (!this.isLogged && this.product.guestShowKnowledgePage)
     },
     is_show_markets() {
       return (this.isLogged && this.product.authedShowMarkets && !this.isHideTrading) || (!this.isLogged && this.product.guestShowMarkets)

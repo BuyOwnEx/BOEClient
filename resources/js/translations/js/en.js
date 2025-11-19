@@ -61,6 +61,10 @@ export default {
 		no_data: 'No data',
 		see_all: 'See all',
 		from: 'from',
+        times: '{count} time | {count} time | {count} times',
+        day_period: 'per day | per day | per {count} days',
+        month_period: 'per month | per month | per {count} months',
+        year_period: 'per year | per year | per {count} years'
 	},
 	confirmation: {
 		confirm_with_2fa_description:
@@ -95,6 +99,7 @@ export default {
         status: 'Status page',
         support: 'Support page',
         terms: 'Terms of service',
+        knowledge: 'Knowledge base',
         transactions: 'Transactions',
         transfers: 'Transfers',
         verify: 'Verify',
@@ -747,6 +752,9 @@ export default {
 		exchange_form: 'Exchange request',
 		suspended_title: 'The exchange is unavailable',
 		suspended_sub_title: 'The exchange in this direction has been suspended',
+        verify_title: 'Verification is required',
+        verify_sub_title: 'To carry out exchange operations, it is necessary to go through the verification procedure. The verification instructions and the list of necessary documents can be found in this section:',
+        verify_sub_link: 'Verification instructions',
 		request_success: 'The request was sent successfully',
 		req_id: 'Request ID',
 		navigate_exchange_list: 'Go to exchange history',
@@ -1320,6 +1328,113 @@ export default {
 				content: '<p>' + '	If you have any questions about this Privacy Policy, please contact us.' + '</p>',
 			},
 		},
+        knowledge: {
+            title: 'Knowledge base',
+            verification: {
+                title: 'Verification instuction',
+                content: '<p>' +
+                    'To fully use the platform, you need to complete verification (KYC/KYB)' +
+                    '</p>' +
+                    '<p>' +
+                    '<b>List of documents for individual verification:</b>' +
+                    '<ul>' +
+                    '<li>' +
+                    'Passport scan (photo)' +
+                    '</li>' +
+                    '<li>' +
+                    'Passport scan (registration page)' +
+                    '</li>' +
+                    '<li>' +
+                    'Selfie with an identity document held next to a sheet of paper showing the current date' +
+                    '</li>' +
+                    '</ul>' +
+                    '</p>' +
+                    '<p>' +
+                    '<b>List of documents for legal entity verification:</b>' +
+                    '<ul>' +
+                    '<li>' +
+                    'Registration document' +
+                    '</li>' +
+                    '<li>' +
+                    'Proof of current legal address' +
+                    '</li>' +
+                    '<li>' +
+                    'Document confirming the assignment of a unique tax identification number' +
+                    '</li>' +
+                    '</ul>' +
+                    '</p>' +
+                    '<p>' +
+                    '<b>Individual verification procedure:</b>' +
+                    '<ol>' +
+                    '<li>' +
+                    'Go to the «Verification» section' +
+                    '</li>' +
+                    '<li>' +
+                    'Indicate your residency status — whether you are a resident of the specified country' +
+                    '</li>' +
+                    '<li>' +
+                    'Select the legal status as an individual' +
+                    '</li>' +
+                    '<li>' +
+                    'If your residency differs from the platform’s residency, select the country where the entity is registered' +
+                    '</li>' +
+                    '<li>' +
+                    'Enter your full name as it appears in your identity document' +
+                    '</li>' +
+                    '<li>' +
+                    'Enter your date of birth. You must be over 18 years old at the time of verification' +
+                    '</li>' +
+                    '<li>' +
+                    'Enter the number of your identity document' +
+                    '</li>' +
+                    '<li>' +
+                    'Provide your personal tax identification number' +
+                    '</li>' +
+                    '<li>' +
+                    'Attach the required documents in the specified format' +
+                    '</li>' +
+                    '<li>' +
+                    'After submitting the documents for moderation, wait for the verification process to complete — you will receive a notification via email once it is done' +
+                    '</li>' +
+                    '</ol>' +
+                    '</p>' +
+                    '<p>' +
+                    '<b>Legal entity verification procedure:</b>' +
+                    '<ol>' +
+                    '<li>' +
+                    'Go to the «Verification» section' +
+                    '</li>' +
+                    '<li>' +
+                    'Indicate your residency status — whether you are a resident of the specified country' +
+                    '</li>' +
+                    '<li>' +
+                    'Select the legal status as a legal entity' +
+                    '</li>' +
+                    '<li>' +
+                    'If your residency differs from the platform’s residency, select the country where the entity is registered' +
+                    '</li>' +
+                    '<li>' +
+                    'Enter the organization’s name' +
+                    '</li>' +
+                    '<li>' +
+                    'Enter the organization’s registration number' +
+                    '</li>' +
+                    '<li>' +
+                    'Enter the organization’s tax identification number (TIN)' +
+                    '</li>' +
+                    '<li>' +
+                    'Specify the organization’s location' +
+                    '</li>' +
+                    '<li>' +
+                    'Attach the required documents in the specified format' +
+                    '</li>' +
+                    '<li>' +
+                    'After submitting the documents for moderation, wait for the verification process to complete — you will receive a notification via email once it is done' +
+                    '</li>' +
+                    '</ol>' +
+                    '</p>',
+            },
+        },
 		api: {
 			general: {
 				title: 'General information',
@@ -2851,9 +2966,9 @@ make our system processes as transparent as possible.`,
 			protected: '2FA protected',
 			kyc_status: 'KYC Status',
 			last_date_request: 'Last date request',
-			info_limit: 'The number of certificates generated in the last month',
+			info_limit: 'The number of certificates generated in the last period',
 			info_limit_info: 'The next possible date for the certificate formation',
-			statement_limit: 'The number of generated statements for the last month',
+			statement_limit: 'The number of generated statements for the last period',
 			statement_limit_info: 'The next possible date of the statement formation',
 			no_wallets: 'There is no movement to the client addresses to generate certificate',
 			no_accounts: 'There is no operations on positional accounts',
@@ -2869,11 +2984,12 @@ make our system processes as transparent as possible.`,
 			account_info_request: 'Account info request',
 			account_info_request_subtitle: 'Send a request to generate a certificate of account availability',
 			account_info_request_description: 'The certificate will be generated at the place of request and sent to the email address specified during registration',
-			account_info_request_conditions: 'The certificate request is possible no more than once a month',
+            account_info_request_limit_conditions: 'The certificate request is possible no more than {0}',
 			statement_request: 'Statement request',
 			statement_request_subtitle: 'Send a request to generate statement for a certain period',
 			statement_request_description: 'Statement, containing transactions on the main and trading account, will be generated for the period specified by you and sent to the email address specified during registration as soon as your request is processed',
-			statement_request_conditions: 'The maximum statement period is 1 month. The minimum starting date of statement is {0}. Statement request is possible no more than 4 times a month. The statement is generated in the UTC time zone',
+			statement_request_conditions: 'The maximum statement period is 1 month. The minimum starting date of statement is {0}. The statement is generated in the UTC time zone.',
+            statement_request_limit_conditions: 'Statement request is possible no more than {0}',
 			account_delete: 'Delete account',
 			account_delete_subtitle: 'Delete account from system',
 			account_delete_description: 'If you delete your account, you will no longer be able to log in. All funds will be irretrievably lost',

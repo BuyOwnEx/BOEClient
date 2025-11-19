@@ -210,6 +210,11 @@ export default {
       type: Number,
       required: true,
     },
+    check_tax_id: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
   components: { CommonCopyLabel },
   mixins: [formValidationRules, loadingMixin, showNotificationMixin, dialogMethodsMixin, validateInputMixin],
@@ -260,26 +265,38 @@ export default {
       return this.verifyResidentCountry === 'KG';
     },
     taxNoRules() {
-      if(this.isRU)
+      if(this.check_tax_id)
       {
-        if(this.is_legal) return [this.rules.required, this.rules.comp_ip_inn];
-        else return [this.rules.required, this.rules.ind_inn];
+        if(this.isRU)
+        {
+          if(this.is_legal) return [this.rules.required, this.rules.comp_ip_inn];
+          else return [this.rules.required, this.rules.ind_inn];
+        }
+        else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
+        else return [this.rules.required, this.rules.min8char, this.rules.max40char];
       }
-      else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
       else return [this.rules.required, this.rules.min8char, this.rules.max40char];
     },
     tax_id_mask() {
-      if(this.isRU) return '##########??';
-      else if(this.isKG) return '##############';
+      if(this.check_tax_id)
+      {
+        if(this.isRU) return '##########??';
+        else if(this.isKG) return '##############';
+        else return null;
+      }
       else return null;
     },
     getTaxIDHint() {
-      if(this.isRU)
+      if(this.check_tax_id)
       {
-        if(this.is_legal) return this.$t('user.props.dialog.add.comp_inn_hint');
-        else return this.$t('user.props.dialog.add.ind_inn_hint');
+        if(this.isRU)
+        {
+          if(this.is_legal) return this.$t('user.props.dialog.add.comp_inn_hint');
+          else return this.$t('user.props.dialog.add.ind_inn_hint');
+        }
+        else if(this.isKG) return this.$t('user.props.dialog.add.inn_kg_hint');
+        else return this.$t('user.props.dialog.add.inn_hint');
       }
-      else if(this.isKG) return this.$t('user.props.dialog.add.inn_kg_hint');
       else return this.$t('user.props.dialog.add.inn_hint');
     }
   },

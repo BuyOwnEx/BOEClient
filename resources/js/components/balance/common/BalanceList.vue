@@ -39,6 +39,7 @@
               :rub_props="rub_props"
               :kgs_props="kgs_props"
               :swift_props="swift_props"
+              :invoice_use_trader_props="isUseTraderProps"
               @close-menu="closeMenu(item)"
             />
             <BalanceFiatDialogWithdraw
@@ -153,6 +154,9 @@ export default {
     },
     isHideTrading() {
       return (this.blockStatus & 8) > 0
+    },
+    isUseTraderProps() {
+      return this.product.invoiceUseTraderProps;
     },
     balances() {
       return this.$store.state.user.balances;

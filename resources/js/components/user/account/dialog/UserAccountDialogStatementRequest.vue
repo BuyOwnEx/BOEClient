@@ -4,7 +4,7 @@
       :confirm-text="$t('common.send_request')"
       header-color="success"
       @confirm="makeRequest"
-      :disabled="!has_accounts || req_count > 1"
+      :disabled="!has_accounts || req_count >= statement_req_limit"
   >
     <template #default>
       <v-btn class="mb-2">
@@ -19,15 +19,15 @@
 
     <template #content class="pb-1">
       {{ $t('user.info.statement_request_description') }}
-      <div class="mt-2 mb-2" v-if="!has_accounts || req_count > 1">
+      <div class="mt-2 mb-2" v-if="!has_accounts || req_count >= statement_req_limit">
         <small class="text--secondary d-block" v-if="!has_accounts">
           <span class="red--text">{{ $t('user.info.no_accounts') }}</span>
         </small>
-        <small class="text--secondary d-block" v-if="req_count > 1">
+        <small class="text--secondary d-block" v-if="req_count >= statement_req_limit">
           <span class="red--text">{{ $t('user.info.statement_limit') }}: <b>{{ req_count }}</b></span>
         </small>
-        <small class="text--secondary d-block" v-if="req_count > 1">
-          <span class="red--text">{{ $t('user.info.statement_limit_info') }}: <b>{{ get_date_plus_month(last_date) }}</b></span>
+        <small class="text--secondary d-block" v-if="req_count >= statement_req_limit">
+          <span class="red--text">{{ $t('user.info.statement_limit_info') }}: <b>{{ get_next_available_date(first_date) }}</b></span>
         </small>
       </div>
       <v-row no-gutters v-else>
@@ -102,7 +102,10 @@
       </v-row>
       <div class="mt-2">
         <small class="text--secondary">
-          <span class="red--text">*</span> {{ $t('user.info.statement_request_conditions',[minStartDate]) }}
+          <span class="red--text">*</span>
+          {{ $t('user.info.statement_request_conditions',[minStartDate]) }}
+          {{ $t('user.info.statement_request_limit_conditions',[ $tc('common.times', statement_req_limit, { statement_req_limit }) ]) }}
+          {{ period }}
         </small>
       </div>
     </template>
@@ -114,7 +117,24 @@ import CommonDialog from '@/components/common/CommonDialog.vue';
 export default {
   name: 'UserAccountDialogStatementRequest',
   props: {
+    statement_req_period_name: {
+      type: String,
+      required: true,
+    },
+    statement_req_period: {
+      type: Number,
+      required: true,
+    },
+    statement_req_limit: {
+      type: Number,
+      required: true,
+    },
     last_date: {
+      type: String,
+      required: false,
+      default: null
+    },
+    first_date: {
       type: String,
       required: false,
       default: null
@@ -157,6 +177,11 @@ export default {
         return this.$moment(this.minEndDate).add(1, 'month').utc().format('YYYY-MM-DD')
       else return this.$moment().utc().format('YYYY-MM-DD')
     },
+    period() {
+      if(this.statement_req_period_name === 'year') return this.$tc('common.year_period', this.statement_req_period, [this.statement_req_period]);
+      else if(this.statement_req_period_name === 'month') return this.$tc('common.month_period', this.statement_req_period, [this.statement_req_period])
+      else return this.$tc('common.day_period', this.statement_req_period, [this.statement_req_period])
+    },
   },
   methods: {
     startDateWasChanged() {
@@ -177,8 +202,8 @@ export default {
         lang: this.$vuetify.lang.current
       });
     },
-    get_date_plus_month(date) {
-      return this.$moment(date).add(1, 'month').utc().format('YYYY-MM-DD HH:mm:ss')
+    get_next_available_date(date) {
+      return this.$moment(date).add(this.statement_req_period, this.statement_req_period_name).utc().format('YYYY-MM-DD HH:mm:ss')
     },
   },
 };

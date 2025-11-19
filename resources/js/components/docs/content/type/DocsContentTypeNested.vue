@@ -27,15 +27,12 @@ import DocsContentNestedWithoutItems from '@/components/docs/content/nested/Docs
 
 export default {
 	name: 'DocsContentTypeNested',
-
 	components: { DocsContentNestedWithItems, DocsContentNestedWithoutItems },
-
 	data() {
 		return {
 			nestedOpenedPanels: this.expArray,
 		};
 	},
-
 	props: {
 		dataArray: {
 			type: Array,
@@ -49,5 +46,13 @@ export default {
       },
     }
 	},
+  mounted() {
+    if (this.$route.hash) {
+      this.$nextTick(() => {
+        const element = document.getElementById(this.$route.hash.replace('#', ''));
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  },
 };
 </script>

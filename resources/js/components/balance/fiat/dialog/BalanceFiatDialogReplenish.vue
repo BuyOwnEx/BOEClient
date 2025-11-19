@@ -76,6 +76,7 @@
                   :rub_props="rub_props"
                   :kgs_props="kgs_props"
                   :swift_props="swift_props"
+                  :invoice_use_trader_props="invoice_use_trader_props"
                   @filled="fields_filled"
                   @back_pressed="back"
               />
@@ -102,7 +103,7 @@
                   @success_response="close"
               />
               <ConfirmationStep
-                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE' && amount !== null && prop_id !== null && pay_template_id !== null && prop_type !== null"
+                  v-if="selected_platform && selected_platform.gateway_code === 'INVOICE' && amount !== null && pay_template_id !== null && ((invoice_use_trader_props && prop_id !== null && prop_type !== null) || !invoice_use_trader_props)"
                   :amount="amount"
                   :pay_templates="pay_templates"
                   :pay_template_id="pay_template_id"
@@ -112,6 +113,7 @@
                   :kgs_props="kgs_props"
                   :swift_props="swift_props"
                   :selected-platform="selectedPlatfrom"
+                  :invoice_use_trader_props="invoice_use_trader_props"
                   @back_pressed="back"
                   @success_response="close"
               ></ConfirmationStep>
@@ -166,7 +168,12 @@ export default {
       type: Array,
       required: true,
       default: () => []
-    }
+    },
+    invoice_use_trader_props: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
   },
 	components: {
     SelectReplenishMethod,

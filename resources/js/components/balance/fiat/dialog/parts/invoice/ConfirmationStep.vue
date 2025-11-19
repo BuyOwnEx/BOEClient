@@ -27,7 +27,7 @@
           </div>
           <div class="confirmation-item__secret-key">{{ amount }} {{ selectedPlatform.currency }}</div>
         </div>
-        <div class="confirmation-item__info-key-wrapper">
+        <div class="confirmation-item__info-key-wrapper" v-if="invoice_use_trader_props">
           <div class="confirmation-item__header mr-auto">
             {{ $t('balance.select_prop') }}
           </div>
@@ -89,11 +89,11 @@ export default {
     },
     prop_id: {
       type: Number,
-      required: true,
+      required: false,
     },
     prop_type: {
       type: String,
-      required: true,
+      required: false,
     },
     pay_templates: {
       type: Array,
@@ -117,7 +117,12 @@ export default {
       type: Array,
       required: true,
       default: () => []
-    }
+    },
+    invoice_use_trader_props: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
   },
   computed: {
     ...mapState('app', ['product']),
@@ -136,12 +141,16 @@ export default {
         return _.find(this.pay_templates, item => ( item.id === pay_template_id))?.bank_name;
     },
     getChosenPropName(prop_type, prop_id) {
-      if(prop_type === 'ufebs')
-        return _.find(this.rub_props, item => ( item.id === prop_id))?.name;
-      else if(prop_type === 'kg_props')
-        return _.find(this.kgs_props, item => ( item.id === prop_id))?.name;
-      else if(prop_type === 'swift')
-        return _.find(this.swift_props, item => ( item.id === prop_id))?.name;
+      if(this.invoice_use_trader_props)
+      {
+        if(prop_type === 'ufebs')
+          return _.find(this.rub_props, item => ( item.id === prop_id))?.name;
+        else if(prop_type === 'kg_props')
+          return _.find(this.kgs_props, item => ( item.id === prop_id))?.name;
+        else if(prop_type === 'swift')
+          return _.find(this.swift_props, item => ( item.id === prop_id))?.name;
+        else return '-';
+      }
       else return '-';
     },
     getFee(pay_template_id) {

@@ -50,6 +50,7 @@ Route::get('exchange/{currency_out}/{currency_in}', 'TraderController@getExchang
 Route::get('overview', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('overview_view');
 Route::get('policy', 'TraderController@getSpaView')->name('policy_view');
 Route::get('terms', 'TraderController@getSpaView')->name('terms_view');
+Route::get('knowledge', 'TraderController@getSpaView')->name('knowledge_view');
 Route::get('api', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('api_view');
 Route::get('fees', 'TraderController@getSpaView')->name('fees_view');
 Route::get('status', 'TraderController@getSpaView')->name('status_view');

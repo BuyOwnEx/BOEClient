@@ -34,9 +34,13 @@
               {{ $t('user.info.account_info_request_subtitle') }}
             </div>
             <UserAccountDialogAccountInfoRequest
+                :info_req_period_name="doc_statuses.info_req_period_name"
+                :info_req_period="doc_statuses.info_req_period"
+                :info_req_limit="doc_statuses.info_req_limit"
                 :req_count="doc_statuses.info_req_count"
                 :has_wallets="doc_statuses.has_wallets"
                 :last_date="doc_statuses.last_dates.last_info_date"
+                :first_date="doc_statuses.first_period_dates.first_info_date"
             />
           </div>
           <div :class="{ 'ml-2': !isMobile, 'mt-2 d-flex flex-column justify-space-between': true }">
@@ -46,12 +50,16 @@
               {{ $t('user.info.statement_request_subtitle') }}
             </div>
             <UserAccountDialogStatementRequest
+                :statement_req_period_name="doc_statuses.statement_req_period_name"
+                :statement_req_period="doc_statuses.statement_req_period"
+                :statement_req_limit="doc_statuses.statement_req_limit"
                 :req_count="doc_statuses.statement_req_count"
                 :has_accounts="doc_statuses.has_accounts"
                 :last_date="doc_statuses.last_dates.last_statement_date"
+                :first_date="doc_statuses.first_period_dates.first_statement_date"
             />
           </div>
-          <div :class="{ 'ml-2': !isMobile, 'mt-2 d-flex flex-column justify-space-between': true }">
+          <div :class="{ 'ml-2': !isMobile, 'mt-2 d-flex flex-column justify-space-between': true }" v-if="is_show_account_delete">
             <div class="title">{{ $t('user.info.account_delete') }}</div>
             <div class="subtitle mb-2">
               {{ $t('user.info.account_delete_subtitle') }}
@@ -133,6 +141,9 @@ export default {
     ...mapState('app', ['product']),
     is_legal() {
       return (this.status & 4) === 4;
+    },
+    is_show_account_delete() {
+      return this.product.showAccountDelete;
     },
     is_contract_request_enabled() {
       return this.product.enabledContactRequest

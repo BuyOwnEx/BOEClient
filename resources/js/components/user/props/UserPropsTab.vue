@@ -19,7 +19,7 @@
     </v-tabs>
     <v-tabs-items v-model="selectedTab">
       <v-tab-item v-if="use_ru_props" :key="1">
-        <UserRubPropsTab :user="user" :trader_status="trader_status"></UserRubPropsTab>
+        <UserRubPropsTab :user="user" :trader_status="trader_status" :check_tax_id="check_tax_id_ru_props"></UserRubPropsTab>
       </v-tab-item>
       <v-tab-item v-if="use_kg_props" :key="2">
         <UserKgsPropsTab :user="user" :trader_status="trader_status"></UserKgsPropsTab>
@@ -63,6 +63,9 @@ export default {
     ...mapState('app', ['product']),
     use_ru_props() {
       return this.product.fiatUseRUProps
+    },
+    check_tax_id_ru_props() {
+      return this.product.checkTaxIDRUProps
     },
     use_kg_props() {
       return this.product.fiatUseKGProps

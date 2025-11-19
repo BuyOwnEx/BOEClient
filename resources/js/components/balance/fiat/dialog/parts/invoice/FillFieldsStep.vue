@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6">
+    <div class="mb-2">
       <BalanceFiatDialogAlert>
         {{ $t('balance.dialog.fiat_replenishment_alert') }}
       </BalanceFiatDialogAlert>
@@ -65,7 +65,7 @@
                 @paste.prevent
             />
           </v-col>
-          <v-col cols="12" md="12" class="pt-0 pb-0">
+          <v-col cols="12" md="12" class="pt-0 pb-0" v-if="invoice_use_trader_props">
             <v-select
                 v-model="prop_id"
                 :items="available_props"
@@ -73,7 +73,7 @@
                 item-value="id"
                 :label="$t('balance.select_prop')"
                 :hint="$t('balance.select_prop_hint')"
-                :rules="[rules.required]"
+                :rules="invoice_use_trader_props ? [rules.required] : []"
                 persistent-hint
                 hide-details="auto"
                 required
@@ -93,7 +93,7 @@
       <v-spacer />
       <v-btn
           :loading="loading"
-          :disabled="!pay_template_id ||!amount || !prop_id || !formValid"
+          :disabled="!pay_template_id ||!amount || (invoice_use_trader_props && !prop_id) || !formValid"
           color="primary"
           tile
           text
@@ -158,7 +158,12 @@ export default {
       type: Array,
       required: true,
       default: () => []
-    }
+    },
+    invoice_use_trader_props: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
   },
   data() {
     return {
@@ -194,42 +199,49 @@ export default {
     },
     selected_prop_type() {
       let ind = _.findIndex(this.pay_templates, item => item.id === this.pay_template_id);
-      return ind > -1 ? this.pay_templates[ind].prop_type : null;
+      return this.invoice_use_trader_props ? (ind > -1 ? this.pay_templates[ind].prop_type : null) : null;
     },
     available_props() {
-      if(this.selected_prop_type === 'ufebs')
+      if(this.invoice_use_trader_props)
       {
-        let props = _.filter(this.rub_props, item => {
-          return (
-              item.state === 'RP_CONFIRMED'
-          );
-        });
-        if(props.length > 0) this.prop_id = props[0].id
-        else this.prop_id = null
-        return props;
-      }
-      else if(this.selected_prop_type === 'kg_props')
-      {
-        let props = _.filter(this.kgs_props, item => {
-          return (
-              item.state === 'KP_CONFIRMED'
-          );
-        });
-        if(props.length > 0) this.prop_id = props[0].id
-        else this.prop_id = null
-        return props;
-      }
-      else if(this.selected_prop_type === 'swift')
-      {
-        let props = _.filter(this.swift_props, item => {
-          return (
-              item.currency === this.selectedPlatform.currency &&
-              item.state === 'SP_CONFIRMED'
-          );
-        });
-        if(props.length > 0) this.prop_id = props[0].id
-        else this.prop_id = null
-        return props;
+        if(this.selected_prop_type === 'ufebs')
+        {
+          let props = _.filter(this.rub_props, item => {
+            return (
+                item.state === 'RP_CONFIRMED'
+            );
+          });
+          if(props.length > 0) this.prop_id = props[0].id
+          else this.prop_id = null
+          return props;
+        }
+        else if(this.selected_prop_type === 'kg_props')
+        {
+          let props = _.filter(this.kgs_props, item => {
+            return (
+                item.state === 'KP_CONFIRMED'
+            );
+          });
+          if(props.length > 0) this.prop_id = props[0].id
+          else this.prop_id = null
+          return props;
+        }
+        else if(this.selected_prop_type === 'swift')
+        {
+          let props = _.filter(this.swift_props, item => {
+            return (
+                item.currency === this.selectedPlatform.currency &&
+                item.state === 'SP_CONFIRMED'
+            );
+          });
+          if(props.length > 0) this.prop_id = props[0].id
+          else this.prop_id = null
+          return props;
+        }
+        else {
+          this.prop_id = null;
+          return [];
+        }
       }
       else {
         this.prop_id = null;

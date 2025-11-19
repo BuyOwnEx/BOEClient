@@ -234,7 +234,7 @@ export default {
       }
       else
       {
-        return this.pay_templates[0];
+        return this.available_pay_templates[0];
       }
     },
     pay_template_id() {
