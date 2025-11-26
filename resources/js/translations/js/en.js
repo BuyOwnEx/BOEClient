@@ -3609,9 +3609,11 @@ make our system processes as transparent as possible.`,
 					replenish: 'Replenish'
 			},
 			statuses: {
-					executed: 'Executed',
-					pending: 'Pending',
-					accepted: 'Accepted'
+                executed: 'Executed',
+                pending: 'Pending',
+                accepted: 'Accepted',
+                blocked: 'Blocked',
+                aml_refunded: 'Refunded by AML'
 			}
 	},
 	deals: {

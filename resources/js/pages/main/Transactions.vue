@@ -99,6 +99,8 @@ export default {
 				{ value: 'done', name: this.$t('transactions.statuses.executed') },
 				{ value: 'wait', name: this.$t('transactions.statuses.pending') },
 				{ value: 'accepted', name: this.$t('transactions.statuses.accepted') },
+        { value: 'blocked', name: this.$t('transactions.statuses.blocked') },
+        { value: 'aml_refunded', name: this.$t('transactions.statuses.aml_refunded') },
 			],
 			types: [
 				{ value: false, name: this.$t('transactions.types.withdrawal') },
@@ -234,7 +236,8 @@ export default {
 		},
 		getStatusColorClass(status) {
 			if (status === 'done') return 'success--text';
-			else if (status === 'wait') return 'warning--text';
+			else if (status === 'wait' || status === 'aml_refunded') return 'warning--text';
+      else if (status === 'blocked') return 'error--text';
 			else return '';
 		},
 	},

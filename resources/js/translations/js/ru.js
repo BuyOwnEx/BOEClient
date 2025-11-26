@@ -3604,9 +3604,11 @@ export default {
             replenish: 'Пополнение'
         },
         statuses: {
-            executed: 'Исполнен',
+            executed: 'Исполнено',
             pending: 'В обработке',
-            accepted: 'Принят'
+            accepted: 'Принято',
+            blocked: 'Заблокировано',
+            aml_refunded: 'Возврат по AML'
         }
     },
 	deals: {
