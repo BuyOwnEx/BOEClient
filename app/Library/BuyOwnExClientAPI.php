@@ -170,6 +170,7 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
+
     public function own_fees(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/own_fees',[
@@ -515,6 +516,23 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
+    public function set_locale(int $user_id, string $locale)
+    {
+        $params = [
+            'trader' => $user_id,
+            'locale' => $locale
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/set_locale',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
 
     public function getBlockStatus(int $user_id)
     {
@@ -825,12 +843,58 @@ class BuyOwnExClientAPI
             $prefix . 'timestamp' => time(),
         ];
         ksort($params);
+        if (isset($params['files'])) {
+            foreach ($params['files'] as $key => $file) {
+                ksort($file);
+                $params['files'][$key] = $file;
+            }
+        }
         $postFields = http_build_query($params, '', '&');
+        Log::info($postFields);
         $signature = strtoupper(hash_hmac('sha256', $postFields, $this->api_secret));
         $auth[$prefix . 'signature'] = $signature;
         return $auth;
     }
 
+    public function all_tickets(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_tickets',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function all_ticket_info(int $user_id, int $ticket_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_ticket_info',[
+            'trader' => $user_id,
+            'ticket_id' => $ticket_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function all_ticket_attachments(int $user_id, int $ticket_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_ticket_attachments',[
+            'trader' => $user_id,
+            'ticket_id' => $ticket_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function ticket_attachment(int $user_id, int $attachment_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/ticket_attachment',[
+            'trader' => $user_id,
+            'attachment_id' => $attachment_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+    public function all_ticket_comments(int $user_id, int $ticket_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_ticket_comments',[
+            'trader' => $user_id,
+            'ticket_id' => $ticket_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
     public function all_orders(int $user_id, $page, $itemsPerPage, $sortBy, $sortDesc, $mustSort, $multiSort, $filters)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/all_orders',[
@@ -992,6 +1056,45 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/check_trader_name',$params);
+        return response()->json($response->json(),$response->status());
+    }
+
+    public function ticket_create($trader_id, $title, $msg, $priority, $files)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'title' => $title,
+            'message' => $msg,
+            'priority' => $priority,
+            'files' => $files
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/ticket_create',$params);
+        return response()->json($response->json(),$response->status());
+    }
+    public function ticket_add_comment($trader_id, $ticket_id, $msg, $files)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'ticket_id' => $ticket_id,
+            'message' => $msg,
+            'files' => $files
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/ticket_add_comment',$params);
+        return response()->json($response->json(),$response->status());
+    }
+    public function ticket_close($trader_id, $ticket_id)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'ticket_id' => $ticket_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/ticket_close',$params);
         return response()->json($response->json(),$response->status());
     }
 

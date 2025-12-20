@@ -68,6 +68,7 @@ td {
 .fiat-transactions,
 .ref-payments,
 .orders,
+.tickets,
 .exchange-history,
 .deals {
 	display: flex;
@@ -77,23 +78,54 @@ td {
 		flex-flow: column;
 	}
 	.v-data-table__wrapper {
-		padding: 0 8px !important;
+		padding: 0 !important;
 		flex-grow: 1 !important;
+        overflow-y: auto;
+        .v-data-table-header-mobile__wrapper {
+            .theme--dark.sortable.v-chip {
+              background: none;
+            }
+            .theme--light.sortable.v-chip:not(.v-chip--active) {
+                background: none;
+            }
+        }
 	}
 	table {
 		padding: 0 !important;
+        caption {
+            padding-right: 8px !important;
+            padding-left: 8px !important;
+            padding-bottom: 8px !important;
+        }
 	}
 	th {
 		padding: 0 !important;
 	}
+    th:first-child {
+        padding-left: 8px !important;
+    }
+    th:last-child {
+        padding-right: 8px !important;
+    }
 	td {
 		padding: 0 !important;
 		padding-right: 8px !important;
 		word-break: break-word !important;
 	}
+    td:first-child {
+        padding-left: 8px !important;
+    }
+    td:last-child {
+        padding-right: 8px !important;
+    }
 	caption {
 		text-align: start;
 	}
+    @media screen and (max-width: 600px) {
+      td {
+        padding-left: 8px !important;
+      }
+    }
 }
 
 .v-data-table__wrapper {

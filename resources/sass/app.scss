@@ -77,3 +77,20 @@
 	text-transform: uppercase !important;
 	letter-spacing: 1px !important;
 }
+
+/* Отключаем эффекты наведения для всех v-slider */
+.v-slider:hover .v-slider__track-background,
+.v-slider:hover .v-slider__track-fill {
+  opacity: 1 !important;
+}
+
+.v-slider:focus-within .v-slider__thumb,
+.v-slider:focus-within .v-slider__track {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.v-slider .v-slider__thumb:hover::before,
+.v-slider .v-slider__thumb:focus::before {
+  display: none !important;
+}

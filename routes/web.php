@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('deals', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('deals_view');
     Route::get('ref_payments', 'TraderController@getSpaView')->middleware('check_trade_ui_block_status')->name('referrals_view');
     Route::get('support', 'TraderController@getSpaView')->name('support_view');
+    Route::get('ticket/{ticket_id}', 'TraderController@getSpaView')->name('ticket_view');
     Route::get('profile', 'TraderController@getSpaView')->name('profile_view');
     Route::get('history', 'TraderController@getSpaView')->name('history_view');
     Route::get('notifications', 'TraderController@getSpaView')->name('notifications_view');
@@ -83,13 +84,15 @@ Route::group(['prefix' => 'trader'], function () {
     Route::get('2fa_generate', 'Google2FAController@generateTwoFactor');
 
     Route::get('tickets', 'TicketController@getAllTickets');
+    Route::get('ticket/info', 'TicketController@getTicketInfo');
+    Route::get('ticket/attachments', 'TicketController@getAllTicketAttachments');
     Route::get('ticket/comments', 'TicketController@getAllTicketComments');
-    Route::get('ticket/priorities', 'TicketController@getPriorities');
-    Route::get('ticket/statuses', 'TicketController@getStatuses');
-    Route::get('ticket/tags', 'TicketController@getTags');
-    Route::post('ticket/create', 'TicketController@createTicket')->middleware('check_block_status');
-    Route::post('ticket/comment/add', 'TicketController@addComment')->middleware('check_block_status');
-    Route::post('ticket/close', 'TicketController@closeTicket')->middleware('check_block_status');
+    Route::get('ticket/file', 'TicketController@getTicketFile');
+
+    Route::post('ticket/create', 'TicketController@createTicket')->middleware('throttle:one-per-five-minutes');
+    Route::post('ticket/close', 'TicketController@closeTicket');
+    Route::post('ticket/add_comment', 'TicketController@addComment')->middleware('throttle:one-per-minute');
+
 
     Route::group(['prefix' => 'ext'], function () {
         Route::get('tickers', 'TraderController@getTickers')->name('tickers');

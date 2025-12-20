@@ -1,12 +1,12 @@
 <template>
 	<div class="profile-page flex-grow-1" v-if="blockStatus !== null">
 		<v-tabs v-model="selectedTab" :key="$i18n.locale" show-arrows>
-      <v-tab v-for="item in available_items" :key="item.text" @click="setHash(item.hash)">
+      <v-tab v-for="(item, index) in available_items" :key="item.hash" @click="navigatePage(item, index)">
         {{ item.text }}
       </v-tab>
 		</v-tabs>
       <v-tabs-items v-model="selectedTab" class="profile-page__tabs-items">
-        <v-tab-item v-for="item in available_items" :key="item.text" v-if="trader">
+        <v-tab-item v-for="item in available_items" :key="item.hash" v-if="trader">
           <UserAccountTab v-if="!isLoading && item.hash === '#account'" :user="trader" />
           <VerificationSteps v-if="!isLoading && item.hash === '#verification'"></VerificationSteps>
           <UserPropsTab v-if="!isLoading && item.hash === '#props'" :user="trader" :trader_status="status"></UserPropsTab>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import {mapActions, mapMutations, mapState} from 'vuex';
 import UserAccountTab from '@/components/user/account/UserAccountTab.vue';
 import VerificationSteps from '@/components/user/verification/VerificationSteps.vue';
 import UserPropsTab from '@/components/user/props/UserPropsTab.vue';
@@ -112,9 +112,9 @@ export default {
     available_items() {
       let available = this.items;
       if(!this.use_ru_props && !this.use_kg_props && !this.use_swift_props)
-        available = _.filter(this.items, function(item) { return item.link !== '/profile#props'; });
+        available = _.filter(this.items, item => { return item.link !== '/profile#props'; });
       if(this.isHideTrading)
-        available = _.filter(this.items, function(item) { return item.link !== '/profile#api'; });
+        available = _.filter(this.items, item => { return item.link !== '/profile#api'; });
       return available;
     },
   },
@@ -133,22 +133,20 @@ export default {
 		selectedTabStore(value) {
 			this.selectedTab = value;
 		},
-    selectedTabHash(value) {
-      this.setHash(value);
-    },
 	},
 	methods: {
     ...mapActions({
       getDocRequestStatusStore: 'user/getDocRequestStatus',
     }),
-		setHash(tabIndex) {
-			if (tabIndex === '#account') history.replaceState(null, null, ' ');
-			else if (tabIndex === '#verification') window.location.hash = '#verification';
-      else if (tabIndex === '#props') window.location.hash = '#props';
-			else if (tabIndex === '#api') window.location.hash = '#api';
-			else if (tabIndex === '#security') window.location.hash = '#security';
-			else if (tabIndex === '#settings') window.location.hash = '#settings';
-		},
+    ...mapMutations({
+      setProfileTab: 'user/SET_PROFILE_TAB',
+    }),
+    navigatePage(item, index) {
+      if (this.$router.currentRoute.hash !== item.hash) {
+        this.$router.replace(item.link);
+        this.setProfileTab({index: Number(index), hash: item.hash});
+      }
+    },
 	},
 };
 </script>

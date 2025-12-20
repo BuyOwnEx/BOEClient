@@ -24,7 +24,7 @@
 				</v-list-item>
 				<v-divider />
 			</template>
-			<MainMenu />
+      <component :is="menu_component" />
 		</v-navigation-drawer>
 		<v-app-bar
 			app
@@ -118,7 +118,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 import Logo from '@/assets/images/logo.png';
-import MainMenu from '@/components/layout/navigation/MainMenu.vue';
+import MainMenu from '@/components/layout/navigation/v1/MainMenu.vue';
 import ToolbarUser from '@/components/layout/toolbar/ToolbarUser.vue';
 import ToolbarApps from '@/components/layout/toolbar/ToolbarApps.vue';
 import ToolbarLanguage from '@/components/layout/toolbar/ToolbarLanguage.vue';
@@ -158,7 +158,13 @@ export default {
 		...mapGetters({
 			isLogged: 'app/isLogged',
 		}),
-
+    menu_component() {
+      if (import.meta.env.VITE_MENU_VERSION === 'v2') {
+        return () => import('@/components/layout/navigation/v2/MainMenu.vue');
+      } else {
+        return () => import('@/components/layout/navigation/v1/MainMenu.vue');
+      }
+    },
     is_show_telegram_support() {
       return this.product.showTelegramSupport
     },
@@ -246,7 +252,6 @@ export default {
 .container {
 	padding: 5px;
 }
-
 .sidebar-header {
 	padding: 0 4px;
 }

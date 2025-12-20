@@ -349,6 +349,8 @@ export default {
 		SET_PROFILE_TAB(state, data) {
 			state.profileSelectedTab = data.index;
 			state.profileSelectedHash = data.hash;
+            if (data.hash === '#account') history.replaceState(null, null, ' ');
+            else window.location.hash = data.hash;
 		},
 		UPDATE_CURRENCY_AMOUNT(state, { currency, amount }) {
 			if (state.balances && currency in state.balances) {

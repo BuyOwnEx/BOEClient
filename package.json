@@ -30,6 +30,7 @@
         "highcharts": "9.0.1",
         "highcharts-vue": "^1.3.5",
         "lodash": "^4.17.21",
+        "maska": "^3.2.0",
         "moment": "^2.26.0",
         "randomcolor": "^0.6.2",
         "text-mask-addons": "^3.8.0",

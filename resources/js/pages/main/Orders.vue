@@ -39,7 +39,7 @@
 			</template>
 
 			<template #item.type="{ item }">
-				<span>{{ getTypeName(item.type) }}</span>
+				<span>{{ getTypeName(item.type, item.side) }}</span>
 			</template>
 
 			<template #item.status="{ item }">
@@ -195,9 +195,14 @@ export default {
 						.format('YYYY-MM-DD HH:mm:ss')
 				: '-';
 		},
-		getTypeName(type) {
-			let index = _.findIndex(this.types, item => item.value === type);
-			return this.types[index]?.name;
+		getTypeName(type, side) {
+      if(type === 'MARGIN' && side === false) return this.$t('orders.types.margin_long');
+      else if(type === 'MARGIN' && side === true) return this.$t('orders.types.margin_short');
+      else
+      {
+        let index = _.findIndex(this.types, item => item.value === type);
+        return this.types[index]?.name;
+      }
 		},
 		getStatusName(status) {
 			let index = _.findIndex(this.statuses, item => item.value === status);

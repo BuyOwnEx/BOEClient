@@ -35,11 +35,15 @@
 
 		<v-divider />
 
-		<div v-if="ticketsProp.length === 0">
-			<div class="py-6 text-center overline">
-				{{ $t('support.no_tickets') }}
-			</div>
-		</div>
+
+
+
+
+    <div v-if="ticketsProp.length === 0">
+      <div class="py-6 text-center overline">
+        {{ $t('support.no_tickets') }}
+      </div>
+    </div>
 
 		<v-list v-else-if="ticketsProp.length && !ticketDetails" class="pa-0">
 			<v-list-item
@@ -51,10 +55,10 @@
 			>
 				<v-list-item-content class="support-list__item-content flex-grow-1">
 					<v-list-item-title class="font-weight-bold">
-						{{ ticket.subject }}
+						{{ ticket.title }}
 					</v-list-item-title>
 
-					<v-list-item-subtitle>{{ ticket.description }}</v-list-item-subtitle>
+					<v-list-item-subtitle>{{ ticket.message }}</v-list-item-subtitle>
 
 					<v-list-item-subtitle>
 						<span
@@ -117,17 +121,24 @@ export default {
 		return {
 			ticketDetails: null,
 			currentPage: 1,
+      perPage: 30
 		};
 	},
 
 	computed: {
 		...mapState('support', [
-			'totalTicketsCount',
-			'nextPage',
-			'prevPage',
-			'perPage',
+			'total',
 		]),
-
+    headers() {
+      return [
+        { text: 'ID', value: 'id' },
+        { text: this.$t('table_header.ticket'), value: 'ticket' },
+        { text: this.$t('table_header.status'), value: 'status' },
+        { text: this.$t('table_header.priority'), value: 'priority' },
+        { text: this.$t('table_header.date'), value: 'date' },
+        { text: this.$t('table_header.action'), value: 'action', sortable: false, align: 'end' },
+      ];
+    },
 		pagesText() {
 			const firstElement = this.currentPage * this.perPage - this.perPage + 1;
 			const showedElements = Math.min(
@@ -165,15 +176,13 @@ export default {
 		},
 		getPrevPage() {
 			this.currentPage--;
-			// this.fetchPage({ type: 'next', page: this.nextPage });
 		},
 		getNextPage() {
 			this.currentPage++;
-			// this.fetchPage({ type: 'prev', page: this.prevPage });
 		},
 		getTicketsQuantity() {
 			if (this.ticketsStatus === 'all' && !this.isPriority)
-				return this.totalTicketsCount - this.closedTicketsQuantity;
+				return this.total - this.closedTicketsQuantity;
 			else return this.ticketsProp.length;
 		},
 

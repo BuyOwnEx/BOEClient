@@ -435,7 +435,9 @@ export default {
       else return [this.rules.required, this.rules.min8char, this.rules.max40char];
     },
     tax_id_mask() {
-      if(this.isRU) return '##########??';
+      if(this.isRU)
+        if(this.is_legal) return '##########';
+        else return '############';
       else if(this.isKG) return '##############';
       else return null;
     },

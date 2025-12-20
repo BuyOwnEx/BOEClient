@@ -18,7 +18,7 @@ export default {
 .exchange-verify-alert
   color: white !important
   margin-bottom: 5px
-  background: #ffc67cd9 !important
+  background: #a59b8d78 !important
   ::v-deep.v-card__subtitle
     color: white !important
 </style>

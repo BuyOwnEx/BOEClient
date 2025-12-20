@@ -11,7 +11,7 @@
 			<NotificationsSidebarMenu v-model="typeID" />
 		</v-navigation-drawer>
 
-		<div class="notifications__content-wrapper d-flex flex-grow-1 flex-column">
+		<div class="notifications__content-wrapper d-flex flex-grow-1 flex-column fill-height">
 			<v-toolbar class="notifications__toolbar flex-grow-0 hidden-lg-and-up">
 				<v-app-bar-nav-icon @click="drawer = !drawer" />
 				<div class="title font-weight-bold">

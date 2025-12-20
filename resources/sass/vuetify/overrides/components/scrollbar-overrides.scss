@@ -42,7 +42,8 @@ html {
 	}
 }
 .trading *,
-.v-menu__content {
+.v-menu__content,
+.ticker-comments {
 	scrollbar-color: var(--scrollbar-color) var(--light-background-color) !important;
 	scrollbar-width: var(--scrollbar-ff-width);
 	&::-webkit-scrollbar {
@@ -71,7 +72,8 @@ html {
 }
 .theme--dark {
 	.trading *,
-	.v-menu__content {
+	.v-menu__content,
+    .ticker-comments {
 		scrollbar-color: var(--dark-scrollbar-color) var(--dark-background-color) !important;
 		scrollbar-width: var(--scrollbar-ff-width);
 		&::-webkit-scrollbar-track {

@@ -1,5 +1,5 @@
 <template>
-	<div class="notifications-list">
+	<div class="notifications-list fill-height">
 		<div class="notifications-list__top px-2 d-flex align-center">
 			<v-checkbox
 				v-if="notifications.length"
@@ -40,7 +40,7 @@
 
 		<v-divider />
 
-		<v-list class="pa-0">
+		<v-list class="pa-0" style="height: auto; overflow-y: scroll">
 			<v-list-item
 				v-for="item in paginatedNotifications"
 				:key="item.id"

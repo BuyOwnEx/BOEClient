@@ -1101,8 +1101,31 @@ class TraderController extends Controller
             session(['locale' =>$request->lang]);
             if($request->user())
             {
-                $request->user()->language = $request->lang;
-                $request->user()->save();
+                try {
+                    DB::beginTransaction();
+                    $request->user()->language = $request->lang;
+                    $request->user()->save();
+
+                    $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    $res = $api->set_locale(
+                        Auth::id(),
+                        $request->lang
+                    );
+                    if($res->isSuccessful())
+                    {
+                        DB::commit();
+                        return ['success'=>true];
+                    }
+                    else {
+                        DB::rollBack();
+                        return ['success'=>false, 'message'=>$res->getData(true)['message']];
+                    }
+                }
+                catch (Exception $e)
+                {
+                    DB::rollBack();
+                    return ['success'=>false, 'message'=>$e->getMessage()];
+                }
             }
             return ['success'=>true];
         }

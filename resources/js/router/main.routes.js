@@ -1,5 +1,7 @@
 import Layout from '@/layouts/DefaultLayout.vue'
+import TradingLayout from '@/layouts/TradingLayout.vue'
 import i18n from '@/plugins/vue-i18n.js';
+const PAGES_PATH = '/resources/js/pages';
 export default [{
     path: '/overview',
     name: 'overview',
@@ -19,9 +21,26 @@ export default [{
 }, {
     path: '/trading/:market([A-Z0-9]{1,10})/:currency([A-Z0-9]{1,10})',
     name: 'trading',
-    component: () => import(/* webpackChunkName: "trading" */ '@/pages/trading/Trading.vue'),
+    component: async () => {
+        let componentPath;
+        // Определяем путь к компоненту на основе переменной окружения
+        switch (import.meta.env.VITE_TRADING_VERSION) {
+            case 'v1':
+                componentPath = `${PAGES_PATH}/trading/v1/Trading.vue`;
+                break;
+            case 'v2':
+                componentPath = `${PAGES_PATH}/trading/v2/Trading.vue`;
+                break;
+            default:
+                // Резервный вариант (если версия не указана или некорректна)
+                componentPath = `${PAGES_PATH}/trading/v1/Trading.vue`;
+        }
+        // Динамически импортируем компонент
+        const module = await import(/* webpackChunkName: "trading-" + import.meta.env.VITE_LANDING_VERSION */ componentPath);
+        return module.default;
+    },
     meta: {
-        layout: Layout,
+        layout: import.meta.env.VITE_TRADING_VERSION === 'v2' ? TradingLayout : Layout,
         title: i18n.t('titles.trading'),
         requiresAuth: false,
         needTradeUIStatus: true,
@@ -176,7 +195,16 @@ export default [{
     meta: {
         layout: Layout,
         title: i18n.t('titles.support'),
-        requiresAuth: false
+        requiresAuth: true
+    }
+}, {
+    path: '/ticket/:ticket_id(\\d{1,20})',
+    name: 'ticket',
+    component: () => import(/* webpackChunkName: "support" */ '@/pages/main/Ticket.vue'),
+    meta: {
+        layout: Layout,
+        title: i18n.t('titles.ticket'),
+        requiresAuth: true
     }
 }, {
     path: '/terms',

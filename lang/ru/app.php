@@ -14,7 +14,8 @@ return [
         '2fa_reuse' => 'Нельзя использовать повторно код 2FA',
         'check_trader_name' => 'Имя уже занято, выберите другое',
         'check_trader_name_error' => 'Ошибка при проверке имени пользователя',
-        'captcha' => 'Ошибка валидации Captcha'
+        'captcha' => 'Ошибка валидации Captcha',
+        'limit_per_minute' => 'Превышен лимит. Повторите попытку через :limit мин.'
     ],
     'api' => [
         'errors' => [

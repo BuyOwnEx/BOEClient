@@ -2,20 +2,16 @@ import VueI18n from '../../plugins/vue-i18n';
 
 export default {
 	namespaced: true,
-
 	state: {
-		tickets: null,
-		totalTicketsCount: null,
-		perPage: 20,
-		prevPage: null,
-		nextPage: null,
+		tickets: [],
+        loading: false,
+		total: 0
 	},
-
 	getters: {
-		supportStatuses() {
+		support_statuses() {
 			return [
 				{
-					name: VueI18n.t('support.status.all'),
+					name: VueI18n.t('common.all'),
 					key: 'all',
 					icon: 'mdi-dots-horizontal',
 					color: 'primary',
@@ -23,25 +19,19 @@ export default {
 				{
 					name: VueI18n.t('support.status.new'),
 					key: 'new',
-					icon: 'mdi-new-box',
-					color: 'primary',
-				},
-				{
-					name: VueI18n.t('support.status.open'),
-					key: 'open',
-					icon: 'mdi-book-open-outline',
+					icon: 'mdi-moon-new',
 					color: 'primary',
 				},
 				{
 					name: VueI18n.t('support.status.pending'),
 					key: 'pending',
 					icon: 'mdi-circle-slice-2',
-					color: 'yellow',
+					color: 'accent',
 				},
 				{
 					name: VueI18n.t('support.status.hold'),
 					key: 'hold',
-					icon: 'mdi-circle-slice-6',
+					icon: 'mdi-timer-pause-outline',
 					color: 'orange',
 				},
 				{
@@ -58,7 +48,7 @@ export default {
 				},
 			];
 		},
-		priorityList() {
+        priority_list() {
 			return [
 				{
 					id: 1,
@@ -70,12 +60,12 @@ export default {
 					id: 2,
 					name: VueI18n.t('support.priority.low'),
 					key: 'low',
-					color: 'warning',
+					color: 'green',
 				},
 				{
 					id: 3,
 					name: VueI18n.t('support.priority.medium'),
-					key: 'normal',
+					key: 'medium',
 					color: 'orange',
 				},
 				{
@@ -83,115 +73,107 @@ export default {
 					name: VueI18n.t('support.priority.high'),
 					key: 'high',
 					color: 'error',
-				},
-				{
-					id: 5,
-					name: VueI18n.t('support.priority.urgent'),
-					key: 'urgent',
-					color: 'pink',
-				},
+				}
 			];
 		},
-
-		getTicketsByStatus: state => status => {
+        get_quantity_by_status: (state, getters) => status => {
+            const dataArray = getters.get_tickets_by_status(status);
+            if (dataArray) return dataArray.length;
+        },
+        get_tickets_by_status: state => status => {
 			if (!state.tickets) return;
 			if (status === 'all') {
 				return state.tickets.filter(ticket => ticket.status !== 'closed');
 			}
 			return state.tickets.filter(ticket => ticket.status === status);
 		},
-		getTicketsByPriority: state => priority => {
+        get_tickets_by_priority: state => priority => {
 			if (!state.tickets) return;
 			return state.tickets.filter(ticket => ticket.priority === priority);
 		},
-		getTicketsByPriorityAndStatus: state => (priority, status) => {
+        get_tickets_by_priority_and_status: state => (priority, status) => {
 			if (!state.tickets) return;
 			return state.tickets.filter(ticket => ticket.priority === priority && ticket.status === status);
 		},
-		getQuantityByStatus: (state, getters) => status => {
-			const dataArray = getters.getTicketsByStatus(status);
-			if (dataArray) return dataArray.length;
-		},
+
 	},
 
 	mutations: {
-		SET_DATA(state, tickets) {
-			state.nextPage = tickets.next_page;
-			state.prevPage = tickets.prev_page;
-			state.totalTicketsCount = tickets.count;
-			state.tickets = tickets.results.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+        SET_LOADING(state, loading) {
+            state.loading = loading
+        },
+		SET_DATA(state, data) {
+			state.total = data.total;
+			state.tickets = data.tickets;
 		},
-
 		ADD_TICKET(state, ticket) {
 			state.tickets.unshift(ticket);
 		},
 		CLOSE_TICKET(state, ticketID) {
-			const ticketIndex = state.tickets.findIndex(item => item.id === ticketID);
-			state.tickets[ticketIndex].status = 'closed';
-		},
-
-		CLEAR_TICKETS(state) {
-			state.tickets = null;
+			const ticketIndex = state.tickets.findIndex(item => item.id.toString() === ticketID.toString());
+			if (ticketIndex > -1) state.tickets[ticketIndex].status = 'closed';
 		},
 	},
 
 	actions: {
 		async fetchTickets({ commit }) {
-			commit('CLEAR_TICKETS');
-
-			const { data } = await axios.get('/trader/tickets');
-
-			commit('SET_DATA', data.tickets);
+            commit('SET_LOADING', true)
+            try
+            {
+                const { data } = await axios.get('/trader/tickets');
+                commit('SET_DATA', data);
+            } catch (error) {
+                console.log(error)
+            } finally {
+                commit('SET_LOADING', false)
+            }
 		},
-		async fetchNextOrPrevPage({ commit }, { type, page }) {
-			commit('CLEAR_TICKETS');
+        async fetchTicket({ commit }, ticket_id) {
+            const { data } = await axios.get('/trader/ticket/info', {
+                params: { ticket_id },
+            });
+            return data;
+        },
+        async fetchAttachmentsByTicket({ commit }, ticket_id) {
+            const { data } = await axios.get('/trader/ticket/attachments', {
+                params: { ticket_id },
+            });
+            return data;
+        },
+        async fetchCommentsByTicket({ commit }, ticket_id) {
+            const { data } = await axios.get('/trader/ticket/comments', {
+                params: { ticket_id },
+            });
+            return data;
+        },
 
-			if (type === 'next') {
-				// const { data } = await axios.get('/', { page });
-			} else if (type === 'prev') {
-				// const { data } = await axios.get('/', { page });
-			}
-
-			commit('SET_DATA', data.tickets);
-		},
-
-		async fetchCommentsById({ commit }, id) {
-			const { data } = await axios.get('/trader/ticket/comments', {
-				params: { id },
-			});
-			return _.forEach(data.comments.comments, value => {
-				let user = _.find(data.comments.users, user => {
-					return user.id === value.author_id;
-				});
-				_.extend(value, { author: user.name });
-			});
-		},
-		async addTicketComment({ commit }, { ticketId, body, file }) {
+		async addTicketComment({ commit }, { ticket_id, message, files }) {
 			const fd = new FormData();
-			fd.append('id', ticketId);
-			fd.append('body', body);
-			if (file) fd.append('file', file);
-
-			return await axios.post('/trader/ticket/comment/add', fd, {
+			fd.append('ticket_id', ticket_id);
+			fd.append('message', message);
+            _.each(files, function (value, key) {
+                fd.append('files['+key+']', value, value.name);
+            });
+			return await axios.post('/trader/ticket/add_comment', fd, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
 		},
-
-		async addTicket({ commit }, { file, subject, body, priority }) {
+		async addTicket({ commit }, { title, message, priority, files }) {
 			const fd = new FormData();
-			fd.append('subject', subject);
-			fd.append('body', body);
+			fd.append('title', title);
+			fd.append('message', message);
 			fd.append('priority', priority);
-			if (file) fd.append('file', file);
-
+            _.each(files, function (value, key) {
+                fd.append('files['+key+']', value, value.name);
+            });
 			const { data } = await axios.post('/trader/ticket/create', fd, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
-			commit('ADD_TICKET', data.ticket.ticket);
+			commit('ADD_TICKET', data.ticket);
 		},
 		async closeTicket({ commit }, ticketID) {
 			await axios.post('/trader/ticket/close', { id: ticketID });

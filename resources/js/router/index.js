@@ -9,14 +9,33 @@ import ErrorRoutes from './error.routes'
 import MainRoutes from './main.routes'
 
 import Layout from '@/layouts/LandingLayout.vue';
+import MiniLayout from '@/layouts/MiniLandingLayout.vue';
 Vue.use(Router)
+const PAGES_PATH = '/resources/js/pages';
 
 export const routes = [{
         path: '/',
         name: 'landing',
-        component: () => import(/* webpackChunkName: "landing" */ '@/pages/landing/Home.vue'),
+        component: async () => {
+            let componentPath;
+            // Определяем путь к компоненту на основе переменной окружения
+            switch (import.meta.env.VITE_LANDING_VERSION) {
+                case 'v1':
+                    componentPath = `${PAGES_PATH}/landing/v1/Home.vue`;
+                    break;
+                case 'v2':
+                    componentPath = `${PAGES_PATH}/landing/v2/Home.vue`;
+                    break;
+                default:
+                    // Резервный вариант (если версия не указана или некорректна)
+                    componentPath = `${PAGES_PATH}/landing/v1/Home.vue`;
+            }
+            // Динамически импортируем компонент
+            const module = await import(/* webpackChunkName: "landing-" + import.meta.env.VITE_LANDING_VERSION */ componentPath);
+            return module.default;
+        },
         meta: {
-            layout: Layout,
+            layout: import.meta.env.VITE_LANDING_VERSION === 'v2' ? MiniLayout : Layout,
             title: i18n.t('titles.landing')
         },
         alias: '/landing',

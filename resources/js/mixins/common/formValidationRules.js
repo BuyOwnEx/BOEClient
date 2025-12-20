@@ -6,6 +6,7 @@ export default {
 			rules: {
 				required: v => !!v || this.$t('forms_validation.required'),
 				max20files: v => !v || v.length <= 20 || this.$t('forms_validation.max_20_files'),
+                max5files: v => !v || v.length <= 5 || this.$t('forms_validation.max_5_files'),
 				email: v => (v && /.+@.+\..+/.test(v)) || this.$t('forms_validation.email_invalid'),
 				fio: v => (v && /([а-яА-Я-/.'])+(\s)+([а-яА-Я-/.'])+(\s)*([а-яА-Я-/.'])*/.test(v)) || this.$t('forms_validation.fio_invalid'),
 				fio_global: v => (v && /([a-zA-Zа-яА-Я-/.'])+(\s)+([a-zA-Zа-яА-Я-/.'])+(\s)*([a-zA-Zа-яА-Я-/.'])*/.test(v)) || this.$t('forms_validation.fio_invalid'),
@@ -37,6 +38,7 @@ export default {
 				max40char: v => !v || v.length <= 40 || this.$t('forms_validation.max_40char'),
 				max64char: v => !v || v.length <= 64 || this.$t('forms_validation.max_64char'),
 				max256char: v => !v || v.length <= 256 || this.$t('forms_validation.max_256char'),
+                max4096char: v => !v || v.length <= 4096 || this.$t('forms_validation.max_4096char'),
 
 				only9char: v => !v || v.length === 9 || this.$t('forms_validation.only9char'),
 				only20char: v => !v || v.length === 20 || this.$t('forms_validation.only20char'),
@@ -45,6 +47,7 @@ export default {
 				latinAndNumbers: v =>
 					!v || (v && /^[a-zA-Z0-9-_]+$/g.test(v)) || this.$t('forms_validation.unsupported_char_latinAndNumbers'),
 				propName: v => !v || (v && /^[\p{L}\p{N}\p{Zs}\p{Pd}\p{Pc}]+$/u.test(v)) || this.$t('forms_validation.unsupported_char_prop_name'),
+                messageText: v => !v || (v && /^[\p{L}\p{N}\p{Zs}.,!?:;\-_()'"]+$/gmu.test(v)) || this.$t('forms_validation.unsupported_message_text_symbols'),
 				beneficiary_name: v => !v || (v && /^[a-zA-Z0-9\s\/—?:().,‘+]{1,34}$/g.test(v)) || this.$t('forms_validation.unsupported_beneficiary_name'),
 				beneficiary_address: v => !v || (v && /^[a-zA-Z0-9\s\/—?:().,‘+]{1,102}$/g.test(v)) || this.$t('forms_validation.unsupported_beneficiary_address'),
 				beneficiary_acc_iban: v => !v || (v && /^[A-Z0-9]{1,34}$/g.test(v)) || this.$t('forms_validation.unsupported_beneficiary_acc_iban'),

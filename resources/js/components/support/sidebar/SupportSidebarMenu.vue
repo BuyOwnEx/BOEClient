@@ -1,14 +1,14 @@
 <template>
 	<div class="support-sidebar-menu pa-1 pt-0">
 		<div class="mt-2 mb-3">
-			<SupportDialogCreate />
+			<add />
 		</div>
 
 		<v-list class="mt-2 pa-0" dense nav>
 			<div class="overline pa-1 mt-2">{{ $t('support.menu.status') }}</div>
 
 			<v-list-item
-				v-for="status in supportStatuses"
+				v-for="status in support_statuses"
 				:key="status.id"
 				:input-value="selectedStatus === status.key"
 				:ripple="false"
@@ -27,7 +27,7 @@
 					<v-badge
 						color="primary"
 						class="font-weight-bold"
-						:content="getQuantity(status.key)"
+						:content="get_quantity(status.key)"
 						inline
 					>
 					</v-badge>
@@ -39,7 +39,7 @@
 			<div class="overline pa-1 mt-2">{{ $t('support.menu.priority') }}</div>
 
 			<v-list-item
-				v-for="priority in priorityList"
+				v-for="priority in priority_list"
 				:key="priority.id"
 				:input-value="selectedPriority === priority.key"
 				:ripple="false"
@@ -66,43 +66,36 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import SupportDialogCreate from '@/components/support/dialog/SupportDialogCreate.vue';
+import Add from '@/components/support/dialog/Add.vue';
 
 export default {
 	name: 'SupportSidebarMenu',
-
-	components: { SupportDialogCreate },
-
+	components: { Add },
 	data() {
 		return {
 			selectedStatus: 'all',
 			selectedPriority: 'all',
 		};
 	},
-
 	computed: {
 		...mapGetters({
-			getQuantity: 'support/getQuantityByStatus',
-			supportStatuses: 'support/supportStatuses',
-			priorityList: 'support/priorityList',
+			get_quantity: 'support/get_quantity_by_status',
+			support_statuses: 'support/support_statuses',
+      priority_list: 'support/priority_list',
 		}),
 	},
-
 	methods: {
 		showQuantity(status) {
 			return (
-				this.getQuantity(status) > 0 &&
+				this.get_quantity(status) > 0 &&
 				status !== 'closed' &&
-				status !== 'solved' &&
 				status !== 'all'
 			);
 		},
-
 		updateStatus(status) {
 			this.selectedStatus = status;
 			this.$emit('update-status', status);
 		},
-
 		updatePriority(priority) {
 			this.selectedPriority = priority;
 			this.$emit('update-priority', priority);

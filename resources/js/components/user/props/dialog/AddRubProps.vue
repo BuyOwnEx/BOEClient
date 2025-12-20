@@ -280,7 +280,9 @@ export default {
     tax_id_mask() {
       if(this.check_tax_id)
       {
-        if(this.isRU) return '##########??';
+        if(this.isRU)
+          if(this.is_legal) return '##########';
+          else return '############';
         else if(this.isKG) return '##############';
         else return null;
       }

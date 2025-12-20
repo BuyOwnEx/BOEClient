@@ -14,7 +14,8 @@ return [
         '2fa_reuse' => 'Cannot reuse 2FA code',
         'check_trader_name' => 'The name is already taken, choose another one',
         'check_trader_name_error' => 'Error checking the user name',
-        'captcha' => 'Captcha validation error'
+        'captcha' => 'Captcha validation error',
+        'limit_per_minute' => 'The limit has been exceeded. Try again after :limit min.'
     ],
     'api' => [
         'errors' => [

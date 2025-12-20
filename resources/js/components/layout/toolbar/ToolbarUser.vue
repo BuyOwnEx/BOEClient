@@ -13,7 +13,7 @@
 		<v-list dense nav>
 			<v-list-item
 				v-for="(item, index) in available_items"
-				:key="item.text"
+				:key="item.hash"
 				@click="navigatePage(item, index)"
 			>
 				<v-list-item-icon>
@@ -111,9 +111,9 @@ export default {
     available_items() {
       let available = this.items;
       if(!this.use_ru_props && !this.use_kg_props && !this.use_swift_props)
-        available = _.filter(this.items, function(item) { return item.link !== '/profile#props'; });
+        available = _.filter(this.items, item => { return item.link !== '/profile#props'; });
       if(this.isHideTrading)
-        available = _.filter(this.items, function(item) { return item.link !== '/profile#api'; });
+        available = _.filter(this.items, item => { return item.link !== '/profile#api'; });
       return available;
     },
 	},
@@ -125,8 +125,13 @@ export default {
 			logout: 'user/logout'
 		}),
 		navigatePage(item, index) {
-      this.$router.push(item.link);
-      this.setProfileTab({index: Number(index), hash: item.hash});
+      if (this.$router.currentRoute.path !== '/profile') {
+        this.$router.push(item.link);
+      }
+      else if (this.$router.currentRoute.path === '/profile' && this.$router.currentRoute.hash !== item.hash) {
+        this.$router.replace(item.link);
+        this.setProfileTab({index: Number(index), hash: item.hash});
+      }
 		},
 	},
 };
