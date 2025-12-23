@@ -149,15 +149,11 @@ export default {
 @media screen and (max-width: 1200px)
 	.market-info
 
-		&__item
-
 		.info-value
 			font-size: 12px
 
 @media screen and (max-width: 1000px)
 	.market-info
-
-		&__item
 
 		.info-value
 			font-size: 11px

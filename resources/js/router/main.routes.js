@@ -1,7 +1,7 @@
 import Layout from '@/layouts/DefaultLayout.vue'
 import TradingLayout from '@/layouts/TradingLayout.vue'
 import i18n from '@/plugins/vue-i18n.js';
-const PAGES_PATH = '/resources/js/pages';
+
 export default [{
     path: '/overview',
     name: 'overview',
@@ -22,22 +22,13 @@ export default [{
     path: '/trading/:market([A-Z0-9]{1,10})/:currency([A-Z0-9]{1,10})',
     name: 'trading',
     component: async () => {
-        let componentPath;
-        // Определяем путь к компоненту на основе переменной окружения
-        switch (import.meta.env.VITE_TRADING_VERSION) {
-            case 'v1':
-                componentPath = `${PAGES_PATH}/trading/v1/Trading.vue`;
-                break;
-            case 'v2':
-                componentPath = `${PAGES_PATH}/trading/v2/Trading.vue`;
-                break;
-            default:
-                // Резервный вариант (если версия не указана или некорректна)
-                componentPath = `${PAGES_PATH}/trading/v1/Trading.vue`;
+        const version = import.meta.env.VITE_TRADING_VERSION;
+
+        if (version === 'v2') {
+            return import('/resources/js/pages/trading/v2/Trading.vue');
+        } else {
+            return import('/resources/js/pages/trading/v1/Trading.vue');
         }
-        // Динамически импортируем компонент
-        const module = await import(/* webpackChunkName: "trading-" + import.meta.env.VITE_LANDING_VERSION */ componentPath);
-        return module.default;
     },
     meta: {
         layout: import.meta.env.VITE_TRADING_VERSION === 'v2' ? TradingLayout : Layout,

@@ -24,7 +24,8 @@
         </v-list-item>
         <v-divider />
       </template>
-      <component :is="menu_component" />
+      <MainMenuV1 v-if="menu_version === 'v1'" />
+      <MainMenuV2 v-else />
     </v-navigation-drawer>
     <v-app-bar
         app
@@ -119,7 +120,8 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 import Logo from '@/assets/images/logo.png';
-import MainMenu from '@/components/layout/navigation/v2/MainMenu.vue';
+import MainMenuV1 from '@/components/layout/navigation/v1/MainMenu.vue';
+import MainMenuV2 from '@/components/layout/navigation/v2/MainMenu.vue';
 import ToolbarUser from '@/components/layout/toolbar/ToolbarUser.vue';
 import ToolbarApps from '@/components/layout/toolbar/ToolbarApps.vue';
 import ToolbarLanguage from '@/components/layout/toolbar/ToolbarLanguage.vue';
@@ -134,7 +136,8 @@ import TradingChartMarketInfo from "@/components/trading/v2/chart/TradingChartMa
 export default {
   components: {
     TradingChartMarketInfo,
-    MainMenu,
+    MainMenuV1,
+    MainMenuV2,
     ToolbarUser,
     ToolbarApps,
     ToolbarLanguage,
@@ -165,12 +168,8 @@ export default {
     ...mapGetters({
       isLogged: 'app/isLogged',
     }),
-    menu_component() {
-      if (import.meta.env.VITE_MENU_VERSION === 'v2') {
-        return () => import('@/components/layout/navigation/v2/MainMenu.vue');
-      } else {
-        return () => import('@/components/layout/navigation/v1/MainMenu.vue');
-      }
+    menu_version() {
+      return import.meta.env.VITE_MENU_VERSION === 'v2' ? 'v2' : 'v1'
     },
     currency() {
       return this.selectedCurrency ? this.selectedCurrency.toUpperCase() : null;
