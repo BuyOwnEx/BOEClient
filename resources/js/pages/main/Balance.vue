@@ -1,7 +1,5 @@
 <template>
 	<v-card class="balance flex-grow-1">
-		<CommonPageTitle>{{ $t('balance.title') }}</CommonPageTitle>
-
 		<v-tabs v-model="selectedTab" class='small-tabs' :key="$i18n.locale" show-arrows>
 			<v-tab :key="1">
 				{{ $t('balance.headers.own_crypto_balance_list') }}
@@ -34,7 +32,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import CommonPageTitle from '@/components/common/CommonPageTitle.vue';
 import BalanceList from '@/components/balance/common/BalanceList.vue';
 import BalanceWithdrawalList from '@/components/balance/withdrawal/BalanceWithdrawalList.vue';
 import BalanceFiatWithdrawalList from '@/components/balance/withdrawal/BalanceFiatWithdrawalList.vue';
@@ -44,7 +41,6 @@ export default {
 	name: 'Balance',
 	mixins: [CentrifugeBalanceMixin],
 	components: {
-		CommonPageTitle,
 		BalanceList,
 		BalanceWithdrawalList,
     BalanceFiatWithdrawalList

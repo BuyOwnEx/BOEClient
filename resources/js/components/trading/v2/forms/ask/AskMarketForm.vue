@@ -23,6 +23,7 @@
                   single-line
                   class="flex-shrink-1 flex-grow-0 mt-0"
                   @change="baseChanged"
+                  style="max-width: 40%"
               >
                 <template v-slot:selection="{ item }">
                   <span class="text-overline">{{ item.title }}</span>
@@ -42,7 +43,7 @@
                   outlined
                   dense
                   hide-details
-                  class="flex-shrink-0 flex-grow-1"
+                  class="flex-shrink-1 flex-grow-1"
                   style="margin-top: 3px"
                   v-maska:unmaskedAmount.masked="form.base === 0 ? amount_options : volume_options"
                   @maska="updatePercentAmountChanged"

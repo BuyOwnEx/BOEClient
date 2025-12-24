@@ -1,6 +1,6 @@
 <template>
 	<div class="trading">
-		<div v-if="!isMobile" class="trading__desktop fill-height" :class="[isLogged ? 'logged' : '']">
+		<div v-if="!isMediumBreakpoint" class="trading__desktop fill-height" :class="[isLogged ? 'logged' : '']">
 			<TickersList class="trading__desktop__tickers" :currency="currency" :market="market" />
 
       <TradingChartWrapper class="trading__desktop__chart" :currency="currency" :market="market" />
@@ -14,7 +14,7 @@
 			<OwnListsTabsWrapper class="trading__desktop__own-lists-tabs-wrapper" :is-margin="isMargin" :currency="currency" :market="market" />
 		</div>
 
-		<div v-if="isMobile" class="trading__mobile">
+		<div v-if="isMediumBreakpoint" class="trading__mobile">
 			<v-bottom-navigation v-model="selectedTab" shift grow app>
 				<v-btn>
 					<span>{{ $t('trading.headers.chart') }}</span>
@@ -198,11 +198,12 @@ export default {
 	&__desktop {
 		display: grid;
 		grid-gap: 5px;
+    overflow-y: auto;
     grid-template-areas:
 			'tickers chart chart chart ask-bid forms'
 			'own own own own own history';
     grid-template-columns: minmax(325px, 1fr) 1fr 1fr 1fr minmax(300px, 1fr) minmax(325px, 1fr);
-    grid-template-rows: minmax(458px, 1.4fr) 0.6fr;
+    grid-template-rows: minmax(458px, 1.4fr) minmax(250px, 1fr);
 
 		&__tickers {
 			grid-area: tickers;
@@ -245,7 +246,7 @@ export default {
 			'tickers chart chart chart ask-bid forms'
 			'own own own own own history';
     grid-template-columns: minmax(325px, 1fr) 1fr 1fr 1fr minmax(300px, 1fr) minmax(325px, 1fr);
-    grid-template-rows: 458px 1fr;
+    grid-template-rows: minmax(458px, 1fr) minmax(250px, 1fr);
   }
 
 	&__mobile {
@@ -270,33 +271,14 @@ export default {
 			'tickers chart chart chart chart forms'
 			'own own own own ask-bid history';
     grid-template-columns: minmax(325px, 1fr) 1fr 1fr 1fr 300px minmax(325px, 1fr);
-    grid-template-rows: minmax(458px, 1.2fr) 0.8fr;
+    grid-template-rows: minmax(458px, 1.2fr) minmax(250px, 1fr);
 	}
   .trading__desktop.logged {
     grid-template-areas:
 			'tickers chart chart chart chart forms'
 			'own own own own ask-bid history';
     grid-template-columns: minmax(325px, 1fr) 1fr 1fr 1fr 300px minmax(325px, 1fr);
-    grid-template-rows: 458px 1fr;
+    grid-template-rows: minmax(458px, 1fr) minmax(250px, 1fr);
   }
-}
-
-@media screen and (max-width: 1263px) {
-	.trading {
-		&__desktop {
-      grid-template-areas:
-			'tickers chart chart chart chart forms'
-			'own own own own own ask-bid';
-      grid-template-columns: minmax(325px, 1fr) 1fr 1fr 1fr 1fr minmax(300px, 1fr);
-      grid-template-rows: 458px 1fr;
-		}
-    &__desktop.logged {
-      grid-template-areas:
-			'tickers chart chart chart chart forms'
-			'own own own own own ask-bid';
-      grid-template-columns: minmax(325px, 1fr) 1fr 1fr 1fr 1fr minmax(300px, 1fr);
-      grid-template-rows: 458px 1fr;
-    }
-	}
 }
 </style>

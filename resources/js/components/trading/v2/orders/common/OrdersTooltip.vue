@@ -80,19 +80,18 @@ export default {
     isWidthBetween960And1264() {
       return this.$vuetify.breakpoint.width > 960 && this.$vuetify.breakpoint.width <= 1264;
     },
-    isWidthLess960() {
-      return this.$vuetify.breakpoint.width <= 960;
+    isWidthLess1264() {
+      return this.$vuetify.breakpoint.width <= 1264;
     },
 		calculateLeft() {
-			if(this.type === 'bid' && !this.isWidthBetween960And1264) return '100%';
+			if(this.type === 'bid' && !this.isWidthLess1264) return '100%';
 		},
 		calculateRight() {
-			if (this.type === 'ask' || (this.type === 'bid' && this.isWidthBetween960And1264)) return '100%';
+			if (this.type === 'ask' && !this.isWidthLess1264) return '100%';
 		},
     calculateTop() {
       if (this.type === 'bid' && this.isWidthBetween1264And1628) return '-30px';
-      else if (this.type === 'bid' && this.isWidthBetween960And1264) return '-30px';
-      else if (this.type === 'bid' && this.isWidthLess960) return '-30px';
+      else if (this.type === 'bid' && this.isWidthLess1264) return '-30px';
       else if (this.type === 'bid') return '25px';
     },
 

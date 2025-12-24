@@ -38,7 +38,7 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-@media screen and (max-width: 960px)
-  .ask-table-header th
+@media screen and (max-width: 1264px)
+  .ask-table-header tr th
     width: 33.3% !important
 </style>

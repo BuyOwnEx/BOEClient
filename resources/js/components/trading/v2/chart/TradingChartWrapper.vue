@@ -1,6 +1,6 @@
 <template>
 	<v-card class="trading-chart-wrapper fill-height" >
-    <TradingChartMarketInfo v-if="isMobile" :currency="currency" :market="market" />
+    <TradingChartMarketInfo v-if="isMediumBreakpoint" :currency="currency" :market="market" />
 		<TradingChart
 			class="trading-chart-wrapper__chart fill-height"
 			:currency="currency"
@@ -29,6 +29,9 @@ export default {
   computed: {
     isMobile() {
       return this.$vuetify.breakpoint.smAndDown;
+    },
+    isMediumBreakpoint() {
+      return this.$vuetify.breakpoint.width < 1264;
     },
   }
 };

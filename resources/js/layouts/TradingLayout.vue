@@ -59,7 +59,7 @@
               </v-list-item-content>
             </div>
             <v-spacer class="d-none d-md-block" />
-            <TradingChartMarketInfo v-if="currency && market && !isMobile" :currency="currency" :market="market" />
+            <TradingChartMarketInfo v-if="currency && market && !isMediumBreakpoint" :currency="currency" :market="market" />
             <v-spacer class="d-block" />
             <ToolbarThemeChanger />
             <ToolbarLanguage :show-label="false" />
@@ -219,6 +219,9 @@ export default {
       if (isMediumBreakpoint) return 40;
       else if (this.isMobile) return 58;
       else return 29;
+    },
+    isMediumBreakpoint() {
+      return this.$vuetify.breakpoint.width < 1264;
     },
     isWidthMore400px() {
       return this.$vuetify.breakpoint.width >= 400;

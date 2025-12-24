@@ -14,5 +14,5 @@ export default {
 
 <style scoped lang="sass">
 .common-page-title
-	font-size: 24px !important
+	font-size: 18px !important
 </style>

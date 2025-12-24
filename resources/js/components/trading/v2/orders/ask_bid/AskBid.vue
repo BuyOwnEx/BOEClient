@@ -56,5 +56,12 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
+.ask-bid-list
+  &__header
+    margin: 0 4px
+    font-size: 12px !important
+    letter-spacing: 0.982143px
+    line-height: 25px
+    color: #fff9
+    opacity: 0.8
 </style>

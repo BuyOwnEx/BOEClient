@@ -26,7 +26,7 @@
       >
         <template #top>
           <div class="d-flex justify-space-between">
-            <CommonPageTitle>{{ $t('support.title') }}</CommonPageTitle>
+            <CommonPageTitle class="mx-1 pa-0">{{ $t('support.title') }}</CommonPageTitle>
             <div class="d-inline-flex align-items-center">
               <v-card-title class="pa-0">
                 <v-btn class="pa-0 mr-1" width="48" height="48" :loading="loading" icon @click="fetch">

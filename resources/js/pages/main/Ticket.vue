@@ -14,7 +14,7 @@
 
     <v-card elevation="0" class="tickets d-flex flex-grow-1 flex-column" v-if="ticket">
       <div class="d-flex justify-space-between">
-        <CommonPageTitle class="pr-1">
+        <CommonPageTitle class="ma-0 pa-2 pr-1">
           <div class="d-flex">
             <CommonTooltip :value="$t('support.priority.'+ticket.priority)" class="align-self-center">
               <v-icon :color="priority_color(ticket.priority)" class="mr-2">

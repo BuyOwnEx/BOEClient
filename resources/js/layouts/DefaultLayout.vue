@@ -61,7 +61,7 @@
 						<v-spacer class="d-none d-lg-block" />
 						<v-spacer class="d-block" />
 						<ToolbarThemeChanger />
-						<ToolbarLanguage />
+						<ToolbarLanguage :show-label="false" />
 						<div v-if="product.showCurrencies" class="hidden-xs-only mx-1">
 							<ToolbarCurrency />
 						</div>

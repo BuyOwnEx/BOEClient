@@ -143,17 +143,19 @@ export default {
 
 	.info-title
 		font-weight: normal
-		font-size: 10px
+		font-size: 11px
 		opacity: 0.6
 
-@media screen and (max-width: 1200px)
+@media screen and (max-width: 1264px)
 	.market-info
+		margin-top: 10px
 
 		.info-value
 			font-size: 12px
 
 @media screen and (max-width: 1000px)
 	.market-info
+		margin-top: 10px
 
 		.info-value
 			font-size: 11px
@@ -165,7 +167,7 @@ export default {
 		.info-value
 			font-size: 14px
 		.info-title
-			font-size: 10px
+			font-size: 11px
 
 		&__item
 			padding-right: 8px
@@ -177,7 +179,7 @@ export default {
 		.info-value
 			font-size: 10px
 		.info-title
-			font-size: 9px
+			font-size: 10px
 
 		&__item
 			padding-right: 2px
