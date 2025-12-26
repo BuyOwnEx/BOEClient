@@ -1252,7 +1252,7 @@ class TraderController extends Controller
     {
         $validator=Validator::make($request->all(), [
             'country' => 'required|string|size:2',
-            'reg_number' => 'required|string|min:8|max:64',
+            'reg_number' => 'required|string|min:5|max:64',
             'address' => 'required|string|min:8|max:256',
             'tax_number' => 'nullable|string|min:8|max:40',
             'name' => 'required|string|min:3|max:256'

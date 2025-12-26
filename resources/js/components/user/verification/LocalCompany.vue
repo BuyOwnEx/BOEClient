@@ -382,7 +382,7 @@ export default {
     regNoRules() {
       if(this.isRU) return [this.rules.required, this.rules.reg_no_ru];
       else if(this.isKG) return [this.rules.required, this.rules.reg_no_kg];
-      else return [this.rules.required, this.rules.min8char, this.rules.max64char];
+      else return [this.rules.required, this.rules.min5char, this.rules.max64char];
     },
     taxNoRules() {
       if(this.isRU) return [this.rules.required, this.rules.comp_ip_inn];

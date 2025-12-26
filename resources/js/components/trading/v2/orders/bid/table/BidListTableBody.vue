@@ -156,7 +156,6 @@ export default {
 .orders-active-row
 	background: rgba(215, 255, 216, 0.35)
 
-@media screen and (max-width: 1264px)
-	.bid-list-table-body td
-		width: 33.3% !important
+.bid-list-table-body td
+	width: 33.3% !important
 </style>
