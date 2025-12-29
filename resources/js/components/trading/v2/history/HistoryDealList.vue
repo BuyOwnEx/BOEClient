@@ -68,7 +68,6 @@ export default {
 		font-size: 12px !important
 		letter-spacing: 0.982143px
 		line-height: 25px
-		color: #fff9
 		opacity: 0.8
 	&__content
 		position: relative
