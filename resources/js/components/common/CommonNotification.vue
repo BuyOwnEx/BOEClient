@@ -10,6 +10,7 @@
 			class="notification__item"
 			:class="getStatusBackgroundColor(item.status)"
 			@click.self="removeNotification(item.id)"
+      style="margin-bottom: 2px"
 		>
 			{{ item.text }}
 		</li>
@@ -21,7 +22,7 @@ export default {
 	data() {
 		return {
 			notificationsHandler: null,
-			defaultDisplayInterval: 6000,
+			defaultDisplayInterval: 5000,
 			displayLimit: 3,
 			notificationIdInRemoveQueue: null,
 		};
@@ -46,13 +47,15 @@ export default {
 		},
 		initNotificationRefresh() {
 			let id = _.get(this.notifications[0], 'id', null);
-			if (id !== this.notificationIdInRemoveQueue && id !== null) {
+			if (id !== this.notificationIdInRemoveQueue && id !== null)
+      {
 				this.notificationIdInRemoveQueue = id;
 				setTimeout(() => {
 					this.$store.commit(
 						'snackbar/setNotifications',
 						_.tail(this.notifications)
 					);
+          this.notificationIdInRemoveQueue = null;
 				}, _.get(this.notifications[0], 'timeout', this.defaultDisplayInterval));
 			}
 		},

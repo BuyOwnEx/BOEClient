@@ -70,6 +70,12 @@
 				mobile-breakpoint="600"
 				dense
 			>
+        <template #item.id="{ item }">
+					<span class="table-date">
+						#{{ item.id }}
+					</span>
+        </template>
+
 				<template #item.date="{ item }">
 					<span class="table-date">
 						{{ formatDate(item.created_at, 'trading') }}
@@ -105,22 +111,73 @@
 					</span>
 				</template>
 
-				<template #item.size="{ item }">
-					{{ formatSize(item.size, findScale(market, currency, 'amountScale')) }}
-					{{ item.currency.toUpperCase() }}
-				</template>
+        <template #item.size="{ item }">
+          <span v-if="item.type === 'STOPLOSS' && !item.side">
+            {{ formatSize(item.size, findScale(market, currency, 'rateScale')) }}
+					  {{ item.market.toUpperCase() }}
+          </span>
+          <span v-else-if="item.type === 'TAKEPROFIT' && !item.side">
+            {{ formatSize(item.size, findScale(market, currency, 'rateScale')) }}
+					  {{ item.market.toUpperCase() }}
+          </span>
+          <span v-else-if="item.type === 'TRAILINGSTOP' && !item.side">
+            {{ formatSize(item.size, findScale(market, currency, 'rateScale')) }}
+					  {{ item.market.toUpperCase() }}
+          </span>
+          <span v-else>
+            {{ formatSize(item.size, findScale(market, currency, 'amountScale')) }}
+					  {{ item.currency.toUpperCase() }}
+          </span>
+        </template>
 
-				<template #item.price="{ item }">
-					{{ formatPrice(item.price, findScale(market, currency, 'rateScale')) }}
-					{{ item.market.toUpperCase() }}
-				</template>
+        <template #item.price="{ item }">
+          <span v-if="item.type === 'LIMIT'">{{ formatPrice(item.price, findScale(market, currency, 'rateScale')) }} {{ item.market.toUpperCase() }}</span>
+          <span v-else>-</span>
+        </template>
 
-				<template #item.volume="{ item }">
-					{{ calculateVolume(item.price, item.size) }}
-					{{ item.market.toUpperCase() }}
-				</template>
+        <template #item.volume="{ item }">
+          <span v-if="item.type === 'LIMIT'">{{ calculateVolume(item.price, item.size) }} {{ item.market.toUpperCase() }}</span>
+          <span v-else>-</span>
+        </template>
 
-				<template #item.percent="{ item }"> {{ percent(item) }}% </template>
+        <template #item.percent="{ item }">
+          <span>{{ percent(item) }}%</span>
+          <span v-if="item.type !== 'LIMIT'">
+              <CommonTooltip>
+                <v-icon color="secondary" x-small class="help-tooltip align-center">
+                  mdi-help-circle
+                </v-icon>
+                <template #text>
+                  <span v-if="item.type === 'STOPLOSS'">
+                    {{ $t('trading.orders_tooltip.sl_tooltip',{
+                    price: formatPrice(item.price, findScale(market, currency, 'rateScale')),
+                    currency: item.market.toUpperCase()
+                  }) }}
+                  </span>
+                  <span v-if="item.type === 'TAKEPROFIT'">
+                    {{ $t('trading.orders_tooltip.tp_tooltip',{
+                    price: formatPrice(item.price, findScale(market, currency, 'rateScale')),
+                    currency: item.market.toUpperCase()
+                  }) }}
+                  </span>
+                  <span v-if="item.type === 'TRAILINGSTOP' && item.side">
+                    {{ $t('trading.orders_tooltip.sell_ts_tooltip',{
+                    price: formatPrice(item.price, findScale(market, currency, 'rateScale')),
+                    currency: item.market.toUpperCase(),
+                    offset: formatPrice(item.offset, findScale(market, currency, 'rateScale'))
+                  }) }}
+                  </span>
+                  <span v-if="item.type === 'TRAILINGSTOP' && !item.side">
+                    {{ $t('trading.orders_tooltip.buy_ts_tooltip',{
+                    price: formatPrice(item.price, findScale(market, currency, 'rateScale')),
+                    currency: item.market.toUpperCase(),
+                    offset: formatPrice(item.offset, findScale(market, currency, 'rateScale'))
+                  }) }}
+                  </span>
+                </template>
+              </CommonTooltip>
+            </span>
+        </template>
 
 				<template #item.status="{ item }">
 					<span class="success--text" v-if="item.status === 'accepted'">
@@ -166,11 +223,12 @@ import calculateVolume from '@/mixins/trading/calculateVolume';
 import findScale from '@/mixins/trading/findScale';
 import formatSize from '@/mixins/trading/formatSize';
 import formatPrice from '@/mixins/trading/formatPrice';
-
+import CommonTooltip from '@/components/common/CommonTooltip.vue'
 export default {
 	name: 'OwnActiveOrderList',
 
 	components: {
+    CommonTooltip,
 		CommonDialog: () => import('@/components/common/CommonDialog.vue'),
 	},
 
@@ -202,6 +260,7 @@ export default {
 	computed: {
 		headers() {
 			return [
+        { text: 'ID', align: 'start', sortable: true, value: 'id' },
 				{
 					text: this.$t('table_header.date'),
 					align: 'start',
@@ -331,3 +390,11 @@ export default {
 	},
 };
 </script>
+<style scoped lang="scss">
+.help-tooltip {
+  vertical-align: baseline;
+  margin-left: 2px;
+  font-size: inherit;
+  line-height: inherit
+}
+</style>

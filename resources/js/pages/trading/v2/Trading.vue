@@ -208,6 +208,7 @@ export default {
 		&__tickers {
 			grid-area: tickers;
 			min-width: 325px;
+      overflow-y: auto;
 		}
 
 		&__chart {

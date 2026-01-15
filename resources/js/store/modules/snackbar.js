@@ -58,39 +58,17 @@ const getOrderNotificationMessage = item => {
 				'trading.notifications.order.accepted'
 			)}`;
 		case 'partiallyFilled':
-			if (item.side === false) {
-				return `${item.lang.t(
-					'trading.notifications.order.text_buy'
-				)} ${transformHelpers.size(item)} ${item.currency} ${item.lang.t(
-					'trading.notifications.order.price'
-				)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
-					'trading.notifications.order.partiallyFilled'
-				)} (${transformHelpers.percent(item)} %)`;
-			}
-			return `${item.lang.t(
-				'trading.notifications.order.text_sell'
-			)} ${transformHelpers.size(item)} ${item.currency} ${item.lang.t(
-				'trading.notifications.order.price'
-			)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
-				'trading.notifications.order.partiallyFilled'
-			)} (${transformHelpers.percent(item)} %)`;
+            return `${item.lang.t(
+                'trading.notifications.order.id', {order_id: item.order_id}
+            )} ${item.lang.t(
+                'trading.notifications.order.partiallyFilled'
+            )} (${transformHelpers.percent(item)} %)`;
 		case 'filled':
-			if (item.side === false) {
-				return `${item.lang.t(
-					'trading.notifications.order.text_buy'
-				)} ${transformHelpers.size(item)} ${item.currency} ${item.lang.t(
-					'trading.notifications.order.price'
-				)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
-					'trading.notifications.order.filled'
-				)}`;
-			}
-			return `${item.lang.t(
-				'trading.notifications.order.text_sell'
-			)} ${transformHelpers.size(item)} ${item.currency} ${item.lang.t(
-				'trading.notifications.order.price'
-			)} ${transformHelpers.price(item)} ${item.market} ${item.lang.t(
-				'trading.notifications.order.filled'
-			)}`;
+            return `${item.lang.t(
+                'trading.notifications.order.id', {order_id: item.order_id}
+            )} ${item.lang.t(
+                'trading.notifications.order.filled'
+            )}`;
 		case 'cancelled':
 			if (item.side === false) {
 				return `${item.lang.t(
@@ -216,10 +194,7 @@ const transformTradingNotification = item => {
 	let result = {
 		id: Date.now(),
 		status: getNotificationClass(item),
-		text:
-			item.object === 'order'
-				? getOrderNotificationMessage(item)
-				: getPositionNotificationMessage(item),
+		text: item.object === 'order' ? getOrderNotificationMessage(item) : getPositionNotificationMessage(item),
 		timeout: _.get(item, 'timeout', defaultTimeout),
 	};
 	if ('id' in item) {
@@ -250,7 +225,7 @@ export default {
 		},
 
 		addTradingNotification(state, notification) {
-			console.log(notification);
+			//console.log(notification);
 			state.notifications.push(transformTradingNotification(notification));
 		},
 

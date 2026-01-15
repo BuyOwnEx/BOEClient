@@ -29,14 +29,15 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template #item.pair="{ item }">
-				<v-avatar :color="item.color" size="22">
-					<span class="white--text caption">
-						{{ item.currency.charAt(0) + item.market.charAt(0) }}
-					</span>
-				</v-avatar>
-				<span class="ml-1">{{ item.currency }}/{{ item.market }}</span>
-			</template>
+      <template #item.pair="{ item }">
+        <pair-with-logo
+            :currency="item.currency"
+            :market="item.market"
+            :currency_logo="item.currency_logo"
+            :market_logo="item.market_logo"
+            :size="18"
+        ></pair-with-logo>
+      </template>
 
 			<template #item.type="{ item }">
 				<span>{{ getTypeName(item.type, item.side) }}</span>
@@ -59,27 +60,77 @@
 			</template>
 
 			<template #item.size="{ item }">
-				<span>{{ BigNumber(item.size) + ' ' + item.currency }}</span>
+        <span v-if="item.type === 'STOPLOSS' && !item.side">
+          {{ formatSize(item.size, findScale(item.market, item.currency, 'rateScale')) }}
+          {{ item.market.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TAKEPROFIT' && !item.side">
+          {{ formatSize(item.size, findScale(item.market, item.currency, 'rateScale')) }}
+          {{ item.market.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TRAILINGSTOP' && !item.side">
+          {{ formatSize(item.size, findScale(item.market, item.currency, 'rateScale')) }}
+          {{ item.market.toUpperCase() }}
+        </span>
+				<span v-else>
+          {{ BigNumber(item.size) + ' ' + item.currency }}
+        </span>
 			</template>
+
+      <template #item.actual_size="{ item }">
+        <span v-if="item.type === 'STOPLOSS' && !item.side">
+          {{ formatSize(item.actual_size, findScale(item.market, item.currency, 'rateScale')) }}
+          {{ item.market.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TAKEPROFIT' && !item.side">
+          {{ formatSize(item.actual_size, findScale(item.market, item.currency, 'rateScale')) }}
+          {{ item.market.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TRAILINGSTOP' && !item.side">
+          {{ formatSize(item.actual_size, findScale(item.market, item.currency, 'rateScale')) }}
+          {{ item.market.toUpperCase() }}
+        </span>
+				<span v-else>
+					{{ BigNumber(item.actual_size) + ' ' + item.currency }}
+				</span>
+      </template>
 
 			<template #item.price="{ item }">
 				<span>{{ BigNumber(item.price) + ' ' + item.market }}</span>
 			</template>
 
-			<template #item.actual_size="{ item }">
-				<span>
-					{{ BigNumber(item.actual_size) + ' ' + item.currency }}
-				</span>
-			</template>
-
 			<template #item.volume="{ item }">
-				<span>
+        <span v-if="item.type === 'STOPLOSS' && !item.side">
+          {{ formatSize(getAmount(item.size, item.price), findScale(item.market, item.currency, 'amountScale')) }}
+          {{ item.currency.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TAKEPROFIT' && !item.side">
+          {{ formatSize(getAmount(item.size, item.price), findScale(item.market, item.currency, 'amountScale')) }}
+          {{ item.currency.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TRAILINGSTOP' && !item.side">
+          {{ formatSize(getAmount(item.size, item.price), findScale(item.market, item.currency, 'amountScale')) }}
+          {{ item.currency.toUpperCase() }}
+        </span>
+				<span v-else>
 					{{ getVolume(item.size, item.price) + ' ' + item.market }}
 				</span>
 			</template>
 
 			<template #item.actualVolume="{ item }">
-				<span>
+        <span v-if="item.type === 'STOPLOSS' && !item.side">
+          {{ formatSize(getAmount(item.actual_size, item.price), findScale(item.market, item.currency, 'amountScale')) }}
+          {{ item.currency.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TAKEPROFIT' && !item.side">
+          {{ formatSize(getAmount(item.actual_size, item.price), findScale(item.market, item.currency, 'amountScale')) }}
+          {{ item.currency.toUpperCase() }}
+        </span>
+        <span v-else-if="item.type === 'TRAILINGSTOP' && !item.side">
+          {{ formatSize(getAmount(item.actual_size, item.price), findScale(item.market, item.currency, 'amountScale')) }}
+          {{ item.currency.toUpperCase() }}
+        </span>
+				<span v-else>
 					{{ getVolume(item.actual_size, item.price) + ' ' + item.market }}
 				</span>
 			</template>
@@ -89,9 +140,10 @@
 
 <script>
 import BigNumber from 'bignumber.js';
-import randomColor from 'randomcolor';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
-
+import PairWithLogo from "@/components/common/PairWithLogo.vue";
+import findScale from '@/mixins/trading/findScale';
+import formatSize from '@/mixins/trading/formatSize';
 import config from '@/configs';
 import filters from '@/components/filters/Orders.vue';
 
@@ -99,7 +151,9 @@ export default {
 	name: 'Orders',
 	components: {
 		filters,
+    PairWithLogo
 	},
+  mixins: [formatSize, findScale],
 	data() {
 		return {
 			totalItems: 0,
@@ -182,6 +236,11 @@ export default {
 				.multipliedBy(BigNumber(price))
 				.toString();
 		},
+    getAmount(volume, price) {
+      return BigNumber(price).eq(0) ? '0' : BigNumber(volume)
+          .div(BigNumber(price))
+          .toString();
+    },
 		getDateFromTick(date) {
 			return date
 				? this.$moment
@@ -212,13 +271,6 @@ export default {
 			let index = _.findIndex(this.sides, item => item.value === side);
 			return this.sides[index]?.name;
 		},
-		getRandomColor: function() {
-			return randomColor({
-				luminosity: 'dark',
-				format: 'rgba',
-				alpha: 0.5,
-			});
-		},
 		onFilterApply(data) {
 			this.options.filters = data;
 			this.getDataFromApi().then(data => {
@@ -242,10 +294,6 @@ export default {
 				let result = await this.getItems(this.options);
 				let items = result.data;
 				const total = result.total;
-				let self = this;
-				_.forEach(items, function(value) {
-					_.assign(value, { color: self.getRandomColor() });
-				});
 				setTimeout(() => {
 					this.loading = false;
 					resolve({

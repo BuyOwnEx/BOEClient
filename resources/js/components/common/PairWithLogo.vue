@@ -2,6 +2,7 @@
   <div class="d-flex">
     <overlap-images
       :items="items"
+      :size="size"
     ></overlap-images>
     <span class="ml-1 align-self-center">{{ currency }}/{{ market }}</span>
   </div>
@@ -28,6 +29,11 @@ export default {
       type: String,
       required: false,
     },
+    size: {
+      type: Number,
+      required: false,
+      default: 20
+    }
   },
   components: { OverlapImages },
   computed: {

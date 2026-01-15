@@ -658,6 +658,7 @@ export default {
 
 		notifications: {
 			order: {
+                id: 'Ордер #{order_id}',
 				text_sell: 'Ордер на продажу ',
 				text_buy: 'Ордер на покупку ',
 				accepted: ' успешно выставлен',
@@ -665,6 +666,7 @@ export default {
 				filled: ' исполнен полностью',
 				cancel: ' успешно отменен',
 				price: ' по цене ',
+                market_price: ' по рыночной цене ',
 			},
 			position: {
 				text_sell: 'Короткая позиция ',
@@ -697,6 +699,10 @@ export default {
 			avg_price: 'Средняя Цена',
 			total_size: 'Всего Кол-во',
 			total_volume: 'Всего Объёма',
+            sl_tooltip: 'Исполнится по рыночной цене когда SL триггер-цена достигнет значения {price} {currency}',
+            tp_tooltip: 'Исполнится по рыночной цене когда TP триггер-цена достигнет значения {price} {currency}',
+            sell_ts_tooltip: 'Исполнится по рыночной цене когда лучшая цена покупки упадет сразу на {offset} пунктов и при падении достигнет значения {price} {currency}',
+            buy_ts_tooltip: 'Исполнится по рыночной цене когда лучшая цена продажи вырастет сразу на {offset} пунктов и при росте достигнет значения {price} {currency}',
 		},
 
 		forms: {

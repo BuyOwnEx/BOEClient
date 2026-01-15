@@ -10,6 +10,7 @@
 			<v-switch
 				v-model="showOtherPairs"
 				class="small-label-table-switch"
+        :class="[$vuetify.rtl ? 'ml-3' : 'mr-3']"
 				:label="$t('trading.show_other_pairs')"
 				hide-details
 				dense

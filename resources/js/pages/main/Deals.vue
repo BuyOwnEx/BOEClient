@@ -27,14 +27,15 @@
 				<v-divider class="pb-2" />
 			</template>
 
-			<template #item.pair="{ item }">
-				<v-avatar :color="item.color" size="22">
-					<span class="white--text caption">
-						{{ item.currency.charAt(0) + item.market.charAt(0) }}
-					</span>
-				</v-avatar>
-				<span class="ml-1">{{ item.currency }}/{{ item.market }}</span>
-			</template>
+      <template #item.pair="{ item }">
+        <pair-with-logo
+            :currency="item.currency"
+            :market="item.market"
+            :currency_logo="item.currency_logo"
+            :market_logo="item.market_logo"
+            :size="18"
+        ></pair-with-logo>
+      </template>
 
 			<template #item.side="{ item }">
 				<span :class="item.side === false ? 'success--text' : 'error--text'">
@@ -76,14 +77,15 @@
 	</v-card>
 </template>
 <script>
-import randomColor from 'randomcolor';
-import filters from '@/components/filters/Deals.vue';
 import { mapState } from 'vuex';
+import filters from '@/components/filters/Deals.vue';
+import PairWithLogo from "@/components/common/PairWithLogo.vue";
 import BigNumber from 'bignumber.js';
 BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
 export default {
 	name: 'Deals',
 	components: {
+    PairWithLogo,
 		filters,
 	},
 	data() {
@@ -168,13 +170,6 @@ export default {
 			let index = _.findIndex(this.sides, item => item.value === side);
 			return this.sides[index].name;
 		},
-		getRandomColor() {
-			return randomColor({
-				luminosity: 'dark',
-				format: 'rgba',
-				alpha: 0.5,
-			});
-		},
 		onFilterApply(data) {
 			this.options.filters = data;
 			this.getDataFromApi().then(data => {
@@ -198,10 +193,6 @@ export default {
 				let result = await this.getItems(this.options);
 				let items = result.data;
 				const total = result.total;
-				let self = this;
-				_.forEach(items, function(value) {
-					_.assign(value, { color: self.getRandomColor() });
-				});
 				setTimeout(() => {
 					this.loading = false;
 					resolve({

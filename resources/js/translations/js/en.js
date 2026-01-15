@@ -661,6 +661,7 @@ export default {
 
 		notifications: {
 			order: {
+                id: 'Order #{order_id}',
 				text_sell: 'Sell order ',
 				text_buy: 'Buy order ',
 				accepted: ' is successfully placed',
@@ -668,6 +669,7 @@ export default {
 				filled: ' has been fully executed',
 				cancel: ' has been successfully cancelled',
 				price: ' at the price ',
+                market_price: ' at the market price ',
 			},
 			position: {
 				text_sell: 'Long position ',
@@ -702,6 +704,10 @@ export default {
 			avg_price: 'Average Price',
 			total_size: 'Total Size',
 			total_volume: 'Total Volume',
+            sl_tooltip: 'Executed at the market price when the SL trigger price reaches the value of {price} {currency}',
+            tp_tooltip: 'Executed at the market price when the TP trigger price reaches the value of {price} {currency}',
+            sell_ts_tooltip: 'Executed at the market price when the Best Bid drops immediately by {offset} points and reaches the value of {price} {currency} when falling',
+            buy_ts_tooltip: 'Executed at the market price when the Best Ask increased immediately by {offset} points and, with an increase, reaches the value of {price} {currency}',
 		},
 
 		forms: {

@@ -255,7 +255,6 @@ export default {
 			console.log(data);
 			switch (data.data.action) {
 				case 'balance_was_updated':
-					console.log(data.data.balance);
 					this.$store.commit('user/updateBalance', data.data.balance);
 					break;
 				case 'margin_call':
@@ -281,19 +280,22 @@ export default {
 					break;
 				case 'match_order_was_updated':
 					this.$store.commit('user/updateMatchOrder', data.data.order);
-					/*let id = tmp.id + tmp.status + 'order';
-					this.$store.commit('snackbar/dropNotificationIfExists', id);
-					this.$store.commit('snackbar/addTradingNotification', {
-						id: tmp.id + tmp.status,
-						status: tmp.status,
-						side: tmp.side,
-						size: tmp.size,
-						actual_size: tmp.actual_size,
-						currency: tmp.currency,
-						price: tmp.price,
-						market: tmp.market,
-						object: 'order'
-					});*/
+                    if(data.data.order.status !== 'accepted') // action = match_order_was_updated AND status = accepted (is only for conditional orders)
+                    {
+                        let notification_id = data.data.order.id + data.data.order.status + 'order';
+                        this.$store.commit('snackbar/dropNotificationIfExists', notification_id);
+                        this.$store.commit('snackbar/addTradingNotification', {
+                            id: notification_id,
+                            status: data.data.order.status,
+                            order_id: data.data.order.id,
+                            size: data.data.order.size,
+                            actual_size: data.data.order.actual_size,
+                            currency: data.data.order.currency,
+                            market: data.data.order.market,
+                            object: 'order',
+                            lang: this.$i18n
+                        });
+                    }
 					break;
 				case 'order_was_deleted':
 					this.$store.commit('user/deleteOrder', data.data.order);
