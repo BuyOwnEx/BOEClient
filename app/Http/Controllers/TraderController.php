@@ -200,17 +200,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-    public function getAllBanks()
-    {
-        try {
-            return Cache::remember('all_banks', 60, function (){
-                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                return $api->all_banks();
-            });
-        } catch (\Exception $e) {
-            return ['success'=>false, 'message'=>$e->getMessage()];
-        }
-    }
     public function getAllCountries()
     {
         try {
@@ -951,6 +940,60 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getVerificationFile(Request $request)
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $res = $api->verification_attachment(Auth::id(), $request->attachment_id);
+
+            if($res->status() !== 200)
+            {
+                return ['success'=>false, 'message'=>'Unknown error'];
+            }
+            else
+            {
+                $result = json_decode($res->content(), true);
+                if(!$result['success'])
+                {
+                    return ['success'=>false, 'message'=> $result['message']];
+                }
+                else
+                {
+                    switch ($result['attachment']['mime_type']) {
+                        case 'doc':
+                            $mime = 'application/vnd.ms-word';
+                            break;
+                        case 'docx':
+                            $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                            break;
+                        case 'pdf':
+                            $mime = 'application/pdf';
+                            break;
+                        case 'png':
+                            $mime = 'image/png';
+                            break;
+                        case 'jpg':
+                        case 'jpeg': // часто используют оба варианта расширения
+                            $mime = 'image/jpeg';
+                            break;
+                        case 'zip':
+                            $mime = 'application/zip';
+                            break;
+                        default:
+                            $mime = 'application/octet-stream';
+                            break;
+                    }
+                    return Storage::download('verifications/'.config('app.client_id').'/'.Auth::id().'/'.$result['attachment']['file_name'], basename($result['attachment']['file_name']), [
+                        'Content-Description' => 'File Transfer',
+                        'Content-Type' => $mime,
+                    ]);
+                }
+            }
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
     public function newAPIToken(Request $request)
     {
         $request->validate([
@@ -1307,20 +1350,20 @@ class TraderController extends Controller
     {
         $validator=Validator::make($request->all(), [
             'country' => 'required|string|size:2',
-            'reg_number' => 'required|string|min:8|max:64',
+            'reg_number' => 'required|string|min:5|max:64',
             'address' => 'required|string|min:8|max:256',
             'tax_number' => 'nullable|string|min:8|max:40',
             'name' => 'required|string|min:3|max:256',
-            'file_doc' => 'required',
-            'file_doc.*' => 'required|mimes:jpg,png,pdf,doc,docx,zip|max:15360'
+            'files' => 'nullable',
+            'files.*' => 'required|mimes:jpg,png,pdf,doc,docx,zip|max:15360'
         ], [], [
             'country' => __('kyc.local.validation.country'),
             'reg_number' => __('kyc.local.validation.reg_number'),
             'address' => __('kyc.local.validation.address'),
             'tax_number' => __('kyc.kontur.validation.tax_number'),
             'name' => __('kyc.kontur.validation.company_name'),
-            'file_doc' => __('kyc.file_doc'),
-            'file_doc.*' => __('kyc.kontur.validation.file_docs')
+            'files' => __('kyc.file_docs'),
+            'files.*' => __('kyc.kontur.validation.file_docs')
         ]);
         if ($validator->fails())
         {
@@ -1333,12 +1376,35 @@ class TraderController extends Controller
         {
             try
             {
-                $pathes = [];
-                if ($request->file('file_doc')) {
-                    foreach($request->file('file_doc') as $key => $file)
+                $paths = [];
+                if ($request->hasFile('files'))
+                {
+                    foreach($request->file('files') as $key => $file)
                     {
-                        $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $file);
-                        $pathes[] = $path_doc;
+                        if (!$file->isValid()) {
+                            return ['success'=>false, 'message'=>'Error while uploading files'];
+                        }
+                    }
+                    foreach($request->file('files') as $key => $file)
+                    {
+                        $extension = $file->extension(); // получаем реальное расширение из MIME-типа
+                        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $fileName = $originalName . '.' . $extension;
+                        $sizeBytes = $file->getSize();
+                        $sizeMb = round($sizeBytes / 1048576, 2, PHP_ROUND_HALF_DOWN);
+
+                        $path = Storage::putFileAs(
+                            'verifications/'.config('app.client_id').'/'.Auth::id(),
+                            $file,
+                            $fileName
+                        );
+                        $paths[] = [
+                            'name' => $fileName,
+                            'size_bytes' => $sizeBytes,
+                            'size_mb' => $sizeMb,
+                            'extension' => $extension,
+                            'path' => $path
+                        ];
                     }
                 }
 
@@ -1350,7 +1416,7 @@ class TraderController extends Controller
                     $request->address,
                     $request->reg_number,
                     $request->tax_number,
-                    $pathes
+                    $paths
                 );
             }
             catch (Exception $e)
@@ -1412,178 +1478,6 @@ class TraderController extends Controller
                 return ['success'=>false, 'message'=>$e->getMessage()];
             }
 
-        }
-    }
-
-    public function sendKYCRequest(Request $request)
-    {
-        $validator=Validator::make($request->all(), [
-            'first_name' => 'required|string|min:1|max:64',
-            'second_name' => 'required|string|min:1|max:64',
-            'surname' => 'required|string|min:1|max:64',
-            'sex' => 'required|string|in:male,female',
-            'birthday' => 'required|date_format:"Y-m-d"',
-            'birthday_place' => 'required|string|min:1|max:128',
-            'passport_no' => 'required|string|min:5|max:20',
-            'passport_place' => 'required|string|min:5|max:255',
-            'passport_date' => 'required|date_format:"Y-m-d"',
-            'address' => 'required|string|min:10|max:512',
-            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-        ], [], [
-            'first_name' => __('kyc.first_name'),
-            'second_name' => __('kyc.second_name'),
-            'surname' => __('kyc.surname'),
-            'sex' => __('kyc.sex'),
-            'birthday' => __('kyc.birthday'),
-            'birthday_place' => __('kyc.birthday_place'),
-            'passport_no' => __('kyc.passport_no'),
-            'passport_place' => __('kyc.passport_place'),
-            'passport_date' => __('kyc.passport_date'),
-            'address' => __('kyc.address'),
-            'file_ps' => __('kyc.file_ps'),
-            'file_ws' => __('kyc.file_ws'),
-            'file_ts' => __('kyc.file_ts'),
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->getMessages(),
-            ],422);
-        }
-        else
-        {
-            try{
-                $path_ps = Storage::putFile('verifications/'.config('app.api-secret-key').'/'.Auth::id(), $request->file('file_ps'));
-                $path_ws = Storage::putFile('verifications/'.config('app.api-secret-key').'/'.Auth::id(), $request->file('file_ws'));
-                $path_ts = Storage::putFile('verifications/'.config('app.api-secret-key').'/'.Auth::id(), $request->file('file_ts'));
-                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                return $api->verificationRequest(
-                    Auth::id(),
-                    $request->first_name,
-                    $request->second_name,
-                    $request->surname,
-                    $request->sex,
-                    $request->birthday,
-                    $request->birthday_place,
-                    $request->passport_no,
-                    $request->passport_place,
-                    $request->passport_date,
-                    $request->address,
-                    env('APP_URL').'/'.$path_ps,
-                    env('APP_URL').'/'.$path_ws,
-                    env('APP_URL').'/'.$path_ts,
-                );
-            }
-            catch (Exception $e)
-            {
-                return ['success'=>false, 'message'=>$e->getMessage()];
-            }
-
-        }
-    }
-    public function sendKYCFix(Request $request)
-    {
-        $validator=Validator::make($request->all(), [
-            'first_name' => 'required|string|min:1|max:64',
-            'second_name' => 'required|string|min:1|max:64',
-            'surname' => 'required|string|min:1|max:64',
-            'sex' => 'required|string|in:male,female',
-            'birthday' => 'required|date_format:"Y-m-d"',
-            'birthday_place' => 'required|string|min:1|max:128',
-            'passport_no' => 'required|string|min:5|max:20',
-            'passport_place' => 'required|string|min:5|max:255',
-            'passport_date' => 'required|date_format:"Y-m-d"',
-            'address' => 'required|string|min:10|max:512',
-            'file_ps' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ws' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ts' => 'nullable|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-        ], [], [
-            'first_name' => __('kyc.first_name'),
-            'second_name' => __('kyc.second_name'),
-            'surname' => __('kyc.surname'),
-            'sex' => __('kyc.sex'),
-            'birthday' => __('kyc.birthday'),
-            'birthday_place' => __('kyc.birthday_place'),
-            'passport_no' => __('kyc.passport_no'),
-            'passport_place' => __('kyc.passport_place'),
-            'passport_date' => __('kyc.passport_date'),
-            'address' => __('kyc.address'),
-            'file_ps' => __('kyc.file_ps'),
-            'file_ws' => __('kyc.file_ws'),
-            'file_ts' => __('kyc.file_ts'),
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->getMessages(),
-            ],422);
-        }
-        else
-        {
-            try{
-                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                $kyc = $api->getVerification(
-                    Auth::id()
-                );
-                if (isset($request->file_ps))
-                {
-                    $path_ps = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ps'));
-                    $path_ps = env('APP_URL').'/'.$path_ps;
-                }
-                else
-                    $path_ps = $kyc->getData()->data->file_ps;
-                if (isset($request->file_ws))
-                {
-                    $path_ws = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ws'));
-                    $path_ws = env('APP_URL').'/'.$path_ws;
-                }
-                else
-                    $path_ws = $kyc->getData()->data->file_ws;
-                if (isset($request->file_ts))
-                {
-                    $path_ts = Storage::putFile('verifications/'.Auth::id(), $request->file('file_ts'));
-                    $path_ts = env('APP_URL').'/'.$path_ts;
-                }
-                else
-                    $path_ts = $kyc->getData()->data->file_ts;
-
-                return $api->verificationRequest(
-                    Auth::id(),
-                    $request->first_name,
-                    $request->second_name,
-                    $request->surname,
-                    $request->sex,
-                    $request->birthday,
-                    $request->birthday_place,
-                    $request->passport_no,
-                    $request->passport_place,
-                    $request->passport_date,
-                    $request->address,
-                    $path_ps,
-                    $path_ws,
-                    $path_ts,
-                );
-            }
-            catch (Exception $e)
-            {
-                return ['success'=>false, 'message'=>$e->getMessage()];
-            }
-        }
-    }
-    public function setKYCPayment(Request $request) {
-        try {
-            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->verificationPayment(
-                Auth::id()
-            );
-        }
-        catch (Exception $e)
-        {
-            return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
     public function NotifyFiatQRReplenish(Request $request)
@@ -1685,53 +1579,6 @@ class TraderController extends Controller
             return $api->getKYCLocalCompData(
                 Auth::id()
             );
-        }
-        catch (Exception $e)
-        {
-            return ['success'=>false, 'message'=>$e->getMessage()];
-        }
-    }
-    public function getKYCRequest(Request $request)
-    {
-        try {
-            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->getVerification(
-                Auth::id()
-            );
-        }
-        catch (Exception $e)
-        {
-            return ['success'=>false, 'message'=>$e->getMessage()];
-        }
-    }
-    public function getKYCImage(Request $request)
-    {
-        try {
-            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            $kyc = $api->getVerification(
-                Auth::id()
-            );
-            switch ($request->type){
-                case 'ps':
-                    $kyc_file = $kyc->getData()->data->file_ps;
-                    if ($kyc_file === $request->path)
-                        $file=Storage::get(explode(env('APP_URL'),$kyc_file)[1]);
-                    break;
-                case 'ts':
-                    $kyc_file = $kyc->getData()->data->file_ts;
-                    if ($kyc_file === $request->path)
-                        $file=Storage::get(explode(env('APP_URL'),$kyc_file)[1]);
-                    break;
-                case 'ws':
-                    $kyc_file = $kyc->getData()->data->file_ws;
-                    if ($kyc_file === $request->path)
-                        $file=Storage::get(explode(env('APP_URL'),$kyc_file)[1]);
-                    break;
-                default:
-                    return response()->file(public_path().'/images/file-not-found.png');
-                    break;
-            }
-            return response($file);
         }
         catch (Exception $e)
         {

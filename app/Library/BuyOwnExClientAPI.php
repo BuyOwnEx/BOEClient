@@ -74,12 +74,6 @@ class BuyOwnExClientAPI
         $response = Http::withToken($this->api_key)->get($this->base.'v1/all_fiat_fees');
         return response()->json($response->json(),$response->status());
     }
-
-    public function all_banks()
-    {
-        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_banks');
-        return response()->json($response->json(),$response->status());
-    }
     public function all_countries()
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/all_countries');
@@ -887,6 +881,14 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function verification_attachment(int $user_id, int $attachment_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/verification_attachment',[
+            'trader' => $user_id,
+            'attachment_id' => $attachment_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
     public function all_ticket_comments(int $user_id, int $ticket_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/all_ticket_comments',[
@@ -1178,52 +1180,14 @@ class BuyOwnExClientAPI
             'address' => $address,
             'reg_number' => $reg_number,
             'tax_id' => $tax_id,
-            'file_doc' => $pathes
+            'files' => $pathes
         ];
-        /*foreach ($pathes as $key => $path)
-        {
-            $params['file_doc'.'['.$key.']'] = $path;
-        }*/
-        Log::info(print_r($params, true));
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/kyc_local_comp_request_md',$params);
         return response()->json($response->json(),$response->status());
     }
 
-    public function verificationRequest($trader_id, $first_name, $second_name, $surname, $sex, $birthday, $birthday_place, $passport_no, $passport_place, $passport_date, $address, $file_ps, $file_ws, $file_ts)
-    {
-        $params = [
-            'trader' => $trader_id,
-            'first_name' => $first_name,
-            'second_name' => $second_name,
-            'surname' => $surname,
-            'sex' => $sex,
-            'birthday' => $birthday,
-            'birthday_place' => $birthday_place,
-            'passport_no' => $passport_no,
-            'passport_place' => $passport_place,
-            'passport_date' => $passport_date,
-            'address' => $address,
-            'file_ps' => $file_ps,
-            'file_ws' => $file_ws,
-            'file_ts' => $file_ts,
-        ];
-        $response = Http::asForm()->withToken($this->api_key)
-            ->withHeaders($this->sign($params))
-            ->post($this->base.'v1/verification_request',$params);
-        return response()->json($response->json(),$response->status());
-    }
-    public function verificationPayment($trader_id)
-    {
-        $params = [
-            'trader' => $trader_id
-        ];
-        $response = Http::asForm()->withToken($this->api_key)
-            ->withHeaders($this->sign($params))
-            ->post($this->base.'v1/verification_payment',$params);
-        return response()->json($response->json(),$response->status());
-    }
     public function getKYCKonturData($trader_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/kyc_kontur_data',[
@@ -1245,14 +1209,6 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
-    public function getVerification($trader_id)
-    {
-        $response = Http::withToken($this->api_key)->get($this->base.'v1/verification_request',[
-            'trader' => $trader_id
-        ]);
-        return response()->json($response->json(),$response->status());
-    }
-
     public function notifyFiatQRReplenish($trader_id, $amount, $pay_template_id)
     {
         $params = [

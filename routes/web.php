@@ -79,20 +79,23 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['prefix' => 'trader'], function () {
-    Route::post('2fa_enable', ['middleware' => ['throttle:5','check_block_status'], 'uses' => 'Google2FAController@enableTwoFactorReady']);
-    Route::post('2fa_disable', ['middleware' => ['throttle:5','check_block_status'], 'uses' => 'Google2FAController@disableTwoFactorReady']);
-    Route::get('2fa_generate', 'Google2FAController@generateTwoFactor');
+    Route::middleware('auth')->group(function () {
+        Route::post('2fa_enable', ['middleware' => ['throttle:5','check_block_status'], 'uses' => 'Google2FAController@enableTwoFactorReady']);
+        Route::post('2fa_disable', ['middleware' => ['throttle:5','check_block_status'], 'uses' => 'Google2FAController@disableTwoFactorReady']);
+        Route::get('2fa_generate', 'Google2FAController@generateTwoFactor');
 
-    Route::get('tickets', 'TicketController@getAllTickets');
-    Route::get('ticket/info', 'TicketController@getTicketInfo');
-    Route::get('ticket/attachments', 'TicketController@getAllTicketAttachments');
-    Route::get('ticket/comments', 'TicketController@getAllTicketComments');
-    Route::get('ticket/file', 'TicketController@getTicketFile');
+        Route::get('tickets', 'TicketController@getAllTickets');
+        Route::get('ticket/info', 'TicketController@getTicketInfo');
+        Route::get('ticket/attachments', 'TicketController@getAllTicketAttachments');
+        Route::get('ticket/comments', 'TicketController@getAllTicketComments');
+        Route::get('ticket/file', 'TicketController@getTicketFile');
 
-    Route::post('ticket/create', 'TicketController@createTicket')->middleware('throttle:one-per-five-minutes');
-    Route::post('ticket/close', 'TicketController@closeTicket');
-    Route::post('ticket/add_comment', 'TicketController@addComment')->middleware('throttle:one-per-minute');
+        Route::post('ticket/create', 'TicketController@createTicket')->middleware('throttle:one-per-five-minutes');
+        Route::post('ticket/close', 'TicketController@closeTicket');
+        Route::post('ticket/add_comment', 'TicketController@addComment')->middleware('throttle:one-per-minute');
 
+        Route::get('verification/file', 'TraderController@getVerificationFile');
+    });
 
     Route::group(['prefix' => 'ext'], function () {
         Route::get('tickers', 'TraderController@getTickers')->name('tickers');
@@ -106,7 +109,6 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('all_currencies', 'TraderController@getAllCurrencies')->name('all_currencies');
         Route::get('all_fiat_platforms', 'TraderController@getAllFiatPlatforms')->name('all_fiat_platforms');
         Route::get('all_fiat_fees', 'TraderController@getAllFiatFees')->name('all_fiat_fees');
-        Route::get('all_banks', 'TraderController@getAllBanks')->name('all_banks');
         Route::get('all_countries', 'TraderController@getAllCountries')->name('all_countries');
         Route::get('exchange_dirs', 'TraderController@getExchangeDirs')->name('exchange_dirs');
         Route::get('health', 'TraderController@getHealth')->name('health');
@@ -146,7 +148,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('kyc_sumsub_token', 'TraderController@getKYCSumSubToken')->name('kyc_sumsub_token');
             Route::get('kyb_sumsub_token', 'TraderController@getKYBSumSubToken')->name('kyb_sumsub_token');
             Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');
-            Route::get('kyc_request', 'TraderController@getKYCRequest')->name('kyc_request');
+
             Route::get('kyc_kontur_data', 'TraderController@getKYCKonturData')->name('kyc_kontur_data');
             Route::get('kyc_local_ind_data', 'TraderController@getKYCLocalIndData')->name('kyc_local_ind_data');
             Route::get('kyc_local_comp_data', 'TraderController@getKYCLocalCompData')->name('kyc_local_comp_data');
@@ -163,8 +165,6 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('kgs_props','TraderController@getKgsProps')->name('kgs_props');
             Route::get('swift_props','TraderController@getSwiftProps')->name('swift_props');
             Route::get('qr_bank_details','TraderController@getQRBankDetails')->name('qr_bank_details');
-
-            Route::get('get_image', 'TraderController@getKYCImage')->name('kyc_image');
 
             Route::middleware('check_block_status')->group(function () {
                 Route::post('order/limit', 'TraderController@makeOrder')->name('limit_order');
@@ -223,9 +223,7 @@ Route::group(['prefix' => 'trader'], function () {
                 Route::post('kyc_local_ind_request', ['middleware' => 'throttle:5', 'uses' => 'TraderController@sendKYCLocalIndRequest'])->name('send_kyc_local_ind_request');
                 Route::post('kyc_local_comp_request', ['middleware' => 'throttle:5', 'uses' => 'TraderController@sendKYCLocalCompRequest'])->name('send_kyc_local_comp_request');
                 Route::post('kyc_local_comp_request_md', ['middleware' => 'throttle:5', 'uses' => 'TraderController@sendKYCLocalCompRequestMD'])->name('send_kyc_local_comp_request_md');
-                Route::post('kyc_request', 'TraderController@sendKYCRequest')->name('send_kyc_request');
-                Route::post('kyc_fix', 'TraderController@sendKYCFix')->name('send_kyc_fix');
-                Route::post('kyc_payment', 'TraderController@setKYCPayment')->name('set_kyc_payment');
+
 
                 Route::post('notify_fiat_qr_replenish', 'TraderController@NotifyFiatQRReplenish')->name('notify_fiat_qr_replenish');
                 Route::post('notify_fiat_invoice_replenish', 'TraderController@NotifyFiatInvoiceReplenish')->name('notify_fiat_invoice_replenish');

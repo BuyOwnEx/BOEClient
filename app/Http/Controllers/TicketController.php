@@ -44,7 +44,6 @@ class TicketController extends Controller
             else
             {
                 $result = json_decode($res->content(), true);
-                Log::info($result);
                 if(!$result['success'])
                 {
                     return ['success'=>false, 'message'=> $result['message']];

@@ -1,17 +1,40 @@
 <template>
   <v-card class="user-verification-tab fill-height d-flex flex-column">
     <v-card-text class="d-flex flex-column flex-grow-1" v-if="loaded">
-      <v-row class="d-flex flex-grow-1 justify-space-between" v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified)">
-        <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card flat class="user-account-tab-verification-description">
-            <v-card-title>{{ $t('kyc.manual.legal.title') }}</v-card-title>
-            <v-card-subtitle class="pb-0">
-              <span class="font-italic caption">{{ $t('kyc.manual.legal.description') }}</span>
-            </v-card-subtitle>
+      <v-row class="d-flex flex-grow-1 justify-space-between">
+        <v-col class="pb-1 pt-1" cols="12" xl="5">
+          <v-card flat outlined class="user-account-tab-verification-status">
+            <v-card-title class="d-flex justify-space-between">
+              <span>{{ $t('kyc.manual.legal.status') }}</span>
+              <v-chip small label outlined :color="get_state_color" class="ml-1 overline text-uppercase font-weight-black">
+                {{ get_state_name }}
+              </v-chip>
+            </v-card-title>
           </v-card>
-          <v-card flat>
-            <v-card-text>
-              <v-form v-model="isValidCompRequestForm">
+          <v-alert v-if="kyc_state === 'correction' && correction_reason" dense border="left" text :icon="false" color="orange" class="mt-3">
+            <small><span class="text-decoration-underline">{{ $t('kyc.manual.legal.correction_reason') }}:</span> <span class="font-italic">{{ correction_reason }}</span></small>
+          </v-alert>
+          <v-form v-model="isValidCompRequestForm">
+            <v-card flat outlined class="mt-1">
+              <v-card-title>{{ $t('kyc.manual.legal.title') }}</v-card-title>
+              <v-card-subtitle v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified) || (kyc_state === 'correction' && !is_verified)">
+                <span class="font-italic caption">{{ $t('kyc.manual.legal.description') }}</span>
+              </v-card-subtitle>
+              <v-divider></v-divider>
+              <v-card-text class="pt-0">
+                <div v-if="(kyc_state === 'new' || kyc_state === 'accepted') && resident === 'resident'" class="d-flex justify-space-between py-1 pt-2">
+                  <div>
+                    <span>{{ $t('common.country') }}: </span>
+                  </div>
+                  <div>
+                    <item-with-logo
+                        :cell_text="getCountryName(comp_data.country)"
+                        :logo="getCountryLogo(comp_data.country)"
+                        :tile="true"
+                        :size="16"
+                    ></item-with-logo>
+                  </div>
+                </div>
                 <v-select
                     v-if="resident === 'non_resident'"
                     v-model="comp_data.country"
@@ -21,9 +44,10 @@
                     :label="$t('kyc.country')"
                     :hint="$t('kyc.select_resident_country')"
                     :rules="[rules.required]"
+                    :disabled="kyc_state === 'new' || kyc_state === 'accepted'"
                     autofocus
                     persistent-hint
-                    hide-details="auto"
+                    :hide-details="kyc_state !== 'new' && kyc_state !== 'accepted' ? 'auto' : true"
                     required
                     class="required mb-2"
                 >
@@ -54,17 +78,18 @@
                     <span class="ml-1">{{ $t('countries.'+item.iso.toLowerCase()) }}</span>
                   </template>
                 </v-select>
-
                 <v-text-field
-                    class="mb-1 pt-1"
                     v-model="comp_data.name"
                     :label="getCompNameLabel"
                     :hint="getCompNameHint"
                     :rules="compNameRules"
+                    :disabled="kyc_state === 'new' || kyc_state === 'accepted'"
+                    :hide-details="kyc_state !== 'new' && kyc_state !== 'accepted' ? 'auto' : true"
                     persistent-hint
-                    outlined
+                    clearable
+                    required
+                    class="required mb-1"
                 />
-
                 <v-text-field
                     v-model="comp_data.reg_number"
                     :label="getCompRegNoLabel"
@@ -72,6 +97,8 @@
                     :rules="regNoRules"
                     v-mask="document_mask"
                     :error-messages="errors.reg_number"
+                    :disabled="kyc_state === 'new' || kyc_state === 'accepted'"
+                    :hide-details="kyc_state !== 'new' && kyc_state !== 'accepted' ? 'auto' : true"
                     persistent-hint
                     clearable
                     required
@@ -79,7 +106,6 @@
                     @input="errors.reg_number = []"
                 >
                 </v-text-field>
-
                 <v-text-field
                     v-model="comp_data.tax_number"
                     :label="$t('kyc.manual.legal.form.inn')"
@@ -87,6 +113,8 @@
                     :rules="taxNoRules"
                     v-mask="tax_id_mask"
                     :error-messages="errors.tax_number"
+                    :disabled="kyc_state === 'new' || kyc_state === 'accepted'"
+                    :hide-details="kyc_state !== 'new' && kyc_state !== 'accepted' ? 'auto' : true"
                     persistent-hint
                     clearable
                     required
@@ -94,223 +122,132 @@
                     @input="errors.tax_number = []"
                 >
                 </v-text-field>
-
                 <v-text-field
                     v-model="comp_data.address"
                     :label="$t('kyc.manual.legal.form.address')"
                     :hint="$t('kyc.manual.legal.hints.address')"
                     :rules="[rules.required]"
                     :error-messages="errors.address"
+                    :disabled="kyc_state === 'new' || kyc_state === 'accepted'"
+                    :hide-details="kyc_state !== 'new' && kyc_state !== 'accepted' ? 'auto' : true"
                     persistent-hint
                     clearable
                     required
                     class="required mb-1"
                     @input="errors.address = []"
                 />
+              </v-card-text>
+            </v-card>
+            <v-alert v-if="kyc_state === null || kyc_state === 'correction'" dense border="left" text :icon="false" color="primary" class="mt-3">
+              <small><span class="font-italic">{{ $t('kyc.manual.legal.docs_manual') }} <Link path="/knowledge">{{ $t('titles.knowledge') }}</Link></span></small>
+            </v-alert>
+            <v-card flat outlined class="mt-1">
+              <div class="d-flex justify-space-between">
+                <div>
+                  <v-card-title>{{ $t('kyc.manual.legal.documents') }}</v-card-title>
+                  <v-card-subtitle v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified) || (kyc_state === 'correction' && !is_verified)">
+                    <span class="font-italic caption">{{ $t('kyc.manual.legal.docs_description',{size: max_files_size_mb, limit: max_files}) }}</span>
+                  </v-card-subtitle>
+                </div>
+                <div class="align-self-center mx-1 pa-1 pl-0" v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified) || (kyc_state === 'correction' && !is_verified)">
+                  <v-chip small label outlined :color="get_doc_color" class="overline text-uppercase font-weight-black">
+                    {{ BigNumber(get_doc_size).div(1024).div(1024).dp(2).toString() }}Mb/{{ $tc('common.files', filled_doc_count, [filled_doc_count]) }}
+                  </v-chip>
+                </div>
+              </div>
+              <v-divider></v-divider>
+              <div v-if="attachments.length > 0" class="px-2 mt-1">
+                <small>{{ $t('kyc.manual.legal.uploaded_documents') }}</small>
+              </div>
+              <v-sheet v-if="attachments.length > 0" class="pa-1 px-2 pb-2">
+                <div
+                    v-for="attach in this.attachments"
+                    :key="attach.id"
+                    class="d-flex align-self-center mt-1"
+                >
+                  <v-avatar size="22" class="my-0">
+                    <v-icon :color="getAttachIconColor(attach.mime_type)" >{{ getAttachIcon(attach.mime_type) }}</v-icon>
+                  </v-avatar>
 
-                <v-file-input
-                    v-if="product.kybLocalUploadType !== 'multiple_docs'"
-                    v-model="comp_data.file_doc"
-                    :label="getFileDocLabel"
-                    :hint="getFileDocHint"
-                    :accept="getFileDocAccept"
-                    :prepend-icon="getFileDocIcon"
-                    :error-messages="errors.file_doc"
-                    @input="errors.file_doc = []"
-                    @change="errors.file_doc = []"
-                    :rules="product.kybLocalUploadType === 'letter' ? [rules.required, rules.maxFileSize2MB] : [rules.required, rules.maxFileSize100MB]"
-                    persistent-hint
-                    clearable
-                    required
-                    class="required"
-                ></v-file-input>
-                <v-file-input
-                    v-else
-                    v-model="comp_data.file_doc"
-                    :label="getFileDocLabel"
-                    :hint="getFileDocHint"
-                    :accept="getFileDocAccept"
-                    :prepend-icon="getFileDocIcon"
-                    :error-messages="errors.file_doc"
-                    @input="errors.file_doc = []"
-                    @change="errors.file_doc = []"
-                    :rules="[rules.required, rules.max20files, rules.maxMultiFilesSize15MB, rules.uploadDocTypes]"
-                    multiple
-                    :counter="20"
-                    :show-size="1000"
-                    persistent-hint
-                    clearable
-                    required
-                    class="required"
-                ></v-file-input>
-              </v-form>
-            </v-card-text>
-          </v-card>
-          <v-card flat>
+                  <div class="d-flex ml-1">
+                    <span class="font-weight-medium text-truncate">{{ attach.file_name }}</span>
+                    <div class="d-inline-flex align-center ml-1">
+                      <v-icon style="cursor: pointer" color="secondary" small class="d-inline mr-1" @click="download_verification_attachment(attach.id, attach.file_name)">mdi-download</v-icon>
+                      <h5 class="text-subtitle-2">{{ attach.size_mb }}Mb</h5>
+                    </div>
+                  </div>
+                </div>
+              </v-sheet>
+              <v-divider v-if="kyc_state === 'correction'"></v-divider>
+              <div v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified) || (kyc_state === 'correction' && !is_verified)" class="px-2 mt-1">
+                <small>{{ $t('kyc.manual.legal.new_documents') }}</small>
+              </div>
+              <v-card-text v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified) || (kyc_state === 'correction' && !is_verified)" class="pt-0">
+                <div class="d-flex flex-column">
+                  <div v-for="(item, index) in comp_data.file_docs" :key="index">
+                    <v-file-input
+                        v-model="item.file"
+                        :label="getMultipleFileDocLabel(index)"
+                        :hint="getFileDocHint"
+                        :accept="getFileDocAccept"
+                        :prepend-icon="getFileDocIcon"
+                        :error-messages="errors.file_docs"
+                        @input="errors.file_docs = []"
+                        @change="onFileChange(index, $event)"
+                        :rules="kyc_state === 'correction' ? [rules.maxFileSize15MB, rules.uploadDocTypes] : [rules.required, rules.maxFileSize15MB, rules.uploadDocTypes]"
+                        :show-size="1024"
+                        :disabled="kyc_state === 'new' || kyc_state === 'accepted'"
+                        persistent-hint
+                        clearable
+                        required
+                        dense
+                        flat
+                        class="required mt-2"
+                    >
+                      <template v-slot:append-outer>
+                        <CommonTooltip :value="$t('common.delete')">
+                          <v-btn
+                              x-small
+                              color="error"
+                              icon
+                              @click="removeFileInput(index)"
+                              v-if="comp_data.file_docs.length > 1"
+                              class="ml-1"
+                          >
+                            <v-icon>mdi-trash-can-outline</v-icon>
+                          </v-btn>
+                        </CommonTooltip>
+                      </template>
+                    </v-file-input>
+                  </div>
+                  <div class="mt-1" v-if="comp_data.file_docs.length < max_files && is_docs_size_valid">
+                    <CommonTooltip :value="$t('common.add')">
+                      <v-btn icon small color="primary" @click="addFileInput">
+                        <v-icon>mdi-plus-circle</v-icon>
+                      </v-btn>
+                    </CommonTooltip>
+                  </div>
+                </div>
+                <v-alert dense border="left" text :icon="false" type="error" class="mt-3" v-if="!is_docs_size_valid">
+                  <small>{{ $t('kyc.manual.legal.max_files_size_error',{size: max_files_size_mb}) }}</small>
+                </v-alert>
+              </v-card-text>
+            </v-card>
+          </v-form>
+          <v-card flat v-if="kyc_state === null || (kyc_state === 'rejected' && !is_verified) || (kyc_state === 'correction' && !is_verified)">
             <v-card-actions class="common-dialog__actions">
               <v-spacer />
-              <v-btn color="success" :loading="loading" :disabled="!compRequestAvailable || loading" tile block @click="sendCompKYCRequest">
+              <v-btn color="success" :loading="loading" :disabled="!compRequestAvailable || !is_docs_size_valid || loading" tile block @click="sendCompKYCRequest">
                 {{ $t('common.send') }}
               </v-btn>
               <v-spacer />
             </v-card-actions>
           </v-card>
         </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="2">
+        <v-col class="pb-1 pt-1" cols="12" xl="2">
         </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card flat class="user-account-tab-result" v-if="kyc_state === 'rejected' && !is_verified">
-            <v-card-subtitle>
-              <v-alert
-                  :icon="kyc_state_icon(kyc_state, is_verified)"
-                  text
-                  :type="kyc_state_alert_type(kyc_state, is_verified)"
-                  class="mb-1"
-              >
-                {{ kyc_state_alert_text(kyc_state, is_verified) }}
-              </v-alert>
-              <span class="font-italic caption red--text" v-if="local_comp_data.reason"> {{ $t('kyc.rejected_alert.reason') }}: {{ local_comp_data.reason }}</span>
-            </v-card-subtitle>
-            <v-card-text>
-              <div class="kyc-local-item__info-wrapper">
+        <v-col class="pb-1 pt-1" cols="12" xl="5">
 
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.name_brief') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.company_name }}</div>
-                </div>
-
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.reg_no') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.registration_number }}</div>
-                </div>
-
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.address') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.address }}</div>
-                </div>
-
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.inn') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.tax_id }}</div>
-                </div>
-
-                <div class="kyc-local-item__created-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ product.kybLocalUploadType === 'zip_docs'? $t('kyc.manual.zip_file_uploaded') : $t('kyc.manual.doc_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-local-item__created-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.created_at') }}
-                  </div>
-                  <div class="kyc-local-item__created">
-                    {{ formatDate(local_comp_data.created_at) }}
-                  </div>
-                </div>
-                <div class="kyc-local-item__updated-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.updated_at') }}
-                  </div>
-                  <div class="kyc-local-item__updated">
-                    {{ formatDate(local_comp_data.updated_at) }}
-                  </div>
-                </div>
-
-              </div>
-            </v-card-text>
-
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row class="d-flex flex-grow-1 justify-space-between" v-else-if="(kyc_state === 'accepted' && is_verified) || kyc_state === 'new'">
-        <v-col class="pb-1 pt-1" cols="12" md="5">
-          <v-card flat class="user-account-tab-result">
-            <v-card-subtitle>
-              <v-alert
-                  :icon="kyc_state_icon(kyc_state, is_verified)"
-                  text
-                  :type="kyc_state_alert_type(kyc_state, is_verified)"
-                  class="mb-0"
-              >
-                {{ kyc_state_alert_text(kyc_state, is_verified) }}
-              </v-alert>
-            </v-card-subtitle>
-            <v-card-text>
-              <div class="kyc-local-item__info-wrapper">
-
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.name_brief') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.company_name }}</div>
-                </div>
-
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.reg_no') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.registration_number }}</div>
-                </div>
-
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.inn') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.tax_id }}</div>
-                </div>
-
-                <div class="kyc-local-item__secret-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.legal.form.address') }}
-                  </div>
-                  <div class="kyc-local-item__secret-key">{{ local_comp_data.address }}</div>
-                </div>
-
-                <div class="kyc-local-item__created-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    <v-icon small color="green darken-2">
-                      mdi-check
-                    </v-icon>
-                    <span class="ml-1">{{ product.kybLocalUploadType === 'zip_docs'? $t('kyc.manual.zip_file_uploaded') : $t('kyc.manual.doc_file_uploaded') }}</span>
-                  </div>
-                </div>
-
-                <div class="kyc-local-item__created-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.created_at') }}
-                  </div>
-                  <div class="kyc-local-item__created">
-                    {{ formatDate(local_comp_data.created_at) }}
-                  </div>
-                </div>
-                <div class="kyc-local-item__updated-key-wrapper">
-                  <div class="kyc-local-item__header">
-                    {{ $t('kyc.manual.updated_at') }}
-                  </div>
-                  <div class="kyc-local-item__updated">
-                    {{ formatDate(local_comp_data.updated_at) }}
-                  </div>
-                </div>
-
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="2">
-        </v-col>
-        <v-col class="pb-1 pt-1" cols="12" md="5">
         </v-col>
       </v-row>
     </v-card-text>
@@ -320,12 +257,24 @@
 <script>
 import formValidationRules from '@/mixins/common/formValidationRules';
 import formatDate from '@/mixins/format/formatDate';
-import { mapMutations, mapState } from 'vuex';
+import bignumber from "@/mixins/format/bignumber.js";
+import download from "@/mixins/download/download.js";
+import { mapMutations, mapState, mapActions } from 'vuex';
+import CommonTooltip from "@/components/common/CommonTooltip.vue";
+import ItemWithLogo from "@/components/common/ItemWithLogo.vue";
+import Link from "@/components/common/Link.vue";
 export default {
   name: 'LocalCompany',
+  components: {
+    Link,
+    CommonTooltip,
+    ItemWithLogo
+  },
   mixins: [
     formValidationRules,
-    formatDate
+    formatDate,
+    bignumber,
+    download
   ],
   props: {
     residentCountry: {
@@ -340,8 +289,14 @@ export default {
   data() {
     return {
       isValidCompRequestForm: false,
+      max_files: 20,
+      max_files_size_mb: 100,
+      warning_max_files: 15,
+      warning_files_size_mb: 75,
       loaded: false,
       loading: false,
+      attachments: [],
+      correction_reason: null,
       comp_data: {
         country: this.resident === 'resident' ? this.residentCountry : null,
         reg_number: null,
@@ -350,7 +305,9 @@ export default {
         name: null,
         created_at: null,
         updated_at: null,
-        file_doc: null
+        file_docs: [
+          { file: null }
+        ]
       },
       errors: {
         country: [],
@@ -358,7 +315,7 @@ export default {
         address: [],
         tax_number: [],
         name: [],
-        file_doc: []
+        file_docs: []
       },
       countries: [],
     };
@@ -389,41 +346,14 @@ export default {
       else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
       else return [this.rules.required, this.rules.min8char, this.rules.max40char];
     },
-    getFileDocLabel() {
-      if(this.product.kybLocalUploadType)
-      {
-        if(this.product.kybLocalUploadType === 'letter') return this.$t('kyc.file_doc')
-        else if(this.product.kybLocalUploadType === 'zip_docs') return this.$t('kyc.zip_file_doc')
-        else if(this.product.kybLocalUploadType === 'multiple_docs') return this.$t('kyc.multiple_doc')
-        else return this.$t('kyc.file_doc')
-      } else return this.$t('kyc.file_doc')
-    },
     getFileDocHint() {
-      if(this.product.kybLocalUploadType)
-      {
-        if(this.product.kybLocalUploadType === 'letter') return this.$t('kyc.file_doc_hint')
-        else if(this.product.kybLocalUploadType === 'zip_docs') return this.$t('kyc.zip_file_doc_hint')
-        else if(this.product.kybLocalUploadType === 'multiple_docs') return this.$t('kyc.multiple_doc_hint')
-        else return this.$t('kyc.file_doc_hint')
-      } else return this.$t('kyc.file_doc_hint')
+      return this.$t('kyc.multiple_doc_hint')
     },
     getFileDocAccept() {
-      if(this.product.kybLocalUploadType)
-      {
-        if(this.product.kybLocalUploadType === 'letter') return 'application/pdf'
-        else if(this.product.kybLocalUploadType === 'zip_docs') return 'application/zip'
-        else if(this.product.kybLocalUploadType === 'multiple_docs') return 'image/jpeg,image/png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip'
-        else return 'application/pdf'
-      } else return 'application/pdf'
+      return 'image/jpeg,image/png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip'
     },
     getFileDocIcon() {
-      if(this.product.kybLocalUploadType)
-      {
-        if(this.product.kybLocalUploadType === 'letter') return 'mdi-file-pdf-box'
-        else if(this.product.kybLocalUploadType === 'zip_docs') return 'mdi-zip-box'
-        else if(this.product.kybLocalUploadType === 'multiple_docs') return 'mdi-paperclip'
-        else return 'mdi-file-pdf-box'
-      } else return 'mdi-file-pdf-box'
+      return 'mdi-paperclip'
     },
     getCompNameLabel() {
       if(this.comp_data.country === 'AU') return this.$t('kyc.manual.legal.form.abn');
@@ -634,10 +564,6 @@ export default {
         reason: this.kyc_local_comp.reason ? this.kyc_local_comp.reason : null,
       }
     },
-
-    show_global_form() {
-      return (this.residentCountry === 'RU' && this.resident === 'non_resident') || (this.residentCountry !== 'RU' && this.comp_data.country !== 'RU')
-    },
     document_mask() {
       if(this.isRU) return '##############?#?';
       else if(this.isKG) return '######-####-XXX';
@@ -647,12 +573,62 @@ export default {
       if(this.isRU) return '###########?#?';
       else if(this.isKG) return '##############';
       else return null;
-    }
+    },
+    get_state_name() {
+      if(this.kyc_state === null) return this.$t('kyc.manual.legal.statuses.draft');
+      else return this.$t('kyc.manual.legal.statuses.'+this.kyc_state);
+    },
+    get_state_color() {
+      if(this.kyc_state === null) return 'secondary';
+      else if(this.kyc_state === 'new') return 'info';
+      else if(this.kyc_state === 'correction') return 'warning';
+      else if(this.kyc_state === 'rejected') return 'error';
+      else if(this.kyc_state === 'accepted') return 'success';
+      else return 'primary';
+    },
+    filled_docs() {
+      return _.filter(this.comp_data.file_docs, item => { return  item.file !==null });
+    },
+    filled_doc_count() {
+      return this.filled_docs.length;
+    },
+    get_doc_size() {
+      return this.filled_doc_count > 0 ? _.sumBy(this.filled_docs, 'file.size') : 0;
+    },
+    is_docs_size_valid() {
+      return this.BigNumber(this.get_doc_size).div(1024).div(1024).dp(2).lte(this.max_files_size_mb);
+    },
+    get_doc_color() {
+      if(this.filled_doc_count === 0) return 'secondary';
+      else if(this.filled_doc_count > 0)
+      {
+        if(this.filled_doc_count > this.max_files || this.BigNumber(this.get_doc_size).div(1024).div(1024).dp(2).gt(this.max_files_size_mb)) return 'error';
+        else if(this.filled_doc_count > this.warning_max_files || this.BigNumber(this.get_doc_size).div(1024).div(1024).dp(2).gt(this.warning_files_size_mb)) return 'warning';
+        else return 'success';
+      }
+    },
   },
   methods: {
     ...mapMutations({
       setStateLocalKYCStore: 'user/setKYCLocalCompState',
     }),
+    ...mapActions({
+      getVerificationStatusStore: 'user/getVerificationStatus',
+    }),
+    removeFileInput(index) {
+      console.log(index);
+      this.comp_data.file_docs.splice(index, 1);
+    },
+    addFileInput() {
+      this.comp_data.file_docs.push({ file: null });
+    },
+    onFileChange(index, file) {
+      this.errors.file_docs = [];
+      console.log(`File ${index} changed:`, file);
+    },
+    getMultipleFileDocLabel(index) {
+      return this.$t('kyc.multiple_doc',{index: index + 1})
+    },
     kyc_state_icon(state, is_verified) {
       if(state === 'accepted' && is_verified) return 'mdi-account-check'
       else if(state === 'rejected' && !is_verified) return 'mdi-account-cancel'
@@ -668,41 +644,71 @@ export default {
       else if(state === 'rejected' && !is_verified) return this.$t('kyc.manual.state.finish.error')
       else if(state === 'new') return this.$t('kyc.manual.state.new')
     },
+    getCountryName(code) {
+      return this.$t('countries.'+code.toLowerCase());
+    },
+    getCountryLogo(code) {
+      const index = _.findIndex(this.countries, (item) => { return item.iso === code});
+      if(index > -1) return this.countries[index].logo;
+      else return null;
+    },
+    getAttachIcon(mime_type) {
+      if(mime_type === 'pdf') return 'mdi-file-pdf-box';
+      else if(mime_type === 'jpg') return 'mdi-file-jpg-box';
+      else if(mime_type === 'png') return 'mdi-file-png-box';
+      else if(mime_type === 'doc' || mime_type === 'docx') return 'mdi-file-word-box';
+      else if(mime_type === 'zip') return 'mdi-zip-box';
+      else return 'mdi-link-box-variant';
+    },
+    getAttachIconColor(mime_type) {
+      if (mime_type === 'pdf') return 'rgb(220, 40, 60)';
+      else if (mime_type === 'jpg') return 'rgb(0, 128, 64)';
+      else if (mime_type === 'png') return 'rgb(0, 102, 204)';
+      else if (mime_type === 'doc' || mime_type === 'docx') return 'rgb(43, 85, 154)';
+      else if (mime_type === 'zip') return 'rgb(128, 128, 128)';
+      else return 'rgb(102, 102, 102)';
+    },
+    getKYCLocalCompDataStore() {
+      this.loaded = false;
+      this.$store.dispatch('user/getKYCLocalCompData').then( res => {
+        if(res.data && (res.data.state === 'new' || res.data.state === 'correction' || res.data.state === 'accepted'))
+        {
+          this.comp_data.address = res.data.address;
+          this.comp_data.country = res.data.country;
+          this.comp_data.name = res.data.company_name;
+          this.comp_data.reg_number = res.data.registration_number;
+          this.comp_data.tax_number = res.data.tax_id;
+          this.comp_data.created_at = res.data.created_at;
+          this.comp_data.updated_at = res.data.updated_at;
+          this.attachments = res.attachments ? res.attachments : [];
+          this.correction_reason = res.data.correction_reason;
+        }
+        this.loaded = true;
+      });
+    },
     sendCompKYCRequest() {
       this.loading = true;
       let self = this;
       let formData = new FormData();
-      let url = '/trader/ext/kyc_local_comp_request';
-      if(this.product.kybLocalUploadType === 'multiple_docs')
-      {
-        url = '/trader/ext/kyc_local_comp_request_md'
-        _.each(this.comp_data, function (value, key) {
-          if (key === 'file_doc' && value.length > 0) {
-            for(let i=0; i < value.length; i++)
-            {
-              formData.append(key+'['+i+']', value[i], value[i].name);
-            }
+      const url = '/trader/ext/kyc_local_comp_request_md';
+      _.each(this.comp_data, function (value, key) {
+        if (key === 'file_docs' && value.length > 0) {
+          let files = _.filter(value, item => {return item.file !== null});
+          for(let i=0; i < files.length; i++)
+          {
+            formData.append('files['+i+']', files[i].file, files[i].file.name);
           }
-          else {
-            if (value !== null) formData.append(key, value);
-          }
-        });
-      }
-      else
-      {
-        _.each(this.comp_data, function (value, key) {
-          if (key === 'file_doc' && value.name) {
-            formData.append(key, value, value.name);
-          }
-          else {
-            if (value !== null) formData.append(key, value);
-          }
-        });
-      }
+        }
+        else {
+          if (value !== null) formData.append(key, value);
+        }
+      });
+
       axios.post(url, formData)
       .then(response => {
         if (response.data.success === true) {
-          this.$store.dispatch('user/getKYCLocalCompData');
+          this.getKYCLocalCompDataStore();
+          this.getVerificationStatusStore();
         }
       })
       .catch((error) => {
@@ -728,9 +734,7 @@ export default {
     axios.get('/trader/ext/all_countries').then(response => {
       this.countries = response.data.data;
     });
-    this.$store.dispatch('user/getKYCLocalCompData').then( res => {
-      this.loaded = true;
-    });
+    this.getKYCLocalCompDataStore();
   }
 };
 </script>

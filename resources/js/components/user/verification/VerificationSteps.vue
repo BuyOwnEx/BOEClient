@@ -133,26 +133,47 @@
           v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'sumsub'"
           @set_reason="set_reason"
       ></sum-sub-kyb>
-      <local-individual
-          v-if="residence === 'non_resident' && legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'local'"
+      <local-individual-v1
+          v-if="residence === 'non_resident' && legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'local' && local_verification_version === 'v1'"
           :resident-country="verification_settings.resident_country"
           :resident="residence"
-      ></local-individual>
-      <local-company
-          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local'"
+      ></local-individual-v1>
+      <local-company-v1
+          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local' && local_verification_version === 'v1'"
           :resident-country="verification_settings.resident_country"
           :resident="residence"
-      ></local-company>
-      <local-individual
-          v-if="residence === 'resident' && legality === 'individual' && verification_settings.resident_individual_kyc_provider === 'local'"
+      ></local-company-v1>
+      <local-individual-v1
+          v-if="residence === 'resident' && legality === 'individual' && verification_settings.resident_individual_kyc_provider === 'local' && local_verification_version === 'v1'"
           :resident-country="verification_settings.resident_country"
           :resident="residence"
-      ></local-individual>
-      <local-company
-          v-if="residence === 'resident' && legality === 'legal' && verification_settings.resident_legal_kyc_provider	 === 'local'"
+      ></local-individual-v1>
+      <local-company-v1
+          v-if="residence === 'resident' && legality === 'legal' && verification_settings.resident_legal_kyc_provider	 === 'local' && local_verification_version === 'v1'"
           :resident-country="verification_settings.resident_country"
           :resident="residence"
-      ></local-company>
+      ></local-company-v1>
+
+      <local-individual-v2
+          v-if="residence === 'non_resident' && legality === 'individual' && verification_settings.non_resident_individual_kyc_provider === 'local' && local_verification_version === 'v2'"
+          :resident-country="verification_settings.resident_country"
+          :resident="residence"
+      ></local-individual-v2>
+      <local-company-v2
+          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.non_resident_legal_kyc_provider	 === 'local'  && local_verification_version === 'v2'"
+          :resident-country="verification_settings.resident_country"
+          :resident="residence"
+      ></local-company-v2>
+      <local-individual-v2
+          v-if="residence === 'resident' && legality === 'individual' && verification_settings.resident_individual_kyc_provider === 'local' && local_verification_version === 'v2'"
+          :resident-country="verification_settings.resident_country"
+          :resident="residence"
+      ></local-individual-v2>
+      <local-company-v2
+          v-if="residence === 'resident' && legality === 'legal' && verification_settings.resident_legal_kyc_provider	 === 'local' && local_verification_version === 'v2'"
+          :resident-country="verification_settings.resident_country"
+          :resident="residence"
+      ></local-company-v2>
       <v-btn
           v-if="verifyStatus === 'new'"
           class="text-uppercase caption"
@@ -167,12 +188,14 @@
 </template>
 
 <script>
-import KonturIndividual from '@/components/user/verification/KonturIndividual.vue';
-import KonturCompany from '@/components/user/verification/KonturCompany.vue';
-import SumSubKyc from '@/components/user/verification/SumSubKyc.vue';
-import SumSubKyb from '@/components/user/verification/SumSubKyb.vue';
-import LocalIndividual from '@/components/user/verification/LocalIndividual.vue';
-import LocalCompany from '@/components/user/verification/LocalCompany.vue';
+import KonturIndividual from '@/components/user/verification/kontur/KonturIndividual.vue';
+import KonturCompany from '@/components/user/verification/kontur/KonturCompany.vue';
+import SumSubKyc from '@/components/user/verification/sumsub/SumSubKyc.vue';
+import SumSubKyb from '@/components/user/verification/sumsub/SumSubKyb.vue';
+import LocalIndividualV1 from '@/components/user/verification/local/v1/LocalIndividual.vue';
+import LocalCompanyV1 from '@/components/user/verification/local/v1/LocalCompany.vue';
+import LocalIndividualV2 from '@/components/user/verification/local/v2/LocalIndividual.vue';
+import LocalCompanyV2 from '@/components/user/verification/local/v2/LocalCompany.vue';
 import ForbiddenAlert from '@/components/user/verification/ForbiddenAlert.vue';
 import { mapActions, mapState } from 'vuex';
 export default {
@@ -182,8 +205,10 @@ export default {
     KonturCompany,
     SumSubKyc,
     SumSubKyb,
-    LocalIndividual,
-    LocalCompany,
+    LocalIndividualV1,
+    LocalCompanyV1,
+    LocalIndividualV2,
+    LocalCompanyV2,
     ForbiddenAlert
   },
   data() {
@@ -198,6 +223,9 @@ export default {
   },
   computed: {
     ...mapState('user', ['verificationStatus']),
+    local_verification_version() {
+      return import.meta.env.VITE_LOCAL_VERIFICATION_VERSION === 'v2' ? 'v2' : 'v1'
+    },
     verifyStatus() {
       return this.verificationStatus === null ? null : this.verificationStatus.status;
     },

@@ -97,7 +97,8 @@ export default {
 			is_verified: null,
 			created_at: null,
 			updated_at: null
-		}
+		},
+        kyc_local_comp_attachments: []
 	},
 
 	getters: {
@@ -374,6 +375,9 @@ export default {
 		setKYCLocalCompData(state, data) {
 			state.kyc_local_comp = data;
 		},
+        setKYCLocalCompAttachments(state, data) {
+            state.kyc_local_comp_attachments = data;
+        },
 		setKYCLocalCompState(state, data) {
 			state.kyc_local_comp.state = data;
 		},
@@ -551,7 +555,8 @@ export default {
 					.get('/trader/ext/kyc_local_comp_data')
 					.then(response => {
 						commit('setKYCLocalCompData', response.data.data);
-						resolve();
+                        if(response.data.attachments) commit('setKYCLocalCompAttachments', response.data.attachments);
+						resolve(response.data);
 					})
 					.catch(error => {
 						console.log(error);
