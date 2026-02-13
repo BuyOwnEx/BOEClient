@@ -528,6 +528,7 @@ export default {
 	::v-deep .v-data-table__wrapper
 		padding-right: 8px
 		margin-top: 8px
+		overflow-x: hidden
 
 .v-application--is-rtl
 	.trading-tickers-list
