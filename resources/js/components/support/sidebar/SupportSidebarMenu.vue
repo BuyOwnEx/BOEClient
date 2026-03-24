@@ -1,7 +1,7 @@
 <template>
 	<div class="support-sidebar-menu pa-1 pt-0">
 		<div class="mt-2 mb-3">
-			<add />
+			<add :topics="topics" :show_priority_list="show_priority_list" />
 		</div>
 
 		<v-list class="mt-2 pa-0" dense nav>
@@ -35,7 +35,7 @@
 			</v-list-item>
 		</v-list>
 
-		<v-list dense nav class="mt-2 pa-0">
+		<v-list dense nav class="mt-2 pa-0" v-if="show_priority_list">
 			<div class="overline pa-1 mt-2">{{ $t('support.menu.priority') }}</div>
 
 			<v-list-item
@@ -70,6 +70,7 @@ import Add from '@/components/support/dialog/Add.vue';
 
 export default {
 	name: 'SupportSidebarMenu',
+  props: ['topics', 'show_priority_list'],
 	components: { Add },
 	data() {
 		return {

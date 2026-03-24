@@ -90,7 +90,7 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('ticket/comments', 'TicketController@getAllTicketComments');
         Route::get('ticket/file', 'TicketController@getTicketFile');
 
-        Route::post('ticket/create', 'TicketController@createTicket')->middleware('throttle:one-per-five-minutes');
+        Route::post('ticket/create', 'TicketController@createTicket');
         Route::post('ticket/close', 'TicketController@closeTicket');
         Route::post('ticket/add_comment', 'TicketController@addComment')->middleware('throttle:one-per-minute');
 
@@ -100,6 +100,7 @@ Route::group(['prefix' => 'trader'], function () {
     Route::group(['prefix' => 'ext'], function () {
         Route::get('tickers', 'TraderController@getTickers')->name('tickers');
         Route::get('market_data', 'TraderController@getMarketData')->name('market_data');
+        Route::get('all_support_topics', 'TicketController@getAllTopics');
         Route::get('depth', 'TraderController@getDepth')->name('depth');
         Route::get('otc_depth', 'TraderController@getOtcDepth')->name('otc_depth');
         Route::get('history/deals', 'TraderController@HistoryDealList')->name('history_deal_list');

@@ -44,13 +44,27 @@
               flat
           ></v-textarea>
 
+          <v-select
+              v-model="form.topic"
+              class="mb-1"
+              :items="topics"
+              :placeholder="$t('support.menu.topic')"
+              :rules="[rules.required]"
+              :item-text="(item) => { return $t('support.topics.'+item.code)}"
+              item-value="code"
+              hide-details
+              flat
+          >
+          </v-select>
+
 					<v-select
+            v-if="show_priority_list"
 						v-model="form.priority"
 						class="mb-1"
 						:menu-props="{ bottom: true, offsetY: true }"
 						:items="priority_list_select"
 						:placeholder="$t('support.menu.priority')"
-            :rules="[rules.required]"
+            :rules="show_priority_list ? [rules.required] : []"
 						item-value="key"
 						hide-details
 						flat
@@ -128,6 +142,7 @@ import dialogMethodsMixin from '@/mixins/common/dialogMethodsMixin';
 
 export default {
 	name: 'Add',
+  props: ['topics', 'show_priority_list'],
 	mixins: [formValidationRules, loadingMixin, showNotificationMixin, dialogMethodsMixin],
 	data() {
 		return {
@@ -136,12 +151,14 @@ export default {
 				title: '',
 				message: '',
 				priority: null,
+        topic: null,
 				files: null,
 			},
       errors: {
         title: [],
         message: [],
         priority: [],
+        topic: [],
         files: []
       },
 		};
@@ -176,6 +193,7 @@ export default {
 			this.form.title = '';
       this.form.message = '';
 			this.form.priority = null;
+      this.form.topic = null;
 			this.form.file = null;
 			this.$nextTick(() => {
 				this.$refs.form.resetValidation();

@@ -128,6 +128,10 @@ export default {
                 commit('SET_LOADING', false)
             }
 		},
+        async fetchTopics({ commit }) {
+            const { data } = await axios.get('/trader/ext/all_support_topics');
+            return data;
+        },
         async fetchTicket({ commit }, ticket_id) {
             const { data } = await axios.get('/trader/ticket/info', {
                 params: { ticket_id },
@@ -160,11 +164,18 @@ export default {
 				},
 			});
 		},
-		async addTicket({ commit }, { title, message, priority, files }) {
+		async addTicket({ commit }, { title, message, priority, topic, files }) {
 			const fd = new FormData();
 			fd.append('title', title);
 			fd.append('message', message);
-			fd.append('priority', priority);
+            if (priority !== null) {
+                fd.append('priority', priority);
+            }
+
+            if (topic !== null) {
+                fd.append('topic', topic);
+            }
+
             _.each(files, function (value, key) {
                 fd.append('files['+key+']', value, value.name);
             });

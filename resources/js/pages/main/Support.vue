@@ -9,7 +9,7 @@
 			floating
       right
 		>
-			<SupportSidebarMenu @update-status="updateStatus" @update-priority="updatePriority" />
+			<SupportSidebarMenu :topics="topics" :show_priority_list="product.supportShowPriority" @update-status="updateStatus" @update-priority="updatePriority" />
 		</v-navigation-drawer>
 
 		<v-card class="tickets d-flex flex-grow-1 flex-column">
@@ -58,6 +58,15 @@
               {{ status_icon(item.status) }}
             </v-icon>
             {{ $t('support.status.'+item.status) }}
+          </v-chip>
+        </template>
+        <template #item.topic="{ item }">
+          <v-chip small label color="#9e9e9e66">
+            <v-icon small left>
+              mdi-label-variant-outline
+            </v-icon>
+            <span v-if="item.topic">{{ $t('support.topics.'+item.topic) }}</span>
+            <span v-else>{{ $t('support.general') }}</span>
           </v-chip>
         </template>
         <template #item.id="{ item }">
@@ -130,6 +139,7 @@ export default {
         'items-per-page-options': [15, 50, 100, 500],
         'items-per-page-all-text': '500',
       },
+      topics: []
 		};
 	},
   computed: {
@@ -138,13 +148,15 @@ export default {
       'total',
       'loading'
     ]),
+    ...mapState('app', ['product']),
     headers() {
       return [
         { text: 'ID', value: 'id', width: '50px' },
         { text: this.$t('table_header.date'), value: 'date', width: '150px' },
-        { text: this.$t('table_header.ticket'), value: 'ticket' },
         { text: this.$t('table_header.status'), value: 'status', width: '150px' },
-        { text: this.$t('table_header.priority'), value: 'priority', width: '120px' },
+        { text: this.$t('table_header.priority'), value: 'priority', width: '120px', align: this.product.supportShowPriority ? '' : ' d-none' },
+        { text: this.$t('table_header.topic'), value: 'topic', width: '250px', align: this.product.supportShowTopics ? '' : ' d-none'  },
+        { text: this.$t('table_header.ticket'), value: 'ticket' },
         { text: this.$t('table_header.actions'), value: 'action', sortable: false, align: 'end', width: '80px' },
       ];
     },
@@ -162,9 +174,12 @@ export default {
 		...mapActions({
 			fetchTicketsStore: 'support/fetchTickets',
       closeTicketStore: 'support/closeTicket',
-		}),
+      fetchTopicsStore: 'support/fetchTopics',
+    }),
 		async fetch() {
 			await this.fetchTicketsStore();
+      const { topics } = await this.fetchTopicsStore();
+      this.topics = topics;
 		},
     async close(ticket_id) {
       await this.closeTicketStore(ticket_id);

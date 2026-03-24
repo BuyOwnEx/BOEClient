@@ -375,6 +375,7 @@ export default {
 		maintenance: 'В обслуживании',
 	},
 	table_header: {
+        topic: 'Раздел',
 		base_currency: 'Базовая валюта',
 		currency: 'Валюта',
 		currencies: 'Валюты',
@@ -3289,6 +3290,7 @@ export default {
 		menu: {
 			status: 'Статус',
 			priority: 'Приоритет',
+            topic: 'Раздел'
 		},
 		no_tickets: 'Тикетов нет',
 		close_ticket: 'Закрыть тикет',
@@ -3311,6 +3313,14 @@ export default {
 		},
         close: 'Закрыть тикет',
         close_confirm: 'При закрытии тикета, он будет помещен в архив и будет доступен только для просмотра',
+        general: 'Общее',
+        topics: {
+            general: 'Общий вопрос',
+            finance: 'Финансовый вопрос',
+            technical: 'Технический вопрос',
+            kyc_kyb: 'Вопрос идентификации',
+            aml: 'Вопрос по AML'
+        },
 	},
 	reports: {
 		filters: 'Фильтры',

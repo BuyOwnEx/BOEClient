@@ -95,6 +95,16 @@ class TicketController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+
+    public function getAllTopics()
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->all_support_topics();
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getAllTicketAttachments(Request $request)
     {
         try {
@@ -118,12 +128,14 @@ class TicketController extends Controller
         $validator=Validator::make($request->all(), [
             'title' => 'required|string|min:1|max:64',
             'message' => 'required|string|min:1|max:4096',
-            'priority' => 'required|string|in:low,medium,high',
+            'priority' => 'nullable|string|in:low,medium,high',
+            'topic' => 'nullable|string|min:1|max:64',
             'files.*' => 'nullable|mimes:jpg,png,pdf,doc,docx,zip|max:15360'
         ], [], [
             'title' => __('tickets.validation.title'),
             'message' => __('tickets.validation.message'),
             'priority' => __('tickets.validation.priority'),
+            'topic' => __('tickets.validation.topic'),
             'files.*' => __('tickets.validation.files'),
         ]);
         if ($validator->fails())
@@ -176,6 +188,7 @@ class TicketController extends Controller
                     $request->title,
                     $request->message,
                     $request->priority,
+                    $request->topic,
                     $request->hasFile('files') ? $paths : null
                 );
             }

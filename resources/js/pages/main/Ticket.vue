@@ -227,6 +227,7 @@ export default {
       ticket: null,
       attachments: [],
       comments: [],
+      topics: [],
       valid: false,
       form: {
         ticket_id: this.$route.params.ticket_id,
@@ -257,6 +258,7 @@ export default {
       fetchTicketStore: 'support/fetchTicket',
       fetchCommentsStore: 'support/fetchCommentsByTicket',
       fetchAttachmentsStore: 'support/fetchAttachmentsByTicket',
+      fetchTopicsStore: 'support/fetchTopics',
       addTicketCommentStore: 'support/addTicketComment',
       closeTicketStore: 'support/closeTicket',
     }),
@@ -267,6 +269,8 @@ export default {
       this.attachments = attachments;
       const { comments } = await this.fetchCommentsStore(this.ticket_id);
       this.comments = comments;
+      const { topics } = await this.fetchTopicsStore();
+      this.topics = topics;
 
       this.$nextTick(() => {
         if(this.comments.length > 0)

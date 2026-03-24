@@ -39,6 +39,8 @@ export default {
         guestShowKnowledgePage: import.meta.env.VITE_CONFIG_GUEST_SHOW_KNOWLEDGE_PAGE === "true",
         authedShowKnowledgePage: import.meta.env.VITE_CONFIG_AUTHED_SHOW_KNOWLEDGE_PAGE === "true",
 
+        supportShowPriority: import.meta.env.VITE_CONFIG_SUPPORT_SHOW_PRIORITY === "true",
+        supportShowTopics: import.meta.env.VITE_CONFIG_SUPPORT_SHOW_TOPICS === "true",
 		enabledLegalWithdrawReason: import.meta.env.VITE_CONFIG_ENABLED_LEGAL_WITHDRAW_REASON === "true",
 		enabledContactRequest: import.meta.env.VITE_CONFIG_ENABLED_CONTRACT_REQUEST === "true",
 		kybLocalUploadType: import.meta.env.VITE_CONFIG_KYB_LOCAL_UPLOAD_TYPE,

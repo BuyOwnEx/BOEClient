@@ -873,6 +873,11 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function all_support_topics()
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/all_support_topics');
+        return response()->json($response->json(),$response->status());
+    }
     public function ticket_attachment(int $user_id, int $attachment_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/ticket_attachment',[
@@ -1061,13 +1066,14 @@ class BuyOwnExClientAPI
         return response()->json($response->json(),$response->status());
     }
 
-    public function ticket_create($trader_id, $title, $msg, $priority, $files)
+    public function ticket_create($trader_id, $title, $msg, $priority, $topic, $files)
     {
         $params = [
             'trader' => $trader_id,
             'title' => $title,
             'message' => $msg,
             'priority' => $priority,
+            'topic' => $topic,
             'files' => $files
         ];
         $response = Http::asForm()->withToken($this->api_key)

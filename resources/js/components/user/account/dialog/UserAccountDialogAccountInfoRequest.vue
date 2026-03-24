@@ -4,7 +4,7 @@
       :confirm-text="$t('common.send_request')"
       header-color="success"
       @confirm="makeRequest"
-      :disabled="!has_wallets || req_count >= info_req_limit"
+      :disabled="req_count >= info_req_limit"
   >
     <template #default>
       <v-btn class="mb-2">
@@ -19,10 +19,7 @@
 
     <template #content>
       {{ $t('user.info.account_info_request_description') }}
-      <div class="mt-2 mb-2" v-if="!has_wallets || req_count >= info_req_limit">
-        <small class="text--secondary d-block" v-if="!has_wallets">
-          <span class="red--text">{{ $t('user.info.no_wallets') }}</span>
-        </small>
+      <div class="mt-2 mb-2" v-if="req_count >= info_req_limit">
         <small class="text--secondary d-block" v-if="req_count >= info_req_limit">
           <span class="red--text">{{ $t('user.info.info_limit') }}: <b>{{ req_count }}</b></span>
         </small>

@@ -375,6 +375,7 @@ export default {
 		maintenance: 'In Maintenance',
 	},
 	table_header: {
+        topic: 'Topic',
 		base_currency: 'Base currency',
 		currency: 'Currency',
 		currencies: 'Currencies',
@@ -3295,6 +3296,7 @@ make our system processes as transparent as possible.`,
 		menu: {
 			status: 'Status',
 			priority: 'Priority',
+            topic: 'Topic'
 		},
 		no_tickets: 'No tickets',
 		close_ticket: 'Close ticket',
@@ -3317,6 +3319,14 @@ make our system processes as transparent as possible.`,
 		},
         close: 'Close ticket',
         close_confirm: 'When the ticket is closed, it will be archived and will be available for viewing only',
+        general: 'General',
+        topics: {
+            general: 'General question',
+            finance: 'Financial question',
+            technical: 'Technical question',
+            kyc_kyb: 'Identification question',
+            aml: 'AML‑related question'
+        },
 	},
 	reports: {
 		filters: 'Filters',
