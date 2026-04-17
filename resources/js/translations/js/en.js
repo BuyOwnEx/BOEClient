@@ -3388,6 +3388,12 @@ make our system processes as transparent as possible.`,
 		transfers_title: 'Internal transfers',
 	},
 	kyc: {
+        nv_start: 'Start verification process',
+        scoring: 'Scoring',
+        verification_passed: 'Successfully passed',
+        scoring_passed: 'Successfully passed',
+        nv_failed_description: 'Unfortunately, you have not passed the verification procedure',
+        nv_pending_description: 'The verification procedure has not been completed yet. This procedure usually takes place within 1 minute. Try refreshing the page or leave a ticket with the support service',
 		kontur: {
 			company_part: 'Organization',
 			head_part: 'Head',

@@ -922,6 +922,17 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function setVerificationNVStatus()
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->setVerificationNVStatus(
+                Auth::id()
+            );
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function getKYCSumSubToken(Request $request)
     {
         try {
@@ -940,6 +951,16 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getKYCNeuroVisionClientKey()
+    {
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->getNeuroVisionToken(Auth::id());
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
+
     public function getVerificationFile(Request $request)
     {
         try {
@@ -1179,54 +1200,86 @@ class TraderController extends Controller
 
     public function sendKYCKonturIndRequest(Request $request)
     {
-        $validator=Validator::make($request->all(), [
-            'fio' => 'required|string|min:1|max:256',
-            'birthday' => 'required|date_format:"Y-m-d"',
-            'passport_number' => 'required|string|min:10|max:11',
-            'ind_inn' => 'required|string|size:12',
-            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-        ], [], [
-            'fio' => __('kyc.kontur.validation.fio'),
-            'birthday' => __('kyc.kontur.validation.birthday'),
-            'passport_number' => __('kyc.kontur.validation.passport_number'),
-            'ind_inn' => __('kyc.kontur.validation.ind_inn'),
-            'file_ps' => __('kyc.file_ps'),
-            'file_ws' => __('kyc.file_ws'),
-            'file_ts' => __('kyc.file_ts'),
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->getMessages(),
-            ],422);
-        }
-        else
-        {
-            try
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $ver_settings = $api->getVerificationSettings();
+            if($ver_settings->isSuccessful())
             {
-                $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
-                $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
-                $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
-                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                return $api->kycKonturIndRequest(
-                    Auth::id(),
-                    $request->fio,
-                    $request->birthday,
-                    $request->passport_number,
-                    $request->ind_inn,
-                    $path_ps,
-                    $path_ws,
-                    $path_ts
-                );
+                $is_nv_enabled = $ver_settings->getData(true)['data']['settings']['nv_use_res_kyc'];
+                if($is_nv_enabled)
+                {
+                    $validator=Validator::make($request->all(), [
+                        'fio' => 'required|string|min:1|max:256',
+                        'birthday' => 'required|date_format:"Y-m-d"',
+                        'passport_number' => 'required|string|min:10|max:11',
+                        'ind_inn' => 'required|string|size:12'
+                    ], [], [
+                        'fio' => __('kyc.kontur.validation.fio'),
+                        'birthday' => __('kyc.kontur.validation.birthday'),
+                        'passport_number' => __('kyc.kontur.validation.passport_number'),
+                        'ind_inn' => __('kyc.kontur.validation.ind_inn')
+                    ]);
+                    if ($validator->fails())
+                    {
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $validator->errors()->getMessages(),
+                        ],422);
+                    }
+                    $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    return $api->kycKonturIndRequestNV(
+                        Auth::id(),
+                        $request->fio,
+                        $request->birthday,
+                        $request->passport_number,
+                        $request->ind_inn
+                    );
+                }
+                else
+                {
+                    $validator=Validator::make($request->all(), [
+                        'fio' => 'required|string|min:1|max:256',
+                        'birthday' => 'required|date_format:"Y-m-d"',
+                        'passport_number' => 'required|string|min:10|max:11',
+                        'ind_inn' => 'required|string|size:12',
+                        'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                        'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                        'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                    ], [], [
+                        'fio' => __('kyc.kontur.validation.fio'),
+                        'birthday' => __('kyc.kontur.validation.birthday'),
+                        'passport_number' => __('kyc.kontur.validation.passport_number'),
+                        'ind_inn' => __('kyc.kontur.validation.ind_inn'),
+                        'file_ps' => __('kyc.file_ps'),
+                        'file_ws' => __('kyc.file_ws'),
+                        'file_ts' => __('kyc.file_ts'),
+                    ]);
+                    if ($validator->fails())
+                    {
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $validator->errors()->getMessages(),
+                        ],422);
+                    }
+                    $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
+                    $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
+                    $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
+                    $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    return $api->kycKonturIndRequest(
+                        Auth::id(),
+                        $request->fio,
+                        $request->birthday,
+                        $request->passport_number,
+                        $request->ind_inn,
+                        $path_ps,
+                        $path_ws,
+                        $path_ts
+                    );
+                }
             }
-            catch (Exception $e)
-            {
-                return ['success'=>false, 'message'=>$e->getMessage()];
-            }
-
+            else return ['success'=>false, 'message'=>'Verification settings not found'];
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
     public function sendKYCKonturCompRequest(Request $request)
@@ -1427,57 +1480,97 @@ class TraderController extends Controller
     }
     public function sendKYCLocalIndRequest(Request $request)
     {
-        $validator=Validator::make($request->all(), [
-            'fio' => 'required|string|min:1|max:256',
-            'country' => 'required|string|size:2',
-            'birthday' => 'required|date_format:"Y-m-d"',
-            'document_number' => 'required|string|min:8|max:40',
-            'ind_inn' => 'required|string|min:8|max:40',
-            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-        ], [], [
-            'fio' => __('kyc.local.validation.fio'),
-            'country' => __('kyc.local.validation.country'),
-            'birthday' => __('kyc.local.validation.birthday'),
-            'document_number' => __('kyc.local.validation.document_number'),
-            'ind_inn' => __('kyc.local.validation.ind_inn'),
-            'file_ps' => __('kyc.file_ps'),
-            'file_ws' => __('kyc.file_ws'),
-            'file_ts' => __('kyc.file_ts'),
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->getMessages(),
-            ],422);
-        }
-        else
-        {
-            try
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $ver_settings = $api->getVerificationSettings();
+            if($ver_settings->isSuccessful())
             {
-                $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
-                $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
-                $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
-                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                return $api->kycLocalIndRequest(
-                    Auth::id(),
-                    $request->fio,
-                    $request->country,
-                    $request->birthday,
-                    $request->document_number,
-                    $request->ind_inn,
-                    $path_ps,
-                    $path_ws,
-                    $path_ts
-                );
-            }
-            catch (Exception $e)
-            {
-                return ['success'=>false, 'message'=>$e->getMessage()];
-            }
+                $ver_settings_data = $ver_settings->getData(true)['data'];
+                if($request->country === $ver_settings_data['settings']['resident_country'])
+                    $is_nv_enabled = $ver_settings_data['settings']['nv_use_res_kyc'];
+                else
+                    $is_nv_enabled = $ver_settings_data['settings']['nv_use_nonres_kyc'];
 
+                if($is_nv_enabled)
+                {
+                    $validator=Validator::make($request->all(), [
+                        'fio' => 'required|string|min:1|max:256',
+                        'country' => 'required|string|size:2',
+                        'birthday' => 'required|date_format:"Y-m-d"',
+                        'document_number' => 'required|string|min:8|max:40',
+                        'ind_inn' => 'required|string|min:8|max:40'
+                    ], [], [
+                        'fio' => __('kyc.local.validation.fio'),
+                        'country' => __('kyc.local.validation.country'),
+                        'birthday' => __('kyc.local.validation.birthday'),
+                        'document_number' => __('kyc.local.validation.document_number'),
+                        'ind_inn' => __('kyc.local.validation.ind_inn')
+                    ]);
+                    if ($validator->fails())
+                    {
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $validator->errors()->getMessages(),
+                        ],422);
+                    }
+                    $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    return $api->kycLocalIndRequestNV(
+                        Auth::id(),
+                        $request->fio,
+                        $request->country,
+                        $request->birthday,
+                        $request->document_number,
+                        $request->ind_inn
+                    );
+                }
+                else
+                {
+                    $validator=Validator::make($request->all(), [
+                        'fio' => 'required|string|min:1|max:256',
+                        'country' => 'required|string|size:2',
+                        'birthday' => 'required|date_format:"Y-m-d"',
+                        'document_number' => 'required|string|min:8|max:40',
+                        'ind_inn' => 'required|string|min:8|max:40',
+                        'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                        'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                        'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                    ], [], [
+                        'fio' => __('kyc.local.validation.fio'),
+                        'country' => __('kyc.local.validation.country'),
+                        'birthday' => __('kyc.local.validation.birthday'),
+                        'document_number' => __('kyc.local.validation.document_number'),
+                        'ind_inn' => __('kyc.local.validation.ind_inn'),
+                        'file_ps' => __('kyc.file_ps'),
+                        'file_ws' => __('kyc.file_ws'),
+                        'file_ts' => __('kyc.file_ts'),
+                    ]);
+                    if ($validator->fails())
+                    {
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $validator->errors()->getMessages(),
+                        ],422);
+                    }
+                    $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
+                    $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
+                    $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
+                    $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    return $api->kycLocalIndRequest(
+                        Auth::id(),
+                        $request->fio,
+                        $request->country,
+                        $request->birthday,
+                        $request->document_number,
+                        $request->ind_inn,
+                        $path_ps,
+                        $path_ws,
+                        $path_ts
+                    );
+                }
+            }
+            else return ['success'=>false, 'message'=>'Verification settings not found'];
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
     public function NotifyFiatQRReplenish(Request $request)

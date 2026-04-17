@@ -26,6 +26,7 @@
                     hide-details="auto"
                     required
                     class="required mb-1"
+                    :disabled="!!(nv_data && nv_data.country)"
                 >
                   <template #item="{item, on, attr}">
                     <v-list-item v-bind="attr" v-on="on">
@@ -63,6 +64,7 @@
                     :rules="[rules.required, show_global_form ? rules.fio_global : rules.fio]"
                     persistent-hint
                     outlined
+                    :disabled="!!(nv_data && nv_data.fio)"
                 />
                 <v-menu
                     ref="birthday"
@@ -86,6 +88,7 @@
                         required
                         v-bind="attrs"
                         v-on="on"
+                        :disabled="!!(nv_data && nv_data.birthday)"
                     ></v-text-field>
                   </template>
                   <v-date-picker v-model="ind_data.birthday" no-title scrollable @change="birthdayChange"></v-date-picker>
@@ -103,6 +106,7 @@
                     required
                     class="required mb-1"
                     @input="errors.document_number = []"
+                    :disabled="!!(nv_data && nv_data.passport_number)"
                 >
                 </v-text-field>
 
@@ -118,10 +122,12 @@
                     required
                     class="required mb-1"
                     @input="errors.ind_inn = []"
+                    :disabled="!!(nv_data && nv_data.inn)"
                 >
                 </v-text-field>
 
                 <v-file-input
+                    v-if="!nv_enabled"
                     v-model="ind_data.file_ps"
                     :label="$t('kyc.file_ps')"
                     :hint="$t('kyc.file_ps_hint')"
@@ -129,7 +135,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ps"
                     @input="errors.file_ps = []"
-                    :rules="[rules.required, rules.maxFileSize2MB]"
+                    :rules="!nv_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                     persistent-hint
                     clearable
                     required
@@ -137,6 +143,7 @@
                 ></v-file-input>
 
                 <v-file-input
+                    v-if="!nv_enabled"
                     v-model="ind_data.file_ws"
                     :label="$t('kyc.file_ws')"
                     :hint="$t('kyc.file_ws_hint')"
@@ -144,7 +151,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ws"
                     @input="errors.file_ws = []"
-                    :rules="[rules.required, rules.maxFileSize2MB]"
+                    :rules="!nv_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                     persistent-hint
                     clearable
                     required
@@ -152,6 +159,7 @@
                 ></v-file-input>
 
                 <v-file-input
+                    v-if="!nv_enabled"
                     v-model="ind_data.file_ts"
                     :label="$t('kyc.file_ts')"
                     :hint="$t('kyc.file_ts_hint')"
@@ -159,7 +167,7 @@
                     prepend-icon="mdi-camera"
                     :error-messages="errors.file_ts"
                     @input="errors.file_ts = []"
-                    :rules="[rules.required, rules.maxFileSize2MB]"
+                    :rules="!nv_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                     persistent-hint
                     clearable
                     required
@@ -393,6 +401,15 @@ export default {
     resident: {
       type: String,
       required: true
+    },
+    nv_data: {
+      type: Object,
+      required: false
+    },
+    nv_enabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -402,10 +419,10 @@ export default {
       loaded: false,
       ind_data: {
         country: this.resident === 'resident' ? this.residentCountry : null,
-        fio: null,
-        birthday: null,
-        document_number: null,
-        ind_inn: null,
+        fio: this.nv_data? this.nv_data?.fio : null,
+        birthday: this.nv_data ? (this.nv_data.birthday ? this.$moment(this.nv_data.birthday).format('YYYY-MM-DD') : null) : null,
+        document_number: this.nv_data? this.nv_data?.passport_number : null,
+        ind_inn: this.nv_data? this.nv_data?.inn : null,
         created_at: null,
         updated_at: null,
         file_ps: null,
@@ -465,6 +482,9 @@ export default {
     ...mapMutations({
       setStateLocalKYCStore: 'user/setKYCLocalIndState',
     }),
+    init_country(iso3) {
+      return _.find(this.countries, (item) => { return item.iso3 === iso3})?.iso;
+    },
     kyc_state_icon(state, is_verified) {
       if(state === 'accepted' && is_verified) return 'mdi-account-check'
       else if(state === 'rejected' && !is_verified) return 'mdi-account-cancel'
@@ -488,7 +508,7 @@ export default {
       let formData = new FormData();
 
       _.each(this.ind_data, function (value, key) {
-        if ((key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value.name) {
+        if ((key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value && value.name) {
           formData.append(key, value, value.name);
         }
         else {
@@ -522,6 +542,8 @@ export default {
   mounted() {
     axios.get('/trader/ext/all_countries').then(response => {
       this.countries = response.data.data;
+      if(this.nv_data && this.nv_data.country)
+        this.ind_data.country = this.init_country(this.nv_data.country)
     });
     this.$store.dispatch('user/getKYCLocalIndData').then( res => {
       this.loaded = true;

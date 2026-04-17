@@ -20,6 +20,7 @@
                     :rules="[rules.required,rules.fio]"
                     persistent-hint
                     outlined
+                    :disabled="!!(nv_data && nv_data.fio)"
                 />
                 <v-menu
                     ref="birthday"
@@ -43,6 +44,7 @@
                         required
                         v-bind="attrs"
                         v-on="on"
+                        :disabled="!!(nv_data && nv_data.birthday)"
                     ></v-text-field>
                   </template>
                   <v-date-picker v-model="ind_data.birthday" no-title scrollable @change="birthdayChange"></v-date-picker>
@@ -60,6 +62,7 @@
                     required
                     class="required mb-1"
                     @input="errors.passport_number = []"
+                    :disabled="!!(nv_data && nv_data.passport_number)"
                 >
                 </v-text-field>
 
@@ -75,10 +78,12 @@
                     required
                     class="required mb-1"
                     @input="errors.ind_inn = []"
+                    :disabled="!!(nv_data && nv_data.inn)"
                 >
                 </v-text-field>
 
                 <v-file-input
+                    v-if="!nv_res_enabled"
                     v-model="ind_data.file_ps"
                     :label="$t('kyc.file_ps')"
                     :hint="$t('kyc.file_ps_hint')"
@@ -87,7 +92,7 @@
                     :error-messages="errors.file_ps"
                     @input="errors.file_ps = []"
                     @change="errors.file_ps = []"
-                    :rules="[rules.required, rules.maxFileSize2MB]"
+                    :rules="!nv_res_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                     persistent-hint
                     clearable
                     required
@@ -95,6 +100,7 @@
                 ></v-file-input>
 
                 <v-file-input
+                    v-if="!nv_res_enabled"
                     v-model="ind_data.file_ws"
                     :label="$t('kyc.file_ws')"
                     :hint="$t('kyc.file_ws_hint')"
@@ -103,7 +109,7 @@
                     :error-messages="errors.file_ws"
                     @input="errors.file_ws = []"
                     @change="errors.file_ws = []"
-                    :rules="[rules.required, rules.maxFileSize2MB]"
+                    :rules="!nv_res_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                     persistent-hint
                     clearable
                     required
@@ -111,6 +117,7 @@
                 ></v-file-input>
 
                 <v-file-input
+                    v-if="!nv_res_enabled"
                     v-model="ind_data.file_ts"
                     :label="$t('kyc.file_ts')"
                     :hint="$t('kyc.file_ts_hint')"
@@ -119,7 +126,7 @@
                     :error-messages="errors.file_ts"
                     @input="errors.file_ts = []"
                     @change="errors.file_ts = []"
-                    :rules="[rules.required, rules.maxFileSize2MB]"
+                    :rules="!nv_res_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                     persistent-hint
                     clearable
                     required
@@ -340,6 +347,7 @@ import formatDate from '@/mixins/format/formatDate';
 import { mapMutations, mapState } from 'vuex';
 export default {
   name: 'KonturIndividual',
+  props: ['nv_data','nv_res_enabled'],
   mixins: [
     formValidationRules,
     formatDate
@@ -350,10 +358,10 @@ export default {
       birthday: false,
       loaded: false,
       ind_data: {
-        fio: null,
-        birthday: null,
-        passport_number: null,
-        ind_inn: null,
+        fio: this.nv_data? this.nv_data?.fio : null,
+        birthday: this.nv_data ? (this.nv_data.birthday ? this.$moment(this.nv_data.birthday).format('YYYY-MM-DD') : null) : null,
+        passport_number: this.nv_data? this.nv_data?.passport_number : null,
+        ind_inn: this.nv_data? this.nv_data?.inn : null,
         created_at: null,
         updated_at: null,
         file_ps: null,
@@ -425,7 +433,7 @@ export default {
       let formData = new FormData();
 
       _.each(this.ind_data, function (value, key) {
-        if ((key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value.name) {
+        if ((key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value && value.name) {
           formData.append(key, value, value.name);
         }
         else {

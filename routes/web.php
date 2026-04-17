@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get('support', 'TraderController@getSpaView')->name('support_view');
     Route::get('ticket/{ticket_id}', 'TraderController@getSpaView')->name('ticket_view');
     Route::get('profile', 'TraderController@getSpaView')->name('profile_view');
+    Route::get('verification', 'TraderController@getSpaView')->name('verification_view');
     Route::get('history', 'TraderController@getSpaView')->name('history_view');
     Route::get('notifications', 'TraderController@getSpaView')->name('notifications_view');
     Route::get('get_verification_settings', 'TraderController@getVerificationSettings')->name('get_verification_settings');
@@ -149,6 +150,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('kyc_sumsub_token', 'TraderController@getKYCSumSubToken')->name('kyc_sumsub_token');
             Route::get('kyb_sumsub_token', 'TraderController@getKYBSumSubToken')->name('kyb_sumsub_token');
             Route::get('api_tokens', 'TraderController@getAPITokens')->name('api_tokens');
+            Route::get('neuro_vision_token', 'TraderController@getKYCNeuroVisionClientKey')->name('kyc_neuro_vision_client_key');
 
             Route::get('kyc_kontur_data', 'TraderController@getKYCKonturData')->name('kyc_kontur_data');
             Route::get('kyc_local_ind_data', 'TraderController@getKYCLocalIndData')->name('kyc_local_ind_data');
@@ -202,6 +204,7 @@ Route::group(['prefix' => 'trader'], function () {
                 Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
 
                 Route::post('set_verification_status', 'TraderController@setVerificationStatus')->name('set_verification_status');
+                Route::post('set_verification_nv_status', 'TraderController@setVerificationNVStatus')->name('set_verification_nv_status');
 
                 Route::post('notification/read', 'TraderController@setNotificationRead')->name('set_notification_read');
                 Route::post('notification/delete', 'TraderController@deleteNotification')->name('delete_notification');

@@ -528,6 +528,14 @@ class BuyOwnExClientAPI
         }
     }
 
+    public function getNeuroVisionToken(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/neuro_vision_token',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
+
     public function getBlockStatus(int $user_id)
     {
         $response = Http::withToken($this->api_key)->get($this->base.'v1/block_status',[
@@ -586,6 +594,22 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/set_verification_status',$params);
+        if($response->json()['success'])
+        {
+            return response()->json(['success' => true],$response->status());
+        }
+        else {
+            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
+        }
+    }
+    public function setVerificationNVStatus(int $user_id)
+    {
+        $params = [
+            'trader' => $user_id
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/set_verification_nv_status',$params);
         if($response->json()['success'])
         {
             return response()->json(['success' => true],$response->status());
@@ -844,7 +868,6 @@ class BuyOwnExClientAPI
             }
         }
         $postFields = http_build_query($params, '', '&');
-        Log::info($postFields);
         $signature = strtoupper(hash_hmac('sha256', $postFields, $this->api_secret));
         $auth[$prefix . 'signature'] = $signature;
         return $auth;
@@ -1123,6 +1146,20 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_kontur_ind_request',$params);
         return response()->json($response->json(),$response->status());
     }
+    public function kycKonturIndRequestNV($trader_id, $fio, $birthday, $passport_number, $inn)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'fio' => $fio,
+            'birthday' => $birthday,
+            'passport_number' => $passport_number,
+            'inn' => $inn
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kyc_kontur_ind_request_nv',$params);
+        return response()->json($response->json(),$response->status());
+    }
     public function kycKonturCompRequest($trader_id, $inn, $edo_id, $file_doc, $fio, $birthday, $passport_number, $head_inn, $file_ps, $file_ws, $file_ts)
     {
         $params = [
@@ -1159,6 +1196,21 @@ class BuyOwnExClientAPI
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
             ->post($this->base.'v1/kyc_local_ind_request',$params);
+        return response()->json($response->json(),$response->status());
+    }
+    public function kycLocalIndRequestNV($trader_id, $fio, $country, $birthday, $document_number, $inn)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'fio' => $fio,
+            'country' => $country,
+            'birthday' => $birthday,
+            'document_number' => $document_number,
+            'inn' => $inn
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kyc_local_ind_request_nv',$params);
         return response()->json($response->json(),$response->status());
     }
     public function kycLocalCompRequest($trader_id, $country, $company_name, $address, $reg_number, $tax_id, $file_doc)

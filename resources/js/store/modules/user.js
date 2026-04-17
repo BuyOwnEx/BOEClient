@@ -139,6 +139,19 @@ export default {
 		setVerificationStatus(state, verificationStatus) {
 			state.verificationStatus = verificationStatus;
 		},
+        setVerificationType(state, type) {
+            if(!state.verificationStatus) state.verificationStatus = type;
+            else
+            {
+                state.verificationStatus.resident = type.resident;
+                state.verificationStatus.legal_entity = type.legal_entity;
+                state.verificationStatus.kyc_provider = type.kyc_provider;
+            }
+        },
+        setVerificationNVData(state, data) {
+            state.verificationStatus.nv_data = data;
+            state.verificationStatus.nv_pass = true;
+        },
 		setBlockStatus(state, blockStatus) {
 			state.blockStatus = blockStatus;
 		},
@@ -583,7 +596,9 @@ export default {
 			const { data } = await axios.post('/trader/ext/notification/status', payload);
 			return data.success;
 		},
-
+        setVerificationNVData({ commit }, payload) {
+            commit('setVerificationNVData', payload);
+        },
 		getVerificationStatus({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -598,10 +613,16 @@ export default {
 					});
 			});
 		},
-		async updateVerificationStatus(_, payload) {
-			const { data } = await axios.post('/trader/ext/set_verification_status', payload);
+		async updateVerificationStatus({ commit }, payload) {
+			const { data } = await axios.post('/trader/ext/set_verification_status', {is_resident: payload.resident, is_legal_entity: payload.legal_entity, kyc_provider: payload.kyc_provider});
+            if (data.success) commit('setVerificationType', payload);
 			return data.success;
 		},
+
+        async updateVerificationNVStatus() {
+            const { data } = await axios.post('/trader/ext/set_verification_nv_status');
+            return data.success;
+        },
 
 		getBlockStatus({ commit }) {
 			return new Promise((resolve, reject) => {
