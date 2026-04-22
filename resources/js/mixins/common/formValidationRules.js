@@ -20,7 +20,7 @@ export default {
 				edo_id: v => (v && /\w{3}-\w{32}/.test(v)) || this.$t('forms_validation.edo_id_invalid'),
 				ind_inn: v => !v || /\d{12}/.test(v) || this.$t('forms_validation.ind_inn_invalid'),
 				ind_inn_global: v => (v && /\w{8,40}/.test(v)) || this.$t('forms_validation.ind_inn_global_invalid'),
-				comp_inn: v => (v && /\d{10}/.test(v)) || this.$t('forms_validation.comp_inn_invalid'),
+				comp_inn: v => (v && /\d{10}/.test(v)) || this.$t('forms_validation.comp_only_inn_invalid'),
 				comp_ip_inn: v => (v && /^(\d{10}|\d{12})$/.test(v)) || this.$t('forms_validation.comp_inn_invalid'),
 				comp_inn_kg: v => (v && /^(\d{14})$/.test(v)) || this.$t('forms_validation.comp_inn_kg'),
 				comp_kpp: v => (v && /\d{9}/.test(v)) || this.$t('forms_validation.comp_kpp_invalid'),

@@ -83,6 +83,12 @@ export default {
           link: '/support',
         },
         {
+          icon: 'mdi-book-open',
+          key: 'menu.knowledge',
+          text: 'Knowledge',
+          link: '/knowledge',
+        },
+        {
           icon: 'mdi-information-outline',
           key: 'menu.notifications',
           text: 'Notifications',

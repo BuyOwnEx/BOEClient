@@ -602,23 +602,6 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
-    public function setVerificationNVStatus(int $user_id)
-    {
-        $params = [
-            'trader' => $user_id
-        ];
-        $response = Http::asForm()->withToken($this->api_key)
-            ->withHeaders($this->sign($params))
-            ->post($this->base.'v1/set_verification_nv_status',$params);
-        if($response->json()['success'])
-        {
-            return response()->json(['success' => true],$response->status());
-        }
-        else {
-            return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
-        }
-    }
-
     public function newLoginNotification(int $user_id, string $ip)
     {
         $params = [
@@ -1180,6 +1163,23 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_kontur_comp_request',$params);
         return response()->json($response->json(),$response->status());
     }
+    public function kycKonturCompRequestNV($trader_id, $inn, $edo_id, $file_doc, $fio, $birthday, $passport_number, $head_inn)
+    {
+        $params = [
+            'trader' => $trader_id,
+            'inn' => $inn,
+            'edo_id' => $edo_id,
+            'file_doc' => $file_doc,
+            'fio' => $fio,
+            'birthday' => $birthday,
+            'passport_number' => $passport_number,
+            'head_inn' => $head_inn
+        ];
+        $response = Http::asForm()->withToken($this->api_key)
+            ->withHeaders($this->sign($params))
+            ->post($this->base.'v1/kyc_kontur_comp_request_nv',$params);
+        return response()->json($response->json(),$response->status());
+    }
     public function kycLocalIndRequest($trader_id, $fio, $country, $birthday, $document_number, $inn, $file_ps, $file_ws, $file_ts)
     {
         $params = [
@@ -1213,7 +1213,7 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_local_ind_request_nv',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function kycLocalCompRequest($trader_id, $country, $company_name, $address, $reg_number, $tax_id, $file_doc)
+    public function kycLocalCompRequest($trader_id, $country, $company_name, $address, $reg_number, $tax_id, $kpp, $file_doc)
     {
         $params = [
             'trader' => $trader_id,
@@ -1222,6 +1222,7 @@ class BuyOwnExClientAPI
             'address' => $address,
             'reg_number' => $reg_number,
             'tax_id' => $tax_id,
+            'kpp' => $kpp,
             'file_doc' => $file_doc
         ];
         $response = Http::asForm()->withToken($this->api_key)
@@ -1229,7 +1230,7 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/kyc_local_comp_request',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function kycLocalCompRequestMD($trader_id, $country, $company_name, $address, $reg_number, $tax_id, array $pathes)
+    public function kycLocalCompRequestMD($trader_id, $country, $company_name, $address, $reg_number, $tax_id, $kpp, array $pathes)
     {
         $params = [
             'trader' => $trader_id,
@@ -1238,6 +1239,7 @@ class BuyOwnExClientAPI
             'address' => $address,
             'reg_number' => $reg_number,
             'tax_id' => $tax_id,
+            'kpp' => $kpp,
             'files' => $pathes
         ];
         $response = Http::asForm()->withToken($this->api_key)
@@ -1490,15 +1492,13 @@ class BuyOwnExClientAPI
             return response()->json(['success' => false, 'message'=> 'Unknown error'],500);
         }
     }
-    public function rubPropsAddRequest($trader_id, $name, $bic, $acc, $inn, $kpp)
+    public function rubPropsAddRequest($trader_id, $name, $bic, $acc)
     {
         $params = [
             'trader' => $trader_id,
             'name' => $name,
             'bic' => $bic,
-            'acc' => $acc,
-            'inn' => $inn,
-            'kpp' => $kpp
+            'acc' => $acc
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -1583,15 +1583,13 @@ class BuyOwnExClientAPI
         }
     }
 
-    public function kgsPropsAddRequest($trader_id, $name, $bic, $acc, $inn, $kpp)
+    public function kgsPropsAddRequest($trader_id, $name, $bic, $acc)
     {
         $params = [
             'trader' => $trader_id,
             'name' => $name,
             'bic' => $bic,
-            'acc' => $acc,
-            'inn' => $inn,
-            'kpp' => $kpp
+            'acc' => $acc
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))
@@ -1676,7 +1674,7 @@ class BuyOwnExClientAPI
         }
     }
 
-    public function swiftPropsAddRequest($trader_id, $name, $currency, $ben_name, $ben_address, $ben_swift, $ben_acc, $inn, $kpp, $inter_swift, $inter_acc)
+    public function swiftPropsAddRequest($trader_id, $name, $currency, $ben_name, $ben_address, $ben_swift, $ben_acc, $inter_swift, $inter_acc)
     {
         $params = [
             'trader' => $trader_id,
@@ -1686,8 +1684,6 @@ class BuyOwnExClientAPI
             'ben_address' => $ben_address,
             'ben_swift' => $ben_swift,
             'ben_acc' => $ben_acc,
-            'inn' => $inn,
-            'kpp' => $kpp,
             'inter_swift' => $inter_swift,
             'inter_acc' => $inter_acc
         ];

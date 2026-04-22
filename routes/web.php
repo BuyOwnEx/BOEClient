@@ -204,7 +204,6 @@ Route::group(['prefix' => 'trader'], function () {
                 Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');
 
                 Route::post('set_verification_status', 'TraderController@setVerificationStatus')->name('set_verification_status');
-                Route::post('set_verification_nv_status', 'TraderController@setVerificationNVStatus')->name('set_verification_nv_status');
 
                 Route::post('notification/read', 'TraderController@setNotificationRead')->name('set_notification_read');
                 Route::post('notification/delete', 'TraderController@deleteNotification')->name('delete_notification');

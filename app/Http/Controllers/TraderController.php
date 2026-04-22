@@ -922,17 +922,6 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
-    public function setVerificationNVStatus()
-    {
-        try {
-            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->setVerificationNVStatus(
-                Auth::id()
-            );
-        } catch (\Exception $e) {
-            return ['success'=>false, 'message'=>$e->getMessage()];
-        }
-    }
     public function getKYCSumSubToken(Request $request)
     {
         try {
@@ -1284,64 +1273,106 @@ class TraderController extends Controller
     }
     public function sendKYCKonturCompRequest(Request $request)
     {
-        $validator=Validator::make($request->all(), [
-            'comp_inn' => 'nullable|string|min:10|max:12',
-            'edo_id' => 'required|string|min:35|max:50',
-            'file_doc' => 'required|file|mimes:pdf|max:2048',
-            'fio' => 'required|string|min:1|max:256',
-            'birthday' => 'required|date_format:"Y-m-d"',
-            'passport_number' => 'required|string|min:10|max:11',
-            'ind_inn' => 'required|string|size:12',
-            'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-            'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
-        ], [], [
-            'comp_inn' => __('kyc.kontur.validation.comp_inn'),
-            'edo_id' => __('kyc.kontur.validation.edo_id'),
-            'file_doc' => __('kyc.file_doc'),
-            'fio' => __('kyc.kontur.validation.fio'),
-            'birthday' => __('kyc.kontur.validation.birthday'),
-            'passport_number' => __('kyc.kontur.validation.passport_number'),
-            'ind_inn' => __('kyc.kontur.validation.ind_inn'),
-            'file_ps' => __('kyc.file_ps'),
-            'file_ws' => __('kyc.file_ws'),
-            'file_ts' => __('kyc.file_ts'),
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->getMessages(),
-            ],422);
-        }
-        else
-        {
-            try
+        try {
+            $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            $ver_settings = $api->getVerificationSettings();
+            if($ver_settings->isSuccessful())
             {
-                $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_doc'));
-                $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
-                $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
-                $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
-                $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-                return $api->kycKonturCompRequest(
-                    Auth::id(),
-                    $request->comp_inn,
-                    $request->edo_id,
-                    $path_doc,
-                    $request->fio,
-                    $request->birthday,
-                    $request->passport_number,
-                    $request->ind_inn,
-                    $path_ps,
-                    $path_ws,
-                    $path_ts
-                );
+                $is_nv_enabled = $ver_settings->getData(true)['data']['settings']['nv_use_res_kyb'];
+                if($is_nv_enabled)
+                {
+                    $validator=Validator::make($request->all(), [
+                        'comp_inn' => 'nullable|string|min:10|max:12',
+                        'edo_id' => 'required|string|min:35|max:50',
+                        'file_doc' => 'required|file|mimes:pdf|max:2048',
+                        'fio' => 'required|string|min:1|max:256',
+                        'birthday' => 'required|date_format:"Y-m-d"',
+                        'passport_number' => 'required|string|min:10|max:11',
+                        'ind_inn' => 'required|string|size:12'
+                    ], [], [
+                        'comp_inn' => __('kyc.kontur.validation.comp_inn'),
+                        'edo_id' => __('kyc.kontur.validation.edo_id'),
+                        'file_doc' => __('kyc.file_doc'),
+                        'fio' => __('kyc.kontur.validation.fio'),
+                        'birthday' => __('kyc.kontur.validation.birthday'),
+                        'passport_number' => __('kyc.kontur.validation.passport_number'),
+                        'ind_inn' => __('kyc.kontur.validation.ind_inn')
+                    ]);
+                    if ($validator->fails())
+                    {
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $validator->errors()->getMessages(),
+                        ],422);
+                    }
+                    $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_doc'));
+                    $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    return $api->kycKonturCompRequestNV(
+                        Auth::id(),
+                        $request->comp_inn,
+                        $request->edo_id,
+                        $path_doc,
+                        $request->fio,
+                        $request->birthday,
+                        $request->passport_number,
+                        $request->ind_inn
+                    );
+                }
+                else
+                {
+                    $validator=Validator::make($request->all(), [
+                        'comp_inn' => 'nullable|string|min:10|max:12',
+                        'edo_id' => 'required|string|min:35|max:50',
+                        'file_doc' => 'required|file|mimes:pdf|max:2048',
+                        'fio' => 'required|string|min:1|max:256',
+                        'birthday' => 'required|date_format:"Y-m-d"',
+                        'passport_number' => 'required|string|min:10|max:11',
+                        'ind_inn' => 'required|string|size:12',
+                        'file_ps' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                        'file_ws' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                        'file_ts' => 'required|file|image|mimes:jpeg,png|max:2048|dimensions:min_width=500,min_height=500,max_width=4160,max_height=4160',
+                    ], [], [
+                        'comp_inn' => __('kyc.kontur.validation.comp_inn'),
+                        'edo_id' => __('kyc.kontur.validation.edo_id'),
+                        'file_doc' => __('kyc.file_doc'),
+                        'fio' => __('kyc.kontur.validation.fio'),
+                        'birthday' => __('kyc.kontur.validation.birthday'),
+                        'passport_number' => __('kyc.kontur.validation.passport_number'),
+                        'ind_inn' => __('kyc.kontur.validation.ind_inn'),
+                        'file_ps' => __('kyc.file_ps'),
+                        'file_ws' => __('kyc.file_ws'),
+                        'file_ts' => __('kyc.file_ts'),
+                    ]);
+                    if ($validator->fails())
+                    {
+                        return response()->json([
+                            'success' => false,
+                            'errors' => $validator->errors()->getMessages(),
+                        ],422);
+                    }
+                    $path_doc = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_doc'));
+                    $path_ps = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ps'));
+                    $path_ws = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ws'));
+                    $path_ts = Storage::putFile('verifications/'.config('app.client_id').'/'.Auth::id(), $request->file('file_ts'));
+                    $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
+                    return $api->kycKonturCompRequest(
+                        Auth::id(),
+                        $request->comp_inn,
+                        $request->edo_id,
+                        $path_doc,
+                        $request->fio,
+                        $request->birthday,
+                        $request->passport_number,
+                        $request->ind_inn,
+                        $path_ps,
+                        $path_ws,
+                        $path_ts
+                    );
+                }
             }
-            catch (Exception $e)
-            {
-                return ['success'=>false, 'message'=>$e->getMessage()];
-            }
-
+            else return ['success'=>false, 'message'=>'Verification settings not found'];
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
     public function sendKYCLocalCompRequest(Request $request)
@@ -1351,12 +1382,14 @@ class TraderController extends Controller
             'reg_number' => 'required|string|min:5|max:64',
             'address' => 'required|string|min:8|max:256',
             'tax_number' => 'nullable|string|min:8|max:40',
+            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9'],
             'name' => 'required|string|min:3|max:256'
         ], [], [
             'country' => __('kyc.local.validation.country'),
             'reg_number' => __('kyc.local.validation.reg_number'),
             'address' => __('kyc.local.validation.address'),
             'tax_number' => __('kyc.kontur.validation.tax_number'),
+            'kpp' => __('kyc.kontur.validation.kpp'),
             'name' => __('kyc.kontur.validation.company_name')
         ]);
         if ($validator->fails())
@@ -1390,6 +1423,7 @@ class TraderController extends Controller
                     $request->address,
                     $request->reg_number,
                     $request->tax_number,
+                    $request->kpp,
                     $path_doc
                 );
             }
@@ -1406,6 +1440,7 @@ class TraderController extends Controller
             'reg_number' => 'required|string|min:5|max:64',
             'address' => 'required|string|min:8|max:256',
             'tax_number' => 'nullable|string|min:8|max:40',
+            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9'],
             'name' => 'required|string|min:3|max:256',
             'files' => 'nullable',
             'files.*' => 'required|mimes:jpg,png,pdf,doc,docx,zip|max:15360'
@@ -1414,6 +1449,7 @@ class TraderController extends Controller
             'reg_number' => __('kyc.local.validation.reg_number'),
             'address' => __('kyc.local.validation.address'),
             'tax_number' => __('kyc.kontur.validation.tax_number'),
+            'kpp' => __('kyc.kontur.validation.kpp'),
             'name' => __('kyc.kontur.validation.company_name'),
             'files' => __('kyc.file_docs'),
             'files.*' => __('kyc.kontur.validation.file_docs')
@@ -1469,6 +1505,7 @@ class TraderController extends Controller
                     $request->address,
                     $request->reg_number,
                     $request->tax_number,
+                    $request->kpp,
                     $paths
                 );
             }
@@ -1948,9 +1985,7 @@ class TraderController extends Controller
         $this->validate($request, [
             'name' => ['required','string','max:64'],
             'bic' => ['required','string','regex:/^(\d){9}$/','size:9'],
-            'acc' => ['required','string','regex:/^(\d){20}$/','size:20'],
-            'inn' => ['nullable','string','min:8','max:40'],
-            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
+            'acc' => ['required','string','regex:/^(\d){20}$/','size:20']
         ]);
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
@@ -1958,9 +1993,7 @@ class TraderController extends Controller
                 Auth::id(),
                 $request->name,
                 $request->bic,
-                $request->acc,
-                $request->inn,
-                $request->kpp
+                $request->acc
             );
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
@@ -2027,9 +2060,7 @@ class TraderController extends Controller
         $this->validate($request, [
             'name' => ['required','string','max:64'],
             'bic' => ['required','string','regex:/^(\d){6}$/','size:6'],
-            'acc' => ['required','string','regex:/^(\d){16}$/','size:16'],
-            'inn' => ['nullable','string','min:8','max:40'],
-            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
+            'acc' => ['required','string','regex:/^(\d){16}$/','size:16']
         ]);
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
@@ -2037,9 +2068,7 @@ class TraderController extends Controller
                 Auth::id(),
                 $request->name,
                 $request->bic,
-                $request->acc,
-                $request->inn,
-                $request->kpp
+                $request->acc
             );
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];
@@ -2111,9 +2140,7 @@ class TraderController extends Controller
             'beneficiary_acc_iban' => ['required','string','regex:/^[A-Z0-9]{1,34}$/','max:34'],
             'beneficiary_bank_swift' => ['required','string','regex:/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/'],
             'intermediary_bank_swift' => ['nullable','string','regex:/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/'],
-            'intermediary_bank_acc_iban' => ['nullable','string','regex:/^[A-Z0-9]{1,34}$/','max:34'],
-            'inn' => ['nullable','string','min:8','max:40'],
-            'kpp' => ['nullable','string','regex:/^(\d){9}$/','size:9']
+            'intermediary_bank_acc_iban' => ['nullable','string','regex:/^[A-Z0-9]{1,34}$/','max:34']
         ]);
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
@@ -2125,8 +2152,6 @@ class TraderController extends Controller
                 $request->beneficiary_address,
                 $request->beneficiary_bank_swift,
                 $request->beneficiary_acc_iban,
-                $request->inn,
-                $request->kpp,
                 $request->intermediary_bank_swift,
                 $request->intermediary_bank_acc_iban
             );

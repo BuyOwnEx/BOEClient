@@ -619,11 +619,6 @@ export default {
 			return data.success;
 		},
 
-        async updateVerificationNVStatus() {
-            const { data } = await axios.post('/trader/ext/set_verification_nv_status');
-            return data.success;
-        },
-
 		getBlockStatus({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios

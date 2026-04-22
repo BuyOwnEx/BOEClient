@@ -56,6 +56,7 @@
                       :hint="$t('kyc.kontur.legal.hints.inn_ip')"
                       persistent-hint
                       outlined
+                      :disabled="!!(nv_data && nv_data.inn)"
                   />
                   <v-text-field
                       class="mb-1 pt-1"
@@ -96,6 +97,7 @@
                       :rules="[rules.required,rules.fio]"
                       persistent-hint
                       outlined
+                      :disabled="!!(nv_data && nv_data.fio)"
                   />
                   <v-menu
                       ref="birthday"
@@ -119,6 +121,7 @@
                           required
                           v-bind="attrs"
                           v-on="on"
+                          :disabled="!!(nv_data && nv_data.birthday)"
                       ></v-text-field>
                     </template>
                     <v-date-picker v-model="comp_data.birthday" no-title scrollable @change="birthdayChange"></v-date-picker>
@@ -135,6 +138,7 @@
                       required
                       class="required mb-1"
                       @input="errors.passport_number = []"
+                      :disabled="!!(nv_data && nv_data.passport_number)"
                   >
                   </v-text-field>
                   <v-text-field
@@ -149,9 +153,11 @@
                       required
                       class="required mb-1"
                       @input="errors.ind_inn = []"
+                      :disabled="!!(nv_data && nv_data.inn)"
                   >
                   </v-text-field>
                   <v-file-input
+                      v-if="!nv_res_enabled"
                       v-model="comp_data.file_ps"
                       :label="$t('kyc.file_ps')"
                       :hint="$t('kyc.file_ps_hint')"
@@ -160,13 +166,14 @@
                       :error-messages="errors.file_ps"
                       @input="errors.file_ps = []"
                       @change="errors.file_ps = []"
-                      :rules="[rules.required, rules.maxFileSize2MB]"
+                      :rules="!nv_res_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                       persistent-hint
                       clearable
                       required
                       class="required"
                   ></v-file-input>
                   <v-file-input
+                      v-if="!nv_res_enabled"
                       v-model="comp_data.file_ws"
                       :label="$t('kyc.file_ws')"
                       :hint="$t('kyc.file_ws_hint')"
@@ -175,13 +182,14 @@
                       :error-messages="errors.file_ws"
                       @input="errors.file_ws = []"
                       @change="errors.file_ws = []"
-                      :rules="[rules.required, rules.maxFileSize2MB]"
+                      :rules="!nv_res_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                       persistent-hint
                       clearable
                       required
                       class="required"
                   ></v-file-input>
                   <v-file-input
+                      v-if="!nv_res_enabled"
                       v-model="comp_data.file_ts"
                       :label="$t('kyc.file_ts')"
                       :hint="$t('kyc.file_ts_hint')"
@@ -190,7 +198,7 @@
                       :error-messages="errors.file_ts"
                       @input="errors.file_ts = []"
                       @change="errors.file_ts = []"
-                      :rules="[rules.required, rules.maxFileSize2MB]"
+                      :rules="!nv_res_enabled ? [rules.required, rules.maxFileSize2MB] : []"
                       persistent-hint
                       clearable
                       required
@@ -203,7 +211,7 @@
           <v-card>
             <v-card-actions class="common-dialog__actions mt-2">
               <v-spacer />
-              <v-btn color="success" :disabled="!compRequestAvailable" tile block @click="sendCompKYCRequest">
+              <v-btn color="success" :disabled="!compRequestAvailable || req_loading" :loading="req_loading" tile block @click="sendCompKYCRequest">
                 {{ $t('common.send') }}
               </v-btn>
               <v-spacer />
@@ -389,7 +397,7 @@ import formatDate from '@/mixins/format/formatDate';
 import { mapMutations, mapState } from 'vuex';
 export default {
   name: 'KonturCompany',
-  components: {  },
+  props: ['nv_data','nv_res_enabled'],
   mixins: [
     formValidationRules,
     formatDate
@@ -400,16 +408,17 @@ export default {
       loaded: false,
       isFormLegalEntity: true,
       inn_comp: null,
-      inn_ip: null,
+      inn_ip: this.nv_data? this.nv_data?.inn : null,
       birthday: false,
+      req_loading: false,
       comp_data: {
         comp_inn: null,
         edo_id: null,
         file_doc: null,
-        fio: null,
-        birthday: null,
-        passport_number: null,
-        ind_inn: null,
+        fio: this.nv_data? this.nv_data?.fio : null,
+        birthday: this.nv_data ? (this.nv_data.birthday ? this.$moment(this.nv_data.birthday).format('YYYY-MM-DD') : null) : null,
+        passport_number: this.nv_data? this.nv_data?.passport_number : null,
+        ind_inn: this.nv_data? this.nv_data?.inn : null,
         file_ps: null,
         file_ws: null,
         file_ts: null,
@@ -501,11 +510,12 @@ export default {
       return BigNumber(item);
     },
     sendCompKYCRequest() {
+      this.req_loading = true;
       let self = this;
       let formData = new FormData();
 
       _.each(this.comp_data, function (value, key) {
-        if ((key === 'file_doc' || key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value.name) {
+        if ((key === 'file_doc' || key === 'file_ps' || key === 'file_ws' || key === 'file_ts') && value && value.name) {
           formData.append(key, value, value.name);
         }
         else {
@@ -535,7 +545,7 @@ export default {
             } else {
               console.log(error);
             }
-          });
+          }).finally(() => (self.req_loading = false));
     },
   },
   mounted() {

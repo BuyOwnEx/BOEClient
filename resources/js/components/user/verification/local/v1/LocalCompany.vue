@@ -80,6 +80,16 @@
                 >
                 </v-text-field>
 
+                <v-checkbox
+                    v-if="residentCountry === 'RU' && resident === 'non_resident'"
+                    v-model="is_kio"
+                    :label="$t('kyc.manual.legal.form.is_kio')"
+                    hide-details
+                    dense
+                    :ripple="false"
+                    class="my-2"
+                ></v-checkbox>
+
                 <v-text-field
                     v-model="comp_data.tax_number"
                     :label="$t('kyc.manual.legal.form.inn')"
@@ -92,6 +102,22 @@
                     required
                     class="required mb-1"
                     @input="errors.tax_number = []"
+                >
+                </v-text-field>
+
+                <v-text-field
+                    v-if="is_kio && residentCountry === 'RU' && resident === 'non_resident'"
+                    v-model="comp_data.kpp"
+                    :label="$t('kyc.manual.legal.form.kpp')"
+                    :hint="$t('kyc.manual.legal.hints.kpp')"
+                    :rules="is_kio ? [rules.required, rules.comp_kpp] : []"
+                    v-mask="'#########'"
+                    :error-messages="errors.kpp"
+                    persistent-hint
+                    clearable
+                    required
+                    class="required mb-1"
+                    @input="errors.kpp = []"
                 >
                 </v-text-field>
 
@@ -342,11 +368,13 @@ export default {
       isValidCompRequestForm: false,
       loaded: false,
       loading: false,
+      is_kio: false,
       comp_data: {
         country: this.resident === 'resident' ? this.residentCountry : null,
         reg_number: null,
         address: null,
         tax_number: null,
+        kpp: null,
         name: null,
         created_at: null,
         updated_at: null,
@@ -357,6 +385,7 @@ export default {
         reg_number: [],
         address: [],
         tax_number: [],
+        kpp: [],
         name: [],
         file_doc: []
       },
@@ -385,7 +414,8 @@ export default {
       else return [this.rules.required, this.rules.min5char, this.rules.max64char];
     },
     taxNoRules() {
-      if(this.isRU) return [this.rules.required, this.rules.comp_ip_inn];
+      if(this.is_kio && this.residentCountry === 'RU' && this.resident === 'non_resident') return [this.rules.required, this.rules.comp_inn];
+      else if(this.isRU) return [this.rules.required, this.rules.comp_ip_inn];
       else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
       else return [this.rules.required, this.rules.min8char, this.rules.max40char];
     },
@@ -644,7 +674,8 @@ export default {
       else return null;
     },
     tax_id_mask() {
-      if(this.isRU) return '###########?#?';
+      if(this.is_kio && this.residentCountry === 'RU' && this.resident === 'non_resident') return '##########';
+      else if(this.isRU) return '###########?#?';
       else if(this.isKG) return '##############';
       else return null;
     }
@@ -691,7 +722,7 @@ export default {
       else
       {
         _.each(this.comp_data, function (value, key) {
-          if (key === 'file_doc' && value.name) {
+          if (key === 'file_doc' && value && value.name) {
             formData.append(key, value, value.name);
           }
           else {

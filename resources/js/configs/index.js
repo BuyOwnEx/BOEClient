@@ -50,7 +50,6 @@ export default {
 		fiatUseRUProps: import.meta.env.VITE_CONFIG_FIAT_USE_RU_PROPS === "true",
 		fiatUseSwiftProps: import.meta.env.VITE_CONFIG_FIAT_USE_SWIFT_PROPS === "true",
         invoiceUseTraderProps: import.meta.env.VITE_CONFIG_INVOICE_USE_TRADER_PROPS === "true",
-        checkTaxIDRUProps: import.meta.env.VITE_CONFIG_RU_PROPS_CHECK_TAX_ID === "true",
 		copyright: import.meta.env.VITE_CONFIG_COPYRIGHT,
 		copy_start_year: import.meta.env.VITE_CONFIG_COPY_START_YEAR,
 		all_rights_text: import.meta.env.VITE_CONFIG_ALL_RIGHTS_TEXT,

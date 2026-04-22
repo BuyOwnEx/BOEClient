@@ -76,7 +76,7 @@
         </v-btn>
       </v-card>
     </v-stepper-content>
-    <v-stepper-step :complete="step > 3" step="3" :color="step > 3 ? 'success': 'primary'">
+    <v-stepper-step :complete="step > 3 || verifyStatus === 'verified'" step="3" :color="(step > 3 || verifyStatus === 'verified') ? 'success': 'primary'">
       {{ $t('user.title.verification') }}
       <small v-if="verifyStatus && this.verificationStatus.nv_pass && step > 3" class="caption">{{ $t('kyc.verification_passed') }}</small>
     </v-stepper-step>
@@ -86,14 +86,27 @@
           :scheme_id="verification_settings.nv_res_scheme_id"
           :is_passed="verifyStatus && verificationStatus.nv_pass"
           :nv_status="verifyStatus ? verifyStatus : 'new'"
-          @set_nv_data="set_nv_data"
+          :is_legal="legality === 'legal'"
+          @set_nv_data="reload"
+          @reload="reload"
       ></neuro-vision-kyc>
       <neuro-vision-kyc
           v-if="residence === 'non_resident' && legality === 'individual' && need_nv_non_res_step"
           :scheme_id="verification_settings.nv_nonres_scheme_id"
           :is_passed="verifyStatus && verificationStatus.nv_pass"
           :nv_status="verifyStatus"
-          @set_nv_data="set_nv_data"
+          :is_legal="legality === 'legal'"
+          @set_nv_data="reload"
+          @reload="reload"
+      ></neuro-vision-kyc>
+      <neuro-vision-kyc
+          v-if="residence === 'resident' && legality === 'legal' && need_nv_res_kyb_step"
+          :scheme_id="verification_settings.nv_res_scheme_id"
+          :is_passed="verifyStatus && verificationStatus.nv_pass"
+          :nv_status="verifyStatus ? verifyStatus : 'new'"
+          :is_legal="legality === 'legal'"
+          @set_nv_data="reload"
+          @reload="reload"
       ></neuro-vision-kyc>
       <forbidden-alert
           v-if="residence === 'resident' && legality === 'individual' && verification_settings.settings.resident_individual_kyc_provider === 'forbidden'"
@@ -120,10 +133,10 @@
           @back="step = 2"
       ></forbidden-alert>
       <kontur-individual
-          v-if="(residence === 'resident' && legality === 'individual' && verification_settings.settings.resident_individual_kyc_provider === 'kontur' && !need_nv_res_step)"
+          v-if="residence === 'resident' && legality === 'individual' && verification_settings.settings.resident_individual_kyc_provider === 'kontur' && !need_nv_res_step"
       ></kontur-individual>
       <kontur-company
-          v-if="residence === 'resident' && legality === 'legal' && verification_settings.settings.resident_legal_kyc_provider	 === 'kontur'"
+          v-if="residence === 'resident' && legality === 'legal' && verification_settings.settings.resident_legal_kyc_provider	 === 'kontur' && !need_nv_res_kyb_step"
       ></kontur-company>
       <sum-sub-kyc
           v-if="residence === 'resident' && legality === 'individual' && verification_settings.settings.resident_individual_kyc_provider	 === 'sumsub'"
@@ -202,7 +215,7 @@
     </v-stepper-content>
 
     <v-stepper-step
-        v-if="is_scheme_chosen && (need_nv_res_step || need_nv_non_res_step)"
+        v-if="is_scheme_chosen && (need_nv_res_step || need_nv_non_res_step || need_nv_res_kyb_step)"
         :complete="verifyStatus === 'verified'"
         :rules="[() => notBadStatus]"
         :step="4"
@@ -218,6 +231,11 @@
           :nv_data="verificationStatus?.nv_data"
           :nv_res_enabled="nv_res_enabled"
       ></kontur-individual>
+      <kontur-company
+          v-if="(residence === 'resident' && legality === 'legal' && verification_settings.settings.resident_legal_kyc_provider	 === 'kontur' && !nv_res_kyb_enabled) || (nv_res_kyb_enabled && residence === 'resident' && legality === 'legal' && verification_settings.settings.resident_individual_kyc_provider === 'kontur' && verificationStatus && verificationStatus.nv_data)"
+          :nv_data="verificationStatus?.nv_data"
+          :nv_res_enabled="nv_res_kyb_enabled"
+      ></kontur-company>
       <local-individual-v1
           v-if="residence === 'resident' && legality === 'individual' && verification_settings.settings.resident_individual_kyc_provider === 'local' && local_verification_version === 'v1' && nv_res_enabled && verificationStatus && verificationStatus.nv_data"
           :resident-country="verification_settings.settings.resident_country"
@@ -316,18 +334,25 @@ export default {
     need_nv_res_step() {
       return this.is_scheme_chosen && this.verificationStatus.resident && this.nv_res_enabled
     },
+    need_nv_res_kyb_step() {
+      return this.is_scheme_chosen && this.verificationStatus.resident && this.verificationStatus.legal_entity && this.nv_res_kyb_enabled
+    },
     need_nv_non_res_step() {
       return this.is_scheme_chosen && !this.verificationStatus.resident && this.nv_non_res_enabled
     },
     nv_res_enabled() {
       return (this.verification_settings.settings.nv_use_res_kyc && this.legality === 'individual' && this.residence === 'resident' && this.verification_settings.settings.resident_individual_kyc_provider !== 'forbidden')
     },
+    nv_res_kyb_enabled() {
+      return (this.verification_settings.settings.nv_use_res_kyb && this.legality === 'legal' && this.residence === 'resident' && this.verification_settings.settings.resident_legal_kyc_provider === 'kontur')
+    },
     nv_non_res_enabled() {
       return (this.verification_settings.settings.nv_use_nonres_kyc && this.legality === 'individual' && this.residence === 'non_resident' && this.verification_settings.settings.non_resident_individual_kyc_provider !== 'forbidden')
     },
     nv_enabled() {
       return (this.verification_settings.settings.nv_use_res_kyc && this.legality === 'individual' && this.residence === 'resident' && this.verification_settings.settings.resident_individual_kyc_provider !== 'forbidden') ||
-          (this.verification_settings.settings.nv_use_nonres_kyc && this.legality === 'individual' && this.residence === 'non_resident' && this.verification_settings.settings.non_resident_individual_kyc_provider !== 'forbidden')
+      (this.verification_settings.settings.nv_use_nonres_kyc && this.legality === 'individual' && this.residence === 'non_resident' && this.verification_settings.settings.non_resident_individual_kyc_provider !== 'forbidden') ||
+      (this.verification_settings.settings.nv_use_res_kyb && this.legality === 'legal' && this.residence === 'resident' && this.verification_settings.settings.resident_legal_kyc_provider === 'kontur')
     }
   },
   async created() {
@@ -339,7 +364,6 @@ export default {
     ...mapActions({
       getVerificationStatusStore: 'user/getVerificationStatus',
       setVerificationStatusStore: 'user/updateVerificationStatus',
-      setVerificationNVStatusStore: 'user/updateVerificationNVStatus',
       setVerificationNVDataStore: 'user/setVerificationNVData',
     }),
 
@@ -375,12 +399,13 @@ export default {
         if(this.verificationStatus.legal_entity)
         {
           this.legality = 'legal';
-          this.step = 3;
+          if(this.nv_enabled && (this.verificationStatus.nv_pass || this.verificationStatus.status === 'verified')) this.step = 4;
+          else this.step = 3;
         }
         else
         {
           this.legality = 'individual';
-          if(this.nv_enabled && this.verificationStatus.nv_pass) this.step = 4;
+          if(this.nv_enabled && (this.verificationStatus.nv_pass || this.verificationStatus.status === 'verified')) this.step = 4;
           else this.step = 3;
         }
       }
@@ -388,68 +413,10 @@ export default {
     set_reason(data) {
       this.reason = data.reason;
     },
-    async set_nv_data(data) {
-      const json_data = JSON.parse(data);
-      await this.setVerificationNVStatusStore();
-      if(this.residence === 'resident')
-      {
-        const documentResult = _.find(json_data.results, result =>
-            result.type === 'document' &&
-            result.ocr &&
-            result.ocr.status === 'success'
-        );
-        if (documentResult) {
-          const fields = documentResult.ocr.fields;
-          const getFieldValue = (fieldName) =>
-              _.get(_.find(fields, ['title', fieldName]), 'value', '');
-          const getDateFieldValue = (fieldName) =>
-              _.get(_.find(fields, ['title', fieldName]), 'valueUTC', '');
-
-          const country = documentResult['countryCode'];
-          const surname = getFieldValue('Surname');
-          const givenName = getFieldValue('Given name(s)');
-          const fathersName = getFieldValue("Father's name");
-          const fullName = `${surname} ${givenName} ${fathersName}`.trim();
-          const birthDate = getDateFieldValue('Date of birth');
-          const passportSeries = getFieldValue('Document series');
-          const passportNumber = getFieldValue('Document number');
-          const fullPassportNumber = `${passportSeries} ${passportNumber}`.trim();
-          this.setVerificationNVDataStore({
-            country: country,
-            fio: fullName,
-            birthday: birthDate,
-            passport_number: fullPassportNumber
-          });
-          this.step++;
-        }
-      }
-      else if(this.residence === 'non_resident')
-      {
-        const documentResult = _.find(json_data.results, result =>
-            result.type === 'document' &&
-            result.ocr &&
-            result.ocr.status === 'success'
-        );
-        if (documentResult) {
-          const fields = documentResult.ocr.fields;
-          const getFieldValue = (fieldName) =>
-              _.get(_.find(fields, ['title', fieldName]), 'value', '');
-          const getDateFieldValue = (fieldName) =>
-              _.get(_.find(fields, ['title', fieldName]), 'valueUTC', '');
-          const country = documentResult['countryCode'].slice(0,3);
-          const fullName = getFieldValue('Surname and given name(s)');
-          const birthDate = getDateFieldValue('Date of Birth');
-          const fullPassportNumber = getFieldValue('Document Number');
-          this.setVerificationNVDataStore({
-            country: country,
-            fio: fullName,
-            birthday: birthDate,
-            passport_number: fullPassportNumber
-          });
-          this.step++;
-        }
-      }
-    }
+    async reload() {
+      await this.getVerificationStatusStore();
+      this.showStep();
+    },
   },
 };
 </script>

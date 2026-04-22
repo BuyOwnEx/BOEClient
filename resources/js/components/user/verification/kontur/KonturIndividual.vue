@@ -138,7 +138,7 @@
           <v-card>
             <v-card-actions class="common-dialog__actions">
               <v-spacer />
-              <v-btn color="success" :disabled="!indRequestAvailable" tile block @click="sendIndKYCRequest">
+              <v-btn color="success" :disabled="!indRequestAvailable || req_loading" :loading="req_loading" tile block @click="sendIndKYCRequest">
                 {{ $t('common.send') }}
               </v-btn>
               <v-spacer />
@@ -357,6 +357,7 @@ export default {
       isValidIndRequestForm: false,
       birthday: false,
       loaded: false,
+      req_loading: false,
       ind_data: {
         fio: this.nv_data? this.nv_data?.fio : null,
         birthday: this.nv_data ? (this.nv_data.birthday ? this.$moment(this.nv_data.birthday).format('YYYY-MM-DD') : null) : null,
@@ -429,6 +430,7 @@ export default {
       this.$refs.birthday.save(this.ind_data.birthday);
     },
     sendIndKYCRequest() {
+      this.req_loading = true;
       let self = this;
       let formData = new FormData();
 
@@ -461,7 +463,7 @@ export default {
             } else {
               console.log(error);
             }
-          });
+          }).finally(() => (self.req_loading = false));
     },
   },
   mounted() {

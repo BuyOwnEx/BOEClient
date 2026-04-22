@@ -79,36 +79,6 @@
                       </template>
                     </v-text-field>
                   </v-col>
-                  <v-col cols="12" md="12" class="pt-0 pb-0 mt-2" v-if="check_inn">
-                    <v-text-field
-                        v-model="form.inn"
-                        :rules="taxNoRules"
-                        v-mask="tax_id_mask"
-                        :hint="getTaxIDHint"
-                        persistent-hint
-                        required
-                        dense
-                    >
-                      <template #label>
-                        {{ $t('fiat.inn') }} <span class="red--text"><b>*</b></span>
-                      </template>
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="12" class="pt-0 pb-0 mt-2" v-if="check_kpp">
-                    <v-text-field
-                        v-model="form.kpp"
-                        :rules="[rules.required, rules.comp_kpp]"
-                        v-mask="'#########'"
-                        :hint="$t('user.props.dialog.add.kpp_hint')"
-                        persistent-hint
-                        required
-                        dense
-                    >
-                      <template #label>
-                        {{ $t('fiat.kpp') }} <span class="red--text"><b>*</b></span>
-                      </template>
-                    </v-text-field>
-                  </v-col>
                 </v-row>
               </v-form>
               <v-divider />
@@ -210,11 +180,6 @@ export default {
       type: Number,
       required: true,
     },
-    check_tax_id: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
   },
   components: { CommonCopyLabel },
   mixins: [formValidationRules, loadingMixin, showNotificationMixin, dialogMethodsMixin, validateInputMixin],
@@ -228,79 +193,17 @@ export default {
       form: {
         name: null,
         bic: null,
-        acc: null,
-        inn: null,
-        kpp: null
+        acc: null
       },
       errors: {
         name: [],
         bic: [],
-        acc: [],
-        inn: [],
-        kpp: []
+        acc: []
       }
     };
   },
   computed: {
     ...mapState('user', ['verifyResidentCountry','verifyType']),
-    emptyName() {
-      return !this.form.name?.trim();
-    },
-    is_legal() {
-      return (this.trader_status & 4) === 4;
-    },
-    is_resident() {
-      return (this.trader_status & 32) === 32;
-    },
-    check_inn() {
-      return (!(this.verifyType === 'sumsub' && !this.is_legal));
-    },
-    check_kpp() {
-      return (this.verifyType === 'kontur' && this.is_legal && this.isRU);
-    },
-    isRU() {
-      return this.verifyResidentCountry === 'RU';
-    },
-    isKG() {
-      return this.verifyResidentCountry === 'KG';
-    },
-    taxNoRules() {
-      if(this.check_tax_id)
-      {
-        if(this.isRU)
-        {
-          if(this.is_legal) return [this.rules.required, this.rules.comp_ip_inn];
-          else return [this.rules.required, this.rules.ind_inn];
-        }
-        else if(this.isKG) return [this.rules.required, this.rules.comp_inn_kg];
-        else return [this.rules.required, this.rules.min8char, this.rules.max40char];
-      }
-      else return [this.rules.required, this.rules.min8char, this.rules.max40char];
-    },
-    tax_id_mask() {
-      if(this.check_tax_id)
-      {
-        if(this.isRU)
-          if(this.is_legal) return '##########';
-          else return '############';
-        else if(this.isKG) return '##############';
-        else return null;
-      }
-      else return null;
-    },
-    getTaxIDHint() {
-      if(this.check_tax_id)
-      {
-        if(this.isRU)
-        {
-          if(this.is_legal) return this.$t('user.props.dialog.add.comp_inn_hint');
-          else return this.$t('user.props.dialog.add.ind_inn_hint');
-        }
-        else if(this.isKG) return this.$t('user.props.dialog.add.inn_kg_hint');
-        else return this.$t('user.props.dialog.add.inn_hint');
-      }
-      else return this.$t('user.props.dialog.add.inn_hint');
-    }
   },
   methods: {
     ...mapActions({
