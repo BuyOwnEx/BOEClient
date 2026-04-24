@@ -115,6 +115,8 @@ Route::group(['prefix' => 'trader'], function () {
         Route::get('exchange_dirs', 'TraderController@getExchangeDirs')->name('exchange_dirs');
         Route::get('health', 'TraderController@getHealth')->name('health');
         Route::get('get_offer_list', 'TraderController@getOfferList')->name('offer_list');
+        Route::get('replenish_pay_templates', 'TraderController@getReplenishPayTemplates')->name('replenish_pay_templates');
+        Route::get('withdraw_pay_templates', 'TraderController@getWithdrawPayTemplates')->name('withdraw_pay_templates');
 
         Route::middleware('auth')->group(function () {
             Route::get('token', 'JWTController@getOwnToken')->name('token');
@@ -158,8 +160,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('verification_bank_details', 'TraderController@getVerificationBankDetails')->name('verification_bank_details');
             Route::get('replenish_bank_details', 'TraderController@getReplenishBankDetails')->name('replenish_bank_details');
             Route::get('withdraw_bank_details', 'TraderController@getWithdrawBankDetails')->name('withdraw_bank_details');
-            Route::get('replenish_pay_templates', 'TraderController@getReplenishPayTemplates')->name('replenish_pay_templates');
-            Route::get('withdraw_pay_templates', 'TraderController@getWithdrawPayTemplates')->name('withdraw_pay_templates');
+
             Route::get('offices', 'TraderController@getOfficeList')->name('offices');
             Route::get('office_slots', 'TraderController@getOfficeSlots')->name('office_slots');
 

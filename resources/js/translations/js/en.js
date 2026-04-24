@@ -351,6 +351,19 @@ export default {
 		ve: 'Venezuela',
 		ax: 'Aland Islands'
 	},
+    currencies: {
+        aed: 'UAE Dirham',
+        amd: 'Armenian Dram',
+        azn: 'Azerbaijani Manat',
+        byn: 'Belarusian Ruble',
+        cny: 'Chinese Yuan',
+        gel: 'Georgian Lari',
+        inr: 'Indian Rupee',
+        kgs: 'Kyrgyzstani Som',
+        kzt: 'Kazakhstani Tenge',
+        rub: 'Russian Ruble',
+        try: 'Turkish Lira'
+    },
 	apps: {
 		trading: {
 			title: 'Trading',
@@ -434,6 +447,7 @@ export default {
 		min_withdrawal_amount: 'Min. withdrawal amount',
 		replenishment_fee: 'Replenishment fee',
 		withdrawal_fee: 'Withdrawal fee',
+        bank: 'Bank',
 		daily_withdrawal_limit_connected: 'Daily withdrawal limit (Not passed / Passed verification)',
 		daily_withdrawal_limit: 'Withdrawal limit (per day)',
 		no_kyc: 'No KYC',
@@ -2951,9 +2965,15 @@ make our system processes as transparent as possible.`,
 	},
 	fees: {
 		title: 'Fees and limits',
+        crypto_title: 'Digital currencies',
+        fiat_title: 'Fiat currencies',
 		trading_fee: 'Trading fee',
 		operations_fee: 'Replenish and withdrawal fee',
 		operations_limits: 'Replenish and withdrawal limits',
+        crypto_asset_types: {
+            coin: 'Coin',
+            token: 'Token'
+        },
 	},
 	user: {
 		title: {

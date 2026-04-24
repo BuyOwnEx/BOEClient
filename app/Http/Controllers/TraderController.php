@@ -1758,9 +1758,7 @@ class TraderController extends Controller
     {
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->getReplenishPayTemplates(
-                Auth::id()
-            );
+            return $api->getReplenishPayTemplates();
         }
         catch (Exception $e)
         {
@@ -1771,9 +1769,7 @@ class TraderController extends Controller
     {
         try {
             $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
-            return $api->getWithdrawPayTemplates(
-                Auth::id()
-            );
+            return $api->getWithdrawPayTemplates();
         }
         catch (Exception $e)
         {

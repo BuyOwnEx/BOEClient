@@ -1,10 +1,16 @@
 <template>
 	<div class="fees-trading-tab">
-		<v-data-table :headers="headers" :items="available_pairs" :search="search" :items-per-page="itemsPerPage" :footer-props="footer_props" dense>
+		<v-data-table
+        :headers="headers"
+        :items="available_pairs"
+        :search="search"
+        :items-per-page="itemsPerPage"
+        :footer-props="footer_props"
+        dense
+    >
 			<template #top>
 				<v-toolbar flat dense>
 					<div class="component-title grey--text text--darken-2">{{ $t('fees.trading_fee') }}</div>
-
 					<v-text-field
 						v-model="search"
 						class="fees-page__search"
@@ -15,13 +21,48 @@
 					/>
 				</v-toolbar>
 			</template>
+      <template #item.pair="{ item }">
+        <pair-with-logo
+            :currency="item.currency"
+            :market="item.market"
+            :currency_logo="item.currency_logo"
+            :market_logo="item.market_logo"
+            :size="18"
+        ></pair-with-logo>
+      </template>
+      <template #item.makerFee="{ item }">
+        {{ item.makerFee }} %
+      </template>
+      <template #item.takerFee="{ item }">
+        {{ item.takerFee }} %
+      </template>
+      <template #item.minAmount="{ item }">
+        <item-with-logo
+            :cell_text="getNumber(item.minAmount) + ' ' + item.currency"
+            :logo="item.currency_logo"
+            :size="18"
+        ></item-with-logo>
+      </template>
+      <template #item.minReverseAmount="{ item }">
+        <item-with-logo
+            :cell_text="getNumber(item.minReverseAmount) + ' ' + item.market"
+            :logo="item.market_logo"
+            :size="18"
+        ></item-with-logo>
+      </template>
 		</v-data-table>
 	</div>
 </template>
 
 <script>
+import ItemWithLogo from "@/components/common/ItemWithLogo.vue";
+import PairWithLogo from "@/components/common/PairWithLogo.vue";
+import thousands from '@/plugins/thousands.js';
+import bignumber from '@/mixins/format/bignumber.js';
+
 export default {
 	name: 'FeesTradingTab',
+  components: {PairWithLogo, ItemWithLogo},
 
 	data() {
 		return {
@@ -33,45 +74,15 @@ export default {
       },
 		};
 	},
-
+  mixins: [bignumber],
 	computed: {
 		headers() {
 			return [
-				{
-					text: this.$t('table_header.pair'),
-					align: 'center',
-					sortable: true,
-					filterable: true,
-					value: 'pair',
-				},
-				{
-					text: this.$t('table_header.deal_fee_maker'),
-					align: 'center',
-					sortable: true,
-					filterable: false,
-					value: 'makerFee',
-				},
-				{
-					text: this.$t('table_header.deal_fee_taker'),
-					align: 'center',
-					sortable: true,
-					filterable: false,
-					value: 'takerFee',
-				},
-				{
-					text: this.$t('table_header.min_order_size'),
-					align: 'center',
-					sortable: true,
-					filterable: false,
-					value: 'minAmount',
-				},
-				{
-					text: this.$t('table_header.min_order_volume'),
-					align: 'center',
-					sortable: true,
-					filterable: false,
-					value: 'minReverseAmount',
-				},
+				{ text: this.$t('table_header.pair'), align: 'center', sortable: true, filterable: true, value: 'pair' },
+        { text: this.$t('table_header.min_order_size'), align: 'center', sortable: true, filterable: false, value: 'minAmount' },
+        { text: this.$t('table_header.min_order_volume'), align: 'center', sortable: true, filterable: false, value: 'minReverseAmount' },
+				{ text: this.$t('table_header.deal_fee_maker'), align: 'center', sortable: true, filterable: false, value: 'makerFee' },
+				{ text: this.$t('table_header.deal_fee_taker'), align: 'center', sortable: true, filterable: false, value: 'takerFee' },
 			];
 		},
 
@@ -86,6 +97,8 @@ export default {
 						id: item.id,
 						currency: item.currency,
 						market: item.market,
+            currency_logo: item.currency_logo,
+            market_logo: item.market_logo,
 						pair: item.currency + '/' + item.market,
 						makerFee: item.makerFee,
 						takerFee: item.takerFee,
@@ -101,6 +114,11 @@ export default {
       return _.filter(this.pairs, item => { return item.interface === true });
     },
 	},
+  methods: {
+    getNumber(number) {
+      return thousands(this.BigNumber(number), ' ')
+    },
+  },
 	created() {
 		this.$store.dispatch('tickers/getMarketDataFromServer');
 	},

@@ -1358,18 +1358,14 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
-    public function getReplenishPayTemplates($trader_id)
+    public function getReplenishPayTemplates()
     {
-        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_replenish_pay_templates',[
-            'trader' => $trader_id
-        ]);
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_replenish_pay_templates');
         return response()->json($response->json(),$response->status());
     }
-    public function getWithdrawPayTemplates($trader_id)
+    public function getWithdrawPayTemplates()
     {
-        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_withdraw_pay_templates',[
-            'trader' => $trader_id
-        ]);
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/get_withdraw_pay_templates');
         return response()->json($response->json(),$response->status());
     }
     public function getRubProps($trader_id)
