@@ -155,6 +155,16 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function orderInfo(int $user_id, int $order_id)
+    {
+        $params = [
+            'trader' => $user_id,
+            'order'  => $order_id
+        ];
+        $response = Http::withToken($this->api_key)
+            ->get($this->base.'v1/order_info',$params);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function deals(int $user_id)
     {
@@ -245,6 +255,7 @@ class BuyOwnExClientAPI
             ->post($this->base.'v1/cancel_order',$params);
         return response()->json($response->json(),$response->status());
     }
+
     public function cancelAllOrders(int $user_id, string $currency, string $market, bool $all_pairs = null)
     {
         $params = [
@@ -741,13 +752,14 @@ class BuyOwnExClientAPI
         }
 
     }
-    public function withdrawCrypto(int $user_id, string $email, string $currency, $amount, string $address)
+    public function withdrawCrypto(int $user_id, string $email, string $currency, $amount, string $address, int $platform_id)
     {
         $params = [
             'trader' => $user_id,
             'currency' => $currency,
             'amount' => $amount,
-            'address' => $address
+            'address' => $address,
+            'platform_id' => $platform_id
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

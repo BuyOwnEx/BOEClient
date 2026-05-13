@@ -1475,18 +1475,17 @@ export default {
 					' Параметры метода ожидаются в формате GET или POST (в зависимости от типа метода). Все ответы от сервера приходят в формате JSON.\n' +
 					'</p>\n' +
 					'<p>\n' +
-					' <u><i>При успешном выполнении приходит ответ типа:</i></u>\n' +
+					' <u><i>При успешном выполнении приходит ответ в виде:</i></u>\n' +
 					'</p>\n' +
-					'<code class="success--text">&#123;"success": true,"code": 200,...&#125;;</code>\n' +
+					'<code class="success--text">&#123;"success": true,"data": ...&#125;;</code>\n' +
 					'<p>\n' +
 					' <u><i>Ответ при ошибке:</i></u>\n' +
 					'</p>\n' +
-					'<code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "errors": [&lt;массив ошибок&gt;]&#125;;</code>\n' +
+					'<code class="error--text">&#123;"success": false, "errors": [&lt;массив ошибок&gt;]&#125;;</code>\n' +
 					'или\n' +
-					'<code class="error--text">&#123;"success": false, "code": &lt;код ошибки&gt;, "message": &lt;описание ошибки&gt;&#125;;</code>\n' +
+					'<code class="error--text">&#123;"success": false, "message": &lt;описание ошибки&gt;&#125;;</code>\n' +
 					'<ul>\n' +
 					' <li><strong>errors</strong> – представляет собой описание ошибок при поступлении запроса с не валидными входными параметрами</li>\n' +
-					' <li><strong>code</strong> – представляет собой целочисленный код ошибки. Все коды возможных ошибок и их описание представлено ниже</li>\n' +
 					' <li><strong>message</strong> – текст ошибки</li>\n' +
 					'</ul>',
 			},
@@ -1494,44 +1493,19 @@ export default {
 				title: 'Авторизация',
 				content:
 					'<p>\n' +
-					'                            Часть API запросов является общедоступной без авторизации, однако большая часть требует указать API ключ. API ключ передается в http заголовке <strong>X-Api-Key</strong> в формате <i>X-Api-Key: Bearer &lt;API Key&gt;</i>\n' +
+					'                            Часть API запросов является общедоступной без авторизации, однако большая часть требует указать API ключ.\n' +
 					'                            <br>\n' +
-					'                            Для получения API ключа, необходимо выполнить POST следующий запрос:\n' +
+					'                            Для получения API ключа, необходимо создать его в личном кабинете. При создании ключа вам будут сгенерированы два ключа: публичный (API Public Key) и секретный (API Secret Key). В заголовке <strong>Authorization</strong> необходимо передавать публичный ключ в формате <i>Authorization: Bearer &lt;API Public Key&gt;</i>\n' +
 					'                        </p>\n' +
 					'                        <p>\n' +
-					'                            <u><i>Адрес и тип запроса:</i></u>\n' +
+					'                            Для некоторых приватных API (выставить ордер и отменить ордер) необходимо передавать HMAC подпись в заголовке <strong>X-Signature</strong>. HMAC подпись формируется с помощью хеш‑функции sha256 и секретного ключа (API Secret Key) по следующему алгоритму:\n' +
 					'                        </p>\n' +
-					'                        <p>\n' +
-					'                            <strong>POST</strong> запрос по адресу <strong>{url}/api/v1/login</strong>\n' +
-					'                        </p>\n' +
-					'                        <p>\n' +
-					'                            <u><i>Заголовки:</i></u>\n' +
-					'                        </p>\n' +
-					'                        <p>\n' +
-					'                            <strong>Content-Type</strong>: application/x-www-form-urlencoded\n' +
-					'                        </p>\n' +
-					'                        <p>\n' +
-					'                            <u><i>Обязательные параметры:</i></u>\n' +
-					'                        </p>\n' +
-					'                        <ul>\n' +
-					'                            <li><strong>email</strong> – email, указанный вами при регистрации</li>\n' +
-					'                            <li><strong>password</strong> – ваш текущий пароль</li>\n' +
-					'                        </ul>\n' +
-					'                        <p>\n' +
-					'                            <u><i>Пример:</i></u>\n' +
-					'                        </p>\n' +
-					'                        <p>\n' +
-					'                            email=user@example.com&password=qwerty\n' +
-					'                        </p>\n' +
-					'                        <p>\n' +
-					'                            При удачном ответе вернется строка в JSON формате\n' +
-					'                        </p>\n' +
-					'                        <code class="success--text">&#123;"success": true,"token": "&lt;token&gt;"&#125;;</code>\n' +
-					'                        <p>\n' +
-					'                            где\n' +
-					'                            <br>\n' +
-					'                            <strong>token</strong> – API ключ, который необходимо в персональных API запросах передавать в заголовке X-Api-Key\n' +
-					'                        </p>',
+                    '                        <ul>\n' +
+                    '                            <li>Все параметры запроса сортируются в алфавитном порядке по возрастанию</li>\n' +
+                    '                            <li>Формируется URL‑кодированная строка из массива отсортированного на предыдущем шаге параметров</li>\n' +
+                    '                            <li>Вычисляется HMAC от полученной строки, используя секретный ключ и хеш‑алгоритм в не бинарном формате</li>\n' +
+                    '                            <li>Полученная подпись переводится в верхний регистр и добавляется в заголовок <strong>X-Signature</strong></li>\n' +
+                    '                        </ul>\n',
 			},
 			limits: {
 				title: 'Ограничения',
@@ -1544,10 +1518,13 @@ export default {
 					'                        <ul>\n' +
 					'                            <li><strong>X-RateLimit-Limit</strong> – разрешенное кол-во запросов в минуту</li>\n' +
 					'                            <li><strong>X-RateLimit-Remaining</strong> – оставшееся кол-во запросов в данную минуту</li>\n' +
-					'                        </ul>',
+					'                        </ul><br>' +
+                    '                        <p>\n' +
+                    '                            При отправке персонального API израсходуется 2 запроса. При превышении запросов возврщается код ответа 429 (Too Many Requests)\n' +
+                    '                        </p>\n',
 			},
 			codes: {
-				title: 'Коды возврата и коды ошибок API',
+				title: 'Коды возврата',
 				content:
 					'<p>\n' +
 					'                            <u>Возможные коды возврата:</u>\n' +
@@ -1567,7 +1544,7 @@ export default {
 					'                                    </tr>\n' +
 					'                                    <tr>\n' +
 					'                                        <td>400</td>\n' +
-					'                                        <td>Ошибка при запросе к API. В данном случае обязательно возвращается еще и код ошибки, поясняющий причину ошибки. Все возможные коды ошибок см. ниже</td>\n' +
+					'                                        <td>Ошибка при запросе к API. В данном случае обязательно возвращается еще и описание ошибки</td>\n' +
 					'                                    </tr>\n' +
 					'                                    <tr>\n' +
 					'                                        <td>401</td>\n' +
@@ -1591,113 +1568,6 @@ export default {
 					'                                    </tr>\n' +
 					'                                </tbody>\n' +
 					'                            </table>\n' +
-					'                        </div>\n' +
-					'                        <p>\n' +
-					'                            <u>Возможные коды ошибок:</u>\n' +
-					'                        </p>\n' +
-					'                        <div class="common_table">\n' +
-					'                            <table>\n' +
-					'                                <thead>\n' +
-					'                                    <tr>\n' +
-					'                                        <th>Код ошибки</th>\n' +
-					'                                        <th>Описание</th>\n' +
-					'                                    </tr>\n' +
-					'                                </thead>\n' +
-					'                                <tbody>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>9</td>\n' +
-					'                                        <td>Недостаточно денежных средств</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>10</td>\n' +
-					'                                        <td>Ошибка при валидации входных параметров</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>12</td>\n' +
-					'                                        <td>Ошибка при получении тикера</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>13</td>\n' +
-					'                                        <td>Указана отрицательная или нулевая сумма</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>14</td>\n' +
-					'                                        <td>Неизвестная системная ошибка при получении стакана</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>15</td>\n' +
-					'                                        <td>Не найдена валютная пара</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>16</td>\n' +
-					'                                        <td>Задана слишком большая сумма</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>17</td>\n' +
-					'                                        <td>Количество покупаемой/продаваемой валюты при выставлении ордера меньше допустимой</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>18</td>\n' +
-					'                                        <td>Указана отрицательная или нулевая цена при выставлении ордера</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>19</td>\n' +
-					'                                        <td>Указана слишком большая цена при выставлении ордера</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>22</td>\n' +
-					'                                        <td>Неверный формат API запроса</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>23</td>\n' +
-					'                                        <td>Ошибка при получении списка сделок</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>24</td>\n' +
-					'                                        <td>Ошибка при получении списка ордеров</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>25</td>\n' +
-					'                                        <td>Ордер не найден</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>26</td>\n' +
-					'                                        <td>Ошибка при получении информации по ордеру</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>27</td>\n' +
-					'                                        <td>Ошибка при получении информации по балансу</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>28</td>\n' +
-					'                                        <td>Ошибка при получении списка транзакций</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>29</td>\n' +
-					'                                        <td>Ошибка при получении списка переводов</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>30</td>\n' +
-					'                                        <td>Отсутствует информация по комиссии по данной валюте</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>31</td>\n' +
-					'                                        <td>Ошибка при получении информации по комиссии</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>32</td>\n' +
-					'                                        <td>Неверные параметры, передаваемые при выставлении ордера</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>33</td>\n' +
-					'                                        <td>Ошибка при выставлении ордера</td>\n' +
-					'                                    </tr>\n' +
-					'                                    <tr>\n' +
-					'                                        <td>34</td>\n' +
-					'                                        <td>Ошибка при отмене ордера</td>\n' +
-					'                                    </tr>\n' +
-					'                                </tbody>\n' +
-					'                            </table>\n' +
 					'                        </div>',
 			},
 			public: {
@@ -1705,570 +1575,533 @@ export default {
 				market: {
 					title: 'Рыночные данные',
 					content:
-						'<p>\n' +
-						'                            Все API в данном разделе не требуют X-Api-Key, но ограничения 60 запросов в минуту присутствуют\n' +
-						'                        </p>' +
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/summary\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/summary</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success": true,\n' +
-						'    "code": 200,\n' +
-						'    "ticker":\n' +
-						'    &#123;\n' +
-						'        "BTC_USDT":\n' +
-						'        &#123;\n' +
-						'            "id": 1,\n' +
-						'            "last_price": "7234.45",\n' +
-						'            "quote_volume": "891096.87103846",\n' +
-						'            "base_volume": "121.840826",\n' +
-						'            "isFrozen": 0,\n' +
-						'            "highestBid": "7227.33",\n' +
-						'            "lowestAsk": "7241.77",\n' +
-						'            "high24hr": "7396",\n' +
-						'            "low24hr": "7163.96",\n' +
-						'            "percentChange": "-1.23",\n' +
-						'            "margin": 0\n' +
-						'        },\n' +
-						'        "LTC_USDT":\n' +
-						'        &#123;\n' +
-						'            "id": 2,\n' +
-						'            "last_price": "43.98",\n' +
-						'            "quote_volume": "770823.5363825",\n' +
-						'            "base_volume": "17412.2085",\n' +
-						'            "isFrozen": 0,\n' +
-						'            "highestBid": "43.92",\n' +
-						'            "lowestAsk": "44.03",\n' +
-						'            "high24hr": "44.62",\n' +
-						'            "low24hr": "43.6",\n' +
-						'            "percentChange": "-0.91",\n' +
-						'            "margin": 0\n' +
-						'        &#125;\n' +
-						'    },\n' +
-						'    "coins":\n' +
-						'    &#123;\n' +
-						'        "BTC":\n' +
-						'        &#123;\n' +
-						'            "id": 2,\n' +
-						'            "type": "coin",\n' +
-						'            "name": "Bitcoin",\n' +
-						'            "withdraw": "On",\n' +
-						'            "deposit": "On",\n' +
-						'            "platform": null,\n' +
-						'            "min_replenish": "0.0005",\n' +
-						'            "min_withdraw": "0.0005",\n' +
-						'            "fee_replenish": "0",\n' +
-						'            "fee_withdraw": "0.0003",\n' +
-						'            "max_day_withdraw": "1",\n' +
-						'            "max_kyc_day_withdraw": "10"\n' +
-						'        },\n' +
-						'        "USDT":\n' +
-						'        &#123;\n' +
-						'            "id": 1,\n' +
-						'            "type": "token",\n' +
-						'            "name": "Tether",\n' +
-						'            "withdraw": "On",\n' +
-						'            "deposit": "On",\n' +
-						'            "platform": 3,\n' +
-						'            "min_replenish": "1",\n' +
-						'            "min_withdraw": "1",\n' +
-						'            "fee_replenish": "0",\n' +
-						'            "fee_withdraw": "1.2",\n' +
-						'            "max_day_withdraw": "10000",\n' +
-						'            "max_kyc_day_withdraw": "100000"\n' +
-						'        &#125;\n' +
-						'    },\n' +
-						'    "fiats":\n' +
-						'    &#123;\n' +
-						'        "USD":\n' +
-						'        &#123;\n' +
-						'            "id": 2,\n' +
-						'            "name": "U.S. Dollar",\n' +
-						'            "platforms":\n' +
-						'            &#123;\n' +
-						'                "Payeer":\n' +
-						'                &#123;\n' +
-						'                    "withdraw": "On",\n' +
-						'                    "deposit": "On",\n' +
-						'                    "min_replenish": "10",\n' +
-						'                    "min_withdraw": "30",\n' +
-						'                    "fee_replenish": "0.5",\n' +
-						'                    "fee_withdraw": "1",\n' +
-						'                    "max_day_withdraw": "500",\n' +
-						'                    "max_kyc_day_withdraw": "3000"\n' +
-						'                &#125;\n' +
-						'            &#125;\n' +
-						'        },\n' +
-						'        "EUR":\n' +
-						'        &#123;\n' +
-						'            "id": 3,\n' +
-						'            "name": "European Euro",\n' +
-						'            "platforms":\n' +
-						'            &#123;\n' +
-						'                "Payeer":\n' +
-						'                &#123;\n' +
-						'                    "withdraw": "On",\n' +
-						'                    "deposit": "On",\n' +
-						'                    "min_replenish": "10",\n' +
-						'                    "min_withdraw": "20",\n' +
-						'                    "fee_replenish": "0.5",\n' +
-						'                    "fee_withdraw": "1",\n' +
-						'                    "max_day_withdraw": "500",\n' +
-						'                    "max_kyc_day_withdraw": "3000"\n' +
-						'                &#125;\n' +
-						'            &#125;\n' +
-						'        &#125;\n' +
-						'    &#125;\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>id</strong> – идентификатор валютной пары/валюты/фиатной валюты</li>\n' +
-						'                            <li><strong>last_price</strong> – последняя цена по валютной паре</li>\n' +
-						'                            <li><strong>quote_volume</strong> – объем торгов за последние 24 часа в котируемой валюте</li>\n' +
-						'                            <li><strong>base_volume</strong> – объем торгов за последние 24 часа в базовой валюте</li>\n' +
-						'                            <li><strong>isFrozen</strong> – признак доступности торгов. Возможные значения: 0 - торги доступны, 1 - торги приостановлены</li>\n' +
-						'                            <li><strong>highestBid</strong> – наилучшая цена покупки в стакане</li>\n' +
-						'                            <li><strong>lowestAsk</strong> – наилучшая цена продажи в стакане</li>\n' +
-						'                            <li><strong>high24hr</strong> – максимальная цена сделки за последние 24 часа</li>\n' +
-						'                            <li><strong>low24hr</strong> – минимальная цена сделки за последние 24 часа</li>\n' +
-						'                            <li><strong>percentChange</strong> – процентное изменение цены</li>\n' +
-						'                            <li><strong>margin</strong> – признак доступности маржинальной торговли. Возможные значения: 0 - маржинальная торговля недоступна, 1 - маржинальная торговля доступна</li>\n' +
-						'                            <li><strong>type</strong> – тип криптовалюты. Возможные значения: <strong>coin</strong>, <strong>token</strong></li>\n' +
-						'                            <li><strong>name</strong> – наименование валюты/фиатной валюты</li>\n' +
-						'                            <li><strong>withdraw</strong> – доступность вывода средств по валюте/фиатной валюте. Возможные значения: <strong>On</strong>, <strong>Off</strong></li>\n' +
-						'                            <li><strong>deposit</strong> – доступность пополнения средств по валюте/фиатной валюте. Возможные значения: <strong>On</strong>, <strong>Off</strong></li>\n' +
-						'                            <li><strong>platform</strong> – заполняется, только если тип криптовалюты <strong>token</strong>. Обозначает id криптовалюты, на основе которой выпущен токен</li>\n' +
-						'                            <li><strong>platforms</strong> – список доступных платежных систем по фиатной валюте</li>\n' +
-						'                            <li><strong>min_replenish</strong> – минимальная сумма пополнения средств</li>\n' +
-						'                            <li><strong>min_withdraw</strong> – минимальная сумма вывода средств</li>\n' +
-						'                            <li><strong>fee_replenish</strong> – размер комиссии при пополнении средств</li>\n' +
-						'                            <li><strong>fee_withdraw</strong> – размер комиссии при выводе средств</li>\n' +
-						'                            <li><strong>max_day_withdraw</strong> – максимально допустимая сумма вывода средств в день для неверифицированный пользователей</li>\n' +
-						'                            <li><strong>max_kyc_day_withdraw</strong> – максимально допустимая сумма вывода средств в день для прошедших KYC пользователей</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '    Все API в данном разделе не требуют заголовка Authorization, но ограничения 60 запросов в минуту присутствуют\n' +
+                        '</p>' +
+                        '<p>\n' +
+                        '    GET запрос по адресу {url}/api/v1/market\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <u>Заголовки:</u>\n' +
+                        '    <br>\n' +
+                        '    <strong>отсутствуют</strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <u>Необязательные параметры:</u>\n' +
+                        '    <br>\n' +
+                        '    <strong>отсутствуют</strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <strong><i>Пример:</i></strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <i>{url}/api/v1/market</i>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    При удачном ответе вернётся строка в JSON‑формате\n' +
+                        '</p>\n' +
+                        '<pre>\n' +
+                        '&#123;\n' +
+                        '  "data": &#123;\n' +
+                        '    "AED": [\n' +
+                        '      &#123;\n' +
+                        '        "id": 73,\n' +
+                        '        "currency": "TRX",\n' +
+                        '        "market": "AED",\n' +
+                        '        "amountScale": 4,\n' +
+                        '        "rateScale": 4,\n' +
+                        '        "minAmount": 50,\n' +
+                        '        "minReverseAmount": 3.6,\n' +
+                        '        "makerFee": 0.05,\n' +
+                        '        "takerFee": 0.05,\n' +
+                        '        "trade": true,\n' +
+                        '        "interface": true,\n' +
+                        '        "margin": false,\n' +
+                        '        "currency_logo": "storage/currencies/trx.png",\n' +
+                        '        "market_logo": "storage/currencies/aed.png"\n' +
+                        '      &#125;\n' +
+                        '    ],\n' +
+                        '    "AMD": [\n' +
+                        '      &#123;\n' +
+                        '        "id": 87,\n' +
+                        '        "currency": "BNB",\n' +
+                        '        "market": "AMD",\n' +
+                        '        "amountScale": 5,\n' +
+                        '        "rateScale": 2,\n' +
+                        '        "minAmount": 0.003,\n' +
+                        '        "minReverseAmount": 386,\n' +
+                        '        "makerFee": 0.05,\n' +
+                        '        "takerFee": 0.05,\n' +
+                        '        "trade": true,\n' +
+                        '        "interface": true,\n' +
+                        '        "margin": false,\n' +
+                        '        "currency_logo": "storage/currencies/bnb.png",\n' +
+                        '        "market_logo": "storage/currencies/amd.png"\n' +
+                        '      &#125;\n' +
+                        '    ]\n' +
+                        '  &#125;\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '  <li><strong>id</strong> — идентификатор торговой пары</li>\n' +
+                        '  <li><strong>currency</strong> — код криптовалюты (например, BTC, ETH, USDT)</li>\n' +
+                        '  <li><strong>market</strong> — код валюты рынка (например, AED, RUB, USD)</li>\n' +
+                        '  <li><strong>amountScale</strong> — количество знаков после запятой для объёма торгов</li>\n' +
+                        '  <li><strong>rateScale</strong> — количество знаков после запятой для курса</li>\n' +
+                        '  <li><strong>minAmount</strong> — минимальная сумма торговли в криптовалюте</li>\n' +
+                        '  <li><strong>minReverseAmount</strong> — минимальная сумма торговли в валюте рынка</li>\n' +
+                        '  <li><strong>makerFee</strong> — комиссия для мейкера (в процентах)</li>\n' +
+                        '  <li><strong>takerFee</strong> — комиссия для тейкера (в процентах)</li>\n' +
+                        '  <li><strong>trade</strong> — признак доступности торговли. Возможные значения: <strong>true</strong> (торговля доступна), <strong>false</strong> (торговля недоступна)</li>\n' +
+                        '  <li><strong>interface</strong> — признак отображения пары в интерфейсе. Возможные значения: <strong>true</strong> (отображается), <strong>false</strong> (не отображается)</li>\n' +
+                        '  <li><strong>margin</strong> — признак доступности маржинальной торговли. Возможные значения: <strong>true</strong> (маржинальная торговля доступна), <strong>false</strong> (маржинальная торговля недоступна)</li>\n' +
+                        '  <li><strong>currency_logo</strong> — URL‑путь к логотипу криптовалюты</li>\n' +
+                        '  <li><strong>market_logo</strong> — URL‑путь к логотипу валюты рынка</li>\n' +
+                        '</ul>',
 				},
 				currency: {
 					title: 'Информация по валютам',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/assets\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/assets</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success": true,\n' +
-						'    "code": 200,\n' +
-						'    "assets":\n' +
-						'    &#123;\n' +
-						'        "BTC":\n' +
-						'        &#123;\n' +
-						'            "name": "Bitcoin",\n' +
-						'            "unified_cryptoasset_id": 1,\n' +
-						'            "type": "coin",\n' +
-						'            "platform": null,\n' +
-						'            "can_withdraw": true,\n' +
-						'            "can_deposit": true,\n' +
-						'            "min_replenish": "0.0005",\n' +
-						'            "min_withdraw": "0.0005",\n' +
-						'            "max_withdraw": "1",\n' +
-						'            "max_kyc_withdraw": "10",\n' +
-						'            "fee_replenish": "0",\n' +
-						'            "fee_withdraw": "0.0003",\n' +
-						'            "maker_fee": "0.2",\n' +
-						'            "taker_fee": "0.2"\n' +
-						'        },\n' +
-						'        "ETH":\n' +
-						'        &#123;\n' +
-						'            "name": "Ethereum",\n' +
-						'            "unified_cryptoasset_id": 1027,\n' +
-						'            "type": "coin",\n' +
-						'            "platform": null,\n' +
-						'            "can_withdraw": true,\n' +
-						'            "can_deposit": true,\n' +
-						'            "min_replenish": "0.008",\n' +
-						'            "min_withdraw": "0.01",\n' +
-						'            "max_withdraw": "100",\n' +
-						'            "max_kyc_withdraw": "1000",\n' +
-						'            "fee_replenish": "0",\n' +
-						'            "fee_withdraw": "0.007",\n' +
-						'            "maker_fee": "0.2",\n' +
-						'            "taker_fee": "0.2"\n' +
-						'        },\n' +
-						'        "USDT":\n' +
-						'        &#123;\n' +
-						'            "name": "Tether",\n' +
-						'            "unified_cryptoasset_id": 825,\n' +
-						'            "type": "token",\n' +
-						'            "platform": 3,\n' +
-						'            "can_withdraw": true,\n' +
-						'            "can_deposit": true,\n' +
-						'            "min_replenish": "1",\n' +
-						'            "min_withdraw": "1",\n' +
-						'            "max_withdraw": "10000",\n' +
-						'            "max_kyc_withdraw": "100000",\n' +
-						'            "fee_replenish": "0",\n' +
-						'            "fee_withdraw": "1.2",\n' +
-						'            "maker_fee": "0.2",\n' +
-						'            "taker_fee": "0.2"\n' +
-						'        },\n' +
-						'        "USD":\n' +
-						'        &#123;\n' +
-						'            "name": "U.S. Dollar",\n' +
-						'            "unified_cryptoasset_id": null,\n' +
-						'            "type": "fiat",\n' +
-						'            "maker_fee": "0.2",\n' +
-						'            "taker_fee": "0.2",\n' +
-						'            "platforms":\n' +
-						'            &#123;\n' +
-						'                "Payeer":\n' +
-						'                &#123;\n' +
-						'                    "can_withdraw": true,\n' +
-						'                    "can_deposit": true,\n' +
-						'                    "min_replenish": "10",\n' +
-						'                    "min_withdraw": "30",\n' +
-						'                    "max_withdraw": "500",\n' +
-						'                    "max_kyc_withdraw": "3000"\n' +
-						'                    "fee_replenish": "0.5",\n' +
-						'                    "fee_withdraw": "1"\n' +
-						'                &#125;\n' +
-						'            &#125;\n' +
-						'        },\n' +
-						'        "EUR":\n' +
-						'        &#123;\n' +
-						'            "name": "European Euro",\n' +
-						'            "unified_cryptoasset_id": null,\n' +
-						'            "type": "fiat",\n' +
-						'            "maker_fee": "0.2",\n' +
-						'            "taker_fee": "0.2",\n' +
-						'            "platforms":\n' +
-						'            &#123;\n' +
-						'                "Payeer":\n' +
-						'                &#123;\n' +
-						'                    "can_withdraw": true,\n' +
-						'                    "can_deposit": true,\n' +
-						'                    "min_replenish": "10",\n' +
-						'                    "min_withdraw": "20",\n' +
-						'                    "max_withdraw": "500",\n' +
-						'                    "max_kyc_withdraw": "3000"\n' +
-						'                    "fee_replenish": "0.5",\n' +
-						'                    "fee_withdraw": "1"\n' +
-						'                &#125;\n' +
-						'            &#125;\n' +
-						'        &#125;\n' +
-						'    &#125;\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>unified_cryptoasset_id</strong> – уникальный идентификатор валюты, присвоенный агрегатором CoinMarketCap</li>\n' +
-						'                            <li><strong>name</strong> – наименование валюты/фиатной валюты</li>\n' +
-						'                            <li><strong>type</strong> – тип криптовалюты. Возможные значения: <strong>coin</strong>, <strong>token</strong>, <strong>fiat</strong></li>\n' +
-						'                            <li><strong>maker_fee</strong> – комиссия мэйкера (%)</li>\n' +
-						'                            <li><strong>taker_fee</strong> – комиссия тэйкера (%)</li>\n' +
-						'                            <li><strong>platform</strong> – заполняется, только если тип криптовалюты <strong>token</strong>. Обозначает id криптовалюты, на основе которой выпущен токен</li>\n' +
-						'                            <li><strong>platforms</strong> – список доступных платежных систем по фиатной валюте</li>\n' +
-						'                            <li><strong>can_withdraw</strong> – доступность вывода средств по валюте/фиатной валюте. Возможные значения: <strong>true</strong>, <strong>false</strong></li>\n' +
-						'                            <li><strong>can_deposit</strong> – доступность пополнения средств по валюте/фиатной валюте. Возможные значения: <strong>true</strong>, <strong>false</strong></li>\n' +
-						'                            <li><strong>min_replenish</strong> – минимальная сумма пополнения средств</li>\n' +
-						'                            <li><strong>min_withdraw</strong> – минимальная сумма вывода средств</li>\n' +
-						'                            <li><strong>fee_replenish</strong> – размер комиссии при пополнении средств</li>\n' +
-						'                            <li><strong>fee_withdraw</strong> – размер комиссии при выводе средств</li>\n' +
-						'                            <li><strong>max_withdraw</strong> – максимально допустимая сумма вывода средств в день для неверифицированный пользователей</li>\n' +
-						'                            <li><strong>max_kyc_withdraw</strong> – максимально допустимая сумма вывода средств в день для прошедших KYC пользователей</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '    GET запрос по адресу {url}/api/v1/all_currencies\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <u>Заголовки:</u>\n' +
+                        '    <br>\n' +
+                        '    <strong>отсутствуют</strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <u>Необязательные параметры:</u>\n' +
+                        '    <br>\n' +
+                        '    <strong>отсутствуют</strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <strong><i>Пример:</i></strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    <i>{url}/api/v1/all_currencies</i>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '    При удачном ответе вернётся строка в JSON‑формате\n' +
+                        '</p>\n' +
+                        '<pre>\n' +
+                        '&#123;\n' +
+                        '  "success": true,\n' +
+                        '  "data": [\n' +
+                        '    &#123;\n' +
+                        '      "id": 1,\n' +
+                        '      "currency": "USDT",\n' +
+                        '      "name": "Tether",\n' +
+                        '      "type": "crypto",\n' +
+                        '      "scale": 4,\n' +
+                        '      "status": "active",\n' +
+                        '      "qr_string": "%address%",\n' +
+                        '      "cmc_asset_id": 825,\n' +
+                        '      "logo": "storage/currencies/usdt.png",\n' +
+                        '      "site": "https://tether.to",\n' +
+                        '      "code": 1000,\n' +
+                        '      "maxWithdraw": 10,\n' +
+                        '      "maxVerifyWithdraw": 500,\n' +
+                        '      "blockedFundLimit": 0,\n' +
+                        '      "platforms": [\n' +
+                        '        &#123;\n' +
+                        '          "id": 10,\n' +
+                        '          "base_currency": "BNB",\n' +
+                        '          "platform": "BEP20",\n' +
+                        '          "gateway_id": null,\n' +
+                        '          "currency": "USDT",\n' +
+                        '          "minReplenish": 50,\n' +
+                        '          "minWithdraw": 50,\n' +
+                        '          "feeWithdraw": 1,\n' +
+                        '          "approve": 3,\n' +
+                        '          "autoReplenishLimit": 500,\n' +
+                        '          "autoVerifyReplenishLimit": 500,\n' +
+                        '          "autoWithdrawLimit": 500,\n' +
+                        '          "autoVerifyWithdrawLimit": 5000,\n' +
+                        '          "type": "token",\n' +
+                        '          "explorer": "https://bscscan.com",\n' +
+                        '          "replenish_type": 3,\n' +
+                        '          "state": 6,\n' +
+                        '          "gateway_code": null,\n' +
+                        '          "gateway_logo": null,\n' +
+                        '          "gateway_is_replenish": null,\n' +
+                        '          "gateway_is_withdrawal": null\n' +
+                        '        &#125;\n' +
+                        '      ]\n' +
+                        '    &#125;,\n' +
+                        '    &#123;\n' +
+                        '      "id": 2,\n' +
+                        '      "currency": "BTC",\n' +
+                        '      "name": "Bitcoin",\n' +
+                        '      "type": "crypto",\n' +
+                        '      "scale": 8,\n' +
+                        '      "status": "active",\n' +
+                        '      "qr_string": "%address%",\n' +
+                        '      "cmc_asset_id": 1,\n' +
+                        '      "logo": "storage/currencies/btc.png",\n' +
+                        '      "site": "https://bitcoincore.org",\n' +
+                        '      "code": 1001,\n' +
+                        '      "maxWithdraw": 0.0005,\n' +
+                        '      "maxVerifyWithdraw": 0.005,\n' +
+                        '      "blockedFundLimit": 0,\n' +
+                        '      "platforms": [\n' +
+                        '        &#123;\n' +
+                        '          "id": 1,\n' +
+                        '          "base_currency": "BTC",\n' +
+                        '          "platform": null,\n' +
+                        '          "gateway_id": null,\n' +
+                        '          "currency": "BTC",\n' +
+                        '          "minReplenish": 0.0005,\n' +
+                        '          "minWithdraw": 0.0004,\n' +
+                        '          "feeWithdraw": 0.0001,\n' +
+                        '          "approve": 3,\n' +
+                        '          "autoReplenishLimit": 0.001,\n' +
+                        '          "autoVerifyReplenishLimit": 0.1,\n' +
+                        '          "autoWithdrawLimit": 0.001,\n' +
+                        '          "autoVerifyWithdrawLimit": 0.01,\n' +
+                        '          "type": "coin",\n' +
+                        '          "explorer": "https://blockchyper/btc",\n' +
+                        '          "replenish_type": 1,\n' +
+                        '          "state": 6,\n' +
+                        '          "gateway_code": null,\n' +
+                        '          "gateway_logo": null,\n' +
+                        '          "gateway_is_replenish": null,\n' +
+                        '          "gateway_is_withdrawal": null\n' +
+                        '        &#125;\n' +
+                        '      ]\n' +
+                        '    &#125;\n' +
+                        '  ]\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '  <li><strong>id</strong> — уникальный идентификатор валюты в системе</li>\n' +
+                        '  <li><strong>currency</strong> — тикер валюты (например, USDT, BTC, RUB)</li>\n' +
+                        '  <li><strong>name</strong> — полное наименование валюты (например, Tether, Bitcoin, RU Ruble)</li>\n' +
+                        '  <li><strong>type</strong> — тип актива. Возможные значения: <strong>crypto</strong> (криптовалюта), <strong>fiat</strong> (фиатная валюта)</li>\n' +
+                        '  <li><strong>scale</strong> — количество знаков после запятой (точность отображения)</li>\n' +
+                        '  <li><strong>status</strong> — статус валюты. Возможные значения: <strong>active</strong> (активна), <strong>disabled</strong> (не активна)</li>\n' +
+                        '  <li><strong>qr_string</strong> — шаблон для генерации QR‑кода (например, <code>%address%</code>). Для фиата может быть <code>null</code></li>\n' +
+                        '  <li><strong>cmc_asset_id</strong> — идентификатор актива в CoinMarketCap. Для фиата — <code>null</code></li>\n' +
+                        '  <li><strong>logo</strong> — URL‑путь к логотипу валюты</li>\n' +
+                        '  <li><strong>site</strong> — официальный сайт проекта (для криптовалют). Для фиата может быть <code>null</code></li>\n' +
+                        '  <li><strong>code</strong> — внутренний код валюты (например, 810 для RUB)</li>\n' +
+                        '  <li><strong>maxWithdraw</strong> — максимальная сумма вывода в день для пользователя без верификации (KYC)</li>\n' +
+                        '  <li><strong>maxVerifyWithdraw</strong> — максимальная сумма вывода в день для верифицированного пользователя (KYC)</li>\n' +
+                        '  <li><strong>blockedFundLimit</strong> — лимит заблокированных средств (обычно 0)</li>\n' +
+                        '<li><strong>platforms</strong> — массив платформ/шлюзов для работы с валютой. Каждый элемент массива содержит:\n' +
+                        '    <ul>\n' +
+                        '      <li><strong>id</strong> — уникальный идентификатор платформы в системе</li>\n' +
+                        '      <li><strong>base_currency</strong> — базовая валюта платформы (например, BNB для токенов на BEP20)</li>\n' +
+                        '      <li><strong>platform</strong> — название блокчейн‑платформы (например, <code>BEP20</code>, <code>ERC20</code>). Для монет и фиата может быть <code>null</code></li>\n' +
+                        '      <li><strong>gateway_id</strong> — идентификатор платёжного метода (может быть <code>null</code> для криптовалют)</li>\n' +
+                        '      <li><strong>currency</strong> — тикер валюты на платформе</li>\n' +
+                        '      <li><strong>minReplenish</strong> — минимальная сумма пополнения на платформе</li>\n' +
+                        '      <li><strong>minWithdraw</strong> — минимальная сумма вывода с платформы</li>\n' +
+                        '      <li><strong>feeWithdraw</strong> — комиссия за вывод (в единицах валюты)</li>\n' +
+                        '      <li><strong>approve</strong> — количество подтверждений сети, необходимое для зачисления средств</li>\n' +
+                        '      <li><strong>autoReplenishLimit</strong> — лимит автоматического пополнения для неверифицированных пользователей</li>\n' +
+                        '      <li><strong>autoVerifyReplenishLimit</strong> — лимит автоматического пополнения для верифицированных пользователей</li>\n' +
+                        '      <li><strong>autoWithdrawLimit</strong> — лимит автоматических выводов для неверифицированных пользователей</li>\n' +
+                        '      <li><strong>autoVerifyWithdrawLimit</strong> — лимит автоматических выводов для верифицированных пользователей</li>\n' +
+                        '      <li><strong>type</strong> — тип актива на платформе: <code>coin</code> или <code>token</code> или <code>fiat</code></li>\n' +
+                        '      <li><strong>explorer</strong> — URL обозревателя блокчейна для отслеживания транзакций (только для криптовалют)</li>\n' +
+                        '      <li><strong>replenish_type</strong> — тип пополнения (числовой код)</li>\n' +
+                        '      <li><strong>state</strong> — статус платформы (например, 1 — ввод/вывод работает, 2 - работает только пополнение, 3 - работает только вывод, 4 - ввод/вывод не работают)</li>\n' +
+                        '      <li><strong>gateway_code</strong> — код шлюза (может быть <code>null</code>)</li>\n' +
+                        '      <li><strong>gateway_logo</strong> — URL логотипа шлюза (может быть <code>null</code>)</li>\n' +
+                        '      <li><strong>gateway_is_replenish</strong> — флаг поддержки пополнения через шлюз (<code>true</code>/<code>false</code> или <code>null</code>)</li>\n' +
+                        '      <li><strong>gateway_is_withdrawal</strong> — флаг поддержки вывода через шлюз (<code>true</code>/<code>false</code> или <code>null</code>)</li>\n' +
+                        '    </ul>\n' +
+                        '  </li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '    <strong>Примечания:</strong>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '  <li>Поле <strong>success</strong> указывает на успешность выполнения запроса (<code>true</code> — успех, <code>false</code> — ошибка).</li>\n' +
+                        '  <li>В случае ошибки ответ может содержать дополнительные поля: <code>message</code> (текст ошибки)</li>\n' +
+                        '  <li>Значения <code>null</code> означают отсутствие данных (например, для фиата не указаны <code>platform</code> и <code>explorer</code>).</li>\n' +
+                        '</ul>',
 				},
 				get_ticker: {
 					title: 'Получение тикера',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/tickers\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/tickers</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success": true,\n' +
-						'    "code": 200,\n' +
-						'    "ticker":\n' +
-						'    &#123;\n' +
-						'        "BTC_USDT":\n' +
-						'        &#123;\n' +
-						'            "base_id": 1,\n' +
-						'            "quote_id": 825,\n' +
-						'            "last_price": "7234.45",\n' +
-						'            "quote_volume": "891096.87103846",\n' +
-						'            "base_volume": "121.840826",\n' +
-						'            "isFrozen": 0,\n' +
-						'            "highestBid": "7227.33",\n' +
-						'            "lowestAsk": "7241.77",\n' +
-						'            "high24hr": "7396",\n' +
-						'            "low24hr": "7163.96",\n' +
-						'            "percentChange": "-1.23",\n' +
-						'            "margin": 0\n' +
-						'        },\n' +
-						'        "LTC_USDT":\n' +
-						'        &#123;\n' +
-						'            "base_id": 2,\n' +
-						'            "quote_id": 825,\n' +
-						'            "last_price": "43.98",\n' +
-						'            "quote_volume": "770823.5363825",\n' +
-						'            "base_volume": "17412.2085",\n' +
-						'            "isFrozen": 0,\n' +
-						'            "highestBid": "43.92",\n' +
-						'            "lowestAsk": "44.03",\n' +
-						'            "high24hr": "44.62",\n' +
-						'            "low24hr": "43.6",\n' +
-						'            "percentChange": "-0.91",\n' +
-						'            "margin": 0\n' +
-						'        &#125;\n' +
-						'    &#125;\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>base_id</strong> – уникальный идентификатор базовой валюты, присвоенный агрегатором CoinMarketCap</li>\n' +
-						'                            <li><strong>quote_id</strong> – уникальный идентификатор котируемой валюты, присвоенный агрегатором CoinMarketCap</li>\n' +
-						'                            <li><strong>last_price</strong> – последняя цена по валютной паре</li>\n' +
-						'                            <li><strong>quote_volume</strong> – объем торгов за последние 24 часа в котируемой валюте</li>\n' +
-						'                            <li><strong>base_volume</strong> – объем торгов за последние 24 часа в базовой валюте</li>\n' +
-						'                            <li><strong>isFrozen</strong> – признак доступности торгов. Возможные значения: 0 - торги доступны, 1 - торги приостановлены</li>\n' +
-						'                            <li><strong>highestBid</strong> – наилучшая цена покупки в стакане</li>\n' +
-						'                            <li><strong>lowestAsk</strong> – наилучшая цена продажи в стакане</li>\n' +
-						'                            <li><strong>high24hr</strong> – максимальная цена сделки за последние 24 часа</li>\n' +
-						'                            <li><strong>low24hr</strong> – минимальная цена сделки за последние 24 часа</li>\n' +
-						'                            <li><strong>percentChange</strong> – процентное изменение цены</li>\n' +
-						'                            <li><strong>margin</strong> – признак доступности маржинальной торговли. Возможные значения: 0 - маржинальная торговля недоступна, 1 - маржинальная торговля доступна</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '                            GET запрос по адресу {url}/api/v1/tickers\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Заголовки:</u>\n' +
+                        '                            <br>\n' +
+                        '                            <strong>отсутствуют</strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Необязательные параметры:</u>\n' +
+                        '                            <br>\n' +
+                        '                            <strong>отсутствуют</strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <strong><i>Пример:</i></strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <i>{url}/api/v1/tickers</i>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            При успешном ответе вернётся строка в формате JSON\n' +
+                        '                        </p>\n' +
+                        '                        <pre>\n' +
+                        '&#123;\n' +
+                        '    "success": true,\n' +
+                        '    "data": [\n' +
+                        '        &#123;\n' +
+                        '            "currency": "USDT",\n' +
+                        '            "market": "AZN",\n' +
+                        '            "margin": false,\n' +
+                        '            "bid": 1.6946,\n' +
+                        '            "ask": 1.7046,\n' +
+                        '            "scale": 4,\n' +
+                        '            "previous": 1.6996,\n' +
+                        '            "previous_day": 1.6999,\n' +
+                        '            "latest": 1.6996,\n' +
+                        '            "max": 1.7006,\n' +
+                        '            "min": 1.6991,\n' +
+                        '            "volume": 237404818.433635\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "currency": "ETH",\n' +
+                        '            "market": "KZT",\n' +
+                        '            "margin": false,\n' +
+                        '            "bid": 1031636.64,\n' +
+                        '            "ask": 1036636.64,\n' +
+                        '            "scale": 2,\n' +
+                        '            "previous": 1033881.42,\n' +
+                        '            "previous_day": 1054544.88,\n' +
+                        '            "latest": 1033999.61,\n' +
+                        '            "max": 1085736.75,\n' +
+                        '            "min": 1027223.28,\n' +
+                        '            "volume": 725695668.1068254\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "currency": "TRX",\n' +
+                        '            "market": "AZN",\n' +
+                        '            "margin": false,\n' +
+                        '            "bid": 0.545,\n' +
+                        '            "ask": 0.555,\n' +
+                        '            "scale": 4,\n' +
+                        '            "previous": 0.5499,\n' +
+                        '            "previous_day": 0.5492,\n' +
+                        '            "latest": 0.55,\n' +
+                        '            "max": 0.5508,\n' +
+                        '            "min": 0.5466,\n' +
+                        '            "volume": 14636074.292381\n' +
+                        '        &#125;\n' +
+                        '    ]\n' +
+                        '&#125;\n' +
+                        '                </pre>\n' +
+                        '                <p>\n' +
+                        '                            где:\n' +
+                        '                        </p>\n' +
+                        '                        <ul>\n' +
+                        '            <li><strong>currency</strong> — базовая валюта (например, USDT, ETH, TRX)</li>\n' +
+                        '            <li><strong>market</strong> — валюта котировки (рынок, например, AZN, KZT, RUB)</li>\n' +
+                        '            <li><strong>margin</strong> — признак доступности маржинальной торговли: <code>false</code> — недоступна, <code>true</code> — доступна</li>\n' +
+                        '            <li><strong>bid</strong> — наилучшая цена покупки (предложение на покупку)</li>\n' +
+                        '            <li><strong>ask</strong> — наилучшая цена продажи (предложение на продажу)</li>\n' +
+                        '            <li><strong>scale</strong> — количество знаков после запятой, используемых для отображения цены</li>\n' +
+                        '            <li><strong>previous</strong> — предыдущая цена сделки</li>\n' +
+                        '            <li><strong>previous_day</strong> — цена 24 часа назад</li>\n' +
+                        '            <li><strong>latest</strong> — последняя зафиксированная цена сделки</li>\n' +
+                        '            <li><strong>max</strong> — максимальная цена сделки за последние 24 часа</li>\n' +
+                        '            <li><strong>min</strong> — минимальная цена сделки за последние 24 часа</li>\n' +
+                        '            <li><strong>volume</strong> — объём торгов за последние 24 часа в валюте котировки</li>\n' +
+                        '        </ul>',
 				},
 				get_depth: {
 					title: 'Получение стакана',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/orderbook/{pair}?depth=&lt;depth&gt;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                            <ul>\n' +
-						'                                <li><strong>pair</strong> – валютная пара в формате &lt;код_валюты_торгов&gt;_&lt;код_валюты_рынка&gt;</li>\n' +
-						'                            </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <ul>\n' +
-						'                            <li><strong>depth</strong> – глубина стакана. Возможные значения: <strong>5</strong>,<strong>10</strong>,<strong>20</strong>,<strong>50</strong>,<strong>100</strong>,<strong>500</strong>. Если не указано, то возвращается 50 записей</li>\n' +
-						'                            </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/orderbook/BTC_USDT?depth=5</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success": true,\n' +
-						'    "code": 200,\n' +
-						'    "timestamp": 1576080362,\n' +
-						'    "bids": [\n' +
-						'                [7151.1,0.06188],\n' +
-						'                [7148.04,0.000202],\n' +
-						'                [7146.57,0.23855],\n' +
-						'                [7143.5,0.3281],\n' +
-						'                [7140.44,0.3688]\n' +
-						'            ],\n' +
-						'    "asks": [\n' +
-						'                [7167.28,0.001589],\n' +
-						'                [7169.32,0.03134],\n' +
-						'                [7171.96,0.30115],\n' +
-						'                [7175.03,0.3191],\n' +
-						'                [7178.11,0.3258]\n' +
-						'            ],\n' +
-						'    "bids_vol": 10337.81995758,\n' +
-						'    "asks_vol":9672.98765772,\n' +
-						'    "bids_amount":1.447986,\n' +
-						'    "asks_amount":1.346869,\n' +
-						'    "bids_num":7,\n' +
-						'    "asks_num":6\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>timestamp</strong> – время формирования стакана по заданной валютной паре в формате UNIX timestamp</li>\n' +
-						'                            <li><strong>bids</strong> – массив, содержащий два значения: цена покупки и количество. Данные агрегированы и отсортированы по цене.</li>\n' +
-						'                            <li><strong>asks</strong> – массив, содержащий два значения: цена продажи и количество. Данные агрегированы и отсортированы по цене.</li>\n' +
-						'                            <li><strong>bids_vol</strong> – общий объем в стакане на покупку в котируемой валюте вне зависимости от значения depth</li>\n' +
-						'                            <li><strong>asks_vol</strong> – общий объем в стакане на продажу в котируемой валюте вне зависимости от значения depth</li>\n' +
-						'                            <li><strong>bids_amount</strong> – общий объем в стакане на покупку в базовой валюте вне зависимости от значения depth</li>\n' +
-						'                            <li><strong>asks_amount</strong> – общий объем в стакане на продажу в базовой валюте вне зависимости от значения depth</li>\n' +
-						'                            <li><strong>bids_num</strong> – общее количество выставленных ордеров в стакане на покупку</li>\n' +
-						'                            <li><strong>asks_num</strong> – общее количество выставленных ордеров в стакане на продажу</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '                            GET запрос по адресу {url}/api/v1/depth?currency=&lt;currency&gt;&market=&lt;market&gt;\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Заголовки:</u>\n' +
+                        '                            <br>\n' +
+                        '                            <strong>отсутствуют</strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Обязательные параметры:</u>\n' +
+                        '                            <ul>\n' +
+                        '                                <li><strong>currency</strong> – код базовой валюты (например, BTC, ETH, TRX)</li>\n' +
+                        '                                <li><strong>market</strong> – код валюты котировки (рынка, например, RUB, AZN, KZT)</li>\n' +
+                        '            </ul>\n' +
+                        '        </p>\n' +
+                        '        <p>\n' +
+                        '            <u>Необязательные параметры:</u>\n' +
+                        '            <br>\n' +
+                        '            <strong>отсутствуют</strong>\n' +
+                        '        </p>\n' +
+                        '        <p>\n' +
+                        '            <strong><i>Пример:</i></strong>\n' +
+                        '        </p>\n' +
+                        '        <p>\n' +
+                        '            <i>{url}/api/v1/depth?currency=BTC&market=RUB</i>\n' +
+                        '        </p>\n' +
+                        '        <p>\n' +
+                        '            При успешном ответе вернётся строка в формате JSON\n' +
+                        '        </p>\n' +
+                        '        <pre>\n' +
+                        '&#123;\n' +
+                        '    "success": true,\n' +
+                        '    "currency": "BTC",\n' +
+                        '    "market": "RUB",\n' +
+                        '    "bids_amount": 1.9542717,\n' +
+                        '    "bids_vol": 10913072.559823487,\n' +
+                        '    "bids_list": [\n' +
+                        '        &#123;\n' +
+                        '            "actual_size": 2.07e-5,\n' +
+                        '            "price": 5677954\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "actual_size": 2.82e-5,\n' +
+                        '            "price": 5671501.78\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "actual_size": 0.0046051,\n' +
+                        '            "price": 5665049.56\n' +
+                        '        &#125;\n' +
+                        '    ],\n' +
+                        '    "asks_amount": 1.9509808,\n' +
+                        '    "asks_vol": 11262267.883291844,\n' +
+                        '    "asks_list": [\n' +
+                        '        &#123;\n' +
+                        '            "actual_size": 0.000187,\n' +
+                        '            "price": 5678954\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "actual_size": 0.000683,\n' +
+                        '            "price": 5684533.83\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "actual_size": 0.0335259,\n' +
+                        '            "price": 5692181.74\n' +
+                        '        &#125;\n' +
+                        '    ]\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>success</strong> — признак успешного выполнения запроса: <code>true</code> — успешно, <code>false</code> — ошибка</li>\n' +
+                        '    <li><strong>currency</strong> — код базовой валюты</li>\n' +
+                        '    <li><strong>market</strong> — код валюты котировки</li>\n' +
+                        '    <li><strong>bids_amount</strong> — общий объём заявок на покупку в базовой валюте</li>\n' +
+                        '    <li><strong>bids_vol</strong> — общий объём заявок на покупку в валюте котировки</li>\n' +
+                        '    <li><strong>bids_list</strong> — массив заявок на покупку, отсортированный по цене (от высокой к низкой). Каждый элемент содержит:\n' +
+                        '        <ul>\n' +
+                        '            <li><strong>price</strong> — цена заявки</li>\n' +
+                        '            <li><strong>actual_size</strong> — объём заявки в базовой валюте</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>asks_amount</strong> — общий объём заявок на продажу в базовой валюте</li>\n' +
+                        '    <li><strong>asks_vol</strong> — общий объём заявок на продажу в валюте котировки</li>\n' +
+                        '    <li><strong>asks_list</strong> — массив заявок на продажу, отсортированный по цене (от низкой к высокой). Каждый элемент содержит:\n' +
+                        '        <ul>\n' +
+                        '            <li><strong>price</strong> — цена заявки</li>\n' +
+                        '            <li><strong>actual_size</strong> — объём заявки в базовой валюте</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '</ul>',
 				},
 				get_deal: {
 					title: 'Получение сделок',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/trades/{pair}?&limit=&lt;limit&gt;&type=&lt;type&gt;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>pair</strong> – валютная пара в формате &lt;код_валюты_торгов&gt;_&lt;код_валюты_рынка&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>limit</strong> – лимит возвращаемых данных. Возможные значения: <strong>5</strong>,<strong>10</strong>,<strong>20</strong>,<strong>50</strong>,<strong>100</strong>,<strong>500</strong>. Если не указано, то возвращается 20 записей</li>\n' +
-						'                            <li><strong>type</strong> – направленность сделки. Возможные значения: <strong>buy</strong>/<strong>sell</strong>. Если не указано, то возвращаются разнонаправленные сделки</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/trades/BTC_USDT?limit=5&type=sell</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "trades": [\n' +
-						'        &#123;\n' +
-						'            "trade_id": 5627122,\n' +
-						'            "price":"7206.25",\n' +
-						'            "base_volume":"0.017624",\n' +
-						'            "quote_volume":"127.00295",\n' +
-						'            "trade_timestamp":1576083062,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627108,\n' +
-						'            "price":"7207.14",\n' +
-						'            "base_volume":"0.019604",\n' +
-						'            "quote_volume":"141.28877256",\n' +
-						'            "trade_timestamp":1576083058,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627079,\n' +
-						'            "price":"7207.42",\n' +
-						'            "base_volume":"0.01802",\n' +
-						'            "quote_volume":"129.8777084",\n' +
-						'            "trade_timestamp":1576083037,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627062,\n' +
-						'            "price":"7207.74",\n' +
-						'            "base_volume":"0.014654",\n' +
-						'            "quote_volume":"105.62222196",\n' +
-						'            "trade_timestamp":1576083002,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627051,\n' +
-						'            "price":"7208",\n' +
-						'            "base_volume":"0.00614",\n' +
-						'            "quote_volume":"44.25712",\n' +
-						'            "trade_timestamp":1576082998,\n' +
-						'            "type":"sell"\n' +
-						'        &#125;\n' +
-						'    ]\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>trades</strong> – массив сделок</li>\n' +
-						'                            <li><strong>trade_id</strong> – уникальный идентификатор сделки</li>\n' +
-						'                            <li><strong>price</strong> – цена сделки</li>\n' +
-						'                            <li><strong>base_volume</strong> – объем сделки в базовой валюте</li>\n' +
-						'                            <li><strong>quote_volume</strong> – объем сделки в котируемой валюте</li>\n' +
-						'                            <li><strong>trade_timestamp</strong> – время исполнения сделки в формате UNIX timestamp</li>\n' +
-						'                            <li><strong>type</strong> – направленность сделки</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '                            GET запрос по адресу {url}/api/v1/trades?currency=&lt;currency&gt;&market=&lt;market&gt;\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Заголовки:</u>\n' +
+                        '                            <br>\n' +
+                        '                            <strong>отсутствуют</strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Обязательные параметры:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>currency</strong> – код базовой валюты (например, BTC, ETH, TRX)</li>\n' +
+                        '                            <li><strong>market</strong> – код валюты котировки (рынка, например, RUB, AZN, KZT)</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <strong><i>Пример:</i></strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <i>{url}/api/v1/trades?currency=BTC&market=RUB</i>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            При успешном ответе вернётся строка в формате JSON\n' +
+                        '                        </p>\n' +
+                        '                        <pre>\n' +
+                        '&#123;\n' +
+                        '    "count": 50,\n' +
+                        '    "currency": "BTC",\n' +
+                        '    "data": [\n' +
+                        '        &#123;\n' +
+                        '            "id": 77290790,\n' +
+                        '            "size": 0.0062897,\n' +
+                        '            "price": 5676819.91,\n' +
+                        '            "side": true,\n' +
+                        '            "currency": "BTC",\n' +
+                        '            "market": "RUB",\n' +
+                        '            "created_at": 639130915814463500\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "id": 77290709,\n' +
+                        '            "size": 0.0103562,\n' +
+                        '            "price": 5674877.69,\n' +
+                        '            "side": false,\n' +
+                        '            "currency": "BTC",\n' +
+                        '            "market": "RUB",\n' +
+                        '            "created_at": 639130915604259500\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "id": 77290581,\n' +
+                        '            "size": 0.009509,\n' +
+                        '            "price": 5678586.3,\n' +
+                        '            "side": false,\n' +
+                        '            "currency": "BTC",\n' +
+                        '            "market": "RUB",\n' +
+                        '            "created_at": 639130915254436000\n' +
+                        '        &#125;\n' +
+                        '    ]\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>count</strong> — количество возвращаемых сделок в ответе (в ответе возращается не более 50 записей)</li>\n' +
+                        '    <li><strong>currency</strong> — код базовой валюты</li>\n' +
+                        '    <li><strong>data</strong> — массив сделок, отсортированный по времени (от новых к старым). Каждый элемент содержит:\n' +
+                        '        <ul>\n' +
+                        '            <li><strong>id</strong> — уникальный идентификатор сделки</li>\n' +
+                        '            <li><strong>size</strong> — объём сделки в базовой валюте</li>\n' +
+                        '            <li><strong>price</strong> — цена сделки</li>\n' +
+                        '            <li><strong>side</strong> — направленность сделки:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>true</code> — покупка (buy)</li>\n' +
+                        '                    <li><code>false</code> — продажа (sell)</li>\n' +
+                        '                </ul>\n' +
+                        '            </li>\n' +
+                        '            <li><strong>currency</strong> — код базовой валюты (дублирует поле верхнего уровня)</li>\n' +
+                        '            <li><strong>market</strong> — код валюты котировки (дублирует параметр запроса)</li>\n' +
+                        '            <li><strong>created_at</strong> — время создания сделки в формате UNIX timestamp (длинное целое число, наносекунды или микросекунды)</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '</ul>',
 				},
 			},
 			private: {
@@ -2276,525 +2109,632 @@ export default {
 				deal_list: {
 					title: 'Список сделок',
 					content:
-						'<p>\n' +
-						'                            Все нижеперечисленные API запросы в данном разделе требуют передачу персонального токена в заголовке «X-Api-Key»\n' +
-						'                        </p>' +
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/deals/{pair}?&limit=&lt;limit&gt;&type=&lt;type&gt;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                        <u>Заголовки:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>pair</strong> – валютная пара в формате &lt;код_валюты_торгов&gt;_&lt;код_валюты_рынка&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>limit</strong> – лимит возвращаемых данных. Возможные значения: <strong>5</strong>,<strong>10</strong>,<strong>20</strong>,<strong>50</strong>,<strong>100</strong>,<strong>500</strong>. Если не указано, то возвращается 20 записей</li>\n' +
-						'                            <li><strong>type</strong> – направленность сделки. Возможные значения: <strong>buy</strong>/<strong>sell</strong>. Если не указано, то возвращаются разнонаправленные сделки</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/deals/BTC_USDT?limit=5&type=sell</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "trades": [\n' +
-						'        &#123;\n' +
-						'            "trade_id": 5627122,\n' +
-						'            "price":"7206.25",\n' +
-						'            "base_volume":"0.017624",\n' +
-						'            "quote_volume":"127.00295",\n' +
-						'            "trade_timestamp":1576083062,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627108,\n' +
-						'            "price":"7207.14",\n' +
-						'            "base_volume":"0.019604",\n' +
-						'            "quote_volume":"141.28877256",\n' +
-						'            "trade_timestamp":1576083058,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627079,\n' +
-						'            "price":"7207.42",\n' +
-						'            "base_volume":"0.01802",\n' +
-						'            "quote_volume":"129.8777084",\n' +
-						'            "trade_timestamp":1576083037,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627062,\n' +
-						'            "price":"7207.74",\n' +
-						'            "base_volume":"0.014654",\n' +
-						'            "quote_volume":"105.62222196",\n' +
-						'            "trade_timestamp":1576083002,\n' +
-						'            "type":"sell"\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "trade_id":5627051,\n' +
-						'            "price":"7208",\n' +
-						'            "base_volume":"0.00614",\n' +
-						'            "quote_volume":"44.25712",\n' +
-						'            "trade_timestamp":1576082998,\n' +
-						'            "type":"sell"\n' +
-						'        &#125;\n' +
-						'    ]\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>trades</strong> – массив сделок</li>\n' +
-						'                            <li><strong>trade_id</strong> – уникальный идентификатор сделки</li>\n' +
-						'                            <li><strong>price</strong> – цена сделки</li>\n' +
-						'                            <li><strong>base_volume</strong> – объем сделки в базовой валюте</li>\n' +
-						'                            <li><strong>quote_volume</strong> – объем сделки в котируемой валюте</li>\n' +
-						'                            <li><strong>trade_timestamp</strong> – время исполнения сделки в формате UNIX timestamp</li>\n' +
-						'                            <li><strong>type</strong> – направленность сделки</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '                            Все нижеперечисленные API запросы в данном разделе требуют передачу публичного API ключа в заголовке «Authorization»\n' +
+                        '                        </p>\n' +
+                        '<p>\n' +
+                        '                            GET запрос по адресу {url}/api/v1/deals?page=&lt;page&gt;&itemsPerPage=&lt;itemsPerPage&gt;&filters[start]=&lt;start&gt;&filters[end]=&lt;end&gt;\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                        <u>Заголовки:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Обязательные параметры:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>page</strong> – номер страницы результатов (начиная с 1)</li>\n' +
+                        '                            <li><strong>itemsPerPage</strong> – количество записей на странице (лимит)</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Необязательные параметры (фильтры):</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>filters[start]</strong> – начальная дата и время для фильтрации сделок (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '                            <li><strong>filters[end]</strong> – конечная дата и время для фильтрации сделок (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '                            <li><strong>filters[id]</strong> – ID сделки для фильтрации (числовое значение > 0)</li>\n' +
+                        '                            <li><strong>filters[pair]</strong> – ID валютной пары для фильтрации (числовое значение > 0)</li>\n' +
+                        '                            <li><strong>filters[side]</strong> – направленность сделки для фильтрации. Возможные значения:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>true</code> — покупка (buy)</li>\n' +
+                        '            <li><code>false</code> — продажа (sell)</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '    <strong>Примечание:</strong> если в фильтрах не указаны <strong>filters[start]</strong> и <strong>filters[end]</strong>, то данные берутся за текущий месяц.\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '            <strong><i>Пример:</i></strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <i>{url}/api/v1/deals?page=1&itemsPerPage=30&filters[start]=2026-01-01 00:00:00&filters[end]=2026-01-09 21:19:00</i>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            При успешном ответе вернётся строка в формате JSON\n' +
+                        '                        </p>\n' +
+                        '                        <pre>\n' +
+                        '&#123;\n' +
+                        '    "data": [\n' +
+                        '        &#123;\n' +
+                        '            "id": 3148,\n' +
+                        '            "size": 0.000215,\n' +
+                        '            "price": 90406.58,\n' +
+                        '            "order_id": 402464,\n' +
+                        '            "fee": 1.075e-7,\n' +
+                        '            "side": false,\n' +
+                        '            "currency": "BTC",\n' +
+                        '            "currency_logo": "storage/currencies/btc.png",\n' +
+                        '            "market": "USDT",\n' +
+                        '            "market_logo": "storage/currencies/usdt.png",\n' +
+                        '            "created_at": 639035901126807900\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "id": 3147,\n' +
+                        '            "size": 0.000218,\n' +
+                        '            "price": 90406.58,\n' +
+                        '            "order_id": 402464,\n' +
+                        '            "fee": 1.09e-7,\n' +
+                        '            "side": false,\n' +
+                        '            "currency": "BTC",\n' +
+                        '            "currency_logo": "storage/currencies/btc.png",\n' +
+                        '            "market": "USDT",\n' +
+                        '            "market_logo": "storage/currencies/usdt.png",\n' +
+                        '            "created_at": 639035901056020200\n' +
+                        '        &#125;\n' +
+                        '    ],\n' +
+                        '    "success": true,\n' +
+                        '    "total": 11\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>data</strong> — массив сделок, отсортированный по времени (от новых к старым). Каждый элемент содержит:\n' +
+                        '        <ul>\n' +
+                        '            <li><strong>id</strong> — уникальный идентификатор сделки</li>\n' +
+                        '            <li><strong>size</strong> — объём сделки в базовой валюте</li>\n' +
+                        '            <li><strong>price</strong> — цена сделки</li>\n' +
+                        '            <li><strong>order_id</strong> — ID ордера, к которому относится сделка</li>\n' +
+                        '            <li><strong>fee</strong> — комиссия за сделку</li>\n' +
+                        '            <li><strong>side</strong> — направленность сделки:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>true</code> — покупка (buy)</li>\n' +
+                        '            <li><code>false</code> — продажа (sell)</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '            <li><strong>currency</strong> — код базовой валюты</li>\n' +
+                        '            <li><strong>currency_logo</strong> — URL‑путь к логотипу базовой валюты</li>\n' +
+                        '            <li><strong>market</strong> — код валюты котировки</li>\n' +
+                        '            <li><strong>market_logo</strong> — URL‑путь к логотипу валюты котировки</li>\n' +
+                        '            <li><strong>created_at</strong> — время создания сделки в формате UNIX timestamp (длинное целое число, вероятно, нано‑ или микросекунды)</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>success</strong> — признак успешного выполнения запроса: <code>true</code> — успешно, <code>false</code> — ошибка</li>\n' +
+                        '    <li><strong>total</strong> — общее количество сделок, соответствующих фильтрам (до ограничения itemsPerPage)</li>\n' +
+                        '</ul>',
 				},
 				orders_list: {
 					title: 'Список ордеров',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/orders/{pair&#125;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>pair</strong> – валютная пара в формате &lt;код_валюты_торгов&gt;_&lt;код_валюты_рынка&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/orders/BTC_USDT</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "buy_limit": [\n' +
-						'        &#123;\n' +
-						'            "id": 344322,\n' +
-						'            "originalAmount": "0.5",\n' +
-						'            "actualAmount": "0.2",\n' +
-						'            "price": "7207.14",\n' +
-						'            "time": 1576083062,\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "id": 344323,\n' +
-						'            "originalAmount": "0.2",\n' +
-						'            "actualAmount": "0.11",\n' +
-						'            "price": "7205.22",\n' +
-						'            "time": 1576084077,\n' +
-						'        &#125;\n' +
-						'    ],\n' +
-						'    "sell_limit": [\n' +
-						'        &#123;\n' +
-						'            "id": 344324,\n' +
-						'            "originalAmount": "0.5",\n' +
-						'            "actualAmount": "0.2",\n' +
-						'            "price": "7217.14",\n' +
-						'            "time": 1576085062,\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "id": 344325,\n' +
-						'            "originalAmount": "0.2",\n' +
-						'            "actualAmount": "0.11",\n' +
-						'            "price": "7215.22",\n' +
-						'            "time": 1576085077,\n' +
-						'        &#125;\n' +
-						'    ],\n' +
-						'    "buy_sl": [],\n' +
-						'    "sell_sl": [],\n' +
-						'    "buy_tp": [],\n' +
-						'    "sell_tp": [],\n' +
-						'    "buy_ts": [],\n' +
-						'    "sell_ts": []\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>buy_limit</strong> – массив лимитных ордеров на покупку</li>\n' +
-						'                            <li><strong>sell_limit</strong> – массив лимитных ордеров на продажу</li>\n' +
-						'                            <li><strong>buy_sl</strong> – массив stop loss ордеров на покупку</li>\n' +
-						'                            <li><strong>sell_sl</strong> – массив stop loss ордеров на покупку</li>\n' +
-						'                            <li><strong>buy_tp</strong> – массив take profit ордеров на покупку</li>\n' +
-						'                            <li><strong>sell_tp</strong> – массив take profit ордеров на покупку</li>\n' +
-						'                            <li><strong>buy_ts</strong> – массив trailing stop ордеров на покупку</li>\n' +
-						'                            <li><strong>sell_ts</strong> – массив trailing stop ордеров на покупку</li>\n' +
-						'                            <li><strong>id</strong> – уникальный идентификатор ордера</li>\n' +
-						'                            <li><strong>originalAmount</strong> – изначальное количество валюты в ордере</li>\n' +
-						'                            <li><strong>actualAmount</strong> – текущее количество валюты в ордере</li>\n' +
-						'                            <li><strong>price</strong> – цена покупки/продажи</li>\n' +
-						'                            <li><strong>time</strong> – время выставления ордера в формате UNIX timestamp</li>\n' +
-						'                        </ul>',
-				},
-				orders_info: {
-					title: 'Информация по ордеру',
-					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/order_info?order={order&#125;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>order</strong> – уникальный идентификатор ордера</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/order_info?order=344325</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "id": 344325,\n' +
-						'    "status": "partiallyFilled",\n' +
-						'    "pair": "BTC_USDT",\n' +
-						'    "type": "LIMIT",\n' +
-						'    "side": "sell",\n' +
-						'    "price": "7215.22",\n' +
-						'    "size": "0.2",\n' +
-						'    "actual_size": "0.11",\n' +
-						'    "trades": [\n' +
-						'        &#123;\n' +
-						'            "id": 5627162,\n' +
-						'            "size": "0.02",\n' +
-						'            "price": "7215.22",\n' +
-						'            "time": 1576084062\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "id": 5627173,\n' +
-						'            "size": "0.07",\n' +
-						'            "price": "7215.22",\n' +
-						'            "time": 1576089055\n' +
-						'        &#125;\n' +
-						'    ]\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>id</strong> – уникальный идентификатор ордера</li>\n' +
-						'                            <li><strong>status</strong> – текущий статус ордера. Возможные значения: <strong>accepted</strong> (выставлен), <strong>partiallyFilled</strong> (частично исполнен), <strong>filled</strong> (исполнен полностью)</li>\n' +
-						'                            <li><strong>pair</strong> – валютная пара</li>\n' +
-						'                            <li><strong>type</strong> – тип ордера. Возможные значения: <strong>LIMIT</strong> (лимитный ордер), <strong>MARKET</strong> (рыночный ордер), <strong>STOPLOSS</strong> (stop loss ордер), <strong>TAKEPROFIT</strong> (take profit ордер), <strong>TRAILINGSTOP</strong> (trailing stop ордер)</li>\n' +
-						'                            <li><strong>side</strong> – направленность ордера. Возможные значения: <strong>sell</strong>, <strong>buy</strong></li>\n' +
-						'                            <li><strong>price</strong> – цена покупки/продажи</li>\n' +
-						'                            <li><strong>size</strong> – изначальное количество валюты в ордере</li>\n' +
-						'                            <li><strong>actual_size</strong> – текущее количество валюты в ордере</li>\n' +
-						'                            <li><strong>trades</strong> – массив сделок по данному ордеру</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '                            Все API‑запросы в данном разделе требуют передачу публичного API‑ключа в заголовке «Authorization»\n' +
+                        '                        </p>\n' +
+                        '<p>\n' +
+                        '                            GET запрос по адресу {url}/api/v1/orders?page=&lt;page&gt;&itemsPerPage=&lt;itemsPerPage&gt;&filters[start]=&lt;start&gt;&filters[end]=&lt;end&gt;\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                        <u>Заголовки:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Обязательные параметры:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>page</strong> – номер страницы результатов (начиная с 1)</li>\n' +
+                        '                            <li><strong>itemsPerPage</strong> – количество записей на странице (лимит)</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Необязательные параметры (фильтры):</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>filters[start]</strong> – начальная дата и время для фильтрации ордеров (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '                            <li><strong>filters[end]</strong> – конечная дата и время для фильтрации ордеров (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '                            <li><strong>filters[id]</strong> – ID ордера для фильтрации (числовое значение > 0)</li>\n' +
+                        '                            <li><strong>filters[pair]</strong> – ID валютной пары для фильтрации (числовое значение > 0)</li>\n' +
+                        '                            <li><strong>filters[side]</strong> – направленность ордера для фильтрации. Возможные значения:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>true</code> — покупка (buy)</li>\n' +
+                        '            <li><code>false</code> — продажа (sell)</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '                            <li><strong>filters[type]</strong> – тип ордера. Возможные значения: <code>LIMIT</code>, <code>MARKET</code>, <code>STOPLOSS</code>, <code>TAKEPROFIT</code>, <code>TRAILINGSTOP</code></li>\n' +
+                        '                            <li><strong>filters[status]</strong> – статус ордера. Возможные значения: <code>filled</code> (исполнен), <code>partiallyFilled</code> (частично исполнен), <code>accepted</code> (принят), <code>cancelled</code> (отменён)</li>\n' +
+                        '        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <strong><i>Пример:</i></strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <i>{url}/api/v1/orders?page=1&itemsPerPage=30&filters[start]=2026-01-01 00:00:00&filters[end]=2026-01-09 22:19:00</i>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            При успешном ответе вернётся строка в формате JSON\n' +
+                        '                        </p>\n' +
+                        '                        <pre>\n' +
+                        '&#123;\n' +
+                        '    "data": [\n' +
+                        '        &#123;\n' +
+                        '            "id": 412274,\n' +
+                        '            "size": 1,\n' +
+                        '            "actual_size": 0.946526,\n' +
+                        '            "price": 90604.82,\n' +
+                        '            "status": "cancelled",\n' +
+                        '            "type": "LIMIT",\n' +
+                        '            "side": false,\n' +
+                        '            "offset": null,\n' +
+                        '            "main_order_id": null,\n' +
+                        '            "currency": "BTC",\n' +
+                        '            "currency_logo": "storage/currencies/btc.png",\n' +
+                        '            "market": "USDT",\n' +
+                        '            "market_logo": "storage/currencies/usdt.png",\n' +
+                        '            "created_at": 639035933739803600,\n' +
+                        '            "updated_at": 639035933739803600\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            "id": 411397,\n' +
+                        '            "size": 1,\n' +
+                        '            "actual_size": 0.580766,\n' +
+                        '            "price": 90590.32,\n' +
+                        '            "status": "cancelled",\n' +
+                        '            "type": "LIMIT",\n' +
+                        '            "side": false,\n' +
+                        '            "offset": null,\n' +
+                        '            "main_order_id": null,\n' +
+                        '            "currency": "BTC",\n' +
+                        '            "currency_logo": "storage/currencies/btc.png",\n' +
+                        '            "market": "USDT",\n' +
+                        '            "market_logo": "storage/currencies/usdt.png",\n' +
+                        '            "created_at": 639035930661645200,\n' +
+                        '            "updated_at": 639035930661645200\n' +
+                        '        &#125;\n' +
+                        '    ],\n' +
+                        '    "success": true,\n' +
+                        '    "total": 12\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>data</strong> — массив ордеров, отсортированный по времени (от новых к старым). Каждый элемент содержит:\n' +
+                        '        <ul>\n' +
+                        '            <li><strong>id</strong> — уникальный идентификатор ордера</li>\n' +
+                        '            <li><strong>size</strong> — изначальный объём ордера в базовой валюте</li>\n' +
+                        '            <li><strong>actual_size</strong> — текущий объём ордера (общий за вычетом исполненной части)</li>\n' +
+                        '            <li><strong>price</strong> — цена ордера</li>\n' +
+                        '            <li><strong>status</strong> — статус ордера:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>filled</code> — исполнен</li>\n' +
+                        '            <li><code>partiallyFilled</code> — частично исполнен</li>\n' +
+                        '            <li><code>accepted</code> — принят системой</li>\n' +
+                        '            <li><code>cancelled</code> — отменён</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '            <li><strong>type</strong> — тип ордера (<code>LIMIT</code>, <code>MARKET</code> и др.)</li>\n' +
+                        '            <li><strong>side</strong> — направленность ордера:\n' +
+                        '                <ul>\n' +
+                        '            <li><code>true</code> — покупка (buy)</li>\n' +
+                        '            <li><code>false</code> — продажа (sell)</li>\n' +
+                        '            </ul>\n' +
+                        '    </li>\n' +
+                        '            <li><strong>offset</strong> — смещение (может быть <code>null</code>, если не задано)</li>\n' +
+                        '            <li><strong>main_order_id</strong> — ID основного ордера (может быть <code>null</code>, если ордер не является дочерним)</li>\n' +
+                        '            <li><strong>currency</strong> — код базовой валюты (например, <code>BTC</code>)</li>\n' +
+                        '            <li><strong>currency_logo</strong> — URL‑путь к логотипу базовой валюты (например, <code>storage/currencies/btc.png</code>)</li>\n' +
+                        '            <li><strong>market</strong> — код валюты котировки (например, <code>USDT</code>)</li>\n' +
+                        '            <li><strong>market_logo</strong> — URL‑путь к логотипу валюты котировки (например, <code>storage/currencies/usdt.png</code>)</li>\n' +
+                        '            <li><strong>created_at</strong> — время создания ордера в формате UNIX timestamp (длинное целое число, вероятно, нано‑ или микросекунды)</li>\n' +
+                        '            <li><strong>updated_at</strong> — время последнего обновления ордера в формате UNIX timestamp</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>success</strong> — признак успешного выполнения запроса:\n' +
+                        '        <ul>\n' +
+                        '            <li><code>true</code> — запрос выполнен успешно</li>\n' +
+                        '            <li><code>false</code> — произошла ошибка</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>total</strong> — общее количество ордеров, соответствующих фильтрам (до ограничения <code>itemsPerPage</code>)</li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '    <strong>Примечания:</strong>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li>Ордера в массиве <code>data</code> отсортированы по времени создания — от самых новых к самым старым.</li>\n' +
+                        '    <li>Поля <code>offset</code> и <code>main_order_id</code> могут содержать значение <code>null</code>, если для ордера эти данные не применимы.</li>\n' +
+                        '    <li>Формат UNIX timestamp в полях <code>created_at</code> и <code>updated_at</code> может представлять время с точностью до нано‑ или микросекунд.</li>\n' +
+                        '    <li>При отсутствии фильтров возвращаются все ордера пользователя в пределах указанного лимита (<code>itemsPerPage</code>) и страницы (<code>page</code>) за текущий месяц.</li>\n' +
+                        '</ul>\n',
 				},
 				balance: {
-					title: 'Баланс',
+					title: 'Балансы',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/balance?currency={currency&#125;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/balance?currency=BTC</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "currency": "BTC",\n' +
-						'    "safe": "1.723",\n' +
-						'    "withdraw": "1.2",\n' +
-						'    "trade": "3.7455",\n' +
-						'    "blocked": "2.7",\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                            <li><strong>safe</strong> – доступные средства на основном счете</li>\n' +
-						'                            <li><strong>withdraw</strong> – заблокированные средства для вывода</li>\n' +
-						'                            <li><strong>trade</strong> – доступные средства на торговом счете</li>\n' +
-						'                            <li><strong>blocked</strong> – заблокированные под ордера средства</li>\n' +
-						'                        </ul>',
+                        '                            GET запрос по адресу {url}/api/v1/balance\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Заголовки:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Обязательные параметры:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li>отсутствуют</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Необязательные параметры:</u>\n' +
+                        '                            <br>\n' +
+                        '                            <strong>отсутствуют</strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <strong><i>Пример:</i></strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <i>{url}/api/v1/balance</i>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            При успешном ответе вернётся строка в JSON‑формате\n' +
+                        '                        </p>\n' +
+                        '                        <pre>\n' +
+                        '&#123;\n' +
+                        '    &quot;data&quot;: &#123;\n' +
+                        '        &quot;AED&quot;: &#123;\n' +
+                        '            &quot;currency&quot;: &quot;AED&quot;,\n' +
+                        '            &quot;name&quot;: &quot;Dirham&quot;,\n' +
+                        '            &quot;type&quot;: &quot;fiat&quot;,\n' +
+                        '            &quot;safe&quot;: 0,\n' +
+                        '            &quot;otc_main&quot;: 0,\n' +
+                        '            &quot;otc_blocked&quot;: 0,\n' +
+                        '            &quot;withdraw&quot;: 0,\n' +
+                        '            &quot;daily&quot;: 0,\n' +
+                        '            &quot;available&quot;: 0,\n' +
+                        '            &quot;blocked&quot;: 0,\n' +
+                        '            &quot;credit&quot;: 0,\n' +
+                        '            &quot;trade&quot;: true,\n' +
+                        '            &quot;logo&quot;: &quot;storage/currencies/aed.png&quot;,\n' +
+                        '            &quot;state&quot;: 0,\n' +
+                        '            &quot;platforms&quot;: [\n' +
+                        '                &#123;\n' +
+                        '                    &quot;id&quot;: 20,\n' +
+                        '                    &quot;base_currency&quot;: null,\n' +
+                        '                    &quot;platform&quot;: null,\n' +
+                        '                    &quot;gateway_id&quot;: 2,\n' +
+                        '                    &quot;currency&quot;: &quot;AED&quot;,\n' +
+                        '                    &quot;minReplenish&quot;: 1000,\n' +
+                        '                    &quot;minWithdraw&quot;: 1000,\n' +
+                        '                    &quot;feeWithdraw&quot;: 0,\n' +
+                        '                    &quot;approve&quot;: null,\n' +
+                        '                    &quot;autoReplenishLimit&quot;: 1000,\n' +
+                        '                    &quot;autoVerifyReplenishLimit&quot;: 1000,\n' +
+                        '                    &quot;autoWithdrawLimit&quot;: 1000,\n' +
+                        '                    &quot;autoVerifyWithdrawLimit&quot;: 1000,\n' +
+                        '                    &quot;type&quot;: &quot;fiat&quot;,\n' +
+                        '                    &quot;explorer&quot;: null,\n' +
+                        '                    &quot;replenish_type&quot;: 4,\n' +
+                        '                    &quot;state&quot;: 4,\n' +
+                        '                    &quot;gateway_code&quot;: &quot;INVOICE&quot;,\n' +
+                        '                    &quot;gateway_logo&quot;: &quot;storage/fiat_gateways/invoice.png&quot;,\n' +
+                        '                    &quot;gateway_is_replenish&quot;: true,\n' +
+                        '                    &quot;gateway_is_withdrawal&quot;: true\n' +
+                        '                &#125;\n' +
+                        '            ],\n' +
+                        '            &quot;minReplenish&quot;: 0,\n' +
+                        '            &quot;minWithdraw&quot;: 0,\n' +
+                        '            &quot;maxWithdraw&quot;: 10000,\n' +
+                        '            &quot;feeWithdraw&quot;: 0,\n' +
+                        '            &quot;scale&quot;: 2,\n' +
+                        '            &quot;status&quot;: &quot;active&quot;\n' +
+                        '        &#125;,\n' +
+                        '        &quot;AMD&quot;: &#123;\n' +
+                        '            // ... (аналогичная структура для остальных валют)\n' +
+                        '        &#125;\n' +
+                        '    &#125;,\n' +
+                        '    &quot;success&quot;: true\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '            где\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>data</strong> – объект с данными по валютам</li>\n' +
+                        '    <li><strong>currency</strong> – код валюты</li>\n' +
+                        '    <li><strong>name</strong> – название валюты</li>\n' +
+                        '    <li><strong>type</strong> – тип валюты (fiat/crypto)</li>\n' +
+                        '    <li><strong>safe</strong> – доступные средства на основном счёте</li>\n' +
+                        '    <li><strong>otc_main</strong> – средства OTC‑основного счёта</li>\n' +
+                        '    <li><strong>otc_blocked</strong> – заблокированные средства OTC</li>\n' +
+                        '    <li><strong>withdraw</strong> – заблокированные средства для вывода</li>\n' +
+                        '    <li><strong>daily</strong> – дневные лимиты</li>\n' +
+                        '    <li><strong>available</strong> – доступные средства</li>\n' +
+                        '    <li><strong>blocked</strong> – заблокированные под ордера средства</li>\n' +
+                        '    <li><strong>credit</strong> – кредитные средства</li>\n' +
+                        '    <li><strong>trade</strong> – флаг возможности торговли (true/false)</li>\n' +
+                        '    <li><strong>logo</strong> – URL‑путь к логотипу валюты</li>\n' +
+                        '    <li><strong>state</strong> – статус валюты (числовое значение)</li>\n' +
+                        '    <li><strong>platforms</strong> – массив платформ для работы с валютой</li>\n' +
+                        '    <li><strong>minReplenish</strong> – минимальный лимит пополнения</li>\n' +
+                        '    <li><strong>minWithdraw</strong> – минимальный лимит вывода</li>\n' +
+                        '    <li><strong>maxWithdraw</strong> – максимальный лимит вывода</li>\n' +
+                        '    <li><strong>feeWithdraw</strong> – комиссия за вывод</li>\n' +
+                        '    <li><strong>scale</strong> – точность округления (количество знаков после запятой)</li>\n' +
+                        '    <li><strong>status</strong> – текущий статус валюты (например, "active")</li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '    Внутри объекта <strong>platforms</strong> содержатся следующие поля:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>id</strong> – уникальный идентификатор платформы</li>\n' +
+                        '    <li><strong>base_currency</strong> – базовая валюта платформы (может быть null)</li>\n' +
+                        '    <li><strong>platform</strong> – название платформы (может быть null)</li>\n' +
+                        '    <li><strong>gateway_id</strong> – идентификатор шлюза</li>\n' +
+                        '    <li><strong>currency</strong> – код валюты на платформе</li>\n' +
+                        '    <li><strong>minReplenish</strong> – минимальный лимит пополнения на платформе</li>\n' +
+                        '    <li><strong>minWithdraw</strong> – минимальный лимит вывода на платформе</li>\n' +
+                        '    <li><strong>feeWithdraw</strong> – комиссия за вывод на платформе</li>\n' +
+                        '    <li><strong>approve</strong> – параметр подтверждения (может быть null)</li>\n' +
+                        '    <li><strong>autoReplenishLimit</strong> – лимит автоматического пополнения</li>\n' +
+                        '    <li><strong>autoVerifyReplenishLimit</strong> – лимит верификации автоматического пополнения</li>\n' +
+                        '    <li><strong>autoWithdrawLimit</strong> – лимит автоматического вывода</li>\n' +
+                        '    <li><strong>autoVerifyWithdrawLimit</strong> – лимит верификации автоматического вывода</li>\n' +
+                        '    <li><strong>type</strong> – тип платформы (например, "coin", "token" или "fiat")</li>\n' +
+                        '    <li><strong>explorer</strong> – ссылка на блокчейн‑эксплорер (может быть null)</li>\n' +
+                        '    <li><strong>replenish_type</strong> – тип пополнения</li>\n' +
+                        '    <li><strong>state</strong> – статус платформы (числовое значение)</li>\n' +
+                        '    <li><strong>gateway_code</strong> – код шлюза (может быть null)</li>\n' +
+                        '    <li><strong>gateway_logo</strong> – URL‑путь к логотипу шлюза (может быть null)</li>\n' +
+                        '    <li><strong>gateway_is_replenish</strong> – флаг поддержки пополнения через шлюз (true/false, может быть null)</li>\n' +
+                        '    <li><strong>gateway_is_withdrawal</strong> – флаг поддержки вывода через шлюз (true/false, может быть null)</li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '    <strong>success</strong> – флаг успешного выполнения запроса (true/false)\n' +
+                        '</p>',
 				},
 				transaction_list: {
 					title: 'Список транзакций',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/transactions?currency=&#123;currency&#125;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/transactions?currency=BTC</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "currency": "BTC",\n' +
-						'    "count": 2,\n' +
-						'    "transactions": [\n' +
-						'        &#123;\n' +
-						'            "id": 16625,\n' +
-						'            "amount": "0.2",\n' +
-						'            "currency": "BTC",\n' +
-						'            "type": true,\n' +
-						'            "status": "done",\n' +
-						'            "time": 1576091055\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "id": 16634,\n' +
-						'            "amount": "0.11",\n' +
-						'            "currency": "BTC",\n' +
-						'            "type": false,\n' +
-						'            "status": "wait",\n' +
-						'            "time": 1576091055\n' +
-						'        &#125;\n' +
-						'    ]\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                            <li><strong>count</strong> – общее количество транзакций по валюте</li>\n' +
-						'                            <li><strong>transactions</strong> – массив транзакций</li>\n' +
-						'                            <li><strong>id</strong> – уникальный идентификатор транзакции</li>\n' +
-						'                            <li><strong>amount</strong> – сумма транзакции</li>\n' +
-						'                            <li><strong>type</strong> – тип транзакции (<strong>true</strong> - пополнение средств, <strong>false</strong> - вывод средств)</li>\n' +
-						'                            <li><strong>status</strong> – статус транзакции. Возможные значения: <strong>accepted</strong> - принята, <strong>wait</strong> - в процессе исполнения, <strong>done</strong> - исполнена</li>\n' +
-						'                            <li><strong>time</strong> – время создания транзакции в формате UNIX timestamp</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '                GET запрос по адресу {url}/api/v1/transactions?page=&lt;page&gt;&itemsPerPage=&lt;itemsPerPage&gt;&filters[start]=&lt;start&gt;&filters[end]=&lt;end&gt;\n' +
+                        '            </p>\n' +
+                        '<p>\n' +
+                        '            <u>Заголовки:</u>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '            <u>Обязательные параметры:</u>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>page</strong> – номер страницы результатов (начиная с 1)</li>\n' +
+                        '    <li><strong>itemsPerPage</strong> – количество записей на странице (лимит)</li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '            <u>Необязательные параметры (фильтры):</u>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>filters[start]</strong> – начальная дата и время для фильтрации транзакций (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '    <li><strong>filters[end]</strong> – конечная дата и время для фильтрации транзакций (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '    <li><strong>filters[id]</strong> – ID транзакции для фильтрации (числовое значение > 0)</li>\n' +
+                        '    <li><strong>filters[txid]</strong> – хеш транзакции (TXID) для фильтрации (строка до 255 символов)</li>\n' +
+                        '    <li><strong>filters[address]</strong> – адрес кошелька для фильтрации (строка до 255 символов)</li>\n' +
+                        '    <li><strong>filters[currency]</strong> – код валюты для фильтрации (алфавитно‑цифровой, 1–10 символов, должна существовать в системе)</li>\n' +
+                        '    <li><strong>filters[type]</strong> – тип транзакции для фильтрации. Возможные значения:\n' +
+                        '        <ul>\n' +
+                        '            <li><code>true</code> — пополнение средств</li>\n' +
+                        '            <li><code>false</code> — вывод средств</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>filters[status]</strong> – статус транзакции для фильтрации. Возможные значения:\n' +
+                        '        <ul>\n' +
+                        '            <li><code>accepted</code> — принята</li>\n' +
+                        '            <li><code>wait</code> — в процессе исполнения</li>\n' +
+                        '            <li><code>done</code> — исполнена</li>\n' +
+                        '            <li><code>blocked</code> — заблокирована</li>\n' +
+                        '            <li><code>aml_refunded</code> — возврат по причине AML‑проверки</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '    <strong>Примечание:</strong> если в фильтрах не указаны <strong>filters[start]</strong> и <strong>filters[end]</strong>, то данные берутся за текущий месяц.\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '            <strong><i>Пример:</i></strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '            <i>{url}/api/v1/transactions?page=1&itemsPerPage=30&filters[start]=2021-01-01 00:00:00&filters[end]=2026-04-01 00:00:00</i>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '            При успешном ответе вернётся строка в формате JSON\n' +
+                        '</p>\n' +
+                        '<pre>\n' +
+                        '&#123;\n' +
+                        '    &quot;data&quot;: [\n' +
+                        '        &#123;\n' +
+                        '            &quot;id&quot;: 1,\n' +
+                        '            &quot;amount&quot;: 1,\n' +
+                        '            &quot;currency&quot;: &quot;BTC&quot;,\n' +
+                        '            &quot;type&quot;: true,\n' +
+                        '            &quot;status&quot;: &quot;done&quot;,\n' +
+                        '            &quot;txid&quot;: &quot;1599e82714d49cbb9799ed741d51bc6ded0252ed2ddcbf0337939f12af5d927b&quot;,\n' +
+                        '            &quot;address&quot;: &quot;bc1qmpj8k3dqawzp2ymyjjztt27jmxum7l9kyhn86s&quot;,\n' +
+                        '            &quot;platform_id&quot;: 1,\n' +
+                        '            &quot;confirmations&quot;: 3,\n' +
+                        '            &quot;created_at&quot;: &quot;2025-10-13T21:29:49Z&quot;,\n' +
+                        '            &quot;updated_at&quot;: &quot;2025-10-13T21:29:49Z&quot;\n' +
+                        '        &#125;\n' +
+                        '    ],\n' +
+                        '    &quot;success&quot;: true,\n' +
+                        '    &quot;total&quot;: 1\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>data</strong> — массив транзакций. Каждый элемент содержит:\n' +
+                        '        <ul>\n' +
+                        '            <li><strong>id</strong> — уникальный идентификатор транзакции</li>\n' +
+                        '            <li><strong>amount</strong> — сумма транзакции</li>\n' +
+                        '            <li><strong>currency</strong> — код валюты</li>\n' +
+                        '            <li><strong>type</strong> — тип транзакции:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>true</code> — пополнение</li>\n' +
+                        '            <li><code>false</code> — вывод</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '            <li><strong>status</strong> — статус транзакции</li>\n' +
+                        '            <li><strong>txid</strong> — хеш транзакции (TXID)</li>\n' +
+                        '            <li><strong>address</strong> — адрес кошелька</li>\n' +
+                        '            <li><strong>platform_id</strong> — идентификатор платформы</li>\n' +
+                        '            <li><strong>confirmations</strong> — количество подтверждений транзакции</li>\n' +
+                        '            <li><strong>created_at</strong> — время создания транзакции в формате ISO 8601</li>\n' +
+                        '            <li><strong>updated_at</strong> — время последнего обновления статуса транзакции в формате ISO 8601</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>success</strong> — признак успешного выполнения запроса: <code>true</code> — успешно, <code>false</code> — ошибка</li>\n' +
+                        '    <li><strong>total</strong> — общее количество транзакций, соответствующих фильтрам (до ограничения itemsPerPage)</li>\n' +
+                        '</ul>',
 				},
 				transfer_list: {
 					title: 'Список переводов',
 					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/transfers?currency={currency&#125;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/transfers?currency=BTC</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "currency": "BTC",\n' +
-						'    "count": 2,\n' +
-						'    "transfers": [\n' +
-						'        &#123;\n' +
-						'            "id": 36123,\n' +
-						'            "amount": "0.2",\n' +
-						'            "currency": "BTC",\n' +
-						'            "side": true,\n' +
-						'            "time": 1576091055\n' +
-						'        },\n' +
-						'        &#123;\n' +
-						'            "id": 36222,\n' +
-						'            "amount": "0.11",\n' +
-						'            "currency": "BTC",\n' +
-						'            "side": false,\n' +
-						'            "time": 1576091055\n' +
-						'        &#125;\n' +
-						'    ]\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                            <li><strong>count</strong> – общее количество внутренних переводов по валюте</li>\n' +
-						'                            <li><strong>transfers</strong> – массив переводов</li>\n' +
-						'                            <li><strong>id</strong> – уникальный идентификатор перевода</li>\n' +
-						'                            <li><strong>amount</strong> – сумма перевода</li>\n' +
-						'                            <li><strong>side</strong> – тип перевода (<strong>true</strong> - с основного счета на торговый, <strong>false</strong> - с торгового счета на основной)</li>\n' +
-						'                            <li><strong>time</strong> – время создания перевода в формате UNIX timestamp</li>\n' +
-						'                        </ul>',
-				},
-				commission: {
-					title: 'Информация о текущей комиссии',
-					content:
-						'<p>\n' +
-						'                            GET запрос по адресу {url}/api/v1/fee?currency={currency&#125;\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Заголовки:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Обязательные параметры:</u>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                        </ul>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <u>Необязательные параметры:</u>\n' +
-						'                            <br>\n' +
-						'                            <strong>отсутствуют</strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <strong><i>Пример:</i></strong>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            <i>{url}/api/v1/fee?currency=BTC</i>\n' +
-						'                        </p>\n' +
-						'                        <p>\n' +
-						'                            При удачном ответе вернется строка в JSON формате\n' +
-						'                        </p>\n' +
-						'                        <pre>\n' +
-						'&#123;\n' +
-						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "currency": "BTC",\n' +
-						'    "fee": "0.2"\n' +
-						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>currency</strong> – код валюты</li>\n' +
-						'                            <li><strong>fee</strong> – текущая комиссия по сделкам по валюте</li>\n' +
-						'                        </ul>',
+                        '<p>\n' +
+                        '                GET запрос по адресу {url}/api/v1/transfers?page=&lt;page&gt;&itemsPerPage=&lt;itemsPerPage&gt;&filters[start]=&lt;start&gt;&filters[end]=&lt;end&gt;\n' +
+                        '            </p>\n' +
+                        '<p>\n' +
+                        '            <u>Заголовки:</u>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '            <u>Обязательные параметры:</u>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>page</strong> – номер страницы результатов (начиная с 1)</li>\n' +
+                        '    <li><strong>itemsPerPage</strong> – количество записей на странице (лимит)</li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '            <u>Необязательные параметры (фильтры):</u>\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>filters[start]</strong> – начальная дата и время для фильтрации переводов (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '    <li><strong>filters[end]</strong> – конечная дата и время для фильтрации переводов (формат: ГГГГ‑ММ‑ДД ЧЧ:ММ:СС)</li>\n' +
+                        '    <li><strong>filters[id]</strong> – ID перевода для фильтрации (числовое значение > 0)</li>\n' +
+                        '    <li><strong>filters[currency]</strong> – код валюты для фильтрации (алфавитно‑цифровой, 1–10 символов, должна существовать в системе)</li>\n' +
+                        '    <li><strong>filters[type]</strong> – тип перевода для фильтрации. Возможные значения:\n' +
+                        '        <ul>\n' +
+                        '            <li><code>transfer</code> — обычный внутренний перевод</li>\n' +
+                        '            <li><code>otc_transfer</code> — OTC‑перевод</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>filters[side]</strong> – направление перевода для фильтрации. Возможные значения:\n' +
+                        '        <ul>\n' +
+                        '            <li><code>true</code> — с основного/OTC счёта на торговый</li>\n' +
+                        '            <li><code>false</code> — с торгового счёта на основной/OTC</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '</ul>\n' +
+                        '<p>\n' +
+                        '    <strong>Примечание:</strong> если в фильтрах не указаны <strong>filters[start]</strong> и <strong>filters[end]</strong>, то данные берутся за текущий месяц.\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '            <strong><i>Пример:</i></strong>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '            <i>{url}/api/v1/transfers?page=1&itemsPerPage=30&filters[start]=2021-01-01 00:00:00&filters[end]=2026-04-01 00:00:00</i>\n' +
+                        '</p>\n' +
+                        '<p>\n' +
+                        '            При успешном ответе вернётся строка в формате JSON\n' +
+                        '</p>\n' +
+                        '<pre>\n' +
+                        '&#123;\n' +
+                        '    &quot;data&quot;: [\n' +
+                        '        &#123;\n' +
+                        '            &quot;id&quot;: 8,\n' +
+                        '            &quot;amount&quot;: 300000,\n' +
+                        '            &quot;currency&quot;: &quot;USDT&quot;,\n' +
+                        '            &quot;user_from&quot;: 1,\n' +
+                        '            &quot;user_to&quot;: 1,\n' +
+                        '            &quot;side&quot;: true,\n' +
+                        '            &quot;type&quot;: &quot;transfer&quot;,\n' +
+                        '            &quot;created_at&quot;: &quot;2025-10-13T19:12:56Z&quot;,\n' +
+                        '            &quot;updated_at&quot;: &quot;2025-10-13T19:12:56Z&quot;\n' +
+                        '        &#125;,\n' +
+                        '        &#123;\n' +
+                        '            &quot;id&quot;: 7,\n' +
+                        '            &quot;amount&quot;: 5,\n' +
+                        '            &quot;currency&quot;: &quot;BTC&quot;,\n' +
+                        '            &quot;user_from&quot;: 1,\n' +
+                        '            &quot;user_to&quot;: 1,\n' +
+                        '            &quot;side&quot;: true,\n' +
+                        '            &quot;type&quot;: &quot;transfer&quot;,\n' +
+                        '            &quot;created_at&quot;: &quot;2025-10-13T19:12:49Z&quot;,\n' +
+                        '            &quot;updated_at&quot;: &quot;2025-10-13T19:12:49Z&quot;\n' +
+                        '        &#125;\n' +
+                        '    ],\n' +
+                        '    &quot;success&quot;: true,\n' +
+                        '    &quot;total&quot;: 8\n' +
+                        '&#125;\n' +
+                        '</pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>data</strong> — массив переводов. Каждый элемент содержит:\n' +
+                        '        <ul>\n' +
+                        '            <li><strong>id</strong> — уникальный идентификатор перевода</li>\n' +
+                        '            <li><strong>amount</strong> — сумма перевода</li>\n' +
+                        '            <li><strong>currency</strong> — код валюты</li>\n' +
+                        '            <li><strong>user_from</strong> — ID пользователя‑отправителя</li>\n' +
+                        '            <li><strong>user_to</strong> — ID пользователя‑получателя</li>\n' +
+                        '            <li><strong>side</strong> — направление перевода:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>true</code> — с основного счёта на торговый</li>\n' +
+                        '            <li><code>false</code> — с торгового счёта на основной</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '            <li><strong>type</strong> — тип перевода:\n' +
+                        '                <ul>\n' +
+                        '                    <li><code>transfer</code> — обычный внутренний перевод</li>\n' +
+                        '            <li><code>otc_transfer</code> — OTC‑перевод</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '            <li><strong>created_at</strong> — время создания перевода в формате ISO 8601</li>\n' +
+                        '            <li><strong>updated_at</strong> — время последнего обновления статуса перевода в формате ISO 8601</li>\n' +
+                        '        </ul>\n' +
+                        '    </li>\n' +
+                        '    <li><strong>success</strong> — признак успешного выполнения запроса: <code>true</code> — успешно, <code>false</code> — ошибка</li>\n' +
+                        '    <li><strong>total</strong> — общее количество переводов, соответствующих фильтрам (до ограничения itemsPerPage)</li>\n' +
+                        '</ul>',
 				},
 				place_order: {
 					title: 'Выставить ордер',
 					content:
 						'<p>\n' +
-						'                            POST запрос по адресу {url}/api/v1/makeOrder\n' +
+						'                            POST запрос по адресу {url}/api/v1/make_order\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
 						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
+						'                            <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
 						'                            <li><strong>Content-Type</strong> – application/x-www-form-urlencoded</li>\n' +
+                        '                            <li><strong>X-Signature</strong> – вычисленная подпись, как указано в секции Авторизация</li>\n' +
 						'                        </ul>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
@@ -2805,7 +2745,8 @@ export default {
 						'                            <li><strong>market</strong> – код котируемой валюты</li>\n' +
 						'                            <li><strong>side</strong> – направленность ордера: <strong>0</strong> - ордер на покупку, <strong>1</strong> - ордер на продажу</li>\n' +
 						'                            <li><strong>amount</strong> – количество покупаемой/продаваемой валюты</li>\n' +
-						'                            <li><strong>rate</strong> – цена покупки/продажи</li>\n' +
+						'                            <li><strong>rate</strong> – цена покупки/продажи (обязателен только при type=LIMIT)</li>\n' +
+                        '                            <li><strong>base</strong> – указывается только при type=MARKET. 0 - amount в валюте currency, 1 - amount в валюте market</li>\n' +
 						'                        </ul>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
@@ -2820,7 +2761,7 @@ export default {
 						'                            <strong><i>Пример:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>type=LIMIT&currency=BTC&market=USDT&side=0&amount=0.5&rate=7112.1&tp_rate=7200</i>\n' +
+						'                            <i>type=LIMIT&amp;currency=BTC&market=USDT&side=0&amount=0.5&rate=7112.1&tp_rate=7200</i>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            При удачном ответе вернется строка в JSON формате\n' +
@@ -2828,43 +2769,40 @@ export default {
 						'                        <pre>\n' +
 						'&#123;\n' +
 						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "orders": &#123;\n' +
-						'        "order_id": 344711,\n' +
-						'        "tp_order_id": 344712\n' +
-						'    &#125;\n' +
+                        '    "order":[order_no],\n' +
+                        '    "sl_order":[sl_order_no],\n' +
+                        '    "tp_order":[tp_order_no],\n' +
+                        '    "ts_order":[ts_order_no],\n' +
 						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>orders</strong> – список созданных ордеров</li>\n' +
-						'                            <li><strong>order_id</strong> – уникальный идентификатор ордера с типом LIMIT или MARKET</li>\n' +
-						'                            <li><strong>tp_order_id</strong> – уникальный идентификатор take profit ордера (если был задан параметр tp_rate)</li>\n' +
-						'                            <li><strong>sl_order_id</strong> – уникальный идентификатор stop loss ордера (если был задан параметр sl_rate)</li>\n' +
-						'                            <li><strong>ts_order_id</strong> – уникальный идентификатор trailing stop ордера (если был задан параметр ts_offset)</li>\n' +
-						'                        </ul>',
+                        '                        </pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>order_no</strong> — номер основного выставленного ордера</li>\n' +
+                        '    <li><strong>sl_order_no</strong> — номер связанного с основным Stop-loss ордера</li>\n' +
+                        '    <li><strong>tp_order_no</strong> — номер связанного с основным Take-profit ордера</li>\n' +
+                        '    <li><strong>ts_order_no</strong> — номер связанного с основным Trailing-stop ордера</li>\n' +
+                        '</ul>',
 				},
 				cancel_order: {
 					title: 'Отменить ордер',
 					content:
 						'<p>\n' +
-						'                            POST запрос по адресу {url}/api/v1/cancelOrder\n' +
+						'                            POST запрос по адресу {url}/api/v1/cancel_order\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Заголовки:</u>\n' +
 						'                        <ul>\n' +
-						'                            <li><strong>X-Api-Key</strong> – Bearer &lt;token&gt;</li>\n' +
+						'                            <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
 						'                            <li><strong>Content-Type</strong> – application/x-www-form-urlencoded</li>\n' +
+                        '                            <li><strong>X-Signature</strong> – вычисленная подпись, как указано в секции Авторизация</li>\n' +
 						'                        </ul>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
 						'                            <u>Обязательные параметры:</u>\n' +
 						'                        <ul>\n' +
-						'                            <li><strong>order_id</strong> – уникальный идентификатор ордера (лимитного или условного)</li>\n' +
-						'                            <li><strong>currency</strong> – код базовой валюты</li>\n' +
-						'                            <li><strong>market</strong> – код котируемой валюты</li>\n' +
+						'                            <li><strong>order</strong> – уникальный идентификатор ордера (лимитного или условного)</li>\n' +
 						'                        </ul>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
@@ -2879,7 +2817,7 @@ export default {
 						'                            <strong><i>Пример:</i></strong>\n' +
 						'                        </p>\n' +
 						'                        <p>\n' +
-						'                            <i>order_id=344711&currency=BTC&market=USDT</i>\n' +
+						'                            <i>order=344711</i>\n' +
 						'                        </p>\n' +
 						'\n' +
 						'                        <p>\n' +
@@ -2888,24 +2826,90 @@ export default {
 						'                        <pre>\n' +
 						'&#123;\n' +
 						'    "success":true,\n' +
-						'    "code":200,\n' +
-						'    "orders": &#123;\n' +
-						'        "order_id": 344711,\n' +
-						'        "tp_order_id": 344712\n' +
-						'    &#125;\n' +
+                        '    "order":[order_no],\n' +
+                        '    "sl_order":[sl_order_no],\n' +
+                        '    "tp_order":[tp_order_no],\n' +
+                        '    "ts_order":[ts_order_no],\n' +
 						'&#125;\n' +
-						'                </pre>\n' +
-						'                        <p>\n' +
-						'                            где\n' +
-						'                        </p>\n' +
-						'                        <ul>\n' +
-						'                            <li><strong>orders</strong> – список отмененных ордеров</li>\n' +
-						'                            <li><strong>order_id</strong> – уникальный идентификатор отмененного ордера с типом LIMIT</li>\n' +
-						'                            <li><strong>tp_order_id</strong> – уникальный идентификатор отмененного take profit ордера</li>\n' +
-						'                            <li><strong>sl_order_id</strong> – уникальный идентификатор отмененного stop loss ордера</li>\n' +
-						'                            <li><strong>ts_order_id</strong> – уникальный идентификатор отмененного trailing stop ордера</li>\n' +
-						'                        </ul>',
+                        '                        </pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>order_no</strong> — номер основного выставленного ордера</li>\n' +
+                        '    <li><strong>sl_order_no</strong> — номер связанного с основным Stop-loss ордера</li>\n' +
+                        '    <li><strong>tp_order_no</strong> — номер связанного с основным Take-profit ордера</li>\n' +
+                        '    <li><strong>ts_order_no</strong> — номер связанного с основным Trailing-stop ордера</li>\n' +
+                        '</ul>',
 				},
+                order_info: {
+                    title: 'Информация по ордеру',
+                    content:
+                        '<p>\n' +
+                        '                            GET запрос по адресу {url}/api/v1/order?order=&lt;order_no&gt;\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Заголовки:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>Authorization</strong> – Bearer &lt;API Public Key&gt;</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Обязательные параметры:</u>\n' +
+                        '                        <ul>\n' +
+                        '                            <li><strong>order_no</strong> – уникальный идентификатор ордера (лимитного, рыночного или условного)</li>\n' +
+                        '                        </ul>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <u>Необязательные параметры:</u>\n' +
+                        '                            <br>\n' +
+                        '                            <strong>отсутствуют</strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <strong><i>Пример:</i></strong>\n' +
+                        '                        </p>\n' +
+                        '                        <p>\n' +
+                        '                            <i>order=803394</i>\n' +
+                        '                        </p>\n' +
+                        '\n' +
+                        '                        <p>\n' +
+                        '                            При удачном ответе вернется строка в JSON формате\n' +
+                        '                        </p>\n' +
+                        '                        <pre>\n' +
+                        '&#123;\n' +
+                        '    "success":true,\n' +
+                        '    "currency":"btc",\n' +
+                        '    "market":"usdt",\n' +
+                        '    "main_order_id":null,\n' +
+                        '    "order_id":803394,\n' +
+                        '    "sl_order_id":803395,\n' +
+                        '    "tp_order_id":803396,\n' +
+                        '    "ts_order_id":803397,\n' +
+                        '    "original_amount":0.005,\n' +
+                        '    "actual_amount":0.005,\n' +
+                        '    "rate":70123.55,\n' +
+                        '    "side":0,\n' +
+                        '    "ticks":639141201140651100,\n' +
+                        '    "offset":null,\n' +
+                        '&#125;\n' +
+                        '                        </pre>\n' +
+                        '<p>\n' +
+                        '    где:\n' +
+                        '</p>\n' +
+                        '<ul>\n' +
+                        '    <li><strong>order_id</strong> — номер ордера, по которому был запрос информации</li>\n' +
+                        '    <li><strong>sl_order_id</strong> — номер связанного Stop-loss ордера</li>\n' +
+                        '    <li><strong>tp_order_id</strong> — номер связанного Take-profit ордера</li>\n' +
+                        '    <li><strong>ts_order_id</strong> — номер связанного Trailing-stop ордера</li>\n' +
+                        '    <li><strong>main_order_id</strong> — номер основного ордера (указывается, если был запрос информации по условному связанному ордеру)</li>\n' +
+                        '    <li><strong>original_amount</strong> — изначально выставленное количество покупаемого/продаваемого актива в валюте currency</li>\n' +
+                        '    <li><strong>actual_amount</strong> — текущее количество покупаемого/продаваемого актива в валюте currency</li>\n' +
+                        '    <li><strong>rate</strong> — цена в валюте market, по которой был выставлен ордер на покупку/продажу 1 единицы актива</li>\n' +
+                        '    <li><strong>side</strong> — 0 - ордер на покупку, 1 - ордер на продажу</li>\n' +
+                        '    <li><strong>ticks</strong> — время создания ордера в тиках по UTC</li>\n' +
+                        '    <li><strong>offset</strong> — текущее смещение TS-ордера</li>\n' +
+                        '</ul>',
+                },
 			},
 		},
 		contacts: {

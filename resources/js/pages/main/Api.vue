@@ -94,11 +94,6 @@ export default {
 							content: this.$t('docs.api.private.orders_list.content', ctx),
 						},
 						{
-							id: 'private_orders_info',
-							title: this.$t('docs.api.private.orders_info.title'),
-							content: this.$t('docs.api.private.orders_info.content', ctx),
-						},
-						{
 							id: 'private_balance',
 							title: this.$t('docs.api.private.balance.title'),
 							content: this.$t('docs.api.private.balance.content', ctx),
@@ -114,11 +109,6 @@ export default {
 							content: this.$t('docs.api.private.transfer_list.content', ctx),
 						},
 						{
-							id: 'private_commission',
-							title: this.$t('docs.api.private.commission.title'),
-							content: this.$t('docs.api.private.commission.content', ctx),
-						},
-						{
 							id: 'private_place_order',
 							title: this.$t('docs.api.private.place_order.title'),
 							content: this.$t('docs.api.private.place_order.content', ctx),
@@ -128,6 +118,11 @@ export default {
 							title: this.$t('docs.api.private.cancel_order.title'),
 							content: this.$t('docs.api.private.cancel_order.content', ctx),
 						},
+            {
+              id: 'private_order_info',
+              title: this.$t('docs.api.private.order_info.title'),
+              content: this.$t('docs.api.private.order_info.content', ctx),
+            },
 					],
 				},
 			];

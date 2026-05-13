@@ -89,6 +89,7 @@ Route::prefix('v1')->middleware(['throttle:60,1'])->group(function () {
         Route::get('transactions', 'APIController@getTransactions');
         Route::get('fiat_transactions', 'APIController@getFiatTransactions');
         Route::get('transfers', 'APIController@getTransfers');
+        Route::get('order', 'APIController@getOrderInfo');
         Route::middleware(['check_api_signature','check_block_status'])->group(function () {
             Route::post('make_order', 'APIController@makeOrder');
             Route::post('cancel_order', 'APIController@cancelOrder');

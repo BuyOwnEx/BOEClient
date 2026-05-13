@@ -244,8 +244,8 @@ export default {
         return map;
       }, {});
 
-      const replenishFeesArray = this.replenish_pay_templates;
-      const withdrawFeesArray = this.withdraw_pay_templates;
+      const replenishFeesArray = this.replenish_pay_templates ?? [];
+      const withdrawFeesArray = this.withdraw_pay_templates ?? [];
       const allFees = [...replenishFeesArray, ...withdrawFeesArray];
       const groupedFees = _.groupBy(allFees, fee =>
           `${fee.currency}_${fee.gateway_name}_${fee.bank_name}`
@@ -257,6 +257,7 @@ export default {
         const replenishFee = fees.find(f => f.type === 'replenish');
         const withdrawFee = fees.find(f => f.type === 'withdraw');
         const currencyData = currencyMap[fees[0].currency];
+        if (!currencyData) return;
         const platformsForCurrency = currencyPlatformMap[fees[0].currency] || {};
 
         // Берём gateway_id из первой комиссии в группе
