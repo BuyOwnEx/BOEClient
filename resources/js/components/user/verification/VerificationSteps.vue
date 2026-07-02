@@ -6,7 +6,7 @@
     </v-stepper-step>
     <v-stepper-content step="1">
       <v-card outlined tile class="user-residence-tab pa-2 d-inline-block">
-        <v-card-text class="pa-0 pl-1">{{ $t('kyc.resident_step_text') }} {{ $t('kyc.resident_country.'+verification_settings.settings.resident_country.toLowerCase()) }}</v-card-text>
+        <v-card-text class="pa-0 pl-1">{{ $t('kyc.resident_step_text') }} {{ $t('kyc.resident_country.'+verification_settings.settings.resident_country?.toLowerCase()) }}</v-card-text>
         <v-radio-group
             v-model="residence"
             dense
