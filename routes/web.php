@@ -129,6 +129,7 @@ Route::group(['prefix' => 'trader'], function () {
             Route::get('exchanges', 'TraderController@getExchanges')->name('exchanges');
             Route::get('fees', 'TraderController@getOwnFees')->name('own_fees');
             Route::get('positions', 'TraderController@getPositions')->name('positions');
+            Route::get('otc_limits', 'TraderController@getOtcLimits')->name('otc_limits');
 
             Route::get('balance/all-withdrawals', 'TraderController@getWithdrawalList')->name('withdrawal_list');
             Route::get('balance/all-fiat-withdrawals', 'TraderController@getFiatWithdrawalList')->name('fiat_withdrawal_list');

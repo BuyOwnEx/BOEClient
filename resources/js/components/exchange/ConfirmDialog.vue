@@ -188,6 +188,8 @@ export default {
             console.log(response.data);
             this.is_exchange_success = true;
             this.req_id = response.data.req_id;
+            this.$store.dispatch('exchange/getOrderBookFromExchange');
+            this.$store.dispatch('exchange/getUsedLimits');
           }
         });
       }

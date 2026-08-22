@@ -5,7 +5,9 @@ export default {
 		selectedCurrencyIn: null,
 		ask_list: null,
 		bid_list: null,
-		is_reverse_depth: null
+		is_reverse_depth: null,
+        reserve: null,
+        used_limits: null
 	},
 	getters: {
 		selectedPair: state => {
@@ -26,6 +28,13 @@ export default {
 		setReverseStatus(state, status) {
 			state.is_reverse_depth = status;
 		},
+        setReserve(state, reserve)
+        {
+          state.reserve = reserve;
+        },
+        setUsedLimits(state, data) {
+            state.used_limits = data;
+        }
 	},
 	actions: {
 		getOrderBookFromExchange({ commit }) {
@@ -42,6 +51,7 @@ export default {
 						commit('setReverseStatus', response.data.currency_out !== response.data.currency);
 						commit('setAskList', response.data.asks_list);
 						commit('setBidList', response.data.bids_list);
+                        commit('setReserve', response.data.reserve_in);
 						resolve(response.data);
 					})
 					.catch(error => {
@@ -50,5 +60,19 @@ export default {
 					});
 			});
 		},
+        getUsedLimits({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get('/trader/ext/otc_limits')
+                    .then(response => {
+                        commit('setUsedLimits', response.data.data);
+                        resolve(response.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        reject();
+                    });
+            });
+        },
 	},
 };

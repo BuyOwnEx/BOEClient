@@ -127,6 +127,15 @@ class TraderController extends Controller
             return ['success'=>false, 'message'=>$e->getMessage()];
         }
     }
+    public function getOtcLimits()
+    {
+        try {
+            $api = new BuyOwnExOtcAPI(config('app.api-public-key'), config('app.api-secret-key'));
+            return $api->exchange_limits(Auth::id());
+        } catch (\Exception $e) {
+            return ['success'=>false, 'message'=>$e->getMessage()];
+        }
+    }
     public function HistoryDealList(Request $request)
     {
         try {

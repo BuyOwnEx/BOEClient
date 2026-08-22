@@ -59,6 +59,13 @@ class BuyOwnExOtcAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function exchange_limits(int $user_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/limits',[
+            'trader' => $user_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
 
     public function otc_replenish(int $user_id, string $currency, $amount)
     {

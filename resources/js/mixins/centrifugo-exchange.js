@@ -73,6 +73,7 @@ export default {
 		getInitTraderData() {
 			if (this.$store.state.user.balances === null) {
 				this.$store.dispatch('user/getBalancesFromServer');
+                this.$store.dispatch('exchange/getUsedLimits');
 			}
 		},
 		subscribePublic() {
@@ -108,8 +109,23 @@ export default {
 			}
 		},
 		updateDepthPubHandler(data) {
-			this.$store.commit('exchange/setAskList', data.data.depth.asks);
-			this.$store.commit('exchange/setBidList', data.data.depth.bids);
+            if(data.data.updated_side === 'asks')
+            {
+                console.log(data.data.depth.data);
+                this.$store.commit('exchange/setAskList', data.data.depth.data);
+            }
+            else if(data.data.updated_side === 'bids')
+            {
+                console.log(data.data.depth.data);
+                this.$store.commit('exchange/setBidList', data.data.depth.data);
+            }
+            else
+            {
+                console.log(data.data.depth);
+                this.$store.commit('exchange/setAskList', data.data.depth.asks);
+                this.$store.commit('exchange/setBidList', data.data.depth.bids);
+            }
+
 		},
 		channelSubscribeHandler(context) {
 			console.log(context);

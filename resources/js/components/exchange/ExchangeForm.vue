@@ -51,7 +51,7 @@
             </template>
             <template v-slot:selection="{item}">
               <div class="d-flex justify-space-between" style="width: 100%">
-                <div>
+                <div class="d-inline-flex align-self-center">
                   <v-img
                       class="elevation-0 d-inline-flex vertical-middle"
                       :src="'/'+item.currency_out_logo"
@@ -60,7 +60,7 @@
                   ></v-img>
                   <span class="ml-1 vertical-middle">{{ item.currency_out }}</span>
                 </div>
-                <div class="align-self-center">
+                <div class="d-inline-flex align-self-center">
                   <span class="ml-2 overline"> {{ $t('exchange.available') }}: {{ item.otc_main }}</span>
                 </div>
               </div>
@@ -103,7 +103,7 @@
             </template>
             <template v-slot:selection="{item}">
               <div class="d-flex justify-space-between" style="width: 100%">
-                <div>
+                <div class="d-inline-flex align-self-center">
                   <v-img
                       class="elevation-0 d-inline-flex vertical-middle"
                       :src="'/'+item.currency_in_logo"
@@ -112,8 +112,8 @@
                   ></v-img>
                   <span class="ml-1 vertical-middle">{{ item.currency_in }}</span>
                 </div>
-                <div class="align-self-center" v-if="use_limits">
-                  <span class="ml-2 overline"> {{ $t('exchange.reserve') }}: {{ item.reserve_in !== null ? BigNumber(item.reserve_in).toString() : 0 }}</span>
+                <div class="d-inline-flex align-self-center" v-if="use_limits">
+                  <span class="ml-2 overline"> {{ $t('exchange.reserve') }}: {{ actual_reserve !== null ? BigNumber(actual_reserve).toString() : 0 }}</span>
                 </div>
               </div>
             </template>
@@ -154,7 +154,7 @@
             <v-text-field
                 ref="exchange_rate"
                 v-model="form.rate"
-                :rules="is_calc_rate_available && !is_manual_rate ? [] : [rules.required, rules.positive]"
+                :rules="is_calc_rate_available && !is_manual_rate ? [] : [rules.required, rules.positive, localRules.checkDeviation]"
                 :hint="rateHint"
                 :error-messages="errors.rate"
                 :suffix="is_reverse_depth ? form.currency_out : form.currency_in"
@@ -196,9 +196,11 @@
           <div class="d-flex justify-space-between">
             <div class="d-flex flex-column">
               <span class="overline align-self-start"> {{ $t('exchange.volume') }} </span>
-              <span v-if="BigNumber(get_volume).gt(max_reserve) && use_limits" class="overline red--text align-self-start"> {{ $t('exchange.reserve_exceed') }} </span>
+              <span v-if="max_day_in_volume" class="overline align-self-start"> {{ $t('exchange.used_day_limit', [used_limits_currency_in ? used_limits_currency_in.used_daily : '-', max_day_in_volume, form.currency_in]) }} </span>
+              <span v-if="max_month_in_volume" class="overline align-self-start"> {{ $t('exchange.used_month_limit', [used_limits_currency_in ? used_limits_currency_in.used_monthly : '-', max_month_in_volume, form.currency_in]) }} </span>
+              <span v-if="exchange_has_limitation" class="overline red--text align-self-start"> {{ exchange_limitation_text }} </span>
             </div>
-            <span class="overline text-no-wrap" :class="[BigNumber(get_volume).gt(max_reserve) && use_limits ? 'red--text' : 'green--text']">
+            <span class="overline text-no-wrap" :class="[exchange_has_limitation ? 'red--text' : 'green--text']">
               <item-with-logo
                   :cell_text="get_volume_text"
                   large_text
@@ -219,7 +221,7 @@
               :rate_per_one_currency="is_reverse_depth ? form.currency_in : form.currency_out"
               :rate_currency="is_reverse_depth ? form.currency_out : form.currency_in"
               :rate_currency_logo="is_reverse_depth ? selected_exchange_currency_out_logo : selected_exchange_currency_in_logo"
-              :is_disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended || (BigNumber(get_volume).gt(max_reserve) && use_limits)"
+              :is_disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended || exchange_has_limitation"
               :currency_out_logo="selected_exchange_currency_out_logo"
               :currency_in_logo="selected_exchange_currency_in_logo"
               :volume="get_volume_text"
@@ -229,7 +231,7 @@
                 block
                 class="exchange_button"
                 color="primary"
-                :disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended || (BigNumber(get_volume).gt(max_reserve) && use_limits)"
+                :disabled="!valid || BigNumber(get_volume).eq(0) || selected_is_suspended || exchange_has_limitation"
             >
               {{ $t('exchange.exchange_action') }}
             </v-btn>
@@ -273,6 +275,10 @@ export default {
       required: true,
       default: false
     },
+    deviation: {
+      type: String,
+      default: null
+    },
   },
   mixins: [formValidationRules, showNotificationMixin, bignumber],
   components: {
@@ -297,6 +303,7 @@ export default {
       localRules: {
         lessAvailable: v => !v || this.BigNumber(v).lte(this.available_balance) || this.$t('balance.more_available'),
         minLimit: v => !v || this.BigNumber(v).gte(this.min_amount) || this.$t('exchange.more_than_min_limit'),
+        checkDeviation: v => !v || this.is_deviation_rate_pass(v) || this.$t('exchange.deviation_limit'),
       },
       is_manual_rate: false,
       valid: false,
@@ -310,6 +317,12 @@ export default {
     balances() {
       return this.$store.state.user.balances;
     },
+    used_limits() {
+      return this.$store.state.exchange.used_limits;
+    },
+    used_limits_currency_in() {
+      return _.find(this.used_limits, item => { return item.currency === this.form.currency_in} );
+    },
     is_verify_status_loaded() {
       return this.$store.state.user.verifyStatus !== null;
     },
@@ -318,6 +331,9 @@ export default {
     },
     ask_list() {
       return this.$store.state.exchange.ask_list;
+    },
+    actual_reserve() {
+      return this.$store.state.exchange.reserve;
     },
     bid_list() {
       return this.$store.state.exchange.bid_list;
@@ -361,11 +377,20 @@ export default {
     min_amount() {
       return this.selected_exchange_dir ? this.selected_exchange_dir.min_out : null;
     },
+    max_in_volume() {
+      return this.selected_exchange_dir ? this.selected_exchange_dir.max_in : null;
+    },
+    max_day_in_volume() {
+      return this.selected_exchange_dir ? this.selected_exchange_dir.max_day_in : null;
+    },
+    max_month_in_volume() {
+      return this.selected_exchange_dir ? this.selected_exchange_dir.max_month_in : null;
+    },
     max_reserve() {
-      return this.selected_exchange_dir ? this.selected_exchange_dir.reserve_in : 0;
+      return this.actual_reserve ? this.actual_reserve : 0;
     },
     auto_rate() {
-      if(this.is_calc_rate_available && !this.is_manual_rate)
+      if(this.is_calc_rate_available)
       {
         if(!this.is_reverse_depth) {
           let real_rate = 0;
@@ -373,36 +398,40 @@ export default {
           let accumulated_volume = 0;
           if(this.bid_list)
           {
-            for (let i = 0; i < this.bid_list.length; i++)
+            if(this.bid_list.length > 0)
             {
-              if(this.BigNumber(this.bid_list[i].volume).gte(rest_amount))
+              for (let i = 0; i < this.bid_list.length; i++)
               {
-                accumulated_volume = this.BigNumber(accumulated_volume).plus(this.BigNumber(rest_amount).times(this.bid_list[i].price)).toString();
+                if(this.BigNumber(this.bid_list[i].volume).gte(rest_amount))
+                {
+                  accumulated_volume = this.BigNumber(accumulated_volume).plus(this.BigNumber(rest_amount).times(this.bid_list[i].price)).toString();
+                  rest_amount = 0;
+                  break;
+                }
+                else
+                {
+                  accumulated_volume = this.BigNumber(accumulated_volume).plus(this.BigNumber(this.bid_list[i].volume).multipliedBy(this.bid_list[i].price)).toString();
+                  rest_amount = this.BigNumber(rest_amount).minus(this.bid_list[i].volume).toString();
+                }
+              }
+              if(!this.BigNumber(rest_amount).eq(0))
+              {
+                accumulated_volume = this.BigNumber(accumulated_volume).plus(this.BigNumber(rest_amount).times(this.bid_list[this.bid_list.length-1].price)).toString();
                 rest_amount = 0;
-                break;
+              }
+              if(this.BigNumber(accumulated_volume).gt(0))
+              {
+                real_rate = this.BigNumber(accumulated_volume).div(this.form.amount).toString();
+                return this.BigNumber(this.BigNumber(100).minus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.rateScale, 1).toString();
               }
               else
               {
-                accumulated_volume = this.BigNumber(accumulated_volume).plus(this.BigNumber(this.bid_list[i].volume).multipliedBy(this.bid_list[i].price)).toString();
-                rest_amount = this.BigNumber(rest_amount).minus(this.bid_list[i].volume).toString();
+                real_rate = this.bid_list[0].price;
+                return this.BigNumber(this.BigNumber(100).minus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.rateScale, 1).toString();
               }
             }
-            if(!this.BigNumber(rest_amount).eq(0))
-            {
-              accumulated_volume = this.BigNumber(accumulated_volume).plus(this.BigNumber(rest_amount).times(this.bid_list[this.bid_list.length-1].price)).toString();
-              rest_amount = 0;
-            }
-            if(this.BigNumber(accumulated_volume).gt(0))
-            {
-              real_rate = this.BigNumber(accumulated_volume).div(this.form.amount).toString();
-              return this.BigNumber(this.BigNumber(100).minus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.rateScale, 1).toString();
-            }
-            else
-            {
-              real_rate = this.bid_list[0].price;
-              return this.BigNumber(this.BigNumber(100).minus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.rateScale, 1).toString();
-            }
-          }
+            else return 0;
+          } else return 0;
         }
         else
         {
@@ -411,36 +440,40 @@ export default {
           let accumulated_amount = 0;
           if(this.ask_list)
           {
-            for (let i = 0; i < this.ask_list.length; i++)
+            if(this.ask_list.length > 0)
             {
-              if(this.BigNumber(this.ask_list[i].volume).multipliedBy(this.ask_list[i].price).lt(rest_volume))
+              for (let i = 0; i < this.ask_list.length; i++)
               {
-                accumulated_amount = this.BigNumber(this.ask_list[i].volume).plus(accumulated_amount).toString();
-                rest_volume = this.BigNumber(rest_volume).minus(this.BigNumber(this.ask_list[i].volume).multipliedBy(this.ask_list[i].price));
+                if(this.BigNumber(this.ask_list[i].volume).multipliedBy(this.ask_list[i].price).lt(rest_volume))
+                {
+                  accumulated_amount = this.BigNumber(this.ask_list[i].volume).plus(accumulated_amount).toString();
+                  rest_volume = this.BigNumber(rest_volume).minus(this.BigNumber(this.ask_list[i].volume).multipliedBy(this.ask_list[i].price));
+                }
+                else
+                {
+                  accumulated_amount = this.BigNumber(accumulated_amount).plus(this.BigNumber(rest_volume).div(this.ask_list[i].price)).toString();
+                  rest_volume = 0;
+                  break;
+                }
+              }
+              if(!this.BigNumber(rest_volume).eq(0))
+              {
+                accumulated_amount = this.BigNumber(accumulated_amount).plus(this.BigNumber(rest_volume).div(this.ask_list[this.ask_list.length-1].price)).toString();
+                rest_volume = 0;
+              }
+              if(this.BigNumber(accumulated_amount).gt(0))
+              {
+                real_rate = this.BigNumber(this.form.amount).div(accumulated_amount).toString();
+                return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.amountScale, 1).toString();
               }
               else
               {
-                accumulated_amount = this.BigNumber(accumulated_amount).plus(this.BigNumber(rest_volume).div(this.ask_list[i].price)).toString();
-                rest_volume = 0;
-                break;
+                real_rate = this.ask_list[0].price;
+                return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.amountScale, 1).toString();
               }
             }
-            if(!this.BigNumber(rest_volume).eq(0))
-            {
-              accumulated_amount = this.BigNumber(accumulated_amount).plus(this.BigNumber(rest_volume).div(this.ask_list[this.ask_list.length-1].price)).toString();
-              rest_volume = 0;
-            }
-            if(this.BigNumber(accumulated_amount).gt(0))
-            {
-              real_rate = this.BigNumber(this.form.amount).div(accumulated_amount).toString();
-              return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.amountScale, 1).toString();
-            }
-            else
-            {
-              real_rate = this.ask_list[0].price;
-              return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.amountScale, 1).toString();
-            }
-          }
+            else return 0;
+          } else return 0;
         }
       }
     },
@@ -483,9 +516,29 @@ export default {
     },
     currency_in_list() {
       return _.filter(this.exchange_dirs, item => item.currency_out === this.form.currency_out).map(obj => {
-        return _.pick(obj, ['currency_in','currency_in_logo','state','reserve_in']);
+        return _.pick(obj, ['currency_in','currency_in_logo','state']);
       });
     },
+    exchange_has_limitation() {
+      if(this.use_limits)
+      {
+        if(this.BigNumber(this.get_volume).gt(this.max_reserve)) return true;
+        if(this.max_in_volume && this.BigNumber(this.get_volume).gt(this.max_in_volume)) return true;
+        if(this.used_limits_currency_in && this.used_limits_currency_in.used_daily && (this.BigNumber(this.get_volume).plus(this.used_limits_currency_in.used_daily)).gt(this.max_day_in_volume)) return true;
+        if(this.used_limits_currency_in && this.used_limits_currency_in.used_monthly && (this.BigNumber(this.get_volume).plus(this.used_limits_currency_in.used_monthly)).gt(this.max_month_in_volume)) return true;
+        else return false
+      } else return false;
+    },
+    exchange_limitation_text() {
+      if(this.use_limits)
+      {
+        if(this.BigNumber(this.get_volume).gt(this.max_reserve)) return this.$t('exchange.reserve_exceed');
+        if(this.max_in_volume && this.BigNumber(this.get_volume).gt(this.max_in_volume)) return this.$t('exchange.max_limit',[this.BigNumber(this.max_in_volume).toString(), this.form.currency_in]);
+        if(this.used_limits_currency_in && this.used_limits_currency_in.used_daily && (this.BigNumber(this.get_volume).plus(this.used_limits_currency_in.used_daily)).gt(this.max_day_in_volume)) return this.$t('exchange.max_day_limit',[this.BigNumber(this.max_day_in_volume).toString(), this.form.currency_in]);
+        if(this.used_limits_currency_in && this.used_limits_currency_in.used_monthly && (this.BigNumber(this.get_volume).plus(this.used_limits_currency_in.used_monthly)).gt(this.max_month_in_volume)) return this.$t('exchange.max_month_limit',[this.BigNumber(this.max_month_in_volume).toString(), this.form.currency_in]);
+        else return '';
+      } else return '';
+    }
   },
   watch: {
     'form.amount'(newAmount, oldAmount) {
@@ -560,6 +613,25 @@ export default {
       else {
         return true;
       }
+    },
+    is_deviation_rate_pass(v) {
+      if(this.is_calc_rate_available && this.is_manual_rate && this.deviation !== null && !this.BigNumber(this.auto_rate).eq(0))
+      {
+        if(!this.is_reverse_depth) {
+          const deviation_absolute = this.BigNumber(this.auto_rate).times(this.deviation).div(100).dp(this.rateScale, 1).toString();
+          const min_rate = this.BigNumber(this.auto_rate).minus(deviation_absolute).toString();
+          const max_rate =  this.BigNumber(this.auto_rate).plus(deviation_absolute).toString();
+          return this.BigNumber(v).gte(min_rate) && this.BigNumber(v).lte(max_rate);
+        }
+        else
+        {
+          const deviation_absolute = this.BigNumber(this.auto_rate).times(this.deviation).div(100).dp(this.amountScale, 1).toString();
+          const min_rate = this.BigNumber(this.auto_rate).minus(deviation_absolute).toString();
+          const max_rate =  this.BigNumber(this.auto_rate).plus(deviation_absolute).toString();
+          return this.BigNumber(v).gte(min_rate) && this.BigNumber(v).lte(max_rate);
+        }
+      }
+      else return true;
     },
     confirmExchange() {
       if (!this.form.amount || !this.form.rate) {

@@ -12,6 +12,7 @@
               :init_currency_out="selectedCurrencyOut"
               :exchange_dirs="exchange_dirs"
               :use_limits="use_limits"
+              :deviation="deviation"
           ></ExchangeForm>
         </v-col>
         <v-col cols="12" sm="0" md="1" lg="2" xl="2" v-if="$vuetify.breakpoint.smAndUp"></v-col>
@@ -34,7 +35,8 @@ export default {
   data() {
     return {
       exchange_dirs: [],
-      use_limits: false
+      use_limits: false,
+      deviation: null
     };
   },
   computed: {
@@ -77,6 +79,7 @@ export default {
     const dirs = await axios.get('/trader/ext/exchange_dirs');
     this.exchange_dirs = dirs.data.pairs;
     this.use_limits = dirs.data.use_limits;
+    this.deviation = dirs.data.deviation;
   },
 };
 </script>
