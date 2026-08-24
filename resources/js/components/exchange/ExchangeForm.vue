@@ -366,6 +366,9 @@ export default {
       return this.selected_exchange_dir ? this.selected_exchange_dir.currency_out_scale : 2;
     },
     rateScale() {
+      return this.selected_exchange_dir ? this.selected_exchange_dir.rate_scale : 2;
+    },
+    volumeScale() {
       return this.selected_exchange_dir ? this.selected_exchange_dir.currency_in_scale : 2;
     },
     percentFee() {
@@ -464,12 +467,12 @@ export default {
               if(this.BigNumber(accumulated_amount).gt(0))
               {
                 real_rate = this.BigNumber(this.form.amount).div(accumulated_amount).toString();
-                return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.amountScale, 1).toString();
+                return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.rateScale, 1).toString();
               }
               else
               {
                 real_rate = this.ask_list[0].price;
-                return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.amountScale, 1).toString();
+                return this.BigNumber(this.BigNumber(100).plus(this.percentFee).toString()).multipliedBy(real_rate).div(100).dp(this.rateScale, 1).toString();
               }
             }
             else return 0;
@@ -486,7 +489,7 @@ export default {
         if(vol.eq(0))
           return vol.toFixed(2);
         else
-          return this.BigNumber(x).times(this.BigNumber(y)).toFixed(this.rateScale,1)
+          return this.BigNumber(x).times(this.BigNumber(y)).toFixed(this.volumeScale,1)
       }
       else
       {
@@ -494,7 +497,7 @@ export default {
           return this.BigNumber(0).toFixed(2);
         else
         {
-          return this.BigNumber(x).div(this.BigNumber(y)).toFixed(this.rateScale,1)
+          return this.BigNumber(x).div(this.BigNumber(y)).toFixed(this.volumeScale,1)
         }
       }
     },
@@ -558,8 +561,7 @@ export default {
     },
     'form.rate'(newVal, oldVal) {
       if (this.isNumeric(newVal) || newVal === '') {
-        let scale = this.is_reverse_depth ? (this.amountScale + 1) : (this.rateScale + 1);
-        let rl = new RegExp('\\d+\\.\\d{' + scale + ',}', 'i');
+        let rl = new RegExp('\\d+\\.\\d{' + (this.rateScale + 1) + ',}', 'i');
         if (rl.test(newVal) || newVal.length > 20) {
           this.form.rate = oldVal;
           this.$refs.exchange_rate.lazyValue = oldVal;
@@ -584,12 +586,14 @@ export default {
         currency_in: this.form.currency_in,
       });
       this.$refs.exchange_form.validate();
+      if(!this.is_calc_rate_available) this.form.rate = 0;
     },
     setPair() {
       this.$store.commit('exchange/setPair', {
         currency_out: this.form.currency_out,
         currency_in: this.form.currency_in,
       });
+      if(!this.is_calc_rate_available) this.form.rate = 0;
     },
     isNumeric(n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
@@ -625,7 +629,7 @@ export default {
         }
         else
         {
-          const deviation_absolute = this.BigNumber(this.auto_rate).times(this.deviation).div(100).dp(this.amountScale, 1).toString();
+          const deviation_absolute = this.BigNumber(this.auto_rate).times(this.deviation).div(100).dp(this.rateScale, 1).toString();
           const min_rate = this.BigNumber(this.auto_rate).minus(deviation_absolute).toString();
           const max_rate =  this.BigNumber(this.auto_rate).plus(deviation_absolute).toString();
           return this.BigNumber(v).gte(min_rate) && this.BigNumber(v).lte(max_rate);
