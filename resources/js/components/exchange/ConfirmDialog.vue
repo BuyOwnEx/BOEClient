@@ -60,6 +60,15 @@
             ></item-with-logo>
           </span>
         </div>
+        <div class="mt-1 mb-2 d-flex justify-space-between">
+          <span class="overline"> {{ $t('exchange.time_limit') }} </span>
+          <div class="d-inline-flex text-no-wrap">
+            <v-icon dense class="align-self-center">
+              mdi-clock-fast
+            </v-icon>
+            <span class="align-self-center ml-1 text-lowercase">{{ time_limit_text }}</span>
+          </div>
+        </div>
         <div v-if="is_exchange_success" class="mt-1 mb-2 d-flex justify-space-between">
           <span class="overline"> {{ $t('exchange.req_id') }} </span>
           <span class="text-no-wrap green--text">
@@ -123,6 +132,10 @@ export default {
       type: [Number, String],
       required: true,
     },
+    time_limit: {
+      type: [Number, String],
+      required: true,
+    },
     isCalcRate: {
       type: Boolean,
       required: true,
@@ -153,6 +166,9 @@ export default {
     rate_text() {
       return thousands(this.rate,' ') + ' ' + this.rate_currency;
     },
+    time_limit_text() {
+      return this.time_limit + ' ' + this.$t("common.min");
+    },
     close_text() {
       return this.is_exchange_success ? this.$t('exchange.repeat_exchange') : this.$t('common.cancel');
     },
@@ -182,7 +198,8 @@ export default {
           currency_in: this.currency_in,
           amount: this.BigNumber(this.amount).toString(),
           rate: this.BigNumber(this.rate).toString(),
-          rate_type: this.isCalcRate ? 'calc' : 'fixed'
+          rate_type: this.isCalcRate ? 'calc' : 'fixed',
+          time_limit: this.time_limit
         }).then(response => {
           if (response.data.success === true) {
             console.log(response.data);

@@ -781,6 +781,9 @@ export default {
 		set_rate: 'Установить курс вручную',
 		rate: 'Курс за 1 {0}',
 		rate_hint: 'Введите желаемый курс обмена за 1 {0}',
+        time_limit: 'Срок жизни',
+        time_limit_hint: 'Укажите срок жизни заявки на обмен. Мин. 5 мин., макс. 240 мин.',
+        check_time_limit: 'Срок жизни заявки должен быть между 5 мин. и 240 мин.',
 		volume: 'Сумма к получению',
 		exchange_action: 'Обменять',
 		available: 'Доступно',
@@ -803,6 +806,7 @@ export default {
 		exchange_dir: 'Направление обмена',
 		rate_type: 'Тип курса',
 		rate_header: 'Курс',
+        time_limit_header: 'Срок жизни',
 		amount_out: 'Отдаете',
 		amount_in: 'Получаете',
 		rate_types: {
@@ -812,7 +816,8 @@ export default {
 		statuses: {
 			new: 'В обработке',
 			accepted: 'Исполнена',
-			rejected: 'Отвергнута'
+			rejected: 'Отвергнута',
+            expired: 'Срок истёк',
 		}
 	},
 	auth: {

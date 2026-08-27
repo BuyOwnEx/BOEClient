@@ -56,7 +56,14 @@
       <template #item.rate="{ item }">
         <span>{{ item.is_reverse_depth ? BigNumber(item.rate).toString() + ' ' + item.currency_out : BigNumber(item.rate).toString() + ' ' + item.currency_in }}</span>
       </template>
-
+      <template #item.time_limit="{ item }">
+        <div class="d-inline-flex">
+          <v-icon dense class="align-self-center">
+            mdi-clock-fast
+          </v-icon>
+          <span class="align-self-center ml-1 text-lowercase">{{ item.time_limit }} {{ $t("common.min") }}</span>
+        </div>
+      </template>
       <template #item.status="{ item }">
         <CommonTooltip v-if="item.status === 'rejected' && item.reason" :value="item.reason">
           <span :class="getStatusClassColor(item.status)">
@@ -112,6 +119,7 @@ export default {
         { value: 'new', name: this.$t('exchange.statuses.new') },
         { value: 'accepted', name: this.$t('exchange.statuses.accepted') },
         { value: 'rejected', name: this.$t('exchange.statuses.rejected') },
+        { value: 'expired', name: this.$t('exchange.statuses.expired') },
       ];
     },
     headers() {
@@ -123,6 +131,7 @@ export default {
         { text: this.$t('exchange.amount_in'), value: 'volume', sortable: false},
         { text: this.$t('exchange.rate_type'), value: 'rate_type' },
         { text: this.$t('exchange.rate_header'), value: 'rate' },
+        { text: this.$t('exchange.time_limit_header'), value: 'time_limit' },
         { text: this.$t('table_header.status'), value: 'status', align: 'end' }
       ];
     },
@@ -146,7 +155,7 @@ export default {
     getStatusClassColor(status) {
       if (status === 'accepted') return 'success--text';
       else if (status === 'new') return 'warning--text';
-      else if (status === 'rejected') return 'error--text';
+      else if (status === 'rejected' || status === 'expired') return 'error--text';
       else return '';
     },
     getDate(date) {

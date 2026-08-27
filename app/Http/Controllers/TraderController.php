@@ -547,7 +547,8 @@ class TraderController extends Controller
                 $request->currency_in,
                 $request->amount,
                 $request->rate_type,
-                $request->rate
+                $request->rate,
+                $request->time_limit
             );
         } catch (\Exception $e) {
             return ['success'=>false, 'message'=>$e->getMessage()];

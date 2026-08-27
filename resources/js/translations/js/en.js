@@ -785,6 +785,9 @@ export default {
 		set_rate: 'Set the rate manually',
 		rate: 'Rate per 1 {0}',
 		rate_hint: 'Enter the desired exchange rate per 1 {0}',
+        time_limit: 'Expiration period',
+        time_limit_hint: 'Specify the validity period for the exchange request. Min. 5 min., max. 240 min.',
+        check_time_limit: 'The validity period must be between 5 minutes and 240 minutes',
 		volume: 'Amount to be received',
 		exchange_action: 'Exchange',
 		available: 'Available',
@@ -807,6 +810,7 @@ export default {
 		exchange_dir: 'Exchange direction',
 		rate_type: 'Rate type',
 		rate_header: 'Rate',
+        time_limit_header: 'Expiration period',
 		amount_out: 'Give',
 		amount_in: 'Take',
 		rate_types: {
@@ -816,7 +820,8 @@ export default {
 		statuses: {
 			new: 'In processing',
 			accepted: 'Completed',
-			rejected: 'Rejected'
+			rejected: 'Rejected',
+            expired: 'Expired',
 		}
 	},
 	auth: {

@@ -8,11 +8,13 @@
             {{ $t('exchange.exchange_form') }}
           </div>
           <ExchangeForm
+              v-if="default_time_limit !== null"
               :init_currency_in="selectedCurrencyIn"
               :init_currency_out="selectedCurrencyOut"
               :exchange_dirs="exchange_dirs"
               :use_limits="use_limits"
               :deviation="deviation"
+              :default_time_limit="default_time_limit"
           ></ExchangeForm>
         </v-col>
         <v-col cols="12" sm="0" md="1" lg="2" xl="2" v-if="$vuetify.breakpoint.smAndUp"></v-col>
@@ -36,7 +38,8 @@ export default {
     return {
       exchange_dirs: [],
       use_limits: false,
-      deviation: null
+      deviation: null,
+      default_time_limit: null
     };
   },
   computed: {
@@ -80,6 +83,7 @@ export default {
     this.exchange_dirs = dirs.data.pairs;
     this.use_limits = dirs.data.use_limits;
     this.deviation = dirs.data.deviation;
+    this.default_time_limit = dirs.data.default_time_limit;
   },
 };
 </script>

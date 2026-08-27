@@ -91,7 +91,7 @@ class BuyOwnExOtcAPI
             ->post($this->base.'v1/wallet/withdraw',$params);
         return response()->json($response->json(),$response->status());
     }
-    public function add_exchange_request(int $user_id, string $currency_out, string $currency_in, $amount, string $rate_type, $rate)
+    public function add_exchange_request(int $user_id, string $currency_out, string $currency_in, $amount, string $rate_type, $rate, $time_limit)
     {
         $params = [
             'trader' => $user_id,
@@ -99,7 +99,8 @@ class BuyOwnExOtcAPI
             'currency_in' => $currency_in,
             'amount' => $amount,
             'rate_type' => $rate_type,
-            'rate' => $rate
+            'rate' => $rate,
+            'time_limit' => $time_limit
         ];
         $response = Http::asForm()->withToken($this->api_key)
             ->withHeaders($this->sign($params))

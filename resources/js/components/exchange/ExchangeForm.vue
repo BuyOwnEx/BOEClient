@@ -182,6 +182,27 @@
             </v-text-field>
           </div>
         </v-col>
+        <v-col cols="12" md="12" class="pt-2 pb-0">
+          <div class="d-flex justify-space-between">
+            <v-text-field
+                ref="exchange_time_limit"
+                v-model="form.time_limit"
+                :rules="[rules.required, rules.positive, localRules.checkTimeLimit]"
+                :hint="$t('exchange.time_limit_hint')"
+                :error-messages="errors.time_limit"
+                :suffix="$t('common.min')"
+                prepend-icon="mdi-clock-fast"
+                required
+                outlined
+                @input="errors.time_limit = []"
+                v-mask="'###'"
+            >
+              <template #label>
+                {{ $t('exchange.time_limit') }} <span class="red--text"><b>*</b></span>
+              </template>
+            </v-text-field>
+          </div>
+        </v-col>
         <v-col cols="12" md="12" class="pt-1 pb-2" v-if="is_calc_rate_available">
           <v-checkbox
               v-model="is_manual_rate"
@@ -225,6 +246,7 @@
               :currency_out_logo="selected_exchange_currency_out_logo"
               :currency_in_logo="selected_exchange_currency_in_logo"
               :volume="get_volume_text"
+              :time_limit="form.time_limit"
               @confirm="confirmExchange"
           >
             <v-btn
@@ -279,6 +301,10 @@ export default {
       type: String,
       default: null
     },
+    default_time_limit: {
+      type: [Number, String],
+      required: true
+    }
   },
   mixins: [formValidationRules, showNotificationMixin, bignumber],
   components: {
@@ -294,7 +320,8 @@ export default {
         currency_in: this.init_currency_in.toUpperCase(),
         amount: 0,
         rate: 0,
-        rate_type: null
+        rate_type: null,
+        time_limit: this.default_time_limit
       },
       errors: {
         amount: [],
@@ -304,6 +331,7 @@ export default {
         lessAvailable: v => !v || this.BigNumber(v).lte(this.available_balance) || this.$t('balance.more_available'),
         minLimit: v => !v || this.BigNumber(v).gte(this.min_amount) || this.$t('exchange.more_than_min_limit'),
         checkDeviation: v => !v || this.is_deviation_rate_pass(v) || this.$t('exchange.deviation_limit'),
+        checkTimeLimit: v => !v || this.BigNumber(v).gte(5) && this.BigNumber(v).lte(240) || this.$t('exchange.check_time_limit'),
       },
       is_manual_rate: false,
       valid: false,
