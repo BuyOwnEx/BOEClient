@@ -34,7 +34,7 @@
           </div>
         </CommonPageTitle>
         <div class="d-inline-flex align-items-center align-self-center">
-          <v-card-title class="pa-0" v-if="ticket.status !== 'closed'">
+          <v-card-title class="pa-0" v-if="ticket.status !== 'closed' && !ticket.initiated_by_support">
             <v-btn
                 class="pa-1 mr-2 text-uppercase"
                 small

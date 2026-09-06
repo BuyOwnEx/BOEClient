@@ -79,7 +79,7 @@
         </template>
         <template #item.action="{ item }">
           <div class="d-flex flex-row-reverse">
-            <CommonTooltip v-if="item.status !== 'closed'" :value="$t('common.close')">
+            <CommonTooltip v-if="item.status !== 'closed' && !item.initiated_by_support" :value="$t('common.close')">
               <close
                 :ticket_id="item.id"
                 @reload="fetch"
