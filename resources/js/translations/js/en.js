@@ -945,7 +945,7 @@ export default {
 		min_replenish_amount: 'Min. replenish amount',
 		replenish_fee: 'Replenish fee',
 		replenish_crypto_description:
-			'When depositing funds, make transactions only on the {0} network. When making transactions on a different network, your funds will be lost',
+			'When depositing funds, make transactions only on the {0} network and only to the address specified in this form, as it may be temporary. When making transactions on a different network or to an outdated address, your funds will be lost',
 		replenish_crypto_attention: 'Attention: when depositing funds, make sure that the transfer will not be made through third-party smart contracts. In the case of sending a smart contract, funds may be lost.',
 		replenish_crypto_memo_attention: 'Make sure that when making a deposit, you use both the deposit address and the deposit tag/memo',
 
