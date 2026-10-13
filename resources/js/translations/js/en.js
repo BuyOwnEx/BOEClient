@@ -915,7 +915,7 @@ export default {
 			own_active_withdraw_list: 'Own Active Withdraw List',
 			own_active_fiat_withdraw_list: 'Own Active Fiat Withdraw List',
 		},
-
+        generate_address: 'Get new address',
 		amount: 'Amount',
 		memo: 'Tag/Memo',
 		show_only_not_null_balances: 'Show only not null balances',
@@ -945,7 +945,7 @@ export default {
 		min_replenish_amount: 'Min. replenish amount',
 		replenish_fee: 'Replenish fee',
 		replenish_crypto_description:
-			'When depositing funds, make transactions only on the {0} network and only to the address specified in this form, as it may be temporary. When making transactions on a different network or to an outdated address, your funds will be lost',
+			'When depositing funds, make the transaction only on the {0} network and only to the address specified in this form, as it may be temporary. If you plan to make another transfer on this network, click "Get a new address" and use it for the next transaction. If you make a transaction on a different network or to an outdated address, your funds will be lost',
 		replenish_crypto_attention: 'Attention: when depositing funds, make sure that the transfer will not be made through third-party smart contracts. In the case of sending a smart contract, funds may be lost.',
 		replenish_crypto_memo_attention: 'Make sure that when making a deposit, you use both the deposit address and the deposit tag/memo',
 

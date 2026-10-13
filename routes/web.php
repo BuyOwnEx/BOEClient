@@ -149,6 +149,7 @@ Route::group(['prefix' => 'trader'], function () {
 
             Route::get('all_referral_types', 'TraderController@getAllReferralTypes')->name('all_referral_types');
             Route::get('get_address', 'TraderController@getAddress')->name('get_address');
+            Route::get('generate_address', 'TraderController@generateAddress')->name('generate_address');
             Route::get('get_verification_status', 'TraderController@getVerificationStatus')->name('get_verification_status');
             Route::get('kyc_sumsub_token', 'TraderController@getKYCSumSubToken')->name('kyc_sumsub_token');
             Route::get('kyb_sumsub_token', 'TraderController@getKYBSumSubToken')->name('kyb_sumsub_token');
@@ -200,7 +201,7 @@ Route::group(['prefix' => 'trader'], function () {
                 Route::post('withdraw/crypto/cancel', 'TraderController@withdrawCryptoCancel')->name('withdraw_crypto_cancel');
                 Route::post('withdraw/fiat/cancel', 'TraderController@withdrawFiatCancel')->name('withdraw_fiat_cancel');
 
-                Route::post('email/change/request', 'TraderController@emailChangeRequest')->name('email_change_request');
+                Route::post('email/change/request', ['middleware' => 'throttle:email-change-request', 'uses' => 'TraderController@emailChangeRequest'])->name('email_change_request');
                 Route::post('email/change/confirm', 'TraderController@emailChangeConfirm')->name('email_change_confirm');
 
                 Route::post('notification/status', 'TraderController@setNotificationStatus')->name('set_notification_status');

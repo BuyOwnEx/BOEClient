@@ -94,6 +94,11 @@ export default {
 				params: { 'currency': platform.currency, 'platform_id': platform.id },
 			});
 		},
+        generateAddress(_, platform) {
+            axios.get('/trader/ext/generate_address', {
+                params: { 'currency': platform.currency, 'platform_id': platform.id },
+            });
+        },
 
 		async formCryptoWithdrawRequest(_, payload) {
 			const { data } = await axios.post('/trader/ext/withdraw/crypto/request', payload);

@@ -10,7 +10,3 @@ export default {
     props: ['path']
 }
 </script>
-
-<style scoped>
-
-</style>

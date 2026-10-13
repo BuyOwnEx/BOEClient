@@ -54,6 +54,16 @@ class RouteServiceProvider extends ServiceProvider
                     ], 429);
                 });
         });
+        RateLimiter::for('email-change-request', function ($request) {
+            return Limit::perMinutes(10, 3)
+                ->by($request->user()?->id ?: $request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'message' => trans('app.validation.limit_per_minute', ['limit' => 10]),
+                        'error' => 'rate_limited'
+                    ], 429);
+                });
+        });
 
         $this->routes(function () {
             Route::middleware('api')

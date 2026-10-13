@@ -92,6 +92,17 @@
                   {{ $t('common.back') }}
                 </v-btn>
                 <v-spacer />
+                <v-btn
+                    color="primary"
+                    tile
+                    text
+                    plain
+                    small
+                    @click="generateAddress"
+                >
+                  {{ $t('balance.generate_address') }}
+                </v-btn>
+                <v-spacer />
               </div>
             </v-stepper-content>
           </v-stepper-items>
@@ -139,11 +150,16 @@ export default {
 	methods: {
     ...mapActions({
       getAddressStore: 'balance/getAddress',
+      generateAddressStore: 'balance/generateAddress',
     }),
     selectPlatform(platform) {
       this.selectedPlatform = platform;
       this.getAddressStore(this.selectedPlatform);
       this.step++;
+    },
+    generateAddress() {
+      this.$store.commit('user/unsetAddress', {currency: this.currencyObj.currency, platform: this.selectedPlatform.base_currency});
+      this.generateAddressStore(this.selectedPlatform);
     },
     back() {
       this.step--;

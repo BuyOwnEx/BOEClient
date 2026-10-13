@@ -1046,6 +1046,15 @@ class BuyOwnExClientAPI
         ]);
         return response()->json($response->json(),$response->status());
     }
+    public function generate_address(int $user_id, string $currency, int $platform_id)
+    {
+        $response = Http::withToken($this->api_key)->get($this->base.'v1/generate_address',[
+            'trader' => $user_id,
+            'currency' => $currency,
+            'platform_id' => $platform_id
+        ]);
+        return response()->json($response->json(),$response->status());
+    }
     public function validate_address(int $user_id, string $currency, string $address, int $platform_id)
     {
         $params = [
