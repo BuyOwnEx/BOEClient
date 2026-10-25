@@ -3600,7 +3600,7 @@ make our system processes as transparent as possible.`,
 			},
 			individual: {
 				title: 'Individual verification',
-				description: 'When passing verification as a physical person, you will need a Russian passport and your TaxID',
+				description: 'When passing verification as a physical person, you will need a passport and your TaxID',
 				form: {
 					fio: 'Full name',
 					fio_brief: 'Full name',

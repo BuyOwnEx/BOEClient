@@ -80,7 +80,7 @@
       {{ $t('user.title.verification') }}
       <small v-if="verifyStatus && this.verificationStatus.nv_pass && step > 3" class="caption">{{ $t('kyc.verification_passed') }}</small>
     </v-stepper-step>
-    <v-stepper-content step="3" class="ml-0">
+    <v-stepper-content step="3" :class="['ml-0', 'mt-0', 'mb-0', step === 3 && 'verification-step-open']">
       <neuro-vision-kyc
           v-if="residence === 'resident' && legality === 'individual' && need_nv_res_step"
           :scheme_id="verification_settings.nv_res_scheme_id"
@@ -104,6 +104,15 @@
           :scheme_id="verification_settings.nv_res_scheme_id"
           :is_passed="verifyStatus && verificationStatus.nv_pass"
           :nv_status="verifyStatus ? verifyStatus : 'new'"
+          :is_legal="legality === 'legal'"
+          @set_nv_data="reload"
+          @reload="reload"
+      ></neuro-vision-kyc>
+      <neuro-vision-kyc
+          v-if="residence === 'non_resident' && legality === 'legal' && need_nv_non_res_kyb_step"
+          :scheme_id="verification_settings.nv_nonres_scheme_id"
+          :is_passed="verifyStatus && verificationStatus.nv_pass"
+          :nv_status="verifyStatus"
           :is_legal="legality === 'legal'"
           @set_nv_data="reload"
           @reload="reload"
@@ -168,7 +177,7 @@
           :resident="residence"
       ></local-individual-v1>
       <local-company-v1
-          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.settings.non_resident_legal_kyc_provider === 'local' && local_verification_version === 'v1'"
+          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.settings.non_resident_legal_kyc_provider === 'local' && local_verification_version === 'v1' && !need_nv_non_res_kyb_step"
           :resident-country="verification_settings.settings.resident_country"
           :resident="residence"
       ></local-company-v1>
@@ -189,7 +198,7 @@
           :resident="residence"
       ></local-individual-v2>
       <local-company-v2
-          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.settings.non_resident_legal_kyc_provider === 'local'  && local_verification_version === 'v2'"
+          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.settings.non_resident_legal_kyc_provider === 'local'  && local_verification_version === 'v2' && !need_nv_non_res_kyb_step"
           :resident-country="verification_settings.settings.resident_country"
           :resident="residence"
       ></local-company-v2>
@@ -215,7 +224,7 @@
     </v-stepper-content>
 
     <v-stepper-step
-        v-if="is_scheme_chosen && (need_nv_res_step || need_nv_non_res_step || need_nv_res_kyb_step)"
+        v-if="is_scheme_chosen && (need_nv_res_step || need_nv_non_res_step || need_nv_res_kyb_step || need_nv_non_res_kyb_step)"
         :complete="verifyStatus === 'verified'"
         :rules="[() => notBadStatus]"
         :step="4"
@@ -264,6 +273,20 @@
           :nv_data="verificationStatus?.nv_data"
           :nv_enabled="nv_non_res_enabled"
       ></local-individual-v2>
+      <local-company-v1
+          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.settings.non_resident_legal_kyc_provider === 'local' && local_verification_version === 'v1' && nv_non_res_kyb_enabled && verificationStatus && verificationStatus.nv_data"
+          :resident="residence"
+          :resident-country="verification_settings.settings.resident_country"
+          :nv_data="verificationStatus?.nv_data"
+          :nv_enabled="nv_non_res_kyb_enabled"
+      ></local-company-v1>
+      <local-company-v2
+          v-if="residence === 'non_resident' && legality === 'legal' && verification_settings.settings.non_resident_legal_kyc_provider === 'local' && local_verification_version === 'v2' && nv_non_res_kyb_enabled && verificationStatus && verificationStatus.nv_data"
+          :resident="residence"
+          :resident-country="verification_settings.settings.resident_country"
+          :nv_data="verificationStatus?.nv_data"
+          :nv_enabled="nv_non_res_kyb_enabled"
+      ></local-company-v2>
     </v-stepper-content>
   </v-stepper>
 </template>
@@ -340,6 +363,9 @@ export default {
     need_nv_non_res_step() {
       return this.is_scheme_chosen && !this.verificationStatus.resident && this.nv_non_res_enabled
     },
+    need_nv_non_res_kyb_step() {
+      return this.is_scheme_chosen && !this.verificationStatus.resident && this.verificationStatus.legal_entity && this.nv_non_res_kyb_enabled
+    },
     nv_res_enabled() {
       return (this.verification_settings.settings.nv_use_res_kyc && this.legality === 'individual' && this.residence === 'resident' && this.verification_settings.settings.resident_individual_kyc_provider !== 'forbidden')
     },
@@ -349,10 +375,14 @@ export default {
     nv_non_res_enabled() {
       return (this.verification_settings.settings.nv_use_nonres_kyc && this.legality === 'individual' && this.residence === 'non_resident' && this.verification_settings.settings.non_resident_individual_kyc_provider !== 'forbidden')
     },
+    nv_non_res_kyb_enabled() {
+      return (this.verification_settings.settings.nv_use_nonres_kyb && this.legality === 'legal' && this.residence === 'non_resident' && this.verification_settings.settings.non_resident_legal_kyc_provider === 'local')
+    },
     nv_enabled() {
       return (this.verification_settings.settings.nv_use_res_kyc && this.legality === 'individual' && this.residence === 'resident' && this.verification_settings.settings.resident_individual_kyc_provider !== 'forbidden') ||
       (this.verification_settings.settings.nv_use_nonres_kyc && this.legality === 'individual' && this.residence === 'non_resident' && this.verification_settings.settings.non_resident_individual_kyc_provider !== 'forbidden') ||
-      (this.verification_settings.settings.nv_use_res_kyb && this.legality === 'legal' && this.residence === 'resident' && this.verification_settings.settings.resident_legal_kyc_provider === 'kontur')
+      (this.verification_settings.settings.nv_use_res_kyb && this.legality === 'legal' && this.residence === 'resident' && this.verification_settings.settings.resident_legal_kyc_provider === 'kontur') ||
+      (this.verification_settings.settings.nv_use_nonres_kyb && this.legality === 'legal' && this.residence === 'non_resident' && this.verification_settings.settings.non_resident_legal_kyc_provider === 'local')
     }
   },
   async created() {
@@ -420,3 +450,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.verification-step-open::v-deep .v-stepper__wrapper {
+  height: auto !important;
+}
+</style>

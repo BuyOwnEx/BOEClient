@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Library\BuyOwnExClientAPI;
 use Exception;
-use Huddle\Zendesk\Facades\Zendesk;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -130,7 +129,7 @@ class TicketController extends Controller
             'message' => 'required|string|min:1|max:4096',
             'priority' => 'nullable|string|in:low,medium,high',
             'topic' => 'nullable|string|min:1|max:64',
-            'files.*' => 'nullable|mimes:jpg,png,pdf,doc,docx,zip|max:15360'
+            'files.*' => $this->ticket_file_validation_rule(),
         ], [], [
             'title' => __('tickets.validation.title'),
             'message' => __('tickets.validation.message'),
@@ -149,37 +148,17 @@ class TicketController extends Controller
         {
             try
             {
+                $paths = null;
                 if ($request->hasFile('files'))
                 {
-                    foreach($request->file('files') as $key => $file)
-                    {
-                        if (!$file->isValid()) {
-                            return ['success'=>false, 'message'=>'Error while uploading files'];
-                        }
+                    $stored = $this->store_ticket_files(
+                        $request->file('files'),
+                        'tickets/'.config('app.client_id').'/'.Auth::id()
+                    );
+                    if (isset($stored['error'])) {
+                        return $stored['error'];
                     }
-
-                    $paths = [];
-                    foreach($request->file('files') as $key => $file)
-                    {
-                        $extension = $file->extension(); // получаем реальное расширение из MIME-типа
-                        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $fileName = $originalName . '.' . $extension;
-                        $sizeBytes = $file->getSize();
-                        $sizeMb = round($sizeBytes / 1048576, 2, PHP_ROUND_HALF_DOWN);
-
-                        $path = Storage::putFileAs(
-                            'tickets/'.config('app.client_id').'/'.Auth::id(),
-                            $file,
-                            $fileName
-                        );
-                        $paths[] = [
-                            'name' => $fileName,
-                            'size_bytes' => $sizeBytes,
-                            'size_mb' => $sizeMb,
-                            'extension' => $extension,
-                            'path' => $path
-                        ];
-                    }
+                    $paths = $stored['paths'];
                 }
 
                 $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
@@ -189,7 +168,7 @@ class TicketController extends Controller
                     $request->message,
                     $request->priority,
                     $request->topic,
-                    $request->hasFile('files') ? $paths : null
+                    $paths
                 );
             }
             catch (Exception $e)
@@ -216,7 +195,7 @@ class TicketController extends Controller
         $validator=Validator::make($request->all(), [
             'ticket_id' => 'required|integer|numeric',
             'message' => 'required|string|min:1|max:4096',
-            'files.*' => 'nullable|mimes:jpg,png,pdf,doc,docx,zip|max:15360'
+            'files.*' => $this->ticket_file_validation_rule(),
         ], [], [
             'ticket_id' => __('tickets.validation.ticket_id'),
             'message' => __('tickets.validation.message'),
@@ -233,37 +212,17 @@ class TicketController extends Controller
         {
             try
             {
+                $paths = null;
                 if ($request->hasFile('files'))
                 {
-                    foreach($request->file('files') as $key => $file)
-                    {
-                        if (!$file->isValid()) {
-                            return ['success'=>false, 'message'=>'Error while uploading files'];
-                        }
+                    $stored = $this->store_ticket_files(
+                        $request->file('files'),
+                        'tickets/'.config('app.client_id').'/'.Auth::id().'/ticket/'.$request->ticket_id
+                    );
+                    if (isset($stored['error'])) {
+                        return $stored['error'];
                     }
-
-                    $paths = [];
-                    foreach($request->file('files') as $key => $file)
-                    {
-                        $extension = $file->extension(); // получаем реальное расширение из MIME-типа
-                        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $fileName = $originalName . '.' . $extension;
-                        $sizeBytes = $file->getSize();
-                        $sizeMb = round($sizeBytes / 1048576, 2, PHP_ROUND_HALF_DOWN);
-
-                        $path = Storage::putFileAs(
-                            'tickets/'.config('app.client_id').'/'.Auth::id().'/ticket/'.$request->ticket_id,
-                            $file,
-                            $fileName
-                        );
-                        $paths[] = [
-                            'name' => $fileName,
-                            'size_bytes' => $sizeBytes,
-                            'size_mb' => $sizeMb,
-                            'extension' => $extension,
-                            'path' => $path
-                        ];
-                    }
+                    $paths = $stored['paths'];
                 }
 
                 $api = new BuyOwnExClientAPI(config('app.api-public-key'), config('app.api-secret-key'));
@@ -271,7 +230,7 @@ class TicketController extends Controller
                     Auth::id(),
                     $request->ticket_id,
                     $request->message,
-                    $request->hasFile('files') ? $paths : null
+                    $paths
                 );
             }
             catch (Exception $e)
@@ -279,5 +238,101 @@ class TicketController extends Controller
                 return ['success'=>false, 'message'=>$e->getMessage()];
             }
         }
+    }
+
+    private function ticket_file_validation_rule(): string
+    {
+        return 'nullable|file|max:15360'
+            .'|mimetypes:image/jpeg,image/png,application/pdf,application/msword,'
+            .'application/vnd.openxmlformats-officedocument.wordprocessingml.document,'
+            .'application/zip,application/x-zip-compressed'
+            .'|extensions:jpg,jpeg,png,pdf,doc,docx,zip';
+    }
+
+    /**
+     * @param  array<int, UploadedFile>  $files
+     * @return array{paths?: array<int, array<string, mixed>>, error?: mixed}
+     */
+    private function store_ticket_files(array $files, string $directory): array
+    {
+        foreach ($files as $key => $file) {
+            if (!$file->isValid()) {
+                return ['error' => ['success' => false, 'message' => 'Error while uploading files']];
+            }
+            $contentError = $this->validate_ticket_image_contents($file);
+            if ($contentError !== null) {
+                return [
+                    'error' => response()->json([
+                        'success' => false,
+                        'errors' => ['files.'.$key => [$contentError]],
+                    ], 422),
+                ];
+            }
+        }
+
+        $paths = [];
+        foreach ($files as $file) {
+            $extension = $file->extension();
+            $fileName = $this->sanitize_ticket_file_name($file, $extension);
+            $sizeBytes = $file->getSize();
+            $sizeMb = round($sizeBytes / 1048576, 2, PHP_ROUND_HALF_DOWN);
+
+            $path = Storage::putFileAs($directory, $file, $fileName);
+            $paths[] = [
+                'name' => $fileName,
+                'size_bytes' => $sizeBytes,
+                'size_mb' => $sizeMb,
+                'extension' => $extension,
+                'path' => $path,
+            ];
+        }
+
+        return ['paths' => $paths];
+    }
+
+    private function sanitize_ticket_file_name(UploadedFile $file, string $extension): string
+    {
+        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $originalName = str_replace("\0", '', (string) $originalName);
+        $originalName = preg_replace('/[^\p{L}\p{N}._-]+/u', '_', $originalName) ?? '';
+        $originalName = trim($originalName, '._-');
+        if ($originalName === '') {
+            $originalName = 'file';
+        }
+        $originalName = mb_substr($originalName, 0, 100);
+
+        return $originalName.'.'.$extension;
+    }
+
+    /**
+     * Extra content checks for images: valid image structure + no embedded PHP/script.
+     * Non-image allowed types rely on mimetypes/extensions rules.
+     */
+    private function validate_ticket_image_contents(UploadedFile $file): ?string
+    {
+        $mime = $file->getMimeType();
+        if (!in_array($mime, ['image/jpeg', 'image/png'], true)) {
+            return null;
+        }
+
+        $path = $file->getRealPath();
+        if (!$path || !is_readable($path)) {
+            return 'Error while uploading files';
+        }
+
+        if (@getimagesize($path) === false) {
+            return 'Invalid image content';
+        }
+
+        $contents = file_get_contents($path);
+        if ($contents === false) {
+            return 'Error while uploading files';
+        }
+
+        if (preg_match('/<\?(?:php|=)|<script[\s>]/i', $contents)) {
+            return 'Executable or script content is not allowed';
+        }
+
+        return null;
     }
 }

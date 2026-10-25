@@ -9,7 +9,6 @@
         "bacon/bacon-qr-code": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "hisorange/browser-detect": "^5.0.0",
-        "huddledigital/zendesk-laravel": "^3.8",
         "laravel-lang/lang": "^13.3.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",

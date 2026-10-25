@@ -95,7 +95,6 @@ To install with [Docker](https://www.docker.com), you can use laradock infrastru
 
 ## Dependencies
 
-- [zendesk-laravel](https://github.com/huddledigital/zendesk-laravel) - For ticket system integration
 - [sanctum](https://github.com/laravel/sanctum) - For handling incoming API requests
 - [bacon-qr-code](https://github.com/bacon/bacon-qr-code) - For generating QR codes
 
@@ -166,11 +165,6 @@ Specific variables to this project:
     SUMSUB_SERVER=https://test-api.sumsub.com
     SUMSUB_PUBLIC_KEY=
     SUMSUB_SECRET_KEY=
-    
-    # Zendesk credentials for ticket system. Get your own account at https://www.zendesk.com/register
-    ZENDESK_SUBDOMAIN=
-    ZENDESK_USERNAME=
-    ZENDESK_TOKEN=
     
     # Is to use Captcha or not. It is recommended to use it. Disable it only if test purposes
     VITE_CAPTCHA_ENABLED=true

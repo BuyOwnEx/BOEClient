@@ -199,7 +199,6 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Zendesk' => Huddle\Zendesk\Facades\Zendesk::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

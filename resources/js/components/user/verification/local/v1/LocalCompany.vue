@@ -361,6 +361,15 @@ export default {
     resident: {
       type: String,
       required: true
+    },
+    nv_data: {
+      type: Object,
+      required: false
+    },
+    nv_enabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
