@@ -55,7 +55,7 @@ export default {
     }
   },
   data: () => ({
-    nv_fake: true,
+    nv_fake: false,
     widgetLoaded: false,
     NeuroVisionClientKey: '',
     error: null
